@@ -1,0 +1,101 @@
+# Configuration for Devsite to Hugo Converter
+
+# Source repository settings
+source_repo:
+  owner: "bazelbuild"
+  name: "bazel"
+  branch: "master"
+  path: "site/en"
+
+# Hugo site settings
+hugo:
+  title: "Bazel Documentation"
+  description: "Build and test software of any size, quickly and reliably"
+  baseURL: "https://docs.bazel.build"
+  languageCode: "en-us"
+  theme: "docsy"
+  
+# Content mapping - map Devsite sections to Hugo content types
+content_mapping:
+  concepts: 
+    type: "docs"
+    weight: 10
+  basics:
+    type: "docs"
+    weight: 20
+  tutorials:
+    type: "docs"
+    weight: 30
+  build:
+    type: "docs"
+    weight: 40
+  configure:
+    type: "docs"
+    weight: 50
+  extending:
+    type: "docs"
+    weight: 60
+  external:
+    type: "docs"
+    weight: 70
+  remote:
+    type: "docs"
+    weight: 80
+  query:
+    type: "docs"
+    weight: 90
+  reference:
+    type: "docs"
+    weight: 100
+  community:
+    type: "community"
+    weight: 200
+  contribute:
+    type: "community"
+    weight: 210
+  about:
+    type: "about"
+    weight: 300
+
+# CSS conversion settings
+css_conversion:
+  convert_to_scss: true
+  preserve_custom_properties: true
+  minify: false
+
+# GitHub Actions settings
+github_actions:
+  listener_workflow_name: "bazel-listener"
+  generator_workflow_name: "hugo-site-generator"
+  dispatch_event_type: "bazel-docs-updated"
+
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Conversion settings
+conversion:
+  preserve_original_structure: false
+  generate_toc: true
+  convert_internal_links: true
+  validate_links: true
+  
+# File patterns to include/exclude
+file_patterns:
+  include:
+    - "*.md"
+    - "*.yaml"
+    - "*.yml"
+    - "*.css"
+    - "*.png"
+    - "*.jpg"
+    - "*.jpeg"
+    - "*.gif"
+    - "*.svg"
+  exclude:
+    - "BUILD*"
+    - "*.bazel"
+    - "*.bzl"
+    - ".git/**"
+    - "node_modules/**"
