@@ -7,7 +7,7 @@ description: "{{ config.description }}"
 languageCode: "{{ config.languageCode }}"
 
 # Theme configuration
-theme: ["docsy"]
+# theme: ["docsy"]  # Using module instead
 
 # Content configuration
 contentDir: "content"
@@ -30,11 +30,25 @@ markup:
     parser:
       attribute:
         block: true
+      autoHeadingID: true
+      autoHeadingIDType: "github"
+    extensions:
+      definitionList: true
+      footnote: true
+      linkify: true
+      strikethrough: true
+      table: true
+      taskList: true
+      typographer: true
   highlight:
     style: "github"
-    lineNos: true
-    lineNumbersInTable: true
+    lineNos: false
+    lineNumbersInTable: false
     tabWidth: 4
+    guessSyntax: true
+    noClasses: false
+  math:
+    enable: false
 
 # Menu configuration
 menu:
@@ -70,6 +84,15 @@ params:
   # Footer configuration
   footer:
     enable: true
+    
+  # Disable math rendering
+  katex:
+    enable: false
+  math:
+    enable: false
+  # Disable MathJax
+  mathjax:
+    enable: false
     
   # Taxonomy configuration
   taxonomy:
