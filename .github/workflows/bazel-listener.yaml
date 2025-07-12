@@ -1,0 +1,125 @@
+name: Bazel Documentation Listener
+
+on:
+    schedule:
+        # Check for changes every 30 minutes
+        - cron: "*/30 * * * *"
+    workflow_dispatch:
+        inputs:
+            force_check:
+                description: "Force check for updates"
+                required: false
+                default: "false"
+
+jobs:
+    check-bazel-updates:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.12"
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install PyYAML requests gitpython click jinja2 markdown
+
+            - name: Check for Bazel documentation updates
+              id: check_updates
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  python -c "
+                  import os
+                  import sys
+                  import json
+                  from datetime import datetime, timedelta
+                  from utils.github_api import GitHubAPI
+
+                  # Initialize GitHub API
+                  github_api = GitHubAPI(os.getenv('GITHUB_TOKEN'))
+
+                  # Get latest commit from Bazel repository
+                  try:
+                      latest_commit = github_api.get_latest_commit('bazelbuild', 'bazel', 'master', 'site/en')
+                      
+                      if not latest_commit:
+                          print('No commits found for site/en directory')
+                          sys.exit(0)
+                      
+                      # Check if we have a record of the last processed commit
+                      last_commit_file = '.github/last_processed_commit.txt'
+                      last_processed_commit = ''
+                      
+                      if os.path.exists(last_commit_file):
+                          with open(last_commit_file, 'r') as f:
+                              last_processed_commit = f.read().strip()
+                      
+                      # Check if there are new commits
+                      if latest_commit['sha'] != last_processed_commit or '${{ github.event.inputs.force_check }}' == 'true':
+                          print(f'New commit detected: {latest_commit[\"sha\"]}')
+                          print(f'Commit message: {latest_commit[\"message\"]}')
+                          print(f'Commit author: {latest_commit[\"author\"]}')
+                          print(f'Commit date: {latest_commit[\"date\"]}')
+                          
+                          # Set output for next step
+                          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                              f.write(f'update_needed=true\n')
+                              f.write(f'commit_sha={latest_commit[\"sha\"]}\n')
+                              f.write(f'commit_message={latest_commit[\"message\"]}\n')
+                              f.write(f'commit_author={latest_commit[\"author\"]}\n')
+                              f.write(f'commit_date={latest_commit[\"date\"]}\n')
+                          
+                          # Update last processed commit
+                          with open(last_commit_file, 'w') as f:
+                              f.write(latest_commit['sha'])
+                          
+                          print('Update needed - will trigger site generation')
+                      else:
+                          print('No new commits - no update needed')
+                          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                              f.write('update_needed=false\n')
+                              
+                  except Exception as e:
+                      print(f'Error checking for updates: {e}')
+                      sys.exit(1)
+                  "
+
+            - name: Commit last processed commit record
+              if: steps.check_updates.outputs.update_needed == 'true'
+              run: |
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action"
+                  git add .github/last_processed_commit.txt
+                  git commit -m "Update last processed commit: ${{ steps.check_updates.outputs.commit_sha }}" || exit 0
+                  git push
+
+            - name: Trigger Hugo site generation
+              if: steps.check_updates.outputs.update_needed == 'true'
+              uses: peter-evans/repository-dispatch@v3
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  event-type: bazel-docs-updated
+                  client-payload: |
+                      {
+                        "commit_sha": "${{ steps.check_updates.outputs.commit_sha }}",
+                        "commit_message": "${{ steps.check_updates.outputs.commit_message }}",
+                        "commit_author": "${{ steps.check_updates.outputs.commit_author }}",
+                        "commit_date": "${{ steps.check_updates.outputs.commit_date }}"
+                      }
+
+            - name: Log update status
+              run: |
+                  echo "Update needed: ${{ steps.check_updates.outputs.update_needed }}"
+                  if [ "${{ steps.check_updates.outputs.update_needed }}" == "true" ]; then
+                    echo "Triggered site generation for commit: ${{ steps.check_updates.outputs.commit_sha }}"
+                  else
+                    echo "No updates detected - site generation not triggered"
+                  fi
