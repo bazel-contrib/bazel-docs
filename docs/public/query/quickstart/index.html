@@ -1,0 +1,946 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Query quickstart | Bazel Documentation</title>
+<meta name="description" content="This tutorial covers how to work with Bazel to trace dependencies in your code using a premade Bazel project.
+For language and --output flag details, see the Bazel query reference and Bazel cquery reference manuals. Get help in your IDE by typing bazel help query or bazel help cquery on the command line.
+Objective This guide runs you through a set of basic queries you can use to learn more about your project’s file dependencies. It is intended for new Bazel developers with a basic knowledge of how Bazel and BUILD files work.">
+<meta property="og:url" content="http://localhost:1313/query/quickstart/">
+  <meta property="og:site_name" content="Bazel Documentation">
+  <meta property="og:title" content="Query quickstart">
+  <meta property="og:description" content="This tutorial covers how to work with Bazel to trace dependencies in your code using a premade Bazel project.
+For language and --output flag details, see the Bazel query reference and Bazel cquery reference manuals. Get help in your IDE by typing bazel help query or bazel help cquery on the command line.
+Objective This guide runs you through a set of basic queries you can use to learn more about your project’s file dependencies. It is intended for new Bazel developers with a basic knowledge of how Bazel and BUILD files work.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="query">
+    <meta property="article:published_time" content="2024-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-01-01T00:00:00+00:00">
+
+  <meta itemprop="name" content="Query quickstart">
+  <meta itemprop="description" content="This tutorial covers how to work with Bazel to trace dependencies in your code using a premade Bazel project.
+For language and --output flag details, see the Bazel query reference and Bazel cquery reference manuals. Get help in your IDE by typing bazel help query or bazel help cquery on the command line.
+Objective This guide runs you through a set of basic queries you can use to learn more about your project’s file dependencies. It is intended for new Bazel developers with a basic knowledge of how Bazel and BUILD files work.">
+  <meta itemprop="datePublished" content="2024-01-01T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-01T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2362">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Query quickstart">
+  <meta name="twitter:description" content="This tutorial covers how to work with Bazel to trace dependencies in your code using a premade Bazel project.
+For language and --output flag details, see the Bazel query reference and Bazel cquery reference manuals. Get help in your IDE by typing bazel help query or bazel help cquery on the command line.
+Objective This guide runs you through a set of basic queries you can use to learn more about your project’s file dependencies. It is intended for new Bazel developers with a basic knowledge of how Bazel and BUILD files work.">
+<link href="/scss/main.css" rel="stylesheet">
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">Bazel Documentation</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/community/"><span>Community</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="td-sidebar-nav collapse" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m--li">
+  <a href="/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-"><span class="">Bazel Documentation</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-help-li">
+  <a href="/help/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-help"><span class="">Getting Help</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-concepts-li">
+  <a href="/concepts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-concepts"><span class="">Understanding Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsbuild-files-li">
+  <a href="/concepts/build-files/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsbuild-files"><span class="">BUILD files</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsdependencies-li">
+  <a href="/concepts/dependencies/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptslabels-li">
+  <a href="/concepts/labels/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptslabels"><span class="">Labels</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsplatforms-li">
+  <a href="/concepts/platforms/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsplatforms"><span class="">Migrating to Platforms</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsbuild-ref-li">
+  <a href="/concepts/build-ref/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsbuild-ref"><span class="">Repositories, workspaces, packages, and targets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsvisibility-li">
+  <a href="/concepts/visibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsvisibility"><span class="">Visibility</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-basics-li">
+  <a href="/basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-basics"><span class="">Basics</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsartifact-based-builds-li">
+  <a href="/basics/artifact-based-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsartifact-based-builds"><span class="">Artifact-Based Build Systems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsdependencies-li">
+  <a href="/basics/dependencies/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsdependencies"><span class="">Dependency Management</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsdistributed-builds-li">
+  <a href="/basics/distributed-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsdistributed-builds"><span class="">Distributed Builds</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicshermeticity-li">
+  <a href="/basics/hermeticity/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicshermeticity"><span class="">Hermeticity</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicstask-based-builds-li">
+  <a href="/basics/task-based-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicstask-based-builds"><span class="">Task-Based Build Systems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsbuild-systems-li">
+  <a href="/basics/build-systems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsbuild-systems"><span class="">Why a Build System?</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-tutorials-li">
+  <a href="/tutorials/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-tutorials"><span class="">Tutorials</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialsccp-toolchain-config-li">
+  <a href="/tutorials/ccp-toolchain-config/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialsccp-toolchain-config"><span class="">Bazel Tutorial: Configure C&#43;&#43; Toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-use-cases-li">
+  <a href="/tutorials/cpp-use-cases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-use-cases"><span class="">Common C&#43;&#43; Build Use Cases</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-dependency-li">
+  <a href="/tutorials/cpp-dependency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-dependency"><span class="">Review the dependency graph</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-labels-li">
+  <a href="/tutorials/cpp-labels/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-labels"><span class="">Use labels to reference targets</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-configure-li">
+  <a href="/configure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-configure"><span class="">Configure</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurebest-practices-li">
+  <a href="/configure/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurebest-practices"><span class="">Best Practices</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurecoverage-li">
+  <a href="/configure/coverage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurecoverage"><span class="">Code coverage with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configureattributes-li">
+  <a href="/configure/attributes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configureattributes"><span class="">Configurable Build Attributes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configureintegrate-cpp-li">
+  <a href="/configure/integrate-cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configureintegrate-cpp"><span class="">Integrating with C&#43;&#43; Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurewindows-li">
+  <a href="/configure/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurewindows"><span class="">Using Bazel on Windows</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-extending-li">
+  <a href="/extending/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-extending"><span class="">Extending Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingaspects-li">
+  <a href="/extending/aspects/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingaspects"><span class="">Aspects</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingauto-exec-groups-li">
+  <a href="/extending/auto-exec-groups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingauto-exec-groups"><span class="">Automatic Execution Groups (AEGs)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingconfig-li">
+  <a href="/extending/config/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingconfig"><span class="">Configurations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingdepsets-li">
+  <a href="/extending/depsets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingdepsets"><span class="">Depsets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingexec-groups-li">
+  <a href="/extending/exec-groups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingexec-groups"><span class="">Execution Groups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingconcepts-li">
+  <a href="/extending/concepts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingconcepts"><span class="">Extension Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendinglegacy-macros-li">
+  <a href="/extending/legacy-macros/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendinglegacy-macros"><span class="">Legacy Macros</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingmacros-li">
+  <a href="/extending/macros/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingmacros"><span class="">Macros</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingplatforms-li">
+  <a href="/extending/platforms/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingplatforms"><span class="">Platforms</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingrules-li">
+  <a href="/extending/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingrules"><span class="">Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingtoolchains-li">
+  <a href="/extending/toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingtoolchains"><span class="">Toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-external-li">
+  <a href="/external/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-external"><span class="">External</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmod-command-li">
+  <a href="/external/mod-command/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmod-command"><span class="">`mod` Command</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externallockfile-li">
+  <a href="/external/lockfile/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externallockfile"><span class="">Bazel Lockfile</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmodule-li">
+  <a href="/external/module/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmodule"><span class="">Bazel modules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalregistry-li">
+  <a href="/external/registry/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalregistry"><span class="">Bazel registries</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmigration-li">
+  <a href="/external/migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmigration"><span class="">Bzlmod Migration Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externaloverview-li">
+  <a href="/external/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externaloverview"><span class="">External dependencies overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalfaq-li">
+  <a href="/external/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalfaq"><span class="">Frequently asked questions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalextension-li">
+  <a href="/external/extension/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalextension"><span class="">Module extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalrepo-li">
+  <a href="/external/repo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalrepo"><span class="">Repository Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalvendor-li">
+  <a href="/external/vendor/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalvendor"><span class="">Vendor Mode</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalimages-li">
+  <a href="/external/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-externalimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-remote-li">
+  <a href="/remote/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-remote"><span class="">Remote</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoterules-li">
+  <a href="/remote/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoterules"><span class="">Adapting Bazel Rules for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-li">
+  <a href="/remote/bep/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep"><span class="">Build Event Protocol</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-examples-li">
+  <a href="/remote/bep-examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep-examples"><span class="">Build Event Protocol Examples</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-glossary-li">
+  <a href="/remote/bep-glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep-glossary"><span class="">Build Event Protocol Glossary</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteci-li">
+  <a href="/remote/ci/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteci"><span class="">Configuring Bazel CI to Test Rules for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecreating-li">
+  <a href="/remote/creating/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecreating"><span class="">Creating Persistent Workers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecache-local-li">
+  <a href="/remote/cache-local/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecache-local"><span class="">Debugging Remote Cache Hits for Local Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecache-remote-li">
+  <a href="/remote/cache-remote/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecache-remote"><span class="">Debugging Remote Cache Hits for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotedynamic-li">
+  <a href="/remote/dynamic/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotedynamic"><span class="">Dynamic Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteworkspace-li">
+  <a href="/remote/workspace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteworkspace"><span class="">Finding Non-Hermetic Behavior in WORKSPACE Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotemultiplex-li">
+  <a href="/remote/multiplex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotemultiplex"><span class="">Multiplex Workers (Experimental Feature)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteoutput-directories-li">
+  <a href="/remote/output-directories/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteoutput-directories"><span class="">Output Directory Layout</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotepersistent-li">
+  <a href="/remote/persistent/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotepersistent"><span class="">Persistent Workers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecaching-li">
+  <a href="/remote/caching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecaching"><span class="">Remote Caching</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoterbe-li">
+  <a href="/remote/rbe/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoterbe"><span class="">Remote Execution Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotesandbox-li">
+  <a href="/remote/sandbox/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotesandbox"><span class="">Troubleshooting Bazel Remote Execution with Docker Sandbox</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-query-li">
+  <a href="/query/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-query"><span class="">Query</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryaquery-li">
+  <a href="/query/aquery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryaquery"><span class="">Action Graph Query (aquery)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-querycquery-li">
+  <a href="/query/cquery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-querycquery"><span class="">Configurable Query (cquery)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryguide-li">
+  <a href="/query/guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryguide"><span class="">Query guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-queryquickstart-li">
+  <a href="/query/quickstart/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-queryquickstart"><span class="td-sidebar-nav-active-item">Query quickstart</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-querylanguage-li">
+  <a href="/query/language/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-querylanguage"><span class="">The Bazel Query Reference</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryimages-li">
+  <a href="/query/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-queryimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-advanced-li">
+  <a href="/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-advanced"><span class="">Advanced</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-advancedperformance-li">
+  <a href="/advanced/performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-advancedperformance"><span class="">Performance</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancebuild-performance-breakdown-li">
+  <a href="/advanced/performance/build-performance-breakdown/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancebuild-performance-breakdown"><span class="">Breaking down build performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancebuild-performance-metrics-li">
+  <a href="/advanced/performance/build-performance-metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancebuild-performance-metrics"><span class="">Extracting build performance metrics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancejson-trace-profile-li">
+  <a href="/advanced/performance/json-trace-profile/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancejson-trace-profile"><span class="">JSON Trace Profile</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformanceiteration-speed-li">
+  <a href="/advanced/performance/iteration-speed/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformanceiteration-speed"><span class="">Optimize Iteration Speed</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancememory-li">
+  <a href="/advanced/performance/memory/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancememory"><span class="">Optimize Memory</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-install-li">
+  <a href="/install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-install"><span class="">Install</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installcompletion-li">
+  <a href="/install/completion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installcompletion"><span class="">Command-Line Completion</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installcompile-source-li">
+  <a href="/install/compile-source/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installcompile-source"><span class="">Compiling Bazel from Source</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installdocker-container-li">
+  <a href="/install/docker-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installdocker-container"><span class="">Getting Started with Bazel Docker Container</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installbazelisk-li">
+  <a href="/install/bazelisk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installbazelisk"><span class="">Installing / Updating Bazel using Bazelisk</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installos-x-li">
+  <a href="/install/os-x/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installos-x"><span class="">Installing Bazel on macOS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installsuse-li">
+  <a href="/install/suse/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installsuse"><span class="">Installing Bazel on openSUSE Tumbleweed &amp; Leap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installubuntu-li">
+  <a href="/install/ubuntu/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installubuntu"><span class="">Installing Bazel on Ubuntu</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installwindows-li">
+  <a href="/install/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installwindows"><span class="">Installing Bazel on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installide-li">
+  <a href="/install/ide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installide"><span class="">Integrating Bazel with IDEs</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installimages-li">
+  <a href="/install/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-installimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-migrate-li">
+  <a href="/migrate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-migrate"><span class="">Migrate</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-migratemaven-li">
+  <a href="/migrate/maven/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-migratemaven"><span class="">Migrating from Maven to Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-migratexcode-li">
+  <a href="/migrate/xcode/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-migratexcode"><span class="">Migrating from Xcode to Bazel</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-reference-li">
+  <a href="/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-reference"><span class="">Reference</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceflag-cheatsheet-li">
+  <a href="/reference/flag-cheatsheet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceflag-cheatsheet"><span class="">Bazel flag cheat sheet</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceglossary-li">
+  <a href="/reference/glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceglossary"><span class="">Bazel Glossary</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceskyframe-li">
+  <a href="/reference/skyframe/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceskyframe"><span class="">Skyframe</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referencetest-encyclopedia-li">
+  <a href="/reference/test-encyclopedia/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referencetest-encyclopedia"><span class="">Test encyclopedia</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-release-li">
+  <a href="/release/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-release"><span class="">Release</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releasebackward-compatibility-li">
+  <a href="/release/backward-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releasebackward-compatibility"><span class="">Backward Compatibility</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releaserolling-li">
+  <a href="/release/rolling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releaserolling"><span class="">Rolling Releases</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releaserule-compatibility-li">
+  <a href="/release/rule-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releaserule-compatibility"><span class="">Rule Compatibility</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-rules-li">
+  <a href="/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-rules"><span class="">Rules</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesbzl-style-li">
+  <a href="/rules/bzl-style/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesbzl-style"><span class="">.bzl style guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleschallenges-li">
+  <a href="/rules/challenges/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleschallenges"><span class="">Challenges of Writing Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleslegacy-macro-tutorial-li">
+  <a href="/rules/legacy-macro-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleslegacy-macro-tutorial"><span class="">Creating a Legacy Macro</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesmacro-tutorial-li">
+  <a href="/rules/macro-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesmacro-tutorial"><span class="">Creating a Symbolic Macro</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesdeploying-li">
+  <a href="/rules/deploying/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesdeploying"><span class="">Deploying Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ruleserrors-li">
+  <a href="/rules/errors/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ruleserrors"><span class="">Errors</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleserrorsread-only-variable-li">
+  <a href="/rules/errors/read-only-variable/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleserrorsread-only-variable"><span class="">Error: Variable x is read only</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesfaq-li">
+  <a href="/rules/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesfaq"><span class="">Frequently Asked Questions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesperformance-li">
+  <a href="/rules/performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesperformance"><span class="">Optimizing Performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesrules-tutorial-li">
+  <a href="/rules/rules-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesrules-tutorial"><span class="">Rules Tutorial</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleslanguage-li">
+  <a href="/rules/language/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleslanguage"><span class="">Starlark Language</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulestesting-li">
+  <a href="/rules/testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulestesting"><span class="">Testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesverbs-tutorial-li">
+  <a href="/rules/verbs-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesverbs-tutorial"><span class="">Using Macros to Create Custom Verbs</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleswindows-li">
+  <a href="/rules/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleswindows"><span class="">Writing Rules on Windows</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-run-li">
+  <a href="/run/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-run"><span class="">Run</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runbuild-li">
+  <a href="/run/build/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runbuild"><span class="">Build programs with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runscripts-li">
+  <a href="/run/scripts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runscripts"><span class="">Calling Bazel from scripts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runclient-server-li">
+  <a href="/run/client-server/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runclient-server"><span class="">Client/server implementation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runbazelrc-li">
+  <a href="/run/bazelrc/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runbazelrc"><span class="">Write bazelrc configuration files</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-start-li">
+  <a href="/start/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-start"><span class="">Start</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startcpp-li">
+  <a href="/start/cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startcpp"><span class="">Bazel Tutorial: Build a C&#43;&#43; Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startgo-li">
+  <a href="/start/go/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startgo"><span class="">Bazel Tutorial: Build a Go Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startjava-li">
+  <a href="/start/java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startjava"><span class="">Bazel Tutorial: Build a Java Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startandroid-app-li">
+  <a href="/start/android-app/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startandroid-app"><span class="">Bazel Tutorial: Build an Android App</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startios-app-li">
+  <a href="/start/ios-app/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startios-app"><span class="">Bazel Tutorial: Build an iOS App</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docs-li">
+  <a href="/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docs"><span class="">Using Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-android-li">
+  <a href="/docs/bazel-and-android/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-android"><span class="">Android and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-build-performance-li">
+  <a href="/docs/android-build-performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-build-performance"><span class="">Android Build Performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-instrumentation-test-li">
+  <a href="/docs/android-instrumentation-test/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-instrumentation-test"><span class="">Android Instrumentation Tests</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-apple-li">
+  <a href="/docs/bazel-and-apple/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-apple"><span class="">Apple Apps and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmobile-install-li">
+  <a href="/docs/mobile-install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmobile-install"><span class="">bazel mobile-install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-cpp-li">
+  <a href="/docs/bazel-and-cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-cpp"><span class="">C&#43;&#43; and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscc-toolchain-config-reference-li">
+  <a href="/docs/cc-toolchain-config-reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscc-toolchain-config-reference"><span class="">C&#43;&#43; Toolchain Configuration</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manual-li">
+  <a href="/docs/user-manual/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manual"><span class="">Commands and Options</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsconfigurable-attributes-li">
+  <a href="/docs/configurable-attributes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsconfigurable-attributes"><span class="">Configurable Build Attributes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-java-li">
+  <a href="/docs/bazel-and-java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-java"><span class="">Java and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-javascript-li">
+  <a href="/docs/bazel-and-javascript/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-javascript"><span class="">JavaScript and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssandboxing-li">
+  <a href="/docs/sandboxing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docssandboxing"><span class="">Sandboxing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-ndk-li">
+  <a href="/docs/android-ndk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-ndk"><span class="">Using the Android Native Development Kit with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsimages-li">
+  <a href="/docs/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-brand-li">
+  <a href="/brand/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-brand"><span class="">Brand</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-images-li">
+  <a href="/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-images"><span class="">Images</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-versions-li">
+  <a href="/versions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-versions"><span class="">Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-community-li">
+  <a href="/community/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-community"><span class="">Community &amp; Product Partners</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityroadmaps-configurability-li">
+  <a href="/community/roadmaps-configurability/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityroadmaps-configurability"><span class="">Bazel Configurability 2021 Roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communitysig-li">
+  <a href="/community/sig/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communitysig"><span class="">Bazel Special Interest Groups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityupdate-li">
+  <a href="/community/update/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityupdate"><span class="">Community updates</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityrecommended-rules-li">
+  <a href="/community/recommended-rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityrecommended-rules"><span class="">Recommended Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityremote-execution-services-li">
+  <a href="/community/remote-execution-services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityremote-execution-services"><span class="">Remote Execution Services</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityroadmaps-starlark-li">
+  <a href="/community/roadmaps-starlark/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityroadmaps-starlark"><span class="">Starlark Roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityusers-li">
+  <a href="/community/users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityusers"><span class="">Who&#39;s Using Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityexperts-li">
+  <a href="/community/experts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communityexperts"><span class="">Experts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityimages-li">
+  <a href="/community/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communityimages"><span class="">Images</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communitypartners-li">
+  <a href="/community/partners/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communitypartners"><span class="">Partners</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-contribute-li">
+  <a href="/contribute/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-contribute"><span class="">Contribute</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributestatemachine-guide-li">
+  <a href="/contribute/statemachine-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributestatemachine-guide"><span class="">A Guide to Skyframe `StateMachine`s</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedocs-style-guide-li">
+  <a href="/contribute/docs-style-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedocs-style-guide"><span class="">Bazel docs style guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedocs-li">
+  <a href="/contribute/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedocs"><span class="">Contribute to Bazel documentation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributepolicy-li">
+  <a href="/contribute/policy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributepolicy"><span class="">Contribution policy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedesign-documents-li">
+  <a href="/contribute/design-documents/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedesign-documents"><span class="">Design Documents</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributemaintainers-guide-li">
+  <a href="/contribute/maintainers-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributemaintainers-guide"><span class="">Guide for Bazel Maintainers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributebreaking-changes-li">
+  <a href="/contribute/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributebreaking-changes"><span class="">Guide for rolling out breaking changes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributewindows-chocolatey-maintenance-li">
+  <a href="/contribute/windows-chocolatey-maintenance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributewindows-chocolatey-maintenance"><span class="">Maintaining Bazel Chocolatey package on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributewindows-scoop-maintenance-li">
+  <a href="/contribute/windows-scoop-maintenance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributewindows-scoop-maintenance"><span class="">Maintaining Bazel Scoop package on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributenaming-li">
+  <a href="/contribute/naming/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributenaming"><span class="">Naming a Bazel related project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributepatch-acceptance-li">
+  <a href="/contribute/patch-acceptance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributepatch-acceptance"><span class="">Patch Acceptance Process</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributesearch-li">
+  <a href="/contribute/search/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributesearch"><span class="">Searching the codebase</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributecodebase-li">
+  <a href="/contribute/codebase/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributecodebase"><span class="">The Bazel codebase</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributerelease-notes-li">
+  <a href="/contribute/release-notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributerelease-notes"><span class="">Writing release notes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributeimages-li">
+  <a href="/contribute/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-contributeimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-about-li">
+  <a href="/about/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-about"><span class="">About</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutroadmap-li">
+  <a href="/about/roadmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutroadmap"><span class="">Bazel roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutvision-li">
+  <a href="/about/vision/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutvision"><span class="">Bazel Vision</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutfaq-li">
+  <a href="/about/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutfaq"><span class="">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutintro-li">
+  <a href="/about/intro/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutintro"><span class="">Intro to Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutwhy-li">
+  <a href="/about/why/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutwhy"><span class="">Why Bazel?</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/bazelbuild/bazel/tree/master/site/en/content/query/quickstart.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/bazelbuild/bazel/edit/master/site/en/content/query/quickstart.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/bazelbuild/bazel/new/master/site/en/content/query?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/bazelbuild/bazel/issues/new?title=Query%20quickstart" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#objective">Objective</a></li>
+    <li><a href="#prerequisites">Prerequisites</a>
+      <ul>
+        <li><a href="#get-the-sample-project">Get the sample project</a></li>
+      </ul>
+    </li>
+    <li><a href="#getting-started">Getting started</a>
+      <ul>
+        <li><a href="#what-are-bazel-queries">What are Bazel queries?</a></li>
+        <li><a href="#scenario">Scenario</a></li>
+        <li><a href="#running-a-build">Running a build</a></li>
+      </ul>
+    </li>
+    <li><a href="#exploring-targets">Exploring targets</a></li>
+    <li><a href="#finding-dependencies">Finding dependencies</a></li>
+    <li><a href="#visualizing-the-dependency-graph-optional">Visualizing the dependency graph (optional)</a></li>
+    <li><a href="#finding-reverse-dependencies">Finding reverse dependencies</a></li>
+    <li><a href="#finding-targets-based-on-tags">Finding targets based on tags</a>
+      <ul>
+        <li><a href="#test-yourself">Test yourself</a></li>
+      </ul>
+    </li>
+    <li><a href="#adding-a-new-dependency">Adding a new dependency</a></li>
+    <li><a href="#somepath-and-allpaths">somepath() and allpaths()</a></li>
+    <li><a href="#test-yourself-1">Test yourself</a></li>
+    <li><a href="#wrapping-up">Wrapping up</a></li>
+  </ul>
+</nav>
+      </div>
+    
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/query/">Query</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    Query quickstart</li>
+  </ol>
+</nav>
+<div class="td-content">
+	<h1>Query quickstart</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	<p>This tutorial covers how to work with Bazel to trace dependencies in your code using a premade Bazel project.</p>
+<p>For language and <code>--output</code> flag details, see the <a href="/query/language/">Bazel query reference</a> and <a href="/query/cquery/">Bazel cquery reference</a> manuals. Get help in your IDE by typing <code>bazel help query</code> or <code>bazel help cquery</code> on the command line.</p>
+<h2 id="objective">Objective</h2>
+<p>This guide runs you through a set of basic queries you can use to learn more about your project&rsquo;s file dependencies. It is intended for new Bazel developers with a basic knowledge of how Bazel and <code>BUILD</code> files work.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Start by installing <a href="https://bazel.build/install">Bazel</a>, if you haven’t already. This tutorial uses Git for source control, so for best results, install <a href="https://github.com/git-guides/install-git">Git</a> as well.</p>
+<p>To visualize dependency graphs, the tool called Graphviz is used, which you can <a href="https://graphviz.org/download/">download</a> in order to follow along.</p>
+<h3 id="get-the-sample-project">Get the sample project</h3>
+<p>Next, retrieve the sample app from <a href="https://github.com/bazelbuild/examples">Bazel&rsquo;s Examples repository</a> by running the following in your command-line tool of choice:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">git clone https://github.com/bazelbuild/examples.git
+</span></span></code></pre></div><p>The sample project for this tutorial is in the <code>examples/query-quickstart</code> directory.</p>
+<h2 id="getting-started">Getting started</h2>
+<h3 id="what-are-bazel-queries">What are Bazel queries?</h3>
+<p>Queries help you to learn about a Bazel codebase by analyzing the relationships between <code>BUILD</code> files and examining the resulting output for useful information. This guide previews some basic query functions, but for more options see the <a href="https://bazel.build/query/guide">query guide</a>. Queries help you learn about dependencies in large scale projects without manually navigating through <code>BUILD</code> files.</p>
+<p>To run a query, open your command line terminal and enter:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">bazel</span> <span class="nx">query</span> <span class="s1">&#39;query_function&#39;</span>
+</span></span></code></pre></div><h3 id="scenario">Scenario</h3>
+<p>Imagine a scenario that delves into the relationship between Cafe Bazel and its respective chef. This Cafe exclusively sells pizza and mac &amp; cheese. Take a look below at how the project is structured:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazelqueryguide
+</span></span><span class="line"><span class="cl">├── BUILD
+</span></span><span class="line"><span class="cl">├── src
+</span></span><span class="line"><span class="cl">│   └── main
+</span></span><span class="line"><span class="cl">│       └── java
+</span></span><span class="line"><span class="cl">│           └── com
+</span></span><span class="line"><span class="cl">│               └── example
+</span></span><span class="line"><span class="cl">│                   ├── customers
+</span></span><span class="line"><span class="cl">│                   │   ├── Jenny.java
+</span></span><span class="line"><span class="cl">│                   │   ├── Amir.java
+</span></span><span class="line"><span class="cl">│                   │   └── BUILD
+</span></span><span class="line"><span class="cl">│                   ├── dishes
+</span></span><span class="line"><span class="cl">│                   │   ├── Pizza.java
+</span></span><span class="line"><span class="cl">│                   │   ├── MacAndCheese.java
+</span></span><span class="line"><span class="cl">│                   │   └── BUILD
+</span></span><span class="line"><span class="cl">│                   ├── ingredients
+</span></span><span class="line"><span class="cl">│                   │   ├── Cheese.java
+</span></span><span class="line"><span class="cl">│                   │   ├── Tomatoes.java
+</span></span><span class="line"><span class="cl">│                   │   ├── Dough.java
+</span></span><span class="line"><span class="cl">│                   │   ├── Macaroni.java
+</span></span><span class="line"><span class="cl">│                   │   └── BUILD
+</span></span><span class="line"><span class="cl">│                   ├── restaurant
+</span></span><span class="line"><span class="cl">│                   │   ├── Cafe.java
+</span></span><span class="line"><span class="cl">│                   │   ├── Chef.java
+</span></span><span class="line"><span class="cl">│                   │   └── BUILD
+</span></span><span class="line"><span class="cl">│                   ├── reviews
+</span></span><span class="line"><span class="cl">│                   │   ├── Review.java
+</span></span><span class="line"><span class="cl">│                   │   └── BUILD
+</span></span><span class="line"><span class="cl">│                   └── Runner.java
+</span></span><span class="line"><span class="cl">└── MODULE.bazel
+</span></span></code></pre></div><p>Throughout this tutorial, unless directed otherwise, try not to look in the <code>BUILD</code> files to find the information you need and instead solely use the query function.</p>
+<p>A project consists of different packages that make up a Cafe. They are separated into: <code>restaurant</code>, <code>ingredients</code>, <code>dishes</code>, <code>customers</code>, and <code>reviews</code>. Rules within these packages define different components of the Cafe with various tags and dependencies.</p>
+<h3 id="running-a-build">Running a build</h3>
+<p>This project contains a main method inside of <code>Runner.java</code> that you can execute
+to print out a menu of the Cafe. Build the project using Bazel with the command
+<code>bazel build</code> and use <code>:</code> to signal that the target is named <code>runner</code>. See
+<a href="https://bazel.build/concepts/labels#target-names">target names</a> to learn how to
+reference targets.</p>
+<p>To build this project, paste this command into a terminal:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel build :runner
+</span></span></code></pre></div><p>Your output should look something like this if the build is successful.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">INFO: Analyzed target //:runner (49 packages loaded, 784 targets configured).
+</span></span><span class="line"><span class="cl">INFO: Found 1 target...
+</span></span><span class="line"><span class="cl">Target //:runner up-to-date:
+</span></span><span class="line"><span class="cl">  bazel-bin/runner.jar
+</span></span><span class="line"><span class="cl">  bazel-bin/runner
+</span></span><span class="line"><span class="cl">INFO: Elapsed time: 16.593s, Critical Path: 4.32s
+</span></span><span class="line"><span class="cl">INFO: 23 processes: 4 internal, 10 darwin-sandbox, 9 worker.
+</span></span><span class="line"><span class="cl">INFO: Build completed successfully, 23 total actions
+</span></span></code></pre></div><p>After it has built successfully, run the application by pasting this command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel-bin/runner
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">--------------------- MENU -------------------------
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Pizza - Cheesy Delicious Goodness
+</span></span><span class="line"><span class="cl">Macaroni &amp; Cheese - Kid-approved Dinner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">----------------------------------------------------
+</span></span></code></pre></div><p>This leaves you with a list of the menu items given along with a short description.</p>
+<h2 id="exploring-targets">Exploring targets</h2>
+<p>The project lists ingredients and dishes in their own packages. To use a query to view the rules of a package, run the command <code>bazel query <em>package</em>/…</code></p>
+<p>In this case, you can use this to look through the ingredients and dishes that this Cafe has by running:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query //src/main/java/com/example/dishes/...
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query //src/main/java/com/example/ingredients/...
+</span></span></code></pre></div><p>If you query for the targets of the ingredients package, the output should look like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">//src/main/java/com/example/ingredients:cheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:dough
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:macaroni
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:tomato
+</span></span></code></pre></div><h2 id="finding-dependencies">Finding dependencies</h2>
+<p>What targets does your runner rely on to run?</p>
+<p>Say you want to dive deeper into the structure of your project without prodding into the filesystem (which may be untenable for large projects). What rules does Cafe Bazel use?</p>
+<p>If, like in this example, the target for your runner is <code>runner</code>, discover the underlying dependencies of the target by running the command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query --noimplicit_deps &#34;deps(target)&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query --noimplicit_deps &#34;deps(:runner)&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">//:runner
+</span></span><span class="line"><span class="cl">//:src/main/java/com/example/Runner.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:MacAndCheese.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:Pizza.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:macAndCheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:pizza
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:Cheese.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:Dough.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:Macaroni.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:Tomato.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:cheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:dough
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:macaroni
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:tomato
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:Cafe.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:Chef.java
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:cafe
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:chef
+</span></span></code></pre></div><p>Note: Adding the flag <code>--noimplicit_deps</code> removes configurations and potential toolchains to simplify the list. When you omit this flag, Bazel returns implicit dependencies not specified in the <code>BUILD</code> file and clutters the output.</p>
+<p>In most cases, use the query function <code>deps()</code> to see individual output dependencies of a specific target.</p>
+<h2 id="visualizing-the-dependency-graph-optional">Visualizing the dependency graph (optional)</h2>
+<p>Note: This section uses Graphviz, so make sure to <a href="https://graphviz.org/download/">download Graphviz</a> to follow along.</p>
+<p>The section describes how you can visualize the dependency paths for a specific query. <a href="https://graphviz.org/">Graphviz</a> helps to see the path as a directed acyclic graph image as opposed to a flattened list. You can alter the display of the Bazel query graph by using various <code>--output</code> command line options. See <a href="https://bazel.build/query/language#output-formats">Output Formats</a> for options.</p>
+<p>Start by running your desired query and add the flag <code>--noimplicit_deps</code> to remove excessive tool dependencies. Then, follow the query with the output flag and store the graph into a file called <code>graph.in</code> to create a text representation of the graph.</p>
+<p>To search for all dependencies of the target <code>:runner</code> and format the output as a graph:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query --noimplicit_deps &#39;deps(:runner)&#39; --output graph &gt; graph.in
+</span></span></code></pre></div><p>This creates a file called <code>graph.in</code>, which is a text representation of the build graph. Graphviz uses <code><a href="https://graphviz.org/docs/layouts/dot/">dot</a> </code>– a tool that processes text into a visualization —  to create a png:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">dot -Tpng &lt; graph.in &gt; graph.png
+</span></span></code></pre></div><p>If you open up <code>graph.png</code>, you should see something like this. The graph below has been simplified to make the essential path details clearer in this guide.</p>
+<p><img src="images/query_graph1.png" alt="Diagram showing a relationship from cafe to chef to the dishes: pizza and mac and cheese which diverges into the separate ingredients: cheese, tomatoes, dough, and macaroni." title="Dependency graph"></p>
+<p>This helps when you want to see the outputs of the different query functions throughout this guide.</p>
+<h2 id="finding-reverse-dependencies">Finding reverse dependencies</h2>
+<p>If instead you have a target you’d like to analyze what other targets use it, you can use a query to examine what targets depend on a certain rule. This is called a “reverse dependency”. Using <code>rdeps()</code> can be useful when editing a file in a codebase that you’re unfamiliar with, and can save you from unknowingly breaking other files which depended on it.</p>
+<p>For instance, you want to make some edits to the ingredient <code>cheese</code>. To avoid causing an issue for Cafe Bazel, you need to check what dishes rely on <code>cheese</code>.</p>
+<p>Caution: Since <code>ingredients</code> is its own package, you must use a different naming convention for the target <code>cheese</code> in the form of <code>//package:target</code>. Read more about referencing targets, or <a href="https://bazel.build/concepts/labels">Labels</a>.</p>
+<p>To see what targets depend on a particular target/package, you can use <code>rdeps(universe_scope, target)</code>. The <code>rdeps()</code> query function takes in at least two arguments: a <code>universe_scope</code> — the relevant directory — and a <code>target</code>. Bazel searches for the target’s reverse dependencies within the <code>universe_scope</code> provided. The <code>rdeps()</code> operator accepts an optional third argument: an integer literal specifying the upper bound on the depth of the search.</p>
+<p>Tip: To search within the whole scope of the project, set the <code>universe_scope</code> to <code>//...</code></p>
+<p>To look for reverse dependencies of the target <code>cheese</code> within the scope of the entire project ‘//…’ run the command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query &#34;rdeps(universe_scope, target)&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ex) bazel query &#34;rdeps(//... , //src/main/java/com/example/ingredients:cheese)&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">//:runner
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:macAndCheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:pizza
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:cheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:cafe
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:chef
+</span></span></code></pre></div><p>The query return shows that cheese is relied on by both pizza and macAndCheese. What a surprise!</p>
+<h2 id="finding-targets-based-on-tags">Finding targets based on tags</h2>
+<p>Two customers walk into Bazel Cafe: Amir and Jenny. There is nothing known about them except for their names. Luckily, they have their orders tagged in the &lsquo;customers&rsquo; <code>BUILD</code> file. How can you access this tag?</p>
+<p>Developers can tag Bazel targets with different identifiers, often for testing purposes. For instance, tags on tests can annotate a test&rsquo;s role in your debug and release process, especially for C++ and Python tests, which lack any runtime annotation ability. Using tags and size elements gives flexibility in assembling suites of tests based around a codebase’s check-in policy.</p>
+<p>In this example, the tags are either one of <code>pizza</code> or <code>macAndCheese</code> to represent the menu items. This command queries for targets that have tags matching your identifier within a certain package.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query &#39;attr(tags, &#34;pizza&#34;, //src/main/java/com/example/customers/...)&#39;
+</span></span></code></pre></div><p>This query returns all of the targets in the &lsquo;customers&rsquo; package that have a tag of &ldquo;pizza&rdquo;.</p>
+<h3 id="test-yourself">Test yourself</h3>
+<p>Use this query to learn what Jenny wants to order.</p>
+<div>
+  <devsite-expandable>
+  <h4 class="showalways">Answer</h4>
+  <p>Mac and Cheese</p>
+  </devsite-expandable>
+</div>
+<h2 id="adding-a-new-dependency">Adding a new dependency</h2>
+<p>Cafe Bazel has expanded its menu — customers can now order a Smoothie! This specific smoothie consists of the ingredients <code>Strawberry</code> and <code>Banana</code>.</p>
+<p>First, add the ingredients that the smoothie depends on: <code>Strawberry.java</code> and <code>Banana.java</code>. Add the empty Java classes.</p>
+<p><strong><code>src/main/java/com/example/ingredients/Strawberry.java</code></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">ingredients</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">public</span> <span class="k">class</span> <span class="nc">Strawberry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong><code>src/main/java/com/example/ingredients/Banana.java</code></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">ingredients</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">public</span> <span class="k">class</span> <span class="nc">Banana</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Next, add <code>Smoothie.java</code> to the appropriate directory: <code>dishes</code>.</p>
+<p><strong><code>src/main/java/com/example/dishes/Smoothie.java</code></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">dishes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">public</span> <span class="k">class</span> <span class="nc">Smoothie</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">String</span> <span class="n">DISH_NAME</span> <span class="o">=</span> <span class="s2">&#34;Smoothie&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">String</span> <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s2">&#34;Yummy and Refreshing&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Lastly, add these files as rules in the appropriate <code>BUILD</code> files. Create a new java library for each new ingredient, including its name, public visibility, and its newly created &lsquo;src&rsquo; file. You should wind up with this updated <code>BUILD</code> file:</p>
+<p><strong><code>src/main/java/com/example/ingredients/BUILD</code></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;cheese&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Cheese.java&#34;],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;dough&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Dough.java&#34;],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;macaroni&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Macaroni.java&#34;],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;tomato&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Tomato.java&#34;],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;strawberry&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Strawberry.java&#34;],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;banana&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Banana.java&#34;],
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>In the <code>BUILD</code> file for dishes, you want to add a new rule for <code>Smoothie</code>. Doing so includes the Java file created for <code>Smoothie</code> as a &lsquo;src&rsquo; file, and the new rules you made for each ingredient of the smoothie.</p>
+<p><strong><code>src/main/java/com/example/dishes/BUILD</code></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;macAndCheese&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;MacAndCheese.java&#34;],
+</span></span><span class="line"><span class="cl">    deps = [
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/ingredients:cheese&#34;,
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/ingredients:macaroni&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;pizza&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Pizza.java&#34;],
+</span></span><span class="line"><span class="cl">    deps = [
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/ingredients:cheese&#34;,
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/ingredients:dough&#34;,
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/ingredients:tomato&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;smoothie&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [&#34;Smoothie.java&#34;],
+</span></span><span class="line"><span class="cl">    deps = [
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/ingredients:strawberry&#34;,
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/ingredients:banana&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>Lastly, you want to include the smoothie as a dependency in the Chef’s <code>BUILD</code> file.</p>
+<p><strong><code>src/main/java/com/example/restaurant/BUILD</code></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;chef&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [
+</span></span><span class="line"><span class="cl">        &#34;Chef.java&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    deps = [
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/dishes:macAndCheese&#34;,
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/dishes:pizza&#34;,
+</span></span><span class="line"><span class="cl">        &#34;//src/main/java/com/example/dishes:smoothie&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java_library(
+</span></span><span class="line"><span class="cl">    name = &#34;cafe&#34;,
+</span></span><span class="line"><span class="cl">    visibility = [&#34;//visibility:public&#34;],
+</span></span><span class="line"><span class="cl">    srcs = [
+</span></span><span class="line"><span class="cl">        &#34;Cafe.java&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span><span class="line"><span class="cl">    deps = [
+</span></span><span class="line"><span class="cl">        &#34;:chef&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>Build <code>cafe</code> again to confirm that there are no errors. If it builds successfully, congratulations! You’ve added a new dependency for the &lsquo;Cafe&rsquo;. If not, look out for spelling mistakes and package naming. For more information about writing <code>BUILD</code> files see <a href="https://bazel.build/build/style-guide">BUILD Style Guide</a>.</p>
+<p>Now, visualize the new dependency graph with the addition of the <code>Smoothie</code> to compare with the previous one. For clarity, name the graph input as <code>graph2.in</code> and <code>graph2.png</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query --noimplicit_deps &#39;deps(:runner)&#39; --output graph &gt; graph2.in
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">dot -Tpng &lt; graph2.in &gt; graph2.png
+</span></span></code></pre></div><p><a href="images/query_graph2.png"><img src="images/query_graph2.png" alt="The same graph as the first one except now there is a spoke stemming from the chef target with smoothie which leads to banana and strawberry" title="Updated dependency graph"></a></p>
+<p>Looking at <code>graph2.png</code>, you can see that <code>Smoothie</code> has no shared dependencies with other dishes but is just another target that the <code>Chef</code> relies on.</p>
+<h2 id="somepath-and-allpaths">somepath() and allpaths()</h2>
+<p>What if you want to query why one package depends on another package? Displaying a dependency path between the two provides the answer.</p>
+<p>Two functions can help you find dependency paths: <code>somepath()</code> and <code>allpaths()</code>. Given a starting target S and an end point E, find a path between S and E by using <code>somepath(S,E)</code>.</p>
+<p>Explore the differences between these two functions by looking at the relationships between the &lsquo;Chef&rsquo; and &lsquo;Cheese&rsquo; targets. There are different possible paths to get from one target to the other:</p>
+<ul>
+<li>Chef → MacAndCheese → Cheese</li>
+<li>Chef → Pizza → Cheese</li>
+</ul>
+<p><code>somepath()</code> gives you a single path out of the two options, whereas &lsquo;allpaths()&rsquo; outputs every possible path.</p>
+<p>Using Cafe Bazel as an example, run the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query &#34;somepath(//src/main/java/com/example/restaurant/..., //src/main/java/com/example/ingredients:cheese)&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">//src/main/java/com/example/restaurant:cafe
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:chef
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:macAndCheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:cheese
+</span></span></code></pre></div><p>The output follows the first path of Cafe → Chef → MacAndCheese → Cheese. If instead you use <code>allpaths()</code>, you get:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel query &#34;allpaths(//src/main/java/com/example/restaurant/..., //src/main/java/com/example/ingredients:cheese)&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">//src/main/java/com/example/dishes:macAndCheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/dishes:pizza
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/ingredients:cheese
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:cafe
+</span></span><span class="line"><span class="cl">//src/main/java/com/example/restaurant:chef
+</span></span></code></pre></div><p><img src="images/query_graph3.png" alt="Output path of cafe to chef to pizza,mac and cheese to cheese" title="Output path for dependency"></p>
+<p>The output of <code>allpaths()</code> is a little harder to read as it is a flattened list of the dependencies. Visualizing this graph using Graphviz makes the relationship clearer to understand.</p>
+<h2 id="test-yourself-1">Test yourself</h2>
+<p>One of Cafe Bazel’s customers gave the restaurant&rsquo;s first review! Unfortunately, the review is missing some details such as the identity of the reviewer and what dish it’s referencing. Luckily, you can access this information with Bazel. The <code>reviews</code> package contains a program that prints a review from a mystery customer. Build and run it with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel build //src/main/java/com/example/reviews:review
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bazel-bin/src/main/java/com/example/reviews/review
+</span></span></code></pre></div><p>Going off Bazel queries only, try to find out who wrote the review, and what dish they were describing.</p>
+<div>
+  <devsite-expandable>
+  <h4 class="showalways">Hint</h4>
+  <p>Check the tags and dependencies for useful information.</p>
+  </devsite-expandable>
+</div>
+<div>
+  <devsite-expandable>
+  <h4 class="showalways">Answer</h4>
+  <p>This review was describing the Pizza and Amir was the reviewer. If you look at what dependencies that this rule had using
+  <code>bazel query --noimplicit\_deps 'deps(//src/main/java/com/example/reviews:review)'</code>
+  The result of this command reveals that Amir is the reviewer!
+  Next, since you know the reviewer is Amir, you can use the query function to seek which tag Amir has in the `BUILD` file to see what dish is there.
+  The command <code>bazel query 'attr(tags, "pizza", //src/main/java/com/example/customers/...)'</code> output that Amir is the only customer that ordered a pizza and is the reviewer which gives us the answer.
+  </p>
+  </devsite-expandable>
+</div>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Congratulations! You have now run several basic queries, which you can try out on own projects. To learn more about the query language syntax, refer to the <a href="https://bazel.build/query/language">Query reference page</a>. Want more advanced queries? The <a href="https://bazel.build/query/guide">Query guide</a> showcases an in-depth list of more use cases than are covered in this guide.</p>
+
+	
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script defer src="/js/click-to-copy.js" crossorigin="anonymous"></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

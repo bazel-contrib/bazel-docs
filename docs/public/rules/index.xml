@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rules on Bazel Documentation</title>
+    <link>http://localhost:1313/rules/</link>
+    <description>Recent content in Rules on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/rules/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>.bzl style guide</title>
+      <link>http://localhost:1313/rules/bzl-style/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/bzl-style/</guid>
+      <description>&lt;p&gt;This page covers basic style guidelines for Starlark and also includes&#xA;information on macros and rules.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;http://localhost:1313/rules/language/&#34;&gt;Starlark&lt;/a&gt; is a&#xA;language that defines how software is built, and as such it is both a&#xA;programming and a configuration language.&lt;/p&gt;&#xA;&lt;p&gt;You will use Starlark to write &lt;code&gt;BUILD&lt;/code&gt; files, macros, and build rules. Macros and&#xA;rules are essentially meta-languages - they define how &lt;code&gt;BUILD&lt;/code&gt; files are written.&#xA;&lt;code&gt;BUILD&lt;/code&gt; files are intended to be simple and repetitive.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Challenges of Writing Rules</title>
+      <link>http://localhost:1313/rules/challenges/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/challenges/</guid>
+      <description>&lt;p&gt;This page gives a high-level overview of the specific issues and challenges&#xA;of writing efficient Bazel rules.&lt;/p&gt;&#xA;&lt;h2 id=&#34;summary-requirements&#34;&gt;Summary Requirements&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Assumption: Aim for Correctness, Throughput, Ease of Use &amp;amp; Latency&lt;/li&gt;&#xA;&lt;li&gt;Assumption: Large Scale Repositories&lt;/li&gt;&#xA;&lt;li&gt;Assumption: BUILD-like Description Language&lt;/li&gt;&#xA;&lt;li&gt;Historic: Hard Separation between Loading, Analysis, and Execution is&#xA;Outdated, but still affects the API&lt;/li&gt;&#xA;&lt;li&gt;Intrinsic: Remote Execution and Caching are Hard&lt;/li&gt;&#xA;&lt;li&gt;Intrinsic: Using Change Information for Correct and Fast Incremental Builds&#xA;requires Unusual Coding Patterns&lt;/li&gt;&#xA;&lt;li&gt;Intrinsic: Avoiding Quadratic Time and Memory Consumption is Hard&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;assumptions&#34;&gt;Assumptions&lt;/h2&gt;&#xA;&lt;p&gt;Here are some assumptions made about the build system, such as need for&#xA;correctness, ease of use, throughput, and large scale repositories. The&#xA;following sections address these assumptions and offer guidelines to ensure&#xA;rules are written in an effective manner.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Creating a Legacy Macro</title>
+      <link>http://localhost:1313/rules/legacy-macro-tutorial/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/legacy-macro-tutorial/</guid>
+      <description>&lt;p&gt;IMPORTANT: This tutorial is for &lt;a href=&#34;http://localhost:1313/extending/legacy-macros/&#34;&gt;&lt;em&gt;legacy macros&lt;/em&gt;&lt;/a&gt;. If&#xA;you only need to support Bazel 8 or newer, we recommend using &lt;a href=&#34;http://localhost:1313/extending/macros/&#34;&gt;symbolic&#xA;macros&lt;/a&gt; instead; take a look at &lt;a href=&#34;macro-tutorial&#34;&gt;Creating a Symbolic&#xA;Macro&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Imagine that you need to run a tool as part of your build. For example, you&#xA;may want to generate or preprocess a source file, or compress a binary. In this&#xA;tutorial, you are going to create a legacy macro that resizes an image.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Creating a Symbolic Macro</title>
+      <link>http://localhost:1313/rules/macro-tutorial/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/macro-tutorial/</guid>
+      <description>&lt;p&gt;IMPORTANT: This tutorial is for &lt;a href=&#34;http://localhost:1313/extending/macros/&#34;&gt;&lt;em&gt;symbolic macros&lt;/em&gt;&lt;/a&gt; – the new&#xA;macro system introduced in Bazel 8. If you need to support older Bazel versions,&#xA;you will want to write a &lt;a href=&#34;http://localhost:1313/extending/legacy-macros/&#34;&gt;legacy macro&lt;/a&gt; instead; take&#xA;a look at &lt;a href=&#34;legacy-macro-tutorial&#34;&gt;Creating a Legacy Macro&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Imagine that you need to run a tool as part of your build. For example, you&#xA;may want to generate or preprocess a source file, or compress a binary. In this&#xA;tutorial, you are going to create a symbolic macro that resizes an image.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Deploying Rules</title>
+      <link>http://localhost:1313/rules/deploying/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/deploying/</guid>
+      <description>&lt;p&gt;This page is for rule writers who are planning to make their rules available&#xA;to others.&lt;/p&gt;&#xA;&lt;p&gt;We recommend you start a new ruleset from the template repository:&#xA;&lt;a href=&#34;https://github.com/bazel-contrib/rules-template&#34;&gt;https://github.com/bazel-contrib/rules-template&lt;/a&gt;&#xA;That template follows the recommendations below, and includes API documentation generation&#xA;and sets up a CI/CD pipeline to make it trivial to distribute your ruleset.&lt;/p&gt;&#xA;&lt;h2 id=&#34;hosting-and-naming-rules&#34;&gt;Hosting and naming rules&lt;/h2&gt;&#xA;&lt;p&gt;New rules should go into their own GitHub repository under your organization.&#xA;Start a thread on &lt;a href=&#34;https://github.com/bazelbuild/bazel/discussions&#34;&gt;GitHub&lt;/a&gt;&#xA;if you feel like your rules belong in the &lt;a href=&#34;https://github.com/bazelbuild&#34;&gt;bazelbuild&lt;/a&gt;&#xA;organization.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Frequently Asked Questions</title>
+      <link>http://localhost:1313/rules/faq/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/faq/</guid>
+      <description>&lt;p&gt;These are some common issues and questions with writing extensions.&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-is-my-file-not-produced--my-action-never-executed&#34;&gt;Why is my file not produced / my action never executed?&lt;/h2&gt;&#xA;&lt;p&gt;Bazel only executes the actions needed to produce the &lt;em&gt;requested&lt;/em&gt; output files.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;If the file you want has a label, you can request it directly:&#xA;&lt;code&gt;bazel build //pkg:myfile.txt&lt;/code&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;If the file is in an output group of the target, you may need to specify that&#xA;output group on the command line:&#xA;&lt;code&gt;bazel build //pkg:mytarget --output_groups=foo&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Optimizing Performance</title>
+      <link>http://localhost:1313/rules/performance/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/performance/</guid>
+      <description>&lt;p&gt;When writing rules, the most common performance pitfall is to traverse or copy&#xA;data that is accumulated from dependencies. When aggregated over the whole&#xA;build, these operations can easily take O(N^2) time or space. To avoid this, it&#xA;is crucial to understand how to use depsets effectively.&lt;/p&gt;&#xA;&lt;p&gt;This can be hard to get right, so Bazel also provides a memory profiler that&#xA;assists you in finding spots where you might have made a mistake. Be warned:&#xA;The cost of writing an inefficient rule may not be evident until it is in&#xA;widespread use.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rules Tutorial</title>
+      <link>http://localhost:1313/rules/rules-tutorial/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/rules-tutorial/</guid>
+      <description>&lt;!--  --&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/bazelbuild/starlark&#34;&gt;Starlark&lt;/a&gt; is a Python-like&#xA;configuration language originally developed for use in Bazel and since adopted&#xA;by other tools. Bazel&amp;rsquo;s &lt;code&gt;BUILD&lt;/code&gt; and &lt;code&gt;.bzl&lt;/code&gt; files are written in a dialect of&#xA;Starlark properly known as the &amp;ldquo;Build Language&amp;rdquo;, though it is often simply&#xA;referred to as &amp;ldquo;Starlark&amp;rdquo;, especially when emphasizing that a feature is&#xA;expressed in the Build Language as opposed to being a built-in or &amp;ldquo;native&amp;rdquo; part&#xA;of Bazel. Bazel augments the core language with numerous build-related functions&#xA;such as &lt;code&gt;glob&lt;/code&gt;, &lt;code&gt;genrule&lt;/code&gt;, &lt;code&gt;java_binary&lt;/code&gt;, and so on.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Starlark Language</title>
+      <link>http://localhost:1313/rules/language/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/language/</guid>
+      <description>&lt;!--  --&gt;&#xA;&lt;p&gt;This page is an overview of &lt;a href=&#34;https://github.com/bazelbuild/starlark&#34;&gt;Starlark&lt;/a&gt;,&#xA;formerly known as Skylark, the language used in Bazel. For a complete list of&#xA;functions and types, see the &lt;a href=&#34;http://localhost:1313/rules/lib/overview/&#34;&gt;Bazel API reference&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;For more information about the language, see &lt;a href=&#34;https://github.com/bazelbuild/starlark/&#34;&gt;Starlark&amp;rsquo;s GitHub repo&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;For the authoritative specification of the Starlark syntax and&#xA;behavior, see the &lt;a href=&#34;https://github.com/bazelbuild/starlark/blob/master/spec.md&#34;&gt;Starlark Language Specification&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;syntax&#34;&gt;Syntax&lt;/h2&gt;&#xA;&lt;p&gt;Starlark&amp;rsquo;s syntax is inspired by Python3. This is valid syntax in Starlark:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fizz_buzz&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&amp;#34;Print Fizz Buzz numbers from 1 to n.&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;range&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Fizz&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Buzz&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;fizz_buzz&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Starlark&amp;rsquo;s semantics can differ from Python, but behavioral differences are&#xA;rare, except for cases where Starlark raises an error. The following Python&#xA;types are supported:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Testing</title>
+      <link>http://localhost:1313/rules/testing/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/testing/</guid>
+      <description>&lt;p&gt;There are several different approaches to testing Starlark code in Bazel. This&#xA;page gathers the current best practices and frameworks by use case.&lt;/p&gt;&#xA;&lt;h2 id=&#34;testing-rules&#34;&gt;Testing rules&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/bazelbuild/bazel-skylib&#34;&gt;Skylib&lt;/a&gt; has a test framework called&#xA;&lt;a href=&#34;https://github.com/bazelbuild/bazel-skylib/blob/main/lib/unittest.bzl&#34;&gt;&lt;code&gt;unittest.bzl&lt;/code&gt;&lt;/a&gt;&#xA;for checking the analysis-time behavior of rules, such as their actions and&#xA;providers. Such tests are called &amp;ldquo;analysis tests&amp;rdquo; and are currently the best&#xA;option for testing the inner workings of rules.&lt;/p&gt;&#xA;&lt;p&gt;Some caveats:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Test assertions occur within the build, not a separate test runner process.&#xA;Targets that are created by the test must be named such that they do not&#xA;collide with targets from other tests or from the build. An error that&#xA;occurs during the test is seen by Bazel as a build breakage rather than a&#xA;test failure.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Using Macros to Create Custom Verbs</title>
+      <link>http://localhost:1313/rules/verbs-tutorial/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/verbs-tutorial/</guid>
+      <description>&lt;p&gt;Day-to-day interaction with Bazel happens primarily through a few commands:&#xA;&lt;code&gt;build&lt;/code&gt;, &lt;code&gt;test&lt;/code&gt;, and &lt;code&gt;run&lt;/code&gt;. At times, though, these can feel limited: you may&#xA;want to push packages to a repository, publish documentation for end-users, or&#xA;deploy an application with Kubernetes. But Bazel doesn&amp;rsquo;t have a &lt;code&gt;publish&lt;/code&gt; or&#xA;&lt;code&gt;deploy&lt;/code&gt; command – where do these actions fit in?&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-bazel-run-command&#34;&gt;The bazel run command&lt;/h2&gt;&#xA;&lt;p&gt;Bazel&amp;rsquo;s focus on hermeticity, reproducibility, and incrementality means the&#xA;&lt;code&gt;build&lt;/code&gt; and &lt;code&gt;test&lt;/code&gt; commands aren&amp;rsquo;t helpful for the above tasks. These actions&#xA;may run in a sandbox, with limited network access, and aren&amp;rsquo;t guaranteed to be&#xA;re-run with every &lt;code&gt;bazel build&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Writing Rules on Windows</title>
+      <link>http://localhost:1313/rules/windows/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/rules/windows/</guid>
+      <description>&lt;p&gt;This page focuses on writing Windows-compatible rules, common problems of&#xA;writing portable rules, and some solutions.&lt;/p&gt;&#xA;&lt;h2 id=&#34;paths&#34;&gt;Paths&lt;/h2&gt;&#xA;&lt;p&gt;Problems:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Length limit&lt;/strong&gt;: maximum path length is 259 characters.&lt;/p&gt;&#xA;&lt;p&gt;Though Windows also supports longer paths (up to 32767 characters), many programs are built with&#xA;the lower limit.&lt;/p&gt;&#xA;&lt;p&gt;Be aware of this about programs you run in the actions.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Working directory&lt;/strong&gt;: is also limited to 259 characters.&lt;/p&gt;&#xA;&lt;p&gt;Processes cannot &lt;code&gt;cd&lt;/code&gt; into a directory longer than 259 characters.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

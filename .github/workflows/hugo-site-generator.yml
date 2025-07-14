@@ -20,68 +20,41 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                  python-version: "3.12"
-
-            - name: Set up Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "18"
-
-            - name: Set up Hugo
-              uses: peaceiris/actions-hugo@v3
-              with:
-                  hugo-version: "0.146.0"
-                  extended: true
-
-            - name: Install Python dependencies
+            - name: Build Hugo generator image
               run: |
-                  python -m pip install --upgrade pip
-                  pip install PyYAML requests gitpython click jinja2 markdown
+                  docker build -t hugo-generator .
 
-            - name: Install Node.js dependencies
+            - name: Generate Hugo site
               run: |
-                  npm install -g postcss-cli autoprefixer
-
-            - name: Create work directories
-              run: |
-                  mkdir -p work/bazel-source
-                  mkdir -p work/hugo-site
-
-            - name: Clone Bazel documentation source
-              run: |
-                  cd work/bazel-source
-                  git clone --depth 1 --branch master https://github.com/bazelbuild/bazel.git .
-                  echo "Bazel source cloned successfully"
-                  ls -la site/en/
-
-            - name: Convert Devsite to Hugo
-              run: |
-                  python cli.py convert \
-                    --source work/bazel-source/site/en \
-                    --output work/hugo-site \
-                    --config config.yaml \
-                    --verbose
-
-            - name: Validate Hugo site structure
-              run: |
-                  python cli.py validate \
-                    --path work/hugo-site \
-                    --verbose
-
-            - name: Set up Hugo modules
-              run: |
-                  cd work/hugo-site
-                  hugo mod init github.com/${{ github.repository }}
-                  hugo mod get github.com/google/docsy@latest
-                  hugo mod get github.com/google/docsy/dependencies@latest
-
-            - name: Build Hugo site
-              run: |
-                  cd work/hugo-site
-                  hugo --minify --environment production
+                  docker run --rm \
+                    -v $(pwd):/app \
+                    -w /app \
+                    hugo-generator \
+                    bash -c "
+                      # Clone Bazel documentation source
+                      cd work/bazel-source
+                      git clone --depth 1 --branch master https://github.com/bazelbuild/bazel.git .
+                      echo 'Bazel source cloned successfully'
+                      
+                      # Convert Devsite to Hugo
+                      cd /app
+                      python cli.py convert \
+                        --source work/bazel-source/site/en \
+                        --output work/hugo-site \
+                        --config config.yaml \
+                        --verbose
+                      
+                      # Validate Hugo site structure
+                      python cli.py validate \
+                        --path work/hugo-site \
+                        --verbose
+                      
+                      # Set up Hugo modules and build
+                      cd work/hugo-site
+                      hugo mod init github.com/${{ github.repository }}
+                      hugo mod get github.com/google/docsy@latest
+                      hugo --minify --environment production
+                    "
 
             - name: Deploy to GitHub Pages
               if: github.ref == 'refs/heads/main'
@@ -89,7 +62,7 @@ jobs:
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: work/hugo-site/public
-                  cname: docs.bazel.build
+                  cname: bazel.build
 
             - name: Upload site artifacts
               uses: actions/upload-artifact@v4

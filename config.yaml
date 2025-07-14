@@ -11,7 +11,7 @@ source_repo:
 hugo:
   title: "Bazel Documentation"
   description: "Build and test software of any size, quickly and reliably"
-  baseURL: "https://docs.bazel.build"
+  baseURL: "https://bazel.build/docs"
   languageCode: "en-us"
   theme: "docsy"
   

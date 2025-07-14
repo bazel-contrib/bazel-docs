@@ -1,0 +1,20 @@
+features:
+- buildpack-stack=ubuntu-22
+ingress:
+  rules:
+  - component:
+      name: bazel-docs
+    match:
+      path:
+        prefix: /
+name: bazel-docs
+region: nyc
+static_sites:
+- dockerfile_path: ./Dockerfile
+  github:
+    branch: parser_development_with_llm
+    deploy_on_push: true
+    repo: alan707/bazel_docs
+  name: bazel-docs
+  output_dir: /workspace/public
+  source_dir: /

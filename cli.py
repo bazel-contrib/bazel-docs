@@ -182,9 +182,8 @@ def full_pipeline(ctx, source, output, build, serve):
             os.chdir(output)
             
             # Initialize Hugo modules
-            subprocess.run(['hugo', 'mod', 'init', 'github.com/example/bazel-docs'], check=True)
+            subprocess.run(['hugo', 'mod', 'init', 'github.com/alan707/bazel-docs'], check=True)
             subprocess.run(['hugo', 'mod', 'get', 'github.com/google/docsy@latest'], check=True)
-            subprocess.run(['hugo', 'mod', 'get', 'github.com/google/docsy/dependencies@latest'], check=True)
             
             # Build site
             subprocess.run(['hugo', '--minify'], check=True)

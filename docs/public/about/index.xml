@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>About on Bazel Documentation</title>
+    <link>http://localhost:1313/about/</link>
+    <description>Recent content in About on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bazel roadmap</title>
+      <link>http://localhost:1313/about/roadmap/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/roadmap/</guid>
+      <description>&lt;p&gt;As Bazel continues to evolve in response to your needs, we want to share our&#xA;2025 roadmap update.&lt;/p&gt;&#xA;&lt;p&gt;We plan to bring Bazel 9.0&#xA;&lt;a href=&#34;https://bazel.build/release/versioning&#34;&gt;long term support (LTS)&lt;/a&gt; to you in late&#xA;2025.&lt;/p&gt;&#xA;&lt;h2 id=&#34;full-transition-to-bzlmod&#34;&gt;Full transition to Bzlmod&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://bazel.build/docs/bzlmod&#34;&gt;Bzlmod&lt;/a&gt; has been the standard external&#xA;dependency system in Bazel since Bazel 7, replacing the legacy WORKSPACE system.&#xA;As of March 2025, the &lt;a href=&#34;https://registry.bazel.build/&#34;&gt;Bazel Central Registry&lt;/a&gt;&#xA;hosts more than 650 modules.&lt;/p&gt;&#xA;&lt;p&gt;With Bazel 9, we will completely remove WORKSPACE functionality, and Bzlmod will&#xA;be the only way to introduce external dependencies in Bazel. To minimize the&#xA;migration cost for the community, we&amp;rsquo;ll focus on further improving our migration&#xA;&lt;a href=&#34;https://bazel.build/external/migration&#34;&gt;guide&lt;/a&gt; and&#xA;&lt;a href=&#34;https://github.com/bazelbuild/bazel-central-registry/tree/main/tools#migrate_to_bzlmodpy&#34;&gt;tool&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel Vision</title>
+      <link>http://localhost:1313/about/vision/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/vision/</guid>
+      <description>&lt;p&gt;Any software developer can efficiently build, test, and package&#xA;any project, of any size or complexity, with tooling that&amp;rsquo;s easy to adopt and&#xA;extend.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Engineers can take build fundamentals for granted.&lt;/strong&gt; Software developers&#xA;focus on the creative process of authoring code because the mechanical&#xA;process of build and test is solved. When customizing the build system to&#xA;support new languages or unique organizational needs, users focus on the&#xA;aspects of extensibility that are unique to their use case, without having&#xA;to reinvent the basic plumbing.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>FAQ</title>
+      <link>http://localhost:1313/about/faq/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/faq/</guid>
+      <description>&lt;p&gt;If you have questions or need support, see &lt;a href=&#34;http://localhost:1313/help/&#34;&gt;Getting Help&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-is-bazel&#34;&gt;What is Bazel?&lt;/h2&gt;&#xA;&lt;p&gt;Bazel is a tool that automates software builds and tests. Supported build tasks include running compilers and linkers to produce executable programs and libraries, and assembling deployable packages for Android, iOS and other target environments. Bazel is similar to other tools like Make, Ant, Gradle, Buck, Pants and Maven.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-is-special-about-bazel&#34;&gt;What is special about Bazel?&lt;/h2&gt;&#xA;&lt;p&gt;Bazel was designed to fit the way software is developed at Google. It has the following features:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Intro to Bazel</title>
+      <link>http://localhost:1313/about/intro/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/intro/</guid>
+      <description>&lt;p&gt;Bazel is an open-source build and test tool similar to Make, Maven, and Gradle.&#xA;It uses a human-readable, high-level build language. Bazel supports projects in&#xA;multiple languages and builds outputs for multiple platforms. Bazel supports&#xA;large codebases across multiple repositories, and large numbers of users.&lt;/p&gt;&#xA;&lt;h2 id=&#34;benefits&#34;&gt;Benefits&lt;/h2&gt;&#xA;&lt;p&gt;Bazel offers the following advantages:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;High-level build language.&lt;/strong&gt; Bazel uses an abstract, human-readable&#xA;language to describe the build properties of your project at a high&#xA;semantical level. Unlike other tools, Bazel operates on the &lt;em&gt;concepts&lt;/em&gt;&#xA;of libraries, binaries, scripts, and data sets, shielding you from the&#xA;complexity of writing individual calls to tools such as compilers and&#xA;linkers.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why Bazel?</title>
+      <link>http://localhost:1313/about/why/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/why/</guid>
+      <description>&lt;p&gt;Bazel is a &lt;a href=&#34;#fast&#34;&gt;fast&lt;/a&gt;, &lt;a href=&#34;#correct&#34;&gt;correct&lt;/a&gt;, and &lt;a href=&#34;#extensible&#34;&gt;extensible&lt;/a&gt;&#xA;build tool with &lt;a href=&#34;#integrated-testing&#34;&gt;integrated testing&lt;/a&gt; that supports multiple&#xA;&lt;a href=&#34;#multi-language&#34;&gt;languages&lt;/a&gt;, &lt;a href=&#34;#multi-repository&#34;&gt;repositories&lt;/a&gt;, and&#xA;&lt;a href=&#34;#multi-platform&#34;&gt;platforms&lt;/a&gt; in an industry-leading &lt;a href=&#34;#ecosystem&#34;&gt;ecosystem&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;bazel-is-fast&#34;&gt;Bazel is fast&lt;/h2&gt;&#xA;&lt;p&gt;Bazel knows exactly what input files each build command needs, avoiding&#xA;unnecessary work by re-running only when the set of input files have&#xA;changed between each build.&#xA;It runs build commands with as much parallelism as possible, either within the&#xA;same computer or on &lt;a href=&#34;http://localhost:1313/remote/rbe/&#34;&gt;remote build nodes&lt;/a&gt;. If the structure of build&#xA;allows for it, it can run thousands of build or test commands at the same time.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

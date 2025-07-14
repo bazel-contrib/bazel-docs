@@ -1,0 +1,206 @@
+// Converted from Devsite CSS to SCSS for Hugo/Docsy
+// Generated automatically by devsite-to-hugo-converter
+
+
+// Responsive breakpoint mixins
+$breakpoints: (
+  mobile: 576px,
+  tablet: 768px,
+  desktop: 992px,
+  large: 1200px
+);
+
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}.";
+  }
+}
+
+@mixin respond-below($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint) - 1px) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}.";
+  }
+}
+
+
+// Color variables
+$color-1: #000;
+$color-2: #0c713a;
+$color-3: #1e431e;
+$color-4: #f8f9fa;
+$color-5: #fff;
+
+
+// Vendor prefix mixins
+@mixin transform($value) {
+  -webkit-transform: $value;
+  -moz-transform: $value;
+  -ms-transform: $value;
+  transform: $value;
+}
+
+@mixin transition($value) {
+  -webkit-transition: $value;
+  -moz-transition: $value;
+  -ms-transition: $value;
+  transition: $value;
+}
+
+@mixin box-shadow($value) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  box-shadow: $value;
+}
+
+@mixin border-radius($value) {
+  -webkit-border-radius: $value;
+  -moz-border-radius: $value;
+  border-radius: $value;
+}
+
+/* Hero row - main  */
+.bazel-hero-full-bleed-light {
+  background: linear-gradient(180deg, $color-2 0%, $color-3 100%);
+  width: 100vw;
+}
+
+/* Required change to enforce custom above-the-fold dark background. */
+/* Note: dark theme not enabled for Bazel tenant. */
+.bazel-hero {
+  color: $color-5 !important;
+}
+
+.bazel-hero .devsite-landing-row-item-image {
+  width: 400px;
+}
+
+/* Required change to enforce custom above-the-fold dark background. */
+/* Note: dark theme not enabled for Bazel tenant. */
+.bazel-hero .devsite-landing-row-header-text .devsite-landing-row-description,
+.bazel-hero .devsite-landing-row-inner .devsite-landing-row-item-description h3,
+.bazel-hero .devsite-landing-row-inner .devsite-landing-row-item-description-content,
+.bazel-hero .devsite-landing-row-inner .devsite-landing-row-item-icon-container
+{
+  color: $color-5 !important;
+}
+
+.bazel-hero .devsite-landing-row-header-text {
+  margin-bottom: 20px;
+}
+
+.bazel-hero h3 a,
+.bazel-hero .devsite-landing-row-header-text h2 {
+  color: $color-5;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 68px;
+}
+
+.bazel-button-light {
+  background: $color-5;
+  border-radius: 4px;
+  color: $color-1;
+  text-transform: none;
+}
+
+/* Hero row - Why Bazel  */
+.bazel-hero-full-bleed-dark {
+  background: linear-gradient(180deg, $color-3 0%, $color-3 100%);
+  width: 100vw;
+}
+
+.bazel-hero-full-bleed-dark .devsite-landing-row-item-body h3 {
+  font-size: 24px;
+  padding: 15px 0;
+}
+
+.bazel-hero-full-bleed-dark .devsite-landing-row-item-icon {
+  height: 68px;
+  width: 85px;
+}
+
+.bazel-hero .devsite-landing-row-item-description {
+  padding: 0 15px;
+}
+
+/* Essential Bazel row  */
+
+/* [1] Required change for custom below-the-fold light background. */
+/* Note: dark theme not enabled for Bazel tenant. */
+.bazel-body-light-cards {
+  color: $color-1 !important; /* [1] */
+  margin-top: 40px;
+}
+
+.bazel-body-light-cards .devsite-landing-row-item img {
+  max-width: 75%;
+}
+
+.bazel-body-light-cards .devsite-landing-row-item-body h3,
+.bazel-body-light-cards .devsite-landing-row-item-body h3 a {
+  color: $color-1;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.bazel-button-dark {
+  background: $color-1;
+  border-radius: 4px;
+  color: $color-5;
+  text-transform: none;
+}
+
+/* RELEASE NOTES ROW */
+
+/* [1] Required change for custom below-the-fold light background. */
+/* Note: dark theme not enabled for Bazel tenant. */
+.bazel-body-light-row {
+  background: $color-4 !important; /* [1] */
+  color: $color-1 !important; /* [1] */
+  padding-top: 40px;
+  width: 100vw;
+}
+
+/* Required change to enforce custom Bazel color palette. */
+.bazel-body-cta {
+  background: $color-3 !important;
+}
+
+/* Jumpdown Links */
+.bazel-jumpdown-row {
+  align-items: center;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  padding: 0;
+}
+
+.bazel-jumpdown-row .bazel-jumpdown-row-html {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.bazel-jumpdown-row a {
+  color: var(--tenant-primary-text-color);
+  padding: 20px;
+  text-decoration: none;
+}
+
+.bazel-jumpdown-row a:hover,
+.bazel-jumpdown-row a:focus {
+  color: $color-2;
+}
+
+.bazel-jumpdown-row .material-icons {
+  font: 400 22px 'Material Icons';
+  margin-inline-start: 8px;
+  vertical-align: text-bottom;
+}

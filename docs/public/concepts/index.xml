@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Understanding Bazel on Bazel Documentation</title>
+    <link>http://localhost:1313/concepts/</link>
+    <description>Recent content in Understanding Bazel on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/concepts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BUILD files</title>
+      <link>http://localhost:1313/concepts/build-files/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/concepts/build-files/</guid>
+      <description>&lt;p&gt;The previous sections described packages, targets and labels, and the&#xA;build dependency graph abstractly. This section describes the concrete syntax&#xA;used to define a package.&lt;/p&gt;&#xA;&lt;p&gt;By definition, every package contains a &lt;code&gt;BUILD&lt;/code&gt; file, which is a short&#xA;program.&lt;/p&gt;&#xA;&lt;p&gt;Note: The &lt;code&gt;BUILD&lt;/code&gt; file can be named either &lt;code&gt;BUILD&lt;/code&gt; or &lt;code&gt;BUILD.bazel&lt;/code&gt;. If both&#xA;files exist, &lt;code&gt;BUILD.bazel&lt;/code&gt; takes precedence over &lt;code&gt;BUILD&lt;/code&gt;.&#xA;For simplicity&amp;rsquo;s sake, the documentation refers to these files simply as &lt;code&gt;BUILD&lt;/code&gt;&#xA;files.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Dependencies</title>
+      <link>http://localhost:1313/concepts/dependencies/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/concepts/dependencies/</guid>
+      <description>&lt;p&gt;A target &lt;code&gt;A&lt;/code&gt; &lt;em&gt;depends upon&lt;/em&gt; a target &lt;code&gt;B&lt;/code&gt; if &lt;code&gt;B&lt;/code&gt; is needed by &lt;code&gt;A&lt;/code&gt; at build or&#xA;execution time. The &lt;em&gt;depends upon&lt;/em&gt; relation induces a&#xA;&lt;a href=&#34;https://en.wikipedia.org/wiki/Directed_acyclic_graph&#34;&gt;Directed Acyclic Graph&lt;/a&gt;&#xA;(DAG) over targets, and it is called a &lt;em&gt;dependency graph&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;A target&amp;rsquo;s &lt;em&gt;direct&lt;/em&gt; dependencies are those other targets reachable by a path&#xA;of length 1 in the dependency graph. A target&amp;rsquo;s &lt;em&gt;transitive&lt;/em&gt; dependencies are&#xA;those targets upon which it depends via a path of any length through the graph.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Labels</title>
+      <link>http://localhost:1313/concepts/labels/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/concepts/labels/</guid>
+      <description>&lt;p&gt;A &lt;strong&gt;label&lt;/strong&gt; is an identifier for a target. A typical label in its full canonical&#xA;form looks like:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;@@myrepo//my/app/main:app_binary&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first part of the label is the repository name, &lt;code&gt;@@myrepo&lt;/code&gt;. The double-&lt;code&gt;@&lt;/code&gt;&#xA;syntax signifies that this is a &lt;a href=&#34;http://localhost:1313/external/overview#canonical-repo-name/&#34;&gt;&lt;em&gt;canonical&lt;/em&gt; repo&#xA;name&lt;/a&gt;, which is unique within&#xA;the workspace. Labels with canonical repo names unambiguously identify a target&#xA;no matter which context they appear in.&lt;/p&gt;&#xA;&lt;p&gt;Often the canonical repo name is an arcane string that looks like&#xA;&lt;code&gt;@@rules_java++toolchains+local_jdk&lt;/code&gt;. What is much more commonly seen is&#xA;labels with an &lt;a href=&#34;http://localhost:1313/external/overview#apparent-repo-name/&#34;&gt;&lt;em&gt;apparent&lt;/em&gt; repo name&lt;/a&gt;,&#xA;which looks like:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Migrating to Platforms</title>
+      <link>http://localhost:1313/concepts/platforms/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/concepts/platforms/</guid>
+      <description>&lt;p&gt;Bazel has sophisticated &lt;a href=&#34;#background&#34;&gt;support&lt;/a&gt; for modeling&#xA;&lt;a href=&#34;http://localhost:1313/extending/platforms&#34;&gt;platforms&lt;/a&gt; and &lt;a href=&#34;http://localhost:1313/extending/toolchains&#34;&gt;toolchains&lt;/a&gt; for multi-architecture and&#xA;cross-compiled builds.&lt;/p&gt;&#xA;&lt;p&gt;This page summarizes the state of this support.&lt;/p&gt;&#xA;&lt;p&gt;Key Point: Bazel&amp;rsquo;s platform and toolchain APIs are available today. Not all&#xA;languages support them. Use these APIs with your project if you can. Bazel is&#xA;migrating all major languages so eventually all builds will be platform-based.&lt;/p&gt;&#xA;&lt;p&gt;See also:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://localhost:1313/extending/platforms&#34;&gt;Platforms&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://localhost:1313/extending/toolchains&#34;&gt;Toolchains&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#background&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;status&#34;&gt;Status&lt;/h2&gt;&#xA;&lt;h3 id=&#34;c&#34;&gt;C++&lt;/h3&gt;&#xA;&lt;p&gt;C++ rules use platforms to select toolchains when&#xA;&lt;code&gt;--incompatible_enable_cc_toolchain_resolution&lt;/code&gt; is set.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Repositories, workspaces, packages, and targets</title>
+      <link>http://localhost:1313/concepts/build-ref/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/concepts/build-ref/</guid>
+      <description>&lt;p&gt;Bazel builds software from source code organized in directory trees called&#xA;repositories. A defined set of repositories comprises the workspace. Source&#xA;files in repositories are organized in a nested hierarchy of packages, where&#xA;each package is a directory that contains a set of related source files and one&#xA;&lt;code&gt;BUILD&lt;/code&gt; file. The &lt;code&gt;BUILD&lt;/code&gt; file specifies what software outputs can be built from&#xA;the source.&lt;/p&gt;&#xA;&lt;h3 id=&#34;repositories&#34;&gt;Repositories&lt;/h3&gt;&#xA;&lt;p&gt;Source files used in a Bazel build are organized in &lt;em&gt;repositories&lt;/em&gt; (often&#xA;shortened to &lt;em&gt;repos&lt;/em&gt;). A repo is a directory tree with a boundary marker file at&#xA;its root; such a boundary marker file could be &lt;code&gt;MODULE.bazel&lt;/code&gt;, &lt;code&gt;REPO.bazel&lt;/code&gt;, or&#xA;in legacy contexts, &lt;code&gt;WORKSPACE&lt;/code&gt; or &lt;code&gt;WORKSPACE.bazel&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Visibility</title>
+      <link>http://localhost:1313/concepts/visibility/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/concepts/visibility/</guid>
+      <description>&lt;p&gt;This page covers Bazel&amp;rsquo;s two visibility systems:&#xA;&lt;a href=&#34;#target-visibility&#34;&gt;target visibility&lt;/a&gt; and &lt;a href=&#34;#load-visibility&#34;&gt;load visibility&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Both types of visibility help other developers distinguish between your&#xA;library&amp;rsquo;s public API and its implementation details, and help enforce structure&#xA;as your workspace grows. You can also use visibility when deprecating a public&#xA;API to allow current users while denying new ones.&lt;/p&gt;&#xA;&lt;h2 id=&#34;target-visibility&#34;&gt;Target visibility&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Target visibility&lt;/strong&gt; controls who may depend on your target — that is, who may&#xA;use your target&amp;rsquo;s label inside an attribute such as &lt;code&gt;deps&lt;/code&gt;. A target will fail&#xA;to build during the &lt;a href=&#34;http://localhost:1313/reference/glossary#analysis-phase/&#34;&gt;analysis&lt;/a&gt; phase if it&#xA;violates the visibility of one of its dependencies.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

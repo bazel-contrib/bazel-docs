@@ -1,0 +1,2095 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>The Bazel codebase | Bazel Documentation</title>
+<meta name="description" content="This document is a description of the codebase and how Bazel is structured. It is intended for people willing to contribute to Bazel, not for end-users.
+Introduction The codebase of Bazel is large (~350KLOC production code and ~260 KLOC test code) and no one is familiar with the whole landscape: everyone knows their particular valley very well, but few know what lies over the hills in every direction.
+In order for people midway upon the journey not to find themselves within a forest dark with the straightforward pathway being lost, this document tries to give an overview of the codebase so that it’s easier to get started with working on it.">
+<meta property="og:url" content="http://localhost:1313/contribute/codebase/">
+  <meta property="og:site_name" content="Bazel Documentation">
+  <meta property="og:title" content="The Bazel codebase">
+  <meta property="og:description" content="This document is a description of the codebase and how Bazel is structured. It is intended for people willing to contribute to Bazel, not for end-users.
+Introduction The codebase of Bazel is large (~350KLOC production code and ~260 KLOC test code) and no one is familiar with the whole landscape: everyone knows their particular valley very well, but few know what lies over the hills in every direction.
+In order for people midway upon the journey not to find themselves within a forest dark with the straightforward pathway being lost, this document tries to give an overview of the codebase so that it’s easier to get started with working on it.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="contribute">
+    <meta property="article:published_time" content="2024-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-01-01T00:00:00+00:00">
+
+  <meta itemprop="name" content="The Bazel codebase">
+  <meta itemprop="description" content="This document is a description of the codebase and how Bazel is structured. It is intended for people willing to contribute to Bazel, not for end-users.
+Introduction The codebase of Bazel is large (~350KLOC production code and ~260 KLOC test code) and no one is familiar with the whole landscape: everyone knows their particular valley very well, but few know what lies over the hills in every direction.
+In order for people midway upon the journey not to find themselves within a forest dark with the straightforward pathway being lost, this document tries to give an overview of the codebase so that it’s easier to get started with working on it.">
+  <meta itemprop="datePublished" content="2024-01-01T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-01T00:00:00+00:00">
+  <meta itemprop="wordCount" content="12748">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Bazel codebase">
+  <meta name="twitter:description" content="This document is a description of the codebase and how Bazel is structured. It is intended for people willing to contribute to Bazel, not for end-users.
+Introduction The codebase of Bazel is large (~350KLOC production code and ~260 KLOC test code) and no one is familiar with the whole landscape: everyone knows their particular valley very well, but few know what lies over the hills in every direction.
+In order for people midway upon the journey not to find themselves within a forest dark with the straightforward pathway being lost, this document tries to give an overview of the codebase so that it’s easier to get started with working on it.">
+<link href="/scss/main.css" rel="stylesheet">
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">Bazel Documentation</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/community/"><span>Community</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="td-sidebar-nav collapse" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m--li">
+  <a href="/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-"><span class="">Bazel Documentation</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-help-li">
+  <a href="/help/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-help"><span class="">Getting Help</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-concepts-li">
+  <a href="/concepts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-concepts"><span class="">Understanding Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsbuild-files-li">
+  <a href="/concepts/build-files/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsbuild-files"><span class="">BUILD files</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsdependencies-li">
+  <a href="/concepts/dependencies/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptslabels-li">
+  <a href="/concepts/labels/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptslabels"><span class="">Labels</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsplatforms-li">
+  <a href="/concepts/platforms/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsplatforms"><span class="">Migrating to Platforms</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsbuild-ref-li">
+  <a href="/concepts/build-ref/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsbuild-ref"><span class="">Repositories, workspaces, packages, and targets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsvisibility-li">
+  <a href="/concepts/visibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsvisibility"><span class="">Visibility</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-basics-li">
+  <a href="/basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-basics"><span class="">Basics</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsartifact-based-builds-li">
+  <a href="/basics/artifact-based-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsartifact-based-builds"><span class="">Artifact-Based Build Systems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsdependencies-li">
+  <a href="/basics/dependencies/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsdependencies"><span class="">Dependency Management</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsdistributed-builds-li">
+  <a href="/basics/distributed-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsdistributed-builds"><span class="">Distributed Builds</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicshermeticity-li">
+  <a href="/basics/hermeticity/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicshermeticity"><span class="">Hermeticity</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicstask-based-builds-li">
+  <a href="/basics/task-based-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicstask-based-builds"><span class="">Task-Based Build Systems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsbuild-systems-li">
+  <a href="/basics/build-systems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsbuild-systems"><span class="">Why a Build System?</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-tutorials-li">
+  <a href="/tutorials/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-tutorials"><span class="">Tutorials</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialsccp-toolchain-config-li">
+  <a href="/tutorials/ccp-toolchain-config/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialsccp-toolchain-config"><span class="">Bazel Tutorial: Configure C&#43;&#43; Toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-use-cases-li">
+  <a href="/tutorials/cpp-use-cases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-use-cases"><span class="">Common C&#43;&#43; Build Use Cases</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-dependency-li">
+  <a href="/tutorials/cpp-dependency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-dependency"><span class="">Review the dependency graph</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-labels-li">
+  <a href="/tutorials/cpp-labels/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-labels"><span class="">Use labels to reference targets</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-configure-li">
+  <a href="/configure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-configure"><span class="">Configure</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurebest-practices-li">
+  <a href="/configure/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurebest-practices"><span class="">Best Practices</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurecoverage-li">
+  <a href="/configure/coverage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurecoverage"><span class="">Code coverage with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configureattributes-li">
+  <a href="/configure/attributes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configureattributes"><span class="">Configurable Build Attributes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configureintegrate-cpp-li">
+  <a href="/configure/integrate-cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configureintegrate-cpp"><span class="">Integrating with C&#43;&#43; Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurewindows-li">
+  <a href="/configure/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurewindows"><span class="">Using Bazel on Windows</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-extending-li">
+  <a href="/extending/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-extending"><span class="">Extending Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingaspects-li">
+  <a href="/extending/aspects/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingaspects"><span class="">Aspects</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingauto-exec-groups-li">
+  <a href="/extending/auto-exec-groups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingauto-exec-groups"><span class="">Automatic Execution Groups (AEGs)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingconfig-li">
+  <a href="/extending/config/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingconfig"><span class="">Configurations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingdepsets-li">
+  <a href="/extending/depsets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingdepsets"><span class="">Depsets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingexec-groups-li">
+  <a href="/extending/exec-groups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingexec-groups"><span class="">Execution Groups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingconcepts-li">
+  <a href="/extending/concepts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingconcepts"><span class="">Extension Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendinglegacy-macros-li">
+  <a href="/extending/legacy-macros/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendinglegacy-macros"><span class="">Legacy Macros</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingmacros-li">
+  <a href="/extending/macros/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingmacros"><span class="">Macros</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingplatforms-li">
+  <a href="/extending/platforms/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingplatforms"><span class="">Platforms</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingrules-li">
+  <a href="/extending/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingrules"><span class="">Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingtoolchains-li">
+  <a href="/extending/toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingtoolchains"><span class="">Toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-external-li">
+  <a href="/external/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-external"><span class="">External</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmod-command-li">
+  <a href="/external/mod-command/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmod-command"><span class="">`mod` Command</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externallockfile-li">
+  <a href="/external/lockfile/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externallockfile"><span class="">Bazel Lockfile</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmodule-li">
+  <a href="/external/module/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmodule"><span class="">Bazel modules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalregistry-li">
+  <a href="/external/registry/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalregistry"><span class="">Bazel registries</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmigration-li">
+  <a href="/external/migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmigration"><span class="">Bzlmod Migration Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externaloverview-li">
+  <a href="/external/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externaloverview"><span class="">External dependencies overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalfaq-li">
+  <a href="/external/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalfaq"><span class="">Frequently asked questions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalextension-li">
+  <a href="/external/extension/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalextension"><span class="">Module extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalrepo-li">
+  <a href="/external/repo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalrepo"><span class="">Repository Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalvendor-li">
+  <a href="/external/vendor/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalvendor"><span class="">Vendor Mode</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalimages-li">
+  <a href="/external/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-externalimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-remote-li">
+  <a href="/remote/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-remote"><span class="">Remote</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoterules-li">
+  <a href="/remote/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoterules"><span class="">Adapting Bazel Rules for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-li">
+  <a href="/remote/bep/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep"><span class="">Build Event Protocol</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-examples-li">
+  <a href="/remote/bep-examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep-examples"><span class="">Build Event Protocol Examples</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-glossary-li">
+  <a href="/remote/bep-glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep-glossary"><span class="">Build Event Protocol Glossary</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteci-li">
+  <a href="/remote/ci/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteci"><span class="">Configuring Bazel CI to Test Rules for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecreating-li">
+  <a href="/remote/creating/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecreating"><span class="">Creating Persistent Workers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecache-local-li">
+  <a href="/remote/cache-local/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecache-local"><span class="">Debugging Remote Cache Hits for Local Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecache-remote-li">
+  <a href="/remote/cache-remote/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecache-remote"><span class="">Debugging Remote Cache Hits for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotedynamic-li">
+  <a href="/remote/dynamic/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotedynamic"><span class="">Dynamic Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteworkspace-li">
+  <a href="/remote/workspace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteworkspace"><span class="">Finding Non-Hermetic Behavior in WORKSPACE Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotemultiplex-li">
+  <a href="/remote/multiplex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotemultiplex"><span class="">Multiplex Workers (Experimental Feature)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteoutput-directories-li">
+  <a href="/remote/output-directories/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteoutput-directories"><span class="">Output Directory Layout</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotepersistent-li">
+  <a href="/remote/persistent/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotepersistent"><span class="">Persistent Workers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecaching-li">
+  <a href="/remote/caching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecaching"><span class="">Remote Caching</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoterbe-li">
+  <a href="/remote/rbe/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoterbe"><span class="">Remote Execution Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotesandbox-li">
+  <a href="/remote/sandbox/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotesandbox"><span class="">Troubleshooting Bazel Remote Execution with Docker Sandbox</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-query-li">
+  <a href="/query/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-query"><span class="">Query</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryaquery-li">
+  <a href="/query/aquery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryaquery"><span class="">Action Graph Query (aquery)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-querycquery-li">
+  <a href="/query/cquery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-querycquery"><span class="">Configurable Query (cquery)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryguide-li">
+  <a href="/query/guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryguide"><span class="">Query guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryquickstart-li">
+  <a href="/query/quickstart/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryquickstart"><span class="">Query quickstart</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-querylanguage-li">
+  <a href="/query/language/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-querylanguage"><span class="">The Bazel Query Reference</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryimages-li">
+  <a href="/query/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-queryimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-advanced-li">
+  <a href="/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-advanced"><span class="">Advanced</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-advancedperformance-li">
+  <a href="/advanced/performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-advancedperformance"><span class="">Performance</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancebuild-performance-breakdown-li">
+  <a href="/advanced/performance/build-performance-breakdown/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancebuild-performance-breakdown"><span class="">Breaking down build performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancebuild-performance-metrics-li">
+  <a href="/advanced/performance/build-performance-metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancebuild-performance-metrics"><span class="">Extracting build performance metrics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancejson-trace-profile-li">
+  <a href="/advanced/performance/json-trace-profile/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancejson-trace-profile"><span class="">JSON Trace Profile</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformanceiteration-speed-li">
+  <a href="/advanced/performance/iteration-speed/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformanceiteration-speed"><span class="">Optimize Iteration Speed</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancememory-li">
+  <a href="/advanced/performance/memory/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancememory"><span class="">Optimize Memory</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-install-li">
+  <a href="/install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-install"><span class="">Install</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installcompletion-li">
+  <a href="/install/completion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installcompletion"><span class="">Command-Line Completion</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installcompile-source-li">
+  <a href="/install/compile-source/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installcompile-source"><span class="">Compiling Bazel from Source</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installdocker-container-li">
+  <a href="/install/docker-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installdocker-container"><span class="">Getting Started with Bazel Docker Container</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installbazelisk-li">
+  <a href="/install/bazelisk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installbazelisk"><span class="">Installing / Updating Bazel using Bazelisk</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installos-x-li">
+  <a href="/install/os-x/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installos-x"><span class="">Installing Bazel on macOS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installsuse-li">
+  <a href="/install/suse/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installsuse"><span class="">Installing Bazel on openSUSE Tumbleweed &amp; Leap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installubuntu-li">
+  <a href="/install/ubuntu/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installubuntu"><span class="">Installing Bazel on Ubuntu</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installwindows-li">
+  <a href="/install/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installwindows"><span class="">Installing Bazel on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installide-li">
+  <a href="/install/ide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installide"><span class="">Integrating Bazel with IDEs</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installimages-li">
+  <a href="/install/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-installimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-migrate-li">
+  <a href="/migrate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-migrate"><span class="">Migrate</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-migratemaven-li">
+  <a href="/migrate/maven/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-migratemaven"><span class="">Migrating from Maven to Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-migratexcode-li">
+  <a href="/migrate/xcode/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-migratexcode"><span class="">Migrating from Xcode to Bazel</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-reference-li">
+  <a href="/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-reference"><span class="">Reference</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceflag-cheatsheet-li">
+  <a href="/reference/flag-cheatsheet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceflag-cheatsheet"><span class="">Bazel flag cheat sheet</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceglossary-li">
+  <a href="/reference/glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceglossary"><span class="">Bazel Glossary</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceskyframe-li">
+  <a href="/reference/skyframe/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceskyframe"><span class="">Skyframe</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referencetest-encyclopedia-li">
+  <a href="/reference/test-encyclopedia/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referencetest-encyclopedia"><span class="">Test encyclopedia</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-release-li">
+  <a href="/release/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-release"><span class="">Release</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releasebackward-compatibility-li">
+  <a href="/release/backward-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releasebackward-compatibility"><span class="">Backward Compatibility</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releaserolling-li">
+  <a href="/release/rolling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releaserolling"><span class="">Rolling Releases</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releaserule-compatibility-li">
+  <a href="/release/rule-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releaserule-compatibility"><span class="">Rule Compatibility</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-rules-li">
+  <a href="/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-rules"><span class="">Rules</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesbzl-style-li">
+  <a href="/rules/bzl-style/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesbzl-style"><span class="">.bzl style guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleschallenges-li">
+  <a href="/rules/challenges/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleschallenges"><span class="">Challenges of Writing Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleslegacy-macro-tutorial-li">
+  <a href="/rules/legacy-macro-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleslegacy-macro-tutorial"><span class="">Creating a Legacy Macro</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesmacro-tutorial-li">
+  <a href="/rules/macro-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesmacro-tutorial"><span class="">Creating a Symbolic Macro</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesdeploying-li">
+  <a href="/rules/deploying/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesdeploying"><span class="">Deploying Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ruleserrors-li">
+  <a href="/rules/errors/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ruleserrors"><span class="">Errors</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleserrorsread-only-variable-li">
+  <a href="/rules/errors/read-only-variable/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleserrorsread-only-variable"><span class="">Error: Variable x is read only</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesfaq-li">
+  <a href="/rules/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesfaq"><span class="">Frequently Asked Questions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesperformance-li">
+  <a href="/rules/performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesperformance"><span class="">Optimizing Performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesrules-tutorial-li">
+  <a href="/rules/rules-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesrules-tutorial"><span class="">Rules Tutorial</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleslanguage-li">
+  <a href="/rules/language/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleslanguage"><span class="">Starlark Language</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulestesting-li">
+  <a href="/rules/testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulestesting"><span class="">Testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesverbs-tutorial-li">
+  <a href="/rules/verbs-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesverbs-tutorial"><span class="">Using Macros to Create Custom Verbs</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleswindows-li">
+  <a href="/rules/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleswindows"><span class="">Writing Rules on Windows</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-run-li">
+  <a href="/run/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-run"><span class="">Run</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runbuild-li">
+  <a href="/run/build/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runbuild"><span class="">Build programs with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runscripts-li">
+  <a href="/run/scripts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runscripts"><span class="">Calling Bazel from scripts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runclient-server-li">
+  <a href="/run/client-server/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runclient-server"><span class="">Client/server implementation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runbazelrc-li">
+  <a href="/run/bazelrc/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runbazelrc"><span class="">Write bazelrc configuration files</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-start-li">
+  <a href="/start/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-start"><span class="">Start</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startcpp-li">
+  <a href="/start/cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startcpp"><span class="">Bazel Tutorial: Build a C&#43;&#43; Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startgo-li">
+  <a href="/start/go/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startgo"><span class="">Bazel Tutorial: Build a Go Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startjava-li">
+  <a href="/start/java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startjava"><span class="">Bazel Tutorial: Build a Java Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startandroid-app-li">
+  <a href="/start/android-app/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startandroid-app"><span class="">Bazel Tutorial: Build an Android App</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startios-app-li">
+  <a href="/start/ios-app/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startios-app"><span class="">Bazel Tutorial: Build an iOS App</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docs-li">
+  <a href="/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docs"><span class="">Using Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-android-li">
+  <a href="/docs/bazel-and-android/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-android"><span class="">Android and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-build-performance-li">
+  <a href="/docs/android-build-performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-build-performance"><span class="">Android Build Performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-instrumentation-test-li">
+  <a href="/docs/android-instrumentation-test/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-instrumentation-test"><span class="">Android Instrumentation Tests</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-apple-li">
+  <a href="/docs/bazel-and-apple/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-apple"><span class="">Apple Apps and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmobile-install-li">
+  <a href="/docs/mobile-install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmobile-install"><span class="">bazel mobile-install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-cpp-li">
+  <a href="/docs/bazel-and-cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-cpp"><span class="">C&#43;&#43; and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscc-toolchain-config-reference-li">
+  <a href="/docs/cc-toolchain-config-reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscc-toolchain-config-reference"><span class="">C&#43;&#43; Toolchain Configuration</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manual-li">
+  <a href="/docs/user-manual/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manual"><span class="">Commands and Options</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsconfigurable-attributes-li">
+  <a href="/docs/configurable-attributes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsconfigurable-attributes"><span class="">Configurable Build Attributes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-java-li">
+  <a href="/docs/bazel-and-java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-java"><span class="">Java and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-javascript-li">
+  <a href="/docs/bazel-and-javascript/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-javascript"><span class="">JavaScript and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssandboxing-li">
+  <a href="/docs/sandboxing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docssandboxing"><span class="">Sandboxing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-ndk-li">
+  <a href="/docs/android-ndk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-ndk"><span class="">Using the Android Native Development Kit with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsimages-li">
+  <a href="/docs/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-brand-li">
+  <a href="/brand/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-brand"><span class="">Brand</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-images-li">
+  <a href="/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-images"><span class="">Images</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-versions-li">
+  <a href="/versions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-versions"><span class="">Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-community-li">
+  <a href="/community/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-community"><span class="">Community &amp; Product Partners</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityroadmaps-configurability-li">
+  <a href="/community/roadmaps-configurability/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityroadmaps-configurability"><span class="">Bazel Configurability 2021 Roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communitysig-li">
+  <a href="/community/sig/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communitysig"><span class="">Bazel Special Interest Groups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityupdate-li">
+  <a href="/community/update/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityupdate"><span class="">Community updates</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityrecommended-rules-li">
+  <a href="/community/recommended-rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityrecommended-rules"><span class="">Recommended Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityremote-execution-services-li">
+  <a href="/community/remote-execution-services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityremote-execution-services"><span class="">Remote Execution Services</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityroadmaps-starlark-li">
+  <a href="/community/roadmaps-starlark/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityroadmaps-starlark"><span class="">Starlark Roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityusers-li">
+  <a href="/community/users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityusers"><span class="">Who&#39;s Using Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityexperts-li">
+  <a href="/community/experts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communityexperts"><span class="">Experts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityimages-li">
+  <a href="/community/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communityimages"><span class="">Images</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communitypartners-li">
+  <a href="/community/partners/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communitypartners"><span class="">Partners</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-contribute-li">
+  <a href="/contribute/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-contribute"><span class="">Contribute</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributestatemachine-guide-li">
+  <a href="/contribute/statemachine-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributestatemachine-guide"><span class="">A Guide to Skyframe `StateMachine`s</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedocs-style-guide-li">
+  <a href="/contribute/docs-style-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedocs-style-guide"><span class="">Bazel docs style guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedocs-li">
+  <a href="/contribute/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedocs"><span class="">Contribute to Bazel documentation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributepolicy-li">
+  <a href="/contribute/policy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributepolicy"><span class="">Contribution policy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedesign-documents-li">
+  <a href="/contribute/design-documents/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedesign-documents"><span class="">Design Documents</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributemaintainers-guide-li">
+  <a href="/contribute/maintainers-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributemaintainers-guide"><span class="">Guide for Bazel Maintainers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributebreaking-changes-li">
+  <a href="/contribute/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributebreaking-changes"><span class="">Guide for rolling out breaking changes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributewindows-chocolatey-maintenance-li">
+  <a href="/contribute/windows-chocolatey-maintenance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributewindows-chocolatey-maintenance"><span class="">Maintaining Bazel Chocolatey package on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributewindows-scoop-maintenance-li">
+  <a href="/contribute/windows-scoop-maintenance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributewindows-scoop-maintenance"><span class="">Maintaining Bazel Scoop package on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributenaming-li">
+  <a href="/contribute/naming/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributenaming"><span class="">Naming a Bazel related project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributepatch-acceptance-li">
+  <a href="/contribute/patch-acceptance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributepatch-acceptance"><span class="">Patch Acceptance Process</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributesearch-li">
+  <a href="/contribute/search/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributesearch"><span class="">Searching the codebase</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-contributecodebase-li">
+  <a href="/contribute/codebase/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-contributecodebase"><span class="td-sidebar-nav-active-item">The Bazel codebase</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributerelease-notes-li">
+  <a href="/contribute/release-notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributerelease-notes"><span class="">Writing release notes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributeimages-li">
+  <a href="/contribute/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-contributeimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-about-li">
+  <a href="/about/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-about"><span class="">About</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutroadmap-li">
+  <a href="/about/roadmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutroadmap"><span class="">Bazel roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutvision-li">
+  <a href="/about/vision/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutvision"><span class="">Bazel Vision</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutfaq-li">
+  <a href="/about/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutfaq"><span class="">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutintro-li">
+  <a href="/about/intro/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutintro"><span class="">Intro to Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutwhy-li">
+  <a href="/about/why/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutwhy"><span class="">Why Bazel?</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/bazelbuild/bazel/tree/master/site/en/content/contribute/codebase.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/bazelbuild/bazel/edit/master/site/en/content/contribute/codebase.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/bazelbuild/bazel/new/master/site/en/content/contribute?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/bazelbuild/bazel/issues/new?title=The%20Bazel%20codebase" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#clientserver-architecture">Client/server architecture</a></li>
+    <li><a href="#directory-layout">Directory layout</a></li>
+    <li><a href="#the-process-of-executing-a-command">The process of executing a command</a></li>
+    <li><a href="#command-line-options">Command line options</a></li>
+    <li><a href="#the-source-tree-as-seen-by-bazel">The source tree, as seen by Bazel</a>
+      <ul>
+        <li><a href="#repositories">Repositories</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#labels-targets-and-rules">Labels, Targets, and Rules</a></li>
+      </ul>
+    </li>
+    <li><a href="#skyframe">Skyframe</a></li>
+    <li><a href="#starlark">Starlark</a></li>
+    <li><a href="#the-loadinganalysis-phase">The loading/analysis phase</a>
+      <ul>
+        <li><a href="#configurations">Configurations</a></li>
+        <li><a href="#transitive-info-providers">Transitive info providers</a></li>
+        <li><a href="#configured-targets">Configured targets</a></li>
+        <li><a href="#runfiles">Runfiles</a></li>
+        <li><a href="#aspects">Aspects</a></li>
+        <li><a href="#platforms-and-toolchains">Platforms and toolchains</a></li>
+        <li><a href="#constraints">Constraints</a></li>
+        <li><a href="#visibility">Visibility</a></li>
+        <li><a href="#nested-sets">Nested sets</a></li>
+        <li><a href="#artifacts-and-actions">Artifacts and Actions</a></li>
+        <li><a href="#shared-actions">Shared actions</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-execution-phase">The execution phase</a>
+      <ul>
+        <li><a href="#the-local-action-cache">The local action cache</a></li>
+        <li><a href="#input-discovery-and-input-pruning">Input discovery and input pruning</a></li>
+        <li><a href="#various-ways-to-run-actions-strategiesactioncontexts">Various ways to run actions: Strategies/ActionContexts</a></li>
+        <li><a href="#the-local-resource-manager">The local resource manager</a></li>
+        <li><a href="#the-structure-of-the-output-directory">The structure of the output directory</a></li>
+      </ul>
+    </li>
+    <li><a href="#tests">Tests</a>
+      <ul>
+        <li><a href="#determining-which-tests-to-run">Determining which tests to run</a></li>
+        <li><a href="#running-tests">Running tests</a></li>
+        <li><a href="#coverage-collection">Coverage collection</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-query-engine">The query engine</a></li>
+    <li><a href="#the-module-system">The module system</a></li>
+    <li><a href="#the-event-bus">The event bus</a></li>
+    <li><a href="#external-repositories">External repositories</a>
+      <ul>
+        <li><a href="#the-workspace-file">The WORKSPACE file</a></li>
+        <li><a href="#fetching-repositories">Fetching repositories</a></li>
+        <li><a href="#repository-mappings">Repository mappings</a></li>
+      </ul>
+    </li>
+    <li><a href="#jni-bits">JNI bits</a></li>
+    <li><a href="#console-output">Console output</a></li>
+    <li><a href="#profiling-bazel">Profiling Bazel</a></li>
+    <li><a href="#testing-bazel">Testing Bazel</a></li>
+  </ul>
+</nav>
+      </div>
+    
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/contribute/">Contribute</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    The Bazel codebase</li>
+  </ol>
+</nav>
+<div class="td-content">
+	<h1>The Bazel codebase</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	<p>This document is a description of the codebase and how Bazel is structured. It
+is intended for people willing to contribute to Bazel, not for end-users.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The codebase of Bazel is large (~350KLOC production code and ~260 KLOC test
+code) and no one is familiar with the whole landscape: everyone knows their
+particular valley very well, but few know what lies over the hills in every
+direction.</p>
+<p>In order for people midway upon the journey not to find themselves within a
+forest dark with the straightforward pathway being lost, this document tries to
+give an overview of the codebase so that it&rsquo;s easier to get started with
+working on it.</p>
+<p>The public version of the source code of Bazel lives on GitHub at
+<a href="http://github.com/bazelbuild/bazel">github.com/bazelbuild/bazel</a>. This is not
+the &ldquo;source of truth&rdquo;; it&rsquo;s derived from a Google-internal source tree that
+contains additional functionality that is not useful outside Google. The
+long-term goal is to make GitHub the source of truth.</p>
+<p>Contributions are accepted through the regular GitHub pull request mechanism,
+and manually imported by a Googler into the internal source tree, then
+re-exported back out to GitHub.</p>
+<h2 id="clientserver-architecture">Client/server architecture</h2>
+<p>The bulk of Bazel resides in a server process that stays in RAM between builds.
+This allows Bazel to maintain state between builds.</p>
+<p>This is why the Bazel command line has two kinds of options: startup and
+command. In a command line like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">    bazel --host_jvm_args=-Xmx8G build -c opt //foo:bar
+</span></span></code></pre></div><p>Some options (<code>--host_jvm_args=</code>) are before the name of the command to be run
+and some are after (<code>-c opt</code>); the former kind is called a &ldquo;startup option&rdquo; and
+affects the server process as a whole, whereas the latter kind, the &ldquo;command
+option&rdquo;, only affects a single command.</p>
+<p>Each server instance has a single associated workspace (collection of source
+trees known as &ldquo;repositories&rdquo;) and each workspace usually has a single active
+server instance. This can be circumvented by specifying a custom output base
+(see the &ldquo;Directory layout&rdquo; section for more information).</p>
+<p>Bazel is distributed as a single ELF executable that is also a valid .zip file.
+When you type <code>bazel</code>, the above ELF executable implemented in C++ (the
+&ldquo;client&rdquo;) gets control. It sets up an appropriate server process using the
+following steps:</p>
+<ol>
+<li>Checks whether it has already extracted itself. If not, it does that. This
+is where the implementation of the server comes from.</li>
+<li>Checks whether there is an active server instance that works: it is running,
+it has the right startup options and uses the right workspace directory. It
+finds the running server by looking at the directory <code>$OUTPUT_BASE/server</code>
+where there is a lock file with the port the server is listening on.</li>
+<li>If needed, kills the old server process</li>
+<li>If needed, starts up a new server process</li>
+</ol>
+<p>After a suitable server process is ready, the command that needs to be run is
+communicated to it over a gRPC interface, then the output of Bazel is piped back
+to the terminal. Only one command can be running at the same time. This is
+implemented using an elaborate locking mechanism with parts in C++ and parts in
+Java. There is some infrastructure for running multiple commands in parallel,
+since the inability to run <code>bazel version</code> in parallel with another command
+is somewhat embarrassing. The main blocker is the life cycle of <code>BlazeModule</code>s
+and some state in <code>BlazeRuntime</code>.</p>
+<p>At the end of a command, the Bazel server transmits the exit code the client
+should return. An interesting wrinkle is the implementation of <code>bazel run</code>: the
+job of this command is to run something Bazel just built, but it can&rsquo;t do that
+from the server process because it doesn&rsquo;t have a terminal. So instead it tells
+the client what binary it should <code>exec()</code> and with what arguments.</p>
+<p>When one presses Ctrl-C, the client translates it to a Cancel call on the gRPC
+connection, which tries to terminate the command as soon as possible. After the
+third Ctrl-C, the client sends a SIGKILL to the server instead.</p>
+<p>The source code of the client is under <code>src/main/cpp</code> and the protocol used to
+communicate with the server is in <code>src/main/protobuf/command_server.proto</code> .</p>
+<p>The main entry point of the server is <code>BlazeRuntime.main()</code> and the gRPC calls
+from the client are handled by <code>GrpcServerImpl.run()</code>.</p>
+<h2 id="directory-layout">Directory layout</h2>
+<p>Bazel creates a somewhat complicated set of directories during a build. A full
+description is available in <a href="/remote/output-directories/">Output directory layout</a>.</p>
+<p>The &ldquo;main repo&rdquo; is the source tree Bazel is run in. It usually corresponds to
+something you checked out from source control. The root of this directory is
+known as the &ldquo;workspace root&rdquo;.</p>
+<p>Bazel puts all of its data under the &ldquo;output user root&rdquo;. This is usually
+<code>$HOME/.cache/bazel/_bazel_${USER}</code>, but can be overridden using the
+<code>--output_user_root</code> startup option.</p>
+<p>The &ldquo;install base&rdquo; is where Bazel is extracted to. This is done automatically
+and each Bazel version gets a subdirectory based on its checksum under the
+install base. It&rsquo;s at <code>$OUTPUT_USER_ROOT/install</code> by default and can be changed
+using the <code>--install_base</code> command line option.</p>
+<p>The &ldquo;output base&rdquo; is the place where the Bazel instance attached to a specific
+workspace writes to. Each output base has at most one Bazel server instance
+running at any time. It&rsquo;s usually at <code>$OUTPUT_USER_ROOT/&lt;checksum of the path to the workspace&gt;</code>. It can be changed using the <code>--output_base</code> startup option,
+which is, among other things, useful for getting around the limitation that only
+one Bazel instance can be running in any workspace at any given time.</p>
+<p>The output directory contains, among other things:</p>
+<ul>
+<li>The fetched external repositories at <code>$OUTPUT_BASE/external</code>.</li>
+<li>The exec root, a directory that contains symlinks to all the source
+code for the current build. It&rsquo;s located at <code>$OUTPUT_BASE/execroot</code>. During
+the build, the working directory is <code>$EXECROOT/&lt;name of main repository&gt;</code>. We are planning to change this to <code>$EXECROOT</code>, although it&rsquo;s a
+long term plan because it&rsquo;s a very incompatible change.</li>
+<li>Files built during the build.</li>
+</ul>
+<h2 id="the-process-of-executing-a-command">The process of executing a command</h2>
+<p>Once the Bazel server gets control and is informed about a command it needs to
+execute, the following sequence of events happens:</p>
+<ol>
+<li>
+<p><code>BlazeCommandDispatcher</code> is informed about the new request. It decides
+whether the command needs a workspace to run in (almost every command except
+for ones that don&rsquo;t have anything to do with source code, such as version or
+help) and whether another command is running.</p>
+</li>
+<li>
+<p>The right command is found. Each command must implement the interface
+<code>BlazeCommand</code> and must have the <code>@Command</code> annotation (this is a bit of an
+antipattern, it would be nice if all the metadata a command needs was
+described by methods on <code>BlazeCommand</code>)</p>
+</li>
+<li>
+<p>The command line options are parsed. Each command has different command line
+options, which are described in the <code>@Command</code> annotation.</p>
+</li>
+<li>
+<p>An event bus is created. The event bus is a stream for events that happen
+during the build. Some of these are exported to outside of Bazel under the
+aegis of the Build Event Protocol in order to tell the world how the build
+goes.</p>
+</li>
+<li>
+<p>The command gets control. The most interesting commands are those that run a
+build: build, test, run, coverage and so on: this functionality is
+implemented by <code>BuildTool</code>.</p>
+</li>
+<li>
+<p>The set of target patterns on the command line is parsed and wildcards like
+<code>//pkg:all</code> and <code>//pkg/...</code> are resolved. This is implemented in
+<code>AnalysisPhaseRunner.evaluateTargetPatterns()</code> and reified in Skyframe as
+<code>TargetPatternPhaseValue</code>.</p>
+</li>
+<li>
+<p>The loading/analysis phase is run to produce the action graph (a directed
+acyclic graph of commands that need to be executed for the build).</p>
+</li>
+<li>
+<p>The execution phase is run. This means running every action required to
+build the top-level targets that are requested are run.</p>
+</li>
+</ol>
+<h2 id="command-line-options">Command line options</h2>
+<p>The command line options for a Bazel invocation are described in an
+<code>OptionsParsingResult</code> object, which in turn contains a map from &ldquo;option
+classes&rdquo; to the values of the options. An &ldquo;option class&rdquo; is a subclass of
+<code>OptionsBase</code> and groups command line options together that are related to each
+other. For example:</p>
+<ol>
+<li>Options related to a programming language (<code>CppOptions</code> or <code>JavaOptions</code>).
+These should be a subclass of <code>FragmentOptions</code> and are eventually wrapped
+into a <code>BuildOptions</code> object.</li>
+<li>Options related to the way Bazel executes actions (<code>ExecutionOptions</code>)</li>
+</ol>
+<p>These options are designed to be consumed in the analysis phase and (either
+through <code>RuleContext.getFragment()</code> in Java or <code>ctx.fragments</code> in Starlark).
+Some of them (for example, whether to do C++ include scanning or not) are read
+in the execution phase, but that always requires explicit plumbing since
+<code>BuildConfiguration</code> is not available then. For more information, see the
+section &ldquo;Configurations&rdquo;.</p>
+<p><strong>WARNING:</strong> We like to pretend that <code>OptionsBase</code> instances are immutable and
+use them that way (such as a part of <code>SkyKeys</code>). This is not the case and
+modifying them is a really good way to break Bazel in subtle ways that are hard
+to debug. Unfortunately, making them actually immutable is a large endeavor.
+(Modifying a <code>FragmentOptions</code> immediately after construction before anyone else
+gets a chance to keep a reference to it and before <code>equals()</code> or <code>hashCode()</code> is
+called on it is okay.)</p>
+<p>Bazel learns about option classes in the following ways:</p>
+<ol>
+<li>Some are hard-wired into Bazel (<code>CommonCommandOptions</code>)</li>
+<li>From the <code>@Command</code> annotation on each Bazel command</li>
+<li>From <code>ConfiguredRuleClassProvider</code> (these are command line options related
+to individual programming languages)</li>
+<li>Starlark rules can also define their own options (see
+<a href="/extending/config/">here</a>)</li>
+</ol>
+<p>Each option (excluding Starlark-defined options) is a member variable of a
+<code>FragmentOptions</code> subclass that has the <code>@Option</code> annotation, which specifies
+the name and the type of the command line option along with some help text.</p>
+<p>The Java type of the value of a command line option is usually something simple
+(a string, an integer, a Boolean, a label, etc.). However, we also support
+options of more complicated types; in this case, the job of converting from the
+command line string to the data type falls to an implementation of
+<code>com.google.devtools.common.options.Converter</code>.</p>
+<h2 id="the-source-tree-as-seen-by-bazel">The source tree, as seen by Bazel</h2>
+<p>Bazel is in the business of building software, which happens by reading and
+interpreting the source code. The totality of the source code Bazel operates on
+is called &ldquo;the workspace&rdquo; and it is structured into repositories, packages and
+rules.</p>
+<h3 id="repositories">Repositories</h3>
+<p>A &ldquo;repository&rdquo; is a source tree on which a developer works; it usually
+represents a single project. Bazel&rsquo;s ancestor, Blaze, operated on a monorepo,
+that is, a single source tree that contains all source code used to run the build.
+Bazel, in contrast, supports projects whose source code spans multiple
+repositories. The repository from which Bazel is invoked is called the &ldquo;main
+repository&rdquo;, the others are called &ldquo;external repositories&rdquo;.</p>
+<p>A repository is marked by a repo boundary file (<code>MODULE.bazel</code>, <code>REPO.bazel</code>, or
+in legacy contexts, <code>WORKSPACE</code> or <code>WORKSPACE.bazel</code>) in its root directory. The
+main repo is the source tree where you&rsquo;re invoking Bazel from. External repos
+are defined in various ways; see <a href="/external/overview/">external dependencies
+overview</a> for more information.</p>
+<p>Code of external repositories is symlinked or downloaded under
+<code>$OUTPUT_BASE/external</code>.</p>
+<p>When running the build, the whole source tree needs to be pieced together; this
+is done by <code>SymlinkForest</code>, which symlinks every package in the main repository
+to <code>$EXECROOT</code> and every external repository to either <code>$EXECROOT/external</code> or
+<code>$EXECROOT/..</code>.</p>
+<h3 id="packages">Packages</h3>
+<p>Every repository is composed of packages, a collection of related files and
+a specification of the dependencies. These are specified by a file called
+<code>BUILD</code> or <code>BUILD.bazel</code>. If both exist, Bazel prefers <code>BUILD.bazel</code>; the reason
+why <code>BUILD</code> files are still accepted is that Bazel&rsquo;s ancestor, Blaze, used this
+file name. However, it turned out to be a commonly used path segment, especially
+on Windows, where file names are case-insensitive.</p>
+<p>Packages are independent of each other: changes to the <code>BUILD</code> file of a package
+cannot cause other packages to change. The addition or removal of <code>BUILD</code> files
+_can _change other packages, since recursive globs stop at package boundaries
+and thus the presence of a <code>BUILD</code> file stops the recursion.</p>
+<p>The evaluation of a <code>BUILD</code> file is called &ldquo;package loading&rdquo;. It&rsquo;s implemented
+in the class <code>PackageFactory</code>, works by calling the Starlark interpreter and
+requires knowledge of the set of available rule classes. The result of package
+loading is a <code>Package</code> object. It&rsquo;s mostly a map from a string (the name of a
+target) to the target itself.</p>
+<p>A large chunk of complexity during package loading is globbing: Bazel does not
+require every source file to be explicitly listed and instead can run globs
+(such as <code>glob([&quot;**/*.java&quot;])</code>). Unlike the shell, it supports recursive globs that
+descend into subdirectories (but not into subpackages). This requires access to
+the file system and since that can be slow, we implement all sorts of tricks to
+make it run in parallel and as efficiently as possible.</p>
+<p>Globbing is implemented in the following classes:</p>
+<ul>
+<li><code>LegacyGlobber</code>, a fast and blissfully Skyframe-unaware globber</li>
+<li><code>SkyframeHybridGlobber</code>, a version that uses Skyframe and reverts back to
+the legacy globber in order to avoid &ldquo;Skyframe restarts&rdquo; (described below)</li>
+</ul>
+<p>The <code>Package</code> class itself contains some members that are exclusively used to
+parse the &ldquo;external&rdquo; package (related to external dependencies) and which do not
+make sense for real packages. This is
+a design flaw because objects describing regular packages should not contain
+fields that describe something else. These include:</p>
+<ul>
+<li>The repository mappings</li>
+<li>The registered toolchains</li>
+<li>The registered execution platforms</li>
+</ul>
+<p>Ideally, there would be more separation between parsing the &ldquo;external&rdquo; package
+from parsing regular packages so that <code>Package</code> does not need to cater for the
+needs of both. This is unfortunately difficult to do because the two are
+intertwined quite deeply.</p>
+<h3 id="labels-targets-and-rules">Labels, Targets, and Rules</h3>
+<p>Packages are composed of targets, which have the following types:</p>
+<ol>
+<li><strong>Files:</strong> things that are either the input or the output of the build. In
+Bazel parlance, we call them <em>artifacts</em> (discussed elsewhere). Not all
+files created during the build are targets; it&rsquo;s common for an output of
+Bazel not to have an associated label.</li>
+<li><strong>Rules:</strong> these describe steps to derive its outputs from its inputs. They
+are generally associated with a programming language (such as <code>cc_library</code>,
+<code>java_library</code> or <code>py_library</code>), but there are some language-agnostic ones
+(such as <code>genrule</code> or <code>filegroup</code>)</li>
+<li><strong>Package groups:</strong> discussed in the <a href="#visibility">Visibility</a> section.</li>
+</ol>
+<p>The name of a target is called a <em>Label</em>. The syntax of labels is
+<code>@repo//pac/kage:name</code>, where <code>repo</code> is the name of the repository the Label is
+in, <code>pac/kage</code> is the directory its <code>BUILD</code> file is in and <code>name</code> is the path of
+the file (if the label refers to a source file) relative to the directory of the
+package. When referring to a target on the command line, some parts of the label
+can be omitted:</p>
+<ol>
+<li>If the repository is omitted, the label is taken to be in the main
+repository.</li>
+<li>If the package part is omitted (such as <code>name</code> or <code>:name</code>), the label is taken
+to be in the package of the current working directory (relative paths
+containing uplevel references (..) are not allowed)</li>
+</ol>
+<p>A kind of a rule (such as &ldquo;C++ library&rdquo;) is called a &ldquo;rule class&rdquo;. Rule classes may
+be implemented either in Starlark (the <code>rule()</code> function) or in Java (so called
+&ldquo;native rules&rdquo;, type <code>RuleClass</code>). In the long term, every language-specific
+rule will be implemented in Starlark, but some legacy rule families (such as Java
+or C++) are still in Java for the time being.</p>
+<p>Starlark rule classes need to be imported at the beginning of <code>BUILD</code> files
+using the <code>load()</code> statement, whereas Java rule classes are &ldquo;innately&rdquo; known by
+Bazel, by virtue of being registered with the <code>ConfiguredRuleClassProvider</code>.</p>
+<p>Rule classes contain information such as:</p>
+<ol>
+<li>Its attributes (such as <code>srcs</code>, <code>deps</code>): their types, default values,
+constraints, etc.</li>
+<li>The configuration transitions and aspects attached to each attribute, if any</li>
+<li>The implementation of the rule</li>
+<li>The transitive info providers the rule &ldquo;usually&rdquo; creates</li>
+</ol>
+<p><strong>Terminology note:</strong> In the codebase, we often use &ldquo;Rule&rdquo; to mean the target
+created by a rule class. But in Starlark and in user-facing documentation,
+&ldquo;Rule&rdquo; should be used exclusively to refer to the rule class itself; the target
+is just a &ldquo;target&rdquo;. Also note that despite <code>RuleClass</code> having &ldquo;class&rdquo; in its
+name, there is no Java inheritance relationship between a rule class and targets
+of that type.</p>
+<h2 id="skyframe">Skyframe</h2>
+<p>The evaluation framework underlying Bazel is called Skyframe. Its model is that
+everything that needs to be built during a build is organized into a directed
+acyclic graph with edges pointing from any pieces of data to its dependencies,
+that is, other pieces of data that need to be known to construct it.</p>
+<p>The nodes in the graph are called <code>SkyValue</code>s and their names are called
+<code>SkyKey</code>s. Both are deeply immutable; only immutable objects should be
+reachable from them. This invariant almost always holds, and in case it doesn&rsquo;t
+(such as for the individual options classes <code>BuildOptions</code>, which is a member of
+<code>BuildConfigurationValue</code> and its <code>SkyKey</code>) we try really hard not to change
+them or to change them in only ways that are not observable from the outside.
+From this it follows that everything that is computed within Skyframe (such as
+configured targets) must also be immutable.</p>
+<p>The most convenient way to observe the Skyframe graph is to run <code>bazel dump --skyframe=deps</code>, which dumps the graph, one <code>SkyValue</code> per line. It&rsquo;s best
+to do it for tiny builds, since it can get pretty large.</p>
+<p>Skyframe lives in the <code>com.google.devtools.build.skyframe</code> package. The
+similarly-named package <code>com.google.devtools.build.lib.skyframe</code> contains the
+implementation of Bazel on top of Skyframe. More information about Skyframe is
+available <a href="/reference/skyframe/">here</a>.</p>
+<p>To evaluate a given <code>SkyKey</code> into a <code>SkyValue</code>, Skyframe will invoke the
+<code>SkyFunction</code> corresponding to the type of the key. During the function&rsquo;s
+evaluation, it may request other dependencies from Skyframe by calling the
+various overloads of <code>SkyFunction.Environment.getValue()</code>. This has the
+side-effect of registering those dependencies into Skyframe&rsquo;s internal graph, so
+that Skyframe will know to re-evaluate the function when any of its dependencies
+change. In other words, Skyframe&rsquo;s caching and incremental computation work at
+the granularity of <code>SkyFunction</code>s and <code>SkyValue</code>s.</p>
+<p>Whenever a <code>SkyFunction</code> requests a dependency that is unavailable, <code>getValue()</code>
+will return null. The function should then yield control back to Skyframe by
+itself returning null. At some later point, Skyframe will evaluate the
+unavailable dependency, then restart the function from the beginning — only this
+time the <code>getValue()</code> call will succeed with a non-null result.</p>
+<p>A consequence of this is that any computation performed inside the <code>SkyFunction</code>
+prior to the restart must be repeated. But this does not include work done to
+evaluate dependency <code>SkyValues</code>, which are cached. Therefore, we commonly work
+around this issue by:</p>
+<ol>
+<li>Declaring dependencies in batches (by using <code>getValuesAndExceptions()</code>) to
+limit the number of restarts.</li>
+<li>Breaking up a <code>SkyValue</code> into separate pieces computed by different
+<code>SkyFunction</code>s, so that they can be computed and cached independently. This
+should be done strategically, since it has the potential to increases memory
+usage.</li>
+<li>Storing state between restarts, either using
+<code>SkyFunction.Environment.getState()</code>, or keeping an ad hoc static cache
+&ldquo;behind the back of Skyframe&rdquo;. With complex SkyFunctions, state management
+between restarts can get tricky, so
+<a href="/contribute/statemachine-guide/"><code>StateMachine</code>s</a> were introduced for a
+structured approach to logical concurrency, including hooks to suspend and
+resume hierarchical computations within a <code>SkyFunction</code>. Example:
+<a href="https://developers.google.com/devsite/reference/markdown/links#reference_links"><code>DependencyResolver#computeDependencies</code></a>
+uses a <code>StateMachine</code> with <code>getState()</code> to compute the potentially huge set
+of direct dependencies of a configured target, which otherwise can result in
+expensive restarts.</li>
+</ol>
+<p>Fundamentally, Bazel need these types of workarounds because hundreds of
+thousands of in-flight Skyframe nodes is common, and Java&rsquo;s support of
+lightweight threads <a href="/contribute/statemachine-guide#epilogue_eventually_removing_callbacks">does not outperform</a> the
+<code>StateMachine</code> implementation as of 2023.</p>
+<h2 id="starlark">Starlark</h2>
+<p>Starlark is the domain-specific language people use to configure and extend
+Bazel. It&rsquo;s conceived as a restricted subset of Python that has far fewer types,
+more restrictions on control flow, and most importantly, strong immutability
+guarantees to enable concurrent reads. It is not Turing-complete, which
+discourages some (but not all) users from trying to accomplish general
+programming tasks within the language.</p>
+<p>Starlark is implemented in the <code>net.starlark.java</code> package.
+It also has an independent Go implementation
+<a href="https://github.com/google/starlark-go">here</a>. The Java
+implementation used in Bazel is currently an interpreter.</p>
+<p>Starlark is used in several contexts, including:</p>
+<ol>
+<li><strong><code>BUILD</code> files.</strong> This is where new build targets are defined. Starlark
+code running in this context only has access to the contents of the <code>BUILD</code>
+file itself and <code>.bzl</code> files loaded by it.</li>
+<li><strong>The <code>MODULE.bazel</code> file.</strong> This is where external dependencies are
+defined. Starlark code running in this context only has very limited access
+to a few predefined directives.</li>
+<li><strong><code>.bzl</code> files.</strong> This is where new build rules, repo rules, module
+extensions are defined. Starlark code here can define new functions and load
+from other <code>.bzl</code> files.</li>
+</ol>
+<p>The dialects available for <code>BUILD</code> and <code>.bzl</code> files are slightly different
+because they express different things. A list of differences is available
+<a href="/rules/language#differences-between-build-and-bzl-files/">here</a>.</p>
+<p>More information about Starlark is available <a href="/rules/language/">here</a>.</p>
+<h2 id="the-loadinganalysis-phase">The loading/analysis phase</h2>
+<p>The loading/analysis phase is where Bazel determines what actions are needed to
+build a particular rule. Its basic unit is a &ldquo;configured target&rdquo;, which is,
+quite sensibly, a (target, configuration) pair.</p>
+<p>It&rsquo;s called the &ldquo;loading/analysis phase&rdquo; because it can be split into two
+distinct parts, which used to be serialized, but they can now overlap in time:</p>
+<ol>
+<li>Loading packages, that is, turning <code>BUILD</code> files into the <code>Package</code> objects
+that represent them</li>
+<li>Analyzing configured targets, that is, running the implementation of the
+rules to produce the action graph</li>
+</ol>
+<p>Each configured target in the transitive closure of the configured targets
+requested on the command line must be analyzed bottom-up; that is, leaf nodes
+first, then up to the ones on the command line. The inputs to the analysis of
+a single configured target are:</p>
+<ol>
+<li><strong>The configuration.</strong> (&ldquo;how&rdquo; to build that rule; for example, the target
+platform but also things like command line options the user wants to be
+passed to the C++ compiler)</li>
+<li><strong>The direct dependencies.</strong> Their transitive info providers are available
+to the rule being analyzed. They are called like that because they provide a
+&ldquo;roll-up&rdquo; of the information in the transitive closure of the configured
+target, such as all the .jar files on the classpath or all the .o files that
+need to be linked into a C++ binary)</li>
+<li><strong>The target itself</strong>. This is the result of loading the package the target
+is in. For rules, this includes its attributes, which is usually what
+matters.</li>
+<li><strong>The implementation of the configured target.</strong> For rules, this can either
+be in Starlark or in Java. All non-rule configured targets are implemented
+in Java.</li>
+</ol>
+<p>The output of analyzing a configured target is:</p>
+<ol>
+<li>The transitive info providers that configured targets that depend on it can
+access</li>
+<li>The artifacts it can create and the actions that produce them.</li>
+</ol>
+<p>The API offered to Java rules is <code>RuleContext</code>, which is the equivalent of the
+<code>ctx</code> argument of Starlark rules. Its API is more powerful, but at the same
+time, it&rsquo;s easier to do Bad Things™, for example to write code whose time or
+space complexity is quadratic (or worse), to make the Bazel server crash with a
+Java exception or to violate invariants (such as by inadvertently modifying an
+<code>Options</code> instance or by making a configured target mutable)</p>
+<p>The algorithm that determines the direct dependencies of a configured target
+lives in <code>DependencyResolver.dependentNodeMap()</code>.</p>
+<h3 id="configurations">Configurations</h3>
+<p>Configurations are the &ldquo;how&rdquo; of building a target: for what platform, with what
+command line options, etc.</p>
+<p>The same target can be built for multiple configurations in the same build. This
+is useful, for example, when the same code is used for a tool that&rsquo;s run during
+the build and for the target code and we are cross-compiling or when we are
+building a fat Android app (one that contains native code for multiple CPU
+architectures)</p>
+<p>Conceptually, the configuration is a <code>BuildOptions</code> instance. However, in
+practice, <code>BuildOptions</code> is wrapped by <code>BuildConfiguration</code> that provides
+additional sundry pieces of functionality. It propagates from the top of the
+dependency graph to the bottom. If it changes, the build needs to be
+re-analyzed.</p>
+<p>This results in anomalies like having to re-analyze the whole build if, for
+example, the number of requested test runs changes, even though that only
+affects test targets (we have plans to &ldquo;trim&rdquo; configurations so that this is
+not the case, but it&rsquo;s not ready yet).</p>
+<p>When a rule implementation needs part of the configuration, it needs to declare
+it in its definition using <code>RuleClass.Builder.requiresConfigurationFragments()</code>
+. This is both to avoid mistakes (such as Python rules using the Java fragment) and
+to facilitate configuration trimming so that such as if Python options change, C++
+targets don&rsquo;t need to be re-analyzed.</p>
+<p>The configuration of a rule is not necessarily the same as that of its &ldquo;parent&rdquo;
+rule. The process of changing the configuration in a dependency edge is called a
+&ldquo;configuration transition&rdquo;. It can happen in two places:</p>
+<ol>
+<li>On a dependency edge. These transitions are specified in
+<code>Attribute.Builder.cfg()</code> and are functions from a <code>Rule</code> (where the
+transition happens) and a <code>BuildOptions</code> (the original configuration) to one
+or more <code>BuildOptions</code> (the output configuration).</li>
+<li>On any incoming edge to a configured target. These are specified in
+<code>RuleClass.Builder.cfg()</code>.</li>
+</ol>
+<p>The relevant classes are <code>TransitionFactory</code> and <code>ConfigurationTransition</code>.</p>
+<p>Configuration transitions are used, for example:</p>
+<ol>
+<li>To declare that a particular dependency is used during the build and it
+should thus be built in the execution architecture</li>
+<li>To declare that a particular dependency must be built for multiple
+architectures (such as for native code in fat Android APKs)</li>
+</ol>
+<p>If a configuration transition results in multiple configurations, it&rsquo;s called a
+<em>split transition.</em></p>
+<p>Configuration transitions can also be implemented in Starlark (documentation
+<a href="/extending/config/">here</a>)</p>
+<h3 id="transitive-info-providers">Transitive info providers</h3>
+<p>Transitive info providers are a way (and the _only _way) for configured targets
+to learn things about other configured targets that they depend on, and the only
+way to tell things about themselves to other configured targets that depend on
+them. The reason why &ldquo;transitive&rdquo; is in their name is that this is usually some
+sort of roll-up of the transitive closure of a configured target.</p>
+<p>There is generally a 1:1 correspondence between Java transitive info providers
+and Starlark ones (the exception is <code>DefaultInfo</code> which is an amalgamation of
+<code>FileProvider</code>, <code>FilesToRunProvider</code> and <code>RunfilesProvider</code> because that API was
+deemed to be more Starlark-ish than a direct transliteration of the Java one).
+Their key is one of the following things:</p>
+<ol>
+<li>A Java Class object. This is only available for providers that are not
+accessible from Starlark. These providers are a subclass of
+<code>TransitiveInfoProvider</code>.</li>
+<li>A string. This is legacy and heavily discouraged since it&rsquo;s susceptible to
+name clashes. Such transitive info providers are direct subclasses of
+<code>build.lib.packages.Info</code> .</li>
+<li>A provider symbol. This can be created from Starlark using the <code>provider()</code>
+function and is the recommended way to create new providers. The symbol is
+represented by a <code>Provider.Key</code> instance in Java.</li>
+</ol>
+<p>New providers implemented in Java should be implemented using <code>BuiltinProvider</code>.
+<code>NativeProvider</code> is deprecated (we haven&rsquo;t had time to remove it yet) and
+<code>TransitiveInfoProvider</code> subclasses cannot be accessed from Starlark.</p>
+<h3 id="configured-targets">Configured targets</h3>
+<p>Configured targets are implemented as <code>RuleConfiguredTargetFactory</code>. There is a
+subclass for each rule class implemented in Java. Starlark configured targets
+are created through <code>StarlarkRuleConfiguredTargetUtil.buildRule()</code> .</p>
+<p>Configured target factories should use <code>RuleConfiguredTargetBuilder</code> to
+construct their return value. It consists of the following things:</p>
+<ol>
+<li>Their <code>filesToBuild</code>, the hazy concept of &ldquo;the set of files this rule
+represents.&rdquo; These are the files that get built when the configured target
+is on the command line or in the srcs of a genrule.</li>
+<li>Their runfiles, regular and data.</li>
+<li>Their output groups. These are various &ldquo;other sets of files&rdquo; the rule can
+build. They can be accessed using the output_group attribute of the
+filegroup rule in BUILD and using the <code>OutputGroupInfo</code> provider in Java.</li>
+</ol>
+<h3 id="runfiles">Runfiles</h3>
+<p>Some binaries need data files to run. A prominent example is tests that need
+input files. This is represented in Bazel by the concept of &ldquo;runfiles&rdquo;. A
+&ldquo;runfiles tree&rdquo; is a directory tree of the data files for a particular binary.
+It is created in the file system as a symlink tree with individual symlinks
+pointing to the files in the source or output trees.</p>
+<p>A set of runfiles is represented as a <code>Runfiles</code> instance. It is conceptually a
+map from the path of a file in the runfiles tree to the <code>Artifact</code> instance that
+represents it. It&rsquo;s a little more complicated than a single <code>Map</code> for two
+reasons:</p>
+<ul>
+<li>Most of the time, the runfiles path of a file is the same as its execpath.
+We use this to save some RAM.</li>
+<li>There are various legacy kinds of entries in runfiles trees, which also need
+to be represented.</li>
+</ul>
+<p>Runfiles are collected using <code>RunfilesProvider</code>: an instance of this class
+represents the runfiles a configured target (such as a library) and its transitive
+closure needs and they are gathered like a nested set (in fact, they are
+implemented using nested sets under the cover): each target unions the runfiles
+of its dependencies, adds some of its own, then sends the resulting set upwards
+in the dependency graph. A <code>RunfilesProvider</code> instance contains two <code>Runfiles</code>
+instances, one for when the rule is depended on through the &ldquo;data&rdquo; attribute and
+one for every other kind of incoming dependency. This is because a target
+sometimes presents different runfiles when depended on through a data attribute
+than otherwise. This is undesired legacy behavior that we haven&rsquo;t gotten around
+removing yet.</p>
+<p>Runfiles of binaries are represented as an instance of <code>RunfilesSupport</code>. This
+is different from <code>Runfiles</code> because <code>RunfilesSupport</code> has the capability of
+actually being built (unlike <code>Runfiles</code>, which is just a mapping). This
+necessitates the following additional components:</p>
+<ul>
+<li><strong>The input runfiles manifest.</strong> This is a serialized description of the
+runfiles tree. It is used as a proxy for the contents of the runfiles tree
+and Bazel assumes that the runfiles tree changes if and only if the contents
+of the manifest change.</li>
+<li><strong>The output runfiles manifest.</strong> This is used by runtime libraries that
+handle runfiles trees, notably on Windows, which sometimes doesn&rsquo;t support
+symbolic links.</li>
+<li><strong>The runfiles middleman.</strong> In order for a runfiles tree to exist, one needs
+to build the symlink tree and the artifact the symlinks point to. In order
+to decrease the number of dependency edges, the runfiles middleman can be
+used to represent all these.</li>
+<li><strong>Command line arguments</strong> for running the binary whose runfiles the
+<code>RunfilesSupport</code> object represents.</li>
+</ul>
+<h3 id="aspects">Aspects</h3>
+<p>Aspects are a way to &ldquo;propagate computation down the dependency graph&rdquo;. They are
+described for users of Bazel
+<a href="/extending/aspects/">here</a>. A good
+motivating example is protocol buffers: a <code>proto_library</code> rule should not know
+about any particular language, but building the implementation of a protocol
+buffer message (the &ldquo;basic unit&rdquo; of protocol buffers) in any programming
+language should be coupled to the <code>proto_library</code> rule so that if two targets in
+the same language depend on the same protocol buffer, it gets built only once.</p>
+<p>Just like configured targets, they are represented in Skyframe as a <code>SkyValue</code>
+and the way they are constructed is very similar to how configured targets are
+built: they have a factory class called <code>ConfiguredAspectFactory</code> that has
+access to a <code>RuleContext</code>, but unlike configured target factories, it also knows
+about the configured target it is attached to and its providers.</p>
+<p>The set of aspects propagated down the dependency graph is specified for each
+attribute using the <code>Attribute.Builder.aspects()</code> function. There are a few
+confusingly-named classes that participate in the process:</p>
+<ol>
+<li><code>AspectClass</code> is the implementation of the aspect. It can be either in Java
+(in which case it&rsquo;s a subclass) or in Starlark (in which case it&rsquo;s an
+instance of <code>StarlarkAspectClass</code>). It&rsquo;s analogous to
+<code>RuleConfiguredTargetFactory</code>.</li>
+<li><code>AspectDefinition</code> is the definition of the aspect; it includes the
+providers it requires, the providers it provides and contains a reference to
+its implementation, such as the appropriate <code>AspectClass</code> instance. It&rsquo;s
+analogous to <code>RuleClass</code>.</li>
+<li><code>AspectParameters</code> is a way to parametrize an aspect that is propagated down
+the dependency graph. It&rsquo;s currently a string to string map. A good example
+of why it&rsquo;s useful is protocol buffers: if a language has multiple APIs, the
+information as to which API the protocol buffers should be built for should
+be propagated down the dependency graph.</li>
+<li><code>Aspect</code> represents all the data that&rsquo;s needed to compute an aspect that
+propagates down the dependency graph. It consists of the aspect class, its
+definition and its parameters.</li>
+<li><code>RuleAspect</code> is the function that determines which aspects a particular rule
+should propagate. It&rsquo;s a <code>Rule</code> -&gt; <code>Aspect</code> function.</li>
+</ol>
+<p>A somewhat unexpected complication is that aspects can attach to other aspects;
+for example, an aspect collecting the classpath for a Java IDE will probably
+want to know about all the .jar files on the classpath, but some of them are
+protocol buffers. In that case, the IDE aspect will want to attach to the
+(<code>proto_library</code> rule + Java proto aspect) pair.</p>
+<p>The complexity of aspects on aspects is captured in the class
+<code>AspectCollection</code>.</p>
+<h3 id="platforms-and-toolchains">Platforms and toolchains</h3>
+<p>Bazel supports multi-platform builds, that is, builds where there may be
+multiple architectures where build actions run and multiple architectures for
+which code is built. These architectures are referred to as <em>platforms</em> in Bazel
+parlance (full documentation
+<a href="/extending/platforms/">here</a>)</p>
+<p>A platform is described by a key-value mapping from <em>constraint settings</em> (such as
+the concept of &ldquo;CPU architecture&rdquo;) to <em>constraint values</em> (such as a particular CPU
+like x86_64). We have a &ldquo;dictionary&rdquo; of the most commonly used constraint
+settings and values in the <code>@platforms</code> repository.</p>
+<p>The concept of <em>toolchain</em> comes from the fact that depending on what platforms
+the build is running on and what platforms are targeted, one may need to use
+different compilers; for example, a particular C++ toolchain may run on a
+specific OS and be able to target some other OSes. Bazel must determine the C++
+compiler that is used based on the set execution and target platform
+(documentation for toolchains
+<a href="/extending/toolchains/">here</a>).</p>
+<p>In order to do this, toolchains are annotated with the set of execution and
+target platform constraints they support. In order to do this, the definition of
+a toolchain are split into two parts:</p>
+<ol>
+<li>A <code>toolchain()</code> rule that describes the set of execution and target
+constraints a toolchain supports and tells what kind (such as C++ or Java) of
+toolchain it is (the latter is represented by the <code>toolchain_type()</code> rule)</li>
+<li>A language-specific rule that describes the actual toolchain (such as
+<code>cc_toolchain()</code>)</li>
+</ol>
+<p>This is done in this way because we need to know the constraints for every
+toolchain in order to do toolchain resolution and language-specific
+<code>*_toolchain()</code> rules contain much more information than that, so they take more
+time to load.</p>
+<p>Execution platforms are specified in one of the following ways:</p>
+<ol>
+<li>In the MODULE.bazel file using the <code>register_execution_platforms()</code> function</li>
+<li>On the command line using the &ndash;extra_execution_platforms command line
+option</li>
+</ol>
+<p>The set of available execution platforms is computed in
+<code>RegisteredExecutionPlatformsFunction</code> .</p>
+<p>The target platform for a configured target is determined by
+<code>PlatformOptions.computeTargetPlatform()</code> . It&rsquo;s a list of platforms because we
+eventually want to support multiple target platforms, but it&rsquo;s not implemented
+yet.</p>
+<p>The set of toolchains to be used for a configured target is determined by
+<code>ToolchainResolutionFunction</code>. It is a function of:</p>
+<ul>
+<li>The set of registered toolchains (in the MODULE.bazel file and the
+configuration)</li>
+<li>The desired execution and target platforms (in the configuration)</li>
+<li>The set of toolchain types that are required by the configured target (in
+<code>UnloadedToolchainContextKey)</code></li>
+<li>The set of execution platform constraints of the configured target (the
+<code>exec_compatible_with</code> attribute) and the configuration
+(<code>--experimental_add_exec_constraints_to_targets</code>), in
+<code>UnloadedToolchainContextKey</code></li>
+</ul>
+<p>Its result is an <code>UnloadedToolchainContext</code>, which is essentially a map from
+toolchain type (represented as a <code>ToolchainTypeInfo</code> instance) to the label of
+the selected toolchain. It&rsquo;s called &ldquo;unloaded&rdquo; because it does not contain the
+toolchains themselves, only their labels.</p>
+<p>Then the toolchains are actually loaded using <code>ResolvedToolchainContext.load()</code>
+and used by the implementation of the configured target that requested them.</p>
+<p>We also have a legacy system that relies on there being one single &ldquo;host&rdquo;
+configuration and target configurations being represented by various
+configuration flags, such as <code>--cpu</code> . We are gradually transitioning to the above
+system. In order to handle cases where people rely on the legacy configuration
+values, we have implemented
+<a href="https://docs.google.com/document/d/1Vg_tPgiZbSrvXcJ403vZVAGlsWhH9BUDrAxMOYnO0Ls">platform mappings</a>
+to translate between the legacy flags and the new-style platform constraints.
+Their code is in <code>PlatformMappingFunction</code> and uses a non-Starlark &ldquo;little
+language&rdquo;.</p>
+<h3 id="constraints">Constraints</h3>
+<p>Sometimes one wants to designate a target as being compatible with only a few
+platforms. Bazel has (unfortunately) multiple mechanisms to achieve this end:</p>
+<ul>
+<li>Rule-specific constraints</li>
+<li><code>environment_group()</code> / <code>environment()</code></li>
+<li>Platform constraints</li>
+</ul>
+<p>Rule-specific constraints are mostly used within Google for Java rules; they are
+on their way out and they are not available in Bazel, but the source code may
+contain references to it. The attribute that governs this is called
+<code>constraints=</code> .</p>
+<h4 id="environment_group-and-environment">environment_group() and environment()</h4>
+<p>These rules are a legacy mechanism and are not widely used.</p>
+<p>All build rules can declare which &ldquo;environments&rdquo; they can be built for, where an
+&ldquo;environment&rdquo; is an instance of the <code>environment()</code> rule.</p>
+<p>There are various ways supported environments can be specified for a rule:</p>
+<ol>
+<li>Through the <code>restricted_to=</code> attribute. This is the most direct form of
+specification; it declares the exact set of environments the rule supports.</li>
+<li>Through the <code>compatible_with=</code> attribute. This declares environments a rule
+supports in addition to &ldquo;standard&rdquo; environments that are supported by
+default.</li>
+<li>Through the package-level attributes <code>default_restricted_to=</code> and
+<code>default_compatible_with=</code>.</li>
+<li>Through default specifications in <code>environment_group()</code> rules. Every
+environment belongs to a group of thematically related peers (such as &ldquo;CPU
+architectures&rdquo;, &ldquo;JDK versions&rdquo; or &ldquo;mobile operating systems&rdquo;). The
+definition of an environment group includes which of these environments
+should be supported by &ldquo;default&rdquo; if not otherwise specified by the
+<code>restricted_to=</code> / <code>environment()</code> attributes. A rule with no such
+attributes inherits all defaults.</li>
+<li>Through a rule class default. This overrides global defaults for all
+instances of the given rule class. This can be used, for example, to make
+all <code>*_test</code> rules testable without each instance having to explicitly
+declare this capability.</li>
+</ol>
+<p><code>environment()</code> is implemented as a regular rule whereas <code>environment_group()</code>
+is both a subclass of <code>Target</code> but not <code>Rule</code> (<code>EnvironmentGroup</code>) and a
+function that is available by default from Starlark
+(<code>StarlarkLibrary.environmentGroup()</code>) which eventually creates an eponymous
+target. This is to avoid a cyclic dependency that would arise because each
+environment needs to declare the environment group it belongs to and each
+environment group needs to declare its default environments.</p>
+<p>A build can be restricted to a certain environment with the
+<code>--target_environment</code> command line option.</p>
+<p>The implementation of the constraint check is in
+<code>RuleContextConstraintSemantics</code> and <code>TopLevelConstraintSemantics</code>.</p>
+<h4 id="platform-constraints">Platform constraints</h4>
+<p>The current &ldquo;official&rdquo; way to describe what platforms a target is compatible
+with is by using the same constraints used to describe toolchains and platforms.
+It was implemented in pull request
+<a href="https://github.com/bazelbuild/bazel/pull/10945">#10945</a>.</p>
+<h3 id="visibility">Visibility</h3>
+<p>If you work on a large codebase with a lot of developers (like at Google), you
+want to take care to prevent everyone else from arbitrarily depending on your
+code. Otherwise, as per <a href="https://www.hyrumslaw.com/">Hyrum&rsquo;s law</a>,
+people <em>will</em> come to rely on behaviors that you considered to be implementation
+details.</p>
+<p>Bazel supports this by the mechanism called <em>visibility</em>: you can limit which
+targets can depend on a particular target using the
+<a href="/reference/be/common-definitions#common-attributes/">visibility</a> attribute. This
+attribute is a little special because, although it holds a list of labels, these
+labels may encode a pattern over package names rather than a pointer to any
+particular target. (Yes, this is a design flaw.)</p>
+<p>This is implemented in the following places:</p>
+<ul>
+<li>The <code>RuleVisibility</code> interface represents a visibility declaration. It can
+be either a constant (fully public or fully private) or a list of labels.</li>
+<li>Labels can refer to either package groups (predefined list of packages), to
+packages directly (<code>//pkg:__pkg__</code>) or subtrees of packages
+(<code>//pkg:__subpackages__</code>). This is different from the command line syntax,
+which uses <code>//pkg:*</code> or <code>//pkg/...</code>.</li>
+<li>Package groups are implemented as their own target (<code>PackageGroup</code>) and
+configured target (<code>PackageGroupConfiguredTarget</code>). We could probably
+replace these with simple rules if we wanted to. Their logic is implemented
+with the help of: <code>PackageSpecification</code>, which corresponds to a
+single pattern like <code>//pkg/...</code>; <code>PackageGroupContents</code>, which corresponds
+to a single <code>package_group</code>&rsquo;s <code>packages</code> attribute; and
+<code>PackageSpecificationProvider</code>, which aggregates over a <code>package_group</code> and
+its transitive <code>includes</code>.</li>
+<li>The conversion from visibility label lists to dependencies is done in
+<code>DependencyResolver.visitTargetVisibility</code> and a few other miscellaneous
+places.</li>
+<li>The actual check is done in
+<code>CommonPrerequisiteValidator.validateDirectPrerequisiteVisibility()</code></li>
+</ul>
+<h3 id="nested-sets">Nested sets</h3>
+<p>Oftentimes, a configured target aggregates a set of files from its dependencies,
+adds its own, and wraps the aggregate set into a transitive info provider so
+that configured targets that depend on it can do the same. Examples:</p>
+<ul>
+<li>The C++ header files used for a build</li>
+<li>The object files that represent the transitive closure of a <code>cc_library</code></li>
+<li>The set of .jar files that need to be on the classpath for a Java rule to
+compile or run</li>
+<li>The set of Python files in the transitive closure of a Python rule</li>
+</ul>
+<p>If we did this the naive way by using, for example, <code>List</code> or <code>Set</code>, we&rsquo;d end up with
+quadratic memory usage: if there is a chain of N rules and each rule adds a
+file, we&rsquo;d have 1+2+&hellip;+N collection members.</p>
+<p>In order to get around this problem, we came up with the concept of a
+<code>NestedSet</code>. It&rsquo;s a data structure that is composed of other <code>NestedSet</code>
+instances and some members of its own, thereby forming a directed acyclic graph
+of sets. They are immutable and their members can be iterated over. We define
+multiple iteration order (<code>NestedSet.Order</code>): preorder, postorder, topological
+(a node always comes after its ancestors) and &ldquo;don&rsquo;t care, but it should be the
+same each time&rdquo;.</p>
+<p>The same data structure is called <code>depset</code> in Starlark.</p>
+<h3 id="artifacts-and-actions">Artifacts and Actions</h3>
+<p>The actual build consists of a set of commands that need to be run to produce
+the output the user wants. The commands are represented as instances of the
+class <code>Action</code> and the files are represented as instances of the class
+<code>Artifact</code>. They are arranged in a bipartite, directed, acyclic graph called the
+&ldquo;action graph&rdquo;.</p>
+<p>Artifacts come in two kinds: source artifacts (ones that are available
+before Bazel starts executing) and derived artifacts (ones that need to be
+built). Derived artifacts can themselves be multiple kinds:</p>
+<ol>
+<li><strong>Regular artifacts.</strong> These are checked for up-to-dateness by computing
+their checksum, with mtime as a shortcut; we don&rsquo;t checksum the file if its
+ctime hasn&rsquo;t changed.</li>
+<li><strong>Unresolved symlink artifacts.</strong> These are checked for up-to-dateness by
+calling readlink(). Unlike regular artifacts, these can be dangling
+symlinks. Usually used in cases where one then packs up some files into an
+archive of some sort.</li>
+<li><strong>Tree artifacts.</strong> These are not single files, but directory trees. They
+are checked for up-to-dateness by checking the set of files in it and their
+contents. They are represented as a <code>TreeArtifact</code>.</li>
+<li><strong>Constant metadata artifacts.</strong> Changes to these artifacts don&rsquo;t trigger a
+rebuild. This is used exclusively for build stamp information: we don&rsquo;t want
+to do a rebuild just because the current time changed.</li>
+</ol>
+<p>There is no fundamental reason why source artifacts cannot be tree artifacts or
+unresolved symlink artifacts, it&rsquo;s just that we haven&rsquo;t implemented it yet (we
+should, though &ndash; referencing a source directory in a <code>BUILD</code> file is one of the
+few known long-standing incorrectness issues with Bazel; we have an
+implementation that kind of works which is enabled by the
+<code>BAZEL_TRACK_SOURCE_DIRECTORIES=1</code> JVM property)</p>
+<p>A notable kind of <code>Artifact</code> are middlemen. They are indicated by <code>Artifact</code>
+instances that are the outputs of <code>MiddlemanAction</code>. They are used for one
+special case:</p>
+<ul>
+<li>Runfiles middlemen are used to ensure the presence of a runfiles tree so
+that one does not separately need to depend on the output manifest and every
+single artifact referenced by the runfiles tree.</li>
+</ul>
+<p>Actions are best understood as a command that needs to be run, the environment
+it needs and the set of outputs it produces. The following things are the main
+components of the description of an action:</p>
+<ul>
+<li>The command line that needs to be run</li>
+<li>The input artifacts it needs</li>
+<li>The environment variables that need to be set</li>
+<li>Annotations that describe the environment (such as platform) it needs to run in
+\</li>
+</ul>
+<p>There are also a few other special cases, like writing a file whose content is
+known to Bazel. They are a subclass of <code>AbstractAction</code>. Most of the actions are
+a <code>SpawnAction</code> or a <code>StarlarkAction</code> (the same, they should arguably not be
+separate classes), although Java and C++ have their own action types
+(<code>JavaCompileAction</code>, <code>CppCompileAction</code> and <code>CppLinkAction</code>).</p>
+<p>We eventually want to move everything to <code>SpawnAction</code>; <code>JavaCompileAction</code> is
+pretty close, but C++ is a bit of a special-case due to .d file parsing and
+include scanning.</p>
+<p>The action graph is mostly &ldquo;embedded&rdquo; into the Skyframe graph: conceptually, the
+execution of an action is represented as an invocation of
+<code>ActionExecutionFunction</code>. The mapping from an action graph dependency edge to a
+Skyframe dependency edge is described in
+<code>ActionExecutionFunction.getInputDeps()</code> and <code>Artifact.key()</code> and has a few
+optimizations in order to keep the number of Skyframe edges low:</p>
+<ul>
+<li>Derived artifacts do not have their own <code>SkyValue</code>s. Instead,
+<code>Artifact.getGeneratingActionKey()</code> is used to find out the key for the
+action that generates it</li>
+<li>Nested sets have their own Skyframe key.</li>
+</ul>
+<h3 id="shared-actions">Shared actions</h3>
+<p>Some actions are generated by multiple configured targets; Starlark rules are
+more limited since they are only allowed to put their derived actions into a
+directory determined by their configuration and their package (but even so,
+rules in the same package can conflict), but rules implemented in Java can put
+derived artifacts anywhere.</p>
+<p>This is considered to be a misfeature, but getting rid of it is really hard
+because it produces significant savings in execution time when, for example, a
+source file needs to be processed somehow and that file is referenced by
+multiple rules (handwave-handwave). This comes at the cost of some RAM: each
+instance of a shared action needs to be stored in memory separately.</p>
+<p>If two actions generate the same output file, they must be exactly the same:
+have the same inputs, the same outputs and run the same command line. This
+equivalence relation is implemented in <code>Actions.canBeShared()</code> and it is
+verified between the analysis and execution phases by looking at every Action.
+This is implemented in <code>SkyframeActionExecutor.findAndStoreArtifactConflicts()</code>
+and is one of the few places in Bazel that requires a &ldquo;global&rdquo; view of the
+build.</p>
+<h2 id="the-execution-phase">The execution phase</h2>
+<p>This is when Bazel actually starts running build actions, such as commands that
+produce outputs.</p>
+<p>The first thing Bazel does after the analysis phase is to determine what
+Artifacts need to be built. The logic for this is encoded in
+<code>TopLevelArtifactHelper</code>; roughly speaking, it&rsquo;s the <code>filesToBuild</code> of the
+configured targets on the command line and the contents of a special output
+group for the explicit purpose of expressing &ldquo;if this target is on the command
+line, build these artifacts&rdquo;.</p>
+<p>The next step is creating the execution root. Since Bazel has the option to read
+source packages from different locations in the file system (<code>--package_path</code>),
+it needs to provide locally executed actions with a full source tree. This is
+handled by the class <code>SymlinkForest</code> and works by taking note of every target
+used in the analysis phase and building up a single directory tree that symlinks
+every package with a used target from its actual location. An alternative would
+be to pass the correct paths to commands (taking <code>--package_path</code> into account).
+This is undesirable because:</p>
+<ul>
+<li>It changes action command lines when a package is moved from a package path
+entry to another (used to be a common occurrence)</li>
+<li>It results in different command lines if an action is run remotely than if
+it&rsquo;s run locally</li>
+<li>It requires a command line transformation specific to the tool in use
+(consider the difference between such as Java classpaths and C++ include paths)</li>
+<li>Changing the command line of an action invalidates its action cache entry</li>
+<li><code>--package_path</code> is slowly and steadily being deprecated</li>
+</ul>
+<p>Then, Bazel starts traversing the action graph (the bipartite, directed graph
+composed of actions and their input and output artifacts) and running actions.
+The execution of each action is represented by an instance of the <code>SkyValue</code>
+class <code>ActionExecutionValue</code>.</p>
+<p>Since running an action is expensive, we have a few layers of caching that can
+be hit behind Skyframe:</p>
+<ul>
+<li><code>ActionExecutionFunction.stateMap</code> contains data to make Skyframe restarts
+of <code>ActionExecutionFunction</code> cheap</li>
+<li>The local action cache contains data about the state of the file system</li>
+<li>Remote execution systems usually also contain their own cache</li>
+</ul>
+<h3 id="the-local-action-cache">The local action cache</h3>
+<p>This cache is another layer that sits behind Skyframe; even if an action is
+re-executed in Skyframe, it can still be a hit in the local action cache. It
+represents the state of the local file system and it&rsquo;s serialized to disk which
+means that when one starts up a new Bazel server, one can get local action cache
+hits even though the Skyframe graph is empty.</p>
+<p>This cache is checked for hits using the method
+<code>ActionCacheChecker.getTokenIfNeedToExecute()</code> .</p>
+<p>Contrary to its name, it&rsquo;s a map from the path of a derived artifact to the
+action that emitted it. The action is described as:</p>
+<ol>
+<li>The set of its input and output files and their checksum</li>
+<li>Its &ldquo;action key&rdquo;, which is usually the command line that was executed, but
+in general, represents everything that&rsquo;s not captured by the checksum of the
+input files (such as for <code>FileWriteAction</code>, it&rsquo;s the checksum of the data
+that&rsquo;s written)</li>
+</ol>
+<p>There is also a highly experimental &ldquo;top-down action cache&rdquo; that is still under
+development, which uses transitive hashes to avoid going to the cache as many
+times.</p>
+<h3 id="input-discovery-and-input-pruning">Input discovery and input pruning</h3>
+<p>Some actions are more complicated than just having a set of inputs. Changes to
+the set of inputs of an action come in two forms:</p>
+<ul>
+<li>An action may discover new inputs before its execution or decide that some
+of its inputs are not actually necessary. The canonical example is C++,
+where it&rsquo;s better to make an educated guess about what header files a C++
+file uses from its transitive closure so that we don&rsquo;t heed to send every
+file to remote executors; therefore, we have an option not to register every
+header file as an &ldquo;input&rdquo;, but scan the source file for transitively
+included headers and only mark those header files as inputs that are
+mentioned in <code>#include</code> statements (we overestimate so that we don&rsquo;t need to
+implement a full C preprocessor) This option is currently hard-wired to
+&ldquo;false&rdquo; in Bazel and is only used at Google.</li>
+<li>An action may realize that some files were not used during its execution. In
+C++, this is called &ldquo;.d files&rdquo;: the compiler tells which header files were
+used after the fact, and in order to avoid the embarrassment of having worse
+incrementality than Make, Bazel makes use of this fact. This offers a better
+estimate than the include scanner because it relies on the compiler.</li>
+</ul>
+<p>These are implemented using methods on Action:</p>
+<ol>
+<li><code>Action.discoverInputs()</code> is called. It should return a nested set of
+Artifacts that are determined to be required. These must be source artifacts
+so that there are no dependency edges in the action graph that don&rsquo;t have an
+equivalent in the configured target graph.</li>
+<li>The action is executed by calling <code>Action.execute()</code>.</li>
+<li>At the end of <code>Action.execute()</code>, the action can call
+<code>Action.updateInputs()</code> to tell Bazel that not all of its inputs were
+needed. This can result in incorrect incremental builds if a used input is
+reported as unused.</li>
+</ol>
+<p>When an action cache returns a hit on a fresh Action instance (such as created
+after a server restart), Bazel calls <code>updateInputs()</code> itself so that the set of
+inputs reflects the result of input discovery and pruning done before.</p>
+<p>Starlark actions can make use of the facility to declare some inputs as unused
+using the <code>unused_inputs_list=</code> argument of
+<code>ctx.actions.run()</code>.</p>
+<h3 id="various-ways-to-run-actions-strategiesactioncontexts">Various ways to run actions: Strategies/ActionContexts</h3>
+<p>Some actions can be run in different ways. For example, a command line can be
+executed locally, locally but in various kinds of sandboxes, or remotely. The
+concept that embodies this is called an <code>ActionContext</code> (or <code>Strategy</code>, since we
+successfully went only halfway with a rename&hellip;)</p>
+<p>The life cycle of an action context is as follows:</p>
+<ol>
+<li>When the execution phase is started, <code>BlazeModule</code> instances are asked what
+action contexts they have. This happens in the constructor of
+<code>ExecutionTool</code>. Action context types are identified by a Java <code>Class</code>
+instance that refers to a sub-interface of <code>ActionContext</code> and which
+interface the action context must implement.</li>
+<li>The appropriate action context is selected from the available ones and is
+forwarded to <code>ActionExecutionContext</code> and <code>BlazeExecutor</code> .</li>
+<li>Actions request contexts using <code>ActionExecutionContext.getContext()</code> and
+<code>BlazeExecutor.getStrategy()</code> (there should really be only one way to do
+it…)</li>
+</ol>
+<p>Strategies are free to call other strategies to do their jobs; this is used, for
+example, in the dynamic strategy that starts actions both locally and remotely,
+then uses whichever finishes first.</p>
+<p>One notable strategy is the one that implements persistent worker processes
+(<code>WorkerSpawnStrategy</code>). The idea is that some tools have a long startup time
+and should therefore be reused between actions instead of starting one anew for
+every action (This does represent a potential correctness issue, since Bazel
+relies on the promise of the worker process that it doesn&rsquo;t carry observable
+state between individual requests)</p>
+<p>If the tool changes, the worker process needs to be restarted. Whether a worker
+can be reused is determined by computing a checksum for the tool used using
+<code>WorkerFilesHash</code>. It relies on knowing which inputs of the action represent
+part of the tool and which represent inputs; this is determined by the creator
+of the Action: <code>Spawn.getToolFiles()</code> and the runfiles of the <code>Spawn</code> are
+counted as parts of the tool.</p>
+<p>More information about strategies (or action contexts!):</p>
+<ul>
+<li>Information about various strategies for running actions is available
+<a href="https://jmmv.dev/2019/12/bazel-strategies.html">here</a>.</li>
+<li>Information about the dynamic strategy, one where we run an action both
+locally and remotely to see whichever finishes first is available
+<a href="https://jmmv.dev/series.html#Bazel%20dynamic%20execution">here</a>.</li>
+<li>Information about the intricacies of executing actions locally is available
+<a href="https://jmmv.dev/2019/11/bazel-process-wrapper.html">here</a>.</li>
+</ul>
+<h3 id="the-local-resource-manager">The local resource manager</h3>
+<p>Bazel <em>can</em> run many actions in parallel. The number of local actions that
+<em>should</em> be run in parallel differs from action to action: the more resources an
+action requires, the less instances should be running at the same time to avoid
+overloading the local machine.</p>
+<p>This is implemented in the class <code>ResourceManager</code>: each action has to be
+annotated with an estimate of the local resources it requires in the form of a
+<code>ResourceSet</code> instance (CPU and RAM). Then when action contexts do something
+that requires local resources, they call <code>ResourceManager.acquireResources()</code>
+and are blocked until the required resources are available.</p>
+<p>A more detailed description of local resource management is available
+<a href="https://jmmv.dev/2019/12/bazel-local-resources.html">here</a>.</p>
+<h3 id="the-structure-of-the-output-directory">The structure of the output directory</h3>
+<p>Each action requires a separate place in the output directory where it places
+its outputs. The location of derived artifacts is usually as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">$EXECROOT</span>/bazel-out/&lt;configuration&gt;/bin/&lt;package&gt;/&lt;artifact name&gt;
+</span></span></code></pre></div><p>How is the name of the directory that is associated with a particular
+configuration determined? There are two conflicting desirable properties:</p>
+<ol>
+<li>If two configurations can occur in the same build, they should have
+different directories so that both can have their own version of the same
+action; otherwise, if the two configurations disagree about such as the command
+line of an action producing the same output file, Bazel doesn&rsquo;t know which
+action to choose (an &ldquo;action conflict&rdquo;)</li>
+<li>If two configurations represent &ldquo;roughly&rdquo; the same thing, they should have
+the same name so that actions executed in one can be reused for the other if
+the command lines match: for example, changes to the command line options to
+the Java compiler should not result in C++ compile actions being re-run.</li>
+</ol>
+<p>So far, we have not come up with a principled way of solving this problem, which
+has similarities to the problem of configuration trimming. A longer discussion
+of options is available
+<a href="https://docs.google.com/document/d/1fZI7wHoaS-vJvZy9SBxaHPitIzXE_nL9v4sS4mErrG4/edit">here</a>.
+The main problematic areas are Starlark rules (whose authors usually aren&rsquo;t
+intimately familiar with Bazel) and aspects, which add another dimension to the
+space of things that can produce the &ldquo;same&rdquo; output file.</p>
+<p>The current approach is that the path segment for the configuration is
+<code>&lt;CPU&gt;-&lt;compilation mode&gt;</code> with various suffixes added so that configuration
+transitions implemented in Java don&rsquo;t result in action conflicts. In addition, a
+checksum of the set of Starlark configuration transitions is added so that users
+can&rsquo;t cause action conflicts. It is far from perfect. This is implemented in
+<code>OutputDirectories.buildMnemonic()</code> and relies on each configuration fragment
+adding its own part to the name of the output directory.</p>
+<h2 id="tests">Tests</h2>
+<p>Bazel has rich support for running tests. It supports:</p>
+<ul>
+<li>Running tests remotely (if a remote execution backend is available)</li>
+<li>Running tests multiple times in parallel (for deflaking or gathering timing
+data)</li>
+<li>Sharding tests (splitting test cases in same test over multiple processes
+for speed)</li>
+<li>Re-running flaky tests</li>
+<li>Grouping tests into test suites</li>
+</ul>
+<p>Tests are regular configured targets that have a TestProvider, which describes
+how the test should be run:</p>
+<ul>
+<li>The artifacts whose building result in the test being run. This is a &ldquo;cache
+status&rdquo; file that contains a serialized <code>TestResultData</code> message</li>
+<li>The number of times the test should be run</li>
+<li>The number of shards the test should be split into</li>
+<li>Some parameters about how the test should be run (such as the test timeout)</li>
+</ul>
+<h3 id="determining-which-tests-to-run">Determining which tests to run</h3>
+<p>Determining which tests are run is an elaborate process.</p>
+<p>First, during target pattern parsing, test suites are recursively expanded. The
+expansion is implemented in <code>TestsForTargetPatternFunction</code>. A somewhat
+surprising wrinkle is that if a test suite declares no tests, it refers to
+<em>every</em> test in its package. This is implemented in <code>Package.beforeBuild()</code> by
+adding an implicit attribute called <code>$implicit_tests</code> to test suite rules.</p>
+<p>Then, tests are filtered for size, tags, timeout and language according to the
+command line options. This is implemented in <code>TestFilter</code> and is called from
+<code>TargetPatternPhaseFunction.determineTests()</code> during target parsing and the
+result is put into <code>TargetPatternPhaseValue.getTestsToRunLabels()</code>. The reason
+why rule attributes which can be filtered for are not configurable is that this
+happens before the analysis phase, therefore, the configuration is not
+available.</p>
+<p>This is then processed further in <code>BuildView.createResult()</code>: targets whose
+analysis failed are filtered out and tests are split into exclusive and
+non-exclusive tests. It&rsquo;s then put into <code>AnalysisResult</code>, which is how
+<code>ExecutionTool</code> knows which tests to run.</p>
+<p>In order to lend some transparency to this elaborate process, the <code>tests()</code>
+query operator (implemented in <code>TestsFunction</code>) is available to tell which tests
+are run when a particular target is specified on the command line. It&rsquo;s
+unfortunately a reimplementation, so it probably deviates from the above in
+multiple subtle ways.</p>
+<h3 id="running-tests">Running tests</h3>
+<p>The way the tests are run is by requesting cache status artifacts. This then
+results in the execution of a <code>TestRunnerAction</code>, which eventually calls the
+<code>TestActionContext</code> chosen by the <code>--test_strategy</code> command line option that
+runs the test in the requested way.</p>
+<p>Tests are run according to an elaborate protocol that uses environment variables
+to tell tests what&rsquo;s expected from them. A detailed description of what Bazel
+expects from tests and what tests can expect from Bazel is available
+<a href="/reference/test-encyclopedia/">here</a>. At the
+simplest, an exit code of 0 means success, anything else means failure.</p>
+<p>In addition to the cache status file, each test process emits a number of other
+files. They are put in the &ldquo;test log directory&rdquo; which is the subdirectory called
+<code>testlogs</code> of the output directory of the target configuration:</p>
+<ul>
+<li><code>test.xml</code>, a JUnit-style XML file detailing the individual test cases in
+the test shard</li>
+<li><code>test.log</code>, the console output of the test. stdout and stderr are not
+separated.</li>
+<li><code>test.outputs</code>, the &ldquo;undeclared outputs directory&rdquo;; this is used by tests
+that want to output files in addition to what they print to the terminal.</li>
+</ul>
+<p>There are two things that can happen during test execution that cannot during
+building regular targets: exclusive test execution and output streaming.</p>
+<p>Some tests need to be executed in exclusive mode, for example not in parallel with
+other tests. This can be elicited either by adding <code>tags=[&quot;exclusive&quot;]</code> to the
+test rule or running the test with <code>--test_strategy=exclusive</code> . Each exclusive
+test is run by a separate Skyframe invocation requesting the execution of the
+test after the &ldquo;main&rdquo; build. This is implemented in
+<code>SkyframeExecutor.runExclusiveTest()</code>.</p>
+<p>Unlike regular actions, whose terminal output is dumped when the action
+finishes, the user can request the output of tests to be streamed so that they
+get informed about the progress of a long-running test. This is specified by the
+<code>--test_output=streamed</code> command line option and implies exclusive test
+execution so that outputs of different tests are not interspersed.</p>
+<p>This is implemented in the aptly-named <code>StreamedTestOutput</code> class and works by
+polling changes to the <code>test.log</code> file of the test in question and dumping new
+bytes to the terminal where Bazel rules.</p>
+<p>Results of the executed tests are available on the event bus by observing
+various events (such as <code>TestAttempt</code>, <code>TestResult</code> or <code>TestingCompleteEvent</code>).
+They are dumped to the Build Event Protocol and they are emitted to the console
+by <code>AggregatingTestListener</code>.</p>
+<h3 id="coverage-collection">Coverage collection</h3>
+<p>Coverage is reported by the tests in LCOV format in the files
+<code>bazel-testlogs/$PACKAGE/$TARGET/coverage.dat</code> .</p>
+<p>To collect coverage, each test execution is wrapped in a script called
+<code>collect_coverage.sh</code> .</p>
+<p>This script sets up the environment of the test to enable coverage collection
+and determine where the coverage files are written by the coverage runtime(s).
+It then runs the test. A test may itself run multiple subprocesses and consist
+of parts written in multiple different programming languages (with separate
+coverage collection runtimes). The wrapper script is responsible for converting
+the resulting files to LCOV format if necessary, and merges them into a single
+file.</p>
+<p>The interposition of <code>collect_coverage.sh</code> is done by the test strategies and
+requires <code>collect_coverage.sh</code> to be on the inputs of the test. This is
+accomplished by the implicit attribute <code>:coverage_support</code> which is resolved to
+the value of the configuration flag <code>--coverage_support</code> (see
+<code>TestConfiguration.TestOptions.coverageSupport</code>)</p>
+<p>Some languages do offline instrumentation, meaning that the coverage
+instrumentation is added at compile time (such as C++) and others do online
+instrumentation, meaning that coverage instrumentation is added at execution
+time.</p>
+<p>Another core concept is <em>baseline coverage</em>. This is the coverage of a library,
+binary, or test if no code in it was run. The problem it solves is that if you
+want to compute the test coverage for a binary, it is not enough to merge the
+coverage of all of the tests because there may be code in the binary that is not
+linked into any test. Therefore, what we do is to emit a coverage file for every
+binary which contains only the files we collect coverage for with no covered
+lines. The default baseline coverage file for a target is at
+<code>bazel-testlogs/$PACKAGE/$TARGET/baseline_coverage.dat</code>, but rules are
+encouraged to generate their own baseline coverage files with more meaningful
+content than just the names of the source files.</p>
+<p>We track two groups of files for coverage collection for each rule: the set of
+instrumented files and the set of instrumentation metadata files.</p>
+<p>The set of instrumented files is just that, a set of files to instrument. For
+online coverage runtimes, this can be used at runtime to decide which files to
+instrument. It is also used to implement baseline coverage.</p>
+<p>The set of instrumentation metadata files is the set of extra files a test needs
+to generate the LCOV files Bazel requires from it. In practice, this consists of
+runtime-specific files; for example, gcc emits .gcno files during compilation.
+These are added to the set of inputs of test actions if coverage mode is
+enabled.</p>
+<p>Whether or not coverage is being collected is stored in the
+<code>BuildConfiguration</code>. This is handy because it is an easy way to change the test
+action and the action graph depending on this bit, but it also means that if
+this bit is flipped, all targets need to be re-analyzed (some languages, such as
+C++ require different compiler options to emit code that can collect coverage,
+which mitigates this issue somewhat, since then a re-analysis is needed anyway).</p>
+<p>The coverage support files are depended on through labels in an implicit
+dependency so that they can be overridden by the invocation policy, which allows
+them to differ between the different versions of Bazel. Ideally, these
+differences would be removed, and we standardized on one of them.</p>
+<p>We also generate a &ldquo;coverage report&rdquo; which merges the coverage collected for
+every test in a Bazel invocation. This is handled by
+<code>CoverageReportActionFactory</code> and is called from <code>BuildView.createResult()</code> . It
+gets access to the tools it needs by looking at the <code>:coverage_report_generator</code>
+attribute of the first test that is executed.</p>
+<h2 id="the-query-engine">The query engine</h2>
+<p>Bazel has a
+<a href="/query/guide/">little language</a>
+used to ask it various things about various graphs. The following query kinds
+are provided:</p>
+<ul>
+<li><code>bazel query</code> is used to investigate the target graph</li>
+<li><code>bazel cquery</code> is used to investigate the configured target graph</li>
+<li><code>bazel aquery</code> is used to investigate the action graph</li>
+</ul>
+<p>Each of these is implemented by subclassing <code>AbstractBlazeQueryEnvironment</code>.
+Additional additional query functions can be done by subclassing <code>QueryFunction</code>
+. In order to allow streaming query results, instead of collecting them to some
+data structure, a <code>query2.engine.Callback</code> is passed to <code>QueryFunction</code>, which
+calls it for results it wants to return.</p>
+<p>The result of a query can be emitted in various ways: labels, labels and rule
+classes, XML, protobuf and so on. These are implemented as subclasses of
+<code>OutputFormatter</code>.</p>
+<p>A subtle requirement of some query output formats (proto, definitely) is that
+Bazel needs to emit _all _the information that package loading provides so that
+one can diff the output and determine whether a particular target has changed.
+As a consequence, attribute values need to be serializable, which is why there
+are only so few attribute types without any attributes having complex Starlark
+values. The usual workaround is to use a label, and attach the complex
+information to the rule with that label. It&rsquo;s not a very satisfying workaround
+and it would be very nice to lift this requirement.</p>
+<h2 id="the-module-system">The module system</h2>
+<p>Bazel can be extended by adding modules to it. Each module must subclass
+<code>BlazeModule</code> (the name is a relic of the history of Bazel when it used to be
+called Blaze) and gets information about various events during the execution of
+a command.</p>
+<p>They are mostly used to implement various pieces of &ldquo;non-core&rdquo; functionality
+that only some versions of Bazel (such as the one we use at Google) need:</p>
+<ul>
+<li>Interfaces to remote execution systems</li>
+<li>New commands</li>
+</ul>
+<p>The set of extension points <code>BlazeModule</code> offers is somewhat haphazard. Don&rsquo;t
+use it as an example of good design principles.</p>
+<h2 id="the-event-bus">The event bus</h2>
+<p>The main way BlazeModules communicate with the rest of Bazel is by an event bus
+(<code>EventBus</code>): a new instance is created for every build, various parts of Bazel
+can post events to it and modules can register listeners for the events they are
+interested in. For example, the following things are represented as events:</p>
+<ul>
+<li>The list of build targets to be built has been determined
+(<code>TargetParsingCompleteEvent</code>)</li>
+<li>The top-level configurations have been determined
+(<code>BuildConfigurationEvent</code>)</li>
+<li>A target was built, successfully or not (<code>TargetCompleteEvent</code>)</li>
+<li>A test was run (<code>TestAttempt</code>, <code>TestSummary</code>)</li>
+</ul>
+<p>Some of these events are represented outside of Bazel in the
+<a href="/remote/bep/">Build Event Protocol</a>
+(they are <code>BuildEvent</code>s). This allows not only <code>BlazeModule</code>s, but also things
+outside the Bazel process to observe the build. They are accessible either as a
+file that contains protocol messages or Bazel can connect to a server (called
+the Build Event Service) to stream events.</p>
+<p>This is implemented in the <code>build.lib.buildeventservice</code> and
+<code>build.lib.buildeventstream</code> Java packages.</p>
+<h2 id="external-repositories">External repositories</h2>
+<p>Note: The information in this section is out of date, as code in this area has
+undergone extensive change in the past couple of years. Please refer to
+<a href="/external/overview/">external dependencies overview</a> for more up-to-date
+information.</p>
+<p>Whereas Bazel was originally designed to be used in a monorepo (a single source
+tree containing everything one needs to build), Bazel lives in a world where
+this is not necessarily true. &ldquo;External repositories&rdquo; are an abstraction used to
+bridge these two worlds: they represent code that is necessary for the build but
+is not in the main source tree.</p>
+<h3 id="the-workspace-file">The WORKSPACE file</h3>
+<p>The set of external repositories is determined by parsing the WORKSPACE file.
+For example, a declaration like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">    local_repository(name=&#34;foo&#34;, path=&#34;/foo/bar&#34;)
+</span></span></code></pre></div><p>Results in the repository called <code>@foo</code> being available. Where this gets
+complicated is that one can define new repository rules in Starlark files, which
+can then be used to load new Starlark code, which can be used to define new
+repository rules and so on…</p>
+<p>To handle this case, the parsing of the WORKSPACE file (in
+<code>WorkspaceFileFunction</code>) is split up into chunks delineated by <code>load()</code>
+statements. The chunk index is indicated by <code>WorkspaceFileKey.getIndex()</code> and
+computing <code>WorkspaceFileFunction</code> until index X means evaluating it until the
+Xth <code>load()</code> statement.</p>
+<h3 id="fetching-repositories">Fetching repositories</h3>
+<p>Before the code of the repository is available to Bazel, it needs to be
+<em>fetched</em>. This results in Bazel creating a directory under
+<code>$OUTPUT_BASE/external/&lt;repository name&gt;</code>.</p>
+<p>Fetching the repository happens in the following steps:</p>
+<ol>
+<li><code>PackageLookupFunction</code> realizes that it needs a repository and creates a
+<code>RepositoryName</code> as a <code>SkyKey</code>, which invokes <code>RepositoryLoaderFunction</code></li>
+<li><code>RepositoryLoaderFunction</code> forwards the request to
+<code>RepositoryDelegatorFunction</code> for unclear reasons (the code says it&rsquo;s to
+avoid re-downloading things in case of Skyframe restarts, but it&rsquo;s not a
+very solid reasoning)</li>
+<li><code>RepositoryDelegatorFunction</code> finds out the repository rule it&rsquo;s asked to
+fetch by iterating over the chunks of the WORKSPACE file until the requested
+repository is found</li>
+<li>The appropriate <code>RepositoryFunction</code> is found that implements the repository
+fetching; it&rsquo;s either the Starlark implementation of the repository or a
+hard-coded map for repositories that are implemented in Java.</li>
+</ol>
+<p>There are various layers of caching since fetching a repository can be very
+expensive:</p>
+<ol>
+<li>There is a cache for downloaded files that is keyed by their checksum
+(<code>RepositoryCache</code>). This requires the checksum to be available in the
+WORKSPACE file, but that&rsquo;s good for hermeticity anyway. This is shared by
+every Bazel server instance on the same workstation, regardless of which
+workspace or output base they are running in.</li>
+<li>A &ldquo;marker file&rdquo; is written for each repository under <code>$OUTPUT_BASE/external</code>
+that contains a checksum of the rule that was used to fetch it. If the Bazel
+server restarts but the checksum does not change, it&rsquo;s not re-fetched. This
+is implemented in <code>RepositoryDelegatorFunction.DigestWriter</code> .</li>
+<li>The <code>--distdir</code> command line option designates another cache that is used to
+look up artifacts to be downloaded. This is useful in enterprise settings
+where Bazel should not fetch random things from the Internet. This is
+implemented by <code>DownloadManager</code> .</li>
+</ol>
+<p>Once a repository is downloaded, the artifacts in it are treated as source
+artifacts. This poses a problem because Bazel usually checks for up-to-dateness
+of source artifacts by calling stat() on them, and these artifacts are also
+invalidated when the definition of the repository they are in changes. Thus,
+<code>FileStateValue</code>s for an artifact in an external repository need to depend on
+their external repository. This is handled by <code>ExternalFilesHelper</code>.</p>
+<h3 id="repository-mappings">Repository mappings</h3>
+<p>It can happen that multiple repositories want to depend on the same repository,
+but in different versions (this is an instance of the &ldquo;diamond dependency
+problem&rdquo;). For example, if two binaries in separate repositories in the build
+want to depend on Guava, they will presumably both refer to Guava with labels
+starting <code>@guava//</code> and expect that to mean different versions of it.</p>
+<p>Therefore, Bazel allows one to re-map external repository labels so that the
+string <code>@guava//</code> can refer to one Guava repository (such as <code>@guava1//</code>) in the
+repository of one binary and another Guava repository (such as <code>@guava2//</code>) the
+repository of the other.</p>
+<p>Alternatively, this can also be used to <strong>join</strong> diamonds. If a repository
+depends on <code>@guava1//</code>, and another depends on <code>@guava2//</code>, repository mapping
+allows one to re-map both repositories to use a canonical <code>@guava//</code> repository.</p>
+<p>The mapping is specified in the WORKSPACE file as the <code>repo_mapping</code> attribute
+of individual repository definitions. It then appears in Skyframe as a member of
+<code>WorkspaceFileValue</code>, where it is plumbed to:</p>
+<ul>
+<li><code>Package.Builder.repositoryMapping</code> which is used to transform label-valued
+attributes of rules in the package by
+<code>RuleClass.populateRuleAttributeValues()</code></li>
+<li><code>Package.repositoryMapping</code> which is used in the analysis phase (for
+resolving things like <code>$(location)</code> which are not parsed in the loading
+phase)</li>
+<li><code>BzlLoadFunction</code> for resolving labels in load() statements</li>
+</ul>
+<h2 id="jni-bits">JNI bits</h2>
+<p>The server of Bazel is <em>mostly</em> written in Java. The exception is the parts that
+Java cannot do by itself or couldn&rsquo;t do by itself when we implemented it. This
+is mostly limited to interaction with the file system, process control and
+various other low-level things.</p>
+<p>The C++ code lives under src/main/native and the Java classes with native
+methods are:</p>
+<ul>
+<li><code>NativePosixFiles</code> and <code>NativePosixFileSystem</code></li>
+<li><code>ProcessUtils</code></li>
+<li><code>WindowsFileOperations</code> and <code>WindowsFileProcesses</code></li>
+<li><code>com.google.devtools.build.lib.platform</code></li>
+</ul>
+<h2 id="console-output">Console output</h2>
+<p>Emitting console output seems like a simple thing, but the confluence of running
+multiple processes (sometimes remotely), fine-grained caching, the desire to
+have a nice and colorful terminal output and having a long-running server makes
+it non-trivial.</p>
+<p>Right after the RPC call comes in from the client, two <code>RpcOutputStream</code>
+instances are created (for stdout and stderr) that forward the data printed into
+them to the client. These are then wrapped in an <code>OutErr</code> (an (stdout, stderr)
+pair). Anything that needs to be printed on the console goes through these
+streams. Then these streams are handed over to
+<code>BlazeCommandDispatcher.execExclusively()</code>.</p>
+<p>Output is by default printed with ANSI escape sequences. When these are not
+desired (<code>--color=no</code>), they are stripped by an <code>AnsiStrippingOutputStream</code>. In
+addition, <code>System.out</code> and <code>System.err</code> are redirected to these output streams.
+This is so that debugging information can be printed using
+<code>System.err.println()</code> and still end up in the terminal output of the client
+(which is different from that of the server). Care is taken that if a process
+produces binary output (such as <code>bazel query --output=proto</code>), no munging of stdout
+takes place.</p>
+<p>Short messages (errors, warnings and the like) are expressed through the
+<code>EventHandler</code> interface. Notably, these are different from what one posts to
+the <code>EventBus</code> (this is confusing). Each <code>Event</code> has an <code>EventKind</code> (error,
+warning, info, and a few others) and they may have a <code>Location</code> (the place in
+the source code that caused the event to happen).</p>
+<p>Some <code>EventHandler</code> implementations store the events they received. This is used
+to replay information to the UI caused by various kinds of cached processing,
+for example, the warnings emitted by a cached configured target.</p>
+<p>Some <code>EventHandler</code>s also allow posting events that eventually find their way to
+the event bus (regular <code>Event</code>s do _not _appear there). These are
+implementations of <code>ExtendedEventHandler</code> and their main use is to replay cached
+<code>EventBus</code> events. These <code>EventBus</code> events all implement <code>Postable</code>, but not
+everything that is posted to <code>EventBus</code> necessarily implements this interface;
+only those that are cached by an <code>ExtendedEventHandler</code> (it would be nice and
+most of the things do; it&rsquo;s not enforced, though)</p>
+<p>Terminal output is <em>mostly</em> emitted through <code>UiEventHandler</code>, which is
+responsible for all the fancy output formatting and progress reporting Bazel
+does. It has two inputs:</p>
+<ul>
+<li>The event bus</li>
+<li>The event stream piped into it through Reporter</li>
+</ul>
+<p>The only direct connection the command execution machinery (for example the rest of
+Bazel) has to the RPC stream to the client is through <code>Reporter.getOutErr()</code>,
+which allows direct access to these streams. It&rsquo;s only used when a command needs
+to dump large amounts of possible binary data (such as <code>bazel query</code>).</p>
+<h2 id="profiling-bazel">Profiling Bazel</h2>
+<p>Bazel is fast. Bazel is also slow, because builds tend to grow until just the
+edge of what&rsquo;s bearable. For this reason, Bazel includes a profiler which can be
+used to profile builds and Bazel itself. It&rsquo;s implemented in a class that&rsquo;s
+aptly named <code>Profiler</code>. It&rsquo;s turned on by default, although it records only
+abridged data so that its overhead is tolerable; The command line
+<code>--record_full_profiler_data</code> makes it record everything it can.</p>
+<p>It emits a profile in the Chrome profiler format; it&rsquo;s best viewed in Chrome.
+It&rsquo;s data model is that of task stacks: one can start tasks and end tasks and
+they are supposed to be neatly nested within each other. Each Java thread gets
+its own task stack. <strong>TODO:</strong> How does this work with actions and
+continuation-passing style?</p>
+<p>The profiler is started and stopped in <code>BlazeRuntime.initProfiler()</code> and
+<code>BlazeRuntime.afterCommand()</code> respectively and attempts to be live for as long
+as possible so that we can profile everything. To add something to the profile,
+call <code>Profiler.instance().profile()</code>. It returns a <code>Closeable</code>, whose closure
+represents the end of the task. It&rsquo;s best used with try-with-resources
+statements.</p>
+<p>We also do rudimentary memory profiling in <code>MemoryProfiler</code>. It&rsquo;s also always on
+and it mostly records maximum heap sizes and GC behavior.</p>
+<h2 id="testing-bazel">Testing Bazel</h2>
+<p>Bazel has two main kinds of tests: ones that observe Bazel as a &ldquo;black box&rdquo; and
+ones that only run the analysis phase. We call the former &ldquo;integration tests&rdquo;
+and the latter &ldquo;unit tests&rdquo;, although they are more like integration tests that
+are, well, less integrated. We also have some actual unit tests, where they are
+necessary.</p>
+<p>Of integration tests, we have two kinds:</p>
+<ol>
+<li>Ones implemented using a very elaborate bash test framework under
+<code>src/test/shell</code></li>
+<li>Ones implemented in Java. These are implemented as subclasses of
+<code>BuildIntegrationTestCase</code></li>
+</ol>
+<p><code>BuildIntegrationTestCase</code> is the preferred integration testing framework as it
+is well-equipped for most testing scenarios. As it is a Java framework, it
+provides debuggability and seamless integration with many common development
+tools. There are many examples of <code>BuildIntegrationTestCase</code> classes in the
+Bazel repository.</p>
+<p>Analysis tests are implemented as subclasses of <code>BuildViewTestCase</code>. There is a
+scratch file system you can use to write <code>BUILD</code> files, then various helper
+methods can request configured targets, change the configuration and assert
+various things about the result of the analysis.</p>
+
+	
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script defer src="/js/click-to-copy.js" crossorigin="anonymous"></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

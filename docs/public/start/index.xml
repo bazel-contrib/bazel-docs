@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Start on Bazel Documentation</title>
+    <link>http://localhost:1313/start/</link>
+    <description>Recent content in Start on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/start/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bazel Tutorial: Build a C&#43;&#43; Project</title>
+      <link>http://localhost:1313/start/cpp/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/start/cpp/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;New to Bazel? You&amp;rsquo;re in the right place. Follow this First Build tutorial for a&#xA;simplified introduction to using Bazel. This tutorial defines key terms as they&#xA;are used in Bazel&amp;rsquo;s context and walks you through the basics of the Bazel&#xA;workflow. Starting with the tools you need, you will build and run three&#xA;projects with increasing complexity and learn how and why they get more complex.&lt;/p&gt;&#xA;&lt;p&gt;While Bazel is a &lt;a href=&#34;https://bazel.build/basics/build-systems&#34;&gt;build system&lt;/a&gt; that&#xA;supports multi-language builds, this tutorial uses a C++ project as an example&#xA;and provides the general guidelines and flow that apply to most languages.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel Tutorial: Build a Go Project</title>
+      <link>http://localhost:1313/start/go/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/start/go/</guid>
+      <description>&lt;p&gt;{# disableFinding(LINE_OVER_80_LINK) #}&#xA;{# disableFinding(&amp;ldquo;below&amp;rdquo;) #}&lt;/p&gt;&#xA;&lt;p&gt;This tutorial introduces you to the basics of Bazel by showing you how to build&#xA;a Go (Golang) project. You&amp;rsquo;ll learn how to set up your workspace, build a small&#xA;program, import a library, and run its test. Along the way, you&amp;rsquo;ll learn key&#xA;Bazel concepts, such as targets and &lt;code&gt;BUILD&lt;/code&gt; files.&lt;/p&gt;&#xA;&lt;p&gt;Estimated completion time: 30 minutes&lt;/p&gt;&#xA;&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;&#xA;&lt;h3 id=&#34;install-bazel&#34;&gt;Install Bazel&lt;/h3&gt;&#xA;&lt;p&gt;Before you get started, first &lt;a href=&#34;http://localhost:1313/install/&#34;&gt;install bazel&lt;/a&gt; if you haven&amp;rsquo;t done so&#xA;already.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel Tutorial: Build a Java Project</title>
+      <link>http://localhost:1313/start/java/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/start/java/</guid>
+      <description>&lt;p&gt;This tutorial covers the basics of building Java applications with&#xA;Bazel. You will set up your workspace and build a simple Java project that&#xA;illustrates key Bazel concepts, such as targets and &lt;code&gt;BUILD&lt;/code&gt; files.&lt;/p&gt;&#xA;&lt;p&gt;Estimated completion time: 30 minutes.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-youll-learn&#34;&gt;What you&amp;rsquo;ll learn&lt;/h2&gt;&#xA;&lt;p&gt;In this tutorial you learn how to:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Build a target&lt;/li&gt;&#xA;&lt;li&gt;Visualize the project&amp;rsquo;s dependencies&lt;/li&gt;&#xA;&lt;li&gt;Split the project into multiple targets and packages&lt;/li&gt;&#xA;&lt;li&gt;Control target visibility across packages&lt;/li&gt;&#xA;&lt;li&gt;Reference targets through labels&lt;/li&gt;&#xA;&lt;li&gt;Deploy a target&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;&#xA;&lt;h3 id=&#34;install-bazel&#34;&gt;Install Bazel&lt;/h3&gt;&#xA;&lt;p&gt;To prepare for the tutorial, first &lt;a href=&#34;http://localhost:1313/install/&#34;&gt;Install Bazel&lt;/a&gt; if&#xA;you don&amp;rsquo;t have it installed already.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel Tutorial: Build an Android App</title>
+      <link>http://localhost:1313/start/android-app/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/start/android-app/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; There are known limitations on using Bazel for building Android apps.&#xA;Visit the Github &lt;a href=&#34;https://github.com/bazelbuild/bazel/issues?q=is%3Aissue+is%3Aopen+label%3Ateam-Android&#34;&gt;team-Android hotlist&lt;/a&gt; to see the list of known issues. While the Bazel team and Open Source Software (OSS) contributors work actively to address known issues, users should be aware that Android Studio does not officially support Bazel projects.&lt;/p&gt;&#xA;&lt;p&gt;This tutorial covers how to build a simple Android app using Bazel.&lt;/p&gt;&#xA;&lt;p&gt;Bazel supports building Android apps using the&#xA;&lt;a href=&#34;http://localhost:1313/reference/be/android/&#34;&gt;Android rules&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel Tutorial: Build an iOS App</title>
+      <link>http://localhost:1313/start/ios-app/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/start/ios-app/</guid>
+      <description>&lt;p&gt;This tutorial has been moved into the &lt;a href=&#34;https://github.com/bazelbuild/rules_apple/blob/master/doc/tutorials/ios-app.md&#34;&gt;bazelbuild/rules_apple&lt;/a&gt; repository.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

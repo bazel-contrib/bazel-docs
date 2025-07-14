@@ -1,0 +1,1675 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Rules | Bazel Documentation</title>
+<meta name="description" content="A rule defines a series of actions that Bazel performs on inputs to produce a set of outputs, which are referenced in providers returned by the rule’s implementation function. For example, a C&#43;&#43; binary rule might:
+Take a set of .cpp source files (inputs). Run g&#43;&#43; on the source files (action). Return the DefaultInfo provider with the executable output and other files to make available at runtime. Return the CcInfo provider with C&#43;&#43;-specific information gathered from the target and its dependencies. From Bazel’s perspective, g&#43;&#43; and the standard C&#43;&#43; libraries are also inputs to this rule. As a rule writer, you must consider not only the user-provided inputs to a rule, but also all of the tools and libraries required to execute the actions.">
+<meta property="og:url" content="http://localhost:1313/extending/rules/">
+  <meta property="og:site_name" content="Bazel Documentation">
+  <meta property="og:title" content="Rules">
+  <meta property="og:description" content="A rule defines a series of actions that Bazel performs on inputs to produce a set of outputs, which are referenced in providers returned by the rule’s implementation function. For example, a C&#43;&#43; binary rule might:
+Take a set of .cpp source files (inputs). Run g&#43;&#43; on the source files (action). Return the DefaultInfo provider with the executable output and other files to make available at runtime. Return the CcInfo provider with C&#43;&#43;-specific information gathered from the target and its dependencies. From Bazel’s perspective, g&#43;&#43; and the standard C&#43;&#43; libraries are also inputs to this rule. As a rule writer, you must consider not only the user-provided inputs to a rule, but also all of the tools and libraries required to execute the actions.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="extending">
+    <meta property="article:published_time" content="2024-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-01-01T00:00:00+00:00">
+
+  <meta itemprop="name" content="Rules">
+  <meta itemprop="description" content="A rule defines a series of actions that Bazel performs on inputs to produce a set of outputs, which are referenced in providers returned by the rule’s implementation function. For example, a C&#43;&#43; binary rule might:
+Take a set of .cpp source files (inputs). Run g&#43;&#43; on the source files (action). Return the DefaultInfo provider with the executable output and other files to make available at runtime. Return the CcInfo provider with C&#43;&#43;-specific information gathered from the target and its dependencies. From Bazel’s perspective, g&#43;&#43; and the standard C&#43;&#43; libraries are also inputs to this rule. As a rule writer, you must consider not only the user-provided inputs to a rule, but also all of the tools and libraries required to execute the actions.">
+  <meta itemprop="datePublished" content="2024-01-01T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-01T00:00:00+00:00">
+  <meta itemprop="wordCount" content="7034">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rules">
+  <meta name="twitter:description" content="A rule defines a series of actions that Bazel performs on inputs to produce a set of outputs, which are referenced in providers returned by the rule’s implementation function. For example, a C&#43;&#43; binary rule might:
+Take a set of .cpp source files (inputs). Run g&#43;&#43; on the source files (action). Return the DefaultInfo provider with the executable output and other files to make available at runtime. Return the CcInfo provider with C&#43;&#43;-specific information gathered from the target and its dependencies. From Bazel’s perspective, g&#43;&#43; and the standard C&#43;&#43; libraries are also inputs to this rule. As a rule writer, you must consider not only the user-provided inputs to a rule, but also all of the tools and libraries required to execute the actions.">
+<link href="/scss/main.css" rel="stylesheet">
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">Bazel Documentation</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/community/"><span>Community</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="td-sidebar-nav collapse" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m--li">
+  <a href="/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-"><span class="">Bazel Documentation</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-help-li">
+  <a href="/help/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-help"><span class="">Getting Help</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-concepts-li">
+  <a href="/concepts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-concepts"><span class="">Understanding Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsbuild-files-li">
+  <a href="/concepts/build-files/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsbuild-files"><span class="">BUILD files</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsdependencies-li">
+  <a href="/concepts/dependencies/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptslabels-li">
+  <a href="/concepts/labels/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptslabels"><span class="">Labels</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsplatforms-li">
+  <a href="/concepts/platforms/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsplatforms"><span class="">Migrating to Platforms</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsbuild-ref-li">
+  <a href="/concepts/build-ref/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsbuild-ref"><span class="">Repositories, workspaces, packages, and targets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-conceptsvisibility-li">
+  <a href="/concepts/visibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-conceptsvisibility"><span class="">Visibility</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-basics-li">
+  <a href="/basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-basics"><span class="">Basics</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsartifact-based-builds-li">
+  <a href="/basics/artifact-based-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsartifact-based-builds"><span class="">Artifact-Based Build Systems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsdependencies-li">
+  <a href="/basics/dependencies/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsdependencies"><span class="">Dependency Management</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsdistributed-builds-li">
+  <a href="/basics/distributed-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsdistributed-builds"><span class="">Distributed Builds</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicshermeticity-li">
+  <a href="/basics/hermeticity/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicshermeticity"><span class="">Hermeticity</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicstask-based-builds-li">
+  <a href="/basics/task-based-builds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicstask-based-builds"><span class="">Task-Based Build Systems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-basicsbuild-systems-li">
+  <a href="/basics/build-systems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-basicsbuild-systems"><span class="">Why a Build System?</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-tutorials-li">
+  <a href="/tutorials/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-tutorials"><span class="">Tutorials</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialsccp-toolchain-config-li">
+  <a href="/tutorials/ccp-toolchain-config/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialsccp-toolchain-config"><span class="">Bazel Tutorial: Configure C&#43;&#43; Toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-use-cases-li">
+  <a href="/tutorials/cpp-use-cases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-use-cases"><span class="">Common C&#43;&#43; Build Use Cases</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-dependency-li">
+  <a href="/tutorials/cpp-dependency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-dependency"><span class="">Review the dependency graph</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-tutorialscpp-labels-li">
+  <a href="/tutorials/cpp-labels/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-tutorialscpp-labels"><span class="">Use labels to reference targets</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-configure-li">
+  <a href="/configure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-configure"><span class="">Configure</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurebest-practices-li">
+  <a href="/configure/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurebest-practices"><span class="">Best Practices</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurecoverage-li">
+  <a href="/configure/coverage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurecoverage"><span class="">Code coverage with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configureattributes-li">
+  <a href="/configure/attributes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configureattributes"><span class="">Configurable Build Attributes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configureintegrate-cpp-li">
+  <a href="/configure/integrate-cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configureintegrate-cpp"><span class="">Integrating with C&#43;&#43; Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-configurewindows-li">
+  <a href="/configure/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-configurewindows"><span class="">Using Bazel on Windows</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-extending-li">
+  <a href="/extending/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-extending"><span class="">Extending Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingaspects-li">
+  <a href="/extending/aspects/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingaspects"><span class="">Aspects</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingauto-exec-groups-li">
+  <a href="/extending/auto-exec-groups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingauto-exec-groups"><span class="">Automatic Execution Groups (AEGs)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingconfig-li">
+  <a href="/extending/config/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingconfig"><span class="">Configurations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingdepsets-li">
+  <a href="/extending/depsets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingdepsets"><span class="">Depsets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingexec-groups-li">
+  <a href="/extending/exec-groups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingexec-groups"><span class="">Execution Groups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingconcepts-li">
+  <a href="/extending/concepts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingconcepts"><span class="">Extension Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendinglegacy-macros-li">
+  <a href="/extending/legacy-macros/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendinglegacy-macros"><span class="">Legacy Macros</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingmacros-li">
+  <a href="/extending/macros/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingmacros"><span class="">Macros</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingplatforms-li">
+  <a href="/extending/platforms/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingplatforms"><span class="">Platforms</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-extendingrules-li">
+  <a href="/extending/rules/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-extendingrules"><span class="td-sidebar-nav-active-item">Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-extendingtoolchains-li">
+  <a href="/extending/toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-extendingtoolchains"><span class="">Toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-external-li">
+  <a href="/external/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-external"><span class="">External</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmod-command-li">
+  <a href="/external/mod-command/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmod-command"><span class="">`mod` Command</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externallockfile-li">
+  <a href="/external/lockfile/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externallockfile"><span class="">Bazel Lockfile</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmodule-li">
+  <a href="/external/module/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmodule"><span class="">Bazel modules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalregistry-li">
+  <a href="/external/registry/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalregistry"><span class="">Bazel registries</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalmigration-li">
+  <a href="/external/migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalmigration"><span class="">Bzlmod Migration Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externaloverview-li">
+  <a href="/external/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externaloverview"><span class="">External dependencies overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalfaq-li">
+  <a href="/external/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalfaq"><span class="">Frequently asked questions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalextension-li">
+  <a href="/external/extension/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalextension"><span class="">Module extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalrepo-li">
+  <a href="/external/repo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalrepo"><span class="">Repository Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalvendor-li">
+  <a href="/external/vendor/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-externalvendor"><span class="">Vendor Mode</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-externalimages-li">
+  <a href="/external/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-externalimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-remote-li">
+  <a href="/remote/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-remote"><span class="">Remote</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoterules-li">
+  <a href="/remote/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoterules"><span class="">Adapting Bazel Rules for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-li">
+  <a href="/remote/bep/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep"><span class="">Build Event Protocol</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-examples-li">
+  <a href="/remote/bep-examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep-examples"><span class="">Build Event Protocol Examples</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotebep-glossary-li">
+  <a href="/remote/bep-glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotebep-glossary"><span class="">Build Event Protocol Glossary</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteci-li">
+  <a href="/remote/ci/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteci"><span class="">Configuring Bazel CI to Test Rules for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecreating-li">
+  <a href="/remote/creating/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecreating"><span class="">Creating Persistent Workers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecache-local-li">
+  <a href="/remote/cache-local/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecache-local"><span class="">Debugging Remote Cache Hits for Local Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecache-remote-li">
+  <a href="/remote/cache-remote/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecache-remote"><span class="">Debugging Remote Cache Hits for Remote Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotedynamic-li">
+  <a href="/remote/dynamic/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotedynamic"><span class="">Dynamic Execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteworkspace-li">
+  <a href="/remote/workspace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteworkspace"><span class="">Finding Non-Hermetic Behavior in WORKSPACE Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotemultiplex-li">
+  <a href="/remote/multiplex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotemultiplex"><span class="">Multiplex Workers (Experimental Feature)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoteoutput-directories-li">
+  <a href="/remote/output-directories/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoteoutput-directories"><span class="">Output Directory Layout</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotepersistent-li">
+  <a href="/remote/persistent/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotepersistent"><span class="">Persistent Workers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotecaching-li">
+  <a href="/remote/caching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotecaching"><span class="">Remote Caching</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remoterbe-li">
+  <a href="/remote/rbe/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remoterbe"><span class="">Remote Execution Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-remotesandbox-li">
+  <a href="/remote/sandbox/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-remotesandbox"><span class="">Troubleshooting Bazel Remote Execution with Docker Sandbox</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-query-li">
+  <a href="/query/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-query"><span class="">Query</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryaquery-li">
+  <a href="/query/aquery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryaquery"><span class="">Action Graph Query (aquery)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-querycquery-li">
+  <a href="/query/cquery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-querycquery"><span class="">Configurable Query (cquery)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryguide-li">
+  <a href="/query/guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryguide"><span class="">Query guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryquickstart-li">
+  <a href="/query/quickstart/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-queryquickstart"><span class="">Query quickstart</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-querylanguage-li">
+  <a href="/query/language/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-querylanguage"><span class="">The Bazel Query Reference</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-queryimages-li">
+  <a href="/query/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-queryimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-advanced-li">
+  <a href="/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-advanced"><span class="">Advanced</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-advancedperformance-li">
+  <a href="/advanced/performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-advancedperformance"><span class="">Performance</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancebuild-performance-breakdown-li">
+  <a href="/advanced/performance/build-performance-breakdown/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancebuild-performance-breakdown"><span class="">Breaking down build performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancebuild-performance-metrics-li">
+  <a href="/advanced/performance/build-performance-metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancebuild-performance-metrics"><span class="">Extracting build performance metrics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancejson-trace-profile-li">
+  <a href="/advanced/performance/json-trace-profile/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancejson-trace-profile"><span class="">JSON Trace Profile</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformanceiteration-speed-li">
+  <a href="/advanced/performance/iteration-speed/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformanceiteration-speed"><span class="">Optimize Iteration Speed</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-advancedperformancememory-li">
+  <a href="/advanced/performance/memory/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-advancedperformancememory"><span class="">Optimize Memory</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-install-li">
+  <a href="/install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-install"><span class="">Install</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installcompletion-li">
+  <a href="/install/completion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installcompletion"><span class="">Command-Line Completion</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installcompile-source-li">
+  <a href="/install/compile-source/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installcompile-source"><span class="">Compiling Bazel from Source</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installdocker-container-li">
+  <a href="/install/docker-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installdocker-container"><span class="">Getting Started with Bazel Docker Container</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installbazelisk-li">
+  <a href="/install/bazelisk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installbazelisk"><span class="">Installing / Updating Bazel using Bazelisk</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installos-x-li">
+  <a href="/install/os-x/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installos-x"><span class="">Installing Bazel on macOS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installsuse-li">
+  <a href="/install/suse/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installsuse"><span class="">Installing Bazel on openSUSE Tumbleweed &amp; Leap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installubuntu-li">
+  <a href="/install/ubuntu/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installubuntu"><span class="">Installing Bazel on Ubuntu</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installwindows-li">
+  <a href="/install/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installwindows"><span class="">Installing Bazel on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installide-li">
+  <a href="/install/ide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-installide"><span class="">Integrating Bazel with IDEs</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-installimages-li">
+  <a href="/install/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-installimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-migrate-li">
+  <a href="/migrate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-migrate"><span class="">Migrate</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-migratemaven-li">
+  <a href="/migrate/maven/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-migratemaven"><span class="">Migrating from Maven to Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-migratexcode-li">
+  <a href="/migrate/xcode/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-migratexcode"><span class="">Migrating from Xcode to Bazel</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-reference-li">
+  <a href="/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-reference"><span class="">Reference</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceflag-cheatsheet-li">
+  <a href="/reference/flag-cheatsheet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceflag-cheatsheet"><span class="">Bazel flag cheat sheet</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceglossary-li">
+  <a href="/reference/glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceglossary"><span class="">Bazel Glossary</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referenceskyframe-li">
+  <a href="/reference/skyframe/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referenceskyframe"><span class="">Skyframe</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-referencetest-encyclopedia-li">
+  <a href="/reference/test-encyclopedia/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-referencetest-encyclopedia"><span class="">Test encyclopedia</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-release-li">
+  <a href="/release/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-release"><span class="">Release</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releasebackward-compatibility-li">
+  <a href="/release/backward-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releasebackward-compatibility"><span class="">Backward Compatibility</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releaserolling-li">
+  <a href="/release/rolling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releaserolling"><span class="">Rolling Releases</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-releaserule-compatibility-li">
+  <a href="/release/rule-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-releaserule-compatibility"><span class="">Rule Compatibility</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-rules-li">
+  <a href="/rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-rules"><span class="">Rules</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesbzl-style-li">
+  <a href="/rules/bzl-style/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesbzl-style"><span class="">.bzl style guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleschallenges-li">
+  <a href="/rules/challenges/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleschallenges"><span class="">Challenges of Writing Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleslegacy-macro-tutorial-li">
+  <a href="/rules/legacy-macro-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleslegacy-macro-tutorial"><span class="">Creating a Legacy Macro</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesmacro-tutorial-li">
+  <a href="/rules/macro-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesmacro-tutorial"><span class="">Creating a Symbolic Macro</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesdeploying-li">
+  <a href="/rules/deploying/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesdeploying"><span class="">Deploying Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ruleserrors-li">
+  <a href="/rules/errors/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ruleserrors"><span class="">Errors</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleserrorsread-only-variable-li">
+  <a href="/rules/errors/read-only-variable/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleserrorsread-only-variable"><span class="">Error: Variable x is read only</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesfaq-li">
+  <a href="/rules/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesfaq"><span class="">Frequently Asked Questions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesperformance-li">
+  <a href="/rules/performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesperformance"><span class="">Optimizing Performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesrules-tutorial-li">
+  <a href="/rules/rules-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesrules-tutorial"><span class="">Rules Tutorial</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleslanguage-li">
+  <a href="/rules/language/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleslanguage"><span class="">Starlark Language</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulestesting-li">
+  <a href="/rules/testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulestesting"><span class="">Testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-rulesverbs-tutorial-li">
+  <a href="/rules/verbs-tutorial/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-rulesverbs-tutorial"><span class="">Using Macros to Create Custom Verbs</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ruleswindows-li">
+  <a href="/rules/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ruleswindows"><span class="">Writing Rules on Windows</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-run-li">
+  <a href="/run/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-run"><span class="">Run</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runbuild-li">
+  <a href="/run/build/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runbuild"><span class="">Build programs with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runscripts-li">
+  <a href="/run/scripts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runscripts"><span class="">Calling Bazel from scripts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runclient-server-li">
+  <a href="/run/client-server/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runclient-server"><span class="">Client/server implementation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-runbazelrc-li">
+  <a href="/run/bazelrc/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-runbazelrc"><span class="">Write bazelrc configuration files</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-start-li">
+  <a href="/start/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-start"><span class="">Start</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startcpp-li">
+  <a href="/start/cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startcpp"><span class="">Bazel Tutorial: Build a C&#43;&#43; Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startgo-li">
+  <a href="/start/go/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startgo"><span class="">Bazel Tutorial: Build a Go Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startjava-li">
+  <a href="/start/java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startjava"><span class="">Bazel Tutorial: Build a Java Project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startandroid-app-li">
+  <a href="/start/android-app/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startandroid-app"><span class="">Bazel Tutorial: Build an Android App</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-startios-app-li">
+  <a href="/start/ios-app/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-startios-app"><span class="">Bazel Tutorial: Build an iOS App</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docs-li">
+  <a href="/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docs"><span class="">Using Bazel</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-android-li">
+  <a href="/docs/bazel-and-android/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-android"><span class="">Android and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-build-performance-li">
+  <a href="/docs/android-build-performance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-build-performance"><span class="">Android Build Performance</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-instrumentation-test-li">
+  <a href="/docs/android-instrumentation-test/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-instrumentation-test"><span class="">Android Instrumentation Tests</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-apple-li">
+  <a href="/docs/bazel-and-apple/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-apple"><span class="">Apple Apps and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmobile-install-li">
+  <a href="/docs/mobile-install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmobile-install"><span class="">bazel mobile-install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-cpp-li">
+  <a href="/docs/bazel-and-cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-cpp"><span class="">C&#43;&#43; and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscc-toolchain-config-reference-li">
+  <a href="/docs/cc-toolchain-config-reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscc-toolchain-config-reference"><span class="">C&#43;&#43; Toolchain Configuration</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manual-li">
+  <a href="/docs/user-manual/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manual"><span class="">Commands and Options</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsconfigurable-attributes-li">
+  <a href="/docs/configurable-attributes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsconfigurable-attributes"><span class="">Configurable Build Attributes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-java-li">
+  <a href="/docs/bazel-and-java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-java"><span class="">Java and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsbazel-and-javascript-li">
+  <a href="/docs/bazel-and-javascript/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsbazel-and-javascript"><span class="">JavaScript and Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssandboxing-li">
+  <a href="/docs/sandboxing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docssandboxing"><span class="">Sandboxing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsandroid-ndk-li">
+  <a href="/docs/android-ndk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsandroid-ndk"><span class="">Using the Android Native Development Kit with Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsimages-li">
+  <a href="/docs/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-brand-li">
+  <a href="/brand/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-brand"><span class="">Brand</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-images-li">
+  <a href="/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-images"><span class="">Images</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-versions-li">
+  <a href="/versions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-versions"><span class="">Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-community-li">
+  <a href="/community/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-community"><span class="">Community &amp; Product Partners</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityroadmaps-configurability-li">
+  <a href="/community/roadmaps-configurability/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityroadmaps-configurability"><span class="">Bazel Configurability 2021 Roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communitysig-li">
+  <a href="/community/sig/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communitysig"><span class="">Bazel Special Interest Groups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityupdate-li">
+  <a href="/community/update/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityupdate"><span class="">Community updates</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityrecommended-rules-li">
+  <a href="/community/recommended-rules/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityrecommended-rules"><span class="">Recommended Rules</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityremote-execution-services-li">
+  <a href="/community/remote-execution-services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityremote-execution-services"><span class="">Remote Execution Services</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityroadmaps-starlark-li">
+  <a href="/community/roadmaps-starlark/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityroadmaps-starlark"><span class="">Starlark Roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityusers-li">
+  <a href="/community/users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-communityusers"><span class="">Who&#39;s Using Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityexperts-li">
+  <a href="/community/experts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communityexperts"><span class="">Experts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communityimages-li">
+  <a href="/community/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communityimages"><span class="">Images</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-communitypartners-li">
+  <a href="/community/partners/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-communitypartners"><span class="">Partners</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-contribute-li">
+  <a href="/contribute/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-contribute"><span class="">Contribute</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributestatemachine-guide-li">
+  <a href="/contribute/statemachine-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributestatemachine-guide"><span class="">A Guide to Skyframe `StateMachine`s</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedocs-style-guide-li">
+  <a href="/contribute/docs-style-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedocs-style-guide"><span class="">Bazel docs style guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedocs-li">
+  <a href="/contribute/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedocs"><span class="">Contribute to Bazel documentation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributepolicy-li">
+  <a href="/contribute/policy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributepolicy"><span class="">Contribution policy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributedesign-documents-li">
+  <a href="/contribute/design-documents/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributedesign-documents"><span class="">Design Documents</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributemaintainers-guide-li">
+  <a href="/contribute/maintainers-guide/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributemaintainers-guide"><span class="">Guide for Bazel Maintainers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributebreaking-changes-li">
+  <a href="/contribute/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributebreaking-changes"><span class="">Guide for rolling out breaking changes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributewindows-chocolatey-maintenance-li">
+  <a href="/contribute/windows-chocolatey-maintenance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributewindows-chocolatey-maintenance"><span class="">Maintaining Bazel Chocolatey package on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributewindows-scoop-maintenance-li">
+  <a href="/contribute/windows-scoop-maintenance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributewindows-scoop-maintenance"><span class="">Maintaining Bazel Scoop package on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributenaming-li">
+  <a href="/contribute/naming/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributenaming"><span class="">Naming a Bazel related project</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributepatch-acceptance-li">
+  <a href="/contribute/patch-acceptance/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributepatch-acceptance"><span class="">Patch Acceptance Process</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributesearch-li">
+  <a href="/contribute/search/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributesearch"><span class="">Searching the codebase</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributecodebase-li">
+  <a href="/contribute/codebase/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributecodebase"><span class="">The Bazel codebase</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributerelease-notes-li">
+  <a href="/contribute/release-notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-contributerelease-notes"><span class="">Writing release notes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-contributeimages-li">
+  <a href="/contribute/images/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-contributeimages"><span class="">Images</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-about-li">
+  <a href="/about/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-about"><span class="">About</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutroadmap-li">
+  <a href="/about/roadmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutroadmap"><span class="">Bazel roadmap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutvision-li">
+  <a href="/about/vision/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutvision"><span class="">Bazel Vision</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutfaq-li">
+  <a href="/about/faq/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutfaq"><span class="">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutintro-li">
+  <a href="/about/intro/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutintro"><span class="">Intro to Bazel</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-aboutwhy-li">
+  <a href="/about/why/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-aboutwhy"><span class="">Why Bazel?</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/bazelbuild/bazel/tree/master/site/en/content/extending/rules.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/bazelbuild/bazel/edit/master/site/en/content/extending/rules.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/bazelbuild/bazel/new/master/site/en/content/extending?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/bazelbuild/bazel/issues/new?title=Rules" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#rule-creation">Rule creation</a></li>
+    <li><a href="#target-instantiation">Target instantiation</a></li>
+    <li><a href="#attributes">Attributes</a>
+      <ul>
+        <li><a href="#dependency-attributes">Dependency attributes</a></li>
+        <li><a href="#private-attributes-and-implicit-dependencies">Private attributes and implicit dependencies</a></li>
+        <li><a href="#output-attributes">Output attributes</a></li>
+      </ul>
+    </li>
+    <li><a href="#implementation-function">Implementation function</a>
+      <ul>
+        <li><a href="#targets">Targets</a></li>
+        <li><a href="#files">Files</a></li>
+        <li><a href="#declaring-outputs">Declaring outputs</a></li>
+        <li><a href="#actions">Actions</a></li>
+        <li><a href="#providers">Providers</a></li>
+      </ul>
+    </li>
+    <li><a href="#executable-rules-and-test-rules">Executable rules and test rules</a>
+      <ul>
+        <li><a href="#runfiles-location">Runfiles location</a></li>
+      </ul>
+    </li>
+    <li><a href="#advanced-topics">Advanced topics</a>
+      <ul>
+        <li><a href="#requesting-output-files">Requesting output files</a></li>
+        <li><a href="#configurations">Configurations</a></li>
+        <li><a href="#configuration-fragments">Configuration fragments</a></li>
+        <li><a href="#runfiles-symlinks">Runfiles symlinks</a></li>
+        <li><a href="#code-coverage">Code coverage</a></li>
+        <li><a href="#baseline-coverage">Baseline coverage</a></li>
+        <li><a href="#validation-actions">Validation Actions</a></li>
+      </ul>
+    </li>
+    <li><a href="#deprecated-features">Deprecated features</a>
+      <ul>
+        <li><a href="#deprecated-predeclared-outputs">Deprecated predeclared outputs</a></li>
+        <li><a href="#runfiles-features-to-avoid">Runfiles features to avoid</a></li>
+        <li><a href="#migrating-from-legacy-providers">Migrating from legacy providers</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/extending/">Extending Bazel</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    Rules</li>
+  </ol>
+</nav>
+<div class="td-content">
+	<h1>Rules</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	<p>A <strong>rule</strong> defines a series of <a href="#actions"><strong>actions</strong></a> that Bazel performs on
+inputs to produce a set of outputs, which are referenced in
+<a href="#providers"><strong>providers</strong></a> returned by the rule&rsquo;s
+<a href="#implementation_function"><strong>implementation function</strong></a>. For example, a C++
+binary rule might:</p>
+<ol>
+<li>Take a set of <code>.cpp</code> source files (inputs).</li>
+<li>Run <code>g++</code> on the source files (action).</li>
+<li>Return the <code>DefaultInfo</code> provider with the executable output and other files
+to make available at runtime.</li>
+<li>Return the <code>CcInfo</code> provider with C++-specific information gathered from the
+target and its dependencies.</li>
+</ol>
+<p>From Bazel&rsquo;s perspective, <code>g++</code> and the standard C++ libraries are also inputs
+to this rule. As a rule writer, you must consider not only the user-provided
+inputs to a rule, but also all of the tools and libraries required to execute
+the actions.</p>
+<p>Before creating or modifying any rule, ensure you are familiar with Bazel&rsquo;s
+<a href="/extending/concepts/">build phases</a>. It is important to understand the three
+phases of a build (loading, analysis, and execution). It is also useful to
+learn about <a href="/extending/macros/">macros</a> to understand the difference between rules and
+macros. To get started, first review the <a href="/rules/rules-tutorial/">Rules Tutorial</a>.
+Then, use this page as a reference.</p>
+<p>A few rules are built into Bazel itself. These <em>native rules</em>, such as
+<code>genrule</code> and <code>filegroup</code>, provide some core support.
+By defining your own rules, you can add support for languages and tools
+that Bazel doesn&rsquo;t support natively.</p>
+<p>Bazel provides an extensibility model for writing rules using the
+<a href="/rules/language/">Starlark</a> language. These rules are written in <code>.bzl</code> files, which
+can be loaded directly from <code>BUILD</code> files.</p>
+<p>When defining your own rule, you get to decide what attributes it supports and
+how it generates its outputs.</p>
+<p>The rule&rsquo;s <code>implementation</code> function defines its exact behavior during the
+<a href="/extending/concepts#evaluation-model/">analysis phase</a>. This function doesn&rsquo;t run any
+external commands. Rather, it registers <a href="#actions">actions</a> that will be used
+later during the execution phase to build the rule&rsquo;s outputs, if they are
+needed.</p>
+<h2 id="rule-creation">Rule creation</h2>
+<p>In a <code>.bzl</code> file, use the <a href="/rules/lib/globals/bzl#rule/">rule</a> function to define a new
+rule, and store the result in a global variable. The call to <code>rule</code> specifies
+<a href="#attributes">attributes</a> and an
+<a href="#implementation_function">implementation function</a>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">example_library = rule(
+</span></span><span class="line"><span class="cl">    implementation = _example_library_impl,
+</span></span><span class="line"><span class="cl">    attrs = {
+</span></span><span class="line"><span class="cl">        &#34;deps&#34;: attr.label_list(),
+</span></span><span class="line"><span class="cl">        ...
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>This defines a <a href="/query/language#kind/">rule kind</a> named <code>example_library</code>.</p>
+<p>The call to <code>rule</code> also must specify if the rule creates an
+<a href="#executable-rules">executable</a> output (with <code>executable = True</code>), or specifically
+a test executable (with <code>test = True</code>). If the latter, the rule is a <em>test rule</em>,
+and the name of the rule must end in <code>_test</code>.</p>
+<h2 id="target-instantiation">Target instantiation</h2>
+<p>Rules can be <a href="/concepts/build-files#load/">loaded</a> and called in <code>BUILD</code> files:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="nb">load</span><span class="p">(</span><span class="s1">&#39;//some/pkg:rules.bzl&#39;</span><span class="p">,</span> <span class="s1">&#39;example_library&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">example_library</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;example_target&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;:another_target&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>Each call to a build rule returns no value, but has the side effect of defining
+a target. This is called <em>instantiating</em> the rule. This specifies a name for the
+new target and values for the target&rsquo;s <a href="#attributes">attributes</a>.</p>
+<p>Rules can also be called from Starlark functions and loaded in <code>.bzl</code> files.
+Starlark functions that call rules are called <a href="/extending/macros/">Starlark macros</a>.
+Starlark macros must ultimately be called from <code>BUILD</code> files, and can only be
+called during the <a href="/extending/concepts#evaluation-model/">loading phase</a>, when <code>BUILD</code>
+files are evaluated to instantiate targets.</p>
+<h2 id="attributes">Attributes</h2>
+<p>An <em>attribute</em> is a rule argument. Attributes can provide specific values to a
+target&rsquo;s <a href="#implementation_function">implementation</a>, or they can refer to other
+targets, creating a graph of dependencies.</p>
+<p>Rule-specific attributes, such as <code>srcs</code> or <code>deps</code>, are defined by passing a map
+from attribute names to schemas (created using the <a href="/rules/lib/toplevel/attr/"><code>attr</code></a>
+module) to the <code>attrs</code> parameter of <code>rule</code>.
+<a href="/reference/be/common-definitions#common-attributes/">Common attributes</a>, such as
+<code>name</code> and <code>visibility</code>, are implicitly added to all rules. Additional
+attributes are implicitly added to
+<a href="#executable-rules">executable and test rules</a> specifically. Attributes which
+are implicitly added to a rule can&rsquo;t be included in the dictionary passed to
+<code>attrs</code>.</p>
+<h3 id="dependency-attributes">Dependency attributes</h3>
+<p>Rules that process source code usually define the following attributes to handle
+various <a href="/concepts/dependencies#types_of_dependencies/">types of dependencies</a>:</p>
+<ul>
+<li><code>srcs</code> specifies source files processed by a target&rsquo;s actions. Often, the
+attribute schema specifies which file extensions are expected for the sort
+of source file the rule processes. Rules for languages with header files
+generally specify a separate <code>hdrs</code> attribute for headers processed by a
+target and its consumers.</li>
+<li><code>deps</code> specifies code dependencies for a target. The attribute schema should
+specify which <a href="#providers">providers</a> those dependencies must provide. (For
+example, <code>cc_library</code> provides <code>CcInfo</code>.)</li>
+<li><code>data</code> specifies files to be made available at runtime to any executable
+which depends on a target. That should allow arbitrary files to be
+specified.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">example_library = rule(
+</span></span><span class="line"><span class="cl">    implementation = _example_library_impl,
+</span></span><span class="line"><span class="cl">    attrs = {
+</span></span><span class="line"><span class="cl">        &#34;srcs&#34;: attr.label_list(allow_files = [&#34;.example&#34;]),
+</span></span><span class="line"><span class="cl">        &#34;hdrs&#34;: attr.label_list(allow_files = [&#34;.header&#34;]),
+</span></span><span class="line"><span class="cl">        &#34;deps&#34;: attr.label_list(providers = [ExampleInfo]),
+</span></span><span class="line"><span class="cl">        &#34;data&#34;: attr.label_list(allow_files = True),
+</span></span><span class="line"><span class="cl">        ...
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>These are examples of <em>dependency attributes</em>. Any attribute that specifies
+an input label (those defined with
+<a href="/rules/lib/toplevel/attr#label_list/"><code>attr.label_list</code></a>,
+<a href="/rules/lib/toplevel/attr#label/"><code>attr.label</code></a>, or
+<a href="/rules/lib/toplevel/attr#label_keyed_string_dict/"><code>attr.label_keyed_string_dict</code></a>)
+specifies dependencies of a certain type
+between a target and the targets whose labels (or the corresponding
+<a href="/rules/lib/builtins/Label/"><code>Label</code></a> objects) are listed in that attribute when the target
+is defined. The repository, and possibly the path, for these labels is resolved
+relative to the defined target.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">example_library(
+</span></span><span class="line"><span class="cl">    name = &#34;my_target&#34;,
+</span></span><span class="line"><span class="cl">    deps = [&#34;:other_target&#34;],
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">example_library(
+</span></span><span class="line"><span class="cl">    name = &#34;other_target&#34;,
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>In this example, <code>other_target</code> is a dependency of <code>my_target</code>, and therefore
+<code>other_target</code> is analyzed first. It is an error if there is a cycle in the
+dependency graph of targets.</p>
+<p><a name="private-attributes"></a></p>
+<h3 id="private-attributes-and-implicit-dependencies">Private attributes and implicit dependencies</h3>
+<p>A dependency attribute with a default value creates an <em>implicit dependency</em>. It
+is implicit because it&rsquo;s a part of the target graph that the user doesn&rsquo;t
+specify it in a <code>BUILD</code> file. Implicit dependencies are useful for hard-coding a
+relationship between a rule and a <em>tool</em> (a build-time dependency, such as a
+compiler), since most of the time a user is not interested in specifying what
+tool the rule uses. Inside the rule&rsquo;s implementation function, this is treated
+the same as other dependencies.</p>
+<p>If you want to provide an implicit dependency without allowing the user to
+override that value, you can make the attribute <em>private</em> by giving it a name
+that begins with an underscore (<code>_</code>). Private attributes must have default
+values. It generally only makes sense to use private attributes for implicit
+dependencies.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">example_library = rule(
+</span></span><span class="line"><span class="cl">    implementation = _example_library_impl,
+</span></span><span class="line"><span class="cl">    attrs = {
+</span></span><span class="line"><span class="cl">        ...
+</span></span><span class="line"><span class="cl">        &#34;_compiler&#34;: attr.label(
+</span></span><span class="line"><span class="cl">            default = Label(&#34;//tools:example_compiler&#34;),
+</span></span><span class="line"><span class="cl">            allow_single_file = True,
+</span></span><span class="line"><span class="cl">            executable = True,
+</span></span><span class="line"><span class="cl">            cfg = &#34;exec&#34;,
+</span></span><span class="line"><span class="cl">        ),
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>In this example, every target of type <code>example_library</code> has an implicit
+dependency on the compiler <code>//tools:example_compiler</code>. This allows
+<code>example_library</code>&rsquo;s implementation function to generate actions that invoke the
+compiler, even though the user did not pass its label as an input. Since
+<code>_compiler</code> is a private attribute, it follows that <code>ctx.attr._compiler</code>
+will always point to <code>//tools:example_compiler</code> in all targets of this rule
+type. Alternatively, you can name the attribute <code>compiler</code> without the
+underscore and keep the default value. This allows users to substitute a
+different compiler if necessary, but it requires no awareness of the compiler&rsquo;s
+label.</p>
+<p>Implicit dependencies are generally used for tools that reside in the same
+repository as the rule implementation. If the tool comes from the
+<a href="/extending/platforms/">execution platform</a> or a different repository instead, the
+rule should obtain that tool from a <a href="/extending/toolchains/">toolchain</a>.</p>
+<h3 id="output-attributes">Output attributes</h3>
+<p><em>Output attributes</em>, such as <a href="/rules/lib/toplevel/attr#output/"><code>attr.output</code></a> and
+<a href="/rules/lib/toplevel/attr#output_list/"><code>attr.output_list</code></a>, declare an output file that the
+target generates. These differ from dependency attributes in two ways:</p>
+<ul>
+<li>They define output file targets instead of referring to targets defined
+elsewhere.</li>
+<li>The output file targets depend on the instantiated rule target, instead of
+the other way around.</li>
+</ul>
+<p>Typically, output attributes are only used when a rule needs to create outputs
+with user-defined names which can&rsquo;t be based on the target name. If a rule has
+one output attribute, it is typically named <code>out</code> or <code>outs</code>.</p>
+<p>Output attributes are the preferred way of creating <em>predeclared outputs</em>, which
+can be specifically depended upon or
+<a href="#requesting_output_files">requested at the command line</a>.</p>
+<h2 id="implementation-function">Implementation function</h2>
+<p>Every rule requires an <code>implementation</code> function. These functions are executed
+strictly in the <a href="/extending/concepts#evaluation-model/">analysis phase</a> and transform the
+graph of targets generated in the loading phase into a graph of
+<a href="#actions">actions</a> to be performed during the execution phase. As such,
+implementation functions can&rsquo;t actually read or write files.</p>
+<p>Rule implementation functions are usually private (named with a leading
+underscore). Conventionally, they are named the same as their rule, but suffixed
+with <code>_impl</code>.</p>
+<p>Implementation functions take exactly one parameter: a
+<a href="/rules/lib/builtins/ctx/">rule context</a>, conventionally named <code>ctx</code>. They return a list of
+<a href="#providers">providers</a>.</p>
+<h3 id="targets">Targets</h3>
+<p>Dependencies are represented at analysis time as <a href="/rules/lib/builtins/Target/"><code>Target</code></a>
+objects. These objects contain the <a href="#providers">providers</a> generated when the
+target&rsquo;s implementation function was executed.</p>
+<p><a href="/rules/lib/builtins/ctx#attr/"><code>ctx.attr</code></a> has fields corresponding to the names of each
+dependency attribute, containing <code>Target</code> objects representing each direct
+dependency using that attribute. For <code>label_list</code> attributes, this is a list of
+<code>Targets</code>. For <code>label</code> attributes, this is a single <code>Target</code> or <code>None</code>.</p>
+<p>A list of provider objects are returned by a target&rsquo;s implementation function:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">return [ExampleInfo(headers = depset(...))]
+</span></span></code></pre></div><p>Those can be accessed using index notation (<code>[]</code>), with the type of provider as
+a key. These can be <a href="#custom_providers">custom providers</a> defined in Starlark or
+<a href="/rules/lib/providers/">providers for native rules</a> available as Starlark
+global variables.</p>
+<p>For example, if a rule takes header files using a <code>hdrs</code> attribute and provides
+them to the compilation actions of the target and its consumers, it could
+collect them like so:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transitive_headers</span> <span class="o">=</span> <span class="p">[</span><span class="n">hdr</span><span class="p">[</span><span class="n">ExampleInfo</span><span class="p">]</span><span class="o">.</span><span class="n">headers</span> <span class="k">for</span> <span class="n">hdr</span> <span class="ow">in</span> <span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">hdrs</span><span class="p">]</span>
+</span></span></code></pre></div><p>There&rsquo;s a legacy struct style, which is strongly discouraged and rules should be
+<a href="#migrating_from_legacy_providers">migrated away from it</a>.</p>
+<h3 id="files">Files</h3>
+<p>Files are represented by <a href="/rules/lib/builtins/File/"><code>File</code></a> objects. Since Bazel doesn&rsquo;t
+perform file I/O during the analysis phase, these objects can&rsquo;t be used to
+directly read or write file content. Rather, they are passed to action-emitting
+functions (see <a href="/rules/lib/builtins/actions/"><code>ctx.actions</code></a>) to construct pieces of the
+action graph.</p>
+<p>A <code>File</code> can either be a source file or a generated file. Each generated file
+must be an output of exactly one action. Source files can&rsquo;t be the output of
+any action.</p>
+<p>For each dependency attribute, the corresponding field of
+<a href="/rules/lib/builtins/ctx#files/"><code>ctx.files</code></a> contains a list of the default outputs of all
+dependencies using that attribute:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span> <span class="o">=</span> <span class="n">depset</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">hdrs</span><span class="p">,</span> <span class="n">transitive</span> <span class="o">=</span> <span class="n">transitive_headers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">srcs</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">srcs</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></div><p><a href="/rules/lib/builtins/ctx#file/"><code>ctx.file</code></a> contains a single <code>File</code> or <code>None</code> for
+dependency attributes whose specs set <code>allow_single_file = True</code>.
+<a href="/rules/lib/builtins/ctx#executable/"><code>ctx.executable</code></a> behaves the same as <code>ctx.file</code>, but only
+contains fields for dependency attributes whose specs set <code>executable = True</code>.</p>
+<h3 id="declaring-outputs">Declaring outputs</h3>
+<p>During the analysis phase, a rule&rsquo;s implementation function can create outputs.
+Since all labels have to be known during the loading phase, these additional
+outputs have no labels. <code>File</code> objects for outputs can be created using
+<a href="/rules/lib/builtins/actions#declare_file/"><code>ctx.actions.declare_file</code></a> and
+<a href="/rules/lib/builtins/actions#declare_directory/"><code>ctx.actions.declare_directory</code></a>.
+Often, the names of outputs are based on the target&rsquo;s name,
+<a href="/rules/lib/builtins/ctx#label/"><code>ctx.label.name</code></a>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="n">output_file</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">declare_file</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;.output&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span></code></pre></div><p>For <em>predeclared outputs</em>, like those created for
+<a href="#output_attributes">output attributes</a>, <code>File</code> objects instead can be retrieved
+from the corresponding fields of <a href="/rules/lib/builtins/ctx#outputs/"><code>ctx.outputs</code></a>.</p>
+<h3 id="actions">Actions</h3>
+<p>An action describes how to generate a set of outputs from a set of inputs, for
+example &ldquo;run gcc on hello.c and get hello.o&rdquo;. When an action is created, Bazel
+doesn&rsquo;t run the command immediately. It registers it in a graph of dependencies,
+because an action can depend on the output of another action. For example, in C,
+the linker must be called after the compiler.</p>
+<p>General-purpose functions that create actions are defined in
+<a href="/rules/lib/builtins/actions/"><code>ctx.actions</code></a>:</p>
+<ul>
+<li><a href="/rules/lib/builtins/actions#run/"><code>ctx.actions.run</code></a>, to run an executable.</li>
+<li><a href="/rules/lib/builtins/actions#run_shell/"><code>ctx.actions.run_shell</code></a>, to run a shell
+command.</li>
+<li><a href="/rules/lib/builtins/actions#write/"><code>ctx.actions.write</code></a>, to write a string to a file.</li>
+<li><a href="/rules/lib/builtins/actions#expand_template/"><code>ctx.actions.expand_template</code></a>, to
+generate a file from a template.</li>
+</ul>
+<p><a href="/rules/lib/builtins/actions#args/"><code>ctx.actions.args</code></a> can be used to efficiently
+accumulate the arguments for actions. It avoids flattening depsets until
+execution time:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">transitive_headers</span> <span class="o">=</span> <span class="p">[</span><span class="n">dep</span><span class="p">[</span><span class="n">ExampleInfo</span><span class="p">]</span><span class="o">.</span><span class="n">headers</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">deps</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span> <span class="o">=</span> <span class="n">depset</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">hdrs</span><span class="p">,</span> <span class="n">transitive</span> <span class="o">=</span> <span class="n">transitive_headers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">srcs</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">srcs</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inputs</span> <span class="o">=</span> <span class="n">depset</span><span class="p">(</span><span class="n">srcs</span><span class="p">,</span> <span class="n">transitive</span> <span class="o">=</span> <span class="p">[</span><span class="n">headers</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">output_file</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">declare_file</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;.output&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">args</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">args</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span><span class="o">.</span><span class="n">add_joined</span><span class="p">(</span><span class="s2">&#34;-h&#34;</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">join_with</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span><span class="o">.</span><span class="n">add_joined</span><span class="p">(</span><span class="s2">&#34;-s&#34;</span><span class="p">,</span> <span class="n">srcs</span><span class="p">,</span> <span class="n">join_with</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&#34;-o&#34;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mnemonic</span> <span class="o">=</span> <span class="s2">&#34;ExampleCompile&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">executable</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">executable</span><span class="o">.</span><span class="n">_compiler</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">arguments</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">output_file</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></div><p>Actions take a list or depset of input files and generate a (non-empty) list of
+output files. The set of input and output files must be known during the
+<a href="/extending/concepts#evaluation-model/">analysis phase</a>. It might depend on the value of
+attributes, including providers from dependencies, but it can&rsquo;t depend on the
+result of the execution. For example, if your action runs the unzip command, you
+must specify which files you expect to be inflated (before running unzip).
+Actions which create a variable number of files internally can wrap those in a
+single file (such as a zip, tar, or other archive format).</p>
+<p>Actions must list all of their inputs. Listing inputs that are not used is
+permitted, but inefficient.</p>
+<p>Actions must create all of their outputs. They may write other files, but
+anything not in outputs won&rsquo;t be available to consumers. All declared outputs
+must be written by some action.</p>
+<p>Actions are comparable to pure functions: They should depend only on the
+provided inputs, and avoid accessing computer information, username, clock,
+network, or I/O devices (except for reading inputs and writing outputs). This is
+important because the output will be cached and reused.</p>
+<p>Dependencies are resolved by Bazel, which decides which actions to
+execute. It is an error if there is a cycle in the dependency graph. Creating
+an action doesn&rsquo;t guarantee that it will be executed, that depends on whether
+its outputs are needed for the build.</p>
+<h3 id="providers">Providers</h3>
+<p>Providers are pieces of information that a rule exposes to other rules that
+depend on it. This data can include output files, libraries, parameters to pass
+on a tool&rsquo;s command line, or anything else a target&rsquo;s consumers should know
+about.</p>
+<p>Since a rule&rsquo;s implementation function can only read providers from the
+instantiated target&rsquo;s immediate dependencies, rules need to forward any
+information from a target&rsquo;s dependencies that needs to be known by a target&rsquo;s
+consumers, generally by accumulating that into a <a href="/rules/lib/builtins/depset/"><code>depset</code></a>.</p>
+<p>A target&rsquo;s providers are specified by a list of provider objects returned by
+the implementation function.</p>
+<p>Old implementation functions can also be written in a legacy style where the
+implementation function returns a <a href="/rules/lib/builtins/struct/"><code>struct</code></a> instead of list of
+provider objects. This style is strongly discouraged and rules should be
+<a href="#migrating_from_legacy_providers">migrated away from it</a>.</p>
+<h4 id="default-outputs">Default outputs</h4>
+<p>A target&rsquo;s <em>default outputs</em> are the outputs that are requested by default when
+the target is requested for build at the command line. For example, a
+<code>java_library</code> target <code>//pkg:foo</code> has <code>foo.jar</code> as a default output, so that
+will be built by the command <code>bazel build //pkg:foo</code>.</p>
+<p>Default outputs are specified by the <code>files</code> parameter of
+<a href="/rules/lib/providers/DefaultInfo/"><code>DefaultInfo</code></a>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DefaultInfo</span><span class="p">(</span><span class="n">files</span> <span class="o">=</span> <span class="n">depset</span><span class="p">([</span><span class="n">output_file</span><span class="p">]),</span> <span class="o">...</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span></code></pre></div><p>If <code>DefaultInfo</code> is not returned by a rule implementation or the <code>files</code>
+parameter is not specified, <code>DefaultInfo.files</code> defaults to all
+<em>predeclared outputs</em> (generally, those created by <a href="#output_attributes">output
+attributes</a>).</p>
+<p>Rules that perform actions should provide default outputs, even if those outputs
+are not expected to be directly used. Actions that are not in the graph of the
+requested outputs are pruned. If an output is only used by a target&rsquo;s consumers,
+those actions won&rsquo;t be performed when the target is built in isolation. This
+makes debugging more difficult because rebuilding just the failing target won&rsquo;t
+reproduce the failure.</p>
+<h4 id="runfiles">Runfiles</h4>
+<p>Runfiles are a set of files used by a target at runtime (as opposed to build
+time). During the <a href="/extending/concepts#evaluation-model/">execution phase</a>, Bazel creates
+a directory tree containing symlinks pointing to the runfiles. This stages the
+environment for the binary so it can access the runfiles during runtime.</p>
+<p>Runfiles can be added manually during rule creation.
+<a href="/rules/lib/builtins/runfiles/"><code>runfiles</code></a> objects can be created by the <code>runfiles</code> method
+on the rule context, <a href="/rules/lib/builtins/ctx#runfiles/"><code>ctx.runfiles</code></a> and passed to the
+<code>runfiles</code> parameter on <code>DefaultInfo</code>. The executable output of
+<a href="#executable-rules">executable rules</a> is implicitly added to the runfiles.</p>
+<p>Some rules specify attributes, generally named
+<a href="/reference/be/common-definitions#common.data"><code>data</code></a>, whose outputs are added to
+a targets&rsquo; runfiles. Runfiles should also be merged in from <code>data</code>, as well as
+from any attributes which might provide code for eventual execution, generally
+<code>srcs</code> (which might contain <code>filegroup</code> targets with associated <code>data</code>) and
+<code>deps</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">runfiles</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">runfiles</span><span class="p">(</span><span class="n">files</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transitive_runfiles</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">runfiles_attr</span> <span class="ow">in</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">srcs</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">hdrs</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">deps</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">runfiles_attr</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transitive_runfiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="n">DefaultInfo</span><span class="p">]</span><span class="o">.</span><span class="n">default_runfiles</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">runfiles</span> <span class="o">=</span> <span class="n">runfiles</span><span class="o">.</span><span class="n">merge_all</span><span class="p">(</span><span class="n">transitive_runfiles</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DefaultInfo</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">runfiles</span> <span class="o">=</span> <span class="n">runfiles</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span></code></pre></div><h4 id="custom-providers">Custom providers</h4>
+<p>Providers can be defined using the <a href="/rules/lib/globals/bzl#provider/"><code>provider</code></a>
+function to convey rule-specific information:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">ExampleInfo</span> <span class="o">=</span> <span class="n">provider</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Info needed to compile/link Example code.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;headers&#34;</span><span class="p">:</span> <span class="s2">&#34;depset of header Files from transitive dependencies.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;files_to_link&#34;</span><span class="p">:</span> <span class="s2">&#34;depset of Files from compilation.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>Rule implementation functions can then construct and return provider instances:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="o">...</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ExampleInfo</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">files_to_link</span> <span class="o">=</span> <span class="n">depset</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">              <span class="p">[</span><span class="n">output_file</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">              <span class="n">transitive</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">dep</span><span class="p">[</span><span class="n">ExampleInfo</span><span class="p">]</span><span class="o">.</span><span class="n">files_to_link</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">deps</span>
+</span></span><span class="line"><span class="cl">              <span class="p">],</span>
+</span></span><span class="line"><span class="cl">          <span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span></code></pre></div><h5 id="custom-initialization-of-providers">Custom initialization of providers</h5>
+<p>It&rsquo;s possible to guard the instantiation of a provider with custom
+preprocessing and validation logic. This can be used to ensure that all
+provider instances satisfy certain invariants, or to give users a cleaner API for
+obtaining an instance.</p>
+<p>This is done by passing an <code>init</code> callback to the
+<a href="/rules/lib/globals/bzl.html#provider"><code>provider</code></a> function. If this callback is given, the
+return type of <code>provider()</code> changes to be a tuple of two values: the provider
+symbol that is the ordinary return value when <code>init</code> is not used, and a &ldquo;raw
+constructor&rdquo;.</p>
+<p>In this case, when the provider symbol is called, instead of directly returning
+a new instance, it will forward the arguments along to the <code>init</code> callback. The
+callback&rsquo;s return value must be a dict mapping field names (strings) to values;
+this is used to initialize the fields of the new instance. Note that the
+callback may have any signature, and if the arguments don&rsquo;t match the signature
+an error is reported as if the callback were invoked directly.</p>
+<p>The raw constructor, by contrast, will bypass the <code>init</code> callback.</p>
+<p>The following example uses <code>init</code> to preprocess and validate its arguments:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># //pkg:exampleinfo.bzl</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">_core_headers</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>  <span class="c1"># private constant representing standard library files</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Keyword-only arguments are preferred.</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_exampleinfo_init</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">files_to_link</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">allow_empty_files_to_link</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">files_to_link</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allow_empty_files_to_link</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fail</span><span class="p">(</span><span class="s2">&#34;files_to_link may not be empty&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">all_headers</span> <span class="o">=</span> <span class="n">depset</span><span class="p">(</span><span class="n">_core_headers</span><span class="p">,</span> <span class="n">transitive</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;files_to_link&#34;</span><span class="p">:</span> <span class="n">files_to_link</span><span class="p">,</span> <span class="s2">&#34;headers&#34;</span><span class="p">:</span> <span class="n">all_headers</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ExampleInfo</span><span class="p">,</span> <span class="n">_new_exampleinfo</span> <span class="o">=</span> <span class="n">provider</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;files_to_link&#34;</span><span class="p">,</span> <span class="s2">&#34;headers&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">init</span> <span class="o">=</span> <span class="n">_exampleinfo_init</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>A rule implementation may then instantiate the provider as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ExampleInfo(
+</span></span><span class="line"><span class="cl">    files_to_link = my_files_to_link,  # may not be empty
+</span></span><span class="line"><span class="cl">    headers = my_headers,  # will automatically include the core headers
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>The raw constructor can be used to define alternative public factory functions
+that don&rsquo;t go through the <code>init</code> logic. For example, exampleinfo.bzl
+could define:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">make_barebones_exampleinfo</span><span class="p">(</span><span class="n">headers</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Returns an ExampleInfo with no files_to_link and only the specified headers.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_new_exampleinfo</span><span class="p">(</span><span class="n">files_to_link</span> <span class="o">=</span> <span class="n">depset</span><span class="p">(),</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">all_headers</span><span class="p">)</span>
+</span></span></code></pre></div><p>Typically, the raw constructor is bound to a variable whose name begins with an
+underscore (<code>_new_exampleinfo</code> above), so that user code can&rsquo;t load it and
+generate arbitrary provider instances.</p>
+<p>Another use for <code>init</code> is to prevent the user from calling the provider
+symbol altogether, and force them to use a factory function instead:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_exampleinfo_init_banned</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fail</span><span class="p">(</span><span class="s2">&#34;Do not call ExampleInfo(). Use make_exampleinfo() instead.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ExampleInfo</span><span class="p">,</span> <span class="n">_new_exampleinfo</span> <span class="o">=</span> <span class="n">provider</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">init</span> <span class="o">=</span> <span class="n">_exampleinfo_init_banned</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">make_exampleinfo</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_new_exampleinfo</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></span></code></pre></div><p><a name="executable-rules"></a></p>
+<h2 id="executable-rules-and-test-rules">Executable rules and test rules</h2>
+<p>Executable rules define targets that can be invoked by a <code>bazel run</code> command.
+Test rules are a special kind of executable rule whose targets can also be
+invoked by a <code>bazel test</code> command. Executable and test rules are created by
+setting the respective <a href="/rules/lib/globals/bzl#rule.executable"><code>executable</code></a> or
+<a href="/rules/lib/globals/bzl#rule.test"><code>test</code></a> argument to <code>True</code> in the call to <code>rule</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">example_binary = rule(
+</span></span><span class="line"><span class="cl">   implementation = _example_binary_impl,
+</span></span><span class="line"><span class="cl">   executable = True,
+</span></span><span class="line"><span class="cl">   ...
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">example_test = rule(
+</span></span><span class="line"><span class="cl">   implementation = _example_binary_impl,
+</span></span><span class="line"><span class="cl">   test = True,
+</span></span><span class="line"><span class="cl">   ...
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>Test rules must have names that end in <code>_test</code>. (Test <em>target</em> names also often
+end in <code>_test</code> by convention, but this is not required.) Non-test rules must not
+have this suffix.</p>
+<p>Both kinds of rules must produce an executable output file (which may or may not
+be predeclared) that will be invoked by the <code>run</code> or <code>test</code> commands. To tell
+Bazel which of a rule&rsquo;s outputs to use as this executable, pass it as the
+<code>executable</code> argument of a returned <a href="/rules/lib/providers/DefaultInfo/"><code>DefaultInfo</code></a>
+provider. That <code>executable</code> is added to the default outputs of the rule (so you
+don&rsquo;t need to pass that to both <code>executable</code> and <code>files</code>). It&rsquo;s also implicitly
+added to the <a href="#runfiles">runfiles</a>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_binary_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">executable</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">declare_file</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DefaultInfo</span><span class="p">(</span><span class="n">executable</span> <span class="o">=</span> <span class="n">executable</span><span class="p">,</span> <span class="o">...</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span></code></pre></div><p>The action that generates this file must set the executable bit on the file. For
+a <a href="/rules/lib/builtins/actions#run/"><code>ctx.actions.run</code></a> or
+<a href="/rules/lib/builtins/actions#run_shell/"><code>ctx.actions.run_shell</code></a> action this should be done
+by the underlying tool that is invoked by the action. For a
+<a href="/rules/lib/builtins/actions#write/"><code>ctx.actions.write</code></a> action, pass <code>is_executable = True</code>.</p>
+<p>As <a href="#deprecated_predeclared_outputs">legacy behavior</a>, executable rules have a
+special <code>ctx.outputs.executable</code> predeclared output. This file serves as the
+default executable if you don&rsquo;t specify one using <code>DefaultInfo</code>; it must not be
+used otherwise. This output mechanism is deprecated because it doesn&rsquo;t support
+customizing the executable file&rsquo;s name at analysis time.</p>
+<p>See examples of an
+<a href="https://github.com/bazelbuild/examples/blob/main/rules/executable/fortune.bzl">executable rule</a>
+and a
+<a href="https://github.com/bazelbuild/examples/blob/main/rules/test_rule/line_length.bzl">test rule</a>.</p>
+<p><a href="/reference/be/common-definitions#common-attributes-binaries/">Executable rules</a> and
+<a href="/reference/be/common-definitions#common-attributes-tests/">test rules</a> have additional
+attributes implicitly defined, in addition to those added for
+<a href="/reference/be/common-definitions#common-attributes/">all rules</a>. The defaults of
+implicitly-added attributes can&rsquo;t be changed, though this can be worked around
+by wrapping a private rule in a <a href="/extending/macros/">Starlark macro</a> which alters the
+default:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">example_test</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="s2">&#34;small&#34;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">_example_test</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">_example_test</span> <span class="o">=</span> <span class="n">rule</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"> <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><h3 id="runfiles-location">Runfiles location</h3>
+<p>When an executable target is run with <code>bazel run</code> (or <code>test</code>), the root of the
+runfiles directory is adjacent to the executable. The paths relate as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"># Given launcher_path and runfile_file:
+</span></span><span class="line"><span class="cl">runfiles_root = launcher_path.path + &#34;.runfiles&#34;
+</span></span><span class="line"><span class="cl">workspace_name = ctx.workspace_name
+</span></span><span class="line"><span class="cl">runfile_path = runfile_file.short_path
+</span></span><span class="line"><span class="cl">execution_root_relative_path = &#34;%s/%s/%s&#34; % (
+</span></span><span class="line"><span class="cl">    runfiles_root, workspace_name, runfile_path)
+</span></span></code></pre></div><p>The path to a <code>File</code> under the runfiles directory corresponds to
+<a href="/rules/lib/builtins/File#short_path/"><code>File.short_path</code></a>.</p>
+<p>The binary executed directly by <code>bazel</code> is adjacent to the root of the
+<code>runfiles</code> directory. However, binaries called <em>from</em> the runfiles can&rsquo;t make
+the same assumption. To mitigate this, each binary should provide a way to
+accept its runfiles root as a parameter using an environment, or command line
+argument or flag. This allows binaries to pass the correct canonical runfiles root
+to the binaries it calls. If that&rsquo;s not set, a binary can guess that it was the
+first binary called and look for an adjacent runfiles directory.</p>
+<h2 id="advanced-topics">Advanced topics</h2>
+<h3 id="requesting-output-files">Requesting output files</h3>
+<p>A single target can have several output files. When a <code>bazel build</code> command is
+run, some of the outputs of the targets given to the command are considered to
+be <em>requested</em>. Bazel only builds these requested files and the files that they
+directly or indirectly depend on. (In terms of the action graph, Bazel only
+executes the actions that are reachable as transitive dependencies of the
+requested files.)</p>
+<p>In addition to <a href="#default_outputs">default outputs</a>, any <em>predeclared output</em> can
+be explicitly requested on the command line. Rules can specify predeclared
+outputs using <a href="#output_attributes">output attributes</a>. In that case, the user
+explicitly chooses labels for outputs when they instantiate the rule. To obtain
+<a href="/rules/lib/builtins/File/"><code>File</code></a> objects for output attributes, use the corresponding
+attribute of <a href="/rules/lib/builtins/ctx#outputs/"><code>ctx.outputs</code></a>. Rules can
+<a href="#deprecated_predeclared_outputs">implicitly define predeclared outputs</a> based
+on the target name as well, but this feature is deprecated.</p>
+<p>In addition to default outputs, there are <em>output groups</em>, which are collections
+of output files that may be requested together. These can be requested with
+<a href="/reference/command-line-reference#flag--output_groups/"><code>--output_groups</code></a>. For
+example, if a target <code>//pkg:mytarget</code> is of a rule type that has a <code>debug_files</code>
+output group, these files can be built by running <code>bazel build //pkg:mytarget --output_groups=debug_files</code>. Since non-predeclared outputs don&rsquo;t have labels,
+they can only be requested by appearing in the default outputs or an output
+group.</p>
+<p>Output groups can be specified with the
+<a href="/rules/lib/providers/OutputGroupInfo/"><code>OutputGroupInfo</code></a> provider. Note that unlike many
+built-in providers, <code>OutputGroupInfo</code> can take parameters with arbitrary names
+to define output groups with that name:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">debug_file</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">declare_file</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;.pdb&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DefaultInfo</span><span class="p">(</span><span class="n">files</span> <span class="o">=</span> <span class="n">depset</span><span class="p">([</span><span class="n">output_file</span><span class="p">]),</span> <span class="o">...</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OutputGroupInfo</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">debug_files</span> <span class="o">=</span> <span class="n">depset</span><span class="p">([</span><span class="n">debug_file</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">all_files</span> <span class="o">=</span> <span class="n">depset</span><span class="p">([</span><span class="n">output_file</span><span class="p">,</span> <span class="n">debug_file</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span></code></pre></div><p>Also unlike most providers, <code>OutputGroupInfo</code> can be returned by both an
+<a href="/extending/aspects/">aspect</a> and the rule target to which that aspect is applied, as
+long as they don&rsquo;t define the same output groups. In that case, the resulting
+providers are merged.</p>
+<p>Note that <code>OutputGroupInfo</code> generally shouldn&rsquo;t be used to convey specific sorts
+of files from a target to the actions of its consumers. Define
+<a href="#custom_providers">rule-specific providers</a> for that instead.</p>
+<h3 id="configurations">Configurations</h3>
+<p>Imagine that you want to build a C++ binary for a different architecture. The
+build can be complex and involve multiple steps. Some of the intermediate
+binaries, like compilers and code generators, have to run on
+<a href="/extending/platforms#overview/">the execution platform</a> (which could be your host,
+or a remote executor). Some binaries like the final output must be built for the
+target architecture.</p>
+<p>For this reason, Bazel has a concept of &ldquo;configurations&rdquo; and transitions. The
+topmost targets (the ones requested on the command line) are built-in the
+&ldquo;target&rdquo; configuration, while tools that should run on the execution platform
+are built-in an &ldquo;exec&rdquo; configuration. Rules may generate different actions based
+on the configuration, for instance to change the cpu architecture that is passed
+to the compiler. In some cases, the same library may be needed for different
+configurations. If this happens, it will be analyzed and potentially built
+multiple times.</p>
+<p>By default, Bazel builds a target&rsquo;s dependencies in the same configuration as
+the target itself, in other words without transitions. When a dependency is a
+tool that&rsquo;s needed to help build the target, the corresponding attribute should
+specify a transition to an exec configuration. This causes the tool and all its
+dependencies to build for the execution platform.</p>
+<p>For each dependency attribute, you can use <code>cfg</code> to decide if dependencies
+should build in the same configuration or transition to an exec configuration.
+If a dependency attribute has the flag <code>executable = True</code>, <code>cfg</code> must be set
+explicitly. This is to guard against accidentally building a tool for the wrong
+configuration.
+<a href="https://github.com/bazelbuild/examples/blob/main/rules/actions_run/execute.bzl">See example</a></p>
+<p>In general, sources, dependent libraries, and executables that will be needed at
+runtime can use the same configuration.</p>
+<p>Tools that are executed as part of the build (such as compilers or code generators)
+should be built for an exec configuration. In this case, specify <code>cfg = &quot;exec&quot;</code> in
+the attribute.</p>
+<p>Otherwise, executables that are used at runtime (such as as part of a test) should
+be built for the target configuration. In this case, specify <code>cfg = &quot;target&quot;</code> in
+the attribute.</p>
+<p><code>cfg = &quot;target&quot;</code> doesn&rsquo;t actually do anything: it&rsquo;s purely a convenience value to
+help rule designers be explicit about their intentions. When <code>executable = False</code>,
+which means <code>cfg</code> is optional, only set this when it truly helps readability.</p>
+<p>You can also use <code>cfg = my_transition</code> to use
+<a href="/extending/config#user-defined-transitions/">user-defined transitions</a>, which allow
+rule authors a great deal of flexibility in changing configurations, with the
+drawback of
+<a href="/extending/config#memory-and-performance-considerations/">making the build graph larger and less comprehensible</a>.</p>
+<p><strong>Note</strong>: Historically, Bazel didn&rsquo;t have the concept of execution platforms,
+and instead all build actions were considered to run on the host machine. Bazel
+versions before 6.0 created a distinct &ldquo;host&rdquo; configuration to represent this.
+If you see references to &ldquo;host&rdquo; in code or old documentation, that&rsquo;s what this
+refers to. We recommend using Bazel 6.0 or newer to avoid this extra conceptual
+overhead.</p>
+<p><a name="fragments"></a></p>
+<h3 id="configuration-fragments">Configuration fragments</h3>
+<p>Rules may access
+<a href="/rules/lib/fragments/">configuration fragments</a> such as
+<code>cpp</code> and <code>java</code>. However, all required fragments must be declared in
+order to avoid access errors:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Using ctx.fragments.cpp leads to an error since it was not declared.</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">fragments</span><span class="o">.</span><span class="n">java</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">my_rule</span> <span class="o">=</span> <span class="n">rule</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">implementation</span> <span class="o">=</span> <span class="n">_impl</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fragments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;java&#34;</span><span class="p">],</span>      <span class="c1"># Required fragments of the target configuration</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><h3 id="runfiles-symlinks">Runfiles symlinks</h3>
+<p>Normally, the relative path of a file in the runfiles tree is the same as the
+relative path of that file in the source tree or generated output tree. If these
+need to be different for some reason, you can specify the <code>root_symlinks</code> or
+<code>symlinks</code> arguments. The <code>root_symlinks</code> is a dictionary mapping paths to
+files, where the paths are relative to the root of the runfiles directory. The
+<code>symlinks</code> dictionary is the same, but paths are implicitly prefixed with the
+name of the main workspace (<em>not</em> the name of the repository containing the
+current target).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">    runfiles = ctx.runfiles(
+</span></span><span class="line"><span class="cl">        root_symlinks = {&#34;some/path/here.foo&#34;: ctx.file.some_data_file2}
+</span></span><span class="line"><span class="cl">        symlinks = {&#34;some/path/here.bar&#34;: ctx.file.some_data_file3}
+</span></span><span class="line"><span class="cl">    )
+</span></span><span class="line"><span class="cl">    # Creates something like:
+</span></span><span class="line"><span class="cl">    # sometarget.runfiles/
+</span></span><span class="line"><span class="cl">    #     some/
+</span></span><span class="line"><span class="cl">    #         path/
+</span></span><span class="line"><span class="cl">    #             here.foo -&gt; some_data_file2
+</span></span><span class="line"><span class="cl">    #     &lt;workspace_name&gt;/
+</span></span><span class="line"><span class="cl">    #         some/
+</span></span><span class="line"><span class="cl">    #             path/
+</span></span><span class="line"><span class="cl">    #                 here.bar -&gt; some_data_file3
+</span></span></code></pre></div><p>If <code>symlinks</code> or <code>root_symlinks</code> is used, be careful not to map two different
+files to the same path in the runfiles tree. This will cause the build to fail
+with an error describing the conflict. To fix, you will need to modify your
+<code>ctx.runfiles</code> arguments to remove the collision. This checking will be done for
+any targets using your rule, as well as targets of any kind that depend on those
+targets. This is especially risky if your tool is likely to be used transitively
+by another tool; symlink names must be unique across the runfiles of a tool and
+all of its dependencies.</p>
+<h3 id="code-coverage">Code coverage</h3>
+<p>When the <a href="/reference/command-line-reference#coverage/"><code>coverage</code></a> command is run,
+the build may need to add coverage instrumentation for certain targets. The
+build also gathers the list of source files that are instrumented. The subset of
+targets that are considered is controlled by the flag
+<a href="/reference/command-line-reference#flag--instrumentation_filter/"><code>--instrumentation_filter</code></a>.
+Test targets are excluded, unless
+<a href="/reference/command-line-reference#flag--instrument_test_targets/"><code>--instrument_test_targets</code></a>
+is specified.</p>
+<p>If a rule implementation adds coverage instrumentation at build time, it needs
+to account for that in its implementation function.
+<a href="/rules/lib/builtins/ctx#coverage_instrumented/">ctx.coverage_instrumented</a> returns
+<code>True</code> in coverage mode if a target&rsquo;s sources should be instrumented:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"># Are this rule&#39;s sources instrumented?
+</span></span><span class="line"><span class="cl">if ctx.coverage_instrumented():
+</span></span><span class="line"><span class="cl">  # Do something to turn on coverage for this compile action
+</span></span></code></pre></div><p>Logic that always needs to be on in coverage mode (whether a target&rsquo;s sources
+specifically are instrumented or not) can be conditioned on
+<a href="/rules/lib/builtins/configuration#coverage_enabled/">ctx.configuration.coverage_enabled</a>.</p>
+<p>If the rule directly includes sources from its dependencies before compilation
+(such as header files), it may also need to turn on compile-time instrumentation if
+the dependencies&rsquo; sources should be instrumented:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"># Are this rule&#39;s sources or any of the sources for its direct dependencies
+</span></span><span class="line"><span class="cl"># in deps instrumented?
+</span></span><span class="line"><span class="cl">if ctx.coverage_instrumented() or any([ctx.coverage_instrumented(dep) for dep in ctx.attr.deps]):
+</span></span><span class="line"><span class="cl">    # Do something to turn on coverage for this compile action
+</span></span></code></pre></div><p>Rules also should provide information about which attributes are relevant for
+coverage with the <code>InstrumentedFilesInfo</code> provider, constructed using
+<a href="/rules/lib/toplevel/coverage_common#instrumented_files_info/"><code>coverage_common.instrumented_files_info</code></a>.
+The <code>dependency_attributes</code> parameter of <code>instrumented_files_info</code> should list
+all runtime dependency attributes, including code dependencies like <code>deps</code> and
+data dependencies like <code>data</code>. The <code>source_attributes</code> parameter should list the
+rule&rsquo;s source files attributes if coverage instrumentation might be added:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_example_library_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="n">coverage_common</span><span class="o">.</span><span class="n">instrumented_files_info</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ctx</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">dependency_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;deps&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Omitted if coverage is not supported for this rule:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">source_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;srcs&#34;</span><span class="p">,</span> <span class="s2">&#34;hdrs&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span></code></pre></div><p>If <code>InstrumentedFilesInfo</code> is not returned, a default one is created with each
+non-tool <a href="#dependency_attributes">dependency attribute</a> that doesn&rsquo;t set
+<a href="#configuration"><code>cfg</code></a> to <code>&quot;exec&quot;</code> in the attribute schema. in
+<code>dependency_attributes</code>. (This isn&rsquo;t ideal behavior, since it puts attributes
+like <code>srcs</code> in <code>dependency_attributes</code> instead of <code>source_attributes</code>, but it
+avoids the need for explicit coverage configuration for all rules in the
+dependency chain.)</p>
+<h4 id="test-rules">Test rules</h4>
+<p>Test rules require additional setup to generate coverage reports. The rule
+itself has to add the following implicit attributes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">my_test = rule(
+</span></span><span class="line"><span class="cl">    ...,
+</span></span><span class="line"><span class="cl">    attrs = {
+</span></span><span class="line"><span class="cl">        ...,
+</span></span><span class="line"><span class="cl">        # Implicit dependencies used by Bazel to generate coverage reports.
+</span></span><span class="line"><span class="cl">        &#34;_lcov_merger&#34;: attr.label(
+</span></span><span class="line"><span class="cl">            default = configuration_field(fragment = &#34;coverage&#34;, name = &#34;output_generator&#34;),
+</span></span><span class="line"><span class="cl">            executable = True,
+</span></span><span class="line"><span class="cl">            cfg = config.exec(exec_group = &#34;test&#34;),
+</span></span><span class="line"><span class="cl">        ),
+</span></span><span class="line"><span class="cl">        &#34;_collect_cc_coverage&#34;: attr.label(
+</span></span><span class="line"><span class="cl">            default = &#34;@bazel_tools//tools/test:collect_cc_coverage&#34;,
+</span></span><span class="line"><span class="cl">            executable = True,
+</span></span><span class="line"><span class="cl">            cfg = config.exec(exec_group = &#34;test&#34;),
+</span></span><span class="line"><span class="cl">        )
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    test = True,
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></div><p>By using <code>configuration_field</code>, the dependency on the Java LCOV merger tool can
+be avoided as long as coverage is not requested.</p>
+<p>When the test is run, it should emit coverage information in the form of one or
+more [LCOV files]
+(<a href="https://manpages.debian.org/unstable/lcov/geninfo.1.en.html#TRACEFILE_FORMAT">https://manpages.debian.org/unstable/lcov/geninfo.1.en.html#TRACEFILE_FORMAT</a>)
+with unique names into the directory specified by the <code>COVERAGE_DIR</code> environment
+variable. Bazel will then merge these files into a single LCOV file using the
+<code>_lcov_merger</code> tool. If present, it will also collect C/C++ coverage using the
+<code>_collect_cc_coverage</code> tool.</p>
+<h3 id="baseline-coverage">Baseline coverage</h3>
+<p>Since coverage is only collected for code that ends up in the dependency tree of
+a test, coverage reports can be misleading as they don&rsquo;t necessarily cover all
+the code matched by the <code>--instrumentation_filter</code> flag.</p>
+<p>For this reason, Bazel allows rules to specify baseline coverage files using the
+<code>baseline_coverage_files</code> attribute of <code>ctx.instrumented_files_info</code>). These
+files must be generated in LCOV format by a user-defined action and are supposed
+to list all lines, branches, functions and/or blocks in the target&rsquo;s source
+files (according to the <code>sources_attributes</code> and <code>extensions</code> parameters). For
+source files in targets that are instrumented for coverage, Bazel merges their
+baseline coverage into the combined coverage report generated with
+<code>--combined_report</code> and thus ensures that untested files still show up as
+uncovered.</p>
+<p>If a rule doesn&rsquo;t provide any baseline coverage files, Bazel generates synthetic
+coverage information that only mentions the source file paths, but doesn&rsquo;t
+contain any information about their contents.</p>
+<h3 id="validation-actions">Validation Actions</h3>
+<p>Sometimes you need to validate something about the build, and the
+information required to do that validation is available only in artifacts
+(source files or generated files). Because this information is in artifacts,
+rules can&rsquo;t do this validation at analysis time because rules can&rsquo;t read
+files. Instead, actions must do this validation at execution time. When
+validation fails, the action will fail, and hence so will the build.</p>
+<p>Examples of validations that might be run are static analysis, linting,
+dependency and consistency checks, and style checks.</p>
+<p>Validation actions can also help to improve build performance by moving parts
+of actions that are not required for building artifacts into separate actions.
+For example, if a single action that does compilation and linting can be
+separated into a compilation action and a linting action, then the linting
+action can be run as a validation action and run in parallel with other actions.</p>
+<p>These &ldquo;validation actions&rdquo; often don&rsquo;t produce anything that is used elsewhere
+in the build, since they only need to assert things about their inputs. This
+presents a problem though: If a validation action doesn&rsquo;t produce anything that
+is used elsewhere in the build, how does a rule get the action to run?
+Historically, the approach was to have the validation action output an empty
+file, and artificially add that output to the inputs of some other important
+action in the build:</p>
+<img src="/rules/validation_action_historical.svg" width="35%" />
+<p>This works, because Bazel will always run the validation action when the compile
+action is run, but this has significant drawbacks:</p>
+<ol>
+<li>
+<p>The validation action is in the critical path of the build. Because Bazel
+thinks the empty output is required to run the compile action, it will run the
+validation action first, even though the compile action will ignore the input.
+This reduces parallelism and slows down builds.</p>
+</li>
+<li>
+<p>If other actions in the build might run instead of the
+compile action, then the empty outputs of validation actions need to be added to
+those actions as well (<code>java_library</code>&rsquo;s source jar output, for example). This is
+also a problem if new actions that might run instead of the compile action are
+added later, and the empty validation output is accidentally left off.</p>
+</li>
+</ol>
+<p>The solution to these problems is to use the Validations Output Group.</p>
+<h4 id="validations-output-group">Validations Output Group</h4>
+<p>The Validations Output Group is an output group designed to hold the otherwise
+unused outputs of validation actions, so that they don&rsquo;t need to be artificially
+added to the inputs of other actions.</p>
+<p>This group is special in that its outputs are always requested, regardless of
+the value of the <code>--output_groups</code> flag, and regardless of how the target is
+depended upon (for example, on the command line, as a dependency, or through
+implicit outputs of the target). Note that normal caching and incrementality
+still apply: if the inputs to the validation action have not changed and the
+validation action previously succeeded, then the validation action won&rsquo;t be
+run.</p>
+<img src="/rules/validation_action.svg" width="35%" />
+<p>Using this output group still requires that validation actions output some file,
+even an empty one. This might require wrapping some tools that normally don&rsquo;t
+create outputs so that a file is created.</p>
+<p>A target&rsquo;s validation actions are not run in three cases:</p>
+<ul>
+<li>When the target is depended upon as a tool</li>
+<li>When the target is depended upon as an implicit dependency (for example, an
+attribute that starts with &ldquo;_&rdquo;)</li>
+<li>When the target is built in the exec configuration.</li>
+</ul>
+<p>It is assumed that these targets have their own
+separate builds and tests that would uncover any validation failures.</p>
+<h4 id="using-the-validations-output-group">Using the Validations Output Group</h4>
+<p>The Validations Output Group is named <code>_validation</code> and is used like any other
+output group:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_rule_with_validation_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">main</span><span class="p">,</span> <span class="s2">&#34;main output</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">implicit</span><span class="p">,</span> <span class="s2">&#34;implicit output</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">validation_output</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">declare_file</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&#34;.validation&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ctx</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">validation_output</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">executable</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">executable</span><span class="o">.</span><span class="n">_validation_tool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">arguments</span> <span class="o">=</span> <span class="p">[</span><span class="n">validation_output</span><span class="o">.</span><span class="n">path</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DefaultInfo</span><span class="p">(</span><span class="n">files</span> <span class="o">=</span> <span class="n">depset</span><span class="p">([</span><span class="n">ctx</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">main</span><span class="p">])),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">OutputGroupInfo</span><span class="p">(</span><span class="n">_validation</span> <span class="o">=</span> <span class="n">depset</span><span class="p">([</span><span class="n">validation_output</span><span class="p">])),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">rule_with_validation</span> <span class="o">=</span> <span class="n">rule</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">implementation</span> <span class="o">=</span> <span class="n">_rule_with_validation_impl</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;main&#34;</span><span class="p">:</span> <span class="s2">&#34;%</span><span class="si">{name}</span><span class="s2">.main&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;implicit&#34;</span><span class="p">:</span> <span class="s2">&#34;%</span><span class="si">{name}</span><span class="s2">.implicit&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;_validation_tool&#34;</span><span class="p">:</span> <span class="n">attr</span><span class="o">.</span><span class="n">label</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">default</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="s2">&#34;//validation_actions:validation_tool&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">executable</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cfg</span> <span class="o">=</span> <span class="s2">&#34;exec&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>Notice that the validation output file is not added to the <code>DefaultInfo</code> or the
+inputs to any other action. The validation action for a target of this rule kind
+will still run if the target is depended upon by label, or any of the target&rsquo;s
+implicit outputs are directly or indirectly depended upon.</p>
+<p>It is usually important that the outputs of validation actions only go into the
+validation output group, and are not added to the inputs of other actions, as
+this could defeat parallelism gains. Note however that Bazel doesn&rsquo;t
+have any special checking to enforce this. Therefore, you should test
+that validation action outputs are not added to the inputs of any actions in the
+tests for Starlark rules. For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="nb">load</span><span class="p">(</span><span class="s2">&#34;@bazel_skylib//lib:unittest.bzl&#34;</span><span class="p">,</span> <span class="s2">&#34;analysistest&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_validation_outputs_test_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">env</span> <span class="o">=</span> <span class="n">analysistest</span><span class="o">.</span><span class="n">begin</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">actions</span> <span class="o">=</span> <span class="n">analysistest</span><span class="o">.</span><span class="n">target_actions</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">target</span> <span class="o">=</span> <span class="n">analysistest</span><span class="o">.</span><span class="n">target_under_test</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">validation_outputs</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">output_groups</span><span class="o">.</span><span class="n">_validation</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">validation_output</span> <span class="ow">in</span> <span class="n">validation_outputs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="n">validation_output</span> <span class="ow">in</span> <span class="n">action</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_list</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">analysistest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="n">env</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;</span><span class="si">%s</span><span class="s2"> is a validation action output, but is an input to action </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">validation_output</span><span class="p">,</span> <span class="n">action</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">analysistest</span><span class="o">.</span><span class="n">end</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">validation_outputs_test</span> <span class="o">=</span> <span class="n">analysistest</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">_validation_outputs_test_impl</span><span class="p">)</span>
+</span></span></code></pre></div><h4 id="validation-actions-flag">Validation Actions Flag</h4>
+<p>Running validation actions is controlled by the <code>--run_validations</code> command line
+flag, which defaults to true.</p>
+<h2 id="deprecated-features">Deprecated features</h2>
+<h3 id="deprecated-predeclared-outputs">Deprecated predeclared outputs</h3>
+<p>There are two <strong>deprecated</strong> ways of using predeclared outputs:</p>
+<ul>
+<li>
+<p>The <a href="/rules/lib/globals/bzl#rule.outputs"><code>outputs</code></a> parameter of <code>rule</code> specifies
+a mapping between output attribute names and string templates for generating
+predeclared output labels. Prefer using non-predeclared outputs and
+explicitly adding outputs to <code>DefaultInfo.files</code>. Use the rule target&rsquo;s
+label as input for rules which consume the output instead of a predeclared
+output&rsquo;s label.</p>
+</li>
+<li>
+<p>For <a href="#executable-rules">executable rules</a>, <code>ctx.outputs.executable</code> refers
+to a predeclared executable output with the same name as the rule target.
+Prefer declaring the output explicitly, for example with
+<code>ctx.actions.declare_file(ctx.label.name)</code>, and ensure that the command that
+generates the executable sets its permissions to allow execution. Explicitly
+pass the executable output to the <code>executable</code> parameter of <code>DefaultInfo</code>.</p>
+</li>
+</ul>
+<h3 id="runfiles-features-to-avoid">Runfiles features to avoid</h3>
+<p><a href="/rules/lib/builtins/ctx#runfiles/"><code>ctx.runfiles</code></a> and the <a href="/rules/lib/builtins/runfiles/"><code>runfiles</code></a>
+type have a complex set of features, many of which are kept for legacy reasons.
+The following recommendations help reduce complexity:</p>
+<ul>
+<li>
+<p><strong>Avoid</strong> use of the <code>collect_data</code> and <code>collect_default</code> modes of
+<a href="/rules/lib/builtins/ctx#runfiles/"><code>ctx.runfiles</code></a>. These modes implicitly collect
+runfiles across certain hardcoded dependency edges in confusing ways.
+Instead, add files using the <code>files</code> or <code>transitive_files</code> parameters of
+<code>ctx.runfiles</code>, or by merging in runfiles from dependencies with
+<code>runfiles = runfiles.merge(dep[DefaultInfo].default_runfiles)</code>.</p>
+</li>
+<li>
+<p><strong>Avoid</strong> use of the <code>data_runfiles</code> and <code>default_runfiles</code> of the
+<code>DefaultInfo</code> constructor. Specify <code>DefaultInfo(runfiles = ...)</code> instead.
+The distinction between &ldquo;default&rdquo; and &ldquo;data&rdquo; runfiles is maintained for
+legacy reasons. For example, some rules put their default outputs in
+<code>data_runfiles</code>, but not <code>default_runfiles</code>. Instead of using
+<code>data_runfiles</code>, rules should <em>both</em> include default outputs and merge in
+<code>default_runfiles</code> from attributes which provide runfiles (often
+<a href="/reference/be/common-definitions#common-attributes.data"><code>data</code></a>).</p>
+</li>
+<li>
+<p>When retrieving <code>runfiles</code> from <code>DefaultInfo</code> (generally only for merging
+runfiles between the current rule and its dependencies), use
+<code>DefaultInfo.default_runfiles</code>, <strong>not</strong> <code>DefaultInfo.data_runfiles</code>.</p>
+</li>
+</ul>
+<h3 id="migrating-from-legacy-providers">Migrating from legacy providers</h3>
+<p>Historically, Bazel providers were simple fields on the <code>Target</code> object. They
+were accessed using the dot operator, and they were created by putting the field
+in a <a href="/rules/lib/builtins/struct/"><code>struct</code></a> returned by the rule&rsquo;s
+implementation function instead of a list of provider objects:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">return struct(example_info = struct(headers = depset(...)))
+</span></span></code></pre></div><p>Such providers can be retrieved from the corresponding field of the <code>Target</code> object:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">transitive_headers = [hdr.example_info.headers for hdr in ctx.attr.hdrs]
+</span></span></code></pre></div><p><em>This style is deprecated and should not be used in new code;</em> see following for
+information that may help you migrate. The new provider mechanism avoids name
+clashes. It also supports data hiding, by requiring any code accessing a
+provider instance to retrieve it using the provider symbol.</p>
+<p>For the moment, legacy providers are still supported. A rule can return both
+legacy and modern providers as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_old_rule_impl</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="n">legacy_data</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&#34;foo&#34;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">modern_data</span> <span class="o">=</span> <span class="n">MyInfo</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="s2">&#34;bar&#34;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># When any legacy providers are returned, the top-level returned value is a</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># struct.</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">struct</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="c1"># One key = value entry for each legacy provider.</span>
+</span></span><span class="line"><span class="cl">      <span class="n">legacy_info</span> <span class="o">=</span> <span class="n">legacy_data</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="o">...</span>
+</span></span><span class="line"><span class="cl">      <span class="c1"># Additional modern providers:</span>
+</span></span><span class="line"><span class="cl">      <span class="n">providers</span> <span class="o">=</span> <span class="p">[</span><span class="n">modern_data</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+</span></span></code></pre></div><p>If <code>dep</code> is the resulting <code>Target</code> object for an instance of this rule, the
+providers and their contents can be retrieved as <code>dep.legacy_info.x</code> and
+<code>dep[MyInfo].y</code>.</p>
+<p>In addition to <code>providers</code>, the returned struct can also take several other
+fields that have special meaning (and thus don&rsquo;t create a corresponding legacy
+provider):</p>
+<ul>
+<li>
+<p>The fields <code>files</code>, <code>runfiles</code>, <code>data_runfiles</code>, <code>default_runfiles</code>, and
+<code>executable</code> correspond to the same-named fields of
+<a href="/rules/lib/providers/DefaultInfo/"><code>DefaultInfo</code></a>. It is not allowed to specify any of
+these fields while also returning a <code>DefaultInfo</code> provider.</p>
+</li>
+<li>
+<p>The field <code>output_groups</code> takes a struct value and corresponds to an
+<a href="/rules/lib/providers/OutputGroupInfo/"><code>OutputGroupInfo</code></a>.</p>
+</li>
+</ul>
+<p>In <a href="/rules/lib/globals/bzl#rule.provides"><code>provides</code></a> declarations of rules, and in
+<a href="/rules/lib/toplevel/attr#label_list.providers"><code>providers</code></a> declarations of dependency
+attributes, legacy providers are passed in as strings and modern providers are
+passed in by their <code>Info</code> symbol. Be sure to change from strings to symbols
+when migrating. For complex or large rule sets where it is difficult to update
+all rules atomically, you may have an easier time if you follow this sequence of
+steps:</p>
+<ol>
+<li>
+<p>Modify the rules that produce the legacy provider to produce both the legacy
+and modern providers, using the preceding syntax. For rules that declare they
+return the legacy provider, update that declaration to include both the
+legacy and modern providers.</p>
+</li>
+<li>
+<p>Modify the rules that consume the legacy provider to instead consume the
+modern provider. If any attribute declarations require the legacy provider,
+also update them to instead require the modern provider. Optionally, you can
+interleave this work with step 1 by having consumers accept or require either
+provider: Test for the presence of the legacy provider using
+<code>hasattr(target, 'foo')</code>, or the new provider using <code>FooInfo in target</code>.</p>
+</li>
+<li>
+<p>Fully remove the legacy provider from all rules.</p>
+</li>
+</ol>
+
+	
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script defer src="/js/click-to-copy.js" crossorigin="anonymous"></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Remote on Bazel Documentation</title>
+    <link>http://localhost:1313/remote/</link>
+    <description>Recent content in Remote on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/remote/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Adapting Bazel Rules for Remote Execution</title>
+      <link>http://localhost:1313/remote/rules/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/rules/</guid>
+      <description>&lt;p&gt;This page is intended for Bazel users writing custom build and test rules&#xA;who want to understand the requirements for Bazel rules in the context of&#xA;remote execution.&lt;/p&gt;&#xA;&lt;p&gt;Remote execution allows Bazel to execute actions on a separate platform, such as&#xA;a datacenter. Bazel uses a&#xA;&lt;a href=&#34;https://github.com/bazelbuild/remote-apis/blob/main/build/bazel/remote/execution/v2/remote_execution.proto&#34;&gt;gRPC protocol&lt;/a&gt;&#xA;for its remote execution. You can try remote execution with&#xA;&lt;a href=&#34;https://github.com/bazelbuild/bazel-buildfarm&#34;&gt;bazel-buildfarm&lt;/a&gt;,&#xA;an open-source project that aims to provide a distributed remote execution&#xA;platform.&lt;/p&gt;&#xA;&lt;p&gt;This page uses the following terminology when referring to different&#xA;environment types or &lt;em&gt;platforms&lt;/em&gt;:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Build Event Protocol</title>
+      <link>http://localhost:1313/remote/bep/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/bep/</guid>
+      <description>&lt;p&gt;The &lt;a href=&#34;https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/buildeventstream/proto/build_event_stream.proto&#34;&gt;Build Event&#xA;Protocol&lt;/a&gt;&#xA;(BEP) allows third-party programs to gain insight into a Bazel invocation. For&#xA;example, you could use the BEP to gather information for an IDE&#xA;plugin or a dashboard that displays build results.&lt;/p&gt;&#xA;&lt;p&gt;The protocol is a set of &lt;a href=&#34;https://developers.google.com/protocol-buffers/&#34;&gt;protocol&#xA;buffer&lt;/a&gt; messages with some&#xA;semantics defined on top of it. It includes information about build and test&#xA;results, build progress, the build configuration and much more. The BEP is&#xA;intended to be consumed programmatically and makes parsing Bazel’s&#xA;command line output a thing of the past.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Build Event Protocol Examples</title>
+      <link>http://localhost:1313/remote/bep-examples/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/bep-examples/</guid>
+      <description>&lt;p&gt;The full specification of the Build Event Protocol can be found in its protocol&#xA;buffer definition. However, it might be helpful to build up some intuition&#xA;before looking at the specification.&lt;/p&gt;&#xA;&lt;p&gt;Consider a simple Bazel workspace that consists of two empty shell scripts&#xA;&lt;code&gt;foo.sh&lt;/code&gt; and &lt;code&gt;foo_test.sh&lt;/code&gt; and the following &lt;code&gt;BUILD&lt;/code&gt; file:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sh_library(&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    name = &amp;#34;foo_lib&amp;#34;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    srcs = [&amp;#34;foo.sh&amp;#34;],&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sh_test(&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    name = &amp;#34;foo_test&amp;#34;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    srcs = [&amp;#34;foo_test.sh&amp;#34;],&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    deps = [&amp;#34;:foo_lib&amp;#34;],&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When running &lt;code&gt;bazel test ...&lt;/code&gt; on this project the build graph of the generated&#xA;build events will resemble the graph below. The arrows indicate the&#xA;aforementioned parent and child relationship. Note that some build events and&#xA;most fields have been omitted for brevity.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Build Event Protocol Glossary</title>
+      <link>http://localhost:1313/remote/bep-glossary/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/bep-glossary/</guid>
+      <description>&lt;p&gt;Each BEP event type has its own semantics, minimally documented in&#xA;&lt;a href=&#34;https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/buildeventstream/proto/build_event_stream.proto&#34;&gt;build_event_stream.proto&lt;/a&gt;.&#xA;The following glossary describes each event type.&lt;/p&gt;&#xA;&lt;h2 id=&#34;aborted&#34;&gt;Aborted&lt;/h2&gt;&#xA;&lt;p&gt;Unlike other events, &lt;code&gt;Aborted&lt;/code&gt; does not have a corresponding ID type, because&#xA;the &lt;code&gt;Aborted&lt;/code&gt; event &lt;em&gt;replaces&lt;/em&gt; events of other types. This event indicates that&#xA;the build terminated early and the event ID it appears under was not produced&#xA;normally. &lt;code&gt;Aborted&lt;/code&gt; contains an enum and human-friendly description to explain&#xA;why the build did not complete.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Configuring Bazel CI to Test Rules for Remote Execution</title>
+      <link>http://localhost:1313/remote/ci/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/ci/</guid>
+      <description>&lt;p&gt;This page is for owners and maintainers of Bazel rule repositories. It&#xA;describes how to configure the Bazel Continuous Integration (CI) system for&#xA;your repository to test your rules for compatibility against a remote execution&#xA;scenario. The instructions on this page apply to projects stored in&#xA;GitHub repositories.&lt;/p&gt;&#xA;&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;&#xA;&lt;p&gt;Before completing the steps on this page, ensure the following:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Your GitHub repository is part of the&#xA;&lt;a href=&#34;https://github.com/bazelbuild&#34;&gt;Bazel GitHub organization&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;You have configured Buildkite for your repository as described in&#xA;&lt;a href=&#34;https://github.com/bazelbuild/continuous-integration/tree/master/buildkite&#34;&gt;Bazel Continuous Integration&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;setting-up-the-bazel-ci-for-testing&#34;&gt;Setting up the Bazel CI for testing&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;In your &lt;code&gt;.bazelci/presubmit.yml&lt;/code&gt; file, do the following:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Creating Persistent Workers</title>
+      <link>http://localhost:1313/remote/creating/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/creating/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://localhost:1313/remote/persistent/&#34;&gt;Persistent workers&lt;/a&gt; can make your build faster. If&#xA;you have repeated actions in your build that have a high startup cost or would&#xA;benefit from cross-action caching, you may want to implement your own persistent&#xA;worker to perform these actions.&lt;/p&gt;&#xA;&lt;p&gt;The Bazel server communicates with the worker using &lt;code&gt;stdin&lt;/code&gt;/&lt;code&gt;stdout&lt;/code&gt;. It&#xA;supports the use of protocol buffers or JSON strings.&lt;/p&gt;&#xA;&lt;p&gt;The worker implementation has two parts:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The &lt;a href=&#34;#making-worker&#34;&gt;worker&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;The &lt;a href=&#34;#rule-uses-worker&#34;&gt;rule that uses the worker&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;making-the-worker&#34;&gt;Making the worker&lt;/h2&gt;&#xA;&lt;p&gt;A persistent worker upholds a few requirements:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Debugging Remote Cache Hits for Local Execution</title>
+      <link>http://localhost:1313/remote/cache-local/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/cache-local/</guid>
+      <description>&lt;p&gt;This page describes how to investigate cache misses in the context of local&#xA;execution.&lt;/p&gt;&#xA;&lt;p&gt;This page assumes that you have a build and/or test that successfully builds&#xA;locally and is set up to utilize remote caching, and that you want to ensure&#xA;that the remote cache is being effectively utilized.&lt;/p&gt;&#xA;&lt;p&gt;For tips on how to check your cache hit rate and how to compare the execution&#xA;logs between two Bazel invocations, see&#xA;&lt;a href=&#34;http://localhost:1313/remote/cache-remote/&#34;&gt;Debugging Remote Cache Hits for Remote Execution&lt;/a&gt;.&#xA;Everything presented in that guide also applies to remote caching with local&#xA;execution. However, local execution presents some additional challenges.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Debugging Remote Cache Hits for Remote Execution</title>
+      <link>http://localhost:1313/remote/cache-remote/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/cache-remote/</guid>
+      <description>&lt;p&gt;This page describes how to check your cache hit rate and how to investigate&#xA;cache misses in the context of remote execution.&lt;/p&gt;&#xA;&lt;p&gt;This page assumes that you have a build and/or test that successfully&#xA;utilizes remote execution, and you want to ensure that you are effectively&#xA;utilizing remote cache.&lt;/p&gt;&#xA;&lt;h2 id=&#34;checking-your-cache-hit-rate&#34;&gt;Checking your cache hit rate&lt;/h2&gt;&#xA;&lt;p&gt;In the standard output of your Bazel run, look at the &lt;code&gt;INFO&lt;/code&gt; line that lists&#xA;processes, which roughly correspond to Bazel actions. That line details&#xA;where the action was run. Look for the &lt;code&gt;remote&lt;/code&gt; label, which indicates an action&#xA;executed remotely, &lt;code&gt;linux-sandbox&lt;/code&gt; for actions executed in a local sandbox,&#xA;and other values for other execution strategies. An action whose result came&#xA;from a remote cache is displayed as &lt;code&gt;remote cache hit&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Dynamic Execution</title>
+      <link>http://localhost:1313/remote/dynamic/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/dynamic/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Dynamic execution&lt;/strong&gt; is a feature in Bazel where local and remote execution of&#xA;the same action are started in parallel, using the output from the first branch&#xA;that finishes, cancelling the other branch. It combines the execution power&#xA;and/or large shared cache of a remote build system with the low latency of local&#xA;execution, providing the best of both worlds for clean and incremental builds&#xA;alike.&lt;/p&gt;&#xA;&lt;p&gt;This page describes how to enable, tune, and debug dynamic execution. If you&#xA;have both local and remote execution set up and are trying to adjust Bazel&#xA;settings for better performance, this page is for you. If you don&amp;rsquo;t already have&#xA;remote execution set up, go to the Bazel &lt;a href=&#34;http://localhost:1313/remote/rbe/&#34;&gt;Remote Execution&#xA;Overview&lt;/a&gt; first.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Finding Non-Hermetic Behavior in WORKSPACE Rules</title>
+      <link>http://localhost:1313/remote/workspace/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/workspace/</guid>
+      <description>&lt;p&gt;In the following, a host machine is the machine where Bazel runs.&lt;/p&gt;&#xA;&lt;p&gt;When using remote execution, the actual build and/or test steps are not&#xA;happening on the host machine, but are instead sent off to the remote execution&#xA;system. However, the steps involved in resolving workspace rules are happening&#xA;on the host machine. If your workspace rules access information about the&#xA;host machine for use during execution, your build is likely to break due to&#xA;incompatibilities between the environments.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Multiplex Workers (Experimental Feature)</title>
+      <link>http://localhost:1313/remote/multiplex/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/multiplex/</guid>
+      <description>&lt;p&gt;This page describes multiplex workers, how to write multiplex-compatible&#xA;rules, and workarounds for certain limitations.&lt;/p&gt;&#xA;&lt;p&gt;Caution: Experimental features are subject to change at any time.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Multiplex workers&lt;/em&gt; allow Bazel to handle multiple requests with a single worker&#xA;process. For multi-threaded workers, Bazel can use fewer resources to&#xA;achieve the same, or better performance. For example, instead of having one&#xA;worker process per worker, Bazel can have four multiplexed workers talking to&#xA;the same worker process, which can then handle requests in parallel. For&#xA;languages like Java and Scala, this saves JVM warm-up time and JIT compilation&#xA;time, and in general it allows using one shared cache between all workers of&#xA;the same type.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Output Directory Layout</title>
+      <link>http://localhost:1313/remote/output-directories/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/output-directories/</guid>
+      <description>&lt;p&gt;This page covers requirements and layout for output directories.&lt;/p&gt;&#xA;&lt;h2 id=&#34;requirements&#34;&gt;Requirements&lt;/h2&gt;&#xA;&lt;p&gt;Requirements for an output directory layout:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Doesn&amp;rsquo;t collide if multiple users are building on the same box.&lt;/li&gt;&#xA;&lt;li&gt;Supports building in multiple workspaces at the same time.&lt;/li&gt;&#xA;&lt;li&gt;Supports building for multiple target configurations in the same workspace.&lt;/li&gt;&#xA;&lt;li&gt;Doesn&amp;rsquo;t collide with any other tools.&lt;/li&gt;&#xA;&lt;li&gt;Is easy to access.&lt;/li&gt;&#xA;&lt;li&gt;Is easy to clean, even selectively.&lt;/li&gt;&#xA;&lt;li&gt;Is unambiguous, even if the user relies on symbolic links when changing into&#xA;their client directory.&lt;/li&gt;&#xA;&lt;li&gt;All the build state per user should be underneath one directory (&amp;ldquo;I&amp;rsquo;d like to&#xA;clean all the .o files from all my clients.&amp;rdquo;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;current-layout&#34;&gt;Current layout&lt;/h2&gt;&#xA;&lt;p&gt;The solution that&amp;rsquo;s currently implemented:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Persistent Workers</title>
+      <link>http://localhost:1313/remote/persistent/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/persistent/</guid>
+      <description>&lt;p&gt;This page covers how to use persistent workers, the benefits, requirements, and&#xA;how workers affect sandboxing.&lt;/p&gt;&#xA;&lt;p&gt;A persistent worker is a long-running process started by the Bazel server, which&#xA;functions as a &lt;em&gt;wrapper&lt;/em&gt; around the actual &lt;em&gt;tool&lt;/em&gt; (typically a compiler), or is&#xA;the &lt;em&gt;tool&lt;/em&gt; itself. In order to benefit from persistent workers, the tool must&#xA;support doing a sequence of compilations, and the wrapper needs to translate&#xA;between the tool&amp;rsquo;s API and the request/response format described below. The same&#xA;worker might be called with and without the &lt;code&gt;--persistent_worker&lt;/code&gt; flag in the&#xA;same build, and is responsible for appropriately starting and talking to the&#xA;tool, as well as shutting down workers on exit. Each worker instance is assigned&#xA;(but not chrooted to) a separate working directory under&#xA;&lt;code&gt;&amp;lt;outputBase&amp;gt;/bazel-workers&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Remote Caching</title>
+      <link>http://localhost:1313/remote/caching/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/caching/</guid>
+      <description>&lt;p&gt;This page covers remote caching, setting up a server to host the cache, and&#xA;running builds using the remote cache.&lt;/p&gt;&#xA;&lt;p&gt;A remote cache is used by a team of developers and/or a continuous integration&#xA;(CI) system to share build outputs. If your build is reproducible, the&#xA;outputs from one machine can be safely reused on another machine, which can&#xA;make builds significantly faster.&lt;/p&gt;&#xA;&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;Bazel breaks a build into discrete steps, which are called actions. Each action&#xA;has inputs, output names, a command line, and environment variables. Required&#xA;inputs and expected outputs are declared explicitly for each action.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Remote Execution Overview</title>
+      <link>http://localhost:1313/remote/rbe/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/rbe/</guid>
+      <description>&lt;p&gt;This page covers the benefits, requirements, and options for running Bazel&#xA;with remote execution.&lt;/p&gt;&#xA;&lt;p&gt;By default, Bazel executes builds and tests on your local machine. Remote&#xA;execution of a Bazel build allows you to distribute build and test actions&#xA;across multiple machines, such as a datacenter.&lt;/p&gt;&#xA;&lt;p&gt;Remote execution provides the following benefits:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Faster build and test execution through scaling of nodes available&#xA;for parallel actions&lt;/li&gt;&#xA;&lt;li&gt;A consistent execution environment for a development team&lt;/li&gt;&#xA;&lt;li&gt;Reuse of build outputs across a development team&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Bazel uses an open-source&#xA;&lt;a href=&#34;https://github.com/bazelbuild/remote-apis&#34;&gt;gRPC protocol&lt;/a&gt;&#xA;to allow for remote execution and remote caching.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Troubleshooting Bazel Remote Execution with Docker Sandbox</title>
+      <link>http://localhost:1313/remote/sandbox/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/remote/sandbox/</guid>
+      <description>&lt;p&gt;Bazel builds that succeed locally may fail when executed remotely due to&#xA;restrictions and requirements that do not affect local builds. The most common&#xA;causes of such failures are described in &lt;a href=&#34;http://localhost:1313/remote/rules/&#34;&gt;Adapting Bazel Rules for Remote Execution&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;This page describes how to identify and resolve the most common issues that&#xA;arise with remote execution using the Docker sandbox feature, which imposes&#xA;restrictions upon the build equal to those of remote execution. This allows you&#xA;to troubleshoot your build without the need for a remote execution service.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

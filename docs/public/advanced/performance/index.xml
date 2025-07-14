@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Performance on Bazel Documentation</title>
+    <link>http://localhost:1313/advanced/performance/</link>
+    <description>Recent content in Performance on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/advanced/performance/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Breaking down build performance</title>
+      <link>http://localhost:1313/advanced/performance/build-performance-breakdown/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/advanced/performance/build-performance-breakdown/</guid>
+      <description>&lt;p&gt;Bazel is complex and does a lot of different things over the course of a build,&#xA;some of which can have an impact on build performance. This page attempts to map&#xA;some of these Bazel concepts to their implications on build performance. While&#xA;not extensive, we have included some examples of how to detect build performance&#xA;issues through &lt;a href=&#34;http://localhost:1313/configure/build-performance-metrics/&#34;&gt;extracting metrics&lt;/a&gt;&#xA;and what you can do to fix them. With this, we hope you can apply these concepts&#xA;when investigating build performance regressions.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Extracting build performance metrics</title>
+      <link>http://localhost:1313/advanced/performance/build-performance-metrics/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/advanced/performance/build-performance-metrics/</guid>
+      <description>&lt;p&gt;Probably every Bazel user has experienced builds that were slow or slower than&#xA;anticipated. Improving the performance of individual builds has particular value&#xA;for targets with significant impact, such as:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Core developer targets that are frequently iterated on and (re)built.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Common libraries widely depended upon by other targets.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;A representative target from a class of targets (e.g. custom rules),&#xA;diagnosing and fixing issues in one build might help to resolve issues at the&#xA;larger scale.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>JSON Trace Profile</title>
+      <link>http://localhost:1313/advanced/performance/json-trace-profile/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/advanced/performance/json-trace-profile/</guid>
+      <description>&lt;p&gt;The JSON trace profile can be very useful to quickly understand what Bazel spent&#xA;time on during the invocation.&lt;/p&gt;&#xA;&lt;p&gt;By default, for all build-like commands and query, Bazel writes a profile into&#xA;the output base named &lt;code&gt;command-$INVOCATION_ID.profile.gz&lt;/code&gt;, where&#xA;&lt;code&gt;$INVOCATION_ID&lt;/code&gt; is the invocation identifier of the command. Bazel also creates&#xA;a symlink called &lt;code&gt;command.profile.gz&lt;/code&gt; in the output base that points the profile&#xA;of the latest command. You can configure whether a profile is written with the&#xA;&lt;a href=&#34;http://localhost:1313/reference/command-line-reference#flag--generate_json_trace_profile/&#34;&gt;&lt;code&gt;--generate_json_trace_profile&lt;/code&gt;&lt;/a&gt;&#xA;flag, and the location it is written to with the&#xA;&lt;a href=&#34;http://localhost:1313/docs/user-manual#profile/&#34;&gt;&lt;code&gt;--profile&lt;/code&gt;&lt;/a&gt; flag. Locations ending with &lt;code&gt;.gz&lt;/code&gt; are&#xA;compressed with GZIP. Bazel keeps the last 5 profiles, configurable by&#xA;&lt;a href=&#34;http://localhost:1313/reference/command-line-reference#flag--generate_json_trace_profile/&#34;&gt;&lt;code&gt;--profiles_to_retain&lt;/code&gt;&lt;/a&gt;,&#xA;in the output base by default for post-build analysis. Explicitly passing a&#xA;profile path with &lt;code&gt;--profile&lt;/code&gt; disables automatic garbage collection.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Optimize Iteration Speed</title>
+      <link>http://localhost:1313/advanced/performance/iteration-speed/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/advanced/performance/iteration-speed/</guid>
+      <description>&lt;p&gt;This page describes how to optimize Bazel&amp;rsquo;s build performance when running Bazel&#xA;repeatedly.&lt;/p&gt;&#xA;&lt;h2 id=&#34;bazels-runtime-state&#34;&gt;Bazel&amp;rsquo;s Runtime State&lt;/h2&gt;&#xA;&lt;p&gt;A Bazel invocation involves several interacting parts.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;The &lt;code&gt;bazel&lt;/code&gt; command line interface (CLI) is the user-facing front-end tool&#xA;and receives commands from the user.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;The CLI tool starts a &lt;a href=&#34;https://bazel.build/run/client-server&#34;&gt;&lt;em&gt;Bazel server&lt;/em&gt;&lt;/a&gt;&#xA;for each distinct &lt;a href=&#34;https://bazel.build/remote/output-directories&#34;&gt;output base&lt;/a&gt;.&#xA;The Bazel server is generally persistent, but will shut down after some idle&#xA;time so as to not waste resources.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Optimize Memory</title>
+      <link>http://localhost:1313/advanced/performance/memory/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/advanced/performance/memory/</guid>
+      <description>&lt;p&gt;This page describes how to limit and reduce the memory Bazel uses.&lt;/p&gt;&#xA;&lt;h2 id=&#34;running-bazel-with-limited-ram&#34;&gt;Running Bazel with Limited RAM&lt;/h2&gt;&#xA;&lt;p&gt;In certain situations, you may want Bazel to use minimal memory. You can set the&#xA;maximum heap via the startup flag&#xA;&lt;a href=&#34;http://localhost:1313/docs/user-manual#host-jvm-args/&#34;&gt;&lt;code&gt;--host_jvm_args&lt;/code&gt;&lt;/a&gt;,&#xA;like &lt;code&gt;--host_jvm_args=-Xmx2g&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;trade-incremental-build-speeds-for-memory&#34;&gt;Trade incremental build speeds for memory&lt;/h3&gt;&#xA;&lt;p&gt;If your builds are too big, Bazel may throw an &lt;code&gt;OutOfMemoryError&lt;/code&gt; (OOM) when&#xA;it doesn&amp;rsquo;t have enough memory. You can make Bazel use less memory, at the cost&#xA;of slower incremental builds, by passing the following command flags:&#xA;&lt;a href=&#34;http://localhost:1313/docs/user-manual#discard-analysis-cache/&#34;&gt;&lt;code&gt;--discard_analysis_cache&lt;/code&gt;&lt;/a&gt;,&#xA;&lt;a href=&#34;http://localhost:1313/reference/command-line-reference#flag--keep_state_after_build/&#34;&gt;&lt;code&gt;--nokeep_state_after_build&lt;/code&gt;&lt;/a&gt;,&#xA;and&#xA;&lt;a href=&#34;http://localhost:1313/reference/command-line-reference#flag--track_incremental_state/&#34;&gt;&lt;code&gt;--notrack_incremental_state&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

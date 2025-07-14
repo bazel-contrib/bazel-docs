@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Query on Bazel Documentation</title>
+    <link>http://localhost:1313/query/</link>
+    <description>Recent content in Query on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/query/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Action Graph Query (aquery)</title>
+      <link>http://localhost:1313/query/aquery/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/query/aquery/</guid>
+      <description>&lt;p&gt;The &lt;code&gt;aquery&lt;/code&gt; command allows you to query for actions in your build graph.&#xA;It operates on the post-analysis Configured Target Graph and exposes&#xA;information about &lt;strong&gt;Actions, Artifacts and their relationships.&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;aquery&lt;/code&gt; is useful when you are interested in the properties of the Actions/Artifacts&#xA;generated from the Configured Target Graph. For example, the actual commands run&#xA;and their inputs/outputs/mnemonics.&lt;/p&gt;&#xA;&lt;p&gt;The tool accepts several command-line &lt;a href=&#34;#command-options&#34;&gt;options&lt;/a&gt;.&#xA;Notably, the aquery command runs on top of a regular Bazel build and inherits&#xA;the set of options available during a build.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Configurable Query (cquery)</title>
+      <link>http://localhost:1313/query/cquery/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/query/cquery/</guid>
+      <description>&lt;p&gt;&lt;code&gt;cquery&lt;/code&gt; is a variant of &lt;a href=&#34;http://localhost:1313/query/language/&#34;&gt;&lt;code&gt;query&lt;/code&gt;&lt;/a&gt; that correctly handles&#xA;&lt;a href=&#34;http://localhost:1313/docs/configurable-attributes/&#34;&gt;&lt;code&gt;select()&lt;/code&gt;&lt;/a&gt; and build options&amp;rsquo; effects on the&#xA;build graph.&lt;/p&gt;&#xA;&lt;p&gt;It achieves this by running over the results of Bazel&amp;rsquo;s &lt;a href=&#34;http://localhost:1313/extending/concepts#evaluation-model/&#34;&gt;analysis&#xA;phase&lt;/a&gt;,&#xA;which integrates these effects. &lt;code&gt;query&lt;/code&gt;, by contrast, runs over the results of&#xA;Bazel&amp;rsquo;s loading phase, before options are evaluated.&lt;/p&gt;&#xA;&lt;p&gt;For example:&lt;/p&gt;&#xA;&lt;pre&gt;&#xA;$ cat &gt; tree/BUILD &amp;lt;&amp;lt;EOF&#xA;sh_library(&#xA;    name = &#34;ash&#34;,&#xA;    deps = select({&#xA;        &#34;:excelsior&#34;: [&#34;:manna-ash&#34;],&#xA;        &#34;:americana&#34;: [&#34;:white-ash&#34;],&#xA;        &#34;//conditions:default&#34;: [&#34;:common-ash&#34;],&#xA;    }),&#xA;)&#xA;sh_library(name = &#34;manna-ash&#34;)&#xA;sh_library(name = &#34;white-ash&#34;)&#xA;sh_library(name = &#34;common-ash&#34;)&#xA;config_setting(&#xA;    name = &#34;excelsior&#34;,&#xA;    values = {&#34;define&#34;: &#34;species=excelsior&#34;},&#xA;)&#xA;config_setting(&#xA;    name = &#34;americana&#34;,&#xA;    values = {&#34;define&#34;: &#34;species=americana&#34;},&#xA;)&#xA;EOF&#xA;&lt;/pre&gt;&#xA;&lt;pre&gt;&#xA;# Traditional query: query doesn&#39;t know which select() branch you will choose,&#xA;# so it conservatively lists all of possible choices, including all used config_settings.&#xA;$ bazel query &#34;deps(//tree:ash)&#34; --noimplicit_deps&#xA;//tree:americana&#xA;//tree:ash&#xA;//tree:common-ash&#xA;//tree:excelsior&#xA;//tree:manna-ash&#xA;//tree:white-ash&#xA;&#xA;# cquery: cquery lets you set build options at the command line and chooses&#xA;# the exact dependencies that implies (and also the config_setting targets).&#xA;$ bazel cquery &#34;deps(//tree:ash)&#34; --define species=excelsior --noimplicit_deps&#xA;//tree:ash (9f87702)&#xA;//tree:manna-ash (9f87702)&#xA;//tree:americana (9f87702)&#xA;//tree:excelsior (9f87702)&#xA;&lt;/pre&gt;&#xA;&lt;p&gt;Each result includes a &lt;a href=&#34;#configurations&#34;&gt;unique identifier&lt;/a&gt; &lt;code&gt;(9f87702)&lt;/code&gt; of&#xA;the &lt;a href=&#34;http://localhost:1313/reference/glossary#configuration/&#34;&gt;configuration&lt;/a&gt; the&#xA;target is built with.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Query guide</title>
+      <link>http://localhost:1313/query/guide/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/query/guide/</guid>
+      <description>&lt;p&gt;This page covers how to get started using Bazel&amp;rsquo;s query language to trace&#xA;dependencies in your code.&lt;/p&gt;&#xA;&lt;p&gt;For a language details and &lt;code&gt;--output&lt;/code&gt; flag details, please see the&#xA;reference manuals, &lt;a href=&#34;http://localhost:1313/query/language/&#34;&gt;Bazel query reference&lt;/a&gt;&#xA;and &lt;a href=&#34;http://localhost:1313/query/cquery/&#34;&gt;Bazel cquery reference&lt;/a&gt;. You can get help by&#xA;typing &lt;code&gt;bazel help query&lt;/code&gt; or &lt;code&gt;bazel help cquery&lt;/code&gt; on the&#xA;command line.&lt;/p&gt;&#xA;&lt;p&gt;To execute a query while ignoring errors such as missing targets, use the&#xA;&lt;code&gt;--keep_going&lt;/code&gt; flag.&lt;/p&gt;&#xA;&lt;h2 id=&#34;finding-the-dependencies-of-a-rule&#34;&gt;Finding the dependencies of a rule&lt;/h2&gt;&#xA;&lt;p&gt;To see the dependencies of &lt;code&gt;//foo&lt;/code&gt;, use the&#xA;&lt;code&gt;deps&lt;/code&gt; function in bazel query:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Query quickstart</title>
+      <link>http://localhost:1313/query/quickstart/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/query/quickstart/</guid>
+      <description>&lt;p&gt;This tutorial covers how to work with Bazel to trace dependencies in your code using a premade Bazel project.&lt;/p&gt;&#xA;&lt;p&gt;For language and &lt;code&gt;--output&lt;/code&gt; flag details, see the &lt;a href=&#34;http://localhost:1313/query/language/&#34;&gt;Bazel query reference&lt;/a&gt; and &lt;a href=&#34;http://localhost:1313/query/cquery/&#34;&gt;Bazel cquery reference&lt;/a&gt; manuals. Get help in your IDE by typing &lt;code&gt;bazel help query&lt;/code&gt; or &lt;code&gt;bazel help cquery&lt;/code&gt; on the command line.&lt;/p&gt;&#xA;&lt;h2 id=&#34;objective&#34;&gt;Objective&lt;/h2&gt;&#xA;&lt;p&gt;This guide runs you through a set of basic queries you can use to learn more about your project&amp;rsquo;s file dependencies. It is intended for new Bazel developers with a basic knowledge of how Bazel and &lt;code&gt;BUILD&lt;/code&gt; files work.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Bazel Query Reference</title>
+      <link>http://localhost:1313/query/language/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/query/language/</guid>
+      <description>&lt;p&gt;This page is the reference manual for the &lt;em&gt;Bazel Query Language&lt;/em&gt; used&#xA;when you use &lt;code&gt;bazel query&lt;/code&gt; to analyze build dependencies. It also&#xA;describes the output formats &lt;code&gt;bazel query&lt;/code&gt; supports.&lt;/p&gt;&#xA;&lt;p&gt;For practical use cases, see the &lt;a href=&#34;http://localhost:1313/query/guide/&#34;&gt;Bazel Query How-To&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;additional-query-reference&#34;&gt;Additional query reference&lt;/h2&gt;&#xA;&lt;p&gt;In addition to &lt;code&gt;query&lt;/code&gt;, which runs on the post-loading phase target graph,&#xA;Bazel includes &lt;em&gt;action graph query&lt;/em&gt; and &lt;em&gt;configurable query&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;action-graph-query&#34;&gt;Action graph query&lt;/h3&gt;&#xA;&lt;p&gt;The action graph query (&lt;code&gt;aquery&lt;/code&gt;) operates on the post-analysis Configured&#xA;Target Graph and exposes information about &lt;strong&gt;Actions&lt;/strong&gt;, &lt;strong&gt;Artifacts&lt;/strong&gt;, and&#xA;their relationships. &lt;code&gt;aquery&lt;/code&gt; is useful when you are interested in the&#xA;properties of the Actions/Artifacts generated from the Configured Target Graph.&#xA;For example, the actual commands run and their inputs, outputs, and mnemonics.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

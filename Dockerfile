@@ -42,16 +42,16 @@ WORKDIR /app
 
 # Copy project metadata
 COPY pyproject.toml ./
-# If you have a lockfile, uncomment:
-# COPY uv.lock ./
+
+# Copy the Hugo site from docs directory
+COPY docs/ ./app/
+
+# # Add venv binaries to PATH
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Sync dependencies into virtual environment
 RUN uv sync
 
-# Add venv binaries to PATH
-ENV PATH="/app/.venv/bin:$PATH"
-
 EXPOSE 1313
 
-# Default to bash shell (override as needed)
-CMD ["bash"]
+CMD ["hugo", "server", "-s", "/app/docs/", "--bind", "0.0.0.0"]

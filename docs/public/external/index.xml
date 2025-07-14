@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>External on Bazel Documentation</title>
+    <link>http://localhost:1313/external/</link>
+    <description>Recent content in External on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/external/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>`mod` Command</title>
+      <link>http://localhost:1313/external/mod-command/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/mod-command/</guid>
+      <description>&lt;p&gt;keywords: Bzlmod&lt;/p&gt;&#xA;&lt;p&gt;The &lt;code&gt;mod&lt;/code&gt; command provides a range of tools to help the user understand their&#xA;external dependency graph. It lets you visualize the dependency graph, find out&#xA;why a certain module or a version of a module is present in the graph, view the&#xA;repo definitions backing modules, inspect usages of module extensions and repos&#xA;they generate, among other functions.&lt;/p&gt;&#xA;&lt;h2 id=&#34;syntax&#34;&gt;Syntax&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;bazel mod &amp;lt;subcommand&amp;gt; [&amp;lt;options&amp;gt;] [&amp;lt;arg&amp;gt; [&amp;lt;arg&amp;gt;...]]&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The available subcommands and their respective required arguments are:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel Lockfile</title>
+      <link>http://localhost:1313/external/lockfile/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/lockfile/</guid>
+      <description>&lt;p&gt;keywords: product:Bazel,lockfile,Bzlmod&lt;/p&gt;&#xA;&lt;p&gt;The lockfile feature in Bazel enables the recording of specific versions or&#xA;dependencies of software libraries or packages required by a project. It&#xA;achieves this by storing the result of module resolution and extension&#xA;evaluation. The lockfile promotes reproducible builds, ensuring consistent&#xA;development environments. Additionally, it enhances build efficiency by allowing&#xA;Bazel to skip the parts of the resolution process that are unaffected by changes&#xA;in project dependencies. Furthermore, the lockfile improves stability by&#xA;preventing unexpected updates or breaking changes in external libraries, thereby&#xA;reducing the risk of introducing bugs.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel modules</title>
+      <link>http://localhost:1313/external/module/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/module/</guid>
+      <description>&lt;p&gt;A Bazel &lt;strong&gt;module&lt;/strong&gt; is a Bazel project that can have multiple versions, each of&#xA;which publishes metadata about other modules that it depends on. This is&#xA;analogous to familiar concepts in other dependency management systems, such as a&#xA;Maven &lt;em&gt;artifact&lt;/em&gt;, an npm &lt;em&gt;package&lt;/em&gt;, a Go &lt;em&gt;module&lt;/em&gt;, or a Cargo &lt;em&gt;crate&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;A module must have a &lt;code&gt;MODULE.bazel&lt;/code&gt; file at its repo root. This file is the&#xA;module&amp;rsquo;s manifest, declaring its name, version, list of direct dependencies, and&#xA;other information. For a basic example:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bazel registries</title>
+      <link>http://localhost:1313/external/registry/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/registry/</guid>
+      <description>&lt;p&gt;Bazel discovers dependencies by requesting their information from Bazel&#xA;&lt;em&gt;registries&lt;/em&gt;: databases of Bazel modules. Bazel only supports one type of&#xA;registries — &lt;a href=&#34;#index_registry&#34;&gt;&lt;em&gt;index registries&lt;/em&gt;&lt;/a&gt; — local directories or static&#xA;HTTP servers following a specific format.&lt;/p&gt;&#xA;&lt;h2 id=&#34;index-registry&#34;&gt;Index registry&lt;/h2&gt;&#xA;&lt;p&gt;An index registry is a local directory or a static HTTP server containing&#xA;information about a list of modules — including their homepage, maintainers, the&#xA;&lt;code&gt;MODULE.bazel&lt;/code&gt; file of each version, and how to fetch the source of each&#xA;version. Notably, it does &lt;em&gt;not&lt;/em&gt; need to serve the source archives itself.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bzlmod Migration Guide</title>
+      <link>http://localhost:1313/external/migration/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/migration/</guid>
+      <description>&lt;p&gt;keywords: bzlmod&lt;/p&gt;&#xA;&lt;p&gt;{# disableFinding(LINE_OVER_80_LINK) #}&lt;/p&gt;&#xA;&lt;p&gt;Due to the &lt;a href=&#34;http://localhost:1313/external/overview#workspace-shortcomings/&#34;&gt;shortcomings of&#xA;WORKSPACE&lt;/a&gt;, Bzlmod is replacing the&#xA;legacy WORKSPACE system. The WORKSPACE file is already disabled in Bazel 8 (late&#xA;2024) and will be removed in Bazel 9 (late 2025). This guide helps you migrate&#xA;your project to Bzlmod and drop WORKSPACE for managing external dependencies.&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-migrate-to-bzlmod&#34;&gt;Why migrate to Bzlmod?&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;There are many &lt;a href=&#34;overview#benefits&#34;&gt;advantages&lt;/a&gt; compared to the legacy&#xA;WORKSPACE system, which helps to ensure a healthy growth of the Bazel&#xA;ecosystem.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>External dependencies overview</title>
+      <link>http://localhost:1313/external/overview/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/overview/</guid>
+      <description>&lt;p&gt;{# disableFinding(&amp;ldquo;repo&amp;rdquo;) #}&lt;/p&gt;&#xA;&lt;p&gt;Bazel supports &lt;em&gt;external dependencies&lt;/em&gt;, source files (both text and binary) used&#xA;in your build that are not from your workspace. For example, they could be a&#xA;ruleset hosted in a GitHub repo, a Maven artifact, or a directory on your local&#xA;machine outside your current workspace.&lt;/p&gt;&#xA;&lt;p&gt;This document gives an overview of the system before examining some of the&#xA;concepts in more detail.&lt;/p&gt;&#xA;&lt;h2 id=&#34;overview-of-the-system&#34;&gt;Overview of the system&lt;/h2&gt;&#xA;&lt;p&gt;Bazel&amp;rsquo;s external dependency system works on the basis of &lt;a href=&#34;#module&#34;&gt;&lt;em&gt;Bazel&#xA;modules&lt;/em&gt;&lt;/a&gt;, each of which is a versioned Bazel project, and&#xA;&lt;a href=&#34;#repository&#34;&gt;&lt;em&gt;repositories&lt;/em&gt;&lt;/a&gt; (or repos), which are directory trees containing&#xA;source files.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Frequently asked questions</title>
+      <link>http://localhost:1313/external/faq/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/faq/</guid>
+      <description>&lt;p&gt;{# disableFinding(&amp;ldquo;repo&amp;rdquo;) #}&#xA;{# disableFinding(HEADING_STACKED) #}&lt;/p&gt;&#xA;&lt;p&gt;This page answers some frequently asked questions about external dependencies in&#xA;Bazel.&lt;/p&gt;&#xA;&lt;h2 id=&#34;modulebazel&#34;&gt;MODULE.bazel&lt;/h2&gt;&#xA;&lt;h3 id=&#34;how-should-i-version-a-bazel-module&#34;&gt;How should I version a Bazel module?&lt;/h3&gt;&#xA;&lt;p&gt;Setting &lt;code&gt;version&lt;/code&gt; with the &lt;a href=&#34;http://localhost:1313/rules/lib/globals/module#module&#34;&gt;&lt;code&gt;module&lt;/code&gt;&lt;/a&gt; directive in the source archive&#xA;&lt;code&gt;MODULE.bazel&lt;/code&gt; can have several downsides and unintended side effects if not&#xA;managed carefully:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Duplication: releasing a new version of a module typically involves both&#xA;incrementing the version in &lt;code&gt;MODULE.bazel&lt;/code&gt; and tagging the release, two&#xA;separate steps that can fall out of sync. While automation can&#xA;reduce this risk, it&amp;rsquo;s simpler and safer to avoid it altogether.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Module extensions</title>
+      <link>http://localhost:1313/external/extension/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/extension/</guid>
+      <description>&lt;p&gt;Module extensions allow users to extend the module system by reading input data&#xA;from modules across the dependency graph, performing necessary logic to resolve&#xA;dependencies, and finally creating repos by calling &lt;a href=&#34;http://localhost:1313/external/repo/&#34;&gt;repo&#xA;rules&lt;/a&gt;. These extensions have capabilities similar to repo&#xA;rules, which enables them to perform file I/O, send network requests, and so on.&#xA;Among other things, they allow Bazel to interact with other package management&#xA;systems while also respecting the dependency graph built out of Bazel modules.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Repository Rules</title>
+      <link>http://localhost:1313/external/repo/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/repo/</guid>
+      <description>&lt;p&gt;This page covers how to define repository rules and provides examples for more&#xA;details.&lt;/p&gt;&#xA;&lt;p&gt;An &lt;a href=&#34;http://localhost:1313/external/overview#repository/&#34;&gt;external repository&lt;/a&gt; is a directory tree,&#xA;containing source files usable in a Bazel build, which is generated on demand by&#xA;running its corresponding &lt;strong&gt;repo rule&lt;/strong&gt;. Repos can be defined in a multitude of&#xA;ways, but ultimately, each repo is defined by invoking a repo rule, just as&#xA;build targets are defined by invoking build rules. They can be used to depend on&#xA;third-party libraries (such as Maven packaged libraries) but also to generate&#xA;&lt;code&gt;BUILD&lt;/code&gt; files specific to the host Bazel is running on.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Vendor Mode</title>
+      <link>http://localhost:1313/external/vendor/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/external/vendor/</guid>
+      <description>&lt;p&gt;keywords: product:Bazel,Bzlmod,vendor&lt;/p&gt;&#xA;&lt;p&gt;{# disableFinding(&amp;ldquo;vendoring&amp;rdquo;) #}&#xA;{# disableFinding(&amp;ldquo;Vendoring&amp;rdquo;) #}&#xA;{# disableFinding(&amp;ldquo;vendored&amp;rdquo;) #}&#xA;{# disableFinding(&amp;ldquo;repo&amp;rdquo;) #}&lt;/p&gt;&#xA;&lt;p&gt;Vendor mode is a feature that lets you create a local copy of&#xA;external dependencies. This is useful for offline builds, or when you want to&#xA;control the source of an external dependency.&lt;/p&gt;&#xA;&lt;h2 id=&#34;enable-vendor-mode&#34;&gt;Enable vendor mode&lt;/h2&gt;&#xA;&lt;p&gt;You can enable vendor mode by specifying &lt;code&gt;--vendor_dir&lt;/code&gt; flag.&lt;/p&gt;&#xA;&lt;p&gt;For example, by adding it to your &lt;code&gt;.bazelrc&lt;/code&gt; file:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# Enable vendor mode with vendor directory under &amp;lt;workspace&amp;gt;/vendor_src&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;common --vendor_dir=vendor_src&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The vendor directory can be either a relative path to your workspace root or an&#xA;absolute path.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

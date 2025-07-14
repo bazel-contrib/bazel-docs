@@ -3,11 +3,10 @@ Devsite to Hugo/Docsy Converter
 Main conversion utility for transforming Google Devsite documentation to Hugo format
 """
 
-import os
 import logging
 import shutil
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Tuple
 import yaml
 import re
 from utils.devsite_parser import DevsiteParser

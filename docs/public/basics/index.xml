@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Basics on Bazel Documentation</title>
+    <link>http://localhost:1313/basics/</link>
+    <description>Recent content in Basics on Bazel Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/basics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Artifact-Based Build Systems</title>
+      <link>http://localhost:1313/basics/artifact-based-builds/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/basics/artifact-based-builds/</guid>
+      <description>&lt;p&gt;This page covers artifact-based build systems and the philosophy behind their&#xA;creation. Bazel is an artifact-based build system. While task-based build&#xA;systems are good step above build scripts, they give too much power to&#xA;individual engineers by letting them define their own tasks.&lt;/p&gt;&#xA;&lt;p&gt;Artifact-based build systems have a small number of tasks defined by the system&#xA;that engineers can configure in a limited way. Engineers still tell the system&#xA;&lt;strong&gt;what&lt;/strong&gt; to build, but the build system determines &lt;strong&gt;how&lt;/strong&gt; to build it. As with&#xA;task-based build systems, artifact-based build systems, such as Bazel, still&#xA;have buildfiles, but the contents of those buildfiles are very different. Rather&#xA;than being an imperative set of commands in a Turing-complete scripting language&#xA;describing how to produce an output, buildfiles in Bazel are a declarative&#xA;manifest describing a set of artifacts to build, their dependencies, and a&#xA;limited set of options that affect how they’re built. When engineers run &lt;code&gt;bazel&lt;/code&gt;&#xA;on the command line, they specify a set of targets to build (the &lt;strong&gt;what&lt;/strong&gt;), and&#xA;Bazel is responsible for configuring, running, and scheduling the compilation&#xA;steps (the &lt;strong&gt;how&lt;/strong&gt;). Because the build system now has full control over what&#xA;tools to run when, it can make much stronger guarantees that allow it to be far&#xA;more efficient while still guaranteeing correctness.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Dependency Management</title>
+      <link>http://localhost:1313/basics/dependencies/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/basics/dependencies/</guid>
+      <description>&lt;p&gt;In looking through the previous pages, one theme repeats over and over: managing&#xA;your own code is fairly straightforward, but managing its dependencies is much&#xA;more difficult. There are all sorts of dependencies: sometimes there’s a&#xA;dependency on a task (such as “push the documentation before I mark a release as&#xA;complete”), and sometimes there’s a dependency on an artifact (such as “I need&#xA;to have the latest version of the computer vision library to build my code”).&#xA;Sometimes, you have internal dependencies on another part of your codebase, and&#xA;sometimes you have external dependencies on code or data owned by another team&#xA;(either in your organization or a third party). But in any case, the idea of “I&#xA;need that before I can have this” is something that recurs repeatedly in the&#xA;design of build systems, and managing dependencies is perhaps the most&#xA;fundamental job of a build system.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Distributed Builds</title>
+      <link>http://localhost:1313/basics/distributed-builds/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/basics/distributed-builds/</guid>
+      <description>&lt;p&gt;When you have a large codebase, chains of dependencies can become very deep.&#xA;Even simple binaries can often depend on tens of thousands of build targets. At&#xA;this scale, it’s simply impossible to complete a build in a reasonable amount&#xA;of time on a single machine: no build system can get around the fundamental&#xA;laws of physics imposed on a machine’s hardware. The only way to make this work&#xA;is with a build system that supports distributed builds wherein the units of&#xA;work being done by the system are spread across an arbitrary and scalable&#xA;number of machines. Assuming we’ve broken the system’s work into small enough&#xA;units (more on this later), this would allow us to complete any build of any&#xA;size as quickly as we’re willing to pay for. This scalability is the holy grail&#xA;we’ve been working toward by defining an artifact-based build system.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hermeticity</title>
+      <link>http://localhost:1313/basics/hermeticity/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/basics/hermeticity/</guid>
+      <description>&lt;p&gt;This page covers hermeticity, the benefits of using hermetic builds, and&#xA;strategies for identifying non-hermetic behavior in your builds.&lt;/p&gt;&#xA;&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;When given the same input source code and product configuration, a hermetic&#xA;build system always returns the same output by isolating the build from changes&#xA;to the host system.&lt;/p&gt;&#xA;&lt;p&gt;In order to isolate the build, hermetic builds are insensitive to libraries and&#xA;other software installed on the local or remote host machine. They depend on&#xA;specific versions of build tools, such as compilers, and dependencies, such as&#xA;libraries. This makes the build process self-contained as it doesn&amp;rsquo;t rely on&#xA;services external to the build environment.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Task-Based Build Systems</title>
+      <link>http://localhost:1313/basics/task-based-builds/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/basics/task-based-builds/</guid>
+      <description>&lt;p&gt;This page covers task-based build systems, how they work and some of the&#xA;complications that can occur with task-based systems. After shell scripts,&#xA;task-based build systems are the next logical evolution of building.&lt;/p&gt;&#xA;&lt;h2 id=&#34;understanding-task-based-build-systems&#34;&gt;Understanding task-based build systems&lt;/h2&gt;&#xA;&lt;p&gt;In a task-based build system, the fundamental unit of work is the task. Each&#xA;task is a script that can execute any sort of logic, and tasks specify other&#xA;tasks as dependencies that must run before them. Most major build systems in use&#xA;today, such as Ant, Maven, Gradle, Grunt, and Rake, are task based. Instead of&#xA;shell scripts, most modern build systems require engineers to create build files&#xA;that describe how to perform the build.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why a Build System?</title>
+      <link>http://localhost:1313/basics/build-systems/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/basics/build-systems/</guid>
+      <description>&lt;p&gt;This page discusses what build systems are, what they do, why you should use a&#xA;build system, and why compilers and build scripts aren&amp;rsquo;t the best choice as your&#xA;organization starts to scale. It&amp;rsquo;s intended for developers who don&amp;rsquo;t have much&#xA;experience with a build system.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-is-a-build-system&#34;&gt;What is a build system?&lt;/h2&gt;&#xA;&lt;p&gt;Fundamentally, all build systems have a straightforward purpose: they transform&#xA;the source code written by engineers into executable binaries that can be read&#xA;by machines. Build systems aren&amp;rsquo;t just for human-authored code; they also allow&#xA;machines to create builds automatically, whether for testing or for releases to&#xA;production. In an organization with thousands of engineers, it&amp;rsquo;s common that&#xA;most builds are triggered automatically rather than directly by engineers.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
