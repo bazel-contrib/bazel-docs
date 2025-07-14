@@ -45,6 +45,7 @@ COPY pyproject.toml ./
 
 # Copy the Hugo site from docs directory
 COPY docs/ ./app/
+COPY public/ ./app/public/
 
 # # Add venv binaries to PATH
 ENV PATH="/app/.venv/bin:$PATH"
