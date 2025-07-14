@@ -44,15 +44,17 @@ WORKDIR /app
 COPY pyproject.toml ./
 
 # Copy the Hugo site from docs directory
-COPY docs/ ./app/
-COPY public/ ./app/public/
+COPY docs/ ./docs/
 
 # # Add venv binaries to PATH
 ENV PATH="/app/.venv/bin:$PATH"
+ENV NODE_PATH="/usr/lib/node_modules"
 
 # Sync dependencies into virtual environment
 RUN uv sync
 
+RUN hugo --source /app/docs --destination /workspace/public
+
 EXPOSE 1313
 
-CMD ["hugo", "server", "-s", "/app/docs/", "--bind", "0.0.0.0"]
+CMD ["hugo", "server", "--source", "/app/docs", "--bind", "0.0.0.0"]
