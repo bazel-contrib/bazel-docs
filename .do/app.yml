@@ -16,5 +16,5 @@ static_sites:
     deploy_on_push: true
     repo: alan707/bazel_docs
   name: bazel-docs
-  output_dir: /workspace/public
+  output_dir: /public
   source_dir: /
