@@ -11,7 +11,7 @@ source_repo:
 hugo:
   title: "Bazel Documentation"
   description: "Bazel Documentation in an easy to navigate format"
-  baseURL: "https://bazel.build/docs"
+  baseURL: "https://bazel-docs-68tmf.ondigitalocean.app/"
   languageCode: "en-us"
   theme: "docsy"
   
