@@ -6,9 +6,6 @@ title: "{{ config.title }}"
 description: "{{ config.description }}"
 languageCode: "{{ config.languageCode }}"
 
-# Theme configuration
-# theme: ["docsy"]  # Using module instead
-
 # Content configuration
 contentDir: "content"
 dataDir: "data"
@@ -100,6 +97,11 @@ params:
     taxonomyCloudTitle: ["Tag Cloud", "Categories"]
     taxonomyPageHeader: ["tags", "categories"]
 
+  # Enable light/dark mode
+  ui:
+    showLightDarkModeMenu: true
+    mode: light # Set the default mode to dark
+
 # Taxonomies
 taxonomies:
   tag: "tags"
@@ -121,7 +123,5 @@ security:
 # Module configuration (for Docsy theme)
 module:
   imports:
-    - path: "github.com/google/docsy"
-      disable: false
-    - path: "github.com/google/docsy/dependencies"
+    - path: github.com/google/docsy
       disable: false

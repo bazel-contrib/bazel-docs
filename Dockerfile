@@ -44,17 +44,26 @@ WORKDIR /app
 COPY pyproject.toml ./
 
 # Copy the Hugo site from docs directory
-COPY docs/ ./docs/
 
 # # Add venv binaries to PATH
 ENV PATH="/app/.venv/bin:$PATH"
 ENV NODE_PATH="/usr/lib/node_modules"
 
+COPY . .
+
 # Sync dependencies into virtual environment
 RUN uv sync
 
-RUN hugo --source /app/docs --destination /workspace/public
+RUN python cli.py convert --source work/bazel-source/site/en --output docs/
+
+WORKDIR /app/docs
+
+RUN hugo mod init github.com/alan707/bazel-docs && \
+    hugo mod get github.com/google/docsy@v0.12.0 && \
+    hugo mod tidy
+
+RUN hugo --destination /workspace/public
 
 EXPOSE 1313
 
-CMD ["hugo", "server", "--source", "/app/docs", "--bind", "0.0.0.0"]
+CMD ["hugo", "server", "--bind", "0.0.0.0", "--baseURL", "http://localhost:1313"]

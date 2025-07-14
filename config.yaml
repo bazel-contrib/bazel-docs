@@ -10,7 +10,7 @@ source_repo:
 # Hugo site settings
 hugo:
   title: "Bazel Documentation"
-  description: "Build and test software of any size, quickly and reliably"
+  description: "Bazel Documentation in an easy to navigate format"
   baseURL: "https://bazel.build/docs"
   languageCode: "en-us"
   theme: "docsy"
