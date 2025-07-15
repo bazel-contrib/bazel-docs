@@ -21,3 +21,4 @@ static_sites:
   name: bazel-docs
   output_dir: /workspace/public
   source_dir: /
+  
