@@ -29,4 +29,4 @@ jobs:
           # ternary operator means it will push to Dockerhub 
           # if branch is main
           push: ${{ github.ref == 'refs/heads/main' }}
-          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ env.IMAGE_NAME }}:latest
