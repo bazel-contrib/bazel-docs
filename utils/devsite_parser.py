@@ -3,7 +3,6 @@ Devsite Parser Module
 Handles parsing of Google Devsite documentation structure
 """
 
-import os
 import yaml
 import logging
 from pathlib import Path

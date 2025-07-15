@@ -1,112 +1,30 @@
-name: Hugo Site Generator
+name: Build and Push Docker Image
 
 on:
-    repository_dispatch:
-        types: [bazel-docs-updated]
-    workflow_dispatch:
-        inputs:
-            force_rebuild:
-                description: "Force complete rebuild"
-                required: false
-                default: "false"
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-    generate-hugo-site:
-        runs-on: ubuntu-latest
+  docker-build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
-
-            - name: Build Hugo generator image
-              run: |
-                  docker build -t hugo-generator .
-
-            - name: Generate Hugo site
-              run: |
-                  docker run --rm \
-                    -v $(pwd):/app \
-                    -w /app \
-                    hugo-generator \
-                    bash -c "
-                      # Clone Bazel documentation source
-                      cd work/bazel-source
-                      git clone --depth 1 --branch master https://github.com/bazelbuild/bazel.git .
-                      echo 'Bazel source cloned successfully'
-                      
-                      # Convert Devsite to Hugo
-                      cd /app
-                      python cli.py convert \
-                        --source work/bazel-source/site/en \
-                        --output work/hugo-site \
-                        --config config.yaml \
-                        --verbose
-                      
-                      # Validate Hugo site structure
-                      python cli.py validate \
-                        --path work/hugo-site \
-                        --verbose
-                      
-                      # Set up Hugo modules and build
-                      cd work/hugo-site
-                      hugo mod init github.com/${{ github.repository }}
-                      hugo mod get github.com/google/docsy@latest
-                      hugo --minify --environment production
-                    "
-
-            - name: Deploy to GitHub Pages
-              if: github.ref == 'refs/heads/main'
-              uses: peaceiris/actions-gh-pages@v4
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: work/hugo-site/public
-                  cname: bazel.build
-
-            - name: Upload site artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                  name: hugo-site
-                  path: work/hugo-site/public
-                  retention-days: 7
-
-            - name: Create deployment summary
-              run: |
-                  echo "## Hugo Site Generation Summary" >> $GITHUB_STEP_SUMMARY
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "### Source Information" >> $GITHUB_STEP_SUMMARY
-                  if [ "${{ github.event.client_payload.commit_sha }}" != "" ]; then
-                    echo "- **Bazel Commit**: ${{ github.event.client_payload.commit_sha }}" >> $GITHUB_STEP_SUMMARY
-                    echo "- **Commit Message**: ${{ github.event.client_payload.commit_message }}" >> $GITHUB_STEP_SUMMARY
-                    echo "- **Commit Author**: ${{ github.event.client_payload.commit_author }}" >> $GITHUB_STEP_SUMMARY
-                    echo "- **Commit Date**: ${{ github.event.client_payload.commit_date }}" >> $GITHUB_STEP_SUMMARY
-                  else
-                    echo "- **Trigger**: Manual workflow dispatch" >> $GITHUB_STEP_SUMMARY
-                  fi
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "### Site Statistics" >> $GITHUB_STEP_SUMMARY
-                  echo "- **Content Files**: $(find work/hugo-site/content -name '*.md' | wc -l)" >> $GITHUB_STEP_SUMMARY
-                  echo "- **Static Assets**: $(find work/hugo-site/static -type f | wc -l)" >> $GITHUB_STEP_SUMMARY
-                  echo "- **Generated Pages**: $(find work/hugo-site/public -name '*.html' | wc -l)" >> $GITHUB_STEP_SUMMARY
-                  echo "- **Build Time**: $(date)" >> $GITHUB_STEP_SUMMARY
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "### Deployment Status" >> $GITHUB_STEP_SUMMARY
-                  if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-                    echo "✅ **Deployed to GitHub Pages**" >> $GITHUB_STEP_SUMMARY
-                  else
-                    echo "⚠️ **Not deployed** (not main branch)" >> $GITHUB_STEP_SUMMARY
-                  fi
-
-            - name: Post-deployment validation
-              if: github.ref == 'refs/heads/main'
-              run: |
-                  echo "Waiting for deployment to be available..."
-                  sleep 30
-
-                  # Check if the site is accessible
-                  if curl -f -s "https://docs.bazel.build" > /dev/null; then
-                    echo "✅ Site is accessible at https://docs.bazel.build"
-                  else
-                    echo "⚠️ Site might not be accessible yet"
-                  fi
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
