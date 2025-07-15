@@ -1,15 +1,32 @@
-# Devsite to Hugo/Docsy Converter
+# Bazel Docs
 
-A Python utility that converts Google Devsite documentation to Hugo/Docsy format with dual GitHub Actions workflows for monitoring and site generation.
+Convert Bazel’s Devsite docs into a Hugo/Docsy site for easy modification.
 
-## Overview
+## Motivation
 
-This tool specifically converts the Bazel documentation from its source format at `https://github.com/bazelbuild/bazel/tree/master/site/en` to a Hugo static site using the Docsy theme. The conversion includes:
+This tool implements the improvements outlined in [Bazel Docs: Why It Might Be Time For A Refresh](https://alanmond.com/posts/bazel-documentation-improvements/).  The goal is to create a more developer friendly set of Bazel Docs.  Starting with [bazel.build/docs](https://bazel.build/docs)
 
--   Devsite-specific frontmatter to Hugo frontmatter conversion
--   Directory structure transformation for Hugo/Docsy compatibility
--   CSS/SCSS conversion for theme integration
--   Automated GitHub Actions workflows for continuous updates
--   Comprehensive validation and error handling
+## Live Demo
+
+https\://bazel-docs-68tmf.ondigitalocean.app/
+
+## How it works
+
+1. Clones the Devsite source from `bazel.build/docs`.
+2. Transforms Devsite frontmatter and directory layout into Hugo/Docsy format.
+3. Converts CSS/SCSS for Docsy theme compatibility.
 
 ## Usage
+
+Run the latest build locally:
+
+```bash
+docker run -it -p 1313:1313 alan707/bazel-docs:latest
+```
+
+Build a new image:
+
+```bash
+docker build . -t bazel_docs:latest
+```
+
