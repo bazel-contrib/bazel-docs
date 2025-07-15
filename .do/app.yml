@@ -15,7 +15,7 @@ region: nyc
 static_sites:
 - dockerfile_path: ./Dockerfile
   github:
-    branch: parser_development_with_llm
+    branch: main
     deploy_on_push: true
     repo: alan707/bazel_docs
   name: bazel-docs
