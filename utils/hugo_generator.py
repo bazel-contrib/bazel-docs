@@ -38,7 +38,8 @@ class HugoGenerator:
             context = {
                 'config': self.config['hugo'],
                 'source_repo': self.config['source_repo'],
-                'devsite_structure': devsite_structure
+                'devsite_structure': devsite_structure,
+                'menu': self.generate_menu_configuration(devsite_structure)
             }
             
             # Render Hugo configuration
@@ -534,20 +535,47 @@ footer {
             f.write(main_scss_content)
     
     def generate_menu_configuration(self, devsite_structure: Dict) -> Dict:
-        """Generate Hugo menu configuration from Devsite structure"""
-        menu_config = {
-            'main': []
-        }
-        
-        # Generate main menu from sections
-        for section in devsite_structure['sections']:
-            menu_item = {
-                'name': section['title'],
-                'url': f"/{section['name']}/",
-                'weight': section['weight']
-            }
-            menu_config['main'].append(menu_item)
-        
+        """Generate Hugo menu configuration with nested categories"""
+        menu_config = {"main": []}
+
+        sections = {s["name"]: s for s in devsite_structure["sections"]}
+        mapping = self.config.get("content_mapping", {})
+
+        categories = [
+            ("tutorials", "Tutorials", 10),
+            ("how-to-guides", "How-To Guides", 20),
+            ("explanation", "Explanation", 30),
+            ("reference", "Reference", 40),
+        ]
+
+        for identifier, title, weight in categories:
+            menu_config["main"].append({
+                "name": title,
+                "identifier": identifier,
+                "weight": weight,
+                "url": "",
+            })
+
+            items = [
+                (name, info) for name, info in mapping.items()
+                if info.get("category") == identifier
+            ]
+            items.sort(key=lambda item: item[1].get("weight", 0))
+
+            for name, info in items:
+                item_title = sections.get(name, {}).get(
+                    "title", name.replace("-", " ").title()
+                )
+                menu_config["main"].append({
+                    "name": item_title,
+                    "url": f"/{name}/",
+                    "weight": info.get("weight", 0),
+                    "parent": identifier,
+                })
+
+        # Sort menu items by weight to preserve expected ordering
+        menu_config["main"].sort(key=lambda item: item.get("weight", 0))
+
         return menu_config
     
     def generate_params_configuration(self, devsite_structure: Dict) -> Dict:
