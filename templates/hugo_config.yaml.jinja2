@@ -50,18 +50,23 @@ markup:
 # Menu configuration
 menu:
   main:
+    - name: "Documentation"
+      url: "/docs/"
+      weight: 10
+    - name: "Community"
+      url: "/community/"
+      weight: 20
+    - name: "About"
+      url: "/about/"
+      weight: 30
 {% for item in menu.main %}
+{% if item.identifier not in ['documentation', 'community', 'about'] %}
     - name: "{{ item.name }}"
-{% if item.identifier %}
-      identifier: "{{ item.identifier }}"
-{% endif %}
-{% if item.parent %}
-      parent: "{{ item.parent }}"
-{% endif %}
-{% if item.url %}
       url: "{{ item.url }}"
-{% endif %}
       weight: {{ item.weight }}
+{% if item.parent %}      parent: "{{ item.parent }}"{% endif %}
+{% if item.identifier %}      identifier: "{{ item.identifier }}"{% endif %}
+{% endif %}
 {% endfor %}
 
 # Parameters for Docsy theme

@@ -19,6 +19,10 @@ class HugoGenerator:
         """Initialize generator with configuration"""
         self.config = config
         self.template_env = Environment(loader=FileSystemLoader('templates'))
+
+    def _slugify(self, text: str) -> str:
+        """Simplistic slugify helper"""
+        return text.lower().replace(' ', '-')
         
     def generate_config(self, devsite_structure: Dict, output_path: str) -> bool:
         """
@@ -535,46 +539,71 @@ footer {
             f.write(main_scss_content)
     
     def generate_menu_configuration(self, devsite_structure: Dict) -> Dict:
-        """Generate Hugo menu configuration with nested categories"""
-        menu_config = {"main": []}
+        """Generate Hugo menu configuration from Devsite structure"""
+        menu_config = {
+            'main': []
+        }
 
-        sections = {s["name"]: s for s in devsite_structure["sections"]}
-        mapping = self.config.get("content_mapping", {})
+        # Default Docsy menu items
+        menu_config['main'].extend([
+            {
+                'identifier': 'documentation',
+                'name': 'Documentation',
+                'url': '/docs/',
+                'weight': 10,
+            },
+            {
+                'identifier': 'community',
+                'name': 'Community',
+                'url': '/community/',
+                'weight': 20,
+            },
+            {
+                'identifier': 'about',
+                'name': 'About',
+                'url': '/about/',
+                'weight': 30,
+            },
+        ])
 
-        categories = [
-            ("tutorials", "Tutorials", 10),
-            ("how-to-guides", "How-To Guides", 20),
-            ("explanation", "Explanation", 30),
-            ("reference", "Reference", 40),
-        ]
+        categories: Dict[str, Dict] = {}
 
-        for identifier, title, weight in categories:
-            menu_config["main"].append({
-                "name": title,
-                "identifier": identifier,
-                "weight": weight,
-                "url": "",
+        for section in devsite_structure['sections']:
+            category = section.get('category')
+            if not category:
+                continue
+
+            cat_key = self._slugify(category)
+            if cat_key not in categories:
+                categories[cat_key] = {
+                    'identifier': cat_key,
+                    'name': category,
+                    'weight': section['weight'],
+                    'sections': [],
+                }
+            else:
+                categories[cat_key]['weight'] = min(
+                    categories[cat_key]['weight'], section['weight'])
+
+            categories[cat_key]['sections'].append(section)
+
+        # Sort categories by weight
+        for cat in sorted(categories.values(), key=lambda c: c['weight']):
+            menu_config['main'].append({
+                'identifier': cat['identifier'],
+                'name': cat['name'],
+                'url': '',
+                'weight': cat['weight'],
+                'parent': 'documentation',
             })
 
-            items = [
-                (name, info) for name, info in mapping.items()
-                if info.get("category") == identifier
-            ]
-            items.sort(key=lambda item: item[1].get("weight", 0))
-
-            for name, info in items:
-                item_title = sections.get(name, {}).get(
-                    "title", name.replace("-", " ").title()
-                )
-                menu_config["main"].append({
-                    "name": item_title,
-                    "url": f"/{name}/",
-                    "weight": info.get("weight", 0),
-                    "parent": identifier,
+            for sec in sorted(cat['sections'], key=lambda s: s['weight']):
+                menu_config['main'].append({
+                    'name': sec['title'],
+                    'url': f"/{sec['name']}/",
+                    'weight': sec['weight'],
+                    'parent': cat['identifier'],
                 })
-
-        # Sort menu items by weight to preserve expected ordering
-        menu_config["main"].sort(key=lambda item: item.get("weight", 0))
 
         return menu_config
     

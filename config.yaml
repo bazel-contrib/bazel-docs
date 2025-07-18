@@ -21,74 +21,46 @@ deployment:
   
 # Content mapping - map Devsite sections to Hugo content types
 content_mapping:
-  start:
-    type: "docs"
-    weight: 10
-    category: tutorials
-  install:
-    type: "docs"
-    weight: 20
-    category: how-to-guides
-  run:
-    type: "docs"
-    weight: 30
-    category: how-to-guides
-  migrate:
-    type: "docs"
-    weight: 40
-    category: how-to-guides
-  release:
-    type: "docs"
-    weight: 50
-    category: how-to-guides
-  rules:
-    type: "docs"
-    weight: 60
-    category: how-to-guides
-  versions:
-    type: "docs"
-    weight: 70
-    category: reference
   concepts:
     type: "docs"
-    weight: 80
-    category: explanation
+    weight: 10
+    category: "Explanation"
   basics:
     type: "docs"
-    weight: 90
-    category: explanation
+    weight: 20
+    category: "Explanation"
   tutorials:
     type: "docs"
-    weight: 100
-    category: tutorials
+    weight: 30
+    category: "Tutorials"
   build:
     type: "docs"
-    weight: 110
-    category: how-to-guides
+    weight: 40
+    category: "How-To Guides"
   configure:
     type: "docs"
-    weight: 120
-    category: how-to-guides
+    weight: 50
+    category: "How-To Guides"
   extending:
     type: "docs"
-    weight: 130
-    category: explanation
+    weight: 60
+    category: "Explanation"
   external:
     type: "docs"
-    weight: 140
-    category: explanation
+    weight: 70
+    category: "Explanation"
   remote:
     type: "docs"
-    weight: 150
-    category: explanation
+    weight: 80
+    category: "Reference"
   query:
     type: "docs"
-    weight: 160
-    category: reference
+    weight: 90
+    category: "Reference"
   reference:
     type: "docs"
-    weight: 170
-    category: reference
+    weight: 100
+    category: "Reference"
   community:
     type: "community"
     weight: 200
