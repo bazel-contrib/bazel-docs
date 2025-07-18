@@ -66,4 +66,9 @@ RUN hugo --destination /workspace/public
 
 EXPOSE 1313
 
-CMD ["hugo", "server", "--bind", "0.0.0.0", "--baseURL", "https://bazel-docs-68tmf.ondigitalocean.app/", "--disableFastRender"]
+# Default base URL can be overridden at build or run time
+ARG BASE_URL=https://bazel-docs-68tmf.ondigitalocean.app/
+ENV HUGO_BASEURL=${BASE_URL}
+
+# Use shell form so the environment variable is expanded correctly
+CMD ["sh","-c", "hugo server --bind 0.0.0.0 --baseURL \"$HUGO_BASEURL\" --disableFastRender"]

@@ -128,6 +128,34 @@ class HugoGenerator:
             'weight': 1
         }
         
+        # Create the 4 main categories
+        categories = [
+            {
+                'title': 'Tutorials',
+                'path': '/tutorials/',
+                'description': 'Tutorials to guide you through Bazel specific examples',
+                'weight': 10
+            },
+            {
+                'title': 'How-To Guides',
+                'path': '/how-to-guides/',
+                'description': 'Guides for specific tasks and issues your will encounter',
+                'weight': 20
+            },
+            {
+                'title': 'Explanations',
+                'path': '/explanations/',
+                'description': 'Understanding Bazel concepts and features',
+                'weight': 30
+            },
+            {
+                'title': 'Reference',
+                'path': '/reference/',
+                'description': 'Reference materials, API documentation, and good information for rules authors',
+                'weight': 40
+            }
+        ]
+        
         # Render main index
         template = self.template_env.get_template('section_index.jinja2')
         index_content = template.render({
@@ -136,14 +164,7 @@ class HugoGenerator:
                 'description': context['description'],
                 'type': 'docs',
                 'weight': 1,
-                'subsections': [
-                    {
-                        'title': section['title'],
-                        'path': f"/{section['name']}/",
-                        'description': f"{section['title']} documentation"
-                    }
-                    for section in devsite_structure['sections']
-                ]
+                'subsections': categories
             }
         })
         
@@ -153,11 +174,94 @@ class HugoGenerator:
         with open(index_file, 'w', encoding='utf-8') as f:
             f.write(index_content)
         
+        # Generate category index files
+        self._generate_category_indices(content_dir, devsite_structure)
+        
         logger.debug(f"Generated main index: {index_file}")
+    
+    def _generate_category_indices(self, content_dir: Path, devsite_structure: Dict) -> None:
+        """Generate _index.md files for the 4 main categories"""
+        categories = {
+            'tutorials': {
+                'title': 'Tutorials',
+                'description': 'Learning-oriented content to get you started with Bazel',
+                'weight': 10,
+                'sections': []
+            },
+            'how-to-guides': {
+                'title': 'How-To Guides', 
+                'description': 'Problem-solving oriented guides for specific tasks',
+                'weight': 20,
+                'sections': []
+            },
+            'explanations': {
+                'title': 'Explanations',
+                'description': 'Understanding-oriented content about Bazel concepts',
+                'weight': 30,
+                'sections': []
+            },
+            'reference': {
+                'title': 'Reference',
+                'description': 'Information-oriented reference materials',
+                'weight': 40,
+                'sections': []
+            }
+        }
+        
+        # Group sections by category
+        for section in devsite_structure['sections']:
+            section_name = section['name']
+            if section_name in self.config['content_mapping']:
+                mapping = self.config['content_mapping'][section_name]
+                category_type = mapping['type']
+                if category_type in categories:
+                    categories[category_type]['sections'].append(section)
+        
+        # Generate index file for each category
+        for category_type, category_info in categories.items():
+            category_dir = content_dir / category_type
+            category_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare subsections
+            subsections = []
+            for section in category_info['sections']:
+                subsections.append({
+                    'title': section['title'],
+                    'path': f"/{category_type}/{section['name']}/",
+                    'description': f"{section['title']} documentation"
+                })
+            
+            # Render category index
+            template = self.template_env.get_template('section_index.jinja2')
+            index_content = template.render({
+                'section': {
+                    'title': category_info['title'],
+                    'description': category_info['description'],
+                    'type': 'docs',
+                    'weight': category_info['weight'],
+                    'subsections': subsections
+                }
+            })
+            
+            # Write category index file
+            index_file = category_dir / '_index.md'
+            with open(index_file, 'w', encoding='utf-8') as f:
+                f.write(index_content)
+            
+            logger.debug(f"Generated category index: {index_file}")
     
     def _generate_section_index(self, content_dir: Path, section: Dict) -> None:
         """Generate _index.md file for a section"""
-        section_dir = content_dir / section['name']
+        # Determine the category for this section
+        section_name = section['name']
+        category_type = 'docs'  # default
+        
+        if section_name in self.config['content_mapping']:
+            mapping = self.config['content_mapping'][section_name]
+            category_type = mapping['type']
+        
+        # Create section directory under its category
+        section_dir = content_dir / category_type / section['name']
         section_dir.mkdir(parents=True, exist_ok=True)
         
         # Prepare subsections list

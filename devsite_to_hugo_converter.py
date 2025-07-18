@@ -172,9 +172,12 @@ class DevsiteToHugoConverter:
                     conversion_stats['skipped_files'] += 1
                     continue
 
+                # Determine category for this file
+                category_path = self._get_category_path(relative_path)
+                
                 # Convert file
                 if self._convert_single_file(
-                        md_file, output_dir / 'content' / relative_path,
+                        md_file, output_dir / 'content' / category_path,
                         devsite_structure, dry_run):
                     conversion_stats['converted_files'] += 1
                 else:
@@ -185,6 +188,26 @@ class DevsiteToHugoConverter:
                 conversion_stats['error_files'] += 1
 
         return conversion_stats
+
+    def _get_category_path(self, relative_path: Path) -> Path:
+        """Get the category path for a file based on its section"""
+        # Get the top-level directory (section)
+        parts = relative_path.parts
+        if not parts:
+            return relative_path
+        
+        section_name = parts[0]
+        
+        # Look up the category for this section
+        if section_name in self.config['content_mapping']:
+            mapping = self.config['content_mapping'][section_name]
+            category_type = mapping['type']
+            
+            # Return path with category prefix
+            return Path(category_type) / relative_path
+        
+        # Default to original path if no mapping found
+        return relative_path
 
     def _convert_single_file(self, source_file: Path, output_file: Path,
                              devsite_structure: Dict, dry_run: bool) -> bool:

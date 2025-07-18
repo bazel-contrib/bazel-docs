@@ -15,47 +15,103 @@ hugo:
   languageCode: "en-us"
   theme: "docsy"
   
-# Content mapping - map Devsite sections to Hugo content types
+# Content mapping - organized into 4 main categories
 content_mapping:
-  concepts: 
-    type: "docs"
-    weight: 10
-  basics:
-    type: "docs"
-    weight: 20
+  # TUTORIALS - Learning-oriented content
   tutorials:
-    type: "docs"
+    type: "tutorials"
+    weight: 10
+    category: "Tutorials"
+  start:
+    type: "tutorials"
+    weight: 20
+    category: "Tutorials"
+  basics:
+    type: "tutorials"
     weight: 30
-  build:
-    type: "docs"
-    weight: 40
+    category: "Tutorials"
+    
+  # HOW-TO GUIDES - Problem-solving oriented
+  install:
+    type: "how-to-guides"
+    weight: 10
+    category: "How-To Guides"
   configure:
-    type: "docs"
-    weight: 50
-  extending:
-    type: "docs"
-    weight: 60
-  external:
-    type: "docs"
-    weight: 70
+    type: "how-to-guides"
+    weight: 20
+    category: "How-To Guides"
+  build:
+    type: "how-to-guides"
+    weight: 30
+    category: "How-To Guides"
+  run:
+    type: "how-to-guides"
+    weight: 40
+    category: "How-To Guides"
   remote:
-    type: "docs"
+    type: "how-to-guides"
+    weight: 50
+    category: "How-To Guides"
+  migrate:
+    type: "how-to-guides"
+    weight: 60
+    category: "How-To Guides"
+  rules:
+    type: "how-to-guides"
+    weight: 70
+    category: "How-To Guides"
+  docs:
+    type: "how-to-guides"
     weight: 80
-  query:
-    type: "docs"
-    weight: 90
-  reference:
-    type: "docs"
-    weight: 100
-  community:
-    type: "community"
-    weight: 200
-  contribute:
-    type: "community"
-    weight: 210
+    category: "How-To Guides"
+  
+  # EXPLANATIONS - Understanding-oriented content
+  concepts:
+    type: "explanations"
+    weight: 10
+    category: "Explanations"
+  extending:
+    type: "explanations"
+    weight: 20
+    category: "Explanations"
+  external:
+    type: "explanations"
+    weight: 30
+    category: "Explanations"
   about:
-    type: "about"
-    weight: 300
+    type: "explanations"
+    weight: 40
+    category: "Explanations"
+  community:
+    type: "explanations"
+    weight: 50
+    category: "Explanations"
+  contribute:
+    type: "explanations"
+    weight: 60
+    category: "Explanations"
+  release:
+    type: "explanations"
+    weight: 70
+    category: "Explanations"
+  
+  # REFERENCE - Information-oriented content
+  reference:
+    type: "reference"
+    weight: 10
+    category: "Reference"
+  query:
+    type: "reference"
+    weight: 20
+    category: "Reference"
+  versions:
+    type: "reference"
+    weight: 30
+    category: "Reference"
+  advanced:
+    type: "reference"
+    weight: 40
+    category: "Reference"
 
 # CSS conversion settings
 css_conversion:

@@ -50,15 +50,24 @@ markup:
 # Menu configuration
 menu:
   main:
-    - name: "Documentation"
-      url: "/docs/"
+    - name: "Tutorials"
+      url: "/tutorials/"
       weight: 10
-    - name: "Community"
-      url: "/community/"
+    - name: "How-To Guides"
+      url: "/how-to-guides/"
       weight: 20
-    - name: "About"
-      url: "/about/"
+    - name: "Explanations"
+      url: "/explanations/"
       weight: 30
+    - name: "Reference"
+      url: "/reference/"
+      weight: 40
+    - name: "Community"
+      url: "/explanations/community/"
+      weight: 50
+    - name: "About"
+      url: "/explanations/about/"
+      weight: 60
 
 # Parameters for Docsy theme
 params:
@@ -101,6 +110,10 @@ params:
   ui:
     showLightDarkModeMenu: true
     mode: dark # Set the default mode to dark
+    sidebar_menu_compact: true
+    ul_show: 1
+    sidebar_menu_foldable: true
+    sidebar_cache_limit: 1000
 
 # Taxonomies
 taxonomies:
