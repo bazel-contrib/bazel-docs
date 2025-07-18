@@ -144,6 +144,15 @@ class DevsiteToHugoConverter:
             dir_path.mkdir(parents=True, exist_ok=True)
             logger.debug(f"Created directory: {dir_path}")
 
+        # Create docs category directories
+        docs_categories = [
+            'tutorials', 'how-to-guides', 'explanations', 'reference'
+        ]
+        for category in docs_categories:
+            category_path = output_dir / 'content' / 'docs' / category
+            category_path.mkdir(parents=True, exist_ok=True)
+            logger.debug(f"Created directory: {category_path}")
+
     def _convert_content_files(self, devsite_structure: Dict, source_path: str,
                                output_path: str, dry_run: bool,
                                incremental: bool) -> Dict:
@@ -167,15 +176,15 @@ class DevsiteToHugoConverter:
                 relative_path = md_file.relative_to(source_dir)
 
                 # Skip if incremental and file hasn't changed
+                output_md = self._target_path_for_file(relative_path, output_dir)
                 if incremental and not self._file_needs_conversion(
-                        md_file, output_dir / 'content' / relative_path):
+                        md_file, output_md):
                     conversion_stats['skipped_files'] += 1
                     continue
 
                 # Convert file
                 if self._convert_single_file(
-                        md_file, output_dir / 'content' / relative_path,
-                        devsite_structure, dry_run):
+                        md_file, output_md, devsite_structure, dry_run):
                     conversion_stats['converted_files'] += 1
                 else:
                     conversion_stats['error_files'] += 1
@@ -522,6 +531,23 @@ class DevsiteToHugoConverter:
 
         # Compare modification times
         return source_file.stat().st_mtime > output_file.stat().st_mtime
+
+    def _slugify(self, text: str) -> str:
+        """Simple slugify helper"""
+        text = text.lower().strip()
+        text = re.sub(r'[^a-z0-9]+', '-', text)
+        return text.strip('-')
+
+    def _target_path_for_file(self, relative_path: Path,
+                              output_dir: Path) -> Path:
+        """Compute output path for a source file based on its category"""
+        parts = relative_path.parts
+        section = parts[0] if parts else ''
+        mapping = self.config.get('content_mapping', {}).get(section, {})
+        category = mapping.get('category', 'reference')
+        category_slug = self._slugify(category)
+        target_rel = Path('docs') / category_slug / relative_path
+        return output_dir / 'content' / target_rel
 
     def _convert_assets(self, source_path: str, output_path: str) -> None:
         """Convert CSS and static assets"""

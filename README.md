@@ -64,3 +64,19 @@ cd /app/docs
 hugo --destination /workspace/public
 hugo server --bind 0.0.0.0 --baseURL "http://localhost:1313"
 ```
+
+## Directory structure
+
+Converted pages are placed under `content/docs` according to their configured
+category. The converter creates four category directories:
+
+```
+content/docs/tutorials
+content/docs/how-to-guides
+content/docs/explanations
+content/docs/reference
+```
+
+Each section maps to one of these categories, so pages appear at
+`content/docs/<category>/<section>/<page>.md`. The category controls how pages
+are grouped in the sidebar.

@@ -174,13 +174,14 @@ class DevsiteParser:
         for section_name, section_info in content_structure.items():
             # Get mapping from config
             mapping = self.config.get('content_mapping', {}).get(section_name, {})
-            
+
             section_data = {
                 'name': section_name,
-                'title': section_info.get('config', {}).get('index', {}).get('title', 
+                'title': section_info.get('config', {}).get('index', {}).get('title',
                                                                                section_name.replace('-', ' ').title()),
                 'type': mapping.get('type', 'docs'),
                 'weight': mapping.get('weight', 100),
+                'category': mapping.get('category', 'reference'),
                 'path': section_info['path'],
                 'files': section_info['files'],
                 'subsections': section_info['subsections']

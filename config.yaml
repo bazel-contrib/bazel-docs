@@ -17,45 +17,58 @@ hugo:
   
 # Content mapping - map Devsite sections to Hugo content types
 content_mapping:
-  concepts: 
+  concepts:
     type: "docs"
     weight: 10
+    category: "explanations"
   basics:
     type: "docs"
     weight: 20
+    category: "explanations"
   tutorials:
     type: "docs"
     weight: 30
+    category: "tutorials"
   build:
     type: "docs"
     weight: 40
+    category: "how-to-guides"
   configure:
     type: "docs"
     weight: 50
+    category: "how-to-guides"
   extending:
     type: "docs"
     weight: 60
+    category: "how-to-guides"
   external:
     type: "docs"
     weight: 70
+    category: "how-to-guides"
   remote:
     type: "docs"
     weight: 80
+    category: "how-to-guides"
   query:
     type: "docs"
     weight: 90
+    category: "reference"
   reference:
     type: "docs"
     weight: 100
+    category: "reference"
   community:
     type: "community"
     weight: 200
+    category: "reference"
   contribute:
     type: "community"
     weight: 210
+    category: "reference"
   about:
     type: "about"
     weight: 300
+    category: "reference"
 
 # CSS conversion settings
 css_conversion:

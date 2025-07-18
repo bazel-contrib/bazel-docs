@@ -5,6 +5,7 @@ Handles generation of Hugo site structure and configuration
 
 import os
 import logging
+import re
 from pathlib import Path
 from typing import Dict, List, Optional
 import yaml
@@ -71,13 +72,15 @@ class HugoGenerator:
         try:
             output_dir = Path(output_path)
             content_dir = output_dir / 'content'
+            docs_dir = content_dir / 'docs'
+            docs_dir.mkdir(parents=True, exist_ok=True)
             
             # Generate main index
             self._generate_main_index(content_dir, devsite_structure)
             
             # Generate section indices
             for section in devsite_structure['sections']:
-                self._generate_section_index(content_dir, section)
+                self._generate_section_index(docs_dir, section)
             
             logger.info("Generated section index files")
             return True
@@ -155,9 +158,15 @@ class HugoGenerator:
         
         logger.debug(f"Generated main index: {index_file}")
     
+    def _slugify(self, text: str) -> str:
+        text = text.lower().strip()
+        text = re.sub(r'[^a-z0-9]+', '-', text)
+        return text.strip('-')
+
     def _generate_section_index(self, content_dir: Path, section: Dict) -> None:
         """Generate _index.md file for a section"""
-        section_dir = content_dir / section['name']
+        category_slug = self._slugify(section.get('category', 'reference'))
+        section_dir = content_dir / category_slug / section['name']
         section_dir.mkdir(parents=True, exist_ok=True)
         
         # Prepare subsections list
