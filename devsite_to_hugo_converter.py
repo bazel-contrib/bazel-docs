@@ -42,6 +42,12 @@ class DevsiteToHugoConverter:
             with open(self.config_path, 'r') as file:
                 config = yaml.safe_load(file)
                 logger.info(f"Configuration loaded from {self.config_path}")
+
+                # Override Hugo baseURL with deployment setting if provided
+                deployment = config.get('deployment', {})
+                if 'baseURL' in deployment:
+                    config.setdefault('hugo', {})['baseURL'] = deployment['baseURL']
+
                 return config
         except FileNotFoundError:
             logger.error(f"Configuration file {self.config_path} not found")

@@ -64,3 +64,7 @@ cd /app/docs
 hugo --destination /workspace/public
 hugo server --bind 0.0.0.0 --baseURL "http://localhost:1313"
 ```
+
+The Hugo `baseURL` used during generation can be configured in `config.yaml`
+under the `deployment.baseURL` field. Adjust this value to switch between
+development and production environments.

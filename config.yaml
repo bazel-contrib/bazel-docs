@@ -14,6 +14,10 @@ hugo:
   baseURL: "https://bazel-docs-68tmf.ondigitalocean.app/"
   languageCode: "en-us"
   theme: "docsy"
+
+# Deployment settings
+deployment:
+  baseURL: "https://bazel-docs-68tmf.ondigitalocean.app/"
   
 # Content mapping - map Devsite sections to Hugo content types
 content_mapping:
