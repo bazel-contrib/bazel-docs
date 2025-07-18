@@ -71,4 +71,4 @@ ARG BASE_URL=https://bazel-docs-68tmf.ondigitalocean.app/
 ENV HUGO_BASEURL=${BASE_URL}
 
 # Use shell form so the environment variable is expanded correctly
-CMD sh -c "hugo server --bind 0.0.0.0 --baseURL \"$HUGO_BASEURL\" --disableFastRender"
+CMD ["hugo", "server", "--bind", "0.0.0.0", "--baseURL", "${HUGO_BASEURL}", "--disableFastRender"]
