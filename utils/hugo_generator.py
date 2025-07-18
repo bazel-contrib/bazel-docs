@@ -12,6 +12,11 @@ from jinja2 import Environment, FileSystemLoader
 
 logger = logging.getLogger(__name__)
 
+TUTORIALS_DESCRIPTION = 'Tutorials to guide you through Bazel specific examples'
+HOW_TO_GUIDES_DESCRIPTION = 'Guides for specific tasks and issues your will encounter'
+EXPLANATIONS_DESCRIPTION = 'Understanding Bazel concepts and features'
+REFERENCE_DESCRIPTION = 'Reference materials, API documentation, and good information for rules authors'
+
 class HugoGenerator:
     """Generator for Hugo site structure and configuration"""
     
@@ -133,25 +138,25 @@ class HugoGenerator:
             {
                 'title': 'Tutorials',
                 'path': '/tutorials/',
-                'description': 'Tutorials to guide you through Bazel specific examples',
+                'description': TUTORIALS_DESCRIPTION,
                 'weight': 10
             },
             {
                 'title': 'How-To Guides',
                 'path': '/how-to-guides/',
-                'description': 'Guides for specific tasks and issues your will encounter',
+                'description': HOW_TO_GUIDES_DESCRIPTION,
                 'weight': 20
             },
             {
                 'title': 'Explanations',
                 'path': '/explanations/',
-                'description': 'Understanding Bazel concepts and features',
+                'description': EXPLANATIONS_DESCRIPTION,
                 'weight': 30
             },
             {
                 'title': 'Reference',
                 'path': '/reference/',
-                'description': 'Reference materials, API documentation, and good information for rules authors',
+                'description': REFERENCE_DESCRIPTION,
                 'weight': 40
             }
         ]
@@ -184,25 +189,25 @@ class HugoGenerator:
         categories = {
             'tutorials': {
                 'title': 'Tutorials',
-                'description': 'Learning-oriented content to get you started with Bazel',
+                'description': TUTORIALS_DESCRIPTION,
                 'weight': 10,
                 'sections': []
             },
             'how-to-guides': {
                 'title': 'How-To Guides', 
-                'description': 'Problem-solving oriented guides for specific tasks',
+                'description': HOW_TO_GUIDES_DESCRIPTION,
                 'weight': 20,
                 'sections': []
             },
             'explanations': {
                 'title': 'Explanations',
-                'description': 'Understanding-oriented content about Bazel concepts',
+                'description': EXPLANATIONS_DESCRIPTION,
                 'weight': 30,
                 'sections': []
             },
             'reference': {
                 'title': 'Reference',
-                'description': 'Information-oriented reference materials',
+                'description': REFERENCE_DESCRIPTION,
                 'weight': 40,
                 'sections': []
             }
