@@ -177,13 +177,14 @@ class DevsiteParser:
             
             section_data = {
                 'name': section_name,
-                'title': section_info.get('config', {}).get('index', {}).get('title', 
-                                                                               section_name.replace('-', ' ').title()),
+                'title': section_info.get('config', {}).get('index', {}).get(
+                    'title', section_name.replace('-', ' ').title()),
                 'type': mapping.get('type', 'docs'),
                 'weight': mapping.get('weight', 100),
+                'category': mapping.get('category'),
                 'path': section_info['path'],
                 'files': section_info['files'],
-                'subsections': section_info['subsections']
+                'subsections': section_info['subsections'],
             }
             
             sections.append(section_data)

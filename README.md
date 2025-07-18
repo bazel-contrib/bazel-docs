@@ -71,3 +71,20 @@ hugo server --bind 0.0.0.0 --baseURL "$HUGO_BASEURL"
 The Hugo `baseURL` used during generation can be configured in `config.yaml`
 under the `deployment.baseURL` field. Adjust this value to switch between
 development and production environments.
+
+### Sidebar categories
+
+Menu grouping is controlled by the `category` field inside `config.yaml`.
+Set the category for each section under `content_mapping` to place it
+under one of the default groups (`Tutorials`, `How-To Guides`,
+`Explanation`, or `Reference`).
+
+```yaml
+content_mapping:
+  tutorials:
+    type: "docs"
+    weight: 30
+    category: "Tutorials"
+```
+
+Sections with the same category will appear together in the sidebar.
