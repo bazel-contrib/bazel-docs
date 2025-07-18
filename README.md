@@ -18,10 +18,13 @@ https\://bazel-docs-68tmf.ondigitalocean.app/
 
 ## Usage
 
-Bash into the docker image to see the Hugo converted website:
+Run the Docker image to see the Hugo converted website. The base URL used by
+`hugo server` can be overridden by setting the `HUGO_BASEURL` environment
+variable:
 
 ```bash
-docker run -it -p 1313:1313 alan707/bazel-docs:latest bash
+docker run -it -p 1313:1313 -e HUGO_BASEURL=http://localhost:1313 \
+  alan707/bazel-docs:latest bash
 ```
 
 Once inside, the generated Hugo site will be at the following location:
@@ -62,7 +65,7 @@ Generate static files and start the Hugo server
 ```bash
 cd /app/docs
 hugo --destination /workspace/public
-hugo server --bind 0.0.0.0 --baseURL "http://localhost:1313"
+hugo server --bind 0.0.0.0 --baseURL "$HUGO_BASEURL"
 ```
 
 The Hugo `baseURL` used during generation can be configured in `config.yaml`
