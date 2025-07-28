@@ -1,10 +1,10 @@
 # Hugo configuration for Bazel documentation site
 # Generated automatically by devsite-to-hugo-converter
 
-baseURL: "{{ config.baseURL }}"
-title: "{{ config.title }}"
-description: "{{ config.description }}"
-languageCode: "{{ config.languageCode }}"
+baseURL: "{{ hugo.baseURL }}"
+title: "{{ hugo.title }}"
+description: "{{ hugo.description }}"
+languageCode: "{{ hugo.languageCode }}"
 
 # Content configuration
 contentDir: "content"
@@ -81,14 +81,13 @@ params:
   # Repository information
   github_repo: "https://github.com/{{ source_repo.owner }}/{{ source_repo.name }}"
   github_branch: "{{ source_repo.branch }}"
-  github_subdir: "{{ source_repo.path }}"
   
   # Edit page configuration
   edit_page: true
   
   # Search configuration
   search:
-    enabled: true
+    enabled: false
     
   # Navigation configuration
   navigation:
@@ -96,7 +95,7 @@ params:
     
   # Footer configuration
   footer:
-    enable: true
+    enable: false
     
   # Disable math rendering
   katex:
@@ -127,9 +126,10 @@ taxonomies:
 
 # Output formats
 outputs:
-  home: ["HTML", "RSS", "JSON"]
-  page: ["HTML"]
-  section: ["HTML", "RSS"]
+  section:
+    - HTML
+    - RSS
+
 
 # Security configuration
 security:

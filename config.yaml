@@ -1,11 +1,10 @@
 # Configuration for Devsite to Hugo Converter
 
-# Source repository settings
+# Docsy Theme Configuration
 source_repo:
-  owner: "bazelbuild"
-  name: "bazel"
-  branch: "master"
-  path: "site/en"
+  owner: "alan707"
+  name: "bazel-docs"
+  branch: "main"
 
 # Hugo site settings
 hugo:

@@ -11,7 +11,6 @@ import yaml
 import re
 from utils.devsite_parser import DevsiteParser
 from utils.hugo_generator import HugoGenerator
-from utils.css_converter import CSSConverter
 
 # Configure logging
 logging.basicConfig(
@@ -34,7 +33,6 @@ class DevsiteToHugoConverter:
         self.config = self._load_config()
         self.devsite_parser = DevsiteParser(self.config)
         self.hugo_generator = HugoGenerator(self.config)
-        self.css_converter = CSSConverter(self.config)
 
     def _load_config(self) -> Dict:
         """Load configuration from YAML file"""
@@ -92,15 +90,13 @@ class DevsiteToHugoConverter:
                 devsite_structure, source_path, output_path, dry_run,
                 incremental)
 
-            # Convert CSS and static assets
+            # Convert static assets
             if not dry_run:
                 self._convert_assets(source_path, output_path)
 
             # Generate Hugo configuration
             if not dry_run:
-                self._generate_hugo_config(devsite_structure, output_path)
-                # Skip custom layouts when using Docsy theme
-                # self._generate_layouts(output_path)
+                self._generate_hugo_config(output_path)
                 self._generate_section_indices(devsite_structure, output_path)
 
             logger.info(f"Conversion completed successfully")
@@ -626,15 +622,9 @@ class DevsiteToHugoConverter:
         return source_file.stat().st_mtime > output_file.stat().st_mtime
 
     def _convert_assets(self, source_path: str, output_path: str) -> None:
-        """Convert CSS and static assets"""
+        """Convert static assets"""
         source_dir = Path(source_path)
         output_dir = Path(output_path)
-
-        # Convert CSS files
-        css_files = list(source_dir.rglob('*.css'))
-        for css_file in css_files:
-            self.css_converter.convert_css_file(css_file,
-                                                output_dir / 'assets' / 'scss')
 
         # Copy static assets (images, etc.)
         static_extensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico']
@@ -646,10 +636,9 @@ class DevsiteToHugoConverter:
                 shutil.copy2(asset_file, output_asset)
                 logger.debug(f"Copied asset: {asset_file} -> {output_asset}")
 
-    def _generate_hugo_config(self, devsite_structure: Dict,
-                              output_path: str) -> None:
+    def _generate_hugo_config(self, output_path: str) -> None:
         """Generate Hugo configuration file"""
-        self.hugo_generator.generate_config(devsite_structure, output_path)
+        self.hugo_generator.generate_config(output_path)
 
     def _generate_layouts(self, output_path: str) -> None:
         """Generate Hugo layout templates"""
