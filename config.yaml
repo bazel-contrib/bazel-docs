@@ -171,7 +171,13 @@ code_language_patterns:
     - "name ="
     - "srcs ="
     - "deps ="
+    - "cc_toolchain("
+    - "toolchain("
+    - "filegroup("
+    - "exports_files("
   bash:
+    - "bazel "
+    - "bazel help"
     - "bazel build"
     - "bazel test"
     - "bazel run"
@@ -182,7 +188,8 @@ code_language_patterns:
     - "export "
     - "source "
     - "$("
-    - "${" 
+    - "${"
+    - "$"
     - "npm "
     - "yarn "
     - "git "
@@ -210,10 +217,13 @@ code_language_patterns:
     - "std::"
     - "namespace "
     - "cout <<"
-    - "cin >>"
     - "void "
     - "template<"
     - "nullptr"
+    - ".cc"
+    - ".cpp"
+    - ".h"
+    - "cin >>"
     - "using namespace"
     - "printf("
     - "scanf("
@@ -267,7 +277,7 @@ code_language_patterns:
     - '":'
     - '": '
     - '['
-    - '],'
+    - '],'  
   xml:
     - "<?xml"
     - "<"

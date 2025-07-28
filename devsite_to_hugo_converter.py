@@ -480,129 +480,134 @@ class DevsiteToHugoConverter:
         return content
 
     def _add_language_identifiers_to_code_blocks(self, content: str) -> str:
-        """Use defaults in case config.yaml is not set"""
+         """Annotate unlabeled code fences with language identifiers.
 
-        language_patterns = self.config.get('code_language_patterns', {
-            'starlark': [
-                'cc_binary(', 'cc_library(', 'java_library(', 'load(', 
-                'py_binary(', 'py_library(', 'BUILD', 'WORKSPACE',
-                'cc_toolchain(', 'toolchain(', 'filegroup(', 'exports_files('
-            ],
-            'bash': [
-                'bazel build', 'bazel test', 'bazel run', '#!/bin/bash',
-                'echo ', 'export ', 'source ', '$', 'npm ', 'yarn '
-            ],
-            'python': [
-                'def ', 'class ', 'import ', 'from ', 'print(', '__init__',
-                'self.', '@', 'lambda ', 'return '
-            ],
-            'cpp': [
-                '#include', 'int main', 'std::', 'namespace ', 'cout <<',
-                'void ', 'template<', 'nullptr', '.cc', '.cpp', '.h'
-            ],
-            'java': [
-                'public class', 'private ', 'protected ', 'import java',
-                'package ', 'extends ', 'implements ', '@Override'
-            ],
-            'javascript': [
-                'function ', 'const ', 'let ', 'var ', '=>', 'console.log',
-                'require(', 'export ', 'import ', 'async ', 'await '
-            ],
-            'yaml': [
-                'name:', 'type:', '- name:', 'kind:', 'apiVersion:'
-            ],
-            'json': [
-                '{"', '":', '": '
-            ]
-        })
 
-        def determine_language(code_content):
-            if not code_content or not code_content.strip():
-                return 'text'
+         Parameters
+         ----------
+         content : str
+             The markdown content possibly containing fenced code blocks.
 
-            # Check for directory structure indicators
-            if (code_content.strip().startswith('/') or 
-                any(char in code_content for char in ['└', '├', '│'])):
-                return 'text'
+         Returns
+         -------
+         str
+             Content with unlabeled code blocks annotated with language
+             identifiers.
+         """
+         # Fetch language detection patterns from configuration, or use
+         # sensible defaults.  Keys are language names, values are
+         # sequences of substrings indicative of that language.
+         language_patterns: Dict[str, List[str]] = self.config.get('code_language_patterns')
 
-            # Check language patterns
-            for language, patterns in language_patterns.items():
-                for pattern in patterns:
-                    if pattern in code_content:
-                        return language
+         def determine_language(code_content: str) -> str:
+             """Return the best language guess for a code snippet.
 
-            return 'text'
+             This helper inspects the provided code content for the
+             presence of known substrings.  The first matching language
+             wins.  If no patterns match, ``text`` is returned.
 
-        lines = content.splitlines(keepends=True)  # Keep line endings
-        result = []
-        in_code_block = False
-        in_unlabeled_block = False
-        code_lines = []
+             Parameters
+             ----------
+             code_content : str
+                 Raw code content extracted from a fenced code block.
 
-        i = 0
-        while i < len(lines):
-            line = lines[i]
-            stripped_line = line.rstrip()
+             Returns
+             -------
+             str
+                 Name of the detected language or ``'text'`` when
+                 uncertain.
+             """
+             if not code_content or not code_content.strip():
+                 return 'text'
+             # Treat directory structures as plain text (these may use
+             # ASCII/Unicode tree characters or start with a leading slash).
+             stripped_content = code_content.strip()
+             if stripped_content.startswith('/') or any(
+                 char in code_content for char in ('└', '├', '│')
+             ):
+                 return 'text'
+             # Check each configured language pattern in the order they
+             # appear.  The first match determines the language.
+             for language, patterns in language_patterns.items():
+                 for pattern in patterns:
+                     if pattern in code_content:
+                         return language
+             return 'text'
 
-            if not in_code_block:
-                # Not in a code block, check if this starts one
-                if stripped_line == '```':
-                    # Starting an unlabeled code block
-                    in_code_block = True
-                    in_unlabeled_block = True
-                    code_lines = []
-                    # Don't add this line yet, we'll reconstruct it with language
-                elif re.match(r'^```[\w-]', stripped_line):
-                    # Starting a labeled code block, just pass it through
-                    in_code_block = True
-                    in_unlabeled_block = False
-                    result.append(line)
-                else:
-                    # Regular line
-                    result.append(line)
-            else:
-                # We're in a code block
-                if stripped_line == '```':
-                    # End of code block
-                    in_code_block = False
+         # Split the content into lines, preserving line endings so we
+         # can reconstruct the document accurately.
+         lines: List[str] = content.splitlines(keepends=True)
+         result: List[str] = []
+         in_code_block = False
+         in_unlabeled_block = False
+         code_lines: List[str] = []
+         fence_indent: str = ''
 
-                    if in_unlabeled_block:
-                        # This was an unlabeled block, process it
-                        code_content = ''.join(code_lines).rstrip('\n\r')
-                        language = determine_language(code_content)
+         idx = 0
+         while idx < len(lines):
+             line = lines[idx]
+             stripped = line.strip()
+             # Detect the start of a code fence when not already in a block
+             if not in_code_block:
+                 if stripped.startswith('```'):
+                     after = stripped[3:].strip()
+                     # Capture the indent of the fence (everything before
+                     # the first non-whitespace character).  This indent is
+                     # reused when emitting annotated fences to preserve
+                     # formatting inside lists.
+                     fence_indent = line[: len(line) - len(line.lstrip())]
+                     if after == '':
+                         # Begin an unlabeled fenced code block
+                         in_code_block = True
+                         in_unlabeled_block = True
+                         code_lines = []
+                     else:
+                         # Begin a labeled fenced code block; copy the opening
+                         # fence verbatim
+                         in_code_block = True
+                         in_unlabeled_block = False
+                         result.append(line)
+                 else:
+                     result.append(line)
+             else:
+                 # We're inside a fenced block
+                 if stripped.startswith('```'):
+                     # Encountered a closing fence
+                     if in_unlabeled_block:
+                         # Compute the language and emit annotated fence
+                         code_content = ''.join(code_lines).rstrip('\n\r')
+                         language = determine_language(code_content)
+                         result.append(f'{fence_indent}```{language}\n')
+                         if code_content:
+                             result.append(code_content + '\n')
+                         result.append(f'{fence_indent}```\n')
+                         # Reset state
+                         code_lines = []
+                         in_unlabeled_block = False
+                         in_code_block = False
+                     else:
+                         # Labeled block; preserve closing fence
+                         result.append(line)
+                         in_code_block = False
+                 else:
+                     # Collect lines inside the fenced block
+                     if in_unlabeled_block:
+                         code_lines.append(line)
+                     else:
+                         result.append(line)
+             idx += 1
 
-                        # Add the processed block
-                        result.append(f'```{language}\n')
-                        if code_content:
-                            result.append(code_content + '\n')
-                        result.append('```\n')
+         # Handle unterminated unlabeled blocks at EOF.  If the file ends
+         # inside an unlabeled code block, annotate it anyway.
+         if in_code_block and in_unlabeled_block:
+             code_content = ''.join(code_lines).rstrip('\n\r')
+             language = determine_language(code_content)
+             result.append(f'{fence_indent}```{language}\n')
+             if code_content:
+                 result.append(code_content + '\n')
+             result.append(f'{fence_indent}```\n')
 
-                        code_lines = []
-                        in_unlabeled_block = False
-                    else:
-                        # This was a labeled block, just pass through the closing
-                        result.append(line)
-                else:
-                    # Content line within code block
-                    if in_unlabeled_block:
-                        # Collect this line for processing
-                        code_lines.append(line)
-                    else:
-                        # Labeled block, just pass through
-                        result.append(line)
-
-            i += 1
-
-        # Handle case where file ends in middle of code block
-        if in_code_block and in_unlabeled_block:
-            code_content = ''.join(code_lines).rstrip('\n\r')
-            language = determine_language(code_content)
-            result.append(f'```{language}\n')
-            if code_content:
-                result.append(code_content + '\n')
-            result.append('```\n')
-
-        return ''.join(result)
+         return ''.join(result)
 
     def _generate_hugo_markdown(self, frontmatter: Dict, body: str) -> str:
         """Generate Hugo markdown file with frontmatter and body"""
