@@ -480,55 +480,129 @@ class DevsiteToHugoConverter:
         return content
 
     def _add_language_identifiers_to_code_blocks(self, content: str) -> str:
-        """Add language identifiers to code blocks without them to prevent KaTeX rendering issues"""
+        """Use defaults in case config.yaml is not set"""
+
+        language_patterns = self.config.get('code_language_patterns', {
+            'starlark': [
+                'cc_binary(', 'cc_library(', 'java_library(', 'load(', 
+                'py_binary(', 'py_library(', 'BUILD', 'WORKSPACE',
+                'cc_toolchain(', 'toolchain(', 'filegroup(', 'exports_files('
+            ],
+            'bash': [
+                'bazel build', 'bazel test', 'bazel run', '#!/bin/bash',
+                'echo ', 'export ', 'source ', '$', 'npm ', 'yarn '
+            ],
+            'python': [
+                'def ', 'class ', 'import ', 'from ', 'print(', '__init__',
+                'self.', '@', 'lambda ', 'return '
+            ],
+            'cpp': [
+                '#include', 'int main', 'std::', 'namespace ', 'cout <<',
+                'void ', 'template<', 'nullptr', '.cc', '.cpp', '.h'
+            ],
+            'java': [
+                'public class', 'private ', 'protected ', 'import java',
+                'package ', 'extends ', 'implements ', '@Override'
+            ],
+            'javascript': [
+                'function ', 'const ', 'let ', 'var ', '=>', 'console.log',
+                'require(', 'export ', 'import ', 'async ', 'await '
+            ],
+            'yaml': [
+                'name:', 'type:', '- name:', 'kind:', 'apiVersion:'
+            ],
+            'json': [
+                '{"', '":', '": '
+            ]
+        })
 
         def determine_language(code_content):
-            """Determine appropriate language identifier based on code content"""
-            code_lower = code_content.lower().strip()
+            if not code_content or not code_content.strip():
+                return 'text'
 
-            # Check for common patterns
-            if 'load(' in code_content or 'cc_library(' in code_content or 'java_library(' in code_content:
-                return 'starlark'  # Bazel/Starlark (was incorrectly 'python')
-            elif code_content.startswith('/') or 'BUILD' in code_content:
-                return 'text'  # File paths and directory structures
-            elif any(keyword in code_lower
-                     for keyword in ['def ', 'class ', 'import ', 'from ']):
-                return 'python'
-            elif any(keyword in code_lower
-                     for keyword in ['function', 'var ', 'const ', 'let ']):
-                return 'javascript'
-            elif any(keyword in code_lower
-                     for keyword in ['#include', 'int main', 'std::']):
-                return 'cpp'
-            elif any(keyword in code_lower
-                     for keyword in ['public class', 'import java']):
-                return 'java'
-            elif '$' in code_content or 'echo' in code_lower or code_content.startswith(
-                    '#!/'):
-                return 'bash'
+            # Check for directory structure indicators
+            if (code_content.strip().startswith('/') or 
+                any(char in code_content for char in ['└', '├', '│'])):
+                return 'text'
+
+            # Check language patterns
+            for language, patterns in language_patterns.items():
+                for pattern in patterns:
+                    if pattern in code_content:
+                        return language
+
+            return 'text'
+
+        lines = content.splitlines(keepends=True)  # Keep line endings
+        result = []
+        in_code_block = False
+        in_unlabeled_block = False
+        code_lines = []
+
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            stripped_line = line.rstrip()
+
+            if not in_code_block:
+                # Not in a code block, check if this starts one
+                if stripped_line == '```':
+                    # Starting an unlabeled code block
+                    in_code_block = True
+                    in_unlabeled_block = True
+                    code_lines = []
+                    # Don't add this line yet, we'll reconstruct it with language
+                elif re.match(r'^```[\w-]', stripped_line):
+                    # Starting a labeled code block, just pass it through
+                    in_code_block = True
+                    in_unlabeled_block = False
+                    result.append(line)
+                else:
+                    # Regular line
+                    result.append(line)
             else:
-                return 'text'  # Default for unknown content
+                # We're in a code block
+                if stripped_line == '```':
+                    # End of code block
+                    in_code_block = False
 
-        # Clean up any text that appears after closing backticks
-        # This ensures nothing ever appears after ```
-        content = re.sub(r'```[^\n\r]*(\n|$)', '```\n', content)
+                    if in_unlabeled_block:
+                        # This was an unlabeled block, process it
+                        code_content = ''.join(code_lines).rstrip('\n\r')
+                        language = determine_language(code_content)
 
-        # Pattern to match code blocks that start with ``` followed by only whitespace and newline
-        # This ensures we only match code blocks WITHOUT language identifiers
-        pattern = r'```\s*\n(.*?)\n```'
+                        # Add the processed block
+                        result.append(f'```{language}\n')
+                        if code_content:
+                            result.append(code_content + '\n')
+                        result.append('```\n')
 
-        def replace_code_block(match):
-            code_content = match.group(1)
+                        code_lines = []
+                        in_unlabeled_block = False
+                    else:
+                        # This was a labeled block, just pass through the closing
+                        result.append(line)
+                else:
+                    # Content line within code block
+                    if in_unlabeled_block:
+                        # Collect this line for processing
+                        code_lines.append(line)
+                    else:
+                        # Labeled block, just pass through
+                        result.append(line)
+
+            i += 1
+
+        # Handle case where file ends in middle of code block
+        if in_code_block and in_unlabeled_block:
+            code_content = ''.join(code_lines).rstrip('\n\r')
             language = determine_language(code_content)
-            return f'```{language}\n{code_content}\n```'
+            result.append(f'```{language}\n')
+            if code_content:
+                result.append(code_content + '\n')
+            result.append('```\n')
 
-        # Apply the replacement using multiline and dotall flags
-        result = re.sub(pattern,
-                        replace_code_block,
-                        content,
-                        flags=re.MULTILINE | re.DOTALL)
-
-        return result
+        return ''.join(result)
 
     def _generate_hugo_markdown(self, frontmatter: Dict, body: str) -> str:
         """Generate Hugo markdown file with frontmatter and body"""

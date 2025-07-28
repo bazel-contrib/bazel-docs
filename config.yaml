@@ -17,7 +17,7 @@ hugo:
   
 # Content mapping - organized into 4 main categories
 content_mapping:
-  # TUTORIALS - Learning-oriented content
+  # TUTORIALS - Step-by-step guides for users
   tutorials:
     type: "tutorials"
     weight: 10
@@ -31,7 +31,7 @@ content_mapping:
     weight: 30
     category: "Tutorials"
     
-  # HOW-TO GUIDES - Problem-solving oriented
+  # HOW-TO GUIDES - Practical instructions for specific tasks
   install:
     type: "how-to-guides"
     weight: 10
@@ -65,7 +65,7 @@ content_mapping:
     weight: 80
     category: "How-To Guides"
   
-  # EXPLANATIONS - Understanding-oriented content
+  # EXPLANATIONS - In-depth articles explaining concepts and features
   concepts:
     type: "explanations"
     weight: 10
@@ -95,7 +95,7 @@ content_mapping:
     weight: 70
     category: "Explanations"
   
-  # REFERENCE - Information-oriented content
+  # REFERENCE - Detailed reference material for advanced users
   reference:
     type: "reference"
     weight: 10
@@ -155,3 +155,146 @@ file_patterns:
     - "*.bzl"
     - ".git/**"
     - "node_modules/**"
+
+# Used to automatically detect language for code blocks without explicit language identifiers
+code_language_patterns:
+  starlark:
+    - "cc_binary("
+    - "cc_library("
+    - "java_library("
+    - "py_binary("
+    - "py_library("
+    - "load("
+    - "BUILD"
+    - "WORKSPACE"
+    - "bazel-"
+    - "name ="
+    - "srcs ="
+    - "deps ="
+  bash:
+    - "bazel build"
+    - "bazel test"
+    - "bazel run"
+    - "bazel query"
+    - "#!/bin/bash"
+    - "#!/bin/sh"
+    - "echo "
+    - "export "
+    - "source "
+    - "$("
+    - "${" 
+    - "npm "
+    - "yarn "
+    - "git "
+    - "cd "
+    - "mkdir "
+    - "rm "
+    - "cp "
+  python:
+    - "def "
+    - "class "
+    - "import "
+    - "from "
+    - "print("
+    - "__init__"
+    - "self."
+    - "@"
+    - "lambda "
+    - "return "
+    - "if __name__"
+    - "try:"
+    - "except:"
+  cpp:
+    - "#include"
+    - "int main"
+    - "std::"
+    - "namespace "
+    - "cout <<"
+    - "cin >>"
+    - "void "
+    - "template<"
+    - "nullptr"
+    - "using namespace"
+    - "printf("
+    - "scanf("
+  java:
+    - "public class"
+    - "private "
+    - "protected "
+    - "import java"
+    - "package "
+    - "extends "
+    - "implements "
+    - "@Override"
+    - "System.out.println"
+    - "new "
+    - "throw new"
+    - "catch ("
+  javascript:
+    - "function "
+    - "const "
+    - "let "
+    - "var "
+    - "=>"
+    - "console.log"
+    - "require("
+    - "export "
+    - "import "
+    - "async "
+    - "await "
+    - "document."
+    - "window."
+    - "addEventListener"
+  typescript:
+    - "interface "
+    - "type "
+    - ": string"
+    - ": number"
+    - ": boolean"
+    - "enum "
+    - "readonly "
+    - "as "
+  yaml:
+    - "name:"
+    - "type:"
+    - "- name:"
+    - "kind:"
+    - "apiVersion:"
+    - "metadata:"
+    - "spec:"
+  json:
+    - '{"'
+    - '":'
+    - '": '
+    - '['
+    - '],'
+  xml:
+    - "<?xml"
+    - "<"
+    - "/>"
+    - "xmlns"
+  html:
+    - "<!DOCTYPE"
+    - "<html"
+    - "<body"
+    - "<div"
+    - "<span"
+    - "<p>"
+    - "<h1"
+  css:
+    - "body {"
+    - "div {"
+    - ".class"
+    - "#id"
+    - "color:"
+    - "background:"
+    - "@media"
+  sql:
+    - "SELECT "
+    - "FROM "
+    - "WHERE "
+    - "INSERT INTO"
+    - "UPDATE "
+    - "DELETE FROM"
+    - "CREATE TABLE"
+    - "DROP TABLE"

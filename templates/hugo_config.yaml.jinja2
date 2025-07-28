@@ -13,6 +13,13 @@ layoutDir: "layouts"
 staticDir: "static"
 archetypeDir: "archetypes"
 
+# Cache configuration
+caches:
+  images:
+    dir: :cacheDir/images
+
+math: false
+
 # Build configuration
 buildDrafts: false
 buildFuture: false
@@ -93,8 +100,6 @@ params:
     
   # Disable math rendering
   katex:
-    enable: false
-  math:
     enable: false
   # Disable MathJax
   mathjax:

@@ -3,11 +3,10 @@ CSS Converter Module
 Handles conversion of CSS files to Hugo-compatible SCSS
 """
 
-import os
 import re
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 
