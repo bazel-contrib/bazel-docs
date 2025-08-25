@@ -93,7 +93,7 @@ class DevsiteParser:
                 section_info = self._analyze_section(item)
                 if section_info:
                     structure[item.name] = section_info
-        
+                    
         return structure
     
     def _analyze_section(self, section_dir: Path) -> Optional[Dict]:
@@ -180,13 +180,15 @@ class DevsiteParser:
                 'title': section_info.get('config', {}).get('index', {}).get('title', 
                                                                                section_name.replace('-', ' ').title()),
                 'type': mapping.get('type', 'docs'),
-                'weight': mapping.get('weight', 100),
+                'weight': mapping.get('weight', 10),
                 'path': section_info['path'],
                 'files': section_info['files'],
                 'subsections': section_info['subsections']
             }
-            
-            sections.append(section_data)
+            if section_name in self.config.get('content_mapping', {}).keys():
+                sections.append(section_data)
+            else:
+                logger.warning(f"No mapping found for section '{section_name}' in config.yaml; skipping.")
         
         # Sort by weight
         sections.sort(key=lambda x: x['weight'])

@@ -296,7 +296,6 @@ class DevsiteToHugoConverter:
                 hugo_frontmatter[hugo_field] = frontmatter[devsite_field]
 
         # Add Hugo-specific fields
-        hugo_frontmatter['type'] = 'docs'  # Default to docs template
         hugo_frontmatter['weight'] = frontmatter.get('weight', 1)
 
         # Add title from H1 if not present in frontmatter
@@ -308,10 +307,6 @@ class DevsiteToHugoConverter:
         # Determine linkTitle from title if not present
         if 'title' in hugo_frontmatter and 'linkTitle' not in hugo_frontmatter:
             hugo_frontmatter['linkTitle'] = hugo_frontmatter['title']
-
-        # Add date if not present
-        if 'date' not in hugo_frontmatter:
-            hugo_frontmatter['date'] = '2024-01-01'
 
         return hugo_frontmatter
 
@@ -639,10 +634,6 @@ class DevsiteToHugoConverter:
     def _generate_hugo_config(self, output_path: str) -> None:
         """Generate Hugo configuration file"""
         self.hugo_generator.generate_config(output_path)
-
-    def _generate_layouts(self, output_path: str) -> None:
-        """Generate Hugo layout templates"""
-        self.hugo_generator.generate_layouts(output_path)
 
     def _generate_section_indices(self, devsite_structure: Dict,
                                   output_path: str) -> None:

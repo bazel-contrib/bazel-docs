@@ -1,27 +1,10 @@
 ---
 title: "{{ section.title }}"
-linkTitle: "{{ section.linkTitle | default(section.title) }}"
+{% if section.linkTitle %}linkTitle: "{{ section.linkTitle }}"{% endif %}
 {% if section.description %}description: "{{ section.description }}"{% endif %}
-type: "{{ section.type | default('docs') }}"
-weight: {{ section.weight | default(1) }}
+{% if section.type %}type: "{{ section.type }}"{% endif %}
+{% if section.weight%}weight: "{{ section.weight }}"{% endif %}
+{% if 'cascade' in section and section.cascade.type is defined %}
 cascade:
-  type: "{{ section.type | default('docs') }}"
+  type: "{{ section.cascade.type }}"{% endif %}
 ---
-
-# {{ section.title }}
-
-{% if section.description %}
-{{ section.description }}
-{% endif %}
-
-{% if section.overview %}
-{{ section.overview }}
-{% endif %}
-
-{% if section.subsections %}
-## Subsections
-
-{% for subsection in section.subsections %}
-- [{{ subsection.title }}]({{ subsection.path }}){% if subsection.description %} - {{ subsection.description }}{% endif %}
-{% endfor %}
-{% endif %}

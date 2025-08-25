@@ -18,99 +18,103 @@ hugo:
 content_mapping:
   # TUTORIALS - Step-by-step guides for users
   tutorials:
-    type: "tutorials"
-    weight: 10
-    category: "Tutorials"
+    type: "docs"
+    weight: 1
+    category: "tutorials"
   start:
-    type: "tutorials"
-    weight: 20
-    category: "Tutorials"
+    type: "docs"
+    weight: 2
+    category: "tutorials"
   basics:
-    type: "tutorials"
-    weight: 30
-    category: "Tutorials"
+    type: "docs"
+    weight: 3
+    category: "tutorials"
     
   # HOW-TO GUIDES - Practical instructions for specific tasks
   install:
-    type: "how-to-guides"
-    weight: 10
-    category: "How-To Guides"
+    type: "docs"
+    weight: 1
+    category: "how-to-guides"
   configure:
-    type: "how-to-guides"
-    weight: 20
-    category: "How-To Guides"
+    type: "docs"
+    weight: 2
+    category: "how-to-guides"
   build:
-    type: "how-to-guides"
-    weight: 30
-    category: "How-To Guides"
+    type: "docs"
+    weight: 3
+    category: "how-to-guides"
   run:
-    type: "how-to-guides"
-    weight: 40
-    category: "How-To Guides"
+    type: "docs"
+    weight: 4
+    category: "how-to-guides"
   remote:
-    type: "how-to-guides"
-    weight: 50
-    category: "How-To Guides"
+    type: "docs"
+    weight: 5
+    category: "how-to-guides"
   migrate:
-    type: "how-to-guides"
-    weight: 60
-    category: "How-To Guides"
+    type: "docs"
+    weight: 6
+    category: "how-to-guides"
   rules:
-    type: "how-to-guides"
-    weight: 70
-    category: "How-To Guides"
+    type: "docs"
+    weight: 7
+    category: "how-to-guides"
   docs:
-    type: "how-to-guides"
-    weight: 80
-    category: "How-To Guides"
+    type: "docs"
+    weight: 8
+    category: "how-to-guides"
+  brand:
+    type: "docs"
+    weight: 9
+    category: "how-to-guides"
   
   # EXPLANATIONS - In-depth articles explaining concepts and features
   concepts:
-    type: "explanations"
-    weight: 10
-    category: "Explanations"
+    type: "docs"
+    weight: 1
+    category: "explanations"
   extending:
-    type: "explanations"
-    weight: 20
-    category: "Explanations"
+    type: "docs"
+    weight: 2
+    category: "explanations"
   external:
-    type: "explanations"
-    weight: 30
-    category: "Explanations"
+    type: "docs"
+    weight: 3
+    category: "explanations"
   about:
-    type: "explanations"
-    weight: 40
-    category: "Explanations"
+    type: "docs"
+    weight: 4
+    category: "explanations"
   community:
-    type: "explanations"
-    weight: 50
-    category: "Explanations"
+    type: "docs"
+    weight: 5
+    category: "explanations"
   contribute:
-    type: "explanations"
-    weight: 60
-    category: "Explanations"
+    type: "docs"
+    weight: 6
+    category: "explanations"
   release:
-    type: "explanations"
-    weight: 70
-    category: "Explanations"
+    type: "docs"
+    weight: 7
+    category: "explanations"
   
   # REFERENCE - Detailed reference material for advanced users
   reference:
-    type: "reference"
-    weight: 10
-    category: "Reference"
+    type: "docs"
+    weight: 1
+    category: "reference"
   query:
-    type: "reference"
-    weight: 20
-    category: "Reference"
+    type: "docs"
+    weight: 2
+    category: "reference"
   versions:
-    type: "reference"
-    weight: 30
-    category: "Reference"
+    type: "docs"
+    weight: 3
+    category: "reference"
   advanced:
-    type: "reference"
-    weight: 40
-    category: "Reference"
+    type: "docs"
+    weight: 4
+    category: "reference"
 
 # CSS conversion settings
 css_conversion:
