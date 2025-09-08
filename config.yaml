@@ -14,9 +14,12 @@ hugo:
   languageCode: "en-us"
   theme: "docsy"
   
-# Content mapping - organized into 4 main categories
 content_mapping:
-  # TUTORIALS - Step-by-step guides for users
+  # set 'enable_category_indices' to true to generate _index.md files for categories
+  # also necessary to enable category menus in Sidebar
+  # When set to false it shows a monolithic list of all pages
+  # under the 'docs' menu item
+  enable_category_indices: false
   tutorials:
     type: "docs"
     weight: 1
@@ -29,8 +32,6 @@ content_mapping:
     type: "docs"
     weight: 3
     category: "tutorials"
-    
-  # HOW-TO GUIDES - Practical instructions for specific tasks
   install:
     type: "docs"
     weight: 1
@@ -67,8 +68,6 @@ content_mapping:
     type: "docs"
     weight: 9
     category: "how-to-guides"
-  
-  # EXPLANATIONS - In-depth articles explaining concepts and features
   concepts:
     type: "docs"
     weight: 1
@@ -97,8 +96,6 @@ content_mapping:
     type: "docs"
     weight: 7
     category: "explanations"
-  
-  # REFERENCE - Detailed reference material for advanced users
   reference:
     type: "docs"
     weight: 1

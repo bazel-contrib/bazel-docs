@@ -97,34 +97,6 @@ class HugoGenerator:
             'weight': 1
         }
         
-        # Create the 4 main categories
-        categories = [
-            {
-                'title': 'Tutorials',
-                'path': '/tutorials/',
-                'description': TUTORIALS_DESCRIPTION,
-                'weight': 1
-            },
-            {
-                'title': 'How-To Guides',
-                'path': '/how-to-guides/',
-                'description': HOW_TO_GUIDES_DESCRIPTION,
-                'weight': 2
-            },
-            {
-                'title': 'Explanations',
-                'path': '/explanations/',
-                'description': EXPLANATIONS_DESCRIPTION,
-                'weight': 3
-            },
-            {
-                'title': 'Reference',
-                'path': '/reference/',
-                'description': REFERENCE_DESCRIPTION,
-                'weight': 4
-            }
-        ]
-        
         # Render main index
         template = self.template_env.get_template('section_index.jinja2')
         index_content = template.render({
@@ -133,7 +105,6 @@ class HugoGenerator:
                 'description': context['description'],
                 'type': 'docs',
                 'weight': 1,
-                'subsections': categories
             }
         })
         
@@ -144,7 +115,8 @@ class HugoGenerator:
             f.write(index_content)
         
         # Generate category index files
-        self._generate_category_indices(content_dir, devsite_structure)
+        if self.config.get('content_mapping').get('enable_category_indices'):
+            self._generate_category_indices(content_dir, devsite_structure)
         
         logger.debug(f"Generated main index: {index_file}")
     

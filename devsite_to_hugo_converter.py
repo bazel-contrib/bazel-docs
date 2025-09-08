@@ -86,8 +86,7 @@ class DevsiteToHugoConverter:
                 return False
 
             # Convert content files
-            conversion_stats = self._convert_content_files(
-                devsite_structure, source_path, output_path, dry_run,
+            conversion_stats = self._convert_content_files(source_path, output_path, dry_run,
                 incremental)
 
             # Convert static assets
@@ -140,8 +139,10 @@ class DevsiteToHugoConverter:
             dir_path.mkdir(parents=True, exist_ok=True)
             logger.debug(f"Created directory: {dir_path}")
 
-    def _convert_content_files(self, devsite_structure: Dict, source_path: str,
-                               output_path: str, dry_run: bool,
+    def _convert_content_files(self, 
+                               source_path: str,
+                               output_path: str, 
+                               dry_run: bool,
                                incremental: bool) -> Dict:
         """Convert all content files from Devsite to Hugo format"""
         conversion_stats = {
@@ -172,9 +173,10 @@ class DevsiteToHugoConverter:
                 category_path = self._get_category_path(relative_path)
                 
                 # Convert file
+                if category_path == Path("how-to-guides"):
+                    raise Exception(f"{category_path} is not a valid category. Please update config.yaml to use 'docs' or 'tutorials' instead.")
                 if self._convert_single_file(
-                        md_file, output_dir / 'content' / category_path,
-                        devsite_structure, dry_run):
+                        md_file, output_dir / 'content' / category_path, dry_run):
                     conversion_stats['converted_files'] += 1
                 else:
                     conversion_stats['error_files'] += 1
@@ -193,6 +195,11 @@ class DevsiteToHugoConverter:
             return relative_path
         
         section_name = parts[0]
+    
+        # Orphan file like "help.md" -> put under Reference
+        if len(parts) == 1 and parts[0] == "help.md":
+            logger.info(f"Orphan file {parts[0]} detected, placing under 'reference' category")
+            return Path("docs") / Path("reference") / parts[0]
         
         # Look up the category for this section
         if section_name in self.config['content_mapping']:
@@ -201,12 +208,9 @@ class DevsiteToHugoConverter:
             
             # Return path with category prefix
             return Path(category_type) / relative_path
-        
-        # Default to original path if no mapping found
-        return relative_path
+        raise Exception(f"No category mapping found for section '{section_name}', using original path")
 
-    def _convert_single_file(self, source_file: Path, output_file: Path,
-                             devsite_structure: Dict, dry_run: bool) -> bool:
+    def _convert_single_file(self, source_file: Path, output_file: Path, dry_run: bool) -> bool:
         """Convert a single markdown file from Devsite to Hugo format"""
         try:
             # Read source file
@@ -217,9 +221,7 @@ class DevsiteToHugoConverter:
             frontmatter, body = self._parse_markdown_file(content)
 
             # Convert frontmatter to Hugo format
-            hugo_frontmatter = self._convert_frontmatter(
-                frontmatter, source_file, devsite_structure)
-
+            hugo_frontmatter = self._convert_frontmatter(frontmatter=frontmatter)
             # Extract title from H1 if not present in frontmatter
             title_from_h1 = None
             h1_match = re.search(r'^# (.+)$', body, re.MULTILINE)
@@ -277,8 +279,7 @@ class DevsiteToHugoConverter:
 
         return {}, content
 
-    def _convert_frontmatter(self, frontmatter: Dict, source_file: Path,
-                             devsite_structure: Dict) -> Dict:
+    def _convert_frontmatter(self, frontmatter: Dict) -> Dict:
         """Convert Devsite frontmatter to Hugo format"""
         hugo_frontmatter = {}
 
