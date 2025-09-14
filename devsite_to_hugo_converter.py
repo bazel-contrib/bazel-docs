@@ -405,9 +405,17 @@ class DevsiteToHugoConverter:
                 return match.group(0)
 
             # Handle relative links to .md files
-            if link_url.endswith('.md'):
+            if link_url.endswith('.md') or '.md#' in link_url:
+                # Split URL and anchor
+                if '#' in link_url:
+                    url_part, anchor_part = link_url.split('#', 1)
+                    anchor = f'#{anchor_part}'
+                else:
+                    url_part = link_url
+                    anchor = ''
+
                 # Normalize the path
-                normalized_path = link_url.replace('.md', '')
+                normalized_path = url_part.replace('.md', '')
                 # Remove leading './' if present
                 if normalized_path.startswith('./'):
                     normalized_path = normalized_path[2:]
@@ -416,7 +424,7 @@ class DevsiteToHugoConverter:
                     normalized_path = normalized_path[1:]
 
                 # Use simple relative links to avoid shortcode issues
-                return f'[{link_text}](/{normalized_path}/)'
+                return f'[{link_text}](/{normalized_path}/{anchor})'
 
             # Handle relative links to directories (assume they have index pages)
             if '/' in link_url and not '.' in link_url.split('/')[-1]:
