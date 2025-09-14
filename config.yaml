@@ -13,6 +13,16 @@ hugo:
   baseURL: "https://bazel-docs-68tmf.ondigitalocean.app/"
   languageCode: "en-us"
   theme: "docsy"
+
+# External links configuration
+external_links:
+  # Base URL for Bazel API documentation
+  bazel_api_base: "https://bazel.build"
+  # Paths that should be redirected to external API docs
+  external_paths:
+    - "/rules/"
+    - "/reference/"
+    - "/docs/build-ref"
   
 content_mapping:
   # set 'enable_category_indices' to true to generate _index.md files for categories

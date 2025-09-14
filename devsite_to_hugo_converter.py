@@ -404,6 +404,11 @@ class DevsiteToHugoConverter:
             if link_url.startswith('#'):
                 return match.group(0)
 
+            # Handle external API links (absolute paths to external documentation)
+            if link_url.startswith('/') and self._should_redirect_to_external(link_url):
+                external_base = self.config.get('external_links', {}).get('bazel_api_base', 'https://bazel.build')
+                return f'[{link_text}]({external_base}{link_url})'
+
             # Handle relative links to .md files
             if link_url.endswith('.md') or '.md#' in link_url:
                 # Split URL and anchor
@@ -477,6 +482,11 @@ class DevsiteToHugoConverter:
             return match.group(0)
 
         return re.sub(link_pattern, replace_link, content, flags=re.DOTALL)
+
+    def _should_redirect_to_external(self, link_url: str) -> bool:
+        """Check if a link should be redirected to external Bazel API docs"""
+        external_paths = self.config.get('external_links', {}).get('external_paths', [])
+        return any(link_url.startswith(path) for path in external_paths)
 
     def _fix_directory_structures(self, content: str) -> str:
         """Fix directory structure formatting to use proper code blocks"""
