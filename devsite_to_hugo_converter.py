@@ -233,7 +233,7 @@ class DevsiteToHugoConverter:
                 hugo_frontmatter['title'] = title_from_h1
 
             # Convert body content
-            hugo_body = self._convert_body_content(body)
+            hugo_body = self._convert_body_content(body, source_file)
 
             # Remove duplicate H1 title if it matches frontmatter title
             if 'title' in hugo_frontmatter:
@@ -311,7 +311,7 @@ class DevsiteToHugoConverter:
 
         return hugo_frontmatter
 
-    def _convert_body_content(self, body: str) -> str:
+    def _convert_body_content(self, body: str, source_file: Path) -> str:
         """Convert Devsite-specific content to Hugo format"""
         # Remove [TOC] directive (let Docsy handle TOC automatically)
         body = re.sub(r'\[TOC\]', '', body)
@@ -342,7 +342,7 @@ class DevsiteToHugoConverter:
         body = body.strip()  # Remove trailing whitespace
 
         # Convert internal links
-        body = self._convert_internal_links(body)
+        body = self._convert_internal_links(body, source_file)
 
         # Fix directory structure formatting
         body = self._fix_directory_structures(body)
@@ -383,7 +383,7 @@ class DevsiteToHugoConverter:
 
         return body
 
-    def _convert_internal_links(self, content: str) -> str:
+    def _convert_internal_links(self, content: str, source_file: Path) -> str:
         """Convert internal links to Hugo format"""
         # Pattern for markdown links - handle multi-line links
         link_pattern = r'\[([^\]]+)\]\(([^)]+)\)'
@@ -416,9 +416,45 @@ class DevsiteToHugoConverter:
 
                 # Normalize the path
                 normalized_path = url_part.replace('.md', '')
-                # Remove leading './' if present
-                if normalized_path.startswith('./'):
-                    normalized_path = normalized_path[2:]
+
+                # Handle relative paths by resolving against source file location
+                if not normalized_path.startswith('/'):
+                    # Get the source file's directory relative to the source root
+                    source_dir = source_file.parent
+                    # Find the source root (work/bazel-source/site/en)
+                    source_root = None
+                    for parent in source_file.parents:
+                        if parent.name == 'en' and parent.parent.name == 'site':
+                            source_root = parent
+                            break
+
+                    if source_root:
+                        # Get relative directory from source root
+                        rel_source_dir = source_dir.relative_to(source_root)
+
+                        # Remove leading './' if present
+                        if normalized_path.startswith('./'):
+                            normalized_path = normalized_path[2:]
+
+                        # Resolve relative path
+                        if str(rel_source_dir) == '.':
+                            # File is in root, just use the filename
+                            full_path = normalized_path
+                        else:
+                            # Combine source directory with relative path
+                            full_path = str(rel_source_dir / normalized_path)
+
+                        # Get category mapping for this path
+                        path_parts = full_path.split('/')
+                        if path_parts:
+                            section_name = path_parts[0]
+                            if section_name in self.config.get('content_mapping', {}):
+                                mapping = self.config['content_mapping'][section_name]
+                                category_type = mapping['type']
+                                return f'[{link_text}](/{category_type}/{full_path}/{anchor})'
+                            else:
+                                return f'[{link_text}]({full_path}/{anchor})'
+
                 # Remove leading '/' if present (absolute paths within site)
                 if normalized_path.startswith('/'):
                     normalized_path = normalized_path[1:]
