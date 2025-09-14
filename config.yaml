@@ -16,7 +16,7 @@ hugo:
 
 # External links configuration
 external_links:
-  # Base URL for Bazel API documentation
+  # Base URL for legacy Bazel API documentation
   bazel_api_base: "https://bazel.build"
   # Paths that should be redirected to external API docs
   external_paths:
