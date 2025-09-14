@@ -331,6 +331,9 @@ class DevsiteToHugoConverter:
                       body,
                       flags=re.DOTALL)
 
+        # Remove disableFinding directives
+        body = re.sub(r'\{#\s*disableFinding\([^)]*\)\s*#\}', '', body)
+
         # Remove Project and Book references
         body = re.sub(r'^Project:\s*.*$', '', body, flags=re.MULTILINE)
         body = re.sub(r'^Book:\s*.*$', '', body, flags=re.MULTILINE)
