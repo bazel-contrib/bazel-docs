@@ -1,0 +1,30 @@
+# This workflow is used to generate docs from the Bazel repo
+name: Generate docs from Bazel repo
+on:
+    push:
+        branches:
+          - 'main'
+    workflow_dispatch:
+        inputs:
+            bazelCommitHash:
+                description: 'The commit hash of the Bazel repo to use'
+                type: string
+                default: origin/main
+    workflow_call:
+        inputs:
+            bazelCommitHash:
+                description: 'The commit hash of the Bazel repo to use'
+                type: string
+                default: origin/main
+     
+jobs:
+    codegen:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - name: Checkout submodules
+              run: git submodule update --init -- upstream
+            
+            - name: Checkout commit of BCR submodule
+              working-directory: upstream
+              run: git checkout ${{ inputs.bcrCommitHash }}
