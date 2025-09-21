@@ -21,9 +21,9 @@ See also:
 * [Toolchains][Toolchains]
 * [Background][Background]
 
-## Status {:#status}
+## Status 
 
-### C++ {:#cxx}
+### C++ 
 
 C++ rules use platforms to select toolchains when
 `--incompatible_enable_cc_toolchain_resolution` is set.
@@ -40,13 +40,13 @@ instead of the legacy:
 bazel build //:my_cpp_project` --cpu=... --crosstool_top=...  --compiler=...
 ```
 
-This will be enabled by default in Bazel 7.0 ([#7260](https://github.com/bazelbuild/bazel/issues/7260){: .external}).
+This will be enabled by default in Bazel 7.0 ([#7260](https://github.com/bazelbuild/bazel/issues/7260)).
 
 To test your C++ project with platforms, see
 [Migrating Your Project](#migrating-your-project) and
 [Configuring C++ toolchains].
 
-### Java {:#java}
+### Java 
 
 Java rules use platforms to select toolchains.
 
@@ -55,7 +55,7 @@ This replaces legacy flags `--java_toolchain`, `--host_java_toolchain`,
 
 See [Java and Bazel](/docs/bazel-and-java) for details.
 
-### Android {:#android}
+### Android 
 
 Android rules use platforms to select toolchains when
 `--incompatible_enable_android_toolchain_resolution` is set.
@@ -69,35 +69,35 @@ bazel build //:my_android_project --android_platforms=//:my_android_platform
 instead of with legacy flags like  `--android_crosstool_top`, `--android_cpu`,
 and `--fat_apk_cpu`.
 
-This will be enabled by default in Bazel 7.0 ([#16285](https://github.com/bazelbuild/bazel/issues/16285){: .external}).
+This will be enabled by default in Bazel 7.0 ([#16285](https://github.com/bazelbuild/bazel/issues/16285)).
 
 To test your Android project with platforms, see
 [Migrating Your Project](#migrating-your-project).
 
-### Apple {:#apple}
+### Apple 
 
-[Apple rules]{: .external} do not support platforms and are not yet scheduled
+[Apple rules] do not support platforms and are not yet scheduled
 for support.
 
 You can still use platform APIs with Apple builds (for example, when building
 with a mixture of Apple rules and pure C++) with [platform
 mappings](#platform-mappings).
 
-### Other languages {:#other-languages}
+### Other languages 
 
-* [Go rules]{: .external} fully support platforms
-* [Rust rules]{: .external} fully support platforms.
+* [Go rules] fully support platforms
+* [Rust rules] fully support platforms.
 
 If you own a language rule set, see [Migrating your rule set] for adding
 support.
 
-## Background {:#background}
+## Background 
 
 *Platforms* and *toolchains* were introduced to standardize how software
 projects target different architectures and cross-compile.
 
 This was
-[inspired][Inspiration]{: .external}
+[inspired][Inspiration]
 by the observation that language maintainers were already doing this in ad
 hoc, incompatible ways. For example, C++ rules used `--cpu` and
  `--crosstool_top` to declare a target CPU and toolchain. Neither of these
@@ -111,7 +111,7 @@ Bazel is intended for large, multi-language, multi-platform projects. This
 demands more principled support for these concepts, including a clear
 standard API.
 
-### Need for migration {:#migration}
+### Need for migration 
 
 Upgrading to the new API requires two efforts: releasing the API and upgrading
 rule logic to use it.
@@ -126,7 +126,7 @@ plus fair warning for project owners to test against upcoming changes.
 
 This is why this is an ongoing migration.
 
-### Goal {:#goal}
+### Goal 
 
 This migration is complete when all projects build with the form:
 
@@ -139,7 +139,7 @@ This implies:
 1. Your project's rules choose the right toolchains for `//:myplatform`.
 1. Your project's dependencies choose the right toolchains for `//:myplatform`.
 1. `//:myplatform` references
-[common declarations][Common Platform Declarations]{: .external}
+[common declarations][Common Platform Declarations]
 of `CPU`, `OS`, and other generic, language-independent properties
 1. All relevant [`select()`s][select()] properly match `//:myplatform`.
 1. `//:myplatform` is defined in a clear, accessible place: in your project's
@@ -152,7 +152,7 @@ deprecated and removed as soon as it's safe to do so.
 Ultimately, this will be the *sole* way to configure architectures.
 
 
-## Migrating your project {:#migrating-your-project}
+## Migrating your project 
 
 If you build with languages that support platforms, your build should already
 work with an invocation like:
@@ -186,7 +186,7 @@ For your project to build, you need to check the following:
 
 If you still have problems, [reach out](#questions) for support.
 
-### Default platforms {:#default-platforms}
+### Default platforms 
 
 Project owners should define explicit
 [platforms][Defining Constraints and Platforms] to describe the architectures
@@ -197,9 +197,9 @@ local build machine. This is auto-generated at `@platforms//host` (aliased as
 `@bazel_tools//tools:host_platform`)
 so there's no need to explicitly define it. It maps the local machine's `OS`
 and `CPU` with `constraint_value`s declared in
-[`@platforms`](https://github.com/bazelbuild/platforms){: .external}.
+[`@platforms`](https://github.com/bazelbuild/platforms).
 
-### `select()` {:#select}
+### `select()` 
 
 Projects can [`select()`][select()] on
 [`constraint_value` targets][constraint_value Rule] but not complete
@@ -236,7 +236,7 @@ When migrating your project to platforms, you must either convert them to
 `constraint_values` or use [platform mappings](#platform-mappings) to support
 both styles during migration.
 
-### Transitions {:#transitions}
+### Transitions 
 
 [Starlark transitions][Starlark transitions] change
 flags down parts of your build graph. If your project uses a transition that
@@ -249,7 +249,7 @@ When migrating your project to platforms, you must either convert changes like
 mappings](#platform-mappings) to support both styles during migration.
 window.
 
-## Migrating your rule set  {:#migrating-your-rule-set}
+## Migrating your rule set  
 
 If you own a rule set and want to support platforms, you need to:
 
@@ -274,10 +274,10 @@ If you own a rule set and want to support platforms, you need to:
 If you need to mix with rules that don't support platforms, you may need
 [platform mappings](#platform-mappings) to bridge the gap.
 
-### Common platform properties {:#common-platform-properties}
+### Common platform properties 
 
 Common, cross-language platform properties like `OS` and `CPU` should be
-declared in [`@platforms`](https://github.com/bazelbuild/platforms){: .external}.
+declared in [`@platforms`](https://github.com/bazelbuild/platforms).
 This encourages sharing, standardization, and cross-language compatibility.
 
 Properties unique to your rules should be declared in your rule's repo. This
@@ -286,9 +286,9 @@ responsible for.
 
 If your rules use custom-purpose OSes or CPUs, these should be declared in your
 rule's repo vs.
-[`@platforms`](https://github.com/bazelbuild/platforms){: .external}.
+[`@platforms`](https://github.com/bazelbuild/platforms).
 
-## Platform mappings {:#platform-mappings}
+## Platform mappings 
 
 *Platform mappings* is a temporary API that lets platform-aware logic mix with
 legacy logic in the same build. This is a blunt tool that's only intended to
@@ -326,9 +326,9 @@ By default Bazel reads mappings from the `platform_mappings` file in your
 workspace root. You can also set
 `--platform_mappings=//:my_custom_mapping`.
 
-See the [platform mappings design]{: .external} for details.
+See the [platform mappings design] for details.
 
-## API review {:#api-review}
+## API review 
 
 A [`platform`][platform Rule] is a collection of
 [`constraint_value` targets][constraint_value Rule]:
@@ -380,22 +380,22 @@ command line with [`--extra_toolchains`][extra_toolchains Flag].
 
 For more information see [here][Toolchains].
 
-## Questions {:#questions}
+## Questions 
 
 For general support and questions about the migration timeline, contact
-[bazel-discuss]{: .external} or the owners of the appropriate rules.
+[bazel-discuss] or the owners of the appropriate rules.
 
 For discussions on the design and evolution of the platform/toolchain APIs,
-contact [bazel-dev]{: .external}.
+contact [bazel-dev].
 
-## See also {:#see-also}
+## See also 
 
-* [Configurable Builds - Part 1]{: .external}
+* [Configurable Builds - Part 1]
 * [Platforms]
 * [Toolchains]
-* [Bazel Platforms Cookbook]{: .external}
-* [Platforms examples]{: .external}
-* [Example C++ toolchain]{: .external}
+* [Bazel Platforms Cookbook]
+* [Platforms examples]
+* [Example C++ toolchain]
 
 [Android Rules]: /docs/bazel-and-android
 [Apple Rules]: https://github.com/bazelbuild/rules_apple

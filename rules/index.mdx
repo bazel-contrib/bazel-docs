@@ -4,7 +4,7 @@ title: 'Rules'
 ---
 
 
-{% dynamic setvar source_file "site/en/rules/index.md" %}
+// {% dynamic setvar source_file "site/en/rules/index.md" %}
 
 The Bazel ecosystem has a growing and evolving set of rules to support popular
 languages and packages. Much of Bazel's strength comes from the ability to
@@ -12,39 +12,39 @@ languages and packages. Much of Bazel's strength comes from the ability to
 
 This page describes the recommended, native, and non-native Bazel rules.
 
-## Recommended rules {:#recommended-rules}
+## Recommended rules 
 
 Here is a selection of recommended rules:
 
 * [Android](/docs/bazel-and-android)
 * [C / C++](/docs/bazel-and-cpp)
-* [Docker/OCI](https://github.com/bazel-contrib/rules_oci){: .external}
-* [Go](https://github.com/bazelbuild/rules_go){: .external}
-* [Haskell](https://github.com/tweag/rules_haskell){: .external}
+* [Docker/OCI](https://github.com/bazel-contrib/rules_oci)
+* [Go](https://github.com/bazelbuild/rules_go)
+* [Haskell](https://github.com/tweag/rules_haskell)
 * [Java](/docs/bazel-and-java)
-* [JavaScript / NodeJS](https://github.com/bazelbuild/rules_nodejs){: .external}
-* [Maven dependency management](https://github.com/bazelbuild/rules_jvm_external){: .external}
+* [JavaScript / NodeJS](https://github.com/bazelbuild/rules_nodejs)
+* [Maven dependency management](https://github.com/bazelbuild/rules_jvm_external)
 * [Objective-C](/docs/bazel-and-apple)
-* [Package building](https://github.com/bazelbuild/rules_pkg){: .external}
-* [Protocol Buffers](https://github.com/bazelbuild/rules_proto#protobuf-rules-for-bazel){: .external}
-* [Python](https://github.com/bazelbuild/rules_python){: .external}
-* [Rust](https://github.com/bazelbuild/rules_rust){: .external}
-* [Scala](https://github.com/bazelbuild/rules_scala){: .external}
+* [Package building](https://github.com/bazelbuild/rules_pkg)
+* [Protocol Buffers](https://github.com/bazelbuild/rules_proto#protobuf-rules-for-bazel)
+* [Python](https://github.com/bazelbuild/rules_python)
+* [Rust](https://github.com/bazelbuild/rules_rust)
+* [Scala](https://github.com/bazelbuild/rules_scala)
 * [Shell](/reference/be/shell)
-* [Webtesting](https://github.com/bazelbuild/rules_webtesting){: .external} (Webdriver)
+* [Webtesting](https://github.com/bazelbuild/rules_webtesting) (Webdriver)
 
-The repository [Skylib](https://github.com/bazelbuild/bazel-skylib){: .external} contains
+The repository [Skylib](https://github.com/bazelbuild/bazel-skylib) contains
 additional functions that can be useful when writing new rules and new
 macros.
 
 The rules above were reviewed and follow our
-[requirements for recommended rules](/community/recommended-rules){: .external}.
+[requirements for recommended rules](/community/recommended-rules).
 Contact the respective rule set's maintainers regarding issues and feature
 requests.
 
 To find more Bazel rules, use a search engine, take a look on
-[awesomebazel.com](https://awesomebazel.com/){: .external}, or search on
-[GitHub](https://github.com/search?o=desc&q=bazel+rules&s=stars&type=Repositories){: .external}.
+[awesomebazel.com](https://awesomebazel.com/), or search on
+[GitHub](https://github.com/search?o=desc&q=bazel+rules&s=stars&type=Repositories).
 
 ## Native rules that do not apply to a specific programming language
 
@@ -74,7 +74,7 @@ BUILD files without a `load` statement.
   - [`xcode_config`](/reference/be/objective-c#xcode_config)
   - [`xcode_version`](/reference/be/objective-c#xcode_version)
 
-## Embedded non-native rules {:#embedded-rules}
+## Embedded non-native rules 
 
 Bazel also embeds additional rules written in [Starlark](/rules/language). Those can be loaded from
 the `@bazel_tools` built-in external repository.

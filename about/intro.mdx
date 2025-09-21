@@ -10,7 +10,7 @@ It uses a human-readable, high-level build language. Bazel supports projects in
 multiple languages and builds outputs for multiple platforms. Bazel supports
 large codebases across multiple repositories, and large numbers of users.
 
-## Benefits {:#benefits}
+## Benefits 
 
 Bazel offers the following advantages:
 
@@ -39,7 +39,7 @@ Bazel offers the following advantages:
     supported, and you can extend Bazel to support any other language or
     framework.
 
-## Using Bazel {:#using-bazel}
+## Using Bazel 
 
 To build or test a project with Bazel, you typically do the following:
 
@@ -54,7 +54,7 @@ To build or test a project with Bazel, you typically do the following:
 
     You write your `BUILD` file by declaring build targets using
     [Starlark](/rules/language), a domain-specific language. (See example
-    [here](https://github.com/bazelbuild/bazel/blob/master/examples/cpp/BUILD){: .external}.)
+    [here](https://github.com/bazelbuild/bazel/blob/master/examples/cpp/BUILD).)
 
     A build target specifies a set of input artifacts that Bazel will build plus
     their dependencies, the build rule Bazel will use to build it, and options
@@ -72,7 +72,7 @@ In addition to building, you can also use Bazel to run
 [tests](/reference/test-encyclopedia) and [query](/query/guide) the build
 to trace dependencies in your code.
 
-## Bazel build process {:#bazel-build-process}
+## Bazel build process 
 
 When running a build or a test, Bazel does the following:
 
@@ -92,7 +92,7 @@ correctness, you can set up Bazel to run builds and tests
 [hermetically](/basics/hermeticity) through sandboxing, minimizing skew
 and maximizing [reproducibility](/run/build#correct-incremental-rebuilds).
 
-### Action graph {:#action-graph}
+### Action graph 
 
 The action graph represents the build artifacts, the relationships between them,
 and the build actions that Bazel will perform. Thanks to this graph, Bazel can
@@ -101,7 +101,7 @@ file content as well as changes to actions, such as build or test commands, and
 know what build work has previously been done. The graph also enables you to
 easily [trace dependencies](/query/guide) in your code.
 
-## Getting started tutorials {:#getting-started-tutorials}
+## Getting started tutorials 
 
 To get started with Bazel, see [Getting Started](/start/) or jump
 directly to the Bazel tutorials:

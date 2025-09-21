@@ -16,6 +16,29 @@ BEGIN {
 # Remove lines that contain only '{% include "_buttons.html" %}'
 /^{% include "_buttons\.html" %}$/ { next }
 
+# Comment out lines containing '{% dynamic setvar'
+/{% dynamic setvar/ {
+    print "// " $0
+    next
+}
+
+# Remove anchor parts from headings (e.g., ## Title {:#anchor})
+/^#+ .* \{:#[^}]*\}$/ {
+    # Extract the heading text without the anchor
+    heading = $0
+    gsub(/\s*\{:#[^}]*\}$/, "", heading)
+    print heading
+    next
+}
+
+# Remove lines that contain only '{: .external}'
+/^\s*\{\s*:\s*\.external\s*\}\s*$/ { next }
+
+# Remove '{: .external}' anywhere it appears
+{
+    gsub(/\{: \.external\}/, "", $0)
+}
+
 # Convert first H1 to front-matter
 /^# / && first_h1_found == 0 {
     title = substr($0, 3)  # Remove "# " prefix

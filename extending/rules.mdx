@@ -171,7 +171,7 @@ dependency graph of targets.
 
 <a name="private-attributes"></a>
 
-### Private attributes and implicit dependencies {:#private_attributes_and_implicit_dependencies}
+### Private attributes and implicit dependencies 
 
 A dependency attribute with a default value creates an *implicit dependency*. It
 is implicit because it's a part of the target graph that the user doesn't
@@ -676,9 +676,9 @@ used otherwise. This output mechanism is deprecated because it doesn't support
 customizing the executable file's name at analysis time.
 
 See examples of an
-[executable rule](https://github.com/bazelbuild/examples/blob/main/rules/executable/fortune.bzl){: .external}
+[executable rule](https://github.com/bazelbuild/examples/blob/main/rules/executable/fortune.bzl)
 and a
-[test rule](https://github.com/bazelbuild/examples/blob/main/rules/test_rule/line_length.bzl){: .external}.
+[test rule](https://github.com/bazelbuild/examples/blob/main/rules/test_rule/line_length.bzl).
 
 [Executable rules](/reference/be/common-definitions#common-attributes-binaries) and
 [test rules](/reference/be/common-definitions#common-attributes-tests) have additional
@@ -809,7 +809,7 @@ should build in the same configuration or transition to an exec configuration.
 If a dependency attribute has the flag `executable = True`, `cfg` must be set
 explicitly. This is to guard against accidentally building a tool for the wrong
 configuration.
-[See example](https://github.com/bazelbuild/examples/blob/main/rules/actions_run/execute.bzl){: .external}
+[See example](https://github.com/bazelbuild/examples/blob/main/rules/actions_run/execute.bzl)
 
 In general, sources, dependent libraries, and executables that will be needed at
 runtime can use the same configuration.

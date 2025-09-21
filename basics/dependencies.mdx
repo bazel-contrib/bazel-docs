@@ -69,7 +69,7 @@ tooling to automatically manage `BUILD` files to avoid burdening developers.
 
 Some of these tools, such as `buildifier` and `buildozer`, are available with
 Bazel in the [`buildtools`
-directory](https://github.com/bazelbuild/buildtools){: .external}.
+directory](https://github.com/bazelbuild/buildtools).
 
 ## Minimizing Module Visibility
 
@@ -146,7 +146,7 @@ worth it as the codebase scales: explicitly adding a dependency to `BUILD` file
 is a one-time cost, but dealing with implicit transitive dependencies can cause
 ongoing problems as long as the build target exists. Bazel [enforces strict
 transitive
-dependencies](https://blog.bazel.build/2017/06/28/sjd-unused_deps.html){: .external}
+dependencies](https://blog.bazel.build/2017/06/28/sjd-unused_deps.html)
 on Java code by default.
 
 ### External dependencies
@@ -164,7 +164,7 @@ the project’s source code.
 Build systems can allow the versions of external dependencies to be managed
 either manually or automatically. When managed manually, the buildfile
 explicitly lists the version it wants to download from the artifact repository,
-often using a [semantic version string](https://semver.org/){: .external} such
+often using a [semantic version string](https://semver.org/) such
 as `1.1.4`. When managed automatically, the source file specifies a range of
 acceptable versions, and the build system always downloads the latest one. For
 example, Gradle allows a dependency version to be declared as “1.+” to specify
@@ -196,7 +196,7 @@ dependency couldn’t both be declared in the build system under different names
 That way, each target could choose which version of the dependency it wanted to
 use. This causes a lot of problems in practice, so Google enforces a strict
 [One-Version
-Rule](https://opensource.google/docs/thirdparty/oneversion/){: .external} for
+Rule](https://opensource.google/docs/thirdparty/oneversion/) for
 all third-party dependencies in our codebase.
 
 The biggest problem with allowing multiple versions is the diamond dependency
