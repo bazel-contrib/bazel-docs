@@ -1,3 +1,5 @@
+# Note: this name should be changed;
+# it will also require changing the Required Checks in the Branch Protection
 name: Build and Push Docker Image
 
 on:
@@ -5,11 +7,23 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches: [main]
-
-env:
-  IMAGE_NAME: ${{ github.repository }}
-
+    # called from trigger-from-bazel-repo.yml
+  workflow_dispatch:
+    inputs:
+        bazelCommitHash:
+          description: 'The commit hash of the Bazel repo to use'
+          type: string
+          default: origin/main
+  # allow debugging by triggering from the GitHub UI
+  workflow_call:
+    inputs:
+        bazelCommitHash:
+          description: 'The commit hash of the Bazel repo to use'
+          type: string
+          default: origin/main
 jobs:
+  # Like above, this name should be changed
+  # It will also require changing the Required Checks in the Branch Protection
   docker-build-push:
     runs-on: ubuntu-latest
     permissions:
@@ -17,16 +31,25 @@ jobs:
       packages: write
     
     steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        - uses: actions/checkout@v5
+        - name: Checkout submodules
+          run: git submodule update --init -- upstream
+        
+        - name: Checkout commit of BCR submodule
+          working-directory: upstream
+          run: git checkout ${{ inputs.bcrCommitHash }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          # ternary operator means it will push to Dockerhub 
-          # if branch is main
-          push: ${{ github.ref == 'refs/heads/main' }}
-          tags: ${{ env.IMAGE_NAME }}:latest
+        - name: Clean up mdx files
+          run: ./cleanup-mdx.sh
+
+        - name: Transform upstream docs to mdx
+          run: ./copy-upstream-docs.sh
+
+        - name: Assert that nothing is different
+          run: |
+            if untracked=$(git status --porcelain | grep "^??"); then
+                echo "Error: Untracked files found:"
+                echo "$untracked"
+                exit 1
+            fi
+            git diff --exit-code
