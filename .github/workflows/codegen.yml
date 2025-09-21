@@ -28,3 +28,7 @@ jobs:
             - name: Checkout commit of BCR submodule
               working-directory: upstream
               run: git checkout ${{ inputs.bcrCommitHash }}
+
+            # TODO: point to actual script Alan is working on
+            - name: Generate docs
+              run: ./copy-upstream-docs.sh

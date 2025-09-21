@@ -21,11 +21,11 @@
                 "groups": [
                   {
                     "group": "Why Bazel?",
-                    "pages": ["why-bazel"]
+                    "pages": ["about/why"]
                   },
                   {
                     "group": "Build system basics",
-                    "pages": ["build-system-basics"]
+                    "pages": ["basics/index"]
                   }
                 ]
               },
@@ -34,15 +34,15 @@
                 "groups": [
                   {
                     "group": "Install",
-                    "pages": ["install"]
+                    "pages": ["install/index"]
                   },
                   {
                     "group": "First build tutorials",
-                    "pages": ["first-build-tutorials"]
+                    "pages": ["start/getting-started"]
                   },
                   {
                     "group": "Concepts",
-                    "pages": ["concepts"]
+                    "pages": ["concepts/build-files"]
                   }
                 ]
               },
@@ -51,27 +51,27 @@
                 "groups": [
                   {
                     "group": "Releases",
-                    "pages": ["releases"]
+                    "pages": ["release/index"]
                   },
                   {
                     "group": "Basics",
-                    "pages": ["basics"]
+                    "pages": ["basics/index"]
                   },
                   {
                     "group": "Advanced",
-                    "pages": ["advanced"]
+                    "pages": ["advanced/performance"]
                   },
                   {
                     "group": "Remote Execution",
-                    "pages": ["remote-execution"]
+                    "pages": ["remote/persistent"]
                   },
                   {
                     "group": "Tutorials",
-                    "pages": ["tutorials"]
+                    "pages": ["tutorials/cpp-toolchain-config"]
                   },
                   {
                     "group": "Migrate",
-                    "pages": ["migrate"]
+                    "pages": ["migrate/index"]
                   }
                 ]
               },
@@ -80,23 +80,23 @@
                 "groups": [
                   {
                     "group": "Build encyclopedia",
-                    "pages": ["build-encyclopedia"]
+                    "pages": ["rules/cc-binary"]
                   },
                   {
                     "group": "Command line reference",
-                    "pages": ["command-line-reference"]
+                    "pages": ["run/build"]
                   },
                   {
                     "group": "Query Language",
-                    "pages": ["query-language"]
+                    "pages": ["query/language"]
                   },
                   {
                     "group": "Glossary",
-                    "pages": ["glossary"]
+                    "pages": ["reference/glossary"]
                   },
                   {
                     "group": "Flag cheatsheet",
-                    "pages": ["flag-cheatsheet"]
+                    "pages": ["reference/flag-cheatsheet"]
                   }
                 ]
               },
@@ -105,19 +105,19 @@
                 "groups": [
                   {
                     "group": "Concepts",
-                    "pages": ["extending-concepts"]
+                    "pages": ["extending/concepts"]
                   },
                   {
                     "group": "Writing rules",
-                    "pages": ["writing-rules"]
+                    "pages": ["extending/rules"]
                   },
                   {
                     "group": "Distributing rules",
-                    "pages": ["distributing-rules"]
+                    "pages": ["rules/cc-binary"]
                   },
                   {
                     "group": "APIs",
-                    "pages": ["apis"]
+                    "pages": ["extending/aspects"]
                   }
                 ]
               },
@@ -126,15 +126,15 @@
                 "groups": [
                   {
                     "group": "Contributing",
-                    "pages": ["contributing"]
+                    "pages": ["contribute/index"]
                   },
                   {
                     "group": "Programs",
-                    "pages": ["programs"]
+                    "pages": ["community/sig"]
                   },
                   {
                     "group": "Getting help",
-                    "pages": ["getting-help"]
+                    "pages": ["help"]
                   }
                 ]
               }
