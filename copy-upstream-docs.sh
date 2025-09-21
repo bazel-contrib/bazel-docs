@@ -6,6 +6,10 @@
 set -e
 
 SOURCE_DIR="upstream/site/en"
+# Files that live in this repo, not fetched from upstream
+LOCAL_FILES="
+    index.mdx
+"
 
 # Check if source directory exists
 if [ ! -d "$SOURCE_DIR" ]; then
