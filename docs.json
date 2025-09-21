@@ -9,86 +9,37 @@
   },
   "favicon": "/favicon.png",
   "navigation": {
-    "tabs": [
+    "versions": [
       {
-        "tab": "Tutorials",
-        "groups": [
+        "version": "8.4",
+        "languages": [
           {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Explanations",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Docs",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+            "language": "en",
+            "tabs": [
+              {
+                "tab": "About Bazel",
+                "pages": ["index"]
+              },
+              {
+                "tab": "Getting started",
+                "pages": ["index"]
+              },
+              {
+                "tab": "User guide",
+                 "pages": ["index"]
+              },
+              {
+                "tab": "Reference",
+                "pages": ["index"]
+              },
+              {
+                "tab": "Extending",
+                "pages": ["index"]
+              },
+              {
+                "tab": "Community",
+                "pages": ["index"]
+              }
             ]
           }
         ]
@@ -106,6 +57,11 @@
         "label": "Blog",
         "href": "https://blog.bazel.build/",
         "icon": "newspaper"
+      },
+      {
+        "label": "Github",
+        "href": "https://github.com/bazelbuild/bazel",
+        "icon": "github"
       }
     ]
   },
