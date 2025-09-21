@@ -18,27 +18,125 @@
             "tabs": [
               {
                 "tab": "About Bazel",
-                "pages": ["index"]
+                "groups": [
+                  {
+                    "group": "Why Bazel?",
+                    "pages": ["why-bazel"]
+                  },
+                  {
+                    "group": "Build system basics",
+                    "pages": ["build-system-basics"]
+                  }
+                ]
               },
               {
                 "tab": "Getting started",
-                "pages": ["index"]
+                "groups": [
+                  {
+                    "group": "Install",
+                    "pages": ["install"]
+                  },
+                  {
+                    "group": "First build tutorials",
+                    "pages": ["first-build-tutorials"]
+                  },
+                  {
+                    "group": "Concepts",
+                    "pages": ["concepts"]
+                  }
+                ]
               },
               {
                 "tab": "User guide",
-                 "pages": ["index"]
+                "groups": [
+                  {
+                    "group": "Releases",
+                    "pages": ["releases"]
+                  },
+                  {
+                    "group": "Basics",
+                    "pages": ["basics"]
+                  },
+                  {
+                    "group": "Advanced",
+                    "pages": ["advanced"]
+                  },
+                  {
+                    "group": "Remote Execution",
+                    "pages": ["remote-execution"]
+                  },
+                  {
+                    "group": "Tutorials",
+                    "pages": ["tutorials"]
+                  },
+                  {
+                    "group": "Migrate",
+                    "pages": ["migrate"]
+                  }
+                ]
               },
               {
                 "tab": "Reference",
-                "pages": ["index"]
+                "groups": [
+                  {
+                    "group": "Build encyclopedia",
+                    "pages": ["build-encyclopedia"]
+                  },
+                  {
+                    "group": "Command line reference",
+                    "pages": ["command-line-reference"]
+                  },
+                  {
+                    "group": "Query Language",
+                    "pages": ["query-language"]
+                  },
+                  {
+                    "group": "Glossary",
+                    "pages": ["glossary"]
+                  },
+                  {
+                    "group": "Flag cheatsheet",
+                    "pages": ["flag-cheatsheet"]
+                  }
+                ]
               },
               {
                 "tab": "Extending",
-                "pages": ["index"]
+                "groups": [
+                  {
+                    "group": "Concepts",
+                    "pages": ["extending-concepts"]
+                  },
+                  {
+                    "group": "Writing rules",
+                    "pages": ["writing-rules"]
+                  },
+                  {
+                    "group": "Distributing rules",
+                    "pages": ["distributing-rules"]
+                  },
+                  {
+                    "group": "APIs",
+                    "pages": ["apis"]
+                  }
+                ]
               },
               {
                 "tab": "Community",
-                "pages": ["index"]
+                "groups": [
+                  {
+                    "group": "Contributing",
+                    "pages": ["contributing"]
+                  },
+                  {
+                    "group": "Programs",
+                    "pages": ["programs"]
+                  },
+                  {
+                    "group": "Getting help",
+                    "pages": ["getting-help"]
+                  }
+                ]
               }
             ]
           }
