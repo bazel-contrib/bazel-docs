@@ -18,7 +18,7 @@ settings for better performance, this page is for you. If you don't already have
 remote execution set up, go to the Bazel [Remote Execution
 Overview](/remote/rbe) first.
 
-## Enabling dynamic execution? 
+## Enabling dynamic execution?
 
 The dynamic execution module is part of Bazel, but to make use of dynamic
 execution, you must already be able to compile both locally and remotely from
@@ -73,7 +73,7 @@ For more background on how dynamic execution and its locking works, see Julio
 Merino's excellent [blog
 posts](https://jmmv.dev/series/bazel-dynamic-execution/)
 
-## When should I use dynamic execution? 
+## When should I use dynamic execution?
 
 Dynamic execution requires some form of [remote execution system](/remote/rbe).
 It is not currently possible to use a cache-only remote system, as a cache miss
@@ -118,7 +118,7 @@ The previously recommended `--experimental_spawn_scheduler` flag is deprecated.
 It turns on dynamic execution and sets `dynamic` as the default strategy for all
 mnemonics, which would often lead to these kinds of problems.
 
-## Performance 
+## Performance
 
 The dynamic execution approach assumes there are enough resources available
 locally and remotely that it's worth spending some extra resources to improve
@@ -166,7 +166,7 @@ The [JSON trace profile](/advanced/performance/json-trace-profile) contains a
 number of performance-related graphs that can help identify ways to improve the
 trade-off of performance and resource usage.
 
-## Troubleshooting 
+## Troubleshooting
 
 Problems with dynamic execution can be subtle and hard to debug, as they can
 manifest only under some specific combinations of local and remote execution.

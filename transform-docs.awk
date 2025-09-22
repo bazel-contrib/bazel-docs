@@ -48,6 +48,8 @@ BEGIN {
     # Extract the heading text without the anchor
     heading = $0
     gsub(/\s*\{:#[^}]*\}$/, "", heading)
+    # Trim trailing whitespace
+    gsub(/[ \t]+$/, "", heading)
     print heading
     next
 }
