@@ -148,7 +148,7 @@ support and expansion. These are:
        'feature-name-1',
        'feature-name-2'
    ]),
-]</pre>
+]```
    </td>
    <td>Feature-level. The feature is supported only if the specified required
        features are enabled. For example, when a feature is only supported in
@@ -159,7 +159,7 @@ support and expansion. These are:
    </td>
   </tr>
   <tr>
-   <td><pre>implies = ['feature']</pre>
+   <td><pre>implies = ['feature']```
    </td>
    <td><p>Feature-level. This feature implies the specified feature(s).
        Enabling a feature also implicitly enables all features implied by it
@@ -170,7 +170,7 @@ support and expansion. These are:
    </td>
   </tr>
   <tr>
-   <td><pre>provides = ['feature']</pre>
+   <td><pre>provides = ['feature']```
    </td>
    <td><p>Feature-level. Indicates that this feature is one of several mutually
        exclusive alternate features. For example, all of the sanitizers could
@@ -185,7 +185,7 @@ support and expansion. These are:
     features = ['feature-1'],
     not_features = ['feature-2'],
   ),
-]</pre>
+]```
    </td>
    <td>Flag set-level. A feature can specify multiple flag sets with multiple.
      When <code>with_features</code> is specified, the flag set will only expand

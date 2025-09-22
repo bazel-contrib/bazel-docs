@@ -78,7 +78,7 @@ depends on `c`.
     srcs = "a.in",
     deps = "//b:b",
 )
-      </pre>
+      ```
     </td>
     <td>
       <pre>
@@ -87,7 +87,7 @@ rule(
     srcs = "b.in",
     deps = "//c:c",
 )
-      </pre>
+      ```
     </td>
   </tr>
   <tr class="alt">
@@ -98,7 +98,7 @@ rule(
     <td><pre>
 import b;
 b.foo();
-    </pre>
+    ```
     </td>
     <td>
       <pre>
@@ -106,7 +106,7 @@ import c;
 function foo() {
   c.bar();
 }
-      </pre>
+      ```
     </td>
   </tr>
   <tr>
@@ -148,7 +148,7 @@ direct _actual_ dependency on `c`, but forgets to declare it in the build file
         import c;
         b.foo();
         c.garply();
-      </pre>
+      ```
     </td>
     <td>&nbsp;</td>
   </tr>
@@ -195,7 +195,7 @@ fault of their own.
     srcs = "b.in",
     <strong>deps = "//d:d",</strong>
 )
-      </pre>
+      ```
     </td>
   </tr>
   <tr class="alt">
@@ -210,7 +210,7 @@ fault of their own.
       function foo() {
         d.baz();
       }
-      </pre>
+      ```
     </td>
   </tr>
   <tr>

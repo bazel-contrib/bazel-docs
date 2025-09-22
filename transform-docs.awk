@@ -19,6 +19,30 @@ BEGIN {
 # Remove lines containing '{% dynamic setvar'
 /{% dynamic setvar/ { next }
 
+# Remove any lines that start with '{%'
+/^{%/ { next }
+
+# Convert HTML comments to MDX comments
+/^<!-- .* -->$/ {
+    gsub(/^<!-- /, "// ", $0)
+    gsub(/ -->$/, "", $0)
+    print
+    next
+}
+
+# Convert <pre> tags to markdown code blocks
+/^<pre>/ {
+    gsub(/^<pre>/, "```")
+    gsub(/<\/pre>$/, "```")
+    print
+    next
+}
+
+# Remove </pre> tags that appear at the end of lines
+{
+    gsub(/<\/pre>$/, "```", $0)
+}
+
 # Remove anchor parts from headings (e.g., ## Title {:#anchor})
 /^#+ .* \{:#[^}]*\}$/ {
     # Extract the heading text without the anchor
