@@ -25,7 +25,7 @@
                   },
                   {
                     "group": "Build system basics",
-                    "pages": ["basics/index"]
+                    "pages": ["basics"]
                   }
                 ]
               },
@@ -34,7 +34,7 @@
                 "groups": [
                   {
                     "group": "Install",
-                    "pages": ["install/index"]
+                    "pages": ["install"]
                   },
                   {
                     "group": "First build tutorials",
@@ -51,11 +51,11 @@
                 "groups": [
                   {
                     "group": "Releases",
-                    "pages": ["release/index"]
+                    "pages": ["release"]
                   },
                   {
                     "group": "Basics",
-                    "pages": ["basics/index"]
+                    "pages": ["basics"]
                   },
                   {
                     "group": "Advanced",
@@ -71,7 +71,7 @@
                   },
                   {
                     "group": "Migrate",
-                    "pages": ["migrate/index"]
+                    "pages": ["migrate"]
                   }
                 ]
               },

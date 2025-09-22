@@ -16,11 +16,8 @@ BEGIN {
 # Remove lines that contain only '{% include "_buttons.html" %}'
 /^{% include "_buttons\.html" %}$/ { next }
 
-# Comment out lines containing '{% dynamic setvar'
-/{% dynamic setvar/ {
-    print "// " $0
-    next
-}
+# Remove lines containing '{% dynamic setvar'
+/{% dynamic setvar/ { next }
 
 # Remove anchor parts from headings (e.g., ## Title {:#anchor})
 /^#+ .* \{:#[^}]*\}$/ {
