@@ -7,6 +7,7 @@ BEGIN {
     in_frontmatter = 0
     first_h1_found = 0
     frontmatter_printed = 0
+    before_first_h1 = 1
 }
 
 # Skip Jekyll front-matter lines
@@ -62,6 +63,9 @@ BEGIN {
     gsub(/\{: \.external\}/, "", $0)
 }
 
+# Skip blank lines before first H1
+/^[ \t]*$/ && before_first_h1 == 1 { next }
+
 # Convert first H1 to front-matter
 /^# / && first_h1_found == 0 {
     title = substr($0, 3)  # Remove "# " prefix
@@ -71,6 +75,7 @@ BEGIN {
     print "---"
     print ""
     first_h1_found = 1
+    before_first_h1 = 0
     next
 }
 
