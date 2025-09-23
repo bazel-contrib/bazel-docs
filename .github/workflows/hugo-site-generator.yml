@@ -39,10 +39,6 @@ jobs:
           working-directory: upstream
           run: git checkout ${{ inputs.bcrCommitHash }}
 
-        - name: Patch upstream docs
-          working-directory: upstream
-          run: patch -p1 < ../patches/*.patch
-
         - name: Clean up mdx files
           run: ./cleanup-mdx.sh
 

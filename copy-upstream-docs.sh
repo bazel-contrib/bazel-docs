@@ -57,6 +57,12 @@ if [ ! -d "$SOURCE_DIR" ]; then
     exit 1
 fi
 
+(
+    cd upstream
+    echo "Patching files"
+    patch -p1 < ../patches/*.patch
+)
+
 echo "Finding all .md files in $SOURCE_DIR..."
 
 # Find all .md files and copy them
@@ -83,6 +89,12 @@ find "$SOURCE_DIR" -name "*.md" -type f | while read -r source_file; do
     echo "Transforming and copying $source_file to $target_file"
     awk -f transform-docs.awk "$source_file" > "$target_file"
 done
+
+(
+    cd upstream
+    echo "Undoing patches"
+    git reset --hard
+)
 
 echo "Successfully copied all .md files to .mdx files in root"
 echo "You can now modify the files as needed."
