@@ -27,6 +27,10 @@ BEGIN {
 /^<!-- .* -->$/ {
     gsub(/^<!-- /, "// ", $0)
     gsub(/ -->$/, "", $0)
+    # Skip TOC comments
+    if ($0 == "// [TOC]") {
+        next
+    }
     print
     next
 }
