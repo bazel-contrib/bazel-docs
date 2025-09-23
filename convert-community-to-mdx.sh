@@ -25,11 +25,11 @@ EOF
 
 # Process each expert item
 yq eval '.landing_page.rows[0].items[]' "$INPUT_FILE" -o json | jq -r '
-"## " + .heading + "\n\n" +
-"![" + .heading + "](" + (.image_path | gsub("^/community/images/"; "/upstream/site/en/community/images/")) + ")\n\n" +
-.description + "\n\n" +
-(if .buttons then (.buttons | map("- [" + .label + "](" + .path + ")") | join("\n")) + "\n\n" else "" end) +
-"---\n"
+"<Card title=\"" + .heading + "\" img=\"" + (.image_path) + "\"" +
+(if .buttons then " cta=\"" + .buttons[0].label + "\" href=\"" + .buttons[0].path + "\"" else "" end) +
+">" + "\n" +
+.description + "\n" +
+"</Card>" + "\n\n"
 ' >> "$OUTPUT_FILE"
 
 echo "Generated $OUTPUT_FILE"
