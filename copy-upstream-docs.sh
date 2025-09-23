@@ -85,4 +85,10 @@ find "$SOURCE_DIR" -name "*.md" -type f | while read -r source_file; do
 done
 
 echo "Successfully copied all .md files to .mdx files in root"
+
+# Convert community YAML files to MDX
+echo "Converting community YAML files to MDX..."
+./convert-community-to-mdx.sh community/experts
+./convert-community-to-mdx.sh community/partners
+
 echo "You can now modify the files as needed."
