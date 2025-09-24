@@ -23,13 +23,42 @@ $DESCRIPTION
 
 EOF
 
-# Process each expert item
+# Process each expert item and group into pairs
 yq eval '.landing_page.rows[0].items[]' "$INPUT_FILE" -o json | jq -r '
 "<Card title=\"" + .heading + "\" img=\"" + (.image_path) + "\"" +
 (if .buttons then " cta=\"" + .buttons[0].label + "\" href=\"" + .buttons[0].path + "\"" else "" end) +
 ">" + "\n" +
 .description + "\n" +
-"</Card>" + "\n\n"
-' >> "$OUTPUT_FILE"
+"</Card>"
+' | awk '
+BEGIN { 
+    count = 0
+    card_buffer = ""
+}
+/^<Card/ {
+    if (count % 2 == 0) {
+        print "<Columns cols={2}>"
+    }
+    card_buffer = $0
+    next
+}
+{
+    card_buffer = card_buffer "\n" $0
+}
+/^<\/Card>/ {
+    print card_buffer
+    count++
+    if (count % 2 == 0) {
+        print "</Columns>"
+        print ""
+    }
+    card_buffer = ""
+}
+END {
+    if (count % 2 == 1) {
+        print "</Columns>"
+        print ""
+    }
+}' >> "$OUTPUT_FILE"
 
 echo "Generated $OUTPUT_FILE"
