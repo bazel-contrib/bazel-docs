@@ -1,0 +1,37 @@
+name: Auto-merge Dependabot submodule PRs (with rebase)
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: automerge-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  automerge:
+    timeout-minutes: 10
+    # Only run on Dependabot PRs targeting main
+    if: >
+      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GH_AUTOMERGE_PAT }}
+
+      # Gate: only gitsubmodule updates; only the "upstream" submodule path
+      - name: Enable auto-merge (rebase)
+        if: >
+          steps.meta.outputs.package-ecosystem == 'gitsubmodule' &&
+          contains(fromJson(steps.meta.outputs.dependency-names), 'upstream')
+        run: gh pr merge --auto --rebase "${{ github.event.pull_request.html_url }}"
+        env:
+          GH_TOKEN: ${{ secrets.GH_AUTOMERGE_PAT }}
