@@ -25,6 +25,7 @@ jobs:
         id: meta
         uses: dependabot/fetch-metadata@v2
         with:
+          # already added to repo
           github-token: ${{ secrets.GH_AUTOMERGE_PAT }}
 
       # Gate: only gitsubmodule updates; only the "upstream" submodule path
@@ -34,4 +35,5 @@ jobs:
           contains(fromJson(steps.meta.outputs.dependency-names), 'upstream')
         run: gh pr merge --auto --rebase "${{ github.event.pull_request.html_url }}"
         env:
+          # already added to repo
           GH_TOKEN: ${{ secrets.GH_AUTOMERGE_PAT }}
