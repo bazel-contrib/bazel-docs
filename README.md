@@ -12,7 +12,7 @@ https://bazel.online
 
 ## How it works
 
-1. Clones the Devsite source from `bazel.build/docs` using a git submodule
+1. Clones the Devsite source from `bazel.build/docs` using a git submodule.
 2. Transforms Devsite frontmatter and directory layout into MDX format.
 3. Hosted on Mintlify
 

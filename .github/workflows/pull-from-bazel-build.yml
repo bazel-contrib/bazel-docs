@@ -1,6 +1,4 @@
-# Note: this name should be changed;
-# it will also require changing the Required Checks in the Branch Protection
-name: Build and Push Docker Image
+name: Pull Bazel Build Upstream Repo
 
 on:
   pull_request:
@@ -22,9 +20,7 @@ on:
           type: string
           default: origin/main
 jobs:
-  # Like above, this name should be changed
-  # It will also require changing the Required Checks in the Branch Protection
-  docker-build-push:
+  pull-fresh-upstream:
     runs-on: ubuntu-latest
     permissions:
       contents: read
