@@ -1,6 +1,9 @@
 version: 2
 updates:
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"            
+  - package-ecosystem: gitsubmodule
+    directory: "/"
     schedule:
-      interval: "daily"
+      interval: cron
+      cronjob: "5 * * * *"
+    open-pull-requests-limit: 3
+    rebase-strategy: auto
