@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 10
     # Only run on Dependabot PRs targeting main
     if: >
-      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:

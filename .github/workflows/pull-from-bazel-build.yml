@@ -21,6 +21,8 @@ on:
           default: origin/main
 jobs:
   pull-fresh-upstream:
+    # don't run on dependabot PRs
+    if: ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,12 +30,17 @@ jobs:
     
     steps:
         - uses: actions/checkout@v5
+          with:
+            # Don’t auto-init submodules
+            submodules: false
+
         - name: Checkout submodules
           run: git submodule update --init -- upstream
         
-        - name: Checkout commit of BCR submodule
+        - name: Checkout commit of Bazel Build submodule
+          if: ${{ inputs.bazelCommitHash != '' }}
           working-directory: upstream
-          run: git checkout ${{ inputs.bcrCommitHash }}
+          run: git checkout '${{ inputs.bazelCommitHash }}'
 
         - name: Clean up mdx files
           run: ./cleanup-mdx.sh
