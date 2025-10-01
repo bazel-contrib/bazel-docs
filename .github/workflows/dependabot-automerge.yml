@@ -28,12 +28,12 @@ jobs:
           # already added to repo
           github-token: ${{ secrets.GH_AUTOMERGE_PAT }}
 
-      # Gate: only gitsubmodule updates; only the "upstream" submodule path
-      - name: Enable auto-merge (rebase)
+      # Gate: only submodules updates; only the "upstream" submodule path
+      - name: Enable auto-merge (squash)
         if: >
           steps.meta.outputs.package-ecosystem == 'submodules' &&
           contains(steps.meta.outputs.dependency-names, 'upstream')
-        run: gh pr merge --auto --rebase "${{ github.event.pull_request.html_url }}"
+        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
         env:
           # already added to repo
           GH_TOKEN: ${{ secrets.GH_AUTOMERGE_PAT }}
