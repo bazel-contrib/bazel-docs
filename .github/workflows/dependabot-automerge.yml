@@ -32,7 +32,7 @@ jobs:
       - name: Enable auto-merge (rebase)
         if: >
           steps.meta.outputs.package-ecosystem == 'gitsubmodule' &&
-          contains(fromJson(steps.meta.outputs.dependency-names), 'upstream')
+          contains(steps.meta.outputs.dependency-names, 'upstream')
         run: gh pr merge --auto --rebase "${{ github.event.pull_request.html_url }}"
         env:
           # already added to repo
