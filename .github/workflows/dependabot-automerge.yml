@@ -31,7 +31,7 @@ jobs:
       # Gate: only gitsubmodule updates; only the "upstream" submodule path
       - name: Enable auto-merge (rebase)
         if: >
-          steps.meta.outputs.package-ecosystem == 'gitsubmodule' &&
+          steps.meta.outputs.package-ecosystem == 'submodules' &&
           contains(steps.meta.outputs.dependency-names, 'upstream')
         run: gh pr merge --auto --rebase "${{ github.event.pull_request.html_url }}"
         env:
