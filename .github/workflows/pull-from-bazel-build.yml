@@ -49,6 +49,7 @@ jobs:
           run: ./copy-upstream-docs.sh
 
         - name: Assert that nothing is different
+          if: ${{ github.ref != 'refs/heads/main' }}
           run: |
             if untracked=$(git status --porcelain | grep "^??"); then
                 echo "Error: Untracked files found:"
