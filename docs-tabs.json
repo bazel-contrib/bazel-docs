@@ -1,0 +1,263 @@
+[
+  {
+    "tab": "About Bazel",
+    "groups": [
+      {
+        "group": "Why Bazel?",
+        "pages": [
+          "about/intro",
+          "about/why",
+          "about/vision",
+          "about/roadmap",
+          "about/faq"
+        ]
+      },
+      {
+        "group": "Build system basics",
+        "pages": [
+          "basics",
+          "basics/build-systems",
+          "basics/task-based-builds",
+          "basics/artifact-based-builds",
+          "basics/distributed-builds",
+          "basics/dependencies",
+          "basics/hermeticity"
+        ]
+      }
+    ]
+  },
+  {
+    "tab": "Getting started",
+    "groups": [
+      {
+        "group": "Install",
+        "pages": [
+          "install",
+          "install/bazelisk",
+          "install/os-x",
+          "install/windows",
+          "install/ubuntu",
+          "install/suse",
+          "install/docker-container",
+          "install/compile-source",
+          "install/completion",
+          "install/ide"
+        ]
+      },
+      {
+        "group": "First build tutorials",
+        "pages": [
+          "start/cpp",
+          "start/java",
+          "start/android-app",
+          "start/ios-app"
+        ]
+      },
+      {
+        "group": "Concepts",
+        "pages": [
+          "concepts/build-ref",
+          "concepts/labels",
+          "concepts/build-files",
+          "concepts/dependencies",
+          "concepts/visibility",
+          "concepts/platforms",
+          "concepts/hermeticity"
+        ]
+      }
+    ]
+  },
+  {
+    "tab": "User guide",
+    "groups": [
+      {
+        "group": "Releases",
+        "pages": [
+          "release",
+          "release/rolling",
+          "release/backward-compatibility",
+          "release/rule-compatibility"
+        ]
+      },
+      {
+        "group": "Basics",
+        "pages": [
+          "build/style-guide",
+          "build/share-variables",
+          "community/recommended-rules",
+          "run/build"
+        ]
+      },
+      {
+        "group": "Advanced",
+        "pages": [
+          "configure/attributes",
+          "configure/integrate-cpp",
+          "configure/coverage",
+          "configure/best-practices",
+          "configure/windows",
+          "advanced/performance/build-performance-metrics",
+          "advanced/performance/build-performance-breakdown",
+          "advanced/performance/json-trace-profile",
+          "advanced/performance/memory",
+          "advanced/performance/iteration-speed"
+        ]
+      },
+      {
+        "group": "Remote Execution",
+        "pages": [
+          "remote/rbe",
+          "remote/rules",
+          "remote/ci",
+          "remote/dynamic",
+          "remote/caching",
+          "remote/sandbox",
+          "remote/workspace",
+          "remote/cache-remote",
+          "remote/cache-local",
+          "remote/output-directories",
+          "remote/persistent",
+          "remote/multiplex",
+          "remote/creating",
+          "remote/bep",
+          "remote/bep-examples",
+          "remote/bep-glossary"
+        ]
+      },
+      {
+        "group": "Tutorials",
+        "pages": [
+          "tutorials/cpp-use-cases",
+          "tutorials/ccp-toolchain-config",
+          "tutorials/cpp-dependency",
+          "tutorials/cpp-labels"
+        ]
+      },
+      {
+        "group": "Migrate",
+        "pages": [
+          "migrate",
+          "migrate/maven",
+          "migrate/xcode"
+        ]
+      }
+    ]
+  },
+  {
+    "tab": "Reference",
+    "groups": [
+      {
+        "group": "Build encyclopedia",
+        "pages": [
+          "reference/be/overview",
+          "reference/be/common-definitions",
+          "reference/be/make-variables",
+          "reference/be/functions"
+        ]
+      },
+      {
+        "group": "Command line reference",
+        "pages": [
+          "reference/command-line-reference"
+        ]
+      },
+      {
+        "group": "Query Language",
+        "pages": [
+          "query/language"
+        ]
+      },
+      {
+        "group": "Glossary",
+        "pages": [
+          "reference/glossary"
+        ]
+      },
+      {
+        "group": "Flag cheatsheet",
+        "pages": [
+          "reference/flag-cheatsheet"
+        ]
+      }
+    ]
+  },
+  {
+    "tab": "Extending",
+    "groups": [
+      {
+        "group": "Concepts",
+        "pages": [
+          "extending/concepts"
+        ]
+      },
+      {
+        "group": "Writing rules",
+        "pages": [
+          "rules/rules-tutorial",
+          "rules/macro-tutorial",
+          "rules/legacy-macro-tutorial",
+          "rules/verbs-tutorial",
+          "rules/language",
+          "rules/bzl-style",
+          "rules/challenges",
+          "rules/windows"
+        ]
+      },
+      {
+        "group": "Distributing rules",
+        "pages": [
+          "rules/testing",
+          "rules/performance",
+          "rules/deploying"
+        ]
+      },
+      {
+        "group": "APIs",
+        "pages": [
+          "rules/lib/overview",
+          "rules/lib/globals"
+        ]
+      }
+    ]
+  },
+  {
+    "tab": "Community",
+    "groups": [
+      {
+        "group": "Contributing",
+        "pages": [
+          "contribute",
+          "contribute/policy",
+          "contribute/patch-acceptance",
+          "contribute/maintainers-guide",
+          "contribute/codebase",
+          "contribute/search",
+          "contribute/statemachine-guide",
+          "contribute/docs",
+          "contribute/docs-style-guide",
+          "contribute/design-documents",
+          "contribute/release-notes"
+        ]
+      },
+      {
+        "group": "Programs",
+        "pages": [
+          "community/update",
+          "community/sig",
+          "community/experts",
+          "community/partners",
+          "community/users",
+          "community/recommended-rules",
+          "community/remote-execution-services"
+        ]
+      },
+      {
+        "group": "Getting help",
+        "pages": [
+          "help",
+          "contribute/policy"
+        ]
+      }
+    ]
+  }
+]
