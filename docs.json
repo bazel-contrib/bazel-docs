@@ -11,7 +11,7 @@
   "navigation": {
     "versions": [
       {
-        "version": "8.4",
+        "version": "HEAD",
         "languages": [
           {
             "language": "en",
@@ -301,6 +301,88 @@
       "x": "https://x.com/bazelbuild",
       "github": "https://github.com/bazelbuild",
       "reddit": "https://reddit.com/r/bazel"
-    }
+    },
+    "links": [
+      {
+        "header": "About",
+        "items": [
+          {
+            "label": "Who's using Bazel",
+            "href": "https://bazel.build/community/users"
+          },
+          {
+            "label": "Contribute",
+            "href": "https://bazel.build/contribute"
+          },
+          {
+            "label": "Governance model",
+            "href": "https://bazel.build/contribute/policy"
+          },
+          {
+            "label": "Release model",
+            "href": "https://bazel.build/release"
+          },
+          {
+            "label": "Brand guidelines",
+            "href": "https://bazel.build/brand"
+          }
+        ]
+      },
+      {
+        "header": "Stay Connected",
+        "items": [
+          {
+            "label": "Blog",
+            "href": "https://blog.bazel.build/"
+          },
+          {
+            "label": "GitHub",
+            "href": "https://github.com/bazelbuild/bazel"
+          },
+          {
+            "label": "Twitter",
+            "href": "https://twitter.com/bazelbuild"
+          },
+          {
+            "label": "YouTube",
+            "href": "https://youtube.com/user/googleOSPO"
+          }
+        ]
+      },
+      {
+        "header": "Support",
+        "items": [
+          {
+            "label": "Support",
+            "href": "https://bazel.build/help"
+          },
+          {
+            "label": "Issue tracker",
+            "href": "https://github.com/bazelbuild/bazel/issues"
+          },
+          {
+            "label": "Slack",
+            "href": "https://slack.bazel.build/"
+          },
+          {
+            "label": "Stack Overflow",
+            "href": "https://stackoverflow.com/questions/tagged/bazel"
+          }
+        ]
+      },
+      {
+        "header": "Legal",
+        "items": [
+          {
+            "label": "Privacy Policy",
+            "href": "https://policies.google.com/privacy"
+          },
+          {
+            "label": "Terms of Service",
+            "href": "https://policies.google.com/terms"
+          }
+        ]
+      }
+    ]
   }
 }
