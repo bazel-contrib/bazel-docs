@@ -31,16 +31,27 @@ jobs:
     steps:
         - uses: actions/checkout@v5
           with:
-            # Don’t auto-init submodules
+            # Don't auto-init submodules
             submodules: false
 
         - name: Checkout submodules
           run: git submodule update --init -- upstream
-        
+
         - name: Checkout commit of Bazel Build submodule
           if: ${{ inputs.bazelCommitHash != '' }}
           working-directory: upstream
           run: git checkout '${{ inputs.bazelCommitHash }}'
+
+        - name: Setup Bazel
+          uses: bazel-contrib/setup-bazel@0.15.0
+          with:
+            bazelisk-cache: true
+            disk-cache: ${{ github.workflow }}
+            repository-cache: true
+
+        - name: Build reference documentation
+          working-directory: upstream
+          run: bazel build //src/main/java/com/google/devtools/build/lib:gen_reference_docs --config=docs
 
         - name: Clean up mdx files
           run: ./cleanup-mdx.sh
