@@ -2,59 +2,47 @@
 title: 'LinkerInput'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.LinkerInput">LinkerInput</h1>
+# LinkerInput
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/LinkerInputApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Either libraries, flags or other files that may be passed to the linker as inputs.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#additional_inputs">additional_inputs</a>
-  </li>
-      <li>
-    <a href="#libraries">libraries</a>
-  </li>
-      <li>
-    <a href="#owner">owner</a>
-  </li>
-      <li>
-    <a href="#user_link_flags">user_link_flags</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="additional_inputs">additional_inputs</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> LinkerInput.additional_inputs</pre></p>
+- [additional_inputs](#additional_inputs)
+- [libraries](#libraries)
+- [owner](#owner)
+- [user_link_flags](#user_link_flags)
 
-    Returns the depset of additional inputs, e.g.: linker scripts.
+## additional_inputs
 
-        <h2 id="libraries">libraries</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> LinkerInput.libraries</pre></p>
+``` rule-signature
+sequence LinkerInput.additional_inputs
+```
 
-    Returns the depset of <code>LibraryToLink</code>. May return a list but this is deprecated. See #8118.
+Returns the depset of additional inputs, e.g.: linker scripts.
 
-        <h2 id="owner">owner</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> LinkerInput.owner</pre></p>
+## libraries
 
-    Returns the owner of this LinkerInput.
+``` rule-signature
+sequence LinkerInput.libraries
+```
 
-        <h2 id="user_link_flags">user_link_flags</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> LinkerInput.user_link_flags</pre></p>
+Returns the depset of `LibraryToLink`. May return a list but this is deprecated. See \#8118.
 
-    Returns the list of user link flags passed as strings.
+## owner
 
+``` rule-signature
+Label LinkerInput.owner
+```
 
-</body>
-</html>
+Returns the owner of this LinkerInput.
 
-<!-- {% endraw %} -->
+## user_link_flags
+
+``` rule-signature
+sequence LinkerInput.user_link_flags
+```
+
+Returns the list of user link flags passed as strings.

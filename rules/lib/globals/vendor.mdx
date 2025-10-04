@@ -2,95 +2,65 @@
 title: 'vendor'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.vendor">VENDOR.bazel files</h1>
+# VENDOR.bazel files
 
 {% dynamic setvar source_file "NONE" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Methods available in VENDOR.bazel files.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#ignore">ignore</a>
-  </li>
-      <li>
-    <a href="#pin">pin</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="ignore">ignore</h2>
-        <p><pre class="rule-signature"><code>None</code> ignore(*args)</pre></p>
+- [ignore](#ignore)
+- [pin](#pin)
 
-    Ignore this repo from vendoring. Bazel will never vendor it or use the corresponding directory (if exists) while building in vendor mode.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="ignore.args">
-              <code>args</code>
-            </td>
-            <td>
-                                     required<br/>
-                          The canonical repo names of the repos to ignore.
-            </td>
-          </tr>
-                </tbody>
-      </table>
+## ignore
 
-        <h2 id="pin">pin</h2>
-        <p><pre class="rule-signature"><code>None</code> pin(*args)</pre></p>
+``` rule-signature
+None ignore(*args)
+```
 
-    Pin the contents of this repo under the vendor directory. Bazel will not update this repo while vendoring, and will use the vendored source as if there is a --override_repository flag when building in vendor mode
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="pin.args">
-              <code>args</code>
-            </td>
-            <td>
-                                     required<br/>
-                          The canonical repo names of the repos to pin.
-            </td>
-          </tr>
-                </tbody>
-      </table>
+Ignore this repo from vendoring. Bazel will never vendor it or use the corresponding directory (if exists) while building in vendor mode.
 
+### Parameters
 
-</body>
-</html>
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="ignore.args"><code>args</code></td>
+<td>required<br />
+The canonical repo names of the repos to ignore.</td>
+</tr>
+</tbody>
+</table>
 
-<!-- {% endraw %} -->
+## pin
+
+``` rule-signature
+None pin(*args)
+```
+
+Pin the contents of this repo under the vendor directory. Bazel will not update this repo while vendoring, and will use the vendored source as if there is a --override_repository flag when building in vendor mode
+
+### Parameters
+
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="pin.args"><code>args</code></td>
+<td>required<br />
+The canonical repo names of the repos to pin.</td>
+</tr>
+</tbody>
+</table>

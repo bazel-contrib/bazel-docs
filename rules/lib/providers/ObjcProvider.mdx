@@ -2,83 +2,74 @@
 title: 'ObjcProvider'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.ObjcProvider">ObjcProvider</h1>
+# ObjcProvider
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/objc/ObjcProviderApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A provider for compilation and linking of objc.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#direct_module_maps">direct_module_maps</a>
-  </li>
-      <li>
-    <a href="#direct_sources">direct_sources</a>
-  </li>
-      <li>
-    <a href="#j2objc_library">j2objc_library</a>
-  </li>
-      <li>
-    <a href="#module_map">module_map</a>
-  </li>
-      <li>
-    <a href="#source">source</a>
-  </li>
-      <li>
-    <a href="#strict_include">strict_include</a>
-  </li>
-      <li>
-    <a href="#umbrella_header">umbrella_header</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="direct_module_maps">direct_module_maps</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> ObjcProvider.direct_module_maps</pre></p>
+- [direct_module_maps](#direct_module_maps)
+- [direct_sources](#direct_sources)
+- [j2objc_library](#j2objc_library)
+- [module_map](#module_map)
+- [source](#source)
+- [strict_include](#strict_include)
+- [umbrella_header](#umbrella_header)
 
-    Module map files from this target directly (no transitive module maps). Used to enforce proper use of private header files and for Swift compilation.
+## direct_module_maps
 
-        <h2 id="direct_sources">direct_sources</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> ObjcProvider.direct_sources</pre></p>
+``` rule-signature
+sequence ObjcProvider.direct_module_maps
+```
 
-    All direct source files from this target (no transitive files), including any headers in the 'srcs' attribute.
+Module map files from this target directly (no transitive module maps). Used to enforce proper use of private header files and for Swift compilation.
 
-        <h2 id="j2objc_library">j2objc_library</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> ObjcProvider.j2objc_library</pre></p>
+## direct_sources
 
-    Static libraries that are built from J2ObjC-translated Java code.
+``` rule-signature
+sequence ObjcProvider.direct_sources
+```
 
-        <h2 id="module_map">module_map</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> ObjcProvider.module_map</pre></p>
+All direct source files from this target (no transitive files), including any headers in the 'srcs' attribute.
 
-    Clang module maps, used to enforce proper use of private header files.
+## j2objc_library
 
-        <h2 id="source">source</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> ObjcProvider.source</pre></p>
+``` rule-signature
+depset ObjcProvider.j2objc_library
+```
 
-    All transitive source files.
+Static libraries that are built from J2ObjC-translated Java code.
 
-        <h2 id="strict_include">strict_include</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> ObjcProvider.strict_include</pre></p>
+## module_map
 
-    Non-propagated include search paths specified with '-I' on the command line. Also known as header search paths (and distinct from <em>user</em> header search paths).
+``` rule-signature
+depset ObjcProvider.module_map
+```
 
-        <h2 id="umbrella_header">umbrella_header</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> ObjcProvider.umbrella_header</pre></p>
+Clang module maps, used to enforce proper use of private header files.
 
-    Clang umbrella header. Public headers are #included in umbrella headers to be compatible with J2ObjC segmented headers.
+## source
 
+``` rule-signature
+depset ObjcProvider.source
+```
 
-</body>
-</html>
+All transitive source files.
 
-<!-- {% endraw %} -->
+## strict_include
+
+``` rule-signature
+depset ObjcProvider.strict_include
+```
+
+Non-propagated include search paths specified with '-I' on the command line. Also known as header search paths (and distinct from *user* header search paths).
+
+## umbrella_header
+
+``` rule-signature
+depset ObjcProvider.umbrella_header
+```
+
+Clang umbrella header. Public headers are \#included in umbrella headers to be compatible with J2ObjC segmented headers.

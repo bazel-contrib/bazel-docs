@@ -2,110 +2,104 @@
 title: 'objc'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.objc">objc</h1>
+# objc
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/apple/ObjcConfigurationApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A configuration fragment for Objective-C.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#alwayslink_by_default">alwayslink_by_default</a>
-  </li>
-      <li>
-    <a href="#builtin_objc_strip_action">builtin_objc_strip_action</a>
-  </li>
-      <li>
-    <a href="#copts_for_current_compilation_mode">copts_for_current_compilation_mode</a>
-  </li>
-      <li>
-    <a href="#disallow_sdk_frameworks_attributes">disallow_sdk_frameworks_attributes</a>
-  </li>
-      <li>
-    <a href="#ios_simulator_device">ios_simulator_device</a>
-  </li>
-      <li>
-    <a href="#ios_simulator_version">ios_simulator_version</a>
-  </li>
-      <li>
-    <a href="#run_memleaks">run_memleaks</a>
-  </li>
-      <li>
-    <a href="#signing_certificate_name">signing_certificate_name</a>
-  </li>
-      <li>
-    <a href="#strip_executable_safely">strip_executable_safely</a>
-  </li>
-      <li>
-    <a href="#uses_device_debug_entitlements">uses_device_debug_entitlements</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="alwayslink_by_default">alwayslink_by_default</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> objc.alwayslink_by_default</pre></p>
+- [alwayslink_by_default](#alwayslink_by_default)
+- [builtin_objc_strip_action](#builtin_objc_strip_action)
+- [copts_for_current_compilation_mode](#copts_for_current_compilation_mode)
+- [disallow_sdk_frameworks_attributes](#disallow_sdk_frameworks_attributes)
+- [ios_simulator_device](#ios_simulator_device)
+- [ios_simulator_version](#ios_simulator_version)
+- [run_memleaks](#run_memleaks)
+- [signing_certificate_name](#signing_certificate_name)
+- [strip_executable_safely](#strip_executable_safely)
+- [uses_device_debug_entitlements](#uses_device_debug_entitlements)
 
-    Returns whether objc_library and objc_import should default to alwayslink=True.
+## alwayslink_by_default
 
-        <h2 id="builtin_objc_strip_action">builtin_objc_strip_action</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> objc.builtin_objc_strip_action</pre></p>
+``` rule-signature
+bool objc.alwayslink_by_default
+```
 
-    Returns whether to emit a strip action as part of objc linking.
+Returns whether objc_library and objc_import should default to alwayslink=True.
 
-        <h2 id="copts_for_current_compilation_mode">copts_for_current_compilation_mode</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> objc.copts_for_current_compilation_mode</pre></p>
+## builtin_objc_strip_action
 
-    Returns a list of default options to use for compiling Objective-C in the current mode.
+``` rule-signature
+bool objc.builtin_objc_strip_action
+```
 
-        <h2 id="disallow_sdk_frameworks_attributes">disallow_sdk_frameworks_attributes</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> objc.disallow_sdk_frameworks_attributes</pre></p>
+Returns whether to emit a strip action as part of objc linking.
 
-    Returns whether sdk_frameworks and weak_sdk_frameworks are disallowed attributes.
+## copts_for_current_compilation_mode
 
-        <h2 id="ios_simulator_device">ios_simulator_device</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> objc.ios_simulator_device</pre></p>
+``` rule-signature
+list objc.copts_for_current_compilation_mode
+```
 
-    The type of device (e.g. 'iPhone 6') to use when running on the simulator.
-                 May return <code>None</code>.
+Returns a list of default options to use for compiling Objective-C in the current mode.
 
-        <h2 id="ios_simulator_version">ios_simulator_version</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/DottedVersion.html">DottedVersion</a> objc.ios_simulator_version</pre></p>
+## disallow_sdk_frameworks_attributes
 
-    The SDK version of the iOS simulator to use when running on the simulator.
-                 May return <code>None</code>.
+``` rule-signature
+bool objc.disallow_sdk_frameworks_attributes
+```
 
-        <h2 id="run_memleaks">run_memleaks</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> objc.run_memleaks</pre></p>
+Returns whether sdk_frameworks and weak_sdk_frameworks are disallowed attributes.
 
-    Returns a boolean indicating whether memleaks should be run during tests or not.
+## ios_simulator_device
 
-        <h2 id="signing_certificate_name">signing_certificate_name</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> objc.signing_certificate_name</pre></p>
+``` rule-signature
+string objc.ios_simulator_device
+```
 
-    Returns the flag-supplied certificate name to be used in signing, or None if no such certificate was specified.
-                 May return <code>None</code>.
+The type of device (e.g. 'iPhone 6') to use when running on the simulator.
+May return `None`.
 
-        <h2 id="strip_executable_safely">strip_executable_safely</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> objc.strip_executable_safely</pre></p>
+## ios_simulator_version
 
-    Returns whether executable strip action should use flag -x, which does not break dynamic symbol resolution.
+``` rule-signature
+DottedVersion objc.ios_simulator_version
+```
 
-        <h2 id="uses_device_debug_entitlements">uses_device_debug_entitlements</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> objc.uses_device_debug_entitlements</pre></p>
+The SDK version of the iOS simulator to use when running on the simulator.
+May return `None`.
 
-    Returns whether device debug entitlements should be included when signing an application.
+## run_memleaks
 
+``` rule-signature
+bool objc.run_memleaks
+```
 
-</body>
-</html>
+Returns a boolean indicating whether memleaks should be run during tests or not.
 
-<!-- {% endraw %} -->
+## signing_certificate_name
+
+``` rule-signature
+string objc.signing_certificate_name
+```
+
+Returns the flag-supplied certificate name to be used in signing, or None if no such certificate was specified.
+May return `None`.
+
+## strip_executable_safely
+
+``` rule-signature
+bool objc.strip_executable_safely
+```
+
+Returns whether executable strip action should use flag -x, which does not break dynamic symbol resolution.
+
+## uses_device_debug_entitlements
+
+``` rule-signature
+bool objc.uses_device_debug_entitlements
+```
+
+Returns whether device debug entitlements should be included when signing an application.

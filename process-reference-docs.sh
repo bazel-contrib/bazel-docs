@@ -2,6 +2,7 @@
 
 # Script to process Bazel reference documentation from reference-docs.zip
 # Usage: ./process-reference-docs.sh <path-to-reference-docs.zip>
+# Requirements: pandoc must be installed (brew install pandoc or apt-get install pandoc)
 
 set -o errexit -o nounset -o pipefail
 
@@ -14,6 +15,16 @@ ZIP_FILE="$1"
 
 if [ ! -f "$ZIP_FILE" ]; then
     echo "Error: File '$ZIP_FILE' not found"
+    exit 1
+fi
+
+# Check if pandoc is installed
+if ! command -v pandoc &> /dev/null; then
+    echo "Error: pandoc is not installed"
+    echo "Please install it first:"
+    echo "  - macOS: brew install pandoc"
+    echo "  - Ubuntu/Debian: sudo apt-get install pandoc"
+    echo "  - Other: https://pandoc.org/installing.html"
     exit 1
 fi
 
@@ -42,6 +53,42 @@ if [ -n "$nested_zips" ]; then
     exit 1
 fi
 
+# Function to convert HTML to MDX using pandoc
+html_to_mdx() {
+    local input_file="$1"
+    local output_file="$2"
+    
+    # Extract title from HTML
+    local title=$(grep -oP '<title>\K[^<]+' "$input_file" 2>/dev/null || echo "$(basename "${input_file%.html}")")
+    title=$(echo "$title" | sed "s/'/'\\\''/g")
+    
+    # Create temporary markdown file
+    local temp_md=$(mktemp)
+    
+    # Convert HTML to Markdown using pandoc
+    # Options:
+    #   -f html: input format is HTML
+    #   -t gfm: output format is GitHub Flavored Markdown
+    #   --wrap=preserve: preserve line wrapping
+    #   --extract-media=.: extract images to current directory (if any)
+    pandoc -f html -t gfm --wrap=preserve "$input_file" -o "$temp_md" 2>/dev/null || {
+        echo "Warning: pandoc conversion failed for $(basename "$input_file"), using fallback"
+        # Fallback: just copy the HTML content
+        cat "$input_file" > "$temp_md"
+    }
+    
+    # Write MDX file with frontmatter
+    {
+        echo "---"
+        echo "title: '$title'"
+        echo "---"
+        echo ""
+        cat "$temp_md"
+    } > "$output_file"
+    
+    rm "$temp_md"
+}
+
 # Process reference/be/ HTML files and convert to MDX
 echo "Processing Build Encyclopedia (reference/be/) files..."
 if [ -d "$TEMP_DIR/reference/be" ]; then
@@ -54,25 +101,7 @@ if [ -d "$TEMP_DIR/reference/be" ]; then
             mdx_file="reference/be/${basename_file%.html}.mdx"
 
             echo "  Converting $(basename "$html_file") to MDX..."
-
-            # Extract title from HTML and create basic MDX structure
-            # This is a simple conversion - may need refinement
-            title=$(grep -oP '<title>\K[^<]+' "$html_file" 2>/dev/null || echo "$(basename "${html_file%.html}")")
-
-            # Create MDX file with frontmatter
-            # Clean up the title to avoid issues with quotes
-            title=$(echo "$title" | sed "s/'/'\\\''/g")
-
-            {
-                echo "---"
-                echo "title: '$title'"
-                echo "---"
-                echo ""
-                # For now, we'll keep the HTML content as-is
-                # The transform-docs.awk can be enhanced later for HTML->MDX conversion
-                cat "$html_file"
-            } > "$mdx_file"
-
+            html_to_mdx "$html_file" "$mdx_file"
             echo "  Created $mdx_file"
         fi
     done
@@ -84,18 +113,9 @@ fi
 echo "Processing command-line reference..."
 if [ -f "$TEMP_DIR/reference/command-line-reference.html" ]; then
     mkdir -p reference
-
-    title=$(grep -oP '<title>\K[^<]+' "$TEMP_DIR/reference/command-line-reference.html" 2>/dev/null || echo "Command-Line Reference")
-    title=$(echo "$title" | sed "s/'/'\\\''/g")
-
-    {
-        echo "---"
-        echo "title: '$title'"
-        echo "---"
-        echo ""
-        cat "$TEMP_DIR/reference/command-line-reference.html"
-    } > "reference/command-line-reference.mdx"
-
+    
+    echo "  Converting command-line-reference.html to MDX..."
+    html_to_mdx "$TEMP_DIR/reference/command-line-reference.html" "reference/command-line-reference.mdx"
     echo "  Created reference/command-line-reference.mdx"
 else
     echo "Warning: command-line-reference.html not found in zip"
@@ -106,7 +126,8 @@ echo "Processing Starlark library documentation..."
 if [ -d "$TEMP_DIR/rules/lib" ]; then
     mkdir -p rules/lib
 
-    # Copy HTML files and convert to MDX
+    # Convert HTML files to MDX
+    file_count=0
     find "$TEMP_DIR/rules/lib" -name "*.html" -type f | while read -r html_file; do
         relative_path="${html_file#$TEMP_DIR/rules/lib/}"
         mdx_file="rules/lib/${relative_path%.html}.mdx"
@@ -114,26 +135,21 @@ if [ -d "$TEMP_DIR/rules/lib" ]; then
         # Create directory structure
         mkdir -p "$(dirname "$mdx_file")"
 
-        title=$(grep -oP '<title>\K[^<]+' "$html_file" 2>/dev/null || echo "$(basename "${html_file%.html}")")
-        title=$(echo "$title" | sed "s/'/'\\\''/g")
-
-        {
-            echo "---"
-            echo "title: '$title'"
-            echo "---"
-            echo ""
-            cat "$html_file"
-        } > "$mdx_file"
-
-        echo "  Created $mdx_file"
+        html_to_mdx "$html_file" "$mdx_file"
+        file_count=$((file_count + 1))
     done
+    
+    echo "  Converted Starlark library documentation"
 else
     echo "Warning: No rules/lib/ directory found in zip"
 fi
 
+echo ""
 echo "Reference documentation processing complete!"
 echo ""
 echo "Summary:"
 echo "  - Build Encyclopedia: reference/be/*.mdx"
 echo "  - Command-Line Reference: reference/command-line-reference.mdx"
 echo "  - Starlark Library: rules/lib/**/*.mdx"
+echo ""
+echo "All files have been converted from HTML to Markdown format."

@@ -2,96 +2,68 @@
 title: 'repo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.repo">REPO.bazel files</h1>
+# REPO.bazel files
 
 {% dynamic setvar source_file "NONE" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Methods available in REPO.bazel files.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#ignore_directories">ignore_directories</a>
-  </li>
-      <li>
-    <a href="#repo">repo</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="ignore_directories">ignore_directories</h2>
-        <p><pre class="rule-signature"><code>None</code> ignore_directories(dirs)</pre></p>
+- [ignore_directories](#ignore_directories)
+- [repo](#repo)
 
-    The list of directories to ignore in this repository. <p>This function takes a list of strings and a directory is ignored if any of the given strings matches its repository-relative path according to the semantics of the <code>glob()</code> function. This function can be used to ignore directories that are implementation details of source control systems, output files of other build systems, etc.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="ignore_directories.dirs">
-              <code>dirs</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../core/list.html">sequence</a> of <a class="anchor" href="../core/string.html">string</a>s;
-                                     required<br/>
+## ignore_directories
 
-            </td>
-          </tr>
-                </tbody>
-      </table>
+``` rule-signature
+None ignore_directories(dirs)
+```
 
-        <h2 id="repo">repo</h2>
-        <p><pre class="rule-signature"><code>None</code> repo(**kwargs)</pre></p>
+The list of directories to ignore in this repository.
 
-    Declares metadata that applies to every rule in the repository. It must be called at most once per REPO.bazel file. If called, it must be the first call in the REPO.bazel file.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="repo.kwargs">
-              <code>kwargs</code>
-            </td>
-            <td>
-                                     required<br/>
-                          The <code>repo()</code> function accepts exactly the same arguments as the <a href="/reference/be/functions#package"><code>package()</code></a> function in BUILD files.
-            </td>
-          </tr>
-                </tbody>
-      </table>
+This function takes a list of strings and a directory is ignored if any of the given strings matches its repository-relative path according to the semantics of the `glob()` function. This function can be used to ignore directories that are implementation details of source control systems, output files of other build systems, etc.
 
+### Parameters
 
-</body>
-</html>
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="ignore_directories.dirs"><code>dirs</code></td>
+<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
+required<br />
+</td>
+</tr>
+</tbody>
+</table>
 
-<!-- {% endraw %} -->
+## repo
+
+``` rule-signature
+None repo(**kwargs)
+```
+
+Declares metadata that applies to every rule in the repository. It must be called at most once per REPO.bazel file. If called, it must be the first call in the REPO.bazel file.
+
+### Parameters
+
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="repo.kwargs"><code>kwargs</code></td>
+<td>required<br />
+The <code>repo()</code> function accepts exactly the same arguments as the <a href="/reference/be/functions#package"><code>package()</code></a> function in BUILD files.</td>
+</tr>
+</tbody>
+</table>

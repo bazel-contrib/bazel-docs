@@ -2,174 +2,121 @@
 title: 'template_ctx'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.template_ctx">template_ctx</h1>
+# template_ctx
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkTemplateContextApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A context object that is passed to the action template expansion function.
 
-<h2>Members</h2>
+## Members
+
+- [args](#args)
+- [declare_file](#declare_file)
+- [run](#run)
+
+## args
+
+``` rule-signature
+Args template_ctx.args()
+```
+
+Returns an Args object that can be used to build memory-efficient command lines.
+
+## declare_file
+
+``` rule-signature
+File template_ctx.declare_file(filename, *, directory)
+```
+
+Declares that implementation creates a file with the given filename within the specified directory.
+
+Remember that in addition to declaring a file, you must separately create an action that emits the file. Creating that action will require passing the returned `File` object to the action's construction function.
+
+### Parameters
+
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="declare_file.filename"><code>filename</code></td>
+<td><a href="../core/string.html" class="anchor">string</a>;
+required<br />
+The relative path of the file within the directory.</td>
+</tr>
+<tr>
+<td id="declare_file.directory"><code>directory</code></td>
+<td><a href="../builtins/File.html" class="anchor">File</a>;
+required<br />
+The directory in which the file should be created.</td>
+</tr>
+</tbody>
+</table>
+
+## run
+
+``` rule-signature
+None template_ctx.run(*, outputs, inputs=[], executable, tools=None, arguments=[], progress_message=None)
+```
+
+Creates an action that runs an executable.
+
+### Parameters
+
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="run.outputs"><code>outputs</code></td>
+<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
+required<br />
+List of the output files of the action.</td>
+</tr>
+<tr>
+<td id="run.inputs"><code>inputs</code></td>
+<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s; or <a href="../builtins/depset.html" class="anchor">depset</a>;
+default is <code>[]</code><br />
+List or depset of the input files of the action.</td>
+</tr>
+<tr>
+<td id="run.executable"><code>executable</code></td>
+<td><a href="../builtins/File.html" class="anchor">File</a>; or <a href="../core/string.html" class="anchor">string</a>; or <a href="../providers/FilesToRunProvider.html" class="anchor">FilesToRunProvider</a>;
+required<br />
+The executable file to be called by the action.</td>
+</tr>
+<tr>
+<td id="run.tools"><code>tools</code></td>
+<td><a href="../core/list.html" class="anchor">sequence</a>; or <a href="../builtins/depset.html" class="anchor">depset</a>; or <code>None</code>;
+default is <code>None</code><br />
+List or <a href="../builtins/depset.html"><code>depset</code></a> of any tools needed by the action. Tools are executable inputs that may have their own runfiles which are automatically made available to the action.
+<p>When a list is provided, it can be a heterogenous collection of:</p>
 <ul>
-    <li>
-    <a href="#args">args</a>
-  </li>
-      <li>
-    <a href="#declare_file">declare_file</a>
-  </li>
-      <li>
-    <a href="#run">run</a>
-  </li>
-  </ul>
-
-      <h2 id="args">args</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Args.html">Args</a> template_ctx.args()</pre></p>
-
-    Returns an Args object that can be used to build memory-efficient command lines.
-
-        <h2 id="declare_file">declare_file</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> template_ctx.declare_file(filename, *, directory)</pre></p>
-
-    Declares that implementation creates a file with the given filename within the specified directory.<p>Remember that in addition to declaring a file, you must separately create an action that emits the file. Creating that action will require passing the returned <code>File</code> object to the action's construction function.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="declare_file.filename">
-              <code>filename</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../core/string.html">string</a>;
-                                     required<br/>
-                          The relative path of the file within the directory.
-            </td>
-          </tr>
-                  <tr>
-            <td id="declare_file.directory">
-              <code>directory</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../builtins/File.html">File</a>;
-                                     required<br/>
-                          The directory in which the file should be created.
-            </td>
-          </tr>
-                </tbody>
-      </table>
-
-        <h2 id="run">run</h2>
-        <p><pre class="rule-signature"><code>None</code> template_ctx.run(*, outputs, inputs=[], executable, tools=None, arguments=[], progress_message=None)</pre></p>
-
-    Creates an action that runs an executable.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="run.outputs">
-              <code>outputs</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../core/list.html">sequence</a> of <a class="anchor" href="../builtins/File.html">File</a>s;
-                                     required<br/>
-                          List of the output files of the action.
-            </td>
-          </tr>
-                  <tr>
-            <td id="run.inputs">
-              <code>inputs</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../core/list.html">sequence</a> of <a class="anchor" href="../builtins/File.html">File</a>s; or <a class="anchor" href="../builtins/depset.html">depset</a>;
-                                     default is <code>[]</code><br/>
-                          List or depset of the input files of the action.
-            </td>
-          </tr>
-                  <tr>
-            <td id="run.executable">
-              <code>executable</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../builtins/File.html">File</a>; or <a class="anchor" href="../core/string.html">string</a>; or <a class="anchor" href="../providers/FilesToRunProvider.html">FilesToRunProvider</a>;
-                                     required<br/>
-                          The executable file to be called by the action.
-            </td>
-          </tr>
-                  <tr>
-            <td id="run.tools">
-              <code>tools</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../core/list.html">sequence</a>; or <a class="anchor" href="../builtins/depset.html">depset</a>; or <code>None</code>;
-                                     default is <code>None</code><br/>
-                          List or <a href="../builtins/depset.html"><code>depset</code></a> of any tools needed by the action. Tools are executable inputs that may have their own runfiles which are automatically made available to the action. <p>
-When a list is provided, it can be a heterogenous collection of:
-<ul>
-    <li><code>File</code>s</li>
-    <li><code>FilesToRunProvider</code> instances</li>
-    <li><code>depset</code>s of <code>File</code>s</li>
+<li><code>File</code>s</li>
+<li><code>FilesToRunProvider</code> instances</li>
+<li><code>depset</code>s of <code>File</code>s</li>
 </ul>
-<code>File</code>s from <a href="../builtins/ctx#executable"><code>ctx.executable</code></a> and <code>FilesToRunProvider</code>s which are directly in the list will have their runfiles automatically added. All tools are implicitly added as inputs.
-</p>
-
-            </td>
-          </tr>
-                  <tr>
-            <td id="run.arguments">
-              <code>arguments</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../core/list.html">sequence</a>;
-                                     default is <code>[]</code><br/>
-                          Command line arguments of the action. Must be a list of strings or <a href="#args"><code>actions.args()</code></a> objects.
-            </td>
-          </tr>
-                  <tr>
-            <td id="run.progress_message">
-              <code>progress_message</code>
-            </td>
-            <td>
-                          <a class="anchor" href="../core/string.html">string</a>; or <code>None</code>;
-                                     default is <code>None</code><br/>
-                          Progress message to show to the user during the build.
-            </td>
-          </tr>
-                </tbody>
-      </table>
-
-
-</body>
-</html>
-
-<!-- {% endraw %} -->
+<code>File</code>s from <a href="../builtins/ctx#executable"><code>ctx.executable</code></a> and <code>FilesToRunProvider</code>s which are directly in the list will have their runfiles automatically added. All tools are implicitly added as inputs.</td>
+</tr>
+<tr>
+<td id="run.arguments"><code>arguments</code></td>
+<td><a href="../core/list.html" class="anchor">sequence</a>;
+default is <code>[]</code><br />
+Command line arguments of the action. Must be a list of strings or <a href="#args"><code>actions.args()</code></a> objects.</td>
+</tr>
+<tr>
+<td id="run.progress_message"><code>progress_message</code></td>
+<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
+default is <code>None</code><br />
+Progress message to show to the user during the build.</td>
+</tr>
+</tbody>
+</table>

@@ -2,43 +2,29 @@
 title: 'InstrumentedFilesInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.InstrumentedFilesInfo">InstrumentedFilesInfo</h1>
+# InstrumentedFilesInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/test/InstrumentedFilesInfoApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
+Contains information about source files and instrumentation metadata files for rule targets matched by [`--instrumentation_filter`](https://bazel.build/reference/command-line-reference#flag--instrumentation_filter) for purposes of [code coverage data collection](https://bazel.build/extending/rules#code_coverage). When coverage data collection is enabled, a manifest containing the combined paths in [`instrumented_files`](#instrumented_files) and [`metadata_files`](#metadata_files) are passed to the test action as inputs, with the manifest's path noted in the environment variable `COVERAGE_MANIFEST`. The metadata files, but not the source files, are also passed to the test action as inputs. When `InstrumentedFilesInfo` is returned by an [aspect](https://bazel.build/extending/aspects)'s implementation function, any `InstrumentedFilesInfo` from the base rule target is ignored.
 
-Contains information about source files and instrumentation metadata files for rule targets matched by <a href="https://bazel.build/reference/command-line-reference#flag--instrumentation_filter"><code>--instrumentation_filter</code></a> for purposes of <a href="https://bazel.build/extending/rules#code_coverage">code coverage data collection</a>. When coverage data collection is enabled, a manifest containing the combined paths in <a href="#instrumented_files"><code>instrumented_files</code></a> and <a href="#metadata_files"><code>metadata_files</code></a> are passed to the test action as inputs, with the manifest's path noted in the environment variable <code>COVERAGE_MANIFEST</code>. The metadata files, but not the source files, are also passed to the test action as inputs. When <code>InstrumentedFilesInfo</code> is returned by an <a href="https://bazel.build/extending/aspects">aspect</a>'s implementation function, any <code>InstrumentedFilesInfo</code> from the base rule target is ignored.
+## Members
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#instrumented_files">instrumented_files</a>
-  </li>
-      <li>
-    <a href="#metadata_files">metadata_files</a>
-  </li>
-  </ul>
+- [instrumented_files](#instrumented_files)
+- [metadata_files](#metadata_files)
 
-      <h2 id="instrumented_files">instrumented_files</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> InstrumentedFilesInfo.instrumented_files</pre></p>
+## instrumented_files
 
-    <a href="../builtins/depset.html"><code>depset</code></a> of <a href="../builtins/File.html"><code>File</code></a> objects representing instrumented source files for this target and its dependencies.
+``` rule-signature
+depset InstrumentedFilesInfo.instrumented_files
+```
 
-        <h2 id="metadata_files">metadata_files</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> InstrumentedFilesInfo.metadata_files</pre></p>
+[`depset`](../builtins/depset.html) of [`File`](../builtins/File.html) objects representing instrumented source files for this target and its dependencies.
 
-    <a href="../builtins/depset.html"><code>depset</code></a> of <a href="../builtins/File.html"><code>File</code></a> objects representing coverage metadata files for this target and its dependencies. These files contain additional information required to generate LCOV-format coverage output after the code is executed, e.g. the <code>.gcno</code> files generated when <code>gcc</code> is run with <code>-ftest-coverage</code>.
+## metadata_files
 
+``` rule-signature
+depset InstrumentedFilesInfo.metadata_files
+```
 
-</body>
-</html>
-
-<!-- {% endraw %} -->
+[`depset`](../builtins/depset.html) of [`File`](../builtins/File.html) objects representing coverage metadata files for this target and its dependencies. These files contain additional information required to generate LCOV-format coverage output after the code is executed, e.g. the `.gcno` files generated when `gcc` is run with `-ftest-coverage`.

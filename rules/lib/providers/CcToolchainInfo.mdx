@@ -2,257 +2,236 @@
 title: 'CcToolchainInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.CcToolchainInfo">CcToolchainInfo</h1>
+# CcToolchainInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CcToolchainProviderApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Information about the C++ compiler being used.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#all_files">all_files</a>
-  </li>
-      <li>
-    <a href="#ar_executable">ar_executable</a>
-  </li>
-      <li>
-    <a href="#built_in_include_directories">built_in_include_directories</a>
-  </li>
-      <li>
-    <a href="#compiler">compiler</a>
-  </li>
-      <li>
-    <a href="#compiler_executable">compiler_executable</a>
-  </li>
-      <li>
-    <a href="#cpu">cpu</a>
-  </li>
-      <li>
-    <a href="#dynamic_runtime_lib">dynamic_runtime_lib</a>
-  </li>
-      <li>
-    <a href="#gcov_executable">gcov_executable</a>
-  </li>
-      <li>
-    <a href="#ld_executable">ld_executable</a>
-  </li>
-      <li>
-    <a href="#libc">libc</a>
-  </li>
-      <li>
-    <a href="#needs_pic_for_dynamic_libraries">needs_pic_for_dynamic_libraries</a>
-  </li>
-      <li>
-    <a href="#nm_executable">nm_executable</a>
-  </li>
-      <li>
-    <a href="#objcopy_executable">objcopy_executable</a>
-  </li>
-      <li>
-    <a href="#objdump_executable">objdump_executable</a>
-  </li>
-      <li>
-    <a href="#preprocessor_executable">preprocessor_executable</a>
-  </li>
-      <li>
-    <a href="#static_runtime_lib">static_runtime_lib</a>
-  </li>
-      <li>
-    <a href="#strip_executable">strip_executable</a>
-  </li>
-      <li>
-    <a href="#sysroot">sysroot</a>
-  </li>
-      <li>
-    <a href="#target_gnu_system_name">target_gnu_system_name</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="all_files">all_files</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.all_files</pre></p>
+- [all_files](#all_files)
+- [ar_executable](#ar_executable)
+- [built_in_include_directories](#built_in_include_directories)
+- [compiler](#compiler)
+- [compiler_executable](#compiler_executable)
+- [cpu](#cpu)
+- [dynamic_runtime_lib](#dynamic_runtime_lib)
+- [gcov_executable](#gcov_executable)
+- [ld_executable](#ld_executable)
+- [libc](#libc)
+- [needs_pic_for_dynamic_libraries](#needs_pic_for_dynamic_libraries)
+- [nm_executable](#nm_executable)
+- [objcopy_executable](#objcopy_executable)
+- [objdump_executable](#objdump_executable)
+- [preprocessor_executable](#preprocessor_executable)
+- [static_runtime_lib](#static_runtime_lib)
+- [strip_executable](#strip_executable)
+- [sysroot](#sysroot)
+- [target_gnu_system_name](#target_gnu_system_name)
 
-    Returns all toolchain files (so they can be passed to actions using this toolchain as inputs).
+## all_files
 
-        <h2 id="ar_executable">ar_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.ar_executable</pre></p>
+``` rule-signature
+None CcToolchainInfo.all_files
+```
 
-    The path to the ar binary.
+Returns all toolchain files (so they can be passed to actions using this toolchain as inputs).
 
-        <h2 id="built_in_include_directories">built_in_include_directories</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.built_in_include_directories</pre></p>
+## ar_executable
 
-    Returns the list of built-in directories of the compiler.
+``` rule-signature
+None CcToolchainInfo.ar_executable
+```
 
-        <h2 id="compiler">compiler</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.compiler</pre></p>
+The path to the ar binary.
 
-    C++ compiler.
+## built_in_include_directories
 
-        <h2 id="compiler_executable">compiler_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.compiler_executable</pre></p>
+``` rule-signature
+None CcToolchainInfo.built_in_include_directories
+```
 
-    The path to the compiler binary.
+Returns the list of built-in directories of the compiler.
 
-        <h2 id="cpu">cpu</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.cpu</pre></p>
+## compiler
 
-    Target CPU of the C++ toolchain.
+``` rule-signature
+None CcToolchainInfo.compiler
+```
 
-        <h2 id="dynamic_runtime_lib">dynamic_runtime_lib</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.dynamic_runtime_lib(*, feature_configuration)</pre></p>
+C++ compiler.
 
-    Returns the files from `dynamic_runtime_lib` attribute (so they can be passed to actions using this toolchain as inputs). The caller can check whether the feature_configuration enables `static_link_cpp_runtimes` feature (if not, neither `static_runtime_lib` nor `dynamic_runtime_lib` have to be used), and use `static_runtime_lib` if static linking mode is active.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="dynamic_runtime_lib.feature_configuration">
-              <code>feature_configuration</code>
-            </td>
-            <td>
-                                     required<br/>
-                          Feature configuration to be queried.
-            </td>
-          </tr>
-                </tbody>
-      </table>
+## compiler_executable
 
-        <h2 id="gcov_executable">gcov_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.gcov_executable</pre></p>
+``` rule-signature
+None CcToolchainInfo.compiler_executable
+```
 
-    The path to the gcov binary.
+The path to the compiler binary.
 
-        <h2 id="ld_executable">ld_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.ld_executable</pre></p>
+## cpu
 
-    The path to the ld binary.
+``` rule-signature
+None CcToolchainInfo.cpu
+```
 
-        <h2 id="libc">libc</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.libc</pre></p>
+Target CPU of the C++ toolchain.
 
-    libc version string.
+## dynamic_runtime_lib
 
-        <h2 id="needs_pic_for_dynamic_libraries">needs_pic_for_dynamic_libraries</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.needs_pic_for_dynamic_libraries(*, feature_configuration)</pre></p>
+``` rule-signature
+None CcToolchainInfo.dynamic_runtime_lib(*, feature_configuration)
+```
 
-    Returns true if this rule's compilations should apply -fPIC, false otherwise. Determines if we should apply -fPIC for this rule's C++ compilations depending on the C++ toolchain and presence of `--force_pic` Bazel option.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="needs_pic_for_dynamic_libraries.feature_configuration">
-              <code>feature_configuration</code>
-            </td>
-            <td>
-                                     required<br/>
-                          Feature configuration to be queried.
-            </td>
-          </tr>
-                </tbody>
-      </table>
+Returns the files from \`dynamic_runtime_lib\` attribute (so they can be passed to actions using this toolchain as inputs). The caller can check whether the feature_configuration enables \`static_link_cpp_runtimes\` feature (if not, neither \`static_runtime_lib\` nor \`dynamic_runtime_lib\` have to be used), and use \`static_runtime_lib\` if static linking mode is active.
 
-        <h2 id="nm_executable">nm_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.nm_executable</pre></p>
+### Parameters
 
-    The path to the nm binary.
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="dynamic_runtime_lib.feature_configuration"><code>feature_configuration</code></td>
+<td>required<br />
+Feature configuration to be queried.</td>
+</tr>
+</tbody>
+</table>
 
-        <h2 id="objcopy_executable">objcopy_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.objcopy_executable</pre></p>
+## gcov_executable
 
-    The path to the objcopy binary.
+``` rule-signature
+None CcToolchainInfo.gcov_executable
+```
 
-        <h2 id="objdump_executable">objdump_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.objdump_executable</pre></p>
+The path to the gcov binary.
 
-    The path to the objdump binary.
+## ld_executable
 
-        <h2 id="preprocessor_executable">preprocessor_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.preprocessor_executable</pre></p>
+``` rule-signature
+None CcToolchainInfo.ld_executable
+```
 
-    The path to the preprocessor binary.
+The path to the ld binary.
 
-        <h2 id="static_runtime_lib">static_runtime_lib</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.static_runtime_lib(*, feature_configuration)</pre></p>
+## libc
 
-    Returns the files from `static_runtime_lib` attribute (so they can be passed to actions using this toolchain as inputs). The caller should check whether the feature_configuration enables `static_link_cpp_runtimes` feature (if not, neither `static_runtime_lib` nor `dynamic_runtime_lib` should be used), and use `dynamic_runtime_lib` if dynamic linking mode is active.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="static_runtime_lib.feature_configuration">
-              <code>feature_configuration</code>
-            </td>
-            <td>
-                                     required<br/>
-                          Feature configuration to be queried.
-            </td>
-          </tr>
-                </tbody>
-      </table>
+``` rule-signature
+None CcToolchainInfo.libc
+```
 
-        <h2 id="strip_executable">strip_executable</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.strip_executable</pre></p>
+libc version string.
 
-    The path to the strip binary.
+## needs_pic_for_dynamic_libraries
 
-        <h2 id="sysroot">sysroot</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.sysroot</pre></p>
+``` rule-signature
+None CcToolchainInfo.needs_pic_for_dynamic_libraries(*, feature_configuration)
+```
 
-    Returns the sysroot to be used. If the toolchain compiler does not support different sysroots, or the sysroot is the same as the default sysroot, then this method returns <code>None</code>.
+Returns true if this rule's compilations should apply -fPIC, false otherwise. Determines if we should apply -fPIC for this rule's C++ compilations depending on the C++ toolchain and presence of \`--force_pic\` Bazel option.
 
-        <h2 id="target_gnu_system_name">target_gnu_system_name</h2>
-        <p><pre class="rule-signature"><code>None</code> CcToolchainInfo.target_gnu_system_name</pre></p>
+### Parameters
 
-    The GNU System Name.
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="needs_pic_for_dynamic_libraries.feature_configuration"><code>feature_configuration</code></td>
+<td>required<br />
+Feature configuration to be queried.</td>
+</tr>
+</tbody>
+</table>
 
+## nm_executable
 
-</body>
-</html>
+``` rule-signature
+None CcToolchainInfo.nm_executable
+```
 
-<!-- {% endraw %} -->
+The path to the nm binary.
+
+## objcopy_executable
+
+``` rule-signature
+None CcToolchainInfo.objcopy_executable
+```
+
+The path to the objcopy binary.
+
+## objdump_executable
+
+``` rule-signature
+None CcToolchainInfo.objdump_executable
+```
+
+The path to the objdump binary.
+
+## preprocessor_executable
+
+``` rule-signature
+None CcToolchainInfo.preprocessor_executable
+```
+
+The path to the preprocessor binary.
+
+## static_runtime_lib
+
+``` rule-signature
+None CcToolchainInfo.static_runtime_lib(*, feature_configuration)
+```
+
+Returns the files from \`static_runtime_lib\` attribute (so they can be passed to actions using this toolchain as inputs). The caller should check whether the feature_configuration enables \`static_link_cpp_runtimes\` feature (if not, neither \`static_runtime_lib\` nor \`dynamic_runtime_lib\` should be used), and use \`dynamic_runtime_lib\` if dynamic linking mode is active.
+
+### Parameters
+
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="static_runtime_lib.feature_configuration"><code>feature_configuration</code></td>
+<td>required<br />
+Feature configuration to be queried.</td>
+</tr>
+</tbody>
+</table>
+
+## strip_executable
+
+``` rule-signature
+None CcToolchainInfo.strip_executable
+```
+
+The path to the strip binary.
+
+## sysroot
+
+``` rule-signature
+None CcToolchainInfo.sysroot
+```
+
+Returns the sysroot to be used. If the toolchain compiler does not support different sysroots, or the sysroot is the same as the default sysroot, then this method returns `None`.
+
+## target_gnu_system_name
+
+``` rule-signature
+None CcToolchainInfo.target_gnu_system_name
+```
+
+The GNU System Name.

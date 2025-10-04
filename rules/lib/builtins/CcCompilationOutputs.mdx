@@ -2,43 +2,29 @@
 title: 'CcCompilationOutputs'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.CcCompilationOutputs">CcCompilationOutputs</h1>
+# CcCompilationOutputs
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CcCompilationOutputsApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Helper class containing CC compilation outputs.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#objects">objects</a>
-  </li>
-      <li>
-    <a href="#pic_objects">pic_objects</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="objects">objects</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> CcCompilationOutputs.objects</pre></p>
+- [objects](#objects)
+- [pic_objects](#pic_objects)
 
-    Non-PIC object files.
+## objects
 
-        <h2 id="pic_objects">pic_objects</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> CcCompilationOutputs.pic_objects</pre></p>
+``` rule-signature
+sequence CcCompilationOutputs.objects
+```
 
-    PIC object files.
+Non-PIC object files.
 
+## pic_objects
 
-</body>
-</html>
+``` rule-signature
+sequence CcCompilationOutputs.pic_objects
+```
 
-<!-- {% endraw %} -->
+PIC object files.

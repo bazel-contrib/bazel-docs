@@ -2,95 +2,93 @@
 title: 'Action'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.Action">Action</h1>
+# Action
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/ActionApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
+An action created during rule analysis.
 
-An action created during rule analysis.<p>This object is visible for the purpose of testing, and may be obtained from an <code>Actions</code> provider. It is normally not necessary to access <code>Action</code> objects or their fields within a rule's implementation function. You may instead want to see the <a href='https://bazel.build/extending/rules#actions'>Rules page</a> for a general discussion of how to use actions when defining custom rules, or the <a href='../builtins/actions.html'>API reference</a> for creating actions.<p>Some fields of this object are only applicable for certain kinds of actions. Fields that are inapplicable are set to <code>None</code>.
+This object is visible for the purpose of testing, and may be obtained from an `Actions` provider. It is normally not necessary to access `Action` objects or their fields within a rule's implementation function. You may instead want to see the [Rules page](https://bazel.build/extending/rules#actions) for a general discussion of how to use actions when defining custom rules, or the [API reference](../builtins/actions.html) for creating actions.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#args">args</a>
-  </li>
-      <li>
-    <a href="#argv">argv</a>
-  </li>
-      <li>
-    <a href="#content">content</a>
-  </li>
-      <li>
-    <a href="#env">env</a>
-  </li>
-      <li>
-    <a href="#inputs">inputs</a>
-  </li>
-      <li>
-    <a href="#mnemonic">mnemonic</a>
-  </li>
-      <li>
-    <a href="#outputs">outputs</a>
-  </li>
-      <li>
-    <a href="#substitutions">substitutions</a>
-  </li>
-  </ul>
+Some fields of this object are only applicable for certain kinds of actions. Fields that are inapplicable are set to `None`.
 
-      <h2 id="args">args</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> Action.args</pre></p>
+## Members
 
-    A list of frozen <a href="../builtins/Args.html">Args</a> objects containing information about the action arguments. These objects contain accurate argument information, including arguments involving expanded action output directories. However, <a href="../builtins/Args.html">Args</a> objects are not readable in the analysis phase. For a less accurate account of arguments which is available in the analysis phase, see <a href="#argv">argv</a>. <p>Note that some types of actions do not yet support exposure of this field. For such action types, this is <code>None</code>.
-                 May return <code>None</code>.
+- [args](#args)
+- [argv](#argv)
+- [content](#content)
+- [env](#env)
+- [inputs](#inputs)
+- [mnemonic](#mnemonic)
+- [outputs](#outputs)
+- [substitutions](#substitutions)
 
-        <h2 id="argv">argv</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> Action.argv</pre></p>
+## args
 
-    For actions created by <a href="../builtins/actions.html#run">ctx.actions.run()</a> or <a href="../builtins/actions.html#run_shell">ctx.actions.run_shell()</a>  an immutable list of the arguments for the command line to be executed. Note that for shell actions the first two arguments will be the shell path and <code>"-c"</code>.
-                 May return <code>None</code>.
+``` rule-signature
+sequence Action.args
+```
 
-        <h2 id="content">content</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> Action.content</pre></p>
+A list of frozen [Args](../builtins/Args.html) objects containing information about the action arguments. These objects contain accurate argument information, including arguments involving expanded action output directories. However, [Args](../builtins/Args.html) objects are not readable in the analysis phase. For a less accurate account of arguments which is available in the analysis phase, see [argv](#argv).
 
-    For actions created by <a href="../builtins/actions.html#write">ctx.actions.write()</a> or <a href="../builtins/actions.html#expand_template">ctx.actions.expand_template()</a>, the contents of the file to be written, if those contents can be computed during  the analysis phase. The value is <code>None</code> if the contents cannot be determined until the execution phase, such as when a directory in an <a href="../builtins/Args.html">Args</a> object needs to be expanded.
-                 May return <code>None</code>.
+Note that some types of actions do not yet support exposure of this field. For such action types, this is `None`.
+May return `None`.
 
-        <h2 id="env">env</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/dict.html">dict</a> Action.env</pre></p>
+## argv
 
-    The 'fixed' environment variables for this action. This includes only environment settings which are explicitly set by the action definition, and thus omits settings which are only pre-set in the execution environment.
+``` rule-signature
+sequence Action.argv
+```
 
-        <h2 id="inputs">inputs</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> Action.inputs</pre></p>
+For actions created by [ctx.actions.run()](../builtins/actions.html#run) or [ctx.actions.run_shell()](../builtins/actions.html#run_shell) an immutable list of the arguments for the command line to be executed. Note that for shell actions the first two arguments will be the shell path and `"-c"`.
+May return `None`.
 
-    A set of the input files of this action.
+## content
 
-        <h2 id="mnemonic">mnemonic</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> Action.mnemonic</pre></p>
+``` rule-signature
+string Action.content
+```
 
-    The mnemonic for this action.
+For actions created by [ctx.actions.write()](../builtins/actions.html#write) or [ctx.actions.expand_template()](../builtins/actions.html#expand_template), the contents of the file to be written, if those contents can be computed during the analysis phase. The value is `None` if the contents cannot be determined until the execution phase, such as when a directory in an [Args](../builtins/Args.html) object needs to be expanded.
+May return `None`.
 
-        <h2 id="outputs">outputs</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> Action.outputs</pre></p>
+## env
 
-    A set of the output files of this action.
+``` rule-signature
+dict Action.env
+```
 
-        <h2 id="substitutions">substitutions</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/dict.html">dict</a> Action.substitutions</pre></p>
+The 'fixed' environment variables for this action. This includes only environment settings which are explicitly set by the action definition, and thus omits settings which are only pre-set in the execution environment.
 
-    For actions created by <a href="../builtins/actions.html#expand_template">ctx.actions.expand_template()</a>, an immutable dict holding the substitution mapping.
-                 May return <code>None</code>.
+## inputs
 
+``` rule-signature
+depset Action.inputs
+```
 
-</body>
-</html>
+A set of the input files of this action.
 
-<!-- {% endraw %} -->
+## mnemonic
+
+``` rule-signature
+string Action.mnemonic
+```
+
+The mnemonic for this action.
+
+## outputs
+
+``` rule-signature
+depset Action.outputs
+```
+
+A set of the output files of this action.
+
+## substitutions
+
+``` rule-signature
+dict Action.substitutions
+```
+
+For actions created by [ctx.actions.expand_template()](../builtins/actions.html#expand_template), an immutable dict holding the substitution mapping.
+May return `None`.

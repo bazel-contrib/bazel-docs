@@ -2,35 +2,21 @@
 title: 'ConstraintSettingInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.ConstraintSettingInfo">ConstraintSettingInfo</h1>
+# ConstraintSettingInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/platform/ConstraintSettingInfoApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
+A specific constraint setting that may be used to define a platform. See [Defining Constraints and Platforms](/docs/platforms#constraints-platforms) for more information.  
+*Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with `--experimental_platforms_api`*
 
-A specific constraint setting that may be used to define a platform. See <a href='/docs/platforms#constraints-platforms'>Defining Constraints and Platforms</a> for more information.<br/><i>Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with <code>--experimental_platforms_api</code></i>
+## Members
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#has_default_constraint_value">has_default_constraint_value</a>
-  </li>
-  </ul>
+- [has_default_constraint_value](#has_default_constraint_value)
 
-      <h2 id="has_default_constraint_value">has_default_constraint_value</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> ConstraintSettingInfo.has_default_constraint_value</pre></p>
+## has_default_constraint_value
 
-    Whether there is a default constraint_value for this setting.
+``` rule-signature
+bool ConstraintSettingInfo.has_default_constraint_value
+```
 
-
-</body>
-</html>
-
-<!-- {% endraw %} -->
+Whether there is a default constraint_value for this setting.

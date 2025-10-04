@@ -2,83 +2,74 @@
 title: 'py'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.py">py</h1>
+# py
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/rules/python/PythonConfiguration.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A configuration fragment for Python.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#build_python_zip">build_python_zip</a>
-  </li>
-      <li>
-    <a href="#default_python_version">default_python_version</a>
-  </li>
-      <li>
-    <a href="#default_to_explicit_init_py">default_to_explicit_init_py</a>
-  </li>
-      <li>
-    <a href="#disable_py2">disable_py2</a>
-  </li>
-      <li>
-    <a href="#disallow_native_rules">disallow_native_rules</a>
-  </li>
-      <li>
-    <a href="#include_label_in_linkstamp">include_label_in_linkstamp</a>
-  </li>
-      <li>
-    <a href="#use_toolchains">use_toolchains</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="build_python_zip">build_python_zip</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> py.build_python_zip</pre></p>
+- [build_python_zip](#build_python_zip)
+- [default_python_version](#default_python_version)
+- [default_to_explicit_init_py](#default_to_explicit_init_py)
+- [disable_py2](#disable_py2)
+- [disallow_native_rules](#disallow_native_rules)
+- [include_label_in_linkstamp](#include_label_in_linkstamp)
+- [use_toolchains](#use_toolchains)
 
-    The effective value of --build_python_zip
+## build_python_zip
 
-        <h2 id="default_python_version">default_python_version</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> py.default_python_version</pre></p>
+``` rule-signature
+bool py.build_python_zip
+```
 
-    No-op: PY3 is the default Python version.
+The effective value of --build_python_zip
 
-        <h2 id="default_to_explicit_init_py">default_to_explicit_init_py</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> py.default_to_explicit_init_py</pre></p>
+## default_python_version
 
-    The value from the --incompatible_default_to_explicit_init_py flag
+``` rule-signature
+string py.default_python_version
+```
 
-        <h2 id="disable_py2">disable_py2</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> py.disable_py2</pre></p>
+No-op: PY3 is the default Python version.
 
-    No-op: PY2 is no longer supported.
+## default_to_explicit_init_py
 
-        <h2 id="disallow_native_rules">disallow_native_rules</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> py.disallow_native_rules</pre></p>
+``` rule-signature
+bool py.default_to_explicit_init_py
+```
 
-    The value of the --incompatible_python_disallow_native_rules flag.
+The value from the --incompatible_default_to_explicit_init_py flag
 
-        <h2 id="include_label_in_linkstamp">include_label_in_linkstamp</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> py.include_label_in_linkstamp</pre></p>
+## disable_py2
 
-    Whether the build label is included in unstamped builds.
+``` rule-signature
+bool py.disable_py2
+```
 
-        <h2 id="use_toolchains">use_toolchains</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> py.use_toolchains</pre></p>
+No-op: PY2 is no longer supported.
 
-    No-op: Python toolchains are always used.
+## disallow_native_rules
 
+``` rule-signature
+bool py.disallow_native_rules
+```
 
-</body>
-</html>
+The value of the --incompatible_python_disallow_native_rules flag.
 
-<!-- {% endraw %} -->
+## include_label_in_linkstamp
+
+``` rule-signature
+bool py.include_label_in_linkstamp
+```
+
+Whether the build label is included in unstamped builds.
+
+## use_toolchains
+
+``` rule-signature
+bool py.use_toolchains
+```
+
+No-op: Python toolchains are always used.

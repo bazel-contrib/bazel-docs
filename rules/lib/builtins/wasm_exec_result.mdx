@@ -2,59 +2,44 @@
 title: 'wasm_exec_result'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.wasm_exec_result">wasm_exec_result</h1>
+# wasm_exec_result
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/repository/starlark/StarlarkWasmExecutionResult.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 The result of executing a WebAssembly function with
-<code>repository_ctx.execute_wasm()</code>. It contains the function's
+`repository_ctx.execute_wasm()`. It contains the function's
 return value and output buffer.
 
-<p>If execution failed before the function returned then the return code will be negative
-and the <code>error_message</code> field will be set.
+If execution failed before the function returned then the return code will be negative
+and the `error_message` field will be set.
 
+## Members
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#error_message">error_message</a>
-  </li>
-      <li>
-    <a href="#output">output</a>
-  </li>
-      <li>
-    <a href="#return_code">return_code</a>
-  </li>
-  </ul>
+- [error_message](#error_message)
+- [output](#output)
+- [return_code](#return_code)
 
-      <h2 id="error_message">error_message</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> wasm_exec_result.error_message</pre></p>
+## error_message
 
-    Contains an error message if execution failed before the function returned.
+``` rule-signature
+string wasm_exec_result.error_message
+```
 
-        <h2 id="output">output</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> wasm_exec_result.output</pre></p>
+Contains an error message if execution failed before the function returned.
 
-    The content of the output buffer returned by the WebAssembly function.
+## output
 
-        <h2 id="return_code">return_code</h2>
-        <p><pre class="rule-signature">long wasm_exec_result.return_code</pre></p>
+``` rule-signature
+string wasm_exec_result.output
+```
 
-    The return value of the WebAssembly function, or a negative value if execution
+The content of the output buffer returned by the WebAssembly function.
+
+## return_code
+
+``` rule-signature
+long wasm_exec_result.return_code
+```
+
+The return value of the WebAssembly function, or a negative value if execution
 was terminated before the function returned.
-
-
-
-</body>
-</html>
-
-<!-- {% endraw %} -->

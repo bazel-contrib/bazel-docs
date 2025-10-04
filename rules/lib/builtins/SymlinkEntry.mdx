@@ -2,43 +2,29 @@
 title: 'SymlinkEntry'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.SymlinkEntry">SymlinkEntry</h1>
+# SymlinkEntry
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/SymlinkEntryApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A single runfiles symlink represented by a link name and target.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#path">path</a>
-  </li>
-      <li>
-    <a href="#target_file">target_file</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="path">path</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> SymlinkEntry.path</pre></p>
+- [path](#path)
+- [target_file](#target_file)
 
-    The path of the symlink in the runfiles tree
+## path
 
-        <h2 id="target_file">target_file</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> SymlinkEntry.target_file</pre></p>
+``` rule-signature
+string SymlinkEntry.path
+```
 
-    Target file of the symlink
+The path of the symlink in the runfiles tree
 
+## target_file
 
-</body>
-</html>
+``` rule-signature
+File SymlinkEntry.target_file
+```
 
-<!-- {% endraw %} -->
+Target file of the symlink

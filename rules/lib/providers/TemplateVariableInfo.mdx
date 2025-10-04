@@ -2,35 +2,24 @@
 title: 'TemplateVariableInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.TemplateVariableInfo">TemplateVariableInfo</h1>
+# TemplateVariableInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/TemplateVariableInfoApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
+Encapsulates template variables, that is, variables that can be referenced by strings like `$(VARIABLE)` in BUILD files and expanded by `ctx.expand_make_variables` and implicitly in certain attributes of built-in rules.
 
-Encapsulates template variables, that is, variables that can be referenced by strings like <code>$(VARIABLE)</code> in BUILD files and expanded by <code>ctx.expand_make_variables</code> and implicitly in certain attributes of built-in rules.</p><p><code>TemplateVariableInfo</code> can be created by calling its eponymous constructor with a string-to-string dict as an argument that specifies the variables provided.</p><p>Example: <code>platform_common.TemplateVariableInfo({'FOO': 'bar'})</code></p>
+`TemplateVariableInfo` can be created by calling its eponymous constructor with a string-to-string dict as an argument that specifies the variables provided.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#variables">variables</a>
-  </li>
-  </ul>
+Example: `platform_common.TemplateVariableInfo({'FOO': 'bar'})`
 
-      <h2 id="variables">variables</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/dict.html">dict</a> TemplateVariableInfo.variables</pre></p>
+## Members
 
-    Returns the make variables defined by this target as a dictionary with string keys and string values
+- [variables](#variables)
 
+## variables
 
-</body>
-</html>
+``` rule-signature
+dict TemplateVariableInfo.variables
+```
 
-<!-- {% endraw %} -->
+Returns the make variables defined by this target as a dictionary with string keys and string values

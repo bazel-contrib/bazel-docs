@@ -2,36 +2,29 @@
 title: 'coverage'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.coverage">coverage</h1>
+# coverage
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/test/CoverageConfigurationApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A configuration fragment representing the coverage configuration.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#output_generator">output_generator</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="output_generator">output_generator</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> coverage.output_generator</pre></p>
+- [output_generator](#output_generator)
 
-    Returns the label pointed to by the <a href="https://bazel.build/reference/command-line-reference#flag--coverage_output_generator"><code>--coverage_output_generator</code></a> option if coverage collection is enabled, otherwise returns <code>None</code>. Can be accessed with <a href="../globals/bzl.html#configuration_field"><code>configuration_field</code></a>:<br/><pre>attr.label(<br/>    default = configuration_field(<br/>        fragment = "coverage",<br/>        name = "output_generator"<br/>    )<br/>)</pre>
-                 May return <code>None</code>.
+## output_generator
 
+``` rule-signature
+Label coverage.output_generator
+```
 
-</body>
-</html>
+Returns the label pointed to by the [`--coverage_output_generator`](https://bazel.build/reference/command-line-reference#flag--coverage_output_generator) option if coverage collection is enabled, otherwise returns `None`. Can be accessed with [`configuration_field`](../globals/bzl.html#configuration_field):  
 
-<!-- {% endraw %} -->
+    attr.label(
+        default = configuration_field(
+            fragment = "coverage",
+            name = "output_generator"
+        )
+    )
+
+May return `None`.

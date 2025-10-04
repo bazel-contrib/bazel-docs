@@ -2,29 +2,12 @@
 title: 'rule'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.rule">rule</h1>
+# rule
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/RuleFunctionApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A callable value representing the type of a native or Starlark rule (created by
-<a href="../globals/bzl.html#rule"><code>rule()</code></a>). Calling the value during
+[`rule()`](../globals/bzl.html#rule)). Calling the value during
 evaluation of a package's BUILD file creates an instance of the rule and adds it to the
 package's target set. For more information, visit this page about
-<a href ="https://bazel.build/extending/rules">Rules</a>.
-
-
-
-
-</body>
-</html>
-
-<!-- {% endraw %} -->
+[Rules](https://bazel.build/extending/rules).

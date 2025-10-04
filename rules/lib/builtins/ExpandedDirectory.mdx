@@ -2,43 +2,29 @@
 title: 'ExpandedDirectory'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.ExpandedDirectory">ExpandedDirectory</h1>
+# ExpandedDirectory
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/ExpandedDirectoryApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Represents an expanded directory that makes the files within the it directly accessible.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#children">children</a>
-  </li>
-      <li>
-    <a href="#directory">directory</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="children">children</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> ExpandedDirectory.children</pre></p>
+- [children](#children)
+- [directory](#directory)
 
-    Contains the files within the directory.
+## children
 
-        <h2 id="directory">directory</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> ExpandedDirectory.directory</pre></p>
+``` rule-signature
+list ExpandedDirectory.children
+```
 
-    The input directory that was expanded.
+Contains the files within the directory.
 
+## directory
 
-</body>
-</html>
+``` rule-signature
+File ExpandedDirectory.directory
+```
 
-<!-- {% endraw %} -->
+The input directory that was expanded.

@@ -2,118 +2,113 @@
 title: 'JavaRuntimeInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.JavaRuntimeInfo">JavaRuntimeInfo</h1>
+# JavaRuntimeInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/java/JavaRuntimeInfoApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Information about the Java runtime being used.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#default_cds">default_cds</a>
-  </li>
-      <li>
-    <a href="#files">files</a>
-  </li>
-      <li>
-    <a href="#hermetic_files">hermetic_files</a>
-  </li>
-      <li>
-    <a href="#hermetic_static_libs">hermetic_static_libs</a>
-  </li>
-      <li>
-    <a href="#java_executable_exec_path">java_executable_exec_path</a>
-  </li>
-      <li>
-    <a href="#java_executable_runfiles_path">java_executable_runfiles_path</a>
-  </li>
-      <li>
-    <a href="#java_home">java_home</a>
-  </li>
-      <li>
-    <a href="#java_home_runfiles_path">java_home_runfiles_path</a>
-  </li>
-      <li>
-    <a href="#lib_ct_sym">lib_ct_sym</a>
-  </li>
-      <li>
-    <a href="#lib_modules">lib_modules</a>
-  </li>
-      <li>
-    <a href="#version">version</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="default_cds">default_cds</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> JavaRuntimeInfo.default_cds</pre></p>
+- [default_cds](#default_cds)
+- [files](#files)
+- [hermetic_files](#hermetic_files)
+- [hermetic_static_libs](#hermetic_static_libs)
+- [java_executable_exec_path](#java_executable_exec_path)
+- [java_executable_runfiles_path](#java_executable_runfiles_path)
+- [java_home](#java_home)
+- [java_home_runfiles_path](#java_home_runfiles_path)
+- [lib_ct_sym](#lib_ct_sym)
+- [lib_modules](#lib_modules)
+- [version](#version)
 
-    Returns the JDK default CDS archive.
-                 May return <code>None</code>.
+## default_cds
 
-        <h2 id="files">files</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> JavaRuntimeInfo.files</pre></p>
+``` rule-signature
+File JavaRuntimeInfo.default_cds
+```
 
-    Returns the files in the Java runtime.
+Returns the JDK default CDS archive.
+May return `None`.
 
-        <h2 id="hermetic_files">hermetic_files</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> JavaRuntimeInfo.hermetic_files</pre></p>
+## files
 
-    Returns the files in the Java runtime needed for hermetic deployments.
+``` rule-signature
+depset JavaRuntimeInfo.files
+```
 
-        <h2 id="hermetic_static_libs">hermetic_static_libs</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">sequence</a> JavaRuntimeInfo.hermetic_static_libs</pre></p>
+Returns the files in the Java runtime.
 
-    Returns the JDK static libraries.
+## hermetic_files
 
-        <h2 id="java_executable_exec_path">java_executable_exec_path</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> JavaRuntimeInfo.java_executable_exec_path</pre></p>
+``` rule-signature
+depset JavaRuntimeInfo.hermetic_files
+```
 
-    Returns the execpath of the Java executable.
+Returns the files in the Java runtime needed for hermetic deployments.
 
-        <h2 id="java_executable_runfiles_path">java_executable_runfiles_path</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> JavaRuntimeInfo.java_executable_runfiles_path</pre></p>
+## hermetic_static_libs
 
-    Returns the path of the Java executable in runfiles trees. This should only be used when one needs to access the JVM during the execution of a binary or a test built by Bazel. In particular, when one needs to invoke the JVM during an action, java_executable_exec_path should be used instead.
+``` rule-signature
+sequence JavaRuntimeInfo.hermetic_static_libs
+```
 
-        <h2 id="java_home">java_home</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> JavaRuntimeInfo.java_home</pre></p>
+Returns the JDK static libraries.
 
-    Returns the execpath of the root of the Java installation.
+## java_executable_exec_path
 
-        <h2 id="java_home_runfiles_path">java_home_runfiles_path</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> JavaRuntimeInfo.java_home_runfiles_path</pre></p>
+``` rule-signature
+string JavaRuntimeInfo.java_executable_exec_path
+```
 
-    Returns the path of the Java installation in runfiles trees. This should only be used when one needs to access the JDK during the execution of a binary or a test built by Bazel. In particular, when one needs the JDK during an action, java_home should be used instead.
+Returns the execpath of the Java executable.
 
-        <h2 id="lib_ct_sym">lib_ct_sym</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> JavaRuntimeInfo.lib_ct_sym</pre></p>
+## java_executable_runfiles_path
 
-    Returns the lib/ct.sym file.
-                 May return <code>None</code>.
+``` rule-signature
+string JavaRuntimeInfo.java_executable_runfiles_path
+```
 
-        <h2 id="lib_modules">lib_modules</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> JavaRuntimeInfo.lib_modules</pre></p>
+Returns the path of the Java executable in runfiles trees. This should only be used when one needs to access the JVM during the execution of a binary or a test built by Bazel. In particular, when one needs to invoke the JVM during an action, java_executable_exec_path should be used instead.
 
-    Returns the lib/modules file.
-                 May return <code>None</code>.
+## java_home
 
-        <h2 id="version">version</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/int.html">int</a> JavaRuntimeInfo.version</pre></p>
+``` rule-signature
+string JavaRuntimeInfo.java_home
+```
 
-    The Java feature version of the runtime. This is 0 if the version is unknown.
+Returns the execpath of the root of the Java installation.
 
+## java_home_runfiles_path
 
-</body>
-</html>
+``` rule-signature
+string JavaRuntimeInfo.java_home_runfiles_path
+```
 
-<!-- {% endraw %} -->
+Returns the path of the Java installation in runfiles trees. This should only be used when one needs to access the JDK during the execution of a binary or a test built by Bazel. In particular, when one needs the JDK during an action, java_home should be used instead.
+
+## lib_ct_sym
+
+``` rule-signature
+File JavaRuntimeInfo.lib_ct_sym
+```
+
+Returns the lib/ct.sym file.
+May return `None`.
+
+## lib_modules
+
+``` rule-signature
+File JavaRuntimeInfo.lib_modules
+```
+
+Returns the lib/modules file.
+May return `None`.
+
+## version
+
+``` rule-signature
+int JavaRuntimeInfo.version
+```
+
+The Java feature version of the runtime. This is 0 if the version is unknown.

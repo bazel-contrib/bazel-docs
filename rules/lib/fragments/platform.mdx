@@ -2,43 +2,29 @@
 title: 'platform'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.platform">platform</h1>
+# platform
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/platform/PlatformConfigurationApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 The platform configuration.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#host_platform">host_platform</a>
-  </li>
-      <li>
-    <a href="#platform">platform</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="host_platform">host_platform</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> platform.host_platform</pre></p>
+- [host_platform](#host_platform)
+- [platform](#platform)
 
-    The current host platform
+## host_platform
 
-        <h2 id="platform">platform</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> platform.platform</pre></p>
+``` rule-signature
+Label platform.host_platform
+```
 
-    The current target platform
+The current host platform
 
+## platform
 
-</body>
-</html>
+``` rule-signature
+Label platform.platform
+```
 
-<!-- {% endraw %} -->
+The current target platform

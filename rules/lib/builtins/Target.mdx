@@ -2,32 +2,18 @@
 title: 'Target'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.Target">Target</h1>
+# Target
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/core/TransitiveInfoCollectionApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
+The BUILD target for a dependency. Appears in the fields of [`ctx.attr`](../builtins/ctx.html#attr) corresponding to [dependency attributes](https://bazel.build/extending/rules#dependency_attributes) ([`label`](../toplevel/attr.html#label) or [`label_list`](../toplevel/attr.html#label_list)). Has the following fields:
 
-The BUILD target for a dependency. Appears in the fields of <code><a href='../builtins/ctx.html#attr'>ctx.attr</a></code> corresponding to <a href='https://bazel.build/extending/rules#dependency_attributes'>dependency attributes</a> (<code><a href='../toplevel/attr.html#label'>label</a></code> or <code><a href='../toplevel/attr.html#label_list'>label_list</a></code>). Has the following fields:
-<ul>
-<li><h3 id='modules.Target.label'>label</h3>
-<code><a href='../builtins/Label.html'>Label</a> Target.label</code><br/>
-The identifier of the target.</li>
-<li><h3 id='modules.Target.providers'>Providers</h3>
-The <a href='https://bazel.build/extending/rules#providers'>providers</a> of a rule target can be accessed by type using index notation (<code>target[DefaultInfo]</code>). The presence of providers can be checked using the <code>in</code> operator (<code>SomeInfo in target</code>).<br/>
-<br/>
-</ul>
+- ### label
 
+  [`Label`](../builtins/Label.html)` Target.label`  
+  The identifier of the target.
 
+- ### Providers
 
-</body>
-</html>
-
-<!-- {% endraw %} -->
+  The [providers](https://bazel.build/extending/rules#providers) of a rule target can be accessed by type using index notation (`target[DefaultInfo]`). The presence of providers can be checked using the `in` operator (`SomeInfo in target`).  
+    

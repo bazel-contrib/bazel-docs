@@ -47,7 +47,12 @@ jobs:
           with:
             bazelisk-cache: true
             repository-cache: true
-
+        
+        - name: Install pandoc
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y pandoc
+        
         - name: Build reference documentation
           working-directory: upstream
           run: >

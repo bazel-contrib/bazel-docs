@@ -2,35 +2,20 @@
 title: 'j2objc'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.j2objc">j2objc</h1>
+# j2objc
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/apple/J2ObjcConfigurationApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A configuration fragment for j2Objc.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#translation_flags">translation_flags</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="translation_flags">translation_flags</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> j2objc.translation_flags</pre></p>
+- [translation_flags](#translation_flags)
 
-    The list of flags to be used when the j2objc compiler is invoked.
+## translation_flags
 
+``` rule-signature
+list j2objc.translation_flags
+```
 
-</body>
-</html>
-
-<!-- {% endraw %} -->
+The list of flags to be used when the j2objc compiler is invoked.

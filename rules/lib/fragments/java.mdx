@@ -2,139 +2,137 @@
 title: 'java'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.java">java</h1>
+# java
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/java/JavaConfigurationApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A java compiler configuration.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#bytecode_optimization_pass_actions">bytecode_optimization_pass_actions</a>
-  </li>
-      <li>
-    <a href="#bytecode_optimizer_mnemonic">bytecode_optimizer_mnemonic</a>
-  </li>
-      <li>
-    <a href="#default_javac_flags">default_javac_flags</a>
-  </li>
-      <li>
-    <a href="#default_javac_flags_depset">default_javac_flags_depset</a>
-  </li>
-      <li>
-    <a href="#default_jvm_opts">default_jvm_opts</a>
-  </li>
-      <li>
-    <a href="#disallow_java_import_exports">disallow_java_import_exports</a>
-  </li>
-      <li>
-    <a href="#multi_release_deploy_jars">multi_release_deploy_jars</a>
-  </li>
-      <li>
-    <a href="#one_version_enforcement_level">one_version_enforcement_level</a>
-  </li>
-      <li>
-    <a href="#plugins">plugins</a>
-  </li>
-      <li>
-    <a href="#run_android_lint">run_android_lint</a>
-  </li>
-      <li>
-    <a href="#split_bytecode_optimization_pass">split_bytecode_optimization_pass</a>
-  </li>
-      <li>
-    <a href="#strict_java_deps">strict_java_deps</a>
-  </li>
-      <li>
-    <a href="#use_header_compilation_direct_deps">use_header_compilation_direct_deps</a>
-  </li>
-      <li>
-    <a href="#use_ijars">use_ijars</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="bytecode_optimization_pass_actions">bytecode_optimization_pass_actions</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/int.html">int</a> java.bytecode_optimization_pass_actions</pre></p>
+- [bytecode_optimization_pass_actions](#bytecode_optimization_pass_actions)
+- [bytecode_optimizer_mnemonic](#bytecode_optimizer_mnemonic)
+- [default_javac_flags](#default_javac_flags)
+- [default_javac_flags_depset](#default_javac_flags_depset)
+- [default_jvm_opts](#default_jvm_opts)
+- [disallow_java_import_exports](#disallow_java_import_exports)
+- [multi_release_deploy_jars](#multi_release_deploy_jars)
+- [one_version_enforcement_level](#one_version_enforcement_level)
+- [plugins](#plugins)
+- [run_android_lint](#run_android_lint)
+- [split_bytecode_optimization_pass](#split_bytecode_optimization_pass)
+- [strict_java_deps](#strict_java_deps)
+- [use_header_compilation_direct_deps](#use_header_compilation_direct_deps)
+- [use_ijars](#use_ijars)
 
-    This specifies the number of actions to divide the OPTIMIZATION stage of the bytecode optimizer into. Note that if split_bytecode_optimization_pass is set, this will only change behavior if it is > 2.
+## bytecode_optimization_pass_actions
 
-        <h2 id="bytecode_optimizer_mnemonic">bytecode_optimizer_mnemonic</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> java.bytecode_optimizer_mnemonic</pre></p>
+``` rule-signature
+int java.bytecode_optimization_pass_actions
+```
 
-    The mnemonic for the bytecode optimizer.
+This specifies the number of actions to divide the OPTIMIZATION stage of the bytecode optimizer into. Note that if split_bytecode_optimization_pass is set, this will only change behavior if it is \> 2.
 
-        <h2 id="default_javac_flags">default_javac_flags</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> java.default_javac_flags</pre></p>
+## bytecode_optimizer_mnemonic
 
-    The default flags for the Java compiler.
+``` rule-signature
+string java.bytecode_optimizer_mnemonic
+```
 
-        <h2 id="default_javac_flags_depset">default_javac_flags_depset</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> java.default_javac_flags_depset</pre></p>
+The mnemonic for the bytecode optimizer.
 
-    The default flags for the Java compiler.
+## default_javac_flags
 
-        <h2 id="default_jvm_opts">default_jvm_opts</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> java.default_jvm_opts</pre></p>
+``` rule-signature
+list java.default_javac_flags
+```
 
-    Additional options to pass to the Java VM for each java_binary target
+The default flags for the Java compiler.
 
-        <h2 id="disallow_java_import_exports">disallow_java_import_exports</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> java.disallow_java_import_exports()</pre></p>
+## default_javac_flags_depset
 
-    Returns true if java_import exports are not allowed.
+``` rule-signature
+depset java.default_javac_flags_depset
+```
 
-        <h2 id="multi_release_deploy_jars">multi_release_deploy_jars</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> java.multi_release_deploy_jars</pre></p>
+The default flags for the Java compiler.
 
-    The value of the --incompatible_multi_release_deploy_jars flag.
+## default_jvm_opts
 
-        <h2 id="one_version_enforcement_level">one_version_enforcement_level</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> java.one_version_enforcement_level</pre></p>
+``` rule-signature
+list java.default_jvm_opts
+```
 
-    The value of the --experimental_one_version_enforcement flag.
+Additional options to pass to the Java VM for each java_binary target
 
-        <h2 id="plugins">plugins</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> java.plugins</pre></p>
+## disallow_java_import_exports
 
-    A list containing the labels provided with --plugins, if any.
+``` rule-signature
+bool java.disallow_java_import_exports()
+```
 
-        <h2 id="run_android_lint">run_android_lint</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> java.run_android_lint</pre></p>
+Returns true if java_import exports are not allowed.
 
-    The value of the --experimental_run_android_lint_on_java_rules flag.
+## multi_release_deploy_jars
 
-        <h2 id="split_bytecode_optimization_pass">split_bytecode_optimization_pass</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> java.split_bytecode_optimization_pass</pre></p>
+``` rule-signature
+bool java.multi_release_deploy_jars
+```
 
-    Returns whether the OPTIMIZATION stage of the bytecode optimizer will be split across two actions.
+The value of the --incompatible_multi_release_deploy_jars flag.
 
-        <h2 id="strict_java_deps">strict_java_deps</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> java.strict_java_deps</pre></p>
+## one_version_enforcement_level
 
-    The value of the strict_java_deps flag.
+``` rule-signature
+string java.one_version_enforcement_level
+```
 
-        <h2 id="use_header_compilation_direct_deps">use_header_compilation_direct_deps</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> java.use_header_compilation_direct_deps()</pre></p>
+The value of the --experimental_one_version_enforcement flag.
 
-    Returns true if Java header compilation should use separate outputs for direct deps.
+## plugins
 
-        <h2 id="use_ijars">use_ijars</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> java.use_ijars()</pre></p>
+``` rule-signature
+list java.plugins
+```
 
-    Returns true iff Java compilation should use ijars.
+A list containing the labels provided with --plugins, if any.
 
+## run_android_lint
 
-</body>
-</html>
+``` rule-signature
+bool java.run_android_lint
+```
 
-<!-- {% endraw %} -->
+The value of the --experimental_run_android_lint_on_java_rules flag.
+
+## split_bytecode_optimization_pass
+
+``` rule-signature
+bool java.split_bytecode_optimization_pass
+```
+
+Returns whether the OPTIMIZATION stage of the bytecode optimizer will be split across two actions.
+
+## strict_java_deps
+
+``` rule-signature
+string java.strict_java_deps
+```
+
+The value of the strict_java_deps flag.
+
+## use_header_compilation_direct_deps
+
+``` rule-signature
+bool java.use_header_compilation_direct_deps()
+```
+
+Returns true if Java header compilation should use separate outputs for direct deps.
+
+## use_ijars
+
+``` rule-signature
+bool java.use_ijars()
+```
+
+Returns true iff Java compilation should use ijars.

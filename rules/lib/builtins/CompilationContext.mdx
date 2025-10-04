@@ -2,131 +2,128 @@
 title: 'CompilationContext'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.CompilationContext">CompilationContext</h1>
+# CompilationContext
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CcCompilationContextApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Immutable store of information needed for C++ compilation that is aggregated across dependencies.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#defines">defines</a>
-  </li>
-      <li>
-    <a href="#direct_headers">direct_headers</a>
-  </li>
-      <li>
-    <a href="#direct_private_headers">direct_private_headers</a>
-  </li>
-      <li>
-    <a href="#direct_public_headers">direct_public_headers</a>
-  </li>
-      <li>
-    <a href="#direct_textual_headers">direct_textual_headers</a>
-  </li>
-      <li>
-    <a href="#external_includes">external_includes</a>
-  </li>
-      <li>
-    <a href="#framework_includes">framework_includes</a>
-  </li>
-      <li>
-    <a href="#headers">headers</a>
-  </li>
-      <li>
-    <a href="#includes">includes</a>
-  </li>
-      <li>
-    <a href="#local_defines">local_defines</a>
-  </li>
-      <li>
-    <a href="#quote_includes">quote_includes</a>
-  </li>
-      <li>
-    <a href="#system_includes">system_includes</a>
-  </li>
-      <li>
-    <a href="#validation_artifacts">validation_artifacts</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="defines">defines</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.defines</pre></p>
+- [defines](#defines)
+- [direct_headers](#direct_headers)
+- [direct_private_headers](#direct_private_headers)
+- [direct_public_headers](#direct_public_headers)
+- [direct_textual_headers](#direct_textual_headers)
+- [external_includes](#external_includes)
+- [framework_includes](#framework_includes)
+- [headers](#headers)
+- [includes](#includes)
+- [local_defines](#local_defines)
+- [quote_includes](#quote_includes)
+- [system_includes](#system_includes)
+- [validation_artifacts](#validation_artifacts)
 
-    Returns the set of defines needed to compile this target. Each define is a string. These values are propagated to the target's transitive dependents, that is, any rules that depend on this target.
+## defines
 
-        <h2 id="direct_headers">direct_headers</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> CompilationContext.direct_headers</pre></p>
+``` rule-signature
+depset CompilationContext.defines
+```
 
-    Returns the list of modular headers that are declared by this target. This includes both public headers (such as those listed in "hdrs") and private headers (such as those listed in "srcs").
+Returns the set of defines needed to compile this target. Each define is a string. These values are propagated to the target's transitive dependents, that is, any rules that depend on this target.
 
-        <h2 id="direct_private_headers">direct_private_headers</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> CompilationContext.direct_private_headers</pre></p>
+## direct_headers
 
-    Returns the list of modular private headers (those listed in "srcs") that are declared by this target.
+``` rule-signature
+list CompilationContext.direct_headers
+```
 
-        <h2 id="direct_public_headers">direct_public_headers</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> CompilationContext.direct_public_headers</pre></p>
+Returns the list of modular headers that are declared by this target. This includes both public headers (such as those listed in "hdrs") and private headers (such as those listed in "srcs").
 
-    Returns the list of modular public headers (those listed in "hdrs") that are declared by this target.
+## direct_private_headers
 
-        <h2 id="direct_textual_headers">direct_textual_headers</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> CompilationContext.direct_textual_headers</pre></p>
+``` rule-signature
+list CompilationContext.direct_private_headers
+```
 
-    Returns the list of textual headers that are declared by this target.
+Returns the list of modular private headers (those listed in "srcs") that are declared by this target.
 
-        <h2 id="external_includes">external_includes</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.external_includes</pre></p>
+## direct_public_headers
 
-    Returns the set of search paths (as strings) for external header files referenced by angle bracket. Usually passed with -isystem.
+``` rule-signature
+list CompilationContext.direct_public_headers
+```
 
-        <h2 id="framework_includes">framework_includes</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.framework_includes</pre></p>
+Returns the list of modular public headers (those listed in "hdrs") that are declared by this target.
 
-    Returns the set of search paths (as strings) for framework header files. Usually passed with -F.
+## direct_textual_headers
 
-        <h2 id="headers">headers</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.headers</pre></p>
+``` rule-signature
+list CompilationContext.direct_textual_headers
+```
 
-    Returns the set of headers needed to compile this target.
+Returns the list of textual headers that are declared by this target.
 
-        <h2 id="includes">includes</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.includes</pre></p>
+## external_includes
 
-    Returns the set of search paths (as strings) for header files referenced both by angle bracket and quotes. Usually passed with -I.
+``` rule-signature
+depset CompilationContext.external_includes
+```
 
-        <h2 id="local_defines">local_defines</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.local_defines</pre></p>
+Returns the set of search paths (as strings) for external header files referenced by angle bracket. Usually passed with -isystem.
 
-    Returns the set of defines needed to compile this target. Each define is a string. These values are not propagated to the target's transitive dependents.
+## framework_includes
 
-        <h2 id="quote_includes">quote_includes</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.quote_includes</pre></p>
+``` rule-signature
+depset CompilationContext.framework_includes
+```
 
-    Returns the set of search paths (as strings) for header files referenced by quotes, e.g. #include "foo/bar/header.h". They can be either relative to the exec root or absolute. Usually passed with -iquote.
+Returns the set of search paths (as strings) for framework header files. Usually passed with -F.
 
-        <h2 id="system_includes">system_includes</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.system_includes</pre></p>
+## headers
 
-    Returns the set of search paths (as strings) for header files referenced by angle brackets, e.g. #include &lt;foo/bar/header.h&gt;. They can be either relative to the exec root or absolute. Usually passed with -isystem.
+``` rule-signature
+depset CompilationContext.headers
+```
 
-        <h2 id="validation_artifacts">validation_artifacts</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> CompilationContext.validation_artifacts</pre></p>
+Returns the set of headers needed to compile this target.
 
-    Returns the set of validation artifacts.
+## includes
 
+``` rule-signature
+depset CompilationContext.includes
+```
 
-</body>
-</html>
+Returns the set of search paths (as strings) for header files referenced both by angle bracket and quotes. Usually passed with -I.
 
-<!-- {% endraw %} -->
+## local_defines
+
+``` rule-signature
+depset CompilationContext.local_defines
+```
+
+Returns the set of defines needed to compile this target. Each define is a string. These values are not propagated to the target's transitive dependents.
+
+## quote_includes
+
+``` rule-signature
+depset CompilationContext.quote_includes
+```
+
+Returns the set of search paths (as strings) for header files referenced by quotes, e.g. \#include "foo/bar/header.h". They can be either relative to the exec root or absolute. Usually passed with -iquote.
+
+## system_includes
+
+``` rule-signature
+depset CompilationContext.system_includes
+```
+
+Returns the set of search paths (as strings) for header files referenced by angle brackets, e.g. \#include \<foo/bar/header.h\>. They can be either relative to the exec root or absolute. Usually passed with -isystem.
+
+## validation_artifacts
+
+``` rule-signature
+depset CompilationContext.validation_artifacts
+```
+
+Returns the set of validation artifacts.

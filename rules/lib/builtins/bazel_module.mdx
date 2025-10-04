@@ -2,59 +2,47 @@
 title: 'bazel_module'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.bazel_module">bazel_module</h1>
+# bazel_module
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/bzlmod/StarlarkBazelModule.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Represents a Bazel module in the external dependency graph.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#is_root">is_root</a>
-  </li>
-      <li>
-    <a href="#name">name</a>
-  </li>
-      <li>
-    <a href="#tags">tags</a>
-  </li>
-      <li>
-    <a href="#version">version</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="is_root">is_root</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> bazel_module.is_root</pre></p>
+- [is_root](#is_root)
+- [name](#name)
+- [tags](#tags)
+- [version](#version)
 
-    Whether this module is the root module.
+## is_root
 
-        <h2 id="name">name</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> bazel_module.name</pre></p>
+``` rule-signature
+bool bazel_module.is_root
+```
 
-    The name of the module.
+Whether this module is the root module.
 
-        <h2 id="tags">tags</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/bazel_module_tags.html">bazel_module_tags</a> bazel_module.tags</pre></p>
+## name
 
-    The tags in the module related to the module extension currently being processed.
+``` rule-signature
+string bazel_module.name
+```
 
-        <h2 id="version">version</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> bazel_module.version</pre></p>
+The name of the module.
 
-    The version of the module.
+## tags
 
+``` rule-signature
+bazel_module_tags bazel_module.tags
+```
 
-</body>
-</html>
+The tags in the module related to the module extension currently being processed.
 
-<!-- {% endraw %} -->
+## version
+
+``` rule-signature
+string bazel_module.version
+```
+
+The version of the module.

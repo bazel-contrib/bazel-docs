@@ -2,43 +2,29 @@
 title: 'toolchain_type'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.toolchain_type">toolchain_type</h1>
+# toolchain_type
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/config/StarlarkToolchainTypeRequirement.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A data type describing a dependency on a specific toolchain type.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#mandatory">mandatory</a>
-  </li>
-      <li>
-    <a href="#toolchain_type">toolchain_type</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="mandatory">mandatory</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> toolchain_type.mandatory</pre></p>
+- [mandatory](#mandatory)
+- [toolchain_type](#toolchain_type)
 
-    Whether the toolchain type is mandatory or optional.
+## mandatory
 
-        <h2 id="toolchain_type">toolchain_type</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> toolchain_type.toolchain_type</pre></p>
+``` rule-signature
+bool toolchain_type.mandatory
+```
 
-    The toolchain type that is required.
+Whether the toolchain type is mandatory or optional.
 
+## toolchain_type
 
-</body>
-</html>
+``` rule-signature
+Label toolchain_type.toolchain_type
+```
 
-<!-- {% endraw %} -->
+The toolchain type that is required.

@@ -2,41 +2,22 @@
 title: 'fragments'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-<h1 class="page-title">Configuration Fragments</h1>
+# Configuration Fragments
 
 {% dynamic setvar source_file "NONE" %}
-{% include "_buttons.html" %}
-Configuration fragments give rules access to language-specific parts of <a href="builtins/configuration.html">configuration</a>. <p>Rule implementations can get them using <code><a href="builtins/ctx.html#fragments">ctx.fragments</a>.<i>[fragment name]</i></code>
+{% include "\_buttons.html" %}
+Configuration fragments give rules access to language-specific parts of [configuration](builtins/configuration.html).
 
-<ul>
+Rule implementations can get them using [`ctx.fragments`](builtins/ctx.html#fragments)`.`*`[fragment name]`*
 
-<li><a href="/rules/lib/fragments/apple">apple</a></li>
-
-<li><a href="/rules/lib/fragments/bazel_android">bazel_android</a></li>
-
-<li><a href="/rules/lib/fragments/bazel_py">bazel_py</a></li>
-
-<li><a href="/rules/lib/fragments/coverage">coverage</a></li>
-
-<li><a href="/rules/lib/fragments/cpp">cpp</a></li>
-
-<li><a href="/rules/lib/fragments/j2objc">j2objc</a></li>
-
-<li><a href="/rules/lib/fragments/java">java</a></li>
-
-<li><a href="/rules/lib/fragments/objc">objc</a></li>
-
-<li><a href="/rules/lib/fragments/platform">platform</a></li>
-
-<li><a href="/rules/lib/fragments/proto">proto</a></li>
-
-<li><a href="/rules/lib/fragments/py">py</a></li>
-</ul>
-</body>
-</html>
+- [apple](/rules/lib/fragments/apple)
+- [bazel_android](/rules/lib/fragments/bazel_android)
+- [bazel_py](/rules/lib/fragments/bazel_py)
+- [coverage](/rules/lib/fragments/coverage)
+- [cpp](/rules/lib/fragments/cpp)
+- [j2objc](/rules/lib/fragments/j2objc)
+- [java](/rules/lib/fragments/java)
+- [objc](/rules/lib/fragments/objc)
+- [platform](/rules/lib/fragments/platform)
+- [proto](/rules/lib/fragments/proto)
+- [py](/rules/lib/fragments/py)

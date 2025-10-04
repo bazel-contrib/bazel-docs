@@ -2,59 +2,47 @@
 title: 'java_compilation_info'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.java_compilation_info">java_compilation_info</h1>
+# java_compilation_info
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/java/JavaCompilationInfoProviderApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Provides access to compilation information for Java rules.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#boot_classpath">boot_classpath</a>
-  </li>
-      <li>
-    <a href="#compilation_classpath">compilation_classpath</a>
-  </li>
-      <li>
-    <a href="#javac_options">javac_options</a>
-  </li>
-      <li>
-    <a href="#runtime_classpath">runtime_classpath</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="boot_classpath">boot_classpath</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> java_compilation_info.boot_classpath</pre></p>
+- [boot_classpath](#boot_classpath)
+- [compilation_classpath](#compilation_classpath)
+- [javac_options](#javac_options)
+- [runtime_classpath](#runtime_classpath)
 
-    Boot classpath for this Java target.
+## boot_classpath
 
-        <h2 id="compilation_classpath">compilation_classpath</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> java_compilation_info.compilation_classpath</pre></p>
+``` rule-signature
+list java_compilation_info.boot_classpath
+```
 
-    Compilation classpath for this Java target.
+Boot classpath for this Java target.
 
-        <h2 id="javac_options">javac_options</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> java_compilation_info.javac_options</pre></p>
+## compilation_classpath
 
-    A depset of options to java compiler. To get the exact list of options passed to javac in the correct order, use the tokenize_javacopts utility in rules_java
+``` rule-signature
+depset java_compilation_info.compilation_classpath
+```
 
-        <h2 id="runtime_classpath">runtime_classpath</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> java_compilation_info.runtime_classpath</pre></p>
+Compilation classpath for this Java target.
 
-    Run-time classpath for this Java target.
+## javac_options
 
+``` rule-signature
+depset java_compilation_info.javac_options
+```
 
-</body>
-</html>
+A depset of options to java compiler. To get the exact list of options passed to javac in the correct order, use the tokenize_javacopts utility in rules_java
 
-<!-- {% endraw %} -->
+## runtime_classpath
+
+``` rule-signature
+depset java_compilation_info.runtime_classpath
+```
+
+Run-time classpath for this Java target.

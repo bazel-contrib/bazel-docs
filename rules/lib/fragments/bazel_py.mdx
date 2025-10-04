@@ -2,43 +2,28 @@
 title: 'bazel_py'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.bazel_py">bazel_py</h1>
+# bazel_py
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/rules/python/BazelPythonConfiguration.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
 
+## Members
 
+- [python_import_all_repositories](#python_import_all_repositories)
+- [python_path](#python_path)
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#python_import_all_repositories">python_import_all_repositories</a>
-  </li>
-      <li>
-    <a href="#python_path">python_path</a>
-  </li>
-  </ul>
+## python_import_all_repositories
 
-      <h2 id="python_import_all_repositories">python_import_all_repositories</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> bazel_py.python_import_all_repositories</pre></p>
+``` rule-signature
+bool bazel_py.python_import_all_repositories
+```
 
-    The value of the --experimental_python_import_all_repositories flag.
+The value of the --experimental_python_import_all_repositories flag.
 
-        <h2 id="python_path">python_path</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> bazel_py.python_path</pre></p>
+## python_path
 
-    The value of the --python_path flag.
+``` rule-signature
+string bazel_py.python_path
+```
 
-
-</body>
-</html>
-
-<!-- {% endraw %} -->
+The value of the --python_path flag.

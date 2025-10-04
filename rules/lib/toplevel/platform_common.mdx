@@ -2,67 +2,59 @@
 title: 'platform_common'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.platform_common">platform_common</h1>
+# platform_common
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/platform/PlatformCommonApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Functions for Starlark to interact with the platform APIs.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#ConstraintSettingInfo">ConstraintSettingInfo</a>
-  </li>
-      <li>
-    <a href="#ConstraintValueInfo">ConstraintValueInfo</a>
-  </li>
-      <li>
-    <a href="#PlatformInfo">PlatformInfo</a>
-  </li>
-      <li>
-    <a href="#TemplateVariableInfo">TemplateVariableInfo</a>
-  </li>
-      <li>
-    <a href="#ToolchainInfo">ToolchainInfo</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="ConstraintSettingInfo">ConstraintSettingInfo</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Provider.html">Provider</a> platform_common.ConstraintSettingInfo</pre></p>
+- [ConstraintSettingInfo](#ConstraintSettingInfo)
+- [ConstraintValueInfo](#ConstraintValueInfo)
+- [PlatformInfo](#PlatformInfo)
+- [TemplateVariableInfo](#TemplateVariableInfo)
+- [ToolchainInfo](#ToolchainInfo)
 
-    The constructor/key for the <a href='../providers/ConstraintSettingInfo.html'>ConstraintSettingInfo</a> provider.<br/><i>Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with <code>--experimental_platforms_api</code></i>
+## ConstraintSettingInfo
 
-        <h2 id="ConstraintValueInfo">ConstraintValueInfo</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Provider.html">Provider</a> platform_common.ConstraintValueInfo</pre></p>
+``` rule-signature
+Provider platform_common.ConstraintSettingInfo
+```
 
-    The constructor/key for the <a href='../providers/ConstraintValueInfo.html'>ConstraintValueInfo</a> provider.<br/><i>Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with <code>--experimental_platforms_api</code></i>
+The constructor/key for the [ConstraintSettingInfo](../providers/ConstraintSettingInfo.html) provider.  
+*Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with `--experimental_platforms_api`*
 
-        <h2 id="PlatformInfo">PlatformInfo</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Provider.html">Provider</a> platform_common.PlatformInfo</pre></p>
+## ConstraintValueInfo
 
-    The constructor/key for the <a href='../providers/PlatformInfo.html'>PlatformInfo</a> provider.<br/><i>Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with <code>--experimental_platforms_api</code></i>
+``` rule-signature
+Provider platform_common.ConstraintValueInfo
+```
 
-        <h2 id="TemplateVariableInfo">TemplateVariableInfo</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Provider.html">Provider</a> platform_common.TemplateVariableInfo</pre></p>
+The constructor/key for the [ConstraintValueInfo](../providers/ConstraintValueInfo.html) provider.  
+*Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with `--experimental_platforms_api`*
 
-    The constructor/key for the <a href='../providers/TemplateVariableInfo.html'>TemplateVariableInfo</a> provider.
+## PlatformInfo
 
-        <h2 id="ToolchainInfo">ToolchainInfo</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Provider.html">Provider</a> platform_common.ToolchainInfo</pre></p>
+``` rule-signature
+Provider platform_common.PlatformInfo
+```
 
-    The constructor/key for the <a href='../providers/ToolchainInfo.html'>ToolchainInfo</a> provider.
+The constructor/key for the [PlatformInfo](../providers/PlatformInfo.html) provider.  
+*Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with `--experimental_platforms_api`*
 
+## TemplateVariableInfo
 
-</body>
-</html>
+``` rule-signature
+Provider platform_common.TemplateVariableInfo
+```
 
-<!-- {% endraw %} -->
+The constructor/key for the [TemplateVariableInfo](../providers/TemplateVariableInfo.html) provider.
+
+## ToolchainInfo
+
+``` rule-signature
+Provider platform_common.ToolchainInfo
+```
+
+The constructor/key for the [ToolchainInfo](../providers/ToolchainInfo.html) provider.

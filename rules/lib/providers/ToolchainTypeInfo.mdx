@@ -2,35 +2,21 @@
 title: 'ToolchainTypeInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.ToolchainTypeInfo">ToolchainTypeInfo</h1>
+# ToolchainTypeInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/platform/ToolchainTypeInfoApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
+Provides access to data about a specific toolchain type.  
+*Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with `--experimental_platforms_api`*
 
-Provides access to data about a specific toolchain type. <br/><i>Note: This API is experimental and may change at any time. It is disabled by default, but may be enabled with <code>--experimental_platforms_api</code></i>
+## Members
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#type_label">type_label</a>
-  </li>
-  </ul>
+- [type_label](#type_label)
 
-      <h2 id="type_label">type_label</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> ToolchainTypeInfo.type_label</pre></p>
+## type_label
 
-    The label uniquely identifying this toolchain type.
+``` rule-signature
+Label ToolchainTypeInfo.type_label
+```
 
-
-</body>
-</html>
-
-<!-- {% endraw %} -->
+The label uniquely identifying this toolchain type.

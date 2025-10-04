@@ -2,45 +2,31 @@
 title: 'CcLinkingOutputs'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.CcLinkingOutputs">CcLinkingOutputs</h1>
+# CcLinkingOutputs
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CcLinkingOutputsApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Helper class containing CC compilation outputs.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#executable">executable</a>
-  </li>
-      <li>
-    <a href="#library_to_link">library_to_link</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="executable">executable</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> CcLinkingOutputs.executable</pre></p>
+- [executable](#executable)
+- [library_to_link](#library_to_link)
 
-    Represents the linked executable.
-                 May return <code>None</code>.
+## executable
 
-        <h2 id="library_to_link">library_to_link</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/LibraryToLink.html">LibraryToLink</a> CcLinkingOutputs.library_to_link</pre></p>
+``` rule-signature
+File CcLinkingOutputs.executable
+```
 
-    <code>LibraryToLink</code> for including these outputs in further linking.
-                 May return <code>None</code>.
+Represents the linked executable.
+May return `None`.
 
+## library_to_link
 
-</body>
-</html>
+``` rule-signature
+LibraryToLink CcLinkingOutputs.library_to_link
+```
 
-<!-- {% endraw %} -->
+`LibraryToLink` for including these outputs in further linking.
+May return `None`.

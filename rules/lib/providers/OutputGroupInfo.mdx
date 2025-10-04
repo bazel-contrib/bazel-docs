@@ -2,61 +2,45 @@
 title: 'OutputGroupInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.OutputGroupInfo">OutputGroupInfo</h1>
+# OutputGroupInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/OutputGroupInfoApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
+{% include "\_buttons.html" %}
+A provider that indicates what output groups a rule has.  
+See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files) for more information.
 
-A provider that indicates what output groups a rule has.<br>See <a href="https://bazel.build/extending/rules#requesting_output_files">Requesting output files</a> for more information.
+## Members
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#OutputGroupInfo">OutputGroupInfo</a>
-  </li>
-  </ul>
+- [OutputGroupInfo](#OutputGroupInfo)
 
-      <h2 id="OutputGroupInfo">OutputGroupInfo</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../providers/OutputGroupInfo.html">OutputGroupInfo</a> OutputGroupInfo(**kwargs)</pre></p>
+## OutputGroupInfo
 
-    Instantiate this provider with <br><pre class=language-python>OutputGroupInfo(group1 = &lt;files&gt;, group2 = &lt;files&gt;...)</pre>See <a href="https://bazel.build/extending/rules#requesting_output_files">Requesting output files </a> for more information.
-                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
-      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
-      <h3 class="hide-from-toc">Parameters</h3>
-      <table class="table table-bordered table-condensed table-params">
-        <colgroup>
-          <col class="col-param">
-          <col class="param-description">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-                  <tr>
-            <td id="OutputGroupInfo.kwargs">
-              <code>kwargs</code>
-            </td>
-            <td>
-                                     default is <code>{}</code><br/>
-                          Dictionary of arguments.
-            </td>
-          </tr>
-                </tbody>
-      </table>
+``` rule-signature
+OutputGroupInfo OutputGroupInfo(**kwargs)
+```
 
+Instantiate this provider with  
 
-</body>
-</html>
+``` python
+OutputGroupInfo(group1 = <files>, group2 = <files>...)
+```
 
-<!-- {% endraw %} -->
+See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files) for more information.
+
+### Parameters
+
+<table class="table table-bordered table-condensed table-params">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="OutputGroupInfo.kwargs"><code>kwargs</code></td>
+<td>default is <code>{}</code><br />
+Dictionary of arguments.</td>
+</tr>
+</tbody>
+</table>

@@ -2,117 +2,112 @@
 title: 'JavaToolchainInfo'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.JavaToolchainInfo">JavaToolchainInfo</h1>
+# JavaToolchainInfo
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/java/JavaToolchainStarlarkApiProviderApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 Provides access to information about the Java toolchain rule. Accessible as a 'java_toolchain' field on a Target struct.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#bootclasspath">bootclasspath</a>
-  </li>
-      <li>
-    <a href="#ijar">ijar</a>
-  </li>
-      <li>
-    <a href="#jacocorunner">jacocorunner</a>
-  </li>
-      <li>
-    <a href="#java_runtime">java_runtime</a>
-  </li>
-      <li>
-    <a href="#jvm_opt">jvm_opt</a>
-  </li>
-      <li>
-    <a href="#label">label</a>
-  </li>
-      <li>
-    <a href="#proguard_allowlister">proguard_allowlister</a>
-  </li>
-      <li>
-    <a href="#single_jar">single_jar</a>
-  </li>
-      <li>
-    <a href="#source_version">source_version</a>
-  </li>
-      <li>
-    <a href="#target_version">target_version</a>
-  </li>
-      <li>
-    <a href="#tools">tools</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="bootclasspath">bootclasspath</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> JavaToolchainInfo.bootclasspath</pre></p>
+- [bootclasspath](#bootclasspath)
+- [ijar](#ijar)
+- [jacocorunner](#jacocorunner)
+- [java_runtime](#java_runtime)
+- [jvm_opt](#jvm_opt)
+- [label](#label)
+- [proguard_allowlister](#proguard_allowlister)
+- [single_jar](#single_jar)
+- [source_version](#source_version)
+- [target_version](#target_version)
+- [tools](#tools)
 
-    The Java target bootclasspath entries. Corresponds to javac's -bootclasspath flag.
+## bootclasspath
 
-        <h2 id="ijar">ijar</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../providers/FilesToRunProvider.html">FilesToRunProvider</a> JavaToolchainInfo.ijar</pre></p>
+``` rule-signature
+depset JavaToolchainInfo.bootclasspath
+```
 
-    A FilesToRunProvider representing the ijar executable.
+The Java target bootclasspath entries. Corresponds to javac's -bootclasspath flag.
 
-        <h2 id="jacocorunner">jacocorunner</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../providers/FilesToRunProvider.html">FilesToRunProvider</a> JavaToolchainInfo.jacocorunner</pre></p>
+## ijar
 
-    The jacocorunner used by the toolchain.
-                 May return <code>None</code>.
+``` rule-signature
+FilesToRunProvider JavaToolchainInfo.ijar
+```
 
-        <h2 id="java_runtime">java_runtime</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../providers/JavaRuntimeInfo.html">JavaRuntimeInfo</a> JavaToolchainInfo.java_runtime</pre></p>
+A FilesToRunProvider representing the ijar executable.
 
-    The java runtime information.
+## jacocorunner
 
-        <h2 id="jvm_opt">jvm_opt</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> JavaToolchainInfo.jvm_opt</pre></p>
+``` rule-signature
+FilesToRunProvider JavaToolchainInfo.jacocorunner
+```
 
-    The default options for the JVM running the java compiler and associated tools.
+The jacocorunner used by the toolchain.
+May return `None`.
 
-        <h2 id="label">label</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> JavaToolchainInfo.label</pre></p>
+## java_runtime
 
-    The toolchain label.
+``` rule-signature
+JavaRuntimeInfo JavaToolchainInfo.java_runtime
+```
 
-        <h2 id="proguard_allowlister">proguard_allowlister</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../providers/FilesToRunProvider.html">FilesToRunProvider</a> JavaToolchainInfo.proguard_allowlister</pre></p>
+The java runtime information.
 
-    Return the binary to validate proguard configuration
-                 May return <code>None</code>.
+## jvm_opt
 
-        <h2 id="single_jar">single_jar</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../providers/FilesToRunProvider.html">FilesToRunProvider</a> JavaToolchainInfo.single_jar</pre></p>
+``` rule-signature
+depset JavaToolchainInfo.jvm_opt
+```
 
-    The SingleJar deploy jar.
+The default options for the JVM running the java compiler and associated tools.
 
-        <h2 id="source_version">source_version</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> JavaToolchainInfo.source_version</pre></p>
+## label
 
-    The java source version.
+``` rule-signature
+Label JavaToolchainInfo.label
+```
 
-        <h2 id="target_version">target_version</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> JavaToolchainInfo.target_version</pre></p>
+The toolchain label.
 
-    The java target version.
+## proguard_allowlister
 
-        <h2 id="tools">tools</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/depset.html">depset</a> JavaToolchainInfo.tools</pre></p>
+``` rule-signature
+FilesToRunProvider JavaToolchainInfo.proguard_allowlister
+```
 
-    The compilation tools.
+Return the binary to validate proguard configuration
+May return `None`.
 
+## single_jar
 
-</body>
-</html>
+``` rule-signature
+FilesToRunProvider JavaToolchainInfo.single_jar
+```
 
-<!-- {% endraw %} -->
+The SingleJar deploy jar.
+
+## source_version
+
+``` rule-signature
+string JavaToolchainInfo.source_version
+```
+
+The java source version.
+
+## target_version
+
+``` rule-signature
+string JavaToolchainInfo.target_version
+```
+
+The java target version.
+
+## tools
+
+``` rule-signature
+depset JavaToolchainInfo.tools
+```
+
+The compilation tools.

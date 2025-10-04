@@ -2,100 +2,101 @@
 title: 'cpp'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.cpp">cpp</h1>
+# cpp
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CppConfigurationApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A configuration fragment for C++.
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#apple_generate_dsym">apple_generate_dsym</a>
-  </li>
-      <li>
-    <a href="#conlyopts">conlyopts</a>
-  </li>
-      <li>
-    <a href="#copts">copts</a>
-  </li>
-      <li>
-    <a href="#custom_malloc">custom_malloc</a>
-  </li>
-      <li>
-    <a href="#cxxopts">cxxopts</a>
-  </li>
-      <li>
-    <a href="#linkopts">linkopts</a>
-  </li>
-      <li>
-    <a href="#objc_generate_linkmap">objc_generate_linkmap</a>
-  </li>
-      <li>
-    <a href="#objc_should_strip_binary">objc_should_strip_binary</a>
-  </li>
-      <li>
-    <a href="#objccopts">objccopts</a>
-  </li>
-  </ul>
+## Members
 
-      <h2 id="apple_generate_dsym">apple_generate_dsym</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> cpp.apple_generate_dsym</pre></p>
+- [apple_generate_dsym](#apple_generate_dsym)
+- [conlyopts](#conlyopts)
+- [copts](#copts)
+- [custom_malloc](#custom_malloc)
+- [cxxopts](#cxxopts)
+- [linkopts](#linkopts)
+- [objc_generate_linkmap](#objc_generate_linkmap)
+- [objc_should_strip_binary](#objc_should_strip_binary)
+- [objccopts](#objccopts)
 
-    Whether to generate Apple debug symbol(.dSYM) artifacts.
+## apple_generate_dsym
 
-        <h2 id="conlyopts">conlyopts</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> cpp.conlyopts</pre></p>
+``` rule-signature
+bool cpp.apple_generate_dsym
+```
 
-    The flags passed to Bazel by <a href="/docs/user-manual#flag--conlyopt"><code>--conlyopt</code></a> option.
+Whether to generate Apple debug symbol(.dSYM) artifacts.
 
-        <h2 id="copts">copts</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> cpp.copts</pre></p>
+## conlyopts
 
-    The flags passed to Bazel by <a href="/docs/user-manual#flag--copt"><code>--copt</code></a> option.
+``` rule-signature
+list cpp.conlyopts
+```
 
-        <h2 id="custom_malloc">custom_malloc</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../builtins/Label.html">Label</a> cpp.custom_malloc</pre></p>
+The flags passed to Bazel by [`--conlyopt`](/docs/user-manual#flag--conlyopt) option.
 
-    Returns label pointed to by <a href="/docs/user-manual#flag--custom_malloc"><code>--custom_malloc</code></a> option. Can be accessed with <a href="../globals/bzl.html#configuration_field"><code>configuration_field</code></a>:<br/><pre>attr.label(<br/>    default = configuration_field(<br/>        fragment = "cpp",<br/>        name = "custom_malloc"<br/>    )<br/>)</pre>
-                 May return <code>None</code>.
+## copts
 
-        <h2 id="cxxopts">cxxopts</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> cpp.cxxopts</pre></p>
+``` rule-signature
+list cpp.copts
+```
 
-    The flags passed to Bazel by <a href="/docs/user-manual#flag--cxxopt"><code>--cxxopt</code></a> option.
+The flags passed to Bazel by [`--copt`](/docs/user-manual#flag--copt) option.
 
-        <h2 id="linkopts">linkopts</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> cpp.linkopts</pre></p>
+## custom_malloc
 
-    The flags passed to Bazel by <a href="/docs/user-manual#flag--linkopt"><code>--linkopt</code></a> option.
+``` rule-signature
+Label cpp.custom_malloc
+```
 
-        <h2 id="objc_generate_linkmap">objc_generate_linkmap</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> cpp.objc_generate_linkmap</pre></p>
+Returns label pointed to by [`--custom_malloc`](/docs/user-manual#flag--custom_malloc) option. Can be accessed with [`configuration_field`](../globals/bzl.html#configuration_field):  
 
-    (Apple-only) Whether to generate linkmap artifacts.
+    attr.label(
+        default = configuration_field(
+            fragment = "cpp",
+            name = "custom_malloc"
+        )
+    )
 
-        <h2 id="objc_should_strip_binary">objc_should_strip_binary</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/bool.html">bool</a> cpp.objc_should_strip_binary</pre></p>
+May return `None`.
 
-    (Apple-only) whether to perform symbol and dead-code strippings on linked binaries.
+## cxxopts
 
-        <h2 id="objccopts">objccopts</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> cpp.objccopts</pre></p>
+``` rule-signature
+list cpp.cxxopts
+```
 
-    The flags passed to Bazel by <a href="/docs/user-manual#flag--objccopt"><code>--objccopt</code></a> option.
+The flags passed to Bazel by [`--cxxopt`](/docs/user-manual#flag--cxxopt) option.
 
+## linkopts
 
-</body>
-</html>
+``` rule-signature
+list cpp.linkopts
+```
 
-<!-- {% endraw %} -->
+The flags passed to Bazel by [`--linkopt`](/docs/user-manual#flag--linkopt) option.
+
+## objc_generate_linkmap
+
+``` rule-signature
+bool cpp.objc_generate_linkmap
+```
+
+(Apple-only) Whether to generate linkmap artifacts.
+
+## objc_should_strip_binary
+
+``` rule-signature
+bool cpp.objc_should_strip_binary
+```
+
+(Apple-only) whether to perform symbol and dead-code strippings on linked binaries.
+
+## objccopts
+
+``` rule-signature
+list cpp.objccopts
+```
+
+The flags passed to Bazel by [`--objccopt`](/docs/user-manual#flag--objccopt) option.

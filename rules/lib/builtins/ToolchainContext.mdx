@@ -2,24 +2,8 @@
 title: 'ToolchainContext'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.ToolchainContext">ToolchainContext</h1>
+# ToolchainContext
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/platform/ToolchainContextApi.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
-Holds toolchains available for a particular exec group. Toolchain targets are accessed by indexing with the toolchain type, as in <code>ctx.toolchains["//pkg:my_toolchain_type"]</code>. If the toolchain was optional and no toolchain was resolved, this will return <code>None</code>. Accessing toolchains of an aspect or rule via <code>ctx.toolchains</code> returns the indexed toolchain as a <code>ToolchainInfo</code> provider. While when using aspects, <code>ToolchainContext</code> is also used to hold the toolchains of the base target. It can be accessed by <code>ctx.rule.toolchains["//pkg:my_toolchain_type"]</code> and it returns the list of providers resulted from applying the aspects on these toolchain targets.
-
-
-
-</body>
-</html>
-
-<!-- {% endraw %} -->
+{% include "\_buttons.html" %}
+Holds toolchains available for a particular exec group. Toolchain targets are accessed by indexing with the toolchain type, as in `ctx.toolchains["//pkg:my_toolchain_type"]`. If the toolchain was optional and no toolchain was resolved, this will return `None`. Accessing toolchains of an aspect or rule via `ctx.toolchains` returns the indexed toolchain as a `ToolchainInfo` provider. While when using aspects, `ToolchainContext` is also used to hold the toolchains of the base target. It can be accessed by `ctx.rule.toolchains["//pkg:my_toolchain_type"]` and it returns the list of providers resulted from applying the aspects on these toolchain targets.

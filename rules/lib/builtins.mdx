@@ -2,139 +2,69 @@
 title: 'builtins'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-<h1 class="page-title">Built-in Types</h1>
+# Built-in Types
 
 {% dynamic setvar source_file "NONE" %}
-{% include "_buttons.html" %}
+{% include "\_buttons.html" %}
 This section lists types of Starlark objects. With some exceptions, these type names are not valid Starlark symbols; instances of them may be acquired through different means.
 
-<ul>
-
-<li><a href="/rules/lib/builtins/Action">Action</a></li>
-
-<li><a href="/rules/lib/builtins/actions">actions</a></li>
-
-<li><a href="/rules/lib/builtins/apple_platform">apple_platform</a></li>
-
-<li><a href="/rules/lib/builtins/Args">Args</a></li>
-
-<li><a href="/rules/lib/builtins/Aspect">Aspect</a></li>
-
-<li><a href="/rules/lib/builtins/Attribute">Attribute</a></li>
-
-<li><a href="/rules/lib/builtins/bazel_module">bazel_module</a></li>
-
-<li><a href="/rules/lib/builtins/bazel_module_tags">bazel_module_tags</a></li>
-
-<li><a href="/rules/lib/builtins/BuildSetting">BuildSetting</a></li>
-
-<li><a href="/rules/lib/builtins/CcCompilationOutputs">CcCompilationOutputs</a></li>
-
-<li><a href="/rules/lib/builtins/CcLinkingOutputs">CcLinkingOutputs</a></li>
-
-<li><a href="/rules/lib/builtins/CompilationContext">CompilationContext</a></li>
-
-<li><a href="/rules/lib/builtins/configuration">configuration</a></li>
-
-<li><a href="/rules/lib/builtins/ctx">ctx</a></li>
-
-<li><a href="/rules/lib/builtins/depset">depset</a></li>
-
-<li><a href="/rules/lib/builtins/DirectoryExpander">DirectoryExpander</a></li>
-
-<li><a href="/rules/lib/builtins/DottedVersion">DottedVersion</a></li>
-
-<li><a href="/rules/lib/builtins/exec_result">exec_result</a></li>
-
-<li><a href="/rules/lib/builtins/ExecGroupCollection">ExecGroupCollection</a></li>
-
-<li><a href="/rules/lib/builtins/ExecGroupContext">ExecGroupContext</a></li>
-
-<li><a href="/rules/lib/builtins/ExecTransitionFactory">ExecTransitionFactory</a></li>
-
-<li><a href="/rules/lib/builtins/ExpandedDirectory">ExpandedDirectory</a></li>
-
-<li><a href="/rules/lib/builtins/extension_metadata">extension_metadata</a></li>
-
-<li><a href="/rules/lib/builtins/FeatureConfiguration">FeatureConfiguration</a></li>
-
-<li><a href="/rules/lib/builtins/File">File</a></li>
-
-<li><a href="/rules/lib/builtins/fragments">fragments</a></li>
-
-<li><a href="/rules/lib/builtins/java_annotation_processing">java_annotation_processing</a></li>
-
-<li><a href="/rules/lib/builtins/Label">Label</a></li>
-
-<li><a href="/rules/lib/builtins/LateBoundDefault">LateBoundDefault</a></li>
-
-<li><a href="/rules/lib/builtins/LibraryToLink">LibraryToLink</a></li>
-
-<li><a href="/rules/lib/builtins/License">License</a></li>
-
-<li><a href="/rules/lib/builtins/LinkerInput">LinkerInput</a></li>
-
-<li><a href="/rules/lib/builtins/LinkingContext">LinkingContext</a></li>
-
-<li><a href="/rules/lib/builtins/macro">macro</a></li>
-
-<li><a href="/rules/lib/builtins/mapped_root">mapped_root</a></li>
-
-<li><a href="/rules/lib/builtins/module_ctx">module_ctx</a></li>
-
-<li><a href="/rules/lib/builtins/path">path</a></li>
-
-<li><a href="/rules/lib/builtins/propagation_ctx">propagation_ctx</a></li>
-
-<li><a href="/rules/lib/builtins/Provider">Provider</a></li>
-
-<li><a href="/rules/lib/builtins/repo_metadata">repo_metadata</a></li>
-
-<li><a href="/rules/lib/builtins/repository_ctx">repository_ctx</a></li>
-
-<li><a href="/rules/lib/builtins/repository_os">repository_os</a></li>
-
-<li><a href="/rules/lib/builtins/repository_rule">repository_rule</a></li>
-
-<li><a href="/rules/lib/builtins/root">root</a></li>
-
-<li><a href="/rules/lib/builtins/rule">rule</a></li>
-
-<li><a href="/rules/lib/builtins/rule_attributes">rule_attributes</a></li>
-
-<li><a href="/rules/lib/builtins/runfiles">runfiles</a></li>
-
-<li><a href="/rules/lib/builtins/struct">struct</a></li>
-
-<li><a href="/rules/lib/builtins/Subrule">Subrule</a></li>
-
-<li><a href="/rules/lib/builtins/subrule_ctx">subrule_ctx</a></li>
-
-<li><a href="/rules/lib/builtins/SymlinkEntry">SymlinkEntry</a></li>
-
-<li><a href="/rules/lib/builtins/tag_class">tag_class</a></li>
-
-<li><a href="/rules/lib/builtins/Target">Target</a></li>
-
-<li><a href="/rules/lib/builtins/template_ctx">template_ctx</a></li>
-
-<li><a href="/rules/lib/builtins/TemplateDict">TemplateDict</a></li>
-
-<li><a href="/rules/lib/builtins/toolchain_type">toolchain_type</a></li>
-
-<li><a href="/rules/lib/builtins/ToolchainContext">ToolchainContext</a></li>
-
-<li><a href="/rules/lib/builtins/transition">transition</a></li>
-
-<li><a href="/rules/lib/builtins/wasm_exec_result">wasm_exec_result</a></li>
-
-<li><a href="/rules/lib/builtins/wasm_module">wasm_module</a></li>
-</ul>
-</body>
-</html>
+- [Action](/rules/lib/builtins/Action)
+- [actions](/rules/lib/builtins/actions)
+- [apple_platform](/rules/lib/builtins/apple_platform)
+- [Args](/rules/lib/builtins/Args)
+- [Aspect](/rules/lib/builtins/Aspect)
+- [Attribute](/rules/lib/builtins/Attribute)
+- [bazel_module](/rules/lib/builtins/bazel_module)
+- [bazel_module_tags](/rules/lib/builtins/bazel_module_tags)
+- [BuildSetting](/rules/lib/builtins/BuildSetting)
+- [CcCompilationOutputs](/rules/lib/builtins/CcCompilationOutputs)
+- [CcLinkingOutputs](/rules/lib/builtins/CcLinkingOutputs)
+- [CompilationContext](/rules/lib/builtins/CompilationContext)
+- [configuration](/rules/lib/builtins/configuration)
+- [ctx](/rules/lib/builtins/ctx)
+- [depset](/rules/lib/builtins/depset)
+- [DirectoryExpander](/rules/lib/builtins/DirectoryExpander)
+- [DottedVersion](/rules/lib/builtins/DottedVersion)
+- [exec_result](/rules/lib/builtins/exec_result)
+- [ExecGroupCollection](/rules/lib/builtins/ExecGroupCollection)
+- [ExecGroupContext](/rules/lib/builtins/ExecGroupContext)
+- [ExecTransitionFactory](/rules/lib/builtins/ExecTransitionFactory)
+- [ExpandedDirectory](/rules/lib/builtins/ExpandedDirectory)
+- [extension_metadata](/rules/lib/builtins/extension_metadata)
+- [FeatureConfiguration](/rules/lib/builtins/FeatureConfiguration)
+- [File](/rules/lib/builtins/File)
+- [fragments](/rules/lib/builtins/fragments)
+- [java_annotation_processing](/rules/lib/builtins/java_annotation_processing)
+- [Label](/rules/lib/builtins/Label)
+- [LateBoundDefault](/rules/lib/builtins/LateBoundDefault)
+- [LibraryToLink](/rules/lib/builtins/LibraryToLink)
+- [License](/rules/lib/builtins/License)
+- [LinkerInput](/rules/lib/builtins/LinkerInput)
+- [LinkingContext](/rules/lib/builtins/LinkingContext)
+- [macro](/rules/lib/builtins/macro)
+- [mapped_root](/rules/lib/builtins/mapped_root)
+- [module_ctx](/rules/lib/builtins/module_ctx)
+- [path](/rules/lib/builtins/path)
+- [propagation_ctx](/rules/lib/builtins/propagation_ctx)
+- [Provider](/rules/lib/builtins/Provider)
+- [repo_metadata](/rules/lib/builtins/repo_metadata)
+- [repository_ctx](/rules/lib/builtins/repository_ctx)
+- [repository_os](/rules/lib/builtins/repository_os)
+- [repository_rule](/rules/lib/builtins/repository_rule)
+- [root](/rules/lib/builtins/root)
+- [rule](/rules/lib/builtins/rule)
+- [rule_attributes](/rules/lib/builtins/rule_attributes)
+- [runfiles](/rules/lib/builtins/runfiles)
+- [struct](/rules/lib/builtins/struct)
+- [Subrule](/rules/lib/builtins/Subrule)
+- [subrule_ctx](/rules/lib/builtins/subrule_ctx)
+- [SymlinkEntry](/rules/lib/builtins/SymlinkEntry)
+- [tag_class](/rules/lib/builtins/tag_class)
+- [Target](/rules/lib/builtins/Target)
+- [template_ctx](/rules/lib/builtins/template_ctx)
+- [TemplateDict](/rules/lib/builtins/TemplateDict)
+- [toolchain_type](/rules/lib/builtins/toolchain_type)
+- [ToolchainContext](/rules/lib/builtins/ToolchainContext)
+- [transition](/rules/lib/builtins/transition)
+- [wasm_exec_result](/rules/lib/builtins/wasm_exec_result)
+- [wasm_module](/rules/lib/builtins/wasm_module)

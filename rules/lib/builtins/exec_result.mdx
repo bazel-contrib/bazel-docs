@@ -2,53 +2,38 @@
 title: 'exec_result'
 ---
 
-<html devsite>
-<head>
-  <meta name="project_path" value="/_project.yaml">
-  <meta name="book_path" value="/_book.yaml">
-</head>
-<body>
-
-<h1 class="page-title" id="modules.exec_result">exec_result</h1>
+# exec_result
 
 {% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/repository/starlark/StarlarkExecutionResult.java" %}
-{% include "_buttons.html" %}
-<!-- {% raw %} -->
-
+{% include "\_buttons.html" %}
 A structure storing result of repository_ctx.execute() method. It contains the standard output stream content, the standard error stream content and the execution return code.
 
+## Members
 
-<h2>Members</h2>
-<ul>
-    <li>
-    <a href="#return_code">return_code</a>
-  </li>
-      <li>
-    <a href="#stderr">stderr</a>
-  </li>
-      <li>
-    <a href="#stdout">stdout</a>
-  </li>
-  </ul>
+- [return_code](#return_code)
+- [stderr](#stderr)
+- [stdout](#stdout)
 
-      <h2 id="return_code">return_code</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/int.html">int</a> exec_result.return_code</pre></p>
+## return_code
 
-    The return code returned after the execution of the program. 256 if the process was terminated by a time out; values larger than 128 indicate termination by a signal.
+``` rule-signature
+int exec_result.return_code
+```
 
+The return code returned after the execution of the program. 256 if the process was terminated by a time out; values larger than 128 indicate termination by a signal.
 
-        <h2 id="stderr">stderr</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> exec_result.stderr</pre></p>
+## stderr
 
-    The content of the standard error output returned by the execution.
+``` rule-signature
+string exec_result.stderr
+```
 
-        <h2 id="stdout">stdout</h2>
-        <p><pre class="rule-signature"><a class="anchor" href="../core/string.html">string</a> exec_result.stdout</pre></p>
+The content of the standard error output returned by the execution.
 
-    The content of the standard output returned by the execution.
+## stdout
 
+``` rule-signature
+string exec_result.stdout
+```
 
-</body>
-</html>
-
-<!-- {% endraw %} -->
+The content of the standard output returned by the execution.
