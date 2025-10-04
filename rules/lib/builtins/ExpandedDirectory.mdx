@@ -1,0 +1,44 @@
+---
+title: 'ExpandedDirectory'
+---
+
+<html devsite>
+<head>
+  <meta name="project_path" value="/_project.yaml">
+  <meta name="book_path" value="/_book.yaml">
+</head>
+<body>
+
+<h1 class="page-title" id="modules.ExpandedDirectory">ExpandedDirectory</h1>
+
+{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/ExpandedDirectoryApi.java" %}
+{% include "_buttons.html" %}
+<!-- {% raw %} -->
+
+Represents an expanded directory that makes the files within the it directly accessible.
+
+<h2>Members</h2>
+<ul>
+    <li>
+    <a href="#children">children</a>
+  </li>
+      <li>
+    <a href="#directory">directory</a>
+  </li>
+  </ul>
+
+      <h2 id="children">children</h2>
+        <p><pre class="rule-signature"><a class="anchor" href="../core/list.html">list</a> ExpandedDirectory.children</pre></p>
+
+    Contains the files within the directory.
+
+        <h2 id="directory">directory</h2>
+        <p><pre class="rule-signature"><a class="anchor" href="../builtins/File.html">File</a> ExpandedDirectory.directory</pre></p>
+
+    The input directory that was expanded.
+
+
+</body>
+</html>
+
+<!-- {% endraw %} -->

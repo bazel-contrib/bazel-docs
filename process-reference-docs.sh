@@ -27,6 +27,21 @@ trap "rm -rf $TEMP_DIR" EXIT
 echo "Extracting reference-docs.zip..."
 unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
 
+# Check for nested zip files
+nested_zips=$(find "$TEMP_DIR" -maxdepth 1 -name "*.zip" -type f)
+
+if [ -n "$nested_zips" ]; then
+    echo ""
+    echo "Error: The zip file contains another zip file inside it:"
+    for nested_zip in $nested_zips; do
+        echo "  - $(basename "$nested_zip")"
+    done
+    echo ""
+    echo "Please extract the contents properly before running this script."
+    echo "The zip should contain the documentation files directly, not another zip."
+    exit 1
+fi
+
 # Process reference/be/ HTML files and convert to MDX
 echo "Processing Build Encyclopedia (reference/be/) files..."
 if [ -d "$TEMP_DIR/reference/be" ]; then
