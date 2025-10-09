@@ -49,4 +49,4 @@ jobs:
           run: ./copy-upstream-docs.sh
 
         - name: Create versioned navigation
-          run: ./create-docs-json.sh
+          run: ./docs.json.update.sh
