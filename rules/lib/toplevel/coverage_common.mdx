@@ -2,69 +2,28 @@
 title: 'coverage_common'
 ---
 
-# coverage_common
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/test/CoverageCommonApi.java" %}
-{% include "\_buttons.html" %}
 Helper functions to access coverage-related infrastructure.
 
 ## Members
 
-- [instrumented_files_info](#instrumented_files_info)
+* [instrumented\_files\_info](#instrumented_files_info)
 
-## instrumented_files_info
+## instrumented\_files\_info
 
-``` rule-signature
+```
 InstrumentedFilesInfo coverage_common.instrumented_files_info(ctx, *, source_attributes=[], dependency_attributes=[], extensions=None, metadata_files=[], baseline_coverage_files=None)
 ```
 
-Creates a new <a href="../providers/InstrumentedFilesInfo.html" class="anchor">InstrumentedFilesInfo</a> instance. Use this provider to communicate coverage-related attributes of the current build rule.
+Creates a new [InstrumentedFilesInfo](../providers/InstrumentedFilesInfo.mdx) instance. Use this provider to communicate coverage-related attributes of the current build rule.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="instrumented_files_info.ctx"><code>ctx</code></td>
-<td><a href="../builtins/ctx.html" class="anchor">ctx</a>;
-required<br />
-The rule context.</td>
-</tr>
-<tr>
-<td id="instrumented_files_info.source_attributes"><code>source_attributes</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-A list of attribute names which contain source files processed by this rule.</td>
-</tr>
-<tr>
-<td id="instrumented_files_info.dependency_attributes"><code>dependency_attributes</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-A list of attribute names which might provide runtime dependencies (either code dependencies or runfiles).</td>
-</tr>
-<tr>
-<td id="instrumented_files_info.extensions"><code>extensions</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s; or <code>None</code>;
-default is <code>None</code><br />
-File extensions used to filter files from source_attributes. For example, 'js'. If not provided (or None), then all files from source_attributes will be added to instrumented files, if an empty list is provided, then no files from source attributes will be added.</td>
-</tr>
-<tr>
-<td id="instrumented_files_info.metadata_files"><code>metadata_files</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-Additional files required to generate coverage LCOV files after code execution. e.g. .gcno files for C++.</td>
-</tr>
-<tr>
-<td id="instrumented_files_info.baseline_coverage_files"><code>baseline_coverage_files</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s; or <code>None</code>;
-default is <code>None</code><br />
-</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `ctx` | [ctx](../builtins/ctx.mdx); required  The rule context. |
+| `source_attributes` | [sequence](../core/list.mdx); default is `[]`  A list of attribute names which contain source files processed by this rule. |
+| `dependency_attributes` | [sequence](../core/list.mdx); default is `[]`  A list of attribute names which might provide runtime dependencies (either code dependencies or runfiles). |
+| `extensions` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; or `None`; default is `None`  File extensions used to filter files from source\_attributes. For example, 'js'. If not provided (or None), then all files from source\_attributes will be added to instrumented files, if an empty list is provided, then no files from source attributes will be added. |
+| `metadata_files` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]`  Additional files required to generate coverage LCOV files after code execution. e.g. .gcno files for C++. |
+| `baseline_coverage_files` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; or `None`; default is `None` |

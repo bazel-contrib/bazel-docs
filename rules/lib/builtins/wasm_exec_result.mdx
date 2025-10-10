@@ -2,10 +2,7 @@
 title: 'wasm_exec_result'
 ---
 
-# wasm_exec_result
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/repository/starlark/StarlarkWasmExecutionResult.java" %}
-{% include "\_buttons.html" %}
 The result of executing a WebAssembly function with
 `repository_ctx.execute_wasm()`. It contains the function's
 return value and output buffer.
@@ -15,13 +12,13 @@ and the `error_message` field will be set.
 
 ## Members
 
-- [error_message](#error_message)
-- [output](#output)
-- [return_code](#return_code)
+* [error\_message](#error_message)
+* [output](#output)
+* [return\_code](#return_code)
 
-## error_message
+## error\_message
 
-``` rule-signature
+```
 string wasm_exec_result.error_message
 ```
 
@@ -29,15 +26,15 @@ Contains an error message if execution failed before the function returned.
 
 ## output
 
-``` rule-signature
+```
 string wasm_exec_result.output
 ```
 
 The content of the output buffer returned by the WebAssembly function.
 
-## return_code
+## return\_code
 
-``` rule-signature
+```
 long wasm_exec_result.return_code
 ```
 

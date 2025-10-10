@@ -2,54 +2,33 @@
 title: 'ExecutionInfo'
 ---
 
-# ExecutionInfo
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/test/ExecutionInfoApi.java" %}
-{% include "\_buttons.html" %}
 Use this provider to specify special environment requirements needed to run tests.
 
 ## Members
 
-- [ExecutionInfo](#ExecutionInfo)
-- [exec_group](#exec_group)
-- [requirements](#requirements)
+* [ExecutionInfo](#ExecutionInfo)
+* [exec\_group](#exec_group)
+* [requirements](#requirements)
 
 ## ExecutionInfo
 
-``` rule-signature
-ExecutionInfo ExecutionInfo(requirements={}, exec_group='test')
+```
+ExecutionInfo ExecutionInfo(requirements=\{\}, exec_group='test')
 ```
 
 Creates an instance.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="ExecutionInfo.requirements"><code>requirements</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dict indicating special execution requirements, such as hardware platforms.</td>
-</tr>
-<tr>
-<td id="ExecutionInfo.exec_group"><code>exec_group</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>'test'</code><br />
-The name of the exec group that is used to execute the test.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `requirements` | [dict](../core/dict.mdx); default is `\{\}`  A dict indicating special execution requirements, such as hardware platforms. |
+| `exec_group` | [string](../core/string.mdx); default is `'test'`  The name of the exec group that is used to execute the test. |
 
-## exec_group
+## exec\_group
 
-``` rule-signature
+```
 string ExecutionInfo.exec_group
 ```
 
@@ -57,7 +36,7 @@ The name of the exec group that is used to execute the test.
 
 ## requirements
 
-``` rule-signature
+```
 dict ExecutionInfo.requirements
 ```
 

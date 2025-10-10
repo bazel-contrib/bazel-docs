@@ -2,40 +2,37 @@
 title: 'java_output_jars'
 ---
 
-# java_output_jars
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/java/JavaRuleOutputJarsProviderApi.java" %}
-{% include "\_buttons.html" %}
-Information about outputs of a Java rule. Deprecated: use java_info.java_outputs.
+Information about outputs of a Java rule. Deprecated: use java\_info.java\_outputs.
 
 ## Members
 
-- [jars](#jars)
-- [jdeps](#jdeps)
-- [native_headers](#native_headers)
+* [jars](#jars)
+* [jdeps](#jdeps)
+* [native\_headers](#native_headers)
 
 ## jars
 
-``` rule-signature
+```
 list java_output_jars.jars
 ```
 
-Returns information about outputs of this Java/Java-like target. Deprecated: Use java_info.java_outputs.
+Returns information about outputs of this Java/Java-like target. Deprecated: Use java\_info.java\_outputs.
 
 ## jdeps
 
-``` rule-signature
+```
 File java_output_jars.jdeps
 ```
 
-A manifest proto file. The protobuf file containing the manifest generated from JavaBuilder. This function returns a value when exactly one manifest proto file is present in the outputs. Deprecated: Use java_info.java_outputs\[i\].jdeps.
+A manifest proto file. The protobuf file containing the manifest generated from JavaBuilder. This function returns a value when exactly one manifest proto file is present in the outputs. Deprecated: Use java\_info.java\_outputs[i].jdeps.
 May return `None`.
 
-## native_headers
+## native\_headers
 
-``` rule-signature
+```
 File java_output_jars.native_headers
 ```
 
-A jar containing CC header files supporting native method implementation. This function returns a value when exactly one native headers jar file is present in the outputs. Deprecated: Use java_info.java_outputs\[i\].native_headers_jar.
+A jar containing CC header files supporting native method implementation. This function returns a value when exactly one native headers jar file is present in the outputs. Deprecated: Use java\_info.java\_outputs[i].native\_headers\_jar.
 May return `None`.

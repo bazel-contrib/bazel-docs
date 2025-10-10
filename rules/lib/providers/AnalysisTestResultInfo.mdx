@@ -2,21 +2,18 @@
 title: 'AnalysisTestResultInfo'
 ---
 
-# AnalysisTestResultInfo
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/test/AnalysisTestResultInfoApi.java" %}
-{% include "\_buttons.html" %}
 Encapsulates the result of analyis-phase testing. Build targets which return an instance of this provider signal to the build system that it should generate a 'stub' test executable which generates the equivalent test result. Analysis test rules (rules created with `analysis_test=True` **must** return an instance of this provider, and non-analysis-phase test rules **cannot** return this provider.
 
 ## Members
 
-- [AnalysisTestResultInfo](#AnalysisTestResultInfo)
-- [message](#message)
-- [success](#success)
+* [AnalysisTestResultInfo](#AnalysisTestResultInfo)
+* [message](#message)
+* [success](#success)
 
 ## AnalysisTestResultInfo
 
-``` rule-signature
+```
 AnalysisTestResultInfo AnalysisTestResultInfo(success, message)
 ```
 
@@ -24,32 +21,14 @@ The `AnalysisTestResultInfo` constructor.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="AnalysisTestResultInfo.success"><code>success</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-required<br />
-If true, then the analysis-phase test represented by this target should pass. If false, the test should fail.</td>
-</tr>
-<tr>
-<td id="AnalysisTestResultInfo.message"><code>message</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-A descriptive message containing information about the test and its success/failure.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `success` | [bool](../core/bool.mdx); required  If true, then the analysis-phase test represented by this target should pass. If false, the test should fail. |
+| `message` | [string](../core/string.mdx); required  A descriptive message containing information about the test and its success/failure. |
 
 ## message
 
-``` rule-signature
+```
 string AnalysisTestResultInfo.message
 ```
 
@@ -57,7 +36,7 @@ A descriptive message containing information about the test and its success/fail
 
 ## success
 
-``` rule-signature
+```
 bool AnalysisTestResultInfo.success
 ```
 

@@ -2,28 +2,25 @@
 title: 'toolchain_type'
 ---
 
-# toolchain_type
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/config/StarlarkToolchainTypeRequirement.java" %}
-{% include "\_buttons.html" %}
 A data type describing a dependency on a specific toolchain type.
 
 ## Members
 
-- [mandatory](#mandatory)
-- [toolchain_type](#toolchain_type)
+* [mandatory](#mandatory)
+* [toolchain\_type](#toolchain_type)
 
 ## mandatory
 
-``` rule-signature
+```
 bool toolchain_type.mandatory
 ```
 
 Whether the toolchain type is mandatory or optional.
 
-## toolchain_type
+## toolchain\_type
 
-``` rule-signature
+```
 Label toolchain_type.toolchain_type
 ```
 

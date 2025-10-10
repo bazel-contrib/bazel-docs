@@ -2,19 +2,16 @@
 title: 'PackageSpecificationInfo'
 ---
 
-# PackageSpecificationInfo
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/PackageSpecificationProviderApi.java" %}
-{% include "\_buttons.html" %}
 Information about transitive package specifications used in package groups.
 
 ## Members
 
-- [contains](#contains)
+* [contains](#contains)
 
 ## contains
 
-``` rule-signature
+```
 bool PackageSpecificationInfo.contains(target)
 ```
 
@@ -22,19 +19,6 @@ Checks if a target exists in a package group.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="contains.target"><code>target</code></td>
-<td><a href="../builtins/Label.html" class="anchor">Label</a>; or <a href="../core/string.html" class="anchor">string</a>;
-required<br />
-A target which is checked if it exists inside the package group.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `target` | [Label](../builtins/Label.mdx); or [string](../core/string.mdx); required  A target which is checked if it exists inside the package group. |

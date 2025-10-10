@@ -2,20 +2,17 @@
 title: 'vendor'
 ---
 
-# VENDOR.bazel files
 
-{% dynamic setvar source_file "NONE" %}
-{% include "\_buttons.html" %}
 Methods available in VENDOR.bazel files.
 
 ## Members
 
-- [ignore](#ignore)
-- [pin](#pin)
+* [ignore](#ignore)
+* [pin](#pin)
 
 ## ignore
 
-``` rule-signature
+```
 None ignore(*args)
 ```
 
@@ -23,44 +20,20 @@ Ignore this repo from vendoring. Bazel will never vendor it or use the correspon
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="ignore.args"><code>args</code></td>
-<td>required<br />
-The canonical repo names of the repos to ignore.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `args` | required  The canonical repo names of the repos to ignore. |
 
 ## pin
 
-``` rule-signature
+```
 None pin(*args)
 ```
 
-Pin the contents of this repo under the vendor directory. Bazel will not update this repo while vendoring, and will use the vendored source as if there is a --override_repository flag when building in vendor mode
+Pin the contents of this repo under the vendor directory. Bazel will not update this repo while vendoring, and will use the vendored source as if there is a --override\_repository flag when building in vendor mode
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="pin.args"><code>args</code></td>
-<td>required<br />
-The canonical repo names of the repos to pin.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `args` | required  The canonical repo names of the repos to pin. |

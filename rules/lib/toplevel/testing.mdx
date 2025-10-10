@@ -2,22 +2,19 @@
 title: 'testing'
 ---
 
-# testing
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/test/TestingModuleApi.java" %}
-{% include "\_buttons.html" %}
 Helper methods for Starlark to access testing infrastructure.
 
 ## Members
 
-- [analysis_test](#analysis_test)
-- [ExecutionInfo](#ExecutionInfo)
-- [TestEnvironment](#TestEnvironment)
+* [analysis\_test](#analysis_test)
+* [ExecutionInfo](#ExecutionInfo)
+* [TestEnvironment](#TestEnvironment)
 
-## analysis_test
+## analysis\_test
 
-``` rule-signature
-None testing.analysis_test(name, implementation, attrs={}, fragments=[], toolchains=[], attr_values={})
+```
+None testing.analysis_test(name, implementation, attrs=\{\}, fragments=[], toolchains=[], attr_values=\{\})
 ```
 
 Creates a new analysis test target.
@@ -26,64 +23,26 @@ The number of transitive dependencies of the test are limited. The limit is cont
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="analysis_test.name"><code>name</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-Name of the target. It should be a Starlark identifier, matching pattern '[A-Za-z_][A-Za-z0-9_]*'.</td>
-</tr>
-<tr>
-<td id="analysis_test.implementation"><code>implementation</code></td>
-<td><a href="../core/function.html" class="anchor">function</a>;
-required<br />
-The Starlark function implementing this analysis test. It must have exactly one parameter: <a href="../builtins/ctx.html">ctx</a>. The function is called during the analysis phase. It can access the attributes declared by <code>attrs</code> and populated via <code>attr_values</code>. The implementation function may not register actions. Instead, it must register a pass/fail result via providing <a href="../providers/AnalysisTestResultInfo.html">AnalysisTestResultInfo</a>.</td>
-</tr>
-<tr>
-<td id="analysis_test.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-Dictionary declaring the attributes. See the <a href="../globals/bzl.html#rule">rule</a> call. Attributes are allowed to use configuration transitions defined using <a href="../globals/bzl.html#analysis_test_transition">analysis_test_transition</a>.</td>
-</tr>
-<tr>
-<td id="analysis_test.fragments"><code>fragments</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-List of configuration fragments that are available to the implementation of the analysis test.</td>
-</tr>
-<tr>
-<td id="analysis_test.toolchains"><code>toolchains</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-The set of toolchains the test requires. See the <a href="../globals/bzl.html#rule">rule</a> call.</td>
-</tr>
-<tr>
-<td id="analysis_test.attr_values"><code>attr_values</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>{}</code><br />
-Dictionary of attribute values to pass to the implementation.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `name` | [string](../core/string.mdx); required  Name of the target. It should be a Starlark identifier, matching pattern '[A-Za-z\_][A-Za-z0-9\_]\*'. |
+| `implementation` | [function](../core/function.mdx); required  The Starlark function implementing this analysis test. It must have exactly one parameter: [ctx](../builtins/ctx.mdx). The function is called during the analysis phase. It can access the attributes declared by `attrs` and populated via `attr_values`. The implementation function may not register actions. Instead, it must register a pass/fail result via providing [AnalysisTestResultInfo](../providers/AnalysisTestResultInfo.mdx). |
+| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  Dictionary declaring the attributes. See the [rule](../globals/bzl.html#rule) call. Attributes are allowed to use configuration transitions defined using [analysis\_test\_transition](../globals/bzl.html#analysis_test_transition). |
+| `fragments` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  List of configuration fragments that are available to the implementation of the analysis test. |
+| `toolchains` | [sequence](../core/list.mdx); default is `[]`  The set of toolchains the test requires. See the [rule](../globals/bzl.html#rule) call. |
+| `attr_values` | [dict](../core/dict.mdx) of [string](../core/string.mdx)s; default is `\{\}`  Dictionary of attribute values to pass to the implementation. |
 
 ## ExecutionInfo
 
-``` rule-signature
+```
 ExecutionInfo testing.ExecutionInfo
 ```
 
-[testing.ExecutionInfo](../providers/ExecutionInfo.html) provider key/constructor
+[testing.ExecutionInfo](../providers/ExecutionInfo.mdx) provider key/constructor
 
 ## TestEnvironment
 
-``` rule-signature
+```
 RunEnvironmentInfo testing.TestEnvironment(environment, inherited_environment=[])
 ```
 
@@ -91,25 +50,7 @@ RunEnvironmentInfo testing.TestEnvironment(environment, inherited_environment=[]
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="TestEnvironment.environment"><code>environment</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-required<br />
-A map of string keys and values that represent environment variables and their values. These will be made available during the test execution.</td>
-</tr>
-<tr>
-<td id="TestEnvironment.inherited_environment"><code>inherited_environment</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-A sequence of names of environment variables. These variables are made available during the test execution with their current value taken from the shell environment. If a variable is contained in both <code>environment</code> and <code>inherited_environment</code>, the value inherited from the shell environment will take precedence if set.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `environment` | [dict](../core/dict.mdx); required  A map of string keys and values that represent environment variables and their values. These will be made available during the test execution. |
+| `inherited_environment` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  A sequence of names of environment variables. These variables are made available during the test execution with their current value taken from the shell environment. If a variable is contained in both `environment` and `inherited_environment`, the value inherited from the shell environment will take precedence if set. |

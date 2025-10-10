@@ -2,14 +2,10 @@
 title: 'depset'
 ---
 
-# depset
-
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/collect/nestedset/Depset.java" %}
-{% include "\_buttons.html" %}
 
 A specialized data structure that supports efficient merge operations and has a defined traversal
 order. Commonly used for accumulating data from transitive dependencies in rules and aspects. For
-more information see [here](/extending/depsets).
+more information see [here](./extending/depsets).
 
 The elements of a depset must be hashable and all of the same type (as defined by the built-in
 [`type(x)`](../globals/all#type) function), but depsets are not simply hash
@@ -29,15 +25,15 @@ depsets via the `transitive` argument.
 The `order` parameter determines the kind of traversal that is done to convert the
 depset to an iterable. There are four possible values:
 
-- `"default"` (formerly `"stable"`): Order is unspecified (but
+* `"default"` (formerly `"stable"`): Order is unspecified (but
   deterministic).
-- `"postorder"` (formerly `"compile"`): A left-to-right post-ordering.
+* `"postorder"` (formerly `"compile"`): A left-to-right post-ordering.
   Precisely, this recursively traverses all children leftmost-first, then the direct elements
   leftmost-first.
-- `"preorder"` (formerly `"naive_link"`): A left-to-right pre-ordering.
+* `"preorder"` (formerly `"naive_link"`): A left-to-right pre-ordering.
   Precisely, this traverses the direct elements leftmost-first, then recursively traverses the
   children leftmost-first.
-- `"topological"` (formerly `"link"`): A topological ordering from the root
+* `"topological"` (formerly `"link"`): A topological ordering from the root
   down to the leaves. There is no left-to-right guarantee.
 
 Two depsets may only be merged if either both depsets have the same order, or one of them has
@@ -50,11 +46,11 @@ semantics.
 
 ## Members
 
-- [to_list](#to_list)
+* [to\_list](#to_list)
 
-## to_list
+## to\_list
 
-``` rule-signature
+```
 list depset.to_list()
 ```
 

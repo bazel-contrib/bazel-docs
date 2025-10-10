@@ -2,21 +2,18 @@
 title: 'repository_os'
 ---
 
-# repository_os
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/repository/starlark/StarlarkOS.java" %}
-{% include "\_buttons.html" %}
 Various data about the current platform Bazel is running on.
 
 ## Members
 
-- [arch](#arch)
-- [environ](#environ)
-- [name](#name)
+* [arch](#arch)
+* [environ](#environ)
+* [name](#name)
 
 ## arch
 
-``` rule-signature
+```
 string repository_os.arch
 ```
 
@@ -24,7 +21,7 @@ A string identifying the architecture Bazel is running on (the value of the `"os
 
 ## environ
 
-``` rule-signature
+```
 dict repository_os.environ
 ```
 
@@ -34,7 +31,7 @@ The dictionary of environment variables.
 
 ## name
 
-``` rule-signature
+```
 string repository_os.name
 ```
 

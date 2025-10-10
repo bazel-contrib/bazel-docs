@@ -2,26 +2,22 @@
 title: 'general'
 ---
 
-# General Rules
-
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/docgen/templates/be/rules.vm" %}
-{% include "\_buttons.html" %}
 
 ## Rules
 
-- [alias](#alias)
-- [config_setting](#config_setting)
-- [filegroup](#filegroup)
-- [genquery](#genquery)
-- [genrule](#genrule)
-- [starlark_doc_extract](#starlark_doc_extract)
-- [test_suite](#test_suite)
+* [alias](#alias)
+* [config\_setting](#config_setting)
+* [filegroup](#filegroup)
+* [genquery](#genquery)
+* [genrule](#genrule)
+* [starlark\_doc\_extract](#starlark_doc_extract)
+* [test\_suite](#test_suite)
 
 ## alias
 
-<a href="https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/Alias.java" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/Alias.java)
 
-``` rule-signature
+```
 alias(name, actual, aspect_hints, compatible_with, deprecation, features, package_metadata, restricted_to, tags, target_compatible_with, testonly, visibility)
 ```
 
@@ -32,25 +28,24 @@ and `test_suite` cannot be aliased.
 
 Aliasing may be of help in large repositories where renaming a target would require making
 changes to lots of files. You can also use alias rule to store a
-[select](/reference/be/functions.html#select) function call if you want to reuse that logic for
+[select](./reference/be/functions.html#select) function call if you want to reuse that logic for
 multiple targets.
 
 The alias rule has its own visibility declaration. In all other respects, it behaves
 like the rule it references (e.g. testonly *on the alias* is ignored; the testonly-ness
 of the referenced rule is used instead) with some minor exceptions:
 
-- Tests are not run if their alias is mentioned on the command line. To define an alias
+* Tests are not run if their alias is mentioned on the command line. To define an alias
   that runs the referenced test, use a [`test_suite`](#test_suite)
   rule with a single target in its [`tests`](#test_suite.tests)
   attribute.
-- When defining environment groups, the aliases to `environment` rules are not
+* When defining environment groups, the aliases to `environment` rules are not
   supported. They are not supported in the `--target_environment` command line
   option, either.
 
 #### Examples
 
-``` code
-
+```
 filegroup(
     name = "data",
     srcs = ["data.txt"],
@@ -64,67 +59,46 @@ alias(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="alias.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="alias.actual"><code>actual</code></td>
-<td><p><a href="/concepts/labels">Label</a>; required</p>
-The target this alias refers to. It does not need to be a rule, it can also be an input
-file.</td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `actual` | [Label](./concepts/labels); required The target this alias refers to. It does not need to be a rule, it can also be an input file. |
 
-## config_setting
+## config\_setting
 
-<a href="https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/config/ConfigRuleClasses.java" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/config/ConfigRuleClasses.java)
 
-``` rule-signature
+```
 config_setting(name, aspect_hints, constraint_values, define_values, deprecation, features, flag_values, licenses, package_metadata, tags, testonly, values, visibility)
 ```
 
 Matches an expected configuration state (expressed as build flags or platform constraints) for
-the purpose of triggering configurable attributes. See [select](/reference/be/functions.html#select) for
-how to consume this rule and
-[Configurable attributes](/reference/be/common-definitions#configurable-attributes) for an overview of the general feature.
+the purpose of triggering configurable attributes. See [select](./reference/be/functions.html#select) for
+how to consume this rule and [Configurable attributes](./reference/be/common-definitions#configurable-attributes) for an overview of the general feature.
 
 #### Examples
 
 The following matches any build that sets `--compilation_mode=opt` or
 `-c opt` (either explicitly at the command line or implicitly from .bazelrc files):
 
-``` code
-
+```
   config_setting(
       name = "simple",
-      values = {"compilation_mode": "opt"}
+      values = \{"compilation_mode": "opt"\}
   )
-  
 ```
 
 The following matches any build that targets ARM and applies the custom define
 `FOO=bar` (for instance, `bazel build --cpu=arm --define FOO=bar ...`):
 
-``` code
-
+```
   config_setting(
       name = "two_conditions",
-      values = {
+      values = \{
           "cpu": "arm",
           "define": "FOO=bar"
-      }
+      \}
   )
-  
 ```
 
 The following matches any build that sets
@@ -132,22 +106,19 @@ The following matches any build that sets
 `--//custom_flags:foo=1` (either explicitly at the command line or implicitly from
 .bazelrc files):
 
-``` code
-
+```
   config_setting(
       name = "my_custom_flag_is_set",
-      flag_values = { "//custom_flags:foo": "1" },
+      flag_values = \{ "//custom_flags:foo": "1" \},
   )
-  
 ```
 
-The following matches any build that targets a platform with an x86_64 architecture and glibc
+The following matches any build that targets a platform with an x86\_64 architecture and glibc
 version 2.25, assuming the existence of a `constraint_value` with label
 `//example:glibc_2_25`. Note that a platform still matches if it defines additional
 constraint values beyond these two.
 
-``` code
-
+```
   config_setting(
       name = "64bit_glibc_2_25",
       constraint_values = [
@@ -155,7 +126,6 @@ constraint values beyond these two.
           "//example:glibc_2_25",
       ]
   )
-  
 ```
 
 In all these cases, it's possible for the configuration to change within the build, for example if
@@ -165,35 +135,31 @@ some build targets.
 
 #### Notes
 
-- See [select](/reference/be/functions.html#select) for what happens when multiple
+* See [select](./reference/be/functions.html#select) for what happens when multiple
   `config_setting`s match the current configuration state.
-
-- For flags that support shorthand forms (e.g. `--compilation_mode` vs.
+* For flags that support shorthand forms (e.g. `--compilation_mode` vs.
   `-c`), `values` definitions must use the full form. These automatically
   match invocations using either form.
-
-- If a flag takes multiple values (like `--copt=-Da --copt=-Db` or a list-typed
-  [Starlark flag](https://bazel.build/rules/config#user-defined-build-settings)), `values = { "flag": "a" }` matches if `"a"` is
+* If a flag takes multiple values (like `--copt=-Da --copt=-Db` or a list-typed
+  [Starlark flag](https://bazel.build/rules/config#user-defined-build-settings)), `values = \{ "flag": "a" \}` matches if `"a"` is
   present *anywhere* in the actual list.
 
-  `values = { "myflag": "a,b" }` works the same way: this matches
+  `values = \{ "myflag": "a,b" \}` works the same way: this matches
   `--myflag=a --myflag=b`, `--myflag=a --myflag=b --myflag=c`,
   `--myflag=a,b`, and `--myflag=c,b,a`. Exact semantics vary between
   flags. For example, `--copt` doesn't support multiple values *in the same
-  instance*: `--copt=a,b` produces `["a,b"]` while `--copt=a --copt=b` produces `["a", "b"]` (so `values = { "copt": "a,b" }`
+  instance*: `--copt=a,b` produces `["a,b"]` while `--copt=a
+  --copt=b` produces `["a", "b"]` (so `values = \{ "copt": "a,b" \}`
   matches the former but not the latter). But `--ios_multi_cpus` (for Apple rules)
-  *does*: `-ios_multi_cpus=a,b` and `ios_multi_cpus=a --ios_multi_cpus=b ` both produce `["a", "b"]`. Check flag definitions and test your
+  *does*: `-ios_multi_cpus=a,b` and `ios_multi_cpus=a --ios_multi_cpus=b` both produce `["a", "b"]`. Check flag definitions and test your
   conditions carefully to verify exact expectations.
-
-- If you need to define conditions that aren't modeled by built-in build flags, use
+* If you need to define conditions that aren't modeled by built-in build flags, use
   [Starlark-defined flags](https://bazel.build/rules/config#user-defined-build-settings). You can also use `--define`, but this offers weaker
   support and is not recommended. See
-  [here](/reference/be/common-definitions#configurable-attributes) for more discussion.
-
-- Avoid repeating identical `config_setting` definitions in different packages.
+  [here](./reference/be/common-definitions#configurable-attributes) for more discussion.
+* Avoid repeating identical `config_setting` definitions in different packages.
   Instead, reference a common `config_setting` that defined in a canonical package.
-
-- [`values`](general.html#config_setting.values),
+* [`values`](general.html#config_setting.values),
   [`define_values`](general.html#config_setting.define_values), and
   [`constraint_values`](general.html#config_setting.constraint_values)
   can be used in any combination in the same `config_setting` but at least one must
@@ -201,105 +167,19 @@ some build targets.
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="config_setting.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="config_setting.constraint_values"><code>constraint_values</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>[]</code></p>
-The minimum set of <code>constraint_values</code> that the target platform must specify
-in order to match this <code>config_setting</code>. (The execution platform is not
-considered here.) Any additional constraint values that the platform has are ignored. See
-<a href="https://bazel.build/docs/configurable-attributes#platforms">Configurable Build Attributes</a> for details.
-<p>If two <code>config_setting</code>s match in the same <code>select</code> and one has
-all the same flags and <code>constraint_setting</code>s as the other plus additional ones,
-the one with more settings is chosen. This is known as "specialization". For example,
-a <code>config_setting</code> matching <code>x86</code> and <code>Linux</code> specializes
-a <code>config_setting</code> matching <code>x86</code>.</p>
-<p>If two <code>config_setting</code>s match and both have <code>constraint_value</code>s
-not present in the other, this is an error.</p></td>
-</tr>
-<tr>
-<td id="config_setting.define_values"><code>define_values</code></td>
-<td><p>Dictionary: String -&gt; String; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>{}</code></p>
-The same as <a href="/reference/be/general.html#config_setting.values"><code>values</code></a> but
-specifically for the <code>--define</code> flag.
-<p><code>--define</code> is special because its syntax (<code>--define KEY=VAL</code>)
-means <code>KEY=VAL</code> is a <em>value</em> from a Bazel flag perspective.</p>
-<p>That means:</p>
-<pre class="code"><code>
-            config_setting(
-                name = &quot;a_and_b&quot;,
-                values = {
-                    &quot;define&quot;: &quot;a=1&quot;,
-                    &quot;define&quot;: &quot;b=2&quot;,
-                })
-          </code></pre>
-<p>doesn't work because the same key (<code>define</code>) appears twice in the
-dictionary. This attribute solves that problem:</p>
-<pre class="code"><code>
-            config_setting(
-                name = &quot;a_and_b&quot;,
-                define_values = {
-                    &quot;a&quot;: &quot;1&quot;,
-                    &quot;b&quot;: &quot;2&quot;,
-                })
-          </code></pre>
-<p>correctly matches <code>bazel build //foo --define a=1 --define b=2</code>.</p>
-<p><code>--define</code> can still appear in
-<a href="/reference/be/general.html#config_setting.values"><code>values</code></a> with normal flag syntax,
-and can be mixed freely with this attribute as long as dictionary keys remain distinct.</p></td>
-</tr>
-<tr>
-<td id="config_setting.flag_values"><code>flag_values</code></td>
-<td><p>Dictionary: <a href="/concepts/labels">label</a> -&gt; String; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>{}</code></p>
-The same as <a href="/reference/be/general.html#config_setting.values"><code>values</code></a> but
-for
-<a href="https://bazel.build/rules/config#user-defined-build-settings">user-defined build flags</a>.
-<p>This is a distinct attribute because user-defined flags are referenced as labels while
-built-in flags are referenced as arbitrary strings.</p></td>
-</tr>
-<tr>
-<td id="config_setting.values"><code>values</code></td>
-<td><p>Dictionary: String -&gt; String; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>{}</code></p>
-The set of configuration values that match this rule (expressed as build flags)
-<p>This rule inherits the configuration of the configured target that
-references it in a <code>select</code> statement. It is considered to
-"match" a Bazel invocation if, for every entry in the dictionary, its
-configuration matches the entry's expected value. For example
-<code>values = {"compilation_mode": "opt"}</code> matches the invocations
-<code>bazel build --compilation_mode=opt ...</code> and
-<code>bazel build -c opt ...</code> on target-configured rules.</p>
-<p>For convenience's sake, configuration values are specified as build flags (without
-the preceding <code>"--"</code>). But keep in mind that the two are not the same. This
-is because targets can be built in multiple configurations within the same
-build. For example, an exec configuration's "cpu" matches the value of
-<code>--host_cpu</code>, not <code>--cpu</code>. So different instances of the
-same <code>config_setting</code> may match the same invocation differently
-depending on the configuration of the rule using them.</p>
-<p>If a flag is not explicitly set at the command line, its default value is used.
-If a key appears multiple times in the dictionary, only the last instance is used.
-If a key references a flag that can be set multiple times on the command line (e.g.
-<code>bazel build --copt=foo --copt=bar --copt=baz ...</code>), a match occurs if
-<em>any</em> of those settings match.</p></td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `constraint_values` | List of [labels](./concepts/labels); [nonconfigurable](common-definitions.html#configurable-attributes); default is `[]` The minimum set of `constraint_values` that the target platform must specify in order to match this `config_setting`. (The execution platform is not considered here.) Any additional constraint values that the platform has are ignored. See [Configurable Build Attributes](https://bazel.build/docs/configurable-attributes#platforms) for details. If two `config_setting`s match in the same `select` and one has all the same flags and `constraint_setting`s as the other plus additional ones, the one with more settings is chosen. This is known as "specialization". For example, a `config_setting` matching `x86` and `Linux` specializes a `config_setting` matching `x86`. If two `config_setting`s match and both have `constraint_value`s not present in the other, this is an error. |
+| `define_values` | Dictionary: String -> String; [nonconfigurable](common-definitions.html#configurable-attributes); default is `\{\}` The same as [`values`](./reference/be/general.html#config_setting.values) but specifically for the `--define` flag. `--define` is special because its syntax (`--define KEY=VAL`) means `KEY=VAL` is a *value* from a Bazel flag perspective.  That means:  ```             config_setting(                 name = "a_and_b",                 values = \{                     "define": "a=1",                     "define": "b=2",                 \}) ```   doesn't work because the same key (`define`) appears twice in the dictionary. This attribute solves that problem:  ```             config_setting(                 name = "a_and_b",                 define_values = \{                     "a": "1",                     "b": "2",                 \}) ```   correctly matches `bazel build //foo --define a=1 --define b=2`. `--define` can still appear in [`values`](./reference/be/general.html#config_setting.values) with normal flag syntax, and can be mixed freely with this attribute as long as dictionary keys remain distinct. |
+| `flag_values` | Dictionary: [label](./concepts/labels) -> String; [nonconfigurable](common-definitions.html#configurable-attributes); default is `\{\}` The same as [`values`](./reference/be/general.html#config_setting.values) but for [user-defined build flags](https://bazel.build/rules/config#user-defined-build-settings). This is a distinct attribute because user-defined flags are referenced as labels while built-in flags are referenced as arbitrary strings. |
+| `values` | Dictionary: String -> String; [nonconfigurable](common-definitions.html#configurable-attributes); default is `\{\}` The set of configuration values that match this rule (expressed as build flags) This rule inherits the configuration of the configured target that references it in a `select` statement. It is considered to "match" a Bazel invocation if, for every entry in the dictionary, its configuration matches the entry's expected value. For example `values = \{"compilation_mode": "opt"\}` matches the invocations `bazel build --compilation_mode=opt ...` and `bazel build -c opt ...` on target-configured rules.  For convenience's sake, configuration values are specified as build flags (without the preceding `"--"`). But keep in mind that the two are not the same. This is because targets can be built in multiple configurations within the same build. For example, an exec configuration's "cpu" matches the value of `--host_cpu`, not `--cpu`. So different instances of the same `config_setting` may match the same invocation differently depending on the configuration of the rule using them.  If a flag is not explicitly set at the command line, its default value is used. If a key appears multiple times in the dictionary, only the last instance is used. If a key references a flag that can be set multiple times on the command line (e.g. `bazel build --copt=foo --copt=bar --copt=baz ...`), a match occurs if *any* of those settings match. |
 
 ## filegroup
 
-<a href="https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/filegroup/FilegroupRule.java" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/filegroup/FilegroupRule.java)
 
-``` rule-signature
+```
 filegroup(name, srcs, data, aspect_hints, compatible_with, deprecation, features, licenses, output_group, package_metadata, restricted_to, tags, target_compatible_with, testonly, visibility)
 ```
 
@@ -315,15 +195,14 @@ the `data` attribute of a \*\_binary rule.
 Using `filegroup` is encouraged instead of referencing directories directly.
 Directly referencing directories is discouraged because the build system does not have
 full knowledge of all files below the directory, so it may not rebuild when these files change.
-When combined with [glob](/reference/be/functions.html#glob), `filegroup` can ensure that all
+When combined with [glob](./reference/be/functions.html#glob), `filegroup` can ensure that all
 files are explicitly known to the build system.
 
 #### Examples
 
 To create a `filegroup` consisting of two source files, do
 
-``` code
-
+```
 filegroup(
     name = "mygroup",
     srcs = [
@@ -336,8 +215,7 @@ filegroup(
 
 Or, use a `glob` to fully crawl a testdata directory:
 
-``` code
-
+```
 filegroup(
     name = "exported_testdata",
     srcs = glob([
@@ -349,8 +227,7 @@ filegroup(
 
 To make use of these definitions, reference the `filegroup` with a label from any rule:
 
-``` code
-
+```
 cc_library(
     name = "my_library",
     srcs = ["foo.cc"],
@@ -363,59 +240,23 @@ cc_library(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="filegroup.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="filegroup.srcs"><code>srcs</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The list of targets that are members of the file group.
-<p>It is common to use the result of a <a href="/reference/be/functions.html#glob">glob</a> expression for
-the value of the <code>srcs</code> attribute.</p></td>
-</tr>
-<tr>
-<td id="filegroup.data"><code>data</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The list of files needed by this rule at runtime.
-<p>Targets named in the <code>data</code> attribute will be added to the
-<code>runfiles</code> of this <code>filegroup</code> rule. When the
-<code>filegroup</code> is referenced in the <code>data</code> attribute of
-another rule its <code>runfiles</code> will be added to the <code>runfiles</code>
-of the depending rule. See the <a href="/concepts/dependencies#data-dependencies">data dependencies</a>
-section and <a href="/reference/be/common-definitions#common.data">general documentation of
-<code>data</code></a> for more information about how to depend on and use data files.</p></td>
-</tr>
-<tr>
-<td id="filegroup.output_group"><code>output_group</code></td>
-<td><p>String; default is <code>""</code></p>
-The output group from which to gather artifacts from sources. If this attribute is
-specified, artifacts from the specified output group of the dependencies will be exported
-instead of the default output group.
-<p>An "output group" is a category of output artifacts of a target, specified in that
-rule's implementation.</p></td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `srcs` | List of [labels](./concepts/labels); default is `[]` The list of targets that are members of the file group. It is common to use the result of a [glob](./reference/be/functions.html#glob) expression for the value of the `srcs` attribute. |
+| `data` | List of [labels](./concepts/labels); default is `[]` The list of files needed by this rule at runtime. Targets named in the `data` attribute will be added to the `runfiles` of this `filegroup` rule. When the `filegroup` is referenced in the `data` attribute of another rule its `runfiles` will be added to the `runfiles` of the depending rule. See the [data dependencies](./concepts/dependencies#data-dependencies) section and [general documentation of `data`](./reference/be/common-definitions#common.data) for more information about how to depend on and use data files. |
+| `output_group` | String; default is `""` The output group from which to gather artifacts from sources. If this attribute is specified, artifacts from the specified output group of the dependencies will be exported instead of the default output group. An "output group" is a category of output artifacts of a target, specified in that rule's implementation. |
 
 ## genquery
 
-<a href="https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/genquery/GenQueryRule.java" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/genquery/GenQueryRule.java)
 
-``` rule-signature
+```
 genquery(name, deps, data, aspect_hints, compatible_with, compressed_output, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, expression, features, licenses, opts, package_metadata, restricted_to, scope, strict, tags, target_compatible_with, testonly, visibility)
 ```
 
 `genquery()` runs a query specified in the
-[Bazel query language](/reference/query) and dumps the result
+[Bazel query language](./reference/query) and dumps the result
 into a file.
 
 In order to keep the build consistent, the query is allowed only to visit
@@ -446,8 +287,7 @@ The name of the output file is the name of the rule.
 This example writes the list of the labels in the transitive closure of the
 specified target to a file.
 
-``` code
-
+```
 genquery(
     name = "kiwi-deps",
     expression = "deps(//kiwi:kiwi_lib)",
@@ -457,66 +297,20 @@ genquery(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="genquery.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="genquery.compressed_output"><code>compressed_output</code></td>
-<td><p>Boolean; default is <code>False</code></p>
-If <code>True</code>, query output is written in GZIP file format. This setting can be used
-to avoid spikes in Bazel's memory use when the query output is expected to be large. Bazel
-already internally compresses query outputs greater than 2<sup>20</sup> bytes regardless of
-the value of this setting, so setting this to <code>True</code> may not reduce retained
-heap. However, it allows Bazel to skip <em>decompression</em> when writing the output file,
-which can be memory-intensive.</td>
-</tr>
-<tr>
-<td id="genquery.expression"><code>expression</code></td>
-<td><p>String; required</p>
-The query to be executed. In contrast to the command line and other places in BUILD files,
-labels here are resolved relative to the root directory of the workspace. For example, the
-label <code>:b</code> in this attribute in the file <code>a/BUILD</code> will refer to the
-target <code>//:b</code>.</td>
-</tr>
-<tr>
-<td id="genquery.opts"><code>opts</code></td>
-<td><p>List of strings; default is <code>[]</code></p>
-The options that are passed to the query engine. These correspond to the command line
-options that can be passed to <code>bazel query</code>. Some query options are not allowed
-here: <code>--keep_going</code>, <code>--query_file</code>, <code>--universe_scope</code>,
-<code>--order_results</code> and <code>--order_output</code>. Options not specified here
-will have their default values just like on the command line of <code>bazel query</code>.</td>
-</tr>
-<tr>
-<td id="genquery.scope"><code>scope</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; required</p>
-The scope of the query. The query is not allowed to touch targets outside the transitive
-closure of these targets.</td>
-</tr>
-<tr>
-<td id="genquery.strict"><code>strict</code></td>
-<td><p>Boolean; default is <code>True</code></p>
-If true, targets whose queries escape the transitive closure of their scopes will fail to
-build. If false, Bazel will print a warning and skip whatever query path led it outside of
-the scope, while completing the rest of the query.</td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `compressed_output` | Boolean; default is `False` If `True`, query output is written in GZIP file format. This setting can be used to avoid spikes in Bazel's memory use when the query output is expected to be large. Bazel already internally compresses query outputs greater than 220 bytes regardless of the value of this setting, so setting this to `True` may not reduce retained heap. However, it allows Bazel to skip *decompression* when writing the output file, which can be memory-intensive. |
+| `expression` | String; required The query to be executed. In contrast to the command line and other places in BUILD files, labels here are resolved relative to the root directory of the workspace. For example, the label `:b` in this attribute in the file `a/BUILD` will refer to the target `//:b`. |
+| `opts` | List of strings; default is `[]` The options that are passed to the query engine. These correspond to the command line options that can be passed to `bazel query`. Some query options are not allowed here: `--keep_going`, `--query_file`, `--universe_scope`, `--order_results` and `--order_output`. Options not specified here will have their default values just like on the command line of `bazel query`. |
+| `scope` | List of [labels](./concepts/labels); required The scope of the query. The query is not allowed to touch targets outside the transitive closure of these targets. |
+| `strict` | Boolean; default is `True` If true, targets whose queries escape the transitive closure of their scopes will fail to build. If false, Bazel will print a warning and skip whatever query path led it outside of the scope, while completing the rest of the query. |
 
 ## genrule
 
-<a href="https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/bazel/rules/genrule/BazelGenRuleRule.java" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/bazel/rules/genrule/BazelGenRuleRule.java)
 
-``` rule-signature
+```
 genrule(name, srcs, outs, aspect_hints, cmd, cmd_bash, cmd_bat, cmd_ps, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, executable, features, licenses, local, message, output_licenses, output_to_bindir, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, tools, visibility)
 ```
 
@@ -531,7 +325,7 @@ Note that genrule requires a shell to interpret the command argument.
 It is also easy to reference arbitrary programs available on the PATH, however this makes the
 command non-hermetic and may not be reproducible.
 If you only need to run a single tool, consider using
-[run_binary](https://github.com/bazelbuild/bazel-skylib/blob/main/docs/run_binary_doc.md)
+[run\_binary](https://github.com/bazelbuild/bazel-skylib/blob/main/docs/run_binary_doc.md)
 instead.
 
 Like every other action, the action created by genrules should not assume anything about their
@@ -545,11 +339,11 @@ Do not use a genrule for running tests. There are special dispensations for test
 results, including caching policies and environment variables. Tests generally need to be run
 after the build is complete and on the target architecture, whereas genrules are executed during
 the build and on the exec architecture (the two may be different). If you need a general purpose
-testing rule, use [`sh_test`](/reference/be/shell.html#sh_test).
+testing rule, use [`sh_test`](./reference/be/shell.html#sh_test).
 
 #### Cross-compilation Considerations
 
-*See [the user manual](/docs/user-manual#configurations) for more info about
+*See [the user manual](./docs/user-manual#configurations) for more info about
 cross-compilation.*
 
 While genrules run during a build, their outputs are often used after the build, for deployment or
@@ -566,8 +360,7 @@ corresponding files into separate directories to avoid conflicts.
 For genrules, the build system ensures that dependencies are built appropriately:
 `srcs` are built (if necessary) for the *target* configuration,
 `tools` are built for the *exec* configuration, and the output is considered to
-be for the *target* configuration. It also provides
-["Make" variables](/reference/be/make-variables) that genrule commands can pass to the corresponding tools.
+be for the *target* configuration. It also provides ["Make" variables](./reference/be/make-variables) that genrule commands can pass to the corresponding tools.
 
 It is intentional that genrule defines no `deps` attribute: other built-in rules use
 language-dependent meta information passed between the rules to automatically determine how to
@@ -582,11 +375,11 @@ which is subsequently used by another genrule, the first one has to produce its 
 exec configuration, because that's where the compiler will run in the other genrule. In this case,
 the build system does the right thing automatically: it builds the `srcs` and
 `outs` of the first genrule for the exec configuration instead of the target
-configuration. See [the user manual](/docs/user-manual#configurations) for more
+configuration. See [the user manual](./docs/user-manual#configurations) for more
 info.
 
 *JDK & C++ Tooling*: to use a tool from the JDK or the C++ compiler suite, the build system
-provides a set of variables to use. See ["Make" variable](/reference/be/make-variables) for
+provides a set of variables to use. See ["Make" variable](./reference/be/make-variables) for
 details.
 
 #### Genrule Environment
@@ -611,27 +404,27 @@ directories before it runs a genrule. It also removes any output files in case o
 
 #### General Advice
 
-- Do ensure that tools run by a genrule are deterministic and hermetic. They should not write
+* Do ensure that tools run by a genrule are deterministic and hermetic. They should not write
   timestamps to their output, and they should use stable ordering for sets and maps, as well as
   write only relative file paths to the output, no absolute paths. Not following this rule will
   lead to unexpected build behavior (Bazel not rebuilding a genrule you thought it would) and
   degrade cache performance.
-- Do use `$(location)` extensively, for outputs, tools and sources. Due to the
+* Do use `$(location)` extensively, for outputs, tools and sources. Due to the
   segregation of output files for different configurations, genrules cannot rely on hard-coded
   and/or absolute paths.
-- Do write a common Starlark macro in case the same or very similar genrules are used in
+* Do write a common Starlark macro in case the same or very similar genrules are used in
   multiple places. If the genrule is complex, consider implementing it in a script or as a
   Starlark rule. This improves readability as well as testability.
-- Do make sure that the exit code correctly indicates success or failure of the genrule.
-- Do not write informational messages to stdout or stderr. While useful for debugging, this can
+* Do make sure that the exit code correctly indicates success or failure of the genrule.
+* Do not write informational messages to stdout or stderr. While useful for debugging, this can
   easily become noise; a successful genrule should be silent. On the other hand, a failing genrule
   should emit good error messages.
-- `$$` evaluates to a `$`, a literal dollar-sign, so in order to invoke a
+* `$$` evaluates to a `$`, a literal dollar-sign, so in order to invoke a
   shell command containing dollar-signs such as `ls $(dirname $x)`, one must escape it
   thus: `ls $$(dirname $$x)`.
-- Avoid creating symlinks and directories. Bazel doesn't copy over the directory/symlink
+* Avoid creating symlinks and directories. Bazel doesn't copy over the directory/symlink
   structure created by genrules and its dependency checking of directories is unsound.
-- When referencing the genrule in other rules, you can use either the genrule's label or the
+* When referencing the genrule in other rules, you can use either the genrule's label or the
   labels of individual output files. Sometimes the one approach is more readable, sometimes the
   other: referencing outputs by name in a consuming rule's `srcs` will avoid
   unintentionally picking up other outputs of the genrule, but can be tedious if the genrule
@@ -642,8 +435,7 @@ directories before it runs a genrule. It also removes any output files in case o
 This example generates `foo.h`. There are no sources, because the command doesn't take
 any input. The "binary" run by the command is a perl script in the same package as the genrule.
 
-``` code
-
+```
 genrule(
     name = "foo",
     srcs = [],
@@ -653,13 +445,11 @@ genrule(
 )
 ```
 
-The following example shows how to use a [`filegroup`](/reference/be/general.html#filegroup)
-and the outputs of another `genrule`. Note that using `$(SRCS)` instead
+The following example shows how to use a [`filegroup`](./reference/be/general.html#filegroup) and the outputs of another `genrule`. Note that using `$(SRCS)` instead
 of explicit `$(location)` directives would also work; this example uses the latter for
 sake of demonstration.
 
-``` code
-
+```
 genrule(
     name = "concat_all_files",
     srcs = [
@@ -673,193 +463,35 @@ genrule(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="genrule.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p>
-<br />
-You may refer to this rule by name in the
-<code>srcs</code> or <code>deps</code> section of other <code>BUILD</code>
-rules. If the rule generates source files, you should use the
-<code>srcs</code> attribute.</td>
-</tr>
-<tr>
-<td id="genrule.srcs"><code>srcs</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-A list of inputs for this rule, such as source files to process.
-<p><em>This attributes is not suitable to list tools executed by the <code>cmd</code>; use
-the <a href="/reference/be/general.html#genrule.tools"><code>tools</code></a> attribute for them instead.</em></p>
-<p>The build system ensures these prerequisites are built before running the genrule
-command; they are built using the same configuration as the original build request. The
-names of the files of these prerequisites are available to the command as a
-space-separated list in <code>$(SRCS)</code>; alternatively the path of an individual
-<code>srcs</code> target <code>//x:y</code> can be obtained using <code>$(location //x:y)</code>, or using <code>$&lt;</code> provided it's the only entry in
-<code>srcs</code>.</p></td>
-</tr>
-<tr>
-<td id="genrule.outs"><code>outs</code></td>
-<td><p>List of <a href="/concepts/build-ref#filename">filenames</a>; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; required</p>
-A list of files generated by this rule.
-<p>Output files must not cross package boundaries.
-Output filenames are interpreted as relative to the package.</p>
-<p>If the <code>executable</code> flag is set, <code>outs</code> must contain exactly one
-label.</p>
-<p>The genrule command is expected to create each output file at a predetermined location.
-The location is available in <code>cmd</code> using <a href="/reference/be/make-variables#predefined_genrule_variables">genrule-specific "Make"
-variables</a> (<code>$@</code>, <code>$(OUTS)</code>, <code>$(@D)</code> or <code> $(RULEDIR)</code>) or using
-<a href="/reference/be/make-variables#predefined_label_variables"><code>$(location)</code></a> substitution.</p></td>
-</tr>
-<tr>
-<td id="genrule.cmd"><code>cmd</code></td>
-<td><p>String; default is <code>""</code></p>
-The command to run.
-Subject to <a href="/reference/be/make-variables#predefined_label_variables"><code>$(location) </code></a> and <a href="/reference/be/make-variables">"Make" variable</a> substitution.
-<ol>
-<li>First <a href="/reference/be/make-variables#predefined_label_variables"><code>$(location) </code></a> substitution is applied, replacing all occurrences of <code>$(location </code><em><code>label</code></em><code>)</code> and of <code>$(locations </code><em><code>label</code></em><code>)</code> (and similar
-constructions using related variables <code>execpath</code>, <code>execpaths</code>,
-<code>rootpath</code> and <code>rootpaths</code>).</li>
-<li>Next, <a href="/reference/be/make-variables">"Make" variables</a> are expanded. Note that
-predefined variables <code>$(JAVA)</code>, <code>$(JAVAC)</code> and
-<code>$(JAVABASE)</code> expand under the <em>exec</em> configuration, so Java invocations
-that run as part of a build step can correctly load shared libraries and other
-dependencies.</li>
-<li>Finally, the resulting command is executed using the Bash shell. If its exit code is
-non-zero the command is considered to have failed.</li>
-</ol>
-This is the fallback of <code>cmd_bash</code>, <code>cmd_ps</code> and <code>cmd_bat</code>,
-if none of them are applicable.
-<p>If the command line length exceeds the platform limit (64K on Linux/macOS, 8K on Windows),
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target.  You may refer to this rule by name in the `srcs` or `deps` section of other `BUILD` rules. If the rule generates source files, you should use the `srcs` attribute. |
+| `srcs` | List of [labels](./concepts/labels); default is `[]` A list of inputs for this rule, such as source files to process. *This attributes is not suitable to list tools executed by the `cmd`; use the [`tools`](./reference/be/general.html#genrule.tools) attribute for them instead.*  The build system ensures these prerequisites are built before running the genrule command; they are built using the same configuration as the original build request. The names of the files of these prerequisites are available to the command as a space-separated list in `$(SRCS)`; alternatively the path of an individual `srcs` target `//x:y` can be obtained using `$(location //x:y)`, or using `$<` provided it's the only entry in `srcs`. |
+| `outs` | List of [filenames](./concepts/build-ref#filename); [nonconfigurable](common-definitions.html#configurable-attributes); required A list of files generated by this rule. Output files must not cross package boundaries. Output filenames are interpreted as relative to the package.  If the `executable` flag is set, `outs` must contain exactly one label.  The genrule command is expected to create each output file at a predetermined location. The location is available in `cmd` using [genrule-specific "Make" variables](./reference/be/make-variables#predefined_genrule_variables) (`$@`, `$(OUTS)`, `$(@D)` or `$(RULEDIR)`) or using [`$(location)`](./reference/be/make-variables#predefined_label_variables) substitution. |
+| `cmd` | String; default is `""` The command to run. Subject to [`$(location)`](./reference/be/make-variables#predefined_label_variables) and ["Make" variable](./reference/be/make-variables) substitution.  1. First [`$(location)`](./reference/be/make-variables#predefined_label_variables) substitution is applied, replacing all occurrences of `$(location     label)` and of `$(locations label)` (and similar    constructions using related variables `execpath`, `execpaths`,    `rootpath` and `rootpaths`). 2. Next, ["Make" variables](./reference/be/make-variables) are expanded. Note that    predefined variables `$(JAVA)`, `$(JAVAC)` and    `$(JAVABASE)` expand under the *exec* configuration, so Java invocations    that run as part of a build step can correctly load shared libraries and other    dependencies. 3. Finally, the resulting command is executed using the Bash shell. If its exit code is    non-zero the command is considered to have failed.  This is the fallback of `cmd_bash`, `cmd_ps` and `cmd_bat`, if none of them are applicable. |
+
+If the command line length exceeds the platform limit (64K on Linux/macOS, 8K on Windows),
 then genrule will write the command to a script and execute that script to work around. This
-applies to all cmd attributes (<code>cmd</code>, <code>cmd_bash</code>, <code>cmd_ps</code>,
-<code>cmd_bat</code>).</p></td>
-</tr>
-<tr>
-<td id="genrule.cmd_bash"><code>cmd_bash</code></td>
-<td><p>String; default is <code>""</code></p>
-The Bash command to run.
-<p>This attribute has higher priority than <code>cmd</code>. The command is expanded and
-runs in the exact same way as the <code>cmd</code> attribute.</p></td>
-</tr>
-<tr>
-<td id="genrule.cmd_bat"><code>cmd_bat</code></td>
-<td><p>String; default is <code>""</code></p>
-The Batch command to run on Windows.
-<p>This attribute has higher priority than <code>cmd</code> and <code>cmd_bash</code>.
-The command runs in the similar way as the <code>cmd</code> attribute, with the
-following differences:</p>
-<ul>
-<li>This attribute only applies on Windows.</li>
-<li>The command runs with <code>cmd.exe /c</code> with the following default arguments:
-<ul>
-<li><code>/S</code> - strip first and last quotes and execute everything else as is.</li>
-<li><code>/E:ON</code> - enable extended command set.</li>
-<li><code>/V:ON</code> - enable delayed variable expansion</li>
-<li><code>/D</code> - ignore AutoRun registry entries.</li>
-</ul></li>
-<li>After <a href="/reference/be/make-variables#predefined_label_variables">$(location)</a> and
-<a href="/reference/be/make-variables">"Make" variable</a> substitution, the paths will be
-expanded to Windows style paths (with backslash).</li>
-</ul></td>
-</tr>
-<tr>
-<td id="genrule.cmd_ps"><code>cmd_ps</code></td>
-<td><p>String; default is <code>""</code></p>
-The Powershell command to run on Windows.
-<p>This attribute has higher priority than <code>cmd</code>, <code>cmd_bash</code> and
-<code>cmd_bat</code>. The command runs in the similar way as the <code>cmd</code>
-attribute, with the following differences:</p>
-<ul>
-<li>This attribute only applies on Windows.</li>
-<li>The command runs with <code>powershell.exe /c</code>.</li>
-</ul>
-<p>To make Powershell easier to use and less error-prone, we run the following
-commands to set up the environment before executing Powershell command in genrule.</p>
-<ul>
-<li><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> - allow running
-unsigned scripts.</li>
-<li><code>$errorActionPreference='Stop'</code> - In case there are multiple commands
-separated by <code>;</code>, the action exits immediately if a Powershell CmdLet fails,
-but this does <strong>NOT</strong> work for external command.</li>
-<li><code>$PSDefaultParameterValues['*:Encoding'] = 'utf8'</code> - change the default
-encoding from utf-16 to utf-8.</li>
-</ul></td>
-</tr>
-<tr>
-<td id="genrule.executable"><code>executable</code></td>
-<td><p>Boolean; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>False</code></p>
-Declare output to be executable.
-<p>Setting this flag to True means the output is an executable file and can be run using the
-<code>run</code> command. The genrule must produce exactly one output in this case.
-If this attribute is set, <code>run</code> will try executing the file regardless of
-its content.</p>
-<p>Declaring data dependencies for the generated executable is not supported.</p></td>
-</tr>
-<tr>
-<td id="genrule.local"><code>local</code></td>
-<td><p>Boolean; default is <code>False</code></p>
-<p>If set to True, this option forces this <code>genrule</code> to run using the "local"
-strategy, which means no remote execution, no sandboxing, no persistent workers.</p>
-<p>This is equivalent to providing 'local' as a tag (<code>tags=["local"]</code>).</p></td>
-</tr>
-<tr>
-<td id="genrule.message"><code>message</code></td>
-<td><p>String; default is <code>""</code></p>
-A progress message.
-<p>A progress message that will be printed as this build step is executed. By default, the
-message is "Generating <em>output</em>" (or something equally bland) but you may provide a
-more specific one. Use this attribute instead of <code>echo</code> or other print
-statements in your <code>cmd</code> command, as this allows the build tool to control
-whether such progress messages are printed or not.</p></td>
-</tr>
-<tr>
-<td id="genrule.output_licenses"><code>output_licenses</code></td>
-<td><p>List of strings; default is <code>[]</code></p>
-See <a href="/reference/be/common-definitions#binary.output_licenses"><code>common attributes </code></a></td>
-</tr>
-<tr>
-<td id="genrule.output_to_bindir"><code>output_to_bindir</code></td>
-<td><p>Boolean; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>False</code></p>
-<p>If set to True, this option causes output files to be written into the <code>bin</code>
-directory instead of the <code>genfiles</code> directory.</p></td>
-</tr>
-<tr>
-<td id="genrule.toolchains"><code>toolchains</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>[]</code></p>
-<p>The set of targets whose <a href="/reference/be/make-variables">Make variables</a> this genrule
-is allowed to access, or the <a href="/docs/toolchains"><code>toolchain_type</code></a>
-targets that this genrule will access.</p>
-<p>Toolchains accessed via <code>toolchain_type</code> must also provide a
-<code>TemplateVariableInfo</code> provider, which the target can use to access toolchain
-details.</p></td>
-</tr>
-<tr>
-<td id="genrule.tools"><code>tools</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-A list of <em>tool</em> dependencies for this rule. See the definition of
-<a href="/concepts/build-ref#deps">dependencies</a> for more information.<br />
-&#10;<p>The build system ensures these prerequisites are built before running the genrule command;
-they are built using the <a href="/contribute/guide#configurations"><em>exec</em>
-configuration</a>, since these tools are executed as part of the build. The path of an
-individual <code>tools</code> target <code>//x:y</code> can be obtained using
-<code>$(location //x:y)</code>.</p>
-<p>Any <code>*_binary</code> or tool to be executed by <code>cmd</code> must appear in this
-list, not in <code>srcs</code>, to ensure they are built in the correct configuration.</p></td>
-</tr>
-</tbody>
-</table>
+applies to all cmd attributes (`cmd`, `cmd_bash`, `cmd_ps`,
+`cmd_bat`).
 
-## starlark_doc_extract
+| `cmd_bash` | String; default is `""` The Bash command to run. This attribute has higher priority than `cmd`. The command is expanded and runs in the exact same way as the `cmd` attribute. |
+| `cmd_bat` | String; default is `""` The Batch command to run on Windows. This attribute has higher priority than `cmd` and `cmd_bash`. The command runs in the similar way as the `cmd` attribute, with the following differences:   * This attribute only applies on Windows. * The command runs with `cmd.exe /c` with the following default arguments:   + `/S` - strip first and last quotes and execute everything else as is.   + `/E:ON` - enable extended command set.   + `/V:ON` - enable delayed variable expansion   + `/D` - ignore AutoRun registry entries. * After [$(location)](./reference/be/make-variables#predefined_label_variables) and   ["Make" variable](./reference/be/make-variables) substitution, the paths will be   expanded to Windows style paths (with backslash). |
+| `cmd_ps` | String; default is `""` The Powershell command to run on Windows. This attribute has higher priority than `cmd`, `cmd_bash` and `cmd_bat`. The command runs in the similar way as the `cmd` attribute, with the following differences:   * This attribute only applies on Windows. * The command runs with `powershell.exe /c`.   To make Powershell easier to use and less error-prone, we run the following commands to set up the environment before executing Powershell command in genrule.   * `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` - allow running   unsigned scripts. * `$errorActionPreference='Stop'` - In case there are multiple commands   separated by `;`, the action exits immediately if a Powershell CmdLet fails,   but this does **NOT** work for external command. * `$PSDefaultParameterValues['*:Encoding'] = 'utf8'` - change the default   encoding from utf-16 to utf-8. |
+| `executable` | Boolean; [nonconfigurable](common-definitions.html#configurable-attributes); default is `False` Declare output to be executable. Setting this flag to True means the output is an executable file and can be run using the `run` command. The genrule must produce exactly one output in this case. If this attribute is set, `run` will try executing the file regardless of its content.  Declaring data dependencies for the generated executable is not supported. |
+| `local` | Boolean; default is `False`  If set to True, this option forces this `genrule` to run using the "local" strategy, which means no remote execution, no sandboxing, no persistent workers.  This is equivalent to providing 'local' as a tag (`tags=["local"]`). |
+| `message` | String; default is `""` A progress message. A progress message that will be printed as this build step is executed. By default, the message is "Generating *output*" (or something equally bland) but you may provide a more specific one. Use this attribute instead of `echo` or other print statements in your `cmd` command, as this allows the build tool to control whether such progress messages are printed or not. |
+| `output_licenses` | List of strings; default is `[]` See [`common attributes`](./reference/be/common-definitions#binary.output_licenses) |
+| `output_to_bindir` | Boolean; [nonconfigurable](common-definitions.html#configurable-attributes); default is `False`  If set to True, this option causes output files to be written into the `bin` directory instead of the `genfiles` directory. |
+| `toolchains` | List of [labels](./concepts/labels); [nonconfigurable](common-definitions.html#configurable-attributes); default is `[]`  The set of targets whose [Make variables](./reference/be/make-variables) this genrule is allowed to access, or the [`toolchain_type`](./docs/toolchains) targets that this genrule will access.  Toolchains accessed via `toolchain_type` must also provide a `TemplateVariableInfo` provider, which the target can use to access toolchain details. |
+| `tools` | List of [labels](./concepts/labels); default is `[]` A list of *tool* dependencies for this rule. See the definition of [dependencies](./concepts/build-ref#deps) for more information.   The build system ensures these prerequisites are built before running the genrule command; they are built using the [*exec* configuration](./contribute/guide#configurations), since these tools are executed as part of the build. The path of an individual `tools` target `//x:y` can be obtained using `$(location //x:y)`.  Any `*_binary` or tool to be executed by `cmd` must appear in this list, not in `srcs`, to ensure they are built in the correct configuration. |
 
-<a href="https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/starlarkdocextract/StarlarkDocExtractRule.java" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
 
-``` rule-signature
+## starlark\_doc\_extract
+
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/starlarkdocextract/StarlarkDocExtractRule.java)
+
+```
 starlark_doc_extract(name, deps, src, data, allow_unused_doc_comments, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, licenses, package_metadata, render_main_repo_name, restricted_to, symbol_names, tags, target_compatible_with, testonly, visibility)
 ```
 
@@ -867,101 +499,35 @@ starlark_doc_extract(name, deps, src, data, allow_unused_doc_comments, aspect_hi
 macros), aspects, and providers defined or re-exported in a given `.bzl` or
 `.scl` file. The output of this rule is a `ModuleInfo` binary proto as defined
 in
-[stardoc_output.proto](https://github.com/bazelbuild/bazel/blob/master/src/main/protobuf/stardoc_output.proto)
+[stardoc\_output.proto](https://github.com/bazelbuild/bazel/blob/master/src/main/protobuf/stardoc_output.proto)
 in the Bazel source tree.
 
 #### Implicit output targets
 
-- `name``.binaryproto` (the default output): A
+* `name.binaryproto` (the default output): A
   `ModuleInfo` binary proto.
-- `name``.textproto` (only built if explicitly requested): the text
-  proto version of `name``.binaryproto`.
+* `name.textproto` (only built if explicitly requested): the text
+  proto version of `name.binaryproto`.
 
 Warning: the output format of this rule is not guaranteed to be stable. It is intended mainly for
 internal use by [Stardoc](https://github.com/bazelbuild/stardoc).
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="starlark_doc_extract.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="starlark_doc_extract.deps"><code>deps</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-A list of targets wrapping the Starlark files which are <code>load()</code>-ed by
-<code>src</code>. These targets <em>should</em> under normal usage be
-<a href="https://github.com/bazelbuild/bazel-skylib/blob/main/bzl_library.bzl"><code>bzl_library</code></a>
-targets, but the <code>starlark_doc_extract</code> rule does not enforce that, and accepts
-any target which provides Starlark files in its <code>DefaultInfo</code>.
-<p>Note that the wrapped Starlark files must be files in the source tree; Bazel cannot
-<code>load()</code> generated files.</p></td>
-</tr>
-<tr>
-<td id="starlark_doc_extract.src"><code>src</code></td>
-<td><p><a href="/concepts/labels">Label</a>; required</p>
-A Starlark file from which to extract documentation.
-<p>Note that this must be a file in the source tree; Bazel cannot <code>load()</code>
-generated files.</p></td>
-</tr>
-<tr>
-<td id="starlark_doc_extract.allow_unused_doc_comments"><code>allow_unused_doc_comments</code></td>
-<td><p>Boolean; default is <code>False</code></p>
-If true, allow and silently ignore doc comments (comments starting with <code>#:</code>)
-which are not attached to any global variable, or which are attached to a variable whose
-value's documentation should be provided in a different way (for example, in a docstring for
-a function, or via <code>rule(doc = ...)</code> for a rule).</td>
-</tr>
-<tr>
-<td id="starlark_doc_extract.render_main_repo_name"><code>render_main_repo_name</code></td>
-<td><p>Boolean; default is <code>False</code></p>
-If true, render labels in the main repository in emitted documentation with a repo component
-(in other words, <code>//foo:bar.bzl</code> will be emitted as
-<code>@main_repo_name//foo:bar.bzl</code>).
-<p>The name to use for the main repository is obtained from <code>module(name = ...)</code>
-in the main repository's <code>MODULE.bazel</code> file (if Bzlmod is enabled), or from
-<code>workspace(name = ...)</code> in the main repository's <code>WORKSPACE</code> file.</p>
-<p>This attribute should be set to <code>False</code> when generating documentation for
-Starlark files which are intended to be used only within the same repository, and to
-<code>True</code> when generating documentation for Starlark files which are intended to be
-used from other repositories.</p></td>
-</tr>
-<tr>
-<td id="starlark_doc_extract.symbol_names"><code>symbol_names</code></td>
-<td><p>List of strings; default is <code>[]</code></p>
-An optional list of qualified names of exported functions, rules, providers, or aspects (or
-structs in which they are nested) for which to extract documentation. Here, a <em>qualified
-name</em> means the name under which an entity is made available to a user of the module,
-including any structs in which the entity is nested for namespacing.
-<p><code>starlark_doc_extract</code> emits documentation for an entity if and only if</p>
-<ol>
-<li>each component of the entity's qualified name is public (in other words, the first
-character of each component of the qualified name is alphabetic, not <code>"_"</code>);
-<em>and</em></li>
-<li><ol>
-<li><em>either</em> the <code>symbol_names</code> list is empty (which is the default
-case), <em>or</em></li>
-<li>the entity's qualified name, or the qualified name of a struct in which the entity
-is nested, is in the <code>symbol_names</code> list.</li>
-</ol></li>
-</ol></td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `deps` | List of [labels](./concepts/labels); default is `[]` A list of targets wrapping the Starlark files which are `load()`-ed by `src`. These targets *should* under normal usage be [`bzl_library`](https://github.com/bazelbuild/bazel-skylib/blob/main/bzl_library.bzl) targets, but the `starlark_doc_extract` rule does not enforce that, and accepts any target which provides Starlark files in its `DefaultInfo`. Note that the wrapped Starlark files must be files in the source tree; Bazel cannot `load()` generated files. |
+| `src` | [Label](./concepts/labels); required A Starlark file from which to extract documentation. Note that this must be a file in the source tree; Bazel cannot `load()` generated files. |
+| `allow_unused_doc_comments` | Boolean; default is `False` If true, allow and silently ignore doc comments (comments starting with `#:`) which are not attached to any global variable, or which are attached to a variable whose value's documentation should be provided in a different way (for example, in a docstring for a function, or via `rule(doc = ...)` for a rule). |
+| `render_main_repo_name` | Boolean; default is `False` If true, render labels in the main repository in emitted documentation with a repo component (in other words, `//foo:bar.bzl` will be emitted as `@main_repo_name//foo:bar.bzl`). The name to use for the main repository is obtained from `module(name = ...)` in the main repository's `MODULE.bazel` file (if Bzlmod is enabled), or from `workspace(name = ...)` in the main repository's `WORKSPACE` file. This attribute should be set to `False` when generating documentation for Starlark files which are intended to be used only within the same repository, and to `True` when generating documentation for Starlark files which are intended to be used from other repositories. |
+| `symbol_names` | List of strings; default is `[]` An optional list of qualified names of exported functions, rules, providers, or aspects (or structs in which they are nested) for which to extract documentation. Here, a *qualified name* means the name under which an entity is made available to a user of the module, including any structs in which the entity is nested for namespacing. `starlark_doc_extract` emits documentation for an entity if and only if  1. each component of the entity's qualified name is public (in other words, the first    character of each component of the qualified name is alphabetic, not `"_"`);    *and* 2. 1. *either* the `symbol_names` list is empty (which is the default       case), *or*    2. the entity's qualified name, or the qualified name of a struct in which the entity       is nested, is in the `symbol_names` list. |
 
-## test_suite
+## test\_suite
 
-<a href="https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/test/TestSuiteRule.java" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/test/TestSuiteRule.java)
 
-``` rule-signature
+```
 test_suite(name, aspect_hints, compatible_with, deprecation, features, licenses, package_metadata, restricted_to, tags, target_compatible_with, testonly, tests, visibility)
 ```
 
@@ -970,14 +536,13 @@ allows projects to define sets of tests, such as "tests you must run before chec
 project's stress tests" or "all small tests." The `bazel test` command respects this sort
 of organization: For an invocation like `bazel test //some/test:suite`, Bazel first
 enumerates all test targets transitively included by the `//some/test:suite` target (we
-call this "test_suite expansion"), then Bazel builds and tests those targets.
+call this "test\_suite expansion"), then Bazel builds and tests those targets.
 
 #### Examples
 
 A test suite to run all of the small tests in the current package.
 
-``` code
-
+```
 test_suite(
     name = "small_tests",
     tags = ["small"],
@@ -986,8 +551,7 @@ test_suite(
 
 A test suite that runs a specified set of tests:
 
-``` code
-
+```
 test_suite(
     name = "smoke_tests",
     tests = [
@@ -999,8 +563,7 @@ test_suite(
 
 A test suite to run all tests in the current package which are not flaky.
 
-``` code
-
+```
 test_suite(
     name = "non_flaky_test",
     tags = ["-flaky"],
@@ -1009,62 +572,8 @@ test_suite(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="test_suite.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="test_suite.tags"><code>tags</code></td>
-<td><p>List of strings; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>[]</code></p>
-List of text tags such as "small" or "database" or "-flaky". Tags may be any valid string.
-<p>Tags which begin with a "-" character are considered negative tags. The
-preceding "-" character is not considered part of the tag, so a suite tag
-of "-small" matches a test's "small" size. All other tags are considered
-positive tags.</p>
-<p>Optionally, to make positive tags more explicit, tags may also begin with the
-"+" character, which will not be evaluated as part of the text of the tag. It
-merely makes the positive and negative distinction easier to read.</p>
-<p>Only test rules that match <strong>all</strong> of the positive tags and <strong>none</strong> of the negative
-tags will be included in the test suite. Note that this does not mean that error checking
-for dependencies on tests that are filtered out is skipped; the dependencies on skipped
-tests still need to be legal (e.g. not blocked by visibility constraints).</p>
-<p>The <code>manual</code> tag keyword is treated differently than the above by the
-"test_suite expansion" performed by the <code>bazel test</code> command on invocations
-involving wildcard
-<a href="https://bazel.build/docs/build#specifying-build-targets">target patterns</a>.
-There, <code>test_suite</code> targets tagged "manual" are filtered out (and thus not
-expanded). This behavior is consistent with how <code>bazel build</code> and
-<code>bazel test</code> handle wildcard target patterns in general. Note that this is
-explicitly different from how <code>bazel query 'tests(E)'</code> behaves, as suites are
-always expanded by the <code>tests</code> query function, regardless of the
-<code>manual</code> tag.</p>
-<p>Note that a test's <code>size</code> is considered a tag for the purpose of filtering.</p>
-<p>If you need a <code>test_suite</code> that contains tests with mutually exclusive tags
-(e.g. all small and medium tests), you'll have to create three <code>test_suite</code>
-rules: one for all small tests, one for all medium tests, and one that includes the
-previous two.</p></td>
-</tr>
-<tr>
-<td id="test_suite.tests"><code>tests</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; <a href="common-definitions.html#configurable-attributes">nonconfigurable</a>; default is <code>[]</code></p>
-A list of test suites and test targets of any language.
-<p>Any <code>*_test</code> is accepted here, independent of the language. No
-<code>*_binary</code> targets are accepted however, even if they happen to run a test.
-Filtering by the specified <code>tags</code> is only done for tests listed directly in
-this attribute. If this attribute contains <code>test_suite</code>s, the tests inside
-those will not be filtered by this <code>test_suite</code> (they are considered to be
-filtered already).</p>
-<p>If the <code>tests</code> attribute is unspecified or empty, the rule will default to
-including all test rules in the current BUILD file that are not tagged as
-<code>manual</code>. These rules are still subject to <code>tag</code> filtering.</p></td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `tags` | List of strings; [nonconfigurable](common-definitions.html#configurable-attributes); default is `[]` List of text tags such as "small" or "database" or "-flaky". Tags may be any valid string. Tags which begin with a "-" character are considered negative tags. The preceding "-" character is not considered part of the tag, so a suite tag of "-small" matches a test's "small" size. All other tags are considered positive tags.  Optionally, to make positive tags more explicit, tags may also begin with the "+" character, which will not be evaluated as part of the text of the tag. It merely makes the positive and negative distinction easier to read.  Only test rules that match **all** of the positive tags and **none** of the negative tags will be included in the test suite. Note that this does not mean that error checking for dependencies on tests that are filtered out is skipped; the dependencies on skipped tests still need to be legal (e.g. not blocked by visibility constraints).  The `manual` tag keyword is treated differently than the above by the "test\_suite expansion" performed by the `bazel test` command on invocations involving wildcard [target patterns](https://bazel.build/docs/build#specifying-build-targets). There, `test_suite` targets tagged "manual" are filtered out (and thus not expanded). This behavior is consistent with how `bazel build` and `bazel test` handle wildcard target patterns in general. Note that this is explicitly different from how `bazel query 'tests(E)'` behaves, as suites are always expanded by the `tests` query function, regardless of the `manual` tag.  Note that a test's `size` is considered a tag for the purpose of filtering.  If you need a `test_suite` that contains tests with mutually exclusive tags (e.g. all small and medium tests), you'll have to create three `test_suite` rules: one for all small tests, one for all medium tests, and one that includes the previous two. |
+| `tests` | List of [labels](./concepts/labels); [nonconfigurable](common-definitions.html#configurable-attributes); default is `[]` A list of test suites and test targets of any language. Any `*_test` is accepted here, independent of the language. No `*_binary` targets are accepted however, even if they happen to run a test. Filtering by the specified `tags` is only done for tests listed directly in this attribute. If this attribute contains `test_suite`s, the tests inside those will not be filtered by this `test_suite` (they are considered to be filtered already).  If the `tests` attribute is unspecified or empty, the rule will default to including all test rules in the current BUILD file that are not tagged as `manual`. These rules are still subject to `tag` filtering. |

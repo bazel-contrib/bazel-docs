@@ -2,13 +2,10 @@
 title: 'string'
 ---
 
-# string
 
-{% dynamic setvar source_file "src/main/java/net/starlark/java/eval/StringModule.java" %}
-{% include "\_buttons.html" %}
 A language built-in type to support strings. Examples of string literals:  
 
-``` python
+```
 a = 'abc\ndef'
 b = "ab'cd"
 c = """multiline string"""
@@ -24,7 +21,7 @@ t = "hello"[3:0:-1] # "lle"
 
 Strings are not directly iterable, use the `.elems()` method to iterate over their characters. Examples:  
 
-``` python
+```
 "bc" in "abcd"   # evaluates to True
 x = [c for c in "abc".elems()]  # x == ["a", "b", "c"]
 ```
@@ -33,42 +30,42 @@ Implicit concatenation of strings is not allowed; use the `+` operator instead. 
 
 ## Members
 
-- [capitalize](#capitalize)
-- [count](#count)
-- [elems](#elems)
-- [endswith](#endswith)
-- [find](#find)
-- [format](#format)
-- [index](#index)
-- [isalnum](#isalnum)
-- [isalpha](#isalpha)
-- [isdigit](#isdigit)
-- [islower](#islower)
-- [isspace](#isspace)
-- [istitle](#istitle)
-- [isupper](#isupper)
-- [join](#join)
-- [lower](#lower)
-- [lstrip](#lstrip)
-- [partition](#partition)
-- [removeprefix](#removeprefix)
-- [removesuffix](#removesuffix)
-- [replace](#replace)
-- [rfind](#rfind)
-- [rindex](#rindex)
-- [rpartition](#rpartition)
-- [rsplit](#rsplit)
-- [rstrip](#rstrip)
-- [split](#split)
-- [splitlines](#splitlines)
-- [startswith](#startswith)
-- [strip](#strip)
-- [title](#title)
-- [upper](#upper)
+* [capitalize](#capitalize)
+* [count](#count)
+* [elems](#elems)
+* [endswith](#endswith)
+* [find](#find)
+* [format](#format)
+* [index](#index)
+* [isalnum](#isalnum)
+* [isalpha](#isalpha)
+* [isdigit](#isdigit)
+* [islower](#islower)
+* [isspace](#isspace)
+* [istitle](#istitle)
+* [isupper](#isupper)
+* [join](#join)
+* [lower](#lower)
+* [lstrip](#lstrip)
+* [partition](#partition)
+* [removeprefix](#removeprefix)
+* [removesuffix](#removesuffix)
+* [replace](#replace)
+* [rfind](#rfind)
+* [rindex](#rindex)
+* [rpartition](#rpartition)
+* [rsplit](#rsplit)
+* [rstrip](#rstrip)
+* [split](#split)
+* [splitlines](#splitlines)
+* [startswith](#startswith)
+* [strip](#strip)
+* [title](#title)
+* [upper](#upper)
 
 ## capitalize
 
-``` rule-signature
+```
 string string.capitalize()
 ```
 
@@ -76,7 +73,7 @@ Returns a copy of the string with its first character (if any) capitalized and t
 
 ## count
 
-``` rule-signature
+```
 int string.count(sub, start=0, end=None)
 ```
 
@@ -84,38 +81,15 @@ Returns the number of (non-overlapping) occurrences of substring `sub` in string
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="count.sub"><code>sub</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The substring to count.</td>
-</tr>
-<tr>
-<td id="count.start"><code>start</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>0</code><br />
-Restrict to search from this position.</td>
-</tr>
-<tr>
-<td id="count.end"><code>end</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>None</code><br />
-optional position before which to restrict to search.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string.mdx); required |
+| `start` | [int](../core/int.mdx); or `None`; default is `0` |
+| `end` | [int](../core/int.mdx); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## elems
 
-``` rule-signature
+```
 sequence string.elems()
 ```
 
@@ -123,7 +97,7 @@ Returns an iterable value containing successive 1-element substrings of the stri
 
 ## endswith
 
-``` rule-signature
+```
 bool string.endswith(sub, start=0, end=None)
 ```
 
@@ -131,38 +105,15 @@ Returns True if the string ends with `sub`, otherwise False, optionally restrict
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="endswith.sub"><code>sub</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <a href="../core/tuple.html" class="anchor">tuple</a> of <a href="../core/string.html" class="anchor">string</a>s;
-required<br />
-The suffix (or tuple of alternative suffixes) to match.</td>
-</tr>
-<tr>
-<td id="endswith.start"><code>start</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>0</code><br />
-Test beginning at this position.</td>
-</tr>
-<tr>
-<td id="endswith.end"><code>end</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>None</code><br />
-optional position at which to stop comparing.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string.mdx); or [tuple](../core/tuple.mdx) of [string](../core/string.mdx)s; required  The suffix (or tuple of alternative suffixes) to match. |
+| `start` | [int](../core/int.mdx); or `None`; default is `0`  Test beginning at this position. |
+| `end` | [int](../core/int.mdx); or `None`; default is `None`  optional position at which to stop comparing. |
 
 ## find
 
-``` rule-signature
+```
 int string.find(sub, start=0, end=None)
 ```
 
@@ -170,78 +121,39 @@ Returns the first index where `sub` is found, or -1 if no such index exists, opt
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="find.sub"><code>sub</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The substring to find.</td>
-</tr>
-<tr>
-<td id="find.start"><code>start</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>0</code><br />
-Restrict to search from this position.</td>
-</tr>
-<tr>
-<td id="find.end"><code>end</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>None</code><br />
-optional position before which to restrict to search.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string.mdx); required  The substring to find. |
+| `start` | [int](../core/int.mdx); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int.mdx); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## format
 
-``` rule-signature
+```
 string string.format(*args, **kwargs)
 ```
 
-Perform string interpolation. Format strings contain replacement fields surrounded by curly braces `{}`. Anything that is not contained in braces is considered literal text, which is copied unchanged to the output.If you need to include a brace character in the literal text, it can be escaped by doubling: `{{` and `}}`A replacement field can be either a name, a number, or empty. Values are converted to strings using the [str](../globals/all.html#str) function.
+Perform string interpolation. Format strings contain replacement fields surrounded by curly braces `\{\}`. Anything that is not contained in braces is considered literal text, which is copied unchanged to the output.If you need to include a brace character in the literal text, it can be escaped by doubling: ``A replacement field can be either a name, a number, or empty. Values are converted to strings using the [str](../globals/all.html#str) function.
 
-``` python
+```
 # Access in order:
-"{} < {}".format(4, 5) == "4 < 5"
+"\{\} < \{\}".format(4, 5) == "4 < 5"
 # Access by position:
-"{1}, {0}".format(2, 1) == "1, 2"
+"\{1\}, \{0\}".format(2, 1) == "1, 2"
 # Access by name:
-"x{key}x".format(key = 2) == "x2x"
+"x\{key\}x".format(key = 2) == "x2x"
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="format.args"><code>args</code></td>
-<td>default is <code>()</code><br />
-List of arguments.</td>
-</tr>
-<tr>
-<td id="format.kwargs"><code>kwargs</code></td>
-<td>default is <code>{}</code><br />
-Dictionary of arguments.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `args` | default is `()`  List of arguments. |
+| `kwargs` | default is `\{\}`  Dictionary of arguments. |
 
 ## index
 
-``` rule-signature
+```
 int string.index(sub, start=0, end=None)
 ```
 
@@ -249,62 +161,39 @@ Returns the first index where `sub` is found, or raises an error if no such inde
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="index.sub"><code>sub</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The substring to find.</td>
-</tr>
-<tr>
-<td id="index.start"><code>start</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>0</code><br />
-Restrict to search from this position.</td>
-</tr>
-<tr>
-<td id="index.end"><code>end</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>None</code><br />
-optional position before which to restrict to search.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string.mdx); required  The substring to find. |
+| `start` | [int](../core/int.mdx); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int.mdx); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## isalnum
 
-``` rule-signature
+```
 bool string.isalnum()
 ```
 
-Returns True if all characters in the string are alphanumeric (\[a-zA-Z0-9\]) and there is at least one character.
+Returns True if all characters in the string are alphanumeric ([a-zA-Z0-9]) and there is at least one character.
 
 ## isalpha
 
-``` rule-signature
+```
 bool string.isalpha()
 ```
 
-Returns True if all characters in the string are alphabetic (\[a-zA-Z\]) and there is at least one character.
+Returns True if all characters in the string are alphabetic ([a-zA-Z]) and there is at least one character.
 
 ## isdigit
 
-``` rule-signature
+```
 bool string.isdigit()
 ```
 
-Returns True if all characters in the string are digits (\[0-9\]) and there is at least one character.
+Returns True if all characters in the string are digits ([0-9]) and there is at least one character.
 
 ## islower
 
-``` rule-signature
+```
 bool string.islower()
 ```
 
@@ -312,7 +201,7 @@ Returns True if all cased characters in the string are lowercase and there is at
 
 ## isspace
 
-``` rule-signature
+```
 bool string.isspace()
 ```
 
@@ -320,7 +209,7 @@ Returns True if all characters are white space characters and the string contain
 
 ## istitle
 
-``` rule-signature
+```
 bool string.istitle()
 ```
 
@@ -328,7 +217,7 @@ Returns True if the string is in title case and it contains at least one charact
 
 ## isupper
 
-``` rule-signature
+```
 bool string.isupper()
 ```
 
@@ -336,38 +225,25 @@ Returns True if all cased characters in the string are uppercase and there is at
 
 ## join
 
-``` rule-signature
+```
 string string.join(elements)
 ```
 
 Returns a string in which the string elements of the argument have been joined by this string as a separator. Example:  
 
-``` python
+```
 "|".join(["a", "b", "c"]) == "a|b|c"
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="join.elements"><code>elements</code></td>
-<td>iterable of <a href="../core/string.html" class="anchor">string</a>s;
-required<br />
-The objects to join.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `elements` | iterable of [string](../core/string.mdx)s; required |
 
 ## lower
 
-``` rule-signature
+```
 string string.lower()
 ```
 
@@ -375,38 +251,25 @@ Returns the lower case version of this string.
 
 ## lstrip
 
-``` rule-signature
+```
 string string.lstrip(chars=None)
 ```
 
 Returns a copy of the string where leading characters that appear in `chars` are removed. Note that `chars` is not a prefix: all combinations of its value are removed:
 
-``` python
+```
 "abcba".lstrip("ba") == "cba"
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="lstrip.chars"><code>chars</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-The characters to remove, or all whitespace if None.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `chars` | [string](../core/string.mdx); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
 ## partition
 
-``` rule-signature
+```
 tuple string.partition(sep)
 ```
 
@@ -414,26 +277,13 @@ Splits the input string at the first occurrence of the separator `sep` and retur
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="partition.sep"><code>sep</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The string to split on.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string.mdx); required  The string to split on. |
 
 ## removeprefix
 
-``` rule-signature
+```
 string string.removeprefix(prefix)
 ```
 
@@ -441,26 +291,13 @@ If the string starts with `prefix`, returns a new string with the prefix removed
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="removeprefix.prefix"><code>prefix</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The prefix to remove if present.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `prefix` | [string](../core/string.mdx); required  The prefix to remove if present. |
 
 ## removesuffix
 
-``` rule-signature
+```
 string string.removesuffix(suffix)
 ```
 
@@ -468,26 +305,13 @@ If the string ends with `suffix`, returns a new string with the suffix removed. 
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="removesuffix.suffix"><code>suffix</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The suffix to remove if present.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `suffix` | [string](../core/string.mdx); required  The suffix to remove if present. |
 
 ## replace
 
-``` rule-signature
+```
 string string.replace(old, new, count=-1)
 ```
 
@@ -495,38 +319,15 @@ Returns a copy of the string in which the occurrences of `old` have been replace
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="replace.old"><code>old</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The string to be replaced.</td>
-</tr>
-<tr>
-<td id="replace.new"><code>new</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The string to replace with.</td>
-</tr>
-<tr>
-<td id="replace.count"><code>count</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>;
-default is <code>-1</code><br />
-The maximum number of replacements. If omitted, or if the value is negative, there is no limit.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `old` | [string](../core/string.mdx); required  The string to be replaced. |
+| `new` | [string](../core/string.mdx); required  The string to replace with. |
+| `count` | [int](../core/int.mdx); default is `-1`  The maximum number of replacements. If omitted, or if the value is negative, there is no limit. |
 
 ## rfind
 
-``` rule-signature
+```
 int string.rfind(sub, start=0, end=None)
 ```
 
@@ -534,38 +335,15 @@ Returns the last index where `sub` is found, or -1 if no such index exists, opti
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="rfind.sub"><code>sub</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The substring to find.</td>
-</tr>
-<tr>
-<td id="rfind.start"><code>start</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>0</code><br />
-Restrict to search from this position.</td>
-</tr>
-<tr>
-<td id="rfind.end"><code>end</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>None</code><br />
-optional position before which to restrict to search.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string.mdx); required  The substring to find. |
+| `start` | [int](../core/int.mdx); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int.mdx); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## rindex
 
-``` rule-signature
+```
 int string.rindex(sub, start=0, end=None)
 ```
 
@@ -573,38 +351,15 @@ Returns the last index where `sub` is found, or raises an error if no such index
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="rindex.sub"><code>sub</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The substring to find.</td>
-</tr>
-<tr>
-<td id="rindex.start"><code>start</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>0</code><br />
-Restrict to search from this position.</td>
-</tr>
-<tr>
-<td id="rindex.end"><code>end</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>None</code><br />
-optional position before which to restrict to search.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string.mdx); required  The substring to find. |
+| `start` | [int](../core/int.mdx); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int.mdx); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## rpartition
 
-``` rule-signature
+```
 tuple string.rpartition(sep)
 ```
 
@@ -612,26 +367,13 @@ Splits the input string at the last occurrence of the separator `sep` and return
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="rpartition.sep"><code>sep</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The string to split on.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string.mdx); required  The string to split on. |
 
 ## rsplit
 
-``` rule-signature
+```
 list string.rsplit(sep, maxsplit=unbound)
 ```
 
@@ -639,63 +381,32 @@ Returns a list of all the words in the string, using `sep` as the separator, opt
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="rsplit.sep"><code>sep</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The string to split on.</td>
-</tr>
-<tr>
-<td id="rsplit.maxsplit"><code>maxsplit</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>;
-default is <code>unbound</code><br />
-The maximum number of splits.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string.mdx); required  The string to split on. |
+| `maxsplit` | [int](../core/int.mdx); default is `unbound`  The maximum number of splits. |
 
 ## rstrip
 
-``` rule-signature
+```
 string string.rstrip(chars=None)
 ```
 
 Returns a copy of the string where trailing characters that appear in `chars` are removed. Note that `chars` is not a suffix: all combinations of its value are removed:
 
-``` python
+```
 "abcbaa".rstrip("ab") == "abc"
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="rstrip.chars"><code>chars</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-The characters to remove, or all whitespace if None.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `chars` | [string](../core/string.mdx); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
 ## split
 
-``` rule-signature
+```
 list string.split(sep, maxsplit=unbound)
 ```
 
@@ -703,32 +414,14 @@ Returns a list of all the words in the string, using `sep` as the separator, opt
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="split.sep"><code>sep</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The string to split on.</td>
-</tr>
-<tr>
-<td id="split.maxsplit"><code>maxsplit</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>;
-default is <code>unbound</code><br />
-The maximum number of splits.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string.mdx); required  The string to split on. |
+| `maxsplit` | [int](../core/int.mdx); default is `unbound`  The maximum number of splits. |
 
 ## splitlines
 
-``` rule-signature
+```
 sequence string.splitlines(keepends=False)
 ```
 
@@ -736,26 +429,13 @@ Splits the string at line boundaries ('\n', '\r\n', '\r') and returns the result
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="splitlines.keepends"><code>keepends</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-Whether the line breaks should be included in the resulting list.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `keepends` | [bool](../core/bool.mdx); default is `False`  Whether the line breaks should be included in the resulting list. |
 
 ## startswith
 
-``` rule-signature
+```
 bool string.startswith(sub, start=0, end=None)
 ```
 
@@ -763,69 +443,33 @@ Returns True if the string starts with `sub`, otherwise False, optionally restri
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="startswith.sub"><code>sub</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <a href="../core/tuple.html" class="anchor">tuple</a> of <a href="../core/string.html" class="anchor">string</a>s;
-required<br />
-The prefix (or tuple of alternative prefixes) to match.</td>
-</tr>
-<tr>
-<td id="startswith.start"><code>start</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>0</code><br />
-Test beginning at this position.</td>
-</tr>
-<tr>
-<td id="startswith.end"><code>end</code></td>
-<td><a href="../core/int.html" class="anchor">int</a>; or <code>None</code>;
-default is <code>None</code><br />
-Stop comparing at this position.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string.mdx); or [tuple](../core/tuple.mdx) of [string](../core/string.mdx)s; required  The prefix (or tuple of alternative prefixes) to match. |
+| `start` | [int](../core/int.mdx); or `None`; default is `0`  Test beginning at this position. |
+| `end` | [int](../core/int.mdx); or `None`; default is `None`  Stop comparing at this position. |
 
 ## strip
 
-``` rule-signature
+```
 string string.strip(chars=None)
 ```
 
 Returns a copy of the string where leading or trailing characters that appear in `chars` are removed. Note that `chars` is neither a prefix nor a suffix: all combinations of its value are removed:
 
-``` python
+```
 "aabcbcbaa".strip("ab") == "cbc"
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="strip.chars"><code>chars</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-The characters to remove, or all whitespace if None.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `chars` | [string](../core/string.mdx); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
 ## title
 
-``` rule-signature
+```
 string string.title()
 ```
 
@@ -833,7 +477,7 @@ Converts the input string into title case, i.e. every word starts with an upperc
 
 ## upper
 
-``` rule-signature
+```
 string string.upper()
 ```
 

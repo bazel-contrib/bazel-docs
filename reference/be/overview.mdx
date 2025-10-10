@@ -2,33 +2,29 @@
 title: 'overview'
 ---
 
-# Bazel BUILD Encyclopedia of Functions
-
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/docgen/templates/be/overview.vm" %}
-{% include "\_buttons.html" %}
 
 ## Concepts and terminology
 
-- [Common definitions](/reference/be/common-definitions)
-  - [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization)
-  - [Label expansion](/reference/be/common-definitions#label-expansion)
-  - [Typical attributes for most rules](/reference/be/common-definitions#typical-attributes)
-  - [Common attributes for all rules](/reference/be/common-definitions#common-attributes)
-  - [Common attributes for tests](/reference/be/common-definitions#common-attributes-tests)
-  - [Common attributes for binaries](/reference/be/common-definitions#common-attributes-binaries)
-  - [Configurable attributes](/reference/be/common-definitions#configurable-attributes)
-  - [Implicit output targets](/reference/be/common-definitions#implicit-outputs)
-- ["Make" variables](/reference/be/make-variables)
-  - [Use](/reference/be/make-variables#use)
+* [Common definitions](./reference/be/common-definitions)
+  + [Bourne shell tokenization](./reference/be/common-definitions#sh-tokenization)
+  + [Label expansion](./reference/be/common-definitions#label-expansion)
+  + [Typical attributes for most rules](./reference/be/common-definitions#typical-attributes)
+  + [Common attributes for all rules](./reference/be/common-definitions#common-attributes)
+  + [Common attributes for tests](./reference/be/common-definitions#common-attributes-tests)
+  + [Common attributes for binaries](./reference/be/common-definitions#common-attributes-binaries)
+  + [Configurable attributes](./reference/be/common-definitions#configurable-attributes)
+  + [Implicit output targets](./reference/be/common-definitions#implicit-outputs)
+* ["Make" variables](./reference/be/make-variables)
+  + [Use](./reference/be/make-variables#use)
 
 ## Functions
 
-- [package](/reference/be/functions.html#package)
-- [package_group](/reference/be/functions.html#package_group)
-- [exports_files](/reference/be/functions.html#exports_files)
-- [glob](/reference/be/functions.html#glob)
-- [select](/reference/be/functions.html#select)
-- [workspace](/rules/lib/globals/workspace#workspace)
+* [package](./reference/be/functions.html#package)
+* [package\_group](./reference/be/functions.html#package_group)
+* [exports\_files](./reference/be/functions.html#exports_files)
+* [glob](./reference/be/functions.html#glob)
+* [select](./reference/be/functions.html#select)
+* [workspace](./rules/lib/globals/workspace#workspace)
 
 ## Rules
 
@@ -36,159 +32,23 @@ Native rules ship with the Bazel binary and do not require a `load` statement.
 Native rules are available globally in BUILD files. In .bzl files, you can find them in
 the `native` module.
 For non-native Starlark rules that ship separately from Bazel, see the list of
-[recommended rules](/rules/rules#recommended-rules).
+[recommended rules](./rules/rules#recommended-rules).
 
 ### Language-specific native rules
 
-<table class="table table-condensed table-striped" style="width:100%;" data-summary="Table of rules sorted by language">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr>
-<th>Language</th>
-<th>Flags</th>
-<th>Binary rules</th>
-<th>Library rules</th>
-<th>Test rules</th>
-<th>Other rules</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="lang">C / C++</td>
-<td></td>
-<td><a href="c-cpp.html#cc_binary">cc_binary</a><br />
-</td>
-<td><a href="c-cpp.html#cc_import">cc_import</a><br />
-<a href="c-cpp.html#cc_library">cc_library</a><br />
-<a href="c-cpp.html#cc_shared_library">cc_shared_library</a><br />
-<a href="c-cpp.html#cc_static_library">cc_static_library</a><br />
-</td>
-<td><a href="c-cpp.html#cc_test">cc_test</a><br />
-</td>
-<td><a href="c-cpp.html#cc_toolchain">cc_toolchain</a><br />
-<a href="c-cpp.html#fdo_prefetch_hints">fdo_prefetch_hints</a><br />
-<a href="c-cpp.html#fdo_profile">fdo_profile</a><br />
-<a href="c-cpp.html#memprof_profile">memprof_profile</a><br />
-<a href="c-cpp.html#propeller_optimize">propeller_optimize</a><br />
-</td>
-</tr>
-<tr>
-<td class="lang">Java</td>
-<td></td>
-<td><a href="java.html#java_binary">java_binary</a><br />
-</td>
-<td><a href="java.html#java_import">java_import</a><br />
-<a href="java.html#java_library">java_library</a><br />
-</td>
-<td><a href="java.html#java_test">java_test</a><br />
-</td>
-<td><a href="java.html#java_package_configuration">java_package_configuration</a><br />
-<a href="java.html#java_plugin">java_plugin</a><br />
-<a href="java.html#java_runtime">java_runtime</a><br />
-<a href="java.html#java_single_jar">java_single_jar</a><br />
-<a href="java.html#java_toolchain">java_toolchain</a><br />
-</td>
-</tr>
-<tr>
-<td class="lang">Objective-C</td>
-<td></td>
-<td></td>
-<td><a href="objective-c.html#objc_import">objc_import</a><br />
-<a href="objective-c.html#objc_library">objc_library</a><br />
-</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="lang">Protocol Buffer</td>
-<td></td>
-<td></td>
-<td><a href="protocol-buffer.html#cc_proto_library">cc_proto_library</a><br />
-<a href="protocol-buffer.html#java_lite_proto_library">java_lite_proto_library</a><br />
-<a href="protocol-buffer.html#java_proto_library">java_proto_library</a><br />
-<a href="protocol-buffer.html#proto_library">proto_library</a><br />
-<a href="protocol-buffer.html#py_proto_library">py_proto_library</a><br />
-</td>
-<td></td>
-<td><a href="protocol-buffer.html#proto_lang_toolchain">proto_lang_toolchain</a><br />
-<a href="protocol-buffer.html#proto_toolchain">proto_toolchain</a><br />
-</td>
-</tr>
-<tr>
-<td class="lang">Python</td>
-<td></td>
-<td><a href="python.html#py_binary">py_binary</a><br />
-</td>
-<td><a href="python.html#py_library">py_library</a><br />
-</td>
-<td><a href="python.html#py_test">py_test</a><br />
-</td>
-<td><a href="python.html#py_runtime">py_runtime</a><br />
-</td>
-</tr>
-<tr>
-<td class="lang">Shell</td>
-<td></td>
-<td><a href="shell.html#sh_binary">sh_binary</a><br />
-</td>
-<td><a href="shell.html#sh_library">sh_library</a><br />
-</td>
-<td><a href="shell.html#sh_test">sh_test</a><br />
-</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+| Language | Flags | Binary rules | Library rules | Test rules | Other rules |
+| --- | --- | --- | --- | --- | --- |
+| C / C++ |  | [cc\_binary](c-cpp.html#cc_binary) | [cc\_import](c-cpp.html#cc_import)   [cc\_library](c-cpp.html#cc_library)   [cc\_shared\_library](c-cpp.html#cc_shared_library)   [cc\_static\_library](c-cpp.html#cc_static_library) | [cc\_test](c-cpp.html#cc_test) | [cc\_toolchain](c-cpp.html#cc_toolchain)   [fdo\_prefetch\_hints](c-cpp.html#fdo_prefetch_hints)   [fdo\_profile](c-cpp.html#fdo_profile)   [memprof\_profile](c-cpp.html#memprof_profile)   [propeller\_optimize](c-cpp.html#propeller_optimize) |
+| Java |  | [java\_binary](java.html#java_binary) | [java\_import](java.html#java_import)   [java\_library](java.html#java_library) | [java\_test](java.html#java_test) | [java\_package\_configuration](java.html#java_package_configuration)   [java\_plugin](java.html#java_plugin)   [java\_runtime](java.html#java_runtime)   [java\_single\_jar](java.html#java_single_jar)   [java\_toolchain](java.html#java_toolchain) |
+| Objective-C |  |  | [objc\_import](objective-c.html#objc_import)   [objc\_library](objective-c.html#objc_library) |  |  |
+| Protocol Buffer |  |  | [cc\_proto\_library](protocol-buffer.html#cc_proto_library)   [java\_lite\_proto\_library](protocol-buffer.html#java_lite_proto_library)   [java\_proto\_library](protocol-buffer.html#java_proto_library)   [proto\_library](protocol-buffer.html#proto_library)   [py\_proto\_library](protocol-buffer.html#py_proto_library) |  | [proto\_lang\_toolchain](protocol-buffer.html#proto_lang_toolchain)   [proto\_toolchain](protocol-buffer.html#proto_toolchain) |
+| Python |  | [py\_binary](python.html#py_binary) | [py\_library](python.html#py_library) | [py\_test](python.html#py_test) | [py\_runtime](python.html#py_runtime) |
+| Shell |  | [sh\_binary](shell.html#sh_binary) | [sh\_library](shell.html#sh_library) | [sh\_test](shell.html#sh_test) |  |
 
 ### Language-agnostic native rules
 
-<table class="table table-condensed table-striped" data-summary="Table of rules not specific to a programming language">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr>
-<th>Family</th>
-<th>Rules</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="lang">Extra Actions</td>
-<td><ul>
-<li><a href="extra-actions.html#action_listener">action_listener</a></li>
-<li><a href="extra-actions.html#extra_action">extra_action</a></li>
-</ul></td>
-</tr>
-<tr>
-<td class="lang">General</td>
-<td><ul>
-<li><a href="general.html#alias">alias</a></li>
-<li><a href="general.html#config_setting">config_setting</a></li>
-<li><a href="general.html#filegroup">filegroup</a></li>
-<li><a href="general.html#genquery">genquery</a></li>
-<li><a href="general.html#genrule">genrule</a></li>
-<li><a href="general.html#starlark_doc_extract">starlark_doc_extract</a></li>
-<li><a href="general.html#test_suite">test_suite</a></li>
-</ul></td>
-</tr>
-<tr>
-<td class="lang">Platforms and Toolchains</td>
-<td><ul>
-<li><a href="platforms-and-toolchains.html#constraint_setting">constraint_setting</a></li>
-<li><a href="platforms-and-toolchains.html#constraint_value">constraint_value</a></li>
-<li><a href="platforms-and-toolchains.html#platform">platform</a></li>
-<li><a href="platforms-and-toolchains.html#toolchain">toolchain</a></li>
-<li><a href="platforms-and-toolchains.html#toolchain_type">toolchain_type</a></li>
-</ul></td>
-</tr>
-</tbody>
-</table>
+| Family | Rules |
+| --- | --- |
+| Extra Actions | * [action\_listener](extra-actions.html#action_listener)* [extra\_action](extra-actions.html#extra_action) |
+| General | * [alias](general.html#alias)* [config\_setting](general.html#config_setting)* [filegroup](general.html#filegroup)* [genquery](general.html#genquery)* [genrule](general.html#genrule)* [starlark\_doc\_extract](general.html#starlark_doc_extract)* [test\_suite](general.html#test_suite) |
+| Platforms and Toolchains | * [constraint\_setting](platforms-and-toolchains.html#constraint_setting)* [constraint\_value](platforms-and-toolchains.html#constraint_value)* [platform](platforms-and-toolchains.html#platform)* [toolchain](platforms-and-toolchains.html#toolchain)* [toolchain\_type](platforms-and-toolchains.html#toolchain_type) |

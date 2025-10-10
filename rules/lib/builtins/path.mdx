@@ -2,25 +2,22 @@
 title: 'path'
 ---
 
-# path
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/repository/starlark/StarlarkPath.java" %}
-{% include "\_buttons.html" %}
 A structure representing a file to be used inside a repository.
 
 ## Members
 
-- [basename](#basename)
-- [dirname](#dirname)
-- [exists](#exists)
-- [get_child](#get_child)
-- [is_dir](#is_dir)
-- [readdir](#readdir)
-- [realpath](#realpath)
+* [basename](#basename)
+* [dirname](#dirname)
+* [exists](#exists)
+* [get\_child](#get_child)
+* [is\_dir](#is_dir)
+* [readdir](#readdir)
+* [realpath](#realpath)
 
 ## basename
 
-``` rule-signature
+```
 string path.basename
 ```
 
@@ -28,7 +25,7 @@ A string giving the basename of the file.
 
 ## dirname
 
-``` rule-signature
+```
 path path.dirname
 ```
 
@@ -37,7 +34,7 @@ May return `None`.
 
 ## exists
 
-``` rule-signature
+```
 bool path.exists
 ```
 
@@ -45,9 +42,9 @@ Returns true if the file or directory denoted by this path exists.
 
 Note that accessing this field does *not* cause the path to be watched. If you'd like the repo rule or module extension to be sensitive to the path's existence, use the `watch()` method on the context object.
 
-## get_child
+## get\_child
 
-``` rule-signature
+```
 path path.get_child(*relative_paths)
 ```
 
@@ -55,25 +52,13 @@ Returns the path obtained by joining this path with the given relative paths.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="get_child.relative_paths"><code>relative_paths</code></td>
-<td>required<br />
-Zero or more relative path strings to append to this path with path separators added as needed.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `relative_paths` | required  Zero or more relative path strings to append to this path with path separators added as needed. |
 
-## is_dir
+## is\_dir
 
-``` rule-signature
+```
 bool path.is_dir
 ```
 
@@ -83,7 +68,7 @@ Note that accessing this field does *not* cause the path to be watched. If you'd
 
 ## readdir
 
-``` rule-signature
+```
 list path.readdir(*, watch='auto')
 ```
 
@@ -91,27 +76,13 @@ Returns the list of entries in the directory denoted by this path. Each entry is
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="readdir.watch"><code>watch</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>'auto'</code><br />
-whether Bazel should watch the list of entries in this directory and refetch the repository or re-evaluate the module extension next time when any changes are detected. Changes to detect include entry creation, deletion, and renaming. Note that this doesn't watch the <em>contents</em> of any entries in the directory.
-<p>Can be the string 'yes', 'no', or 'auto'. If set to 'auto', Bazel will only watch this directory when it is legal to do so (see <a href="repository_ctx.html#watch"><code>repository_ctx.watch()</code></a> docs for more information).</p></td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `watch` | [string](../core/string.mdx); default is `'auto'`  whether Bazel should watch the list of entries in this directory and refetch the repository or re-evaluate the module extension next time when any changes are detected. Changes to detect include entry creation, deletion, and renaming. Note that this doesn't watch the *contents* of any entries in the directory. Can be the string 'yes', 'no', or 'auto'. If set to 'auto', Bazel will only watch this directory when it is legal to do so (see [`repository_ctx.watch()`](repository_ctx.html#watch) docs for more information). |
 
 ## realpath
 
-``` rule-signature
+```
 path path.realpath
 ```
 

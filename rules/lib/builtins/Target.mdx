@@ -2,18 +2,13 @@
 title: 'Target'
 ---
 
-# Target
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/core/TransitiveInfoCollectionApi.java" %}
-{% include "\_buttons.html" %}
-The BUILD target for a dependency. Appears in the fields of [`ctx.attr`](../builtins/ctx.html#attr) corresponding to [dependency attributes](https://bazel.build/extending/rules#dependency_attributes) ([`label`](../toplevel/attr.html#label) or [`label_list`](../toplevel/attr.html#label_list)). Has the following fields:
+The BUILD target for a dependency. Appears in the fields of `ctx.attr` corresponding to [dependency attributes](https://bazel.build/extending/rules#dependency_attributes) (`label` or `label_list`). Has the following fields:
 
-- ### label
+* ### label
 
-  [`Label`](../builtins/Label.html)` Target.label`  
+  `Label Target.label`  
   The identifier of the target.
+* ### Providers
 
-- ### Providers
-
-  The [providers](https://bazel.build/extending/rules#providers) of a rule target can be accessed by type using index notation (`target[DefaultInfo]`). The presence of providers can be checked using the `in` operator (`SomeInfo in target`).  
-    
+  The [providers](https://bazel.build/extending/rules#providers) of a rule target can be accessed by type using index notation (`target[DefaultInfo]`). The presence of providers can be checked using the `in` operator (`SomeInfo in target`).

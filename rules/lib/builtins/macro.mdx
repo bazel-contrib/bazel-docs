@@ -2,10 +2,7 @@
 title: 'macro'
 ---
 
-# macro
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/MacroFunctionApi.java" %}
-{% include "\_buttons.html" %}
 A callable Starlark value representing a symbolic macro; in other words, the return value of
 [`macro()`](../globals/bzl.html#macro). Invoking this value during package
 construction time will instantiate the macro, and cause the macro's implementation function to be

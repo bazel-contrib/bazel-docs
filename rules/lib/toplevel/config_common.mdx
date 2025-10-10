@@ -2,28 +2,25 @@
 title: 'config_common'
 ---
 
-# config_common
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/config/ConfigStarlarkCommonApi.java" %}
-{% include "\_buttons.html" %}
 Functions for Starlark to interact with Blaze's configurability APIs.
 
 ## Members
 
-- [FeatureFlagInfo](#FeatureFlagInfo)
-- [toolchain_type](#toolchain_type)
+* [FeatureFlagInfo](#FeatureFlagInfo)
+* [toolchain\_type](#toolchain_type)
 
 ## FeatureFlagInfo
 
-``` rule-signature
+```
 Provider config_common.FeatureFlagInfo
 ```
 
-The key used to retrieve the provider containing config_feature_flag's value.
+The key used to retrieve the provider containing config\_feature\_flag's value.
 
-## toolchain_type
+## toolchain\_type
 
-``` rule-signature
+```
 toolchain_type config_common.toolchain_type(name, *, mandatory=True)
 ```
 
@@ -31,25 +28,7 @@ Declare a rule's dependency on a toolchain type.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="toolchain_type.name"><code>name</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <a href="../builtins/Label.html" class="anchor">Label</a>;
-required<br />
-The toolchain type that is required.</td>
-</tr>
-<tr>
-<td id="toolchain_type.mandatory"><code>mandatory</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>True</code><br />
-Whether the toolchain type is mandatory or optional.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `name` | [string](../core/string.mdx); or [Label](../builtins/Label.mdx); required  The toolchain type that is required. |
+| `mandatory` | [bool](../core/bool.mdx); default is `True`  Whether the toolchain type is mandatory or optional. |

@@ -2,45 +2,30 @@
 title: 'OutputGroupInfo'
 ---
 
-# OutputGroupInfo
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/OutputGroupInfoApi.java" %}
-{% include "\_buttons.html" %}
 A provider that indicates what output groups a rule has.  
 See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files) for more information.
 
 ## Members
 
-- [OutputGroupInfo](#OutputGroupInfo)
+* [OutputGroupInfo](#OutputGroupInfo)
 
 ## OutputGroupInfo
 
-``` rule-signature
+```
 OutputGroupInfo OutputGroupInfo(**kwargs)
 ```
 
-Instantiate this provider with  
+Instantiate this provider with   
 
-``` python
-OutputGroupInfo(group1 = <files>, group2 = <files>...)
+```
+OutputGroupInfo(group1 = \<files\>, group2 = \<files\>...)
 ```
 
-See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files) for more information.
+See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files)  for more information.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="OutputGroupInfo.kwargs"><code>kwargs</code></td>
-<td>default is <code>{}</code><br />
-Dictionary of arguments.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `kwargs` | default is `\{\}` |

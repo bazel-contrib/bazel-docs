@@ -2,46 +2,43 @@
 title: 'java_compilation_info'
 ---
 
-# java_compilation_info
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/java/JavaCompilationInfoProviderApi.java" %}
-{% include "\_buttons.html" %}
 Provides access to compilation information for Java rules.
 
 ## Members
 
-- [boot_classpath](#boot_classpath)
-- [compilation_classpath](#compilation_classpath)
-- [javac_options](#javac_options)
-- [runtime_classpath](#runtime_classpath)
+* [boot\_classpath](#boot_classpath)
+* [compilation\_classpath](#compilation_classpath)
+* [javac\_options](#javac_options)
+* [runtime\_classpath](#runtime_classpath)
 
-## boot_classpath
+## boot\_classpath
 
-``` rule-signature
+```
 list java_compilation_info.boot_classpath
 ```
 
 Boot classpath for this Java target.
 
-## compilation_classpath
+## compilation\_classpath
 
-``` rule-signature
+```
 depset java_compilation_info.compilation_classpath
 ```
 
 Compilation classpath for this Java target.
 
-## javac_options
+## javac\_options
 
-``` rule-signature
+```
 depset java_compilation_info.javac_options
 ```
 
-A depset of options to java compiler. To get the exact list of options passed to javac in the correct order, use the tokenize_javacopts utility in rules_java
+A depset of options to java compiler. To get the exact list of options passed to javac in the correct order, use the tokenize\_javacopts utility in rules\_java
 
-## runtime_classpath
+## runtime\_classpath
 
-``` rule-signature
+```
 depset java_compilation_info.runtime_classpath
 ```
 

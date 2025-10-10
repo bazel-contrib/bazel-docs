@@ -2,138 +2,75 @@
 title: 'json'
 ---
 
-# json
 
-{% dynamic setvar source_file "src/main/java/net/starlark/java/lib/json/Json.java" %}
-{% include "\_buttons.html" %}
 Module json is a Starlark module of JSON-related functions.
 
 ## Members
 
-- [decode](#decode)
-- [encode](#encode)
-- [encode_indent](#encode_indent)
-- [indent](#indent)
+* [decode](#decode)
+* [encode](#encode)
+* [encode\_indent](#encode_indent)
+* [indent](#indent)
 
 ## decode
 
-``` rule-signature
+```
 unknown json.decode(x, default=unbound)
 ```
 
 The decode function has one required positional parameter: a JSON string.
 It returns the Starlark value that the string denotes.
 
-- `"null"`, `"true"` and `"false"` are parsed as `None`, `True`, and `False`.
-- Numbers are parsed as int, or as a float if they contain a decimal point or an exponent. Although JSON has no syntax for non-finite values, very large values may be decoded as infinity.
-- a JSON object is parsed as a new unfrozen Starlark dict. If the same key string occurs more than once in the object, the last value for the key is kept.
-- a JSON array is parsed as new unfrozen Starlark list.
+* `"null"`, `"true"` and `"false"` are parsed as `None`, `True`, and `False`.* Numbers are parsed as int, or as a float if they contain a decimal point or an exponent. Although JSON has no syntax for non-finite values, very large values may be decoded as infinity.* a JSON object is parsed as a new unfrozen Starlark dict. If the same key string occurs more than once in the object, the last value for the key is kept.* a JSON array is parsed as new unfrozen Starlark list.
 
 If `x` is not a valid JSON encoding and the optional `default` parameter is specified (including specified as `None`), this function returns the `default` value.
 If `x` is not a valid JSON encoding and the optional `default` parameter is *not* specified, this function fails.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="decode.x"><code>x</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-JSON string to decode.</td>
-</tr>
-<tr>
-<td id="decode.default"><code>default</code></td>
-<td>default is <code>unbound</code><br />
-If specified, the value to return when <code>x</code> cannot be decoded.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `x` | [string](../core/string.mdx); required  JSON string to decode. |
+| `default` | default is `unbound`  If specified, the value to return when `x` cannot be decoded. |
 
 ## encode
 
-``` rule-signature
+```
 string json.encode(x)
 ```
 
 The encode function accepts one required positional argument, which it converts to JSON by cases:
 
-- None, True, and False are converted to 'null', 'true', and 'false', respectively.
-- An int, no matter how large, is encoded as a decimal integer. Some decoders may not be able to decode very large integers.
-- A float is encoded using a decimal point or an exponent or both, even if its numeric value is an integer. It is an error to encode a non-finite floating-point value.
-- A string value is encoded as a JSON string literal that denotes the value. Each unpaired surrogate is replaced by U+FFFD.
-- A dict is encoded as a JSON object, in lexicographical key order. It is an error if any key is not a string.
-- A list or tuple is encoded as a JSON array.
-- A struct-like value is encoded as a JSON object, in field name order.
+* None, True, and False are converted to 'null', 'true', and 'false', respectively.* An int, no matter how large, is encoded as a decimal integer. Some decoders may not be able to decode very large integers.* A float is encoded using a decimal point or an exponent or both, even if its numeric value is an integer. It is an error to encode a non-finite floating-point value.* A string value is encoded as a JSON string literal that denotes the value. Each unpaired surrogate is replaced by U+FFFD.* A dict is encoded as a JSON object, in lexicographical key order. It is an error if any key is not a string.* A list or tuple is encoded as a JSON array.* A struct-like value is encoded as a JSON object, in field name order.
 
 An application-defined type may define its own JSON encoding.
 Encoding any other value yields an error.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="encode.x"><code>x</code></td>
-<td>required<br />
-</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `x` | required |
 
-## encode_indent
+## encode\_indent
 
-``` rule-signature
+```
 string json.encode_indent(x, *, prefix='', indent='\t')
 ```
 
-The encode_indent function is equivalent to `json.indent(json.encode(x), ...)`. See `indent` for description of formatting parameters.
+The encode\_indent function is equivalent to `json.indent(json.encode(x), ...)`. See `indent` for description of formatting parameters.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="encode_indent.x"><code>x</code></td>
-<td>required<br />
-</td>
-</tr>
-<tr>
-<td id="encode_indent.prefix"><code>prefix</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>''</code><br />
-</td>
-</tr>
-<tr>
-<td id="encode_indent.indent"><code>indent</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>'\t'</code><br />
-</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `x` | required |
+| `prefix` | [string](../core/string.mdx); default is `''` |
+| `indent` | [string](../core/string.mdx); default is `'\t'` |
 
 ## indent
 
-``` rule-signature
+```
 string json.indent(s, *, prefix='', indent='\t')
 ```
 
@@ -146,31 +83,8 @@ If the input is not valid, the function may fail or return invalid output.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="indent.s"><code>s</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-</td>
-</tr>
-<tr>
-<td id="indent.prefix"><code>prefix</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>''</code><br />
-</td>
-</tr>
-<tr>
-<td id="indent.indent"><code>indent</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>'\t'</code><br />
-</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `s` | [string](../core/string.mdx); required |
+| `prefix` | [string](../core/string.mdx); default is `''` |
+| `indent` | [string](../core/string.mdx); default is `'\t'` |

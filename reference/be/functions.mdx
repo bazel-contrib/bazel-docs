@@ -2,31 +2,28 @@
 title: 'functions'
 ---
 
-# Functions
-
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/docgen/templates/be/functions.vm" %}
-{% include "\_buttons.html" %}
 
 ## Contents
 
-- [package](#package)
-- [package_group](#package_group)
-- [exports_files](#exports_files)
-- [glob](#glob)
-- [select](#select)
-- [subpackages](#subpackages)
+* [package](#package)
+* [package\_group](#package_group)
+* [exports\_files](#exports_files)
+* [glob](#glob)
+* [select](#select)
+* [subpackages](#subpackages)
 
 ## package
 
-
-    package(default_deprecation, default_package_metadata, default_testonly, default_visibility, features)
+```
+package(default_deprecation, default_package_metadata, default_testonly, default_visibility, features)
+```
 
 This function declares metadata that applies to every rule in the
 package. It is used at most once within a package (BUILD file).
 
 For the counterpart that declares metadata applying to every rule in the whole
 *repository*, use the `repo()` function in the
-[`REPO.bazel` file](/external/overview#repo.bazel) at the root of your repo.
+[`REPO.bazel` file](./external/overview#repo.bazel) at the root of your repo.
 The `repo()` function takes exactly the same arguments as `package()`.
 
 The package() function should be called right after all the load() statements at the top of the
@@ -34,61 +31,14 @@ file, before any rule.
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="package.default_applicable_licenses"><code>default_applicable_licenses</code></td>
-<td><p>Alias for <a href="#package.default_package_metadata"><code>default_package_metadata</code></a>.</p></td>
-</tr>
-<tr>
-<td id="package.default_visibility"><code>default_visibility</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-<p>The default visibility of the top-level rule targets and symbolic
-macros in this package — that is, the targets and symbolic macros
-that are not themselves declared inside a symbolic macro. This attribute
-is ignored if the target or macro specifies a <code>visibility</code>
-value.</p>
-<p>For detailed information about the syntax of this attribute, see the
-documentation of
-<a href="/concepts/visibility">visibility</a>. The package default visibility does not apply to
-<a href="#exports_files">exports_files</a>, which is public by default.</p></td>
-</tr>
-<tr>
-<td id="package.default_deprecation"><code>default_deprecation</code></td>
-<td><p>String; default is <code>""</code></p>
-<p>Sets the default
-<a href="common-definitions.html#common.deprecation"><code>deprecation</code></a> message for all rules in this package.</p></td>
-</tr>
-<tr>
-<td id="package.default_package_metadata"><code>default_package_metadata</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-<p>Sets a default list of metadata targets which apply to all other targets in the package.
-These are typically targets related to OSS package and license declarations.
-See <a href="https://github.com/bazelbuild/rules_license">rules_license</a> for examples.</p></td>
-</tr>
-<tr>
-<td id="package.default_testonly"><code>default_testonly</code></td>
-<td><p>Boolean; default is <code>False</code> except as noted</p>
-<p>Sets the default
-<a href="common-definitions.html#common.testonly"><code>testonly</code></a> property for all rules in this package.</p>
-<p>In packages under <code>javatests</code> the default value is <code>True</code>.</p></td>
-</tr>
-<tr>
-<td id="package.features"><code>features</code></td>
-<td><p>List strings; default is <code>[]</code></p>
-<p>Sets various flags that affect the semantics of this BUILD file.</p>
-<p>This feature is mainly used by the people working on the build system to
-tag packages that need some kind of special handling. Do not use this unless
-explicitly requested by someone working on the build system.</p></td>
-</tr>
-</tbody>
-</table>
+| Attribute | Description |
+| --- | --- |
+| `default_applicable_licenses` | Alias for [`default_package_metadata`](#package.default_package_metadata). |
+| `default_visibility` | List of [labels](./concepts/labels); default is `[]`  The default visibility of the top-level rule targets and symbolic macros in this package — that is, the targets and symbolic macros that are not themselves declared inside a symbolic macro. This attribute is ignored if the target or macro specifies a `visibility` value.  For detailed information about the syntax of this attribute, see the documentation of [visibility](./concepts/visibility). The package default visibility does not apply to [exports\_files](#exports_files), which is public by default. |
+| `default_deprecation` | String; default is `""`  Sets the default [`deprecation`](common-definitions.html#common.deprecation) message for all rules in this package. |
+| `default_package_metadata` | List of [labels](./concepts/labels); default is `[]`  Sets a default list of metadata targets which apply to all other targets in the package. These are typically targets related to OSS package and license declarations. See [rules\_license](https://github.com/bazelbuild/rules_license) for examples. |
+| `default_testonly` | Boolean; default is `False` except as noted  Sets the default [`testonly`](common-definitions.html#common.testonly) property for all rules in this package.  In packages under `javatests` the default value is `True`. |
+| `features` | List strings; default is `[]`  Sets various flags that affect the semantics of this BUILD file.  This feature is mainly used by the people working on the build system to tag packages that need some kind of special handling. Do not use this unless explicitly requested by someone working on the build system. |
 
 ### Examples
 
@@ -97,16 +47,17 @@ visible only to members of package
 group `//foo:target`. Individual visibility declarations
 on a rule, if present, override this specification.
 
-``` code
-
+```
 package(default_visibility = ["//foo:target"])
 ```
 
-## package_group
+## package\_group
 
-    package_group(name, packages, includes)
+```
+package_group(name, packages, includes)
+```
 
-This function defines a set of [packages](/concepts/build-ref#packages)
+This function defines a set of [packages](./concepts/build-ref#packages)
 and associates a label with the set. The label can be referenced in
 `visibility` attributes.
 
@@ -128,90 +79,18 @@ not themselves have any visibility protection.
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="package_group.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="package_group.packages"><code>packages</code></td>
-<td><p>List of strings; default is <code>[]</code></p>
-<p>A list of zero or more package specifications.</p>
-<p>Each package specification string can have one of the following
-forms:</p>
-<ol>
-<li>The full name of a package, without its repository, starting with a
-double slash. For example, <code>//foo/bar</code> specifies the package
-having that name and which lives in the same repository as the package
-group.</li>
-<li>As above, but with a trailing <code>/...</code>. For example, <code> //foo/...</code> specifies the set of <code>//foo</code> and all its
-subpackages. <code>//...</code> specifies all packages in the current
-repository.</li>
-<li>The strings <code>public</code> or <code>private</code>, which
-respectively specify every package or no package. (This form requires
-the flag <code>--incompatible_package_group_has_public_syntax</code> to
-be set.)</li>
-</ol>
-<p>In addition, the first two kinds of package specifications may also
-be prefixed with <code>-</code> to indicate that they are negated.</p>
-<p>The package group contains any package that matches at least one of
-its positive specifications and none of its negative specifications
-For instance, the value <code>[//foo/..., -//foo/tests/...]</code>
-includes all subpackages of <code>//foo</code> that are not also
-subpackages of <code>//foo/tests</code>. (<code>//foo</code> itself is
-included while //foo/tests itself is not.)</p>
-<p>Aside from public visibility, there is no way to directly specify
-packages outside the current repository.</p>
-<p>If this attribute is missing, it is the same as setting it to an
-empty list, which is also the same as setting it to a list containing
-only <code>private</code>.</p>
-<p><em>Note:</em> Prior to Bazel 6.0, the specification <code>//...</code>
-had a legacy behavior of being the same as <code>public</code>. This
-behavior is fixed when
-<code>--incompatible_fix_package_group_reporoot_syntax</code> is
-enabled, which is the default after Bazel 6.0.</p>
-<p><em>Note:</em> Prior to Bazel 6.0, when this attribute is serialized as
-part of <code>bazel query --output=proto</code> (or
-<code>--output=xml</code>), the leading slashes are omitted. For
-instance, <code>//pkg/foo/...</code> will output as
-<code>\"pkg/foo/...\"</code>. This behavior is fixed when
-<code>--incompatible_package_group_includes_double_slash</code> is
-enabled, which is the default after Bazel 6.0.</p></td>
-</tr>
-<tr>
-<td id="package_group.includes"><code>includes</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-<p>Other package groups that are included in this one.</p>
-<p>The labels in this attribute must refer to other package groups.
-Packages in referenced package groups are taken to be part of this
-package group. This is transitive — if package group
-<code>a</code> includes package group <code>b</code>, and <code>b</code>
-includes package group <code>c</code>, then every package in
-<code>c</code> will also be a member of <code>a</code>.</p>
-<p>When used together with negated package specifications, note that the
-set of packages for each group is first computed independently and the
-results are then unioned together. This means that negated
-specifications in one group have no effect on the specifications in
-another group.</p></td>
-</tr>
-</tbody>
-</table>
+| Attribute | Description |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `packages` | List of strings; default is `[]`  A list of zero or more package specifications.  Each package specification string can have one of the following forms:   1. The full name of a package, without its repository, starting with a    double slash. For example, `//foo/bar` specifies the package    having that name and which lives in the same repository as the package    group.- As above, but with a trailing `/...`. For example, `//foo/...` specifies the set of `//foo` and all its      subpackages. `//...` specifies all packages in the current      repository.- The strings `public` or `private`, which        respectively specify every package or no package. (This form requires        the flag `--incompatible_package_group_has_public_syntax` to        be set.)   In addition, the first two kinds of package specifications may also be prefixed with `-` to indicate that they are negated.  The package group contains any package that matches at least one of its positive specifications and none of its negative specifications For instance, the value `[//foo/..., -//foo/tests/...]` includes all subpackages of `//foo` that are not also subpackages of `//foo/tests`. (`//foo` itself is included while //foo/tests itself is not.)  Aside from public visibility, there is no way to directly specify packages outside the current repository.  If this attribute is missing, it is the same as setting it to an empty list, which is also the same as setting it to a list containing only `private`. *Note:* Prior to Bazel 6.0, the specification `//...` had a legacy behavior of being the same as `public`. This behavior is fixed when `--incompatible_fix_package_group_reporoot_syntax` is enabled, which is the default after Bazel 6.0.  *Note:* Prior to Bazel 6.0, when this attribute is serialized as part of `bazel query --output=proto` (or `--output=xml`), the leading slashes are omitted. For instance, `//pkg/foo/...` will output as `\"pkg/foo/...\"`. This behavior is fixed when `--incompatible_package_group_includes_double_slash` is enabled, which is the default after Bazel 6.0. |
+| `includes` | List of [labels](./concepts/labels); default is `[]`  Other package groups that are included in this one.  The labels in this attribute must refer to other package groups. Packages in referenced package groups are taken to be part of this package group. This is transitive — if package group `a` includes package group `b`, and `b` includes package group `c`, then every package in `c` will also be a member of `a`.  When used together with negated package specifications, note that the set of packages for each group is first computed independently and the results are then unioned together. This means that negated specifications in one group have no effect on the specifications in another group. |
 
 ### Examples
 
 The following `package_group` declaration specifies a
 package group called "tropical" that contains tropical fruits.
 
-``` code
-
+```
 package_group(
     name = "tropical",
     packages = [
@@ -225,8 +104,7 @@ package_group(
 The following declarations specify the package groups of a fictional
 application:
 
-``` code
-
+```
 package_group(
     name = "fooapp",
     includes = [
@@ -255,9 +133,11 @@ package_group(
 )
 ```
 
-## exports_files
+## exports\_files
 
-    exports_files([label, ...], visibility, licenses)
+```
+exports_files([label, ...], visibility, licenses)
+```
 
 `exports_files()` specifies a list of files belonging to
 this package that are exported to other packages.
@@ -265,7 +145,7 @@ this package that are exported to other packages.
 The BUILD file for a package may only refer directly to source files belonging
 to another package if they are explicitly exported with an
 `exports_files()` statement. Read more about
-[visibility of files](/concepts/visibility#source-file-target-visibility).
+[visibility of files](./concepts/visibility#source-file-target-visibility).
 
 As a legacy behaviour, also files mentioned as input to a rule are exported
 with the default visibility until the flag
@@ -279,7 +159,7 @@ The argument is a list of names of files within the current package. A
 visibility declaration can also be specified; in this case, the files will be
 visible to the targets specified. If no visibility is specified, the files
 will be visible to every package, even if a package default visibility was
-specified in the [`package`](functions.html#package)
+specified in the `package`
 function. The [licenses](common-definitions.html#common.licenses)
 can also be specified.
 
@@ -290,8 +170,7 @@ text file from the `test_data` package, so that other
 packages may use it, for example, in the `data` attribute
 of tests.
 
-``` code
-
+```
 # from //test_data/BUILD
 
 exports_files(["golden.txt"])
@@ -299,7 +178,9 @@ exports_files(["golden.txt"])
 
 ## glob
 
-    glob(include, exclude=[], exclude_directories=1, allow_empty=True)
+```
+glob(include, exclude=[], exclude_directories=1, allow_empty=True)
+```
 
 Glob is a helper function that finds all files that match certain path patterns,
 and returns a new, mutable, sorted list of their paths. Glob only searches files
@@ -323,37 +204,37 @@ path segment.
 
 Examples:
 
-- `foo/bar.txt` matches exactly the `foo/bar.txt` file
+* `foo/bar.txt` matches exactly the `foo/bar.txt` file
   in this package (unless `foo/` is a subpackage)
-- `foo/*.txt` matches every file in the `foo/` directory
+* `foo/*.txt` matches every file in the `foo/` directory
   if the file ends with `.txt` (unless `foo/` is a
   subpackage)
-- `foo/a*.htm*` matches every file in the `foo/`
+* `foo/a*.htm*` matches every file in the `foo/`
   directory that starts with `a`, then has an arbitrary string (could
   be empty), then has `.htm`, and ends with another arbitrary string
   (unless `foo/` is a subpackage); such as `foo/axx.htm`
   and `foo/a.html` or `foo/axxx.html`
-- `foo/*` matches every file in the `foo/` directory,
+* `foo/*` matches every file in the `foo/` directory,
   (unless `foo/` is a subpackage); it does not match `foo`
   directory itself even if `exclude_directories` is set to
   0
-- `foo/**` matches every file in every non-subpackage subdirectory
+* `foo/**` matches every file in every non-subpackage subdirectory
   under package's first level subdirectory `foo/`; if
   `exclude_directories` is set to 0, `foo`
   directory itself also matches the pattern; in this case, `**` is
   considered to match zero path segments
-- `**/a.txt` matches `a.txt` files in this package's
+* `**/a.txt` matches `a.txt` files in this package's
   directory plus non-subpackage subdirectories.
-- `**/bar/**/*.txt` matches every `.txt` file in every
+* `**/bar/**/*.txt` matches every `.txt` file in every
   non-subpackage subdirectory of this package, if at least one directory on the
   resulting path is called `bar`, such as
   `xxx/bar/yyy/zzz/a.txt` or `bar/a.txt` (remember that
   `**` also matches zero segments) or `bar/zzz/a.txt`
-- `**` matches every file in every non-subpackage subdirectory of
+* `**` matches every file in every non-subpackage subdirectory of
   this package
-- `foo**/a.txt` is an invalid pattern, because `**` must
+* `foo**/a.txt` is an invalid pattern, because `**` must
   stand on its own as a segment
-- `foo/` is an invalid pattern, because the second segment defined
+* `foo/` is an invalid pattern, because the second segment defined
   after `/` is an empty string
 
 If the `exclude_directories` argument is enabled (set to 1), files of
@@ -365,65 +246,59 @@ empty list.
 
 There are several important limitations and caveats:
 
-1.  Since `glob()` runs during BUILD file evaluation,
-    `glob()` matches files only in your source tree, never
-    generated files. If you are building a target that requires both
-    source and generated files, you must append an explicit list of generated
-    files to the glob. See the [example](#glob_example)
-    below with `:mylib` and `:gen_java_srcs`.
+1. Since `glob()` runs during BUILD file evaluation,
+   `glob()` matches files only in your source tree, never
+   generated files. If you are building a target that requires both
+   source and generated files, you must append an explicit list of generated
+   files to the glob. See the [example](#glob_example)
+   below with `:mylib` and `:gen_java_srcs`.
+2. If a rule has the same name as a matched source file, the rule will
+   "shadow" the file.
 
-2.  If a rule has the same name as a matched source file, the rule will
-    "shadow" the file.
+   To understand this, remember that `glob()` returns a list of
+   paths, so using `glob()` in other rules' attribute (e.g.
+   `srcs = glob(["*.cc"])`) has the same effect as listing the
+   matched paths explicitly. If for example `glob()` yields
+   `["Foo.java", "bar/Baz.java"]` but there's also a rule in the
+   package called "Foo.java" (which is allowed, though Bazel warns about it),
+   then the consumer of the `glob()` will use the "Foo.java" rule
+   (its outputs) instead of the "Foo.java" file. See
+   [GitHub
+   issue #10395](https://github.com/bazelbuild/bazel/issues/10395#issuecomment-583714657) for more details.
+3. Globs may match files in subdirectories. And subdirectory names
+   may be wildcarded. However...
+4. Labels are not allowed to cross the package boundary and glob does
+   not match files in subpackages.
 
-    To understand this, remember that `glob()` returns a list of
-    paths, so using `glob()` in other rules' attribute (e.g.
-    `srcs = glob(["*.cc"])`) has the same effect as listing the
-    matched paths explicitly. If for example `glob()` yields
-    `["Foo.java", "bar/Baz.java"]` but there's also a rule in the
-    package called "Foo.java" (which is allowed, though Bazel warns about it),
-    then the consumer of the `glob()` will use the "Foo.java" rule
-    (its outputs) instead of the "Foo.java" file. See
-    [GitHub
-    issue \#10395](https://github.com/bazelbuild/bazel/issues/10395#issuecomment-583714657) for more details.
+   For example, the glob expression `**/*.cc` in package
+   `x` does not include `x/y/z.cc` if
+   `x/y` exists as a package (either as
+   `x/y/BUILD`, or somewhere else on the package-path). This
+   means that the result of the glob expression actually depends on the
+   existence of BUILD files — that is, the same glob expression would
+   include `x/y/z.cc` if there was no package called
+   `x/y` or it was marked as deleted using the
+   [--deleted\_packages](./docs/user-manual#flag--deleted_packages)
+   flag.
+5. The restriction above applies to all glob expressions,
+   no matter which wildcards they use.
+6. A hidden file with filename starting with `.` is completely matched by
+   both the `**` and the `*` wildcards. If you want to match a hidden file
+   with a compound pattern, your pattern needs to begin with a `.`. For example,
+   `*` and `.*.txt` will match `.foo.txt`, but `*.txt`
+   will not.
+   Hidden directories are also matched in the same manner. Hidden directories
+   may include files that are not required as inputs, and can increase the
+   number of unnecessarily globbed files and memory consumption. To exclude
+   hidden directories, add them to the "exclude" list argument.
+7. The "\*\*" wildcard has one corner case: the pattern
+   `"**"` doesn't match the package's directory path. That is to
+   say, `glob(["**"], exclude_directories = False)` matches all files
+   and directories transitively strictly under the current package's directory
+   (but of course not going into directories of subpackages - see the previous
+   note about that).
 
-3.  Globs may match files in subdirectories. And subdirectory names
-    may be wildcarded. However...
-
-4.  Labels are not allowed to cross the package boundary and glob does
-    not match files in subpackages.
-
-    For example, the glob expression `**/*.cc` in package
-    `x` does not include `x/y/z.cc` if
-    `x/y` exists as a package (either as
-    `x/y/BUILD`, or somewhere else on the package-path). This
-    means that the result of the glob expression actually depends on the
-    existence of BUILD files — that is, the same glob expression would
-    include `x/y/z.cc` if there was no package called
-    `x/y` or it was marked as deleted using the
-    [--deleted_packages](/docs/user-manual#flag--deleted_packages)
-    flag.
-
-5.  The restriction above applies to all glob expressions,
-    no matter which wildcards they use.
-
-6.  A hidden file with filename starting with `.` is completely matched by
-    both the `**` and the `*` wildcards. If you want to match a hidden file
-    with a compound pattern, your pattern needs to begin with a `.`. For example,
-    `*` and `.*.txt` will match `.foo.txt`, but `*.txt`
-    will not.
-    Hidden directories are also matched in the same manner. Hidden directories
-    may include files that are not required as inputs, and can increase the
-    number of unnecessarily globbed files and memory consumption. To exclude
-    hidden directories, add them to the "exclude" list argument.
-
-7.  The "\*\*" wildcard has one corner case: the pattern
-    `"**"` doesn't match the package's directory path. That is to
-    say, `glob(["**"], exclude_directories = False)` matches all files
-    and directories transitively strictly under the current package's directory
-    (but of course not going into directories of subpackages - see the previous
-    note about that).
-
-In general, you should **try to provide an appropriate extension (e.g. \*.html)
+In general, you should **try to provide an appropriate extension (e.g. \*.mdx)
 instead of using a bare '\*'** for a glob pattern. The more explicit name
 is both self documenting and ensures that you don't accidentally match backup
 files, or emacs/vi/... auto-save files.
@@ -437,8 +312,7 @@ enables generating individual rules for every input, for example. See the
 Create a Java library built from all java files in this directory,
 and all files generated by the `:gen_java_srcs` rule.
 
-``` code
-
+```
 java_library(
     name = "mylib",
     srcs = glob(["*.java"]) + [":gen_java_srcs"],
@@ -459,8 +333,7 @@ Include all txt files in directory testdata except experimental.txt.
 Note that files in subdirectories of testdata will not be included. If
 you want those files to be included, use a recursive glob (\*\*).
 
-``` code
-
+```
 sh_test(
     name = "mytest",
     srcs = ["mytest.sh"],
@@ -478,8 +351,7 @@ of its subdirectories (and their subdirectories, and so on).
 Subdirectories containing a BUILD file are ignored. (See limitations
 and caveats above.)
 
-``` code
-
+```
 sh_test(
     name = "mytest",
     srcs = ["mytest.sh"],
@@ -492,8 +364,7 @@ subdirectories except those whose path includes a directory named testing.
 **This pattern should be avoided if possible, as it can reduce build
 incrementality and therefore increase build times.**
 
-``` code
-
+```
 java_library(
     name = "mylib",
     srcs = glob(
@@ -508,8 +379,7 @@ java_library(
 Create an individual genrule for \*\_test.cc in the current directory
 that counts the number of lines in the file.
 
-``` code
-
+```
 # Conveniently, the build language supports list comprehensions.
 [genrule(
     name = "count_lines_" + f[:-3],  # strip ".cc"
@@ -520,22 +390,24 @@ that counts the number of lines in the file.
 ```
 
 If the BUILD file above is in package //foo and the package contains three
-matching files, a_test.cc, b_test.cc and c_test.cc then running
+matching files, a\_test.cc, b\_test.cc and c\_test.cc then running
 `bazel query '//foo:all'` will list all rules that were generated:
 
-
-    $ bazel query '//foo:all' | sort
-    //foo:count_lines_a_test
-    //foo:count_lines_b_test
-    //foo:count_lines_c_test
+```
+$ bazel query '//foo:all' | sort
+//foo:count_lines_a_test
+//foo:count_lines_b_test
+//foo:count_lines_c_test
+```
 
 ## select
 
-
-    select(
-        {conditionA: valuesA, conditionB: valuesB, ...},
-        no_match_error = "custom message"
-    )
+```
+select(
+    \{conditionA: valuesA, conditionB: valuesB, ...\},
+    no_match_error = "custom message"
+)
+```
 
 `select()` is the helper function that makes a rule attribute
 [configurable](common-definitions.html#configurable-attributes).
@@ -548,15 +420,14 @@ vs. "release" mode.
 
 Basic use is as follows:
 
-``` code
-
+```
 sh_binary(
     name = "mytarget",
-    srcs = select({
+    srcs = select(\{
         ":conditionA": ["mytarget_a.sh"],
         ":conditionB": ["mytarget_b.sh"],
         "//conditions:default": ["mytarget_default.sh"]
-    })
+    \})
 )
 ```
 
@@ -565,100 +436,98 @@ a `sh_binary` configurable by replacing its normal label
 list assignment with a `select` call that maps
 configuration conditions to matching values. Each condition is a label
 reference to
-a [`config_setting`](general.html#config_setting) or
-[`constraint_value`](platforms-and-toolchains.html#constraint_value),
+a `config_setting` or
+`constraint_value`,
 which "matches" if the target's configuration matches an expected set of
 values. The value of `mytarget#srcs` then becomes whichever
 label list matches the current invocation.
 
 Notes:
 
-Exactly one condition is selected on any invocation.
+* Exactly one condition is selected on any invocation.
+* If multiple conditions match and one is a specialization of the others,
+  the specialization takes precedence. Condition B is considered a
+  specialization of condition A if B has all the same flags and constraint
+  values as A plus some additional flags or constraint values. This also
+  means that specialization resolution is not designed to create an ordering as
+  demonstrated in Example 2 below.
+* If multiple conditions match and one is not a specialization of all the
+  others, Bazel fails with an error, unless all conditions resolve to the same value.
+* The special pseudo-label `//conditions:default` is
+  considered to match if no other condition matches. If this condition
+  is left out, some other rule must match to avoid an error.
+* `select` can be embedded *inside* a larger
+  attribute assignment. So `srcs = ["common.sh"]
+  + select(\{ ":conditionA": ["myrule_a.sh"], ...\})` and `srcs = select(\{ ":conditionA": ["a.sh"]\}) + select(\{ ":conditionB":
+  ["b.sh"]\})` are valid expressions.
+* `select` works with most, but not all, attributes. Incompatible
+  attributes are marked `nonconfigurable` in their documentation.
 
-If multiple conditions match and one is a specialization of the others,
-the specialization takes precedence. Condition B is considered a
-specialization of condition A if B has all the same flags and constraint
-values as A plus some additional flags or constraint values. This also
-means that specialization resolution is not designed to create an ordering as
-demonstrated in Example 2 below.
+  ## subpackages
 
-If multiple conditions match and one is not a specialization of all the
-others, Bazel fails with an error, unless all conditions resolve to the same value.
+  ```
+  subpackages(include, exclude=[], allow_empty=True)
+  ```
 
-The special pseudo-label `//conditions:default` is
-considered to match if no other condition matches. If this condition
-is left out, some other rule must match to avoid an error.
+  `subpackages()` is a helper function, similar to `glob()`
+  that lists subpackages instead of files and directories. It uses the same
+  path patterns as `glob()` and can match any subpackage that is a
+  direct descendant of the currently loading BUILD file. See [glob](#glob) for a detailed explanation and examples of include and
+  exclude patterns.
 
-`select` can be embedded *inside* a larger
-attribute assignment. So `srcs = ["common.sh"] + select({ ":conditionA": ["myrule_a.sh"], ...})` and ` srcs = select({ ":conditionA": ["a.sh"]}) + select({ ":conditionB": ["b.sh"]})` are valid expressions.
+  The resulting list of subpackages returned is in sorted order and contains
+  paths relative to the current loading package that match the given patterns in
+  `include` and not those in `exclude`.
 
-`select` works with most, but not all, attributes. Incompatible
-attributes are marked `nonconfigurable` in their documentation.
+  ### Example
 
-## subpackages
+  The following example lists all the direct subpackages for the package `foo/BUILD`
 
-    subpackages(include, exclude=[], allow_empty=True)
+  ```
+  # The following BUILD files exist:
+  # foo/BUILD
+  # foo/bar/baz/BUILD
+  # foo/bar/but/bad/BUILD
+  # foo/sub/BUILD
+  # foo/sub/deeper/BUILD
+  #
+  # In foo/BUILD a call to
+  subs1 = subpackages(include = ["**"])
 
-`subpackages()` is a helper function, similar to `glob()`
-that lists subpackages instead of files and directories. It uses the same
-path patterns as `glob()` and can match any subpackage that is a
-direct descendant of the currently loading BUILD file. See [glob](#glob) for a detailed explanation and examples of include and
-exclude patterns.
+  # results in subs1 == ["sub", "bar/baz", "bar/but/bad"]
+  #
+  # 'sub/deeper' is not included because it is a subpackage of 'foo/sub' not of
+  # 'foo'
 
-The resulting list of subpackages returned is in sorted order and contains
-paths relative to the current loading package that match the given patterns in
-`include` and not those in `exclude`.
+  subs2 = subpackages(include = ["bar/*"])
+  # results in subs2 = ["bar/baz"]
+  #
+  # Since 'bar' is not a subpackage itself, this looks for any subpackages under
+  # all first level subdirectories of 'bar'.
 
-### Example
+  subs3 = subpackages(include = ["bar/**"])
+  # results in subs3 = ["bar/baz", "bar/but/bad"]
+  #
+  # Since bar is not a subpackage itself, this looks for any subpackages which are
+  # (1) under all subdirectories of 'bar' which can be at any level, (2) not a
+  # subpackage of another subpackages.
 
-The following example lists all the direct subpackages for the package `foo/BUILD`
+  subs4 = subpackages(include = ["sub"])
+  subs5 = subpackages(include = ["sub/*"])
+  subs6 = subpackages(include = ["sub/**"])
+  # results in subs4 and subs6 being ["sub"]
+  # results in subs5 = [].
+  #
+  # In subs4, expression "sub" checks whether 'foo/sub' is a package (i.e. is a
+  # subpackage of 'foo').
+  # In subs5, "sub/*" looks for subpackages under directory 'foo/sub'. Since
+  # 'foo/sub' is already a subpackage itself, the subdirectories will not be
+  # traversed anymore.
+  # In subs6, 'foo/sub' is a subpackage itself and matches pattern "sub/**", so it
+  # is returned. But the subdirectories of 'foo/sub' will not be traversed
+  # anymore.
+  ```
 
-``` code
-
-# The following BUILD files exist:
-# foo/BUILD
-# foo/bar/baz/BUILD
-# foo/bar/but/bad/BUILD
-# foo/sub/BUILD
-# foo/sub/deeper/BUILD
-#
-# In foo/BUILD a call to
-subs1 = subpackages(include = ["**"])
-
-# results in subs1 == ["sub", "bar/baz", "bar/but/bad"]
-#
-# 'sub/deeper' is not included because it is a subpackage of 'foo/sub' not of
-# 'foo'
-
-subs2 = subpackages(include = ["bar/*"])
-# results in subs2 = ["bar/baz"]
-#
-# Since 'bar' is not a subpackage itself, this looks for any subpackages under
-# all first level subdirectories of 'bar'.
-
-subs3 = subpackages(include = ["bar/**"])
-# results in subs3 = ["bar/baz", "bar/but/bad"]
-#
-# Since bar is not a subpackage itself, this looks for any subpackages which are
-# (1) under all subdirectories of 'bar' which can be at any level, (2) not a
-# subpackage of another subpackages.
-
-subs4 = subpackages(include = ["sub"])
-subs5 = subpackages(include = ["sub/*"])
-subs6 = subpackages(include = ["sub/**"])
-# results in subs4 and subs6 being ["sub"]
-# results in subs5 = [].
-#
-# In subs4, expression "sub" checks whether 'foo/sub' is a package (i.e. is a
-# subpackage of 'foo').
-# In subs5, "sub/*" looks for subpackages under directory 'foo/sub'. Since
-# 'foo/sub' is already a subpackage itself, the subdirectories will not be
-# traversed anymore.
-# In subs6, 'foo/sub' is a subpackage itself and matches pattern "sub/**", so it
-# is returned. But the subdirectories of 'foo/sub' will not be traversed
-# anymore.
-```
-
-In general it is preferred that instead of calling this function directly
-that users use the 'subpackages' module of
-[skylib](https://github.com/bazelbuild/bazel-skylib).
+  In general it is preferred that instead of calling this function directly
+  that users use the 'subpackages' module of
+  [skylib](https://github.com/bazelbuild/bazel-skylib).

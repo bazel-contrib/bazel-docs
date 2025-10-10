@@ -2,10 +2,7 @@
 title: 'set'
 ---
 
-# set
 
-{% dynamic setvar source_file "src/main/java/net/starlark/java/eval/StarlarkSet.java" %}
-{% include "\_buttons.html" %}
 The built-in set type. A set is a mutable collection of unique values – the set's
 *elements*. The [type name](../globals/all#type) of a set is `"set"`.
 
@@ -22,8 +19,7 @@ have no literal syntax.
 The `in` and `not in` operations check whether a value is (or is not) in a
 set:
 
-``` python
-
+```
 s = set(["a", "b", "c"])
 "a" in s  # True
 "z" in s  # False
@@ -34,8 +30,7 @@ comprehension, and the various built-in functions that operate on iterables. Its
 retrieved using the [`len()`](../globals/all#len) built-in function, and the
 order of iteration is the order in which elements were first added to the set:
 
-``` python
-
+```
 s = set(["z", "y", "z", "y"])
 len(s)       # prints 2
 s.add("x")
@@ -46,8 +41,7 @@ for e in s:
 
 A set used in Boolean context is true if and only if it is non-empty.
 
-``` python
-
+```
 s = set()
 "non-empty" if s else "empty"  # "empty"
 t = set(["x", "y"])
@@ -58,11 +52,10 @@ Sets may be compared for equality or inequality using `==` and `!=`. A set
 `s` is equal to `t` if and only if `t` is a set containing the same
 elements; iteration order is not significant. In particular, a set is *not* equal to the list
 of its elements. Sets are not ordered with respect to other sets, and an attempt to compare two sets
-using `<`, `<=`, `>`, `>=`, or to sort a
+using `<`, `&lt;=`, `>`, `&gt;=`, or to sort a
 sequence of sets, will fail.
 
-``` python
-
+```
 set() == set()              # True
 set() != []                 # True
 set([1, 2]) == set([2, 1])  # True
@@ -72,16 +65,14 @@ set([1, 2]) != [1, 2]       # True
 The `|` operation on two sets returns the union of the two sets: a set containing the
 elements found in either one or both of the original sets.
 
-``` python
-
+```
 set([1, 2]) | set([3, 2])  # set([1, 2, 3])
 ```
 
 The `&` operation on two sets returns the intersection of the two sets: a set
 containing only the elements found in both of the original sets.
 
-``` python
-
+```
 set([1, 2]) & set([2, 3])  # set([2])
 set([1, 2]) & set([3, 4])  # set()
 ```
@@ -89,8 +80,7 @@ set([1, 2]) & set([3, 4])  # set()
 The `-` operation on two sets returns the difference of the two sets: a set containing
 the elements found in the left-hand side set but not the right-hand side set.
 
-``` python
-
+```
 set([1, 2]) - set([2, 3])  # set([1])
 set([1, 2]) - set([3, 4])  # set([1, 2])
 ```
@@ -98,8 +88,7 @@ set([1, 2]) - set([3, 4])  # set([1, 2])
 The `^` operation on two sets returns the symmetric difference of the two sets: a set
 containing the elements found in exactly one of the two original sets, but not in both.
 
-``` python
-
+```
 set([1, 2]) ^ set([2, 3])  # set([1, 3])
 set([1, 2]) ^ set([3, 4])  # set([1, 2, 3, 4])
 ```
@@ -111,8 +100,7 @@ element that was only present in the right-hand side.
 The corresponding augmented assignments, `|=`, `&=`, `-=`,
 and `^=`, modify the left-hand set in place.
 
-``` python
-
+```
 s = set([1, 2])
 s |= set([2, 3, 4])     # s now equals set([1, 2, 3, 4])
 s &= set([0, 1, 2, 3])  # s now equals set([1, 2, 3])
@@ -125,26 +113,26 @@ operations that attempt to update it will fail.
 
 ## Members
 
-- [add](#add)
-- [clear](#clear)
-- [difference](#difference)
-- [difference_update](#difference_update)
-- [discard](#discard)
-- [intersection](#intersection)
-- [intersection_update](#intersection_update)
-- [isdisjoint](#isdisjoint)
-- [issubset](#issubset)
-- [issuperset](#issuperset)
-- [pop](#pop)
-- [remove](#remove)
-- [symmetric_difference](#symmetric_difference)
-- [symmetric_difference_update](#symmetric_difference_update)
-- [union](#union)
-- [update](#update)
+* [add](#add)
+* [clear](#clear)
+* [difference](#difference)
+* [difference\_update](#difference_update)
+* [discard](#discard)
+* [intersection](#intersection)
+* [intersection\_update](#intersection_update)
+* [isdisjoint](#isdisjoint)
+* [issubset](#issubset)
+* [issuperset](#issuperset)
+* [pop](#pop)
+* [remove](#remove)
+* [symmetric\_difference](#symmetric_difference)
+* [symmetric\_difference\_update](#symmetric_difference_update)
+* [union](#union)
+* [update](#update)
 
 ## add
 
-``` rule-signature
+```
 None set.add(element)
 ```
 
@@ -158,25 +146,13 @@ the `|=` augmented assignment operation.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="add.element"><code>element</code></td>
-<td>required<br />
-Element to add.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `element` | required  Element to add. |
 
 ## clear
 
-``` rule-signature
+```
 None set.clear()
 ```
 
@@ -184,7 +160,7 @@ Removes all the elements of the set.
 
 ## difference
 
-``` rule-signature
+```
 set set.difference(*others)
 ```
 
@@ -199,33 +175,20 @@ the set.
 
 For example,
 
-``` python
-
+```
 set([1, 2, 3]).difference([2])             # set([1, 3])
 set([1, 2, 3]).difference([0, 1], [3, 4])  # set([2])
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="difference.others"><code>others</code></td>
-<td>required<br />
-Collections of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `others` | required  Collections of hashable elements. |
 
-## difference_update
+## difference\_update
 
-``` rule-signature
+```
 None set.difference_update(*others)
 ```
 
@@ -240,8 +203,7 @@ set unchanged.
 
 For example,
 
-``` python
-
+```
 s = set([1, 2, 3, 4])
 s.difference_update([2])             # None; s is set([1, 3, 4])
 s.difference_update([0, 1], [4, 5])  # None; s is set([3])
@@ -249,25 +211,13 @@ s.difference_update([0, 1], [4, 5])  # None; s is set([3])
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="difference_update.others"><code>others</code></td>
-<td>required<br />
-Collections of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `others` | required  Collections of hashable elements. |
 
 ## discard
 
-``` rule-signature
+```
 None set.discard(element)
 ```
 
@@ -281,8 +231,7 @@ augmented assignment operation.
 
 For example,
 
-``` python
-
+```
 s = set(["x", "y"])
 s.discard("y")  # None; s == set(["x"])
 s.discard("y")  # None; s == set(["x"])
@@ -290,25 +239,13 @@ s.discard("y")  # None; s == set(["x"])
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="discard.element"><code>element</code></td>
-<td>required<br />
-Element to discard. Must be hashable.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `element` | required  Element to discard. Must be hashable. |
 
 ## intersection
 
-``` rule-signature
+```
 set set.intersection(*others)
 ```
 
@@ -323,33 +260,20 @@ the set.
 
 For example,
 
-``` python
-
+```
 set([1, 2]).intersection([2, 3])             # set([2])
 set([1, 2, 3]).intersection([0, 1], [1, 2])  # set([1])
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="intersection.others"><code>others</code></td>
-<td>required<br />
-Collections of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `others` | required  Collections of hashable elements. |
 
-## intersection_update
+## intersection\_update
 
-``` rule-signature
+```
 None set.intersection_update(*others)
 ```
 
@@ -365,8 +289,7 @@ set unchanged.
 
 For example,
 
-``` python
-
+```
 s = set([1, 2, 3, 4])
 s.intersection_update([0, 1, 2])       # None; s is set([1, 2])
 s.intersection_update([0, 1], [1, 2])  # None; s is set([1])
@@ -374,25 +297,13 @@ s.intersection_update([0, 1], [1, 2])  # None; s is set([1])
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="intersection_update.others"><code>others</code></td>
-<td>required<br />
-Collections of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `others` | required  Collections of hashable elements. |
 
 ## isdisjoint
 
-``` rule-signature
+```
 bool set.isdisjoint(other)
 ```
 
@@ -400,8 +311,7 @@ Returns true if this set has no elements in common with another.
 
 For example,
 
-``` python
-
+```
 set([1, 2]).isdisjoint([3, 4])  # True
 set().isdisjoint(set())         # True
 set([1, 2]).isdisjoint([2, 3])  # False
@@ -409,25 +319,13 @@ set([1, 2]).isdisjoint([2, 3])  # False
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="isdisjoint.other"><code>other</code></td>
-<td>required<br />
-A collection of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | required  A collection of hashable elements. |
 
 ## issubset
 
-``` rule-signature
+```
 bool set.issubset(other)
 ```
 
@@ -437,8 +335,7 @@ Note that a set is always considered to be a subset of itself.
 
 For example,
 
-``` python
-
+```
 set([1, 2]).issubset([1, 2, 3])  # True
 set([1, 2]).issubset([1, 2])     # True
 set([1, 2]).issubset([2, 3])     # False
@@ -446,25 +343,13 @@ set([1, 2]).issubset([2, 3])     # False
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="issubset.other"><code>other</code></td>
-<td>required<br />
-A collection of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | required  A collection of hashable elements. |
 
 ## issuperset
 
-``` rule-signature
+```
 bool set.issuperset(other)
 ```
 
@@ -474,8 +359,7 @@ Note that a set is always considered to be a superset of itself.
 
 For example,
 
-``` python
-
+```
 set([1, 2, 3]).issuperset([1, 2])     # True
 set([1, 2, 3]).issuperset([1, 2, 3])  # True
 set([1, 2, 3]).issuperset([2, 3, 4])  # False
@@ -483,25 +367,13 @@ set([1, 2, 3]).issuperset([2, 3, 4])  # False
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="issuperset.other"><code>other</code></td>
-<td>required<br />
-A collection of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | required  A collection of hashable elements. |
 
 ## pop
 
-``` rule-signature
+```
 unknown set.pop()
 ```
 
@@ -512,8 +384,7 @@ Fails if the set is empty.
 
 For example,
 
-``` python
-
+```
 s = set([3, 1, 2])
 s.pop()  # 3; s == set([1, 2])
 s.pop()  # 1; s == set([2])
@@ -523,7 +394,7 @@ s.pop()  # error: empty set
 
 ## remove
 
-``` rule-signature
+```
 None set.remove(element)
 ```
 
@@ -537,25 +408,13 @@ assignment operation.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="remove.element"><code>element</code></td>
-<td>required<br />
-Element to remove. Must be an element of the set (and hashable).</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `element` | required  Element to remove. Must be an element of the set (and hashable). |
 
-## symmetric_difference
+## symmetric\_difference
 
-``` rule-signature
+```
 set set.symmetric_difference(other)
 ```
 
@@ -569,32 +428,19 @@ dict.
 
 For example,
 
-``` python
-
+```
 set([1, 2]).symmetric_difference([2, 3])  # set([1, 3])
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="symmetric_difference.other"><code>other</code></td>
-<td>required<br />
-A collection of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | required  A collection of hashable elements. |
 
-## symmetric_difference_update
+## symmetric\_difference\_update
 
-``` rule-signature
+```
 None set.symmetric_difference_update(other)
 ```
 
@@ -602,39 +448,26 @@ Returns a new mutable set containing the symmetric difference of this set with a
 hashable elements.
 
 If `s` and `t` are sets, `s.symmetric_difference_update(t)` is
-equivalent to \`s ^= t`; however, note that the `^=\` augmented assignment requires both
+equivalent to `s ^= t`; however, note that the` ^=` augmented assignment requires both
 sides to be sets, while the `symmetric_difference_update` method also accepts a sequence
 or a dict.
 
 For example,
 
-``` python
-
+```
 s = set([1, 2])
 s.symmetric_difference_update([2, 3])  # None; s == set([1, 3])
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="symmetric_difference_update.other"><code>other</code></td>
-<td>required<br />
-A collection of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | required  A collection of hashable elements. |
 
 ## union
 
-``` rule-signature
+```
 set set.union(*others)
 ```
 
@@ -649,33 +482,20 @@ set.
 
 For example,
 
-``` python
-
+```
 set([1, 2]).union([2, 3])                    # set([1, 2, 3])
-set([1, 2]).union([2, 3], {3: "a", 4: "b"})  # set([1, 2, 3, 4])
+set([1, 2]).union([2, 3], \{3: "a", 4: "b"\})  # set([1, 2, 3, 4])
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="union.others"><code>others</code></td>
-<td>required<br />
-Collections of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `others` | required  Collections of hashable elements. |
 
 ## update
 
-``` rule-signature
+```
 None set.update(*others)
 ```
 
@@ -683,8 +503,7 @@ Adds the elements found in others to this set.
 
 For example,
 
-``` python
-
+```
 s = set()
 s.update([1, 2])          # None; s is set([1, 2])
 s.update([2, 3], [3, 4])  # None; s is set([1, 2, 3, 4])
@@ -699,18 +518,6 @@ unchanged.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="update.others"><code>others</code></td>
-<td>required<br />
-Collections of hashable elements.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `others` | required  Collections of hashable elements. |

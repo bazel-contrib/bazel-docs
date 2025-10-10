@@ -2,20 +2,17 @@
 title: 'propagation_ctx'
 ---
 
-# propagation_ctx
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkAspectPropagationContextApi.java" %}
-{% include "\_buttons.html" %}
 A context object that is passed to the `propagation_predicate`, `attr_aspects` and `toolchains_aspects` functions of aspects. It provides access to the information needed to determine whether the aspect should be propagated to the target and what attributes or toolchain types it should be propagated to next.
 
 ## Members
 
-- [attr](#attr)
-- [rule](#rule)
+* [attr](#attr)
+* [rule](#rule)
 
 ## attr
 
-``` rule-signature
+```
 struct propagation_ctx.attr
 ```
 
@@ -23,7 +20,7 @@ A struct to access only the public parameters of the aspect. The keys and values
 
 ## rule
 
-``` rule-signature
+```
 StarlarkAspectPropagationRuleApi propagation_ctx.rule
 ```
 

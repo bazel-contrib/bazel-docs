@@ -2,29 +2,26 @@
 title: 'CcLinkingOutputs'
 ---
 
-# CcLinkingOutputs
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CcLinkingOutputsApi.java" %}
-{% include "\_buttons.html" %}
 Helper class containing CC compilation outputs.
 
 ## Members
 
-- [executable](#executable)
-- [library_to_link](#library_to_link)
+* [executable](#executable)
+* [library\_to\_link](#library_to_link)
 
 ## executable
 
-``` rule-signature
+```
 File CcLinkingOutputs.executable
 ```
 
 Represents the linked executable.
 May return `None`.
 
-## library_to_link
+## library\_to\_link
 
-``` rule-signature
+```
 LibraryToLink CcLinkingOutputs.library_to_link
 ```
 

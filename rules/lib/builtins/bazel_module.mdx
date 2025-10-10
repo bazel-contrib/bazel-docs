@@ -2,22 +2,19 @@
 title: 'bazel_module'
 ---
 
-# bazel_module
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/bzlmod/StarlarkBazelModule.java" %}
-{% include "\_buttons.html" %}
 Represents a Bazel module in the external dependency graph.
 
 ## Members
 
-- [is_root](#is_root)
-- [name](#name)
-- [tags](#tags)
-- [version](#version)
+* [is\_root](#is_root)
+* [name](#name)
+* [tags](#tags)
+* [version](#version)
 
-## is_root
+## is\_root
 
-``` rule-signature
+```
 bool bazel_module.is_root
 ```
 
@@ -25,7 +22,7 @@ Whether this module is the root module.
 
 ## name
 
-``` rule-signature
+```
 string bazel_module.name
 ```
 
@@ -33,7 +30,7 @@ The name of the module.
 
 ## tags
 
-``` rule-signature
+```
 bazel_module_tags bazel_module.tags
 ```
 
@@ -41,7 +38,7 @@ The tags in the module related to the module extension currently being processed
 
 ## version
 
-``` rule-signature
+```
 string bazel_module.version
 ```
 

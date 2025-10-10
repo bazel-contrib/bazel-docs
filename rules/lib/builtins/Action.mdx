@@ -2,59 +2,56 @@
 title: 'Action'
 ---
 
-# Action
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/ActionApi.java" %}
-{% include "\_buttons.html" %}
 An action created during rule analysis.
 
-This object is visible for the purpose of testing, and may be obtained from an `Actions` provider. It is normally not necessary to access `Action` objects or their fields within a rule's implementation function. You may instead want to see the [Rules page](https://bazel.build/extending/rules#actions) for a general discussion of how to use actions when defining custom rules, or the [API reference](../builtins/actions.html) for creating actions.
+This object is visible for the purpose of testing, and may be obtained from an `Actions` provider. It is normally not necessary to access `Action` objects or their fields within a rule's implementation function. You may instead want to see the [Rules page](https://bazel.build/extending/rules#actions) for a general discussion of how to use actions when defining custom rules, or the [API reference](../builtins/actions.mdx) for creating actions.
 
 Some fields of this object are only applicable for certain kinds of actions. Fields that are inapplicable are set to `None`.
 
 ## Members
 
-- [args](#args)
-- [argv](#argv)
-- [content](#content)
-- [env](#env)
-- [inputs](#inputs)
-- [mnemonic](#mnemonic)
-- [outputs](#outputs)
-- [substitutions](#substitutions)
+* [args](#args)
+* [argv](#argv)
+* [content](#content)
+* [env](#env)
+* [inputs](#inputs)
+* [mnemonic](#mnemonic)
+* [outputs](#outputs)
+* [substitutions](#substitutions)
 
 ## args
 
-``` rule-signature
+```
 sequence Action.args
 ```
 
-A list of frozen [Args](../builtins/Args.html) objects containing information about the action arguments. These objects contain accurate argument information, including arguments involving expanded action output directories. However, [Args](../builtins/Args.html) objects are not readable in the analysis phase. For a less accurate account of arguments which is available in the analysis phase, see [argv](#argv).
+A list of frozen [Args](../builtins/Args.mdx) objects containing information about the action arguments. These objects contain accurate argument information, including arguments involving expanded action output directories. However, [Args](../builtins/Args.mdx) objects are not readable in the analysis phase. For a less accurate account of arguments which is available in the analysis phase, see [argv](#argv).
 
 Note that some types of actions do not yet support exposure of this field. For such action types, this is `None`.
 May return `None`.
 
 ## argv
 
-``` rule-signature
+```
 sequence Action.argv
 ```
 
-For actions created by [ctx.actions.run()](../builtins/actions.html#run) or [ctx.actions.run_shell()](../builtins/actions.html#run_shell) an immutable list of the arguments for the command line to be executed. Note that for shell actions the first two arguments will be the shell path and `"-c"`.
+For actions created by [ctx.actions.run()](../builtins/actions.html#run) or [ctx.actions.run\_shell()](../builtins/actions.html#run_shell) an immutable list of the arguments for the command line to be executed. Note that for shell actions the first two arguments will be the shell path and `"-c"`.
 May return `None`.
 
 ## content
 
-``` rule-signature
+```
 string Action.content
 ```
 
-For actions created by [ctx.actions.write()](../builtins/actions.html#write) or [ctx.actions.expand_template()](../builtins/actions.html#expand_template), the contents of the file to be written, if those contents can be computed during the analysis phase. The value is `None` if the contents cannot be determined until the execution phase, such as when a directory in an [Args](../builtins/Args.html) object needs to be expanded.
+For actions created by [ctx.actions.write()](../builtins/actions.html#write) or [ctx.actions.expand\_template()](../builtins/actions.html#expand_template), the contents of the file to be written, if those contents can be computed during the analysis phase. The value is `None` if the contents cannot be determined until the execution phase, such as when a directory in an [Args](../builtins/Args.mdx) object needs to be expanded.
 May return `None`.
 
 ## env
 
-``` rule-signature
+```
 dict Action.env
 ```
 
@@ -62,7 +59,7 @@ The 'fixed' environment variables for this action. This includes only environmen
 
 ## inputs
 
-``` rule-signature
+```
 depset Action.inputs
 ```
 
@@ -70,7 +67,7 @@ A set of the input files of this action.
 
 ## mnemonic
 
-``` rule-signature
+```
 string Action.mnemonic
 ```
 
@@ -78,7 +75,7 @@ The mnemonic for this action.
 
 ## outputs
 
-``` rule-signature
+```
 depset Action.outputs
 ```
 
@@ -86,9 +83,9 @@ A set of the output files of this action.
 
 ## substitutions
 
-``` rule-signature
+```
 dict Action.substitutions
 ```
 
-For actions created by [ctx.actions.expand_template()](../builtins/actions.html#expand_template), an immutable dict holding the substitution mapping.
+For actions created by [ctx.actions.expand\_template()](../builtins/actions.html#expand_template), an immutable dict holding the substitution mapping.
 May return `None`.

@@ -2,22 +2,18 @@
 title: 'shell'
 ---
 
-# Shell Rules
-
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/docgen/templates/be/rules.vm" %}
-{% include "\_buttons.html" %}
 
 ## Rules
 
-- [sh_binary](#sh_binary)
-- [sh_library](#sh_library)
-- [sh_test](#sh_test)
+* [sh\_binary](#sh_binary)
+* [sh\_library](#sh_library)
+* [sh\_test](#sh_test)
 
-## sh_binary
+## sh\_binary
 
-<a href="https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_binary.bzl" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_binary.bzl)
 
-``` rule-signature
+```
 sh_binary(name, deps, srcs, data, args, aspect_hints, compatible_with, deprecation, env, env_inherit, exec_compatible_with, exec_group_compatible_with, exec_properties, features, output_licenses, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, use_bash_launcher, visibility)
 ```
 
@@ -33,8 +29,7 @@ the extension (e.g. `.sh`); the rule name and the file name must be distinct.
 
 For a simple shell script with no dependencies and some data files:
 
-``` code
-
+```
 sh_binary(
     name = "foo",
     srcs = ["foo.sh"],
@@ -44,55 +39,19 @@ sh_binary(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="sh_binary.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="sh_binary.deps"><code>deps</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The list of "library" targets to be aggregated into this target.
-See general comments about <code>deps</code>
-at <a href="/reference/be/common-definitions#typical.deps">Typical attributes defined by
-most build rules</a>.
-<p>This attribute should be used to list other <code>sh_library</code> rules that provide
-interpreted program source code depended on by the code in <code>srcs</code>. The files
-provided by these rules will be present among the <code>runfiles</code> of this target.</p></td>
-</tr>
-<tr>
-<td id="sh_binary.srcs"><code>srcs</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The file containing the shell script.
-<p>This attribute must be a singleton list, whose element is the shell script.
-This script must be executable, and may be a source file or a generated file.
-All other files required at runtime (whether scripts or data) belong in the
-<code>data</code> attribute.</p></td>
-</tr>
-<tr>
-<td id="sh_binary.env_inherit"><code>env_inherit</code></td>
-<td><p>List of strings; default is <code>[]</code></p></td>
-</tr>
-<tr>
-<td id="sh_binary.use_bash_launcher"><code>use_bash_launcher</code></td>
-<td><p>Boolean; default is <code>False</code></p>
-Use a bash launcher initializing the runfiles library</td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `deps` | List of [labels](./concepts/labels); default is `[]` The list of "library" targets to be aggregated into this target. See general comments about `deps` at [Typical attributes defined by most build rules](./reference/be/common-definitions#typical.deps). This attribute should be used to list other `sh_library` rules that provide interpreted program source code depended on by the code in `srcs`. The files provided by these rules will be present among the `runfiles` of this target. |
+| `srcs` | List of [labels](./concepts/labels); default is `[]` The file containing the shell script. This attribute must be a singleton list, whose element is the shell script. This script must be executable, and may be a source file or a generated file. All other files required at runtime (whether scripts or data) belong in the `data` attribute. |
+| `env_inherit` | List of strings; default is `[]` |
+| `use_bash_launcher` | Boolean; default is `False` Use a bash launcher initializing the runfiles library |
 
-## sh_library
+## sh\_library
 
-<a href="https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_library.bzl" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_library.bzl)
 
-``` rule-signature
+```
 sh_library(name, deps, srcs, data, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
@@ -104,7 +63,7 @@ run-time. Such "libraries" can then be used from
 the `data` attribute of one or
 more `sh_binary` rules.
 
-You can use the [`filegroup`](/reference/be/general.html#filegroup) rule to aggregate data
+You can use the [`filegroup`](./reference/be/general.html#filegroup) rule to aggregate data
 files.
 
 In interpreted programming languages, there's not always a clear
@@ -118,8 +77,7 @@ It is however good practice to use the attributes for their usual purpose (as wi
 
 #### Examples
 
-``` code
-
+```
 sh_library(
     name = "foo",
     data = [
@@ -131,57 +89,27 @@ sh_library(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="sh_library.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="sh_library.deps"><code>deps</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The list of "library" targets to be aggregated into this target.
-See general comments about <code>deps</code>
-at <a href="/reference/be/common-definitions#typical.deps">Typical attributes defined by
-most build rules</a>.
-<p>This attribute should be used to list other <code>sh_library</code> rules that provide
-interpreted program source code depended on by the code in <code>srcs</code>. The files
-provided by these rules will be present among the <code>runfiles</code> of this target.</p></td>
-</tr>
-<tr>
-<td id="sh_library.srcs"><code>srcs</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The list of input files.
-<p>This attribute should be used to list shell script source files that belong to
-this library. Scripts can load other scripts using the shell's <code>source</code>
-or <code>.</code> command.</p></td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `deps` | List of [labels](./concepts/labels); default is `[]` The list of "library" targets to be aggregated into this target. See general comments about `deps` at [Typical attributes defined by most build rules](./reference/be/common-definitions#typical.deps). This attribute should be used to list other `sh_library` rules that provide interpreted program source code depended on by the code in `srcs`. The files provided by these rules will be present among the `runfiles` of this target. |
+| `srcs` | List of [labels](./concepts/labels); default is `[]` The list of input files. This attribute should be used to list shell script source files that belong to this library. Scripts can load other scripts using the shell's `source` or `.` command. |
 
-## sh_test
+## sh\_test
 
-<a href="https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_test.bzl" class="button button-with-icon" target="_blank">View rule source<span class="material-icons icon-after" aria-hidden="true">open_in_new</span></a>
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_test.bzl)
 
-``` rule-signature
+```
 sh_test(name, deps, srcs, data, args, aspect_hints, compatible_with, deprecation, env, env_inherit, exec_compatible_with, exec_group_compatible_with, exec_properties, features, flaky, local, package_metadata, restricted_to, shard_count, size, tags, target_compatible_with, testonly, timeout, toolchains, use_bash_launcher, visibility)
 ```
 
 A `sh_test()` rule creates a test written as a Bourne shell script.
 
-See the
-[attributes common to all test rules (\*\_test)](/reference/be/common-definitions#common-attributes-tests).
+See the [attributes common to all test rules (\*\_test)](./reference/be/common-definitions#common-attributes-tests).
 
 #### Examples
 
-``` code
-
+```
 sh_test(
     name = "foo_integration_test",
     size = "small",
@@ -193,42 +121,9 @@ sh_test(
 
 ### Arguments
 
-<table class="table table-condensed table-bordered table-params">
-<thead>
-<tr>
-<th colspan="2">Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="sh_test.name"><code>name</code></td>
-<td><p><a href="/concepts/labels#target-names">Name</a>; required</p>
-<p>A unique name for this target.</p></td>
-</tr>
-<tr>
-<td id="sh_test.deps"><code>deps</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The list of "library" targets to be aggregated into this target.
-See general comments about <code>deps</code>
-at <a href="/reference/be/common-definitions#typical.deps">Typical attributes defined by
-most build rules</a>.
-<p>This attribute should be used to list other <code>sh_library</code> rules that provide
-interpreted program source code depended on by the code in <code>srcs</code>. The files
-provided by these rules will be present among the <code>runfiles</code> of this target.</p></td>
-</tr>
-<tr>
-<td id="sh_test.srcs"><code>srcs</code></td>
-<td><p>List of <a href="/concepts/labels">labels</a>; default is <code>[]</code></p>
-The file containing the shell script.
-<p>This attribute must be a singleton list, whose element is the shell script.
-This script must be executable, and may be a source file or a generated file.
-All other files required at runtime (whether scripts or data) belong in the
-<code>data</code> attribute.</p></td>
-</tr>
-<tr>
-<td id="sh_test.use_bash_launcher"><code>use_bash_launcher</code></td>
-<td><p>Boolean; default is <code>False</code></p>
-Use a bash launcher initializing the runfiles library</td>
-</tr>
-</tbody>
-</table>
+| Attributes | |
+| --- | --- |
+| `name` | [Name](./concepts/labels#target-names); required  A unique name for this target. |
+| `deps` | List of [labels](./concepts/labels); default is `[]` The list of "library" targets to be aggregated into this target. See general comments about `deps` at [Typical attributes defined by most build rules](./reference/be/common-definitions#typical.deps). This attribute should be used to list other `sh_library` rules that provide interpreted program source code depended on by the code in `srcs`. The files provided by these rules will be present among the `runfiles` of this target. |
+| `srcs` | List of [labels](./concepts/labels); default is `[]` The file containing the shell script. This attribute must be a singleton list, whose element is the shell script. This script must be executable, and may be a source file or a generated file. All other files required at runtime (whether scripts or data) belong in the `data` attribute. |
+| `use_bash_launcher` | Boolean; default is `False` Use a bash launcher initializing the runfiles library |

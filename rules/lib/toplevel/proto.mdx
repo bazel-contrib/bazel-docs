@@ -2,19 +2,16 @@
 title: 'proto'
 ---
 
-# proto
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/packages/Proto.java" %}
-{% include "\_buttons.html" %}
 A module for protocol message processing.
 
 ## Members
 
-- [encode_text](#encode_text)
+* [encode\_text](#encode_text)
 
-## encode_text
+## encode\_text
 
-``` rule-signature
+```
 string proto.encode_text(x)
 ```
 
@@ -32,7 +29,7 @@ Entries are emitted in iteration (insertion) order.
 The dict's keys must be strings or ints, and its values must not be sequences or dicts.
 Examples:  
 
-``` python
+```
 proto.encode_text(struct(field=123))
 # field: 123
 
@@ -48,51 +45,38 @@ proto.encode_text(struct(field='text', ignored_field=None))
 # field: "text"
 
 proto.encode_text(struct(field=struct(inner_field='text', ignored_field=None)))
-# field {
+# field \{
 #   inner_field: "text"
-# }
+# \}
 
 proto.encode_text(struct(field=[struct(inner_field=1), struct(inner_field=2)]))
-# field {
+# field \{
 #   inner_field: 1
-# }
-# field {
+# \}
+# field \{
 #   inner_field: 2
-# }
+# \}
 
 proto.encode_text(struct(field=struct(inner_field=struct(inner_inner_field='text'))))
-# field {
-#    inner_field {
+# field \{
+#    inner_field \{
 #     inner_inner_field: "text"
-#   }
-# }
+#   \}
+# \}
 
-proto.encode_text(struct(foo={4: 3, 2: 1}))
-# foo: {
+proto.encode_text(struct(foo=\{4: 3, 2: 1\}))
+# foo: \{
 #   key: 4
 #   value: 3
-# }
-# foo: {
+# \}
+# foo: \{
 #   key: 2
 #   value: 1
-# }
+# \}
 ```
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="encode_text.x"><code>x</code></td>
-<td>structure; or NativeInfo;
-required<br />
-</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `x` | structure; or NativeInfo; required |

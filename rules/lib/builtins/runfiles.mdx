@@ -2,26 +2,23 @@
 title: 'runfiles'
 ---
 
-# runfiles
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/RunfilesApi.java" %}
-{% include "\_buttons.html" %}
-A container of information regarding a set of files required at runtime by an executable. This object should be passed via [`DefaultInfo`](../providers/DefaultInfo.html) in order to tell the build system about the runfiles needed by the outputs produced by the rule.
+A container of information regarding a set of files required at runtime by an executable. This object should be passed via [`DefaultInfo`](../providers/DefaultInfo.mdx) in order to tell the build system about the runfiles needed by the outputs produced by the rule.
 
 See [runfiles guide](https://bazel.build/extending/rules#runfiles) for details.
 
 ## Members
 
-- [empty_filenames](#empty_filenames)
-- [files](#files)
-- [merge](#merge)
-- [merge_all](#merge_all)
-- [root_symlinks](#root_symlinks)
-- [symlinks](#symlinks)
+* [empty\_filenames](#empty_filenames)
+* [files](#files)
+* [merge](#merge)
+* [merge\_all](#merge_all)
+* [root\_symlinks](#root_symlinks)
+* [symlinks](#symlinks)
 
-## empty_filenames
+## empty\_filenames
 
-``` rule-signature
+```
 depset runfiles.empty_filenames
 ```
 
@@ -29,7 +26,7 @@ Returns names of empty files to create.
 
 ## files
 
-``` rule-signature
+```
 depset runfiles.files
 ```
 
@@ -37,7 +34,7 @@ Returns the set of runfiles as files.
 
 ## merge
 
-``` rule-signature
+```
 runfiles runfiles.merge(other)
 ```
 
@@ -47,26 +44,13 @@ Returns a new runfiles object that includes all the contents of this one and the
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="merge.other"><code>other</code></td>
-<td><a href="../builtins/runfiles.html" class="anchor">runfiles</a>;
-required<br />
-The runfiles object to merge into this.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | [runfiles](../builtins/runfiles.mdx); required  The runfiles object to merge into this. |
 
-## merge_all
+## merge\_all
 
-``` rule-signature
+```
 runfiles runfiles.merge_all(other)
 ```
 
@@ -74,26 +58,13 @@ Returns a new runfiles object that includes all the contents of this one and of 
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="merge_all.other"><code>other</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/runfiles.html" class="anchor">runfiles</a>s;
-required<br />
-The sequence of runfiles objects to merge into this.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | [sequence](../core/list.mdx) of [runfiles](../builtins/runfiles.mdx)s; required  The sequence of runfiles objects to merge into this. |
 
-## root_symlinks
+## root\_symlinks
 
-``` rule-signature
+```
 depset runfiles.root_symlinks
 ```
 
@@ -101,7 +72,7 @@ Returns the set of root symlinks.
 
 ## symlinks
 
-``` rule-signature
+```
 depset runfiles.symlinks
 ```
 

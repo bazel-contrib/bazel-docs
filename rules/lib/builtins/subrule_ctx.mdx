@@ -2,22 +2,19 @@
 title: 'subrule_ctx'
 ---
 
-# subrule_ctx
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/analysis/starlark/StarlarkSubrule.java" %}
-{% include "\_buttons.html" %}
 A context object passed to the implementation function of a subrule.
 
 ## Members
 
-- [actions](#actions)
-- [fragments](#fragments)
-- [label](#label)
-- [toolchains](#toolchains)
+* [actions](#actions)
+* [fragments](#fragments)
+* [label](#label)
+* [toolchains](#toolchains)
 
 ## actions
 
-``` rule-signature
+```
 actions subrule_ctx.actions
 ```
 
@@ -25,7 +22,7 @@ Contains methods for declaring output files and the actions that produce them
 
 ## fragments
 
-``` rule-signature
+```
 fragments subrule_ctx.fragments
 ```
 
@@ -33,7 +30,7 @@ Allows access to configuration fragments in target configuration.
 
 ## label
 
-``` rule-signature
+```
 Label subrule_ctx.label
 ```
 
@@ -41,7 +38,7 @@ The label of the target currently being analyzed
 
 ## toolchains
 
-``` rule-signature
+```
 ToolchainContext subrule_ctx.toolchains
 ```
 

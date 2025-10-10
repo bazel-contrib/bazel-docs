@@ -2,39 +2,23 @@
 title: 'DottedVersion'
 ---
 
-# DottedVersion
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/apple/DottedVersionApi.java" %}
-{% include "\_buttons.html" %}
 A value representing a version with multiple components, separated by periods, such as 1.2.3.4.
 
 ## Members
 
-- [compare_to](#compare_to)
+* [compare\_to](#compare_to)
 
-## compare_to
+## compare\_to
 
-``` rule-signature
+```
 int DottedVersion.compare_to(other)
 ```
 
-Compares based on most significant (first) not-matching version component. So, for example, 1.2.3 \< 1.2.4
+Compares based on most significant (first) not-matching version component. So, for example, 1.2.3 < 1.2.4
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="compare_to.other"><code>other</code></td>
-<td><a href="../builtins/DottedVersion.html" class="anchor">DottedVersion</a>;
-required<br />
-The other dotted version.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `other` | [DottedVersion](../builtins/DottedVersion.mdx); required  The other dotted version. |

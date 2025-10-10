@@ -2,22 +2,19 @@
 title: 'LinkerInput'
 ---
 
-# LinkerInput
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/LinkerInputApi.java" %}
-{% include "\_buttons.html" %}
 Either libraries, flags or other files that may be passed to the linker as inputs.
 
 ## Members
 
-- [additional_inputs](#additional_inputs)
-- [libraries](#libraries)
-- [owner](#owner)
-- [user_link_flags](#user_link_flags)
+* [additional\_inputs](#additional_inputs)
+* [libraries](#libraries)
+* [owner](#owner)
+* [user\_link\_flags](#user_link_flags)
 
-## additional_inputs
+## additional\_inputs
 
-``` rule-signature
+```
 sequence LinkerInput.additional_inputs
 ```
 
@@ -25,23 +22,23 @@ Returns the depset of additional inputs, e.g.: linker scripts.
 
 ## libraries
 
-``` rule-signature
+```
 sequence LinkerInput.libraries
 ```
 
-Returns the depset of `LibraryToLink`. May return a list but this is deprecated. See \#8118.
+Returns the depset of `LibraryToLink`. May return a list but this is deprecated. See #8118.
 
 ## owner
 
-``` rule-signature
+```
 Label LinkerInput.owner
 ```
 
 Returns the owner of this LinkerInput.
 
-## user_link_flags
+## user\_link\_flags
 
-``` rule-signature
+```
 sequence LinkerInput.user_link_flags
 ```
 

@@ -2,26 +2,23 @@
 title: 'java_common'
 ---
 
-# java_common
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/java/JavaCommonApi.java" %}
-{% include "\_buttons.html" %}
 Utilities for Java compilation support in Starlark.
 
 ## Members
 
-- [BootClassPathInfo](#BootClassPathInfo)
-- [compile](#compile)
-- [JavaRuntimeInfo](#JavaRuntimeInfo)
-- [JavaToolchainInfo](#JavaToolchainInfo)
-- [merge](#merge)
-- [pack_sources](#pack_sources)
-- [run_ijar](#run_ijar)
-- [stamp_jar](#stamp_jar)
+* [BootClassPathInfo](#BootClassPathInfo)
+* [compile](#compile)
+* [JavaRuntimeInfo](#JavaRuntimeInfo)
+* [JavaToolchainInfo](#JavaToolchainInfo)
+* [merge](#merge)
+* [pack\_sources](#pack_sources)
+* [run\_ijar](#run_ijar)
+* [stamp\_jar](#stamp_jar)
 
 ## BootClassPathInfo
 
-``` rule-signature
+```
 Provider java_common.BootClassPathInfo
 ```
 
@@ -29,7 +26,7 @@ The provider used to supply bootclasspath information
 
 ## compile
 
-``` rule-signature
+```
 struct java_common.compile(ctx, *, source_jars=[], source_files=[], output, output_source_jar=None, javac_opts=[], deps=[], runtime_deps=[], exports=[], plugins=[], exported_plugins=[], native_libraries=[], annotation_processor_additional_inputs=[], annotation_processor_additional_outputs=[], strict_deps='ERROR', java_toolchain, bootclasspath=None, sourcepath=[], resources=[], resource_jars=[], classpath_resources=[], neverlink=False, enable_annotation_processing=True, enable_compile_jar_action=True, add_exports=[], add_opens=[])
 ```
 
@@ -37,177 +34,38 @@ Compiles Java source files/jars from the implementation of a Starlark rule and r
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="compile.ctx"><code>ctx</code></td>
-<td><a href="../builtins/ctx.html" class="anchor">ctx</a>;
-required<br />
-The rule context.</td>
-</tr>
-<tr>
-<td id="compile.source_jars"><code>source_jars</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-A list of the jars to be compiled. At least one of source_jars or source_files should be specified.</td>
-</tr>
-<tr>
-<td id="compile.source_files"><code>source_files</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-A list of the Java source files to be compiled. At least one of source_jars or source_files should be specified.</td>
-</tr>
-<tr>
-<td id="compile.output"><code>output</code></td>
-<td><a href="../builtins/File.html" class="anchor">File</a>;
-required<br />
-</td>
-</tr>
-<tr>
-<td id="compile.output_source_jar"><code>output_source_jar</code></td>
-<td><a href="../builtins/File.html" class="anchor">File</a>; or <code>None</code>;
-default is <code>None</code><br />
-The output source jar. Defaults to `{output_jar}-src.jar` if unset.</td>
-</tr>
-<tr>
-<td id="compile.javac_opts"><code>javac_opts</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-A list of the desired javac options.</td>
-</tr>
-<tr>
-<td id="compile.deps"><code>deps</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s;
-default is <code>[]</code><br />
-A list of dependencies.</td>
-</tr>
-<tr>
-<td id="compile.runtime_deps"><code>runtime_deps</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s;
-default is <code>[]</code><br />
-A list of runtime dependencies.</td>
-</tr>
-<tr>
-<td id="compile.exports"><code>exports</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s;
-default is <code>[]</code><br />
-A list of exports.</td>
-</tr>
-<tr>
-<td id="compile.plugins"><code>plugins</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s; or <a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s;
-default is <code>[]</code><br />
-A list of plugins.</td>
-</tr>
-<tr>
-<td id="compile.exported_plugins"><code>exported_plugins</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s; or <a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s;
-default is <code>[]</code><br />
-A list of exported plugins.</td>
-</tr>
-<tr>
-<td id="compile.native_libraries"><code>native_libraries</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../providers/CcInfo.html" class="anchor">CcInfo</a>s;
-default is <code>[]</code><br />
-CC native library dependencies that are needed for this library.</td>
-</tr>
-<tr>
-<td id="compile.annotation_processor_additional_inputs"><code>annotation_processor_additional_inputs</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-A list of inputs that the Java compilation action will take in addition to the Java sources for annotation processing.</td>
-</tr>
-<tr>
-<td id="compile.annotation_processor_additional_outputs"><code>annotation_processor_additional_outputs</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-A list of outputs that the Java compilation action will output in addition to the class jar from annotation processing.</td>
-</tr>
-<tr>
-<td id="compile.strict_deps"><code>strict_deps</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>'ERROR'</code><br />
-A string that specifies how to handle strict deps. Possible values: 'OFF', 'ERROR', 'WARN' and 'DEFAULT'. For more details see
---strict_java_deps
-flag. By default 'ERROR'.</td>
-</tr>
-<tr>
-<td id="compile.java_toolchain"><code>java_toolchain</code></td>
-<td>Info;
-required<br />
-A JavaToolchainInfo to be used for this compilation. Mandatory.</td>
-</tr>
-<tr>
-<td id="compile.bootclasspath"><code>bootclasspath</code></td>
-<td>default is <code>None</code><br />
-A BootClassPathInfo to be used for this compilation. If present, overrides the bootclasspath associated with the provided java_toolchain.</td>
-</tr>
-<tr>
-<td id="compile.sourcepath"><code>sourcepath</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-</td>
-</tr>
-<tr>
-<td id="compile.resources"><code>resources</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-</td>
-</tr>
-<tr>
-<td id="compile.resource_jars"><code>resource_jars</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-</td>
-</tr>
-<tr>
-<td id="compile.classpath_resources"><code>classpath_resources</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-</td>
-</tr>
-<tr>
-<td id="compile.neverlink"><code>neverlink</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-</td>
-</tr>
-<tr>
-<td id="compile.enable_annotation_processing"><code>enable_annotation_processing</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>True</code><br />
-Disables annotation processing in this compilation, causing any annotation processors provided in plugins or in exported_plugins of deps to be ignored.</td>
-</tr>
-<tr>
-<td id="compile.enable_compile_jar_action"><code>enable_compile_jar_action</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>True</code><br />
-Enables header compilation or ijar creation. If set to False, it forces use of the full class jar in the compilation classpaths of any dependants. Doing so is intended for use by non-library targets such as binaries that do not have dependants.</td>
-</tr>
-<tr>
-<td id="compile.add_exports"><code>add_exports</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-Allow this library to access the given /.</td>
-</tr>
-<tr>
-<td id="compile.add_opens"><code>add_opens</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-Allow this library to reflectively access the given /.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `ctx` | [ctx](../builtins/ctx.mdx); required  The rule context. |
+| `source_jars` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]`  A list of the jars to be compiled. At least one of source\_jars or source\_files should be specified. |
+| `source_files` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]`  A list of the Java source files to be compiled. At least one of source\_jars or source\_files should be specified. |
+| `output` | [File](../builtins/File.mdx); required |
+| `output_source_jar` | [File](../builtins/File.mdx); or `None`; default is `None`  The output source jar. Defaults to `\{output\_jar\}-src.jar` if unset. |
+| `javac_opts` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  A list of the desired javac options. |
+| `deps` | [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; default is `[]`  A list of dependencies. |
+| `runtime_deps` | [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; default is `[]`  A list of runtime dependencies. |
+| `exports` | [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; default is `[]`  A list of exports. |
+| `plugins` | [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; or [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; default is `[]`  A list of plugins. |
+| `exported_plugins` | [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; or [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; default is `[]`  A list of exported plugins. |
+| `native_libraries` | [sequence](../core/list.mdx) of [CcInfo](../providers/CcInfo.mdx)s; default is `[]`  CC native library dependencies that are needed for this library. |
+| `annotation_processor_additional_inputs` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]`  A list of inputs that the Java compilation action will take in addition to the Java sources for annotation processing. |
+| `annotation_processor_additional_outputs` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]`  A list of outputs that the Java compilation action will output in addition to the class jar from annotation processing. |
+| `strict_deps` | [string](../core/string.mdx); default is `'ERROR'`  A string that specifies how to handle strict deps. Possible values: 'OFF', 'ERROR', 'WARN' and 'DEFAULT'. For more details see [`--strict_java_deps flag`](./docs/user-manual#flag--strict_java_deps). By default 'ERROR'. |
+| `java_toolchain` | Info; required  A JavaToolchainInfo to be used for this compilation. Mandatory. |
+| `bootclasspath` | default is `None`  A BootClassPathInfo to be used for this compilation. If present, overrides the bootclasspath associated with the provided java\_toolchain. |
+| `sourcepath` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]` |
+| `resources` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]` |
+| `resource_jars` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]` |
+| `classpath_resources` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]` |
+| `neverlink` | [bool](../core/bool.mdx); default is `False` |
+| `enable_annotation_processing` | [bool](../core/bool.mdx); default is `True`  Disables annotation processing in this compilation, causing any annotation processors provided in plugins or in exported\_plugins of deps to be ignored. |
+| `enable_compile_jar_action` | [bool](../core/bool.mdx); default is `True`  Enables header compilation or ijar creation. If set to False, it forces use of the full class jar in the compilation classpaths of any dependants. Doing so is intended for use by non-library targets such as binaries that do not have dependants. |
+| `add_exports` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  Allow this library to access the given /. |
+| `add_opens` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  Allow this library to reflectively access the given /. |
 
 ## JavaRuntimeInfo
 
-``` rule-signature
+```
 Provider java_common.JavaRuntimeInfo
 ```
 
@@ -215,7 +73,7 @@ The key used to retrieve the provider that contains information about the Java r
 
 ## JavaToolchainInfo
 
-``` rule-signature
+```
 Provider java_common.JavaToolchainInfo
 ```
 
@@ -223,7 +81,7 @@ The key used to retrieve the provider that contains information about the Java t
 
 ## merge
 
-``` rule-signature
+```
 struct java_common.merge(providers)
 ```
 
@@ -231,164 +89,62 @@ Merges the given providers into a single JavaInfo.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="merge.providers"><code>providers</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/struct.html" class="anchor">struct</a>s;
-required<br />
-The list of providers to merge.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `providers` | [sequence](../core/list.mdx) of [struct](../builtins/struct.mdx)s; required  The list of providers to merge. |
 
-## pack_sources
+## pack\_sources
 
-``` rule-signature
+```
 File java_common.pack_sources(actions, *, output_source_jar=None, sources=[], source_jars=[], java_toolchain)
 ```
 
 Packs sources and source jars into a single source jar file. The return value is typically passed to
 
-<a href="../providers/JavaInfo.html" class="anchor"><code>JavaInfo</code></a>`#source_jar`
+`JavaInfo#source_jar`
 
-.At least one of parameters output_jar or output_source_jar is required.
+.At least one of parameters output\_jar or output\_source\_jar is required.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="pack_sources.actions"><code>actions</code></td>
-<td><a href="../builtins/actions.html" class="anchor">actions</a>;
-required<br />
-ctx.actions</td>
-</tr>
-<tr>
-<td id="pack_sources.output_source_jar"><code>output_source_jar</code></td>
-<td><a href="../builtins/File.html" class="anchor">File</a>; or <code>None</code>;
-default is <code>None</code><br />
-The output source jar.</td>
-</tr>
-<tr>
-<td id="pack_sources.sources"><code>sources</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-A list of Java source files to be packed into the source jar.</td>
-</tr>
-<tr>
-<td id="pack_sources.source_jars"><code>source_jars</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-default is <code>[]</code><br />
-A list of source jars to be packed into the source jar.</td>
-</tr>
-<tr>
-<td id="pack_sources.java_toolchain"><code>java_toolchain</code></td>
-<td>Info;
-required<br />
-A JavaToolchainInfo to used to find the ijar tool.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `actions` | [actions](../builtins/actions.mdx); required  ctx.actions |
+| `output_source_jar` | [File](../builtins/File.mdx); or `None`; default is `None`  The output source jar. |
+| `sources` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]`  A list of Java source files to be packed into the source jar. |
+| `source_jars` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; default is `[]`  A list of source jars to be packed into the source jar. |
+| `java_toolchain` | Info; required  A JavaToolchainInfo to used to find the ijar tool. |
 
-## run_ijar
+## run\_ijar
 
-``` rule-signature
+```
 File java_common.run_ijar(actions, *, jar, target_label=None, java_toolchain)
 ```
 
-Runs ijar on a jar, stripping it of its method bodies. This helps reduce rebuilding of dependent jars during any recompiles consisting only of simple changes to method implementations. The return value is typically passed to <a href="../providers/JavaInfo.html" class="anchor"><code>JavaInfo</code></a>`#compile_jar`.
+Runs ijar on a jar, stripping it of its method bodies. This helps reduce rebuilding of dependent jars during any recompiles consisting only of simple changes to method implementations. The return value is typically passed to `JavaInfo#compile_jar`.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="run_ijar.actions"><code>actions</code></td>
-<td><a href="../builtins/actions.html" class="anchor">actions</a>;
-required<br />
-ctx.actions</td>
-</tr>
-<tr>
-<td id="run_ijar.jar"><code>jar</code></td>
-<td><a href="../builtins/File.html" class="anchor">File</a>;
-required<br />
-The jar to run ijar on.</td>
-</tr>
-<tr>
-<td id="run_ijar.target_label"><code>target_label</code></td>
-<td><a href="../builtins/Label.html" class="anchor">Label</a>; or <code>None</code>;
-default is <code>None</code><br />
-A target label to stamp the jar with. Used for <code>add_dep</code> support. Typically, you would pass <code>ctx.label</code> to stamp the jar with the current rule's label.</td>
-</tr>
-<tr>
-<td id="run_ijar.java_toolchain"><code>java_toolchain</code></td>
-<td>Info;
-required<br />
-A JavaToolchainInfo to used to find the ijar tool.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `actions` | [actions](../builtins/actions.mdx); required  ctx.actions |
+| `jar` | [File](../builtins/File.mdx); required  The jar to run ijar on. |
+| `target_label` | [Label](../builtins/Label.mdx); or `None`; default is `None`  A target label to stamp the jar with. Used for `add_dep` support. Typically, you would pass `ctx.label` to stamp the jar with the current rule's label. |
+| `java_toolchain` | Info; required  A JavaToolchainInfo to used to find the ijar tool. |
 
-## stamp_jar
+## stamp\_jar
 
-``` rule-signature
+```
 File java_common.stamp_jar(actions, *, jar, target_label, java_toolchain)
 ```
 
-Stamps a jar with a target label for `add_dep` support. The return value is typically passed to <a href="../providers/JavaInfo.html" class="anchor"><code>JavaInfo</code></a>`#compile_jar`. Prefer to use <a href="#run_ijar" class="anchor"><code>run_ijar</code></a> when possible.
+Stamps a jar with a target label for `add_dep` support. The return value is typically passed to `JavaInfo#compile_jar`. Prefer to use `run_ijar` when possible.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="stamp_jar.actions"><code>actions</code></td>
-<td><a href="../builtins/actions.html" class="anchor">actions</a>;
-required<br />
-ctx.actions</td>
-</tr>
-<tr>
-<td id="stamp_jar.jar"><code>jar</code></td>
-<td><a href="../builtins/File.html" class="anchor">File</a>;
-required<br />
-The jar to run stamp_jar on.</td>
-</tr>
-<tr>
-<td id="stamp_jar.target_label"><code>target_label</code></td>
-<td><a href="../builtins/Label.html" class="anchor">Label</a>;
-required<br />
-A target label to stamp the jar with. Used for <code>add_dep</code> support. Typically, you would pass <code>ctx.label</code> to stamp the jar with the current rule's label.</td>
-</tr>
-<tr>
-<td id="stamp_jar.java_toolchain"><code>java_toolchain</code></td>
-<td>Info;
-required<br />
-A JavaToolchainInfo to used to find the stamp_jar tool.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `actions` | [actions](../builtins/actions.mdx); required  ctx.actions |
+| `jar` | [File](../builtins/File.mdx); required  The jar to run stamp\_jar on. |
+| `target_label` | [Label](../builtins/Label.mdx); required  A target label to stamp the jar with. Used for `add_dep` support. Typically, you would pass `ctx.label` to stamp the jar with the current rule's label. |
+| `java_toolchain` | Info; required  A JavaToolchainInfo to used to find the stamp\_jar tool. |

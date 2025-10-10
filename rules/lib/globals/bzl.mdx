@@ -2,197 +2,77 @@
 title: 'bzl'
 ---
 
-# .bzl files
 
-{% dynamic setvar source_file "NONE" %}
-{% include "\_buttons.html" %}
 Global methods available in all .bzl files.
 
 ## Members
 
-- [analysis_test_transition](#analysis_test_transition)
-- [aspect](#aspect)
-- [configuration_field](#configuration_field)
-- [depset](#depset)
-- [exec_group](#exec_group)
-- [exec_transition](#exec_transition)
-- [macro](#macro)
-- [materializer_rule](#materializer_rule)
-- [module_extension](#module_extension)
-- [provider](#provider)
-- [repository_rule](#repository_rule)
-- [rule](#rule)
-- [select](#select)
-- [subrule](#subrule)
-- [tag_class](#tag_class)
-- [visibility](#visibility)
+* [analysis\_test\_transition](#analysis_test_transition)
+* [aspect](#aspect)
+* [configuration\_field](#configuration_field)
+* [depset](#depset)
+* [exec\_group](#exec_group)
+* [exec\_transition](#exec_transition)
+* [macro](#macro)
+* [materializer\_rule](#materializer_rule)
+* [module\_extension](#module_extension)
+* [provider](#provider)
+* [repository\_rule](#repository_rule)
+* [rule](#rule)
+* [select](#select)
+* [subrule](#subrule)
+* [tag\_class](#tag_class)
+* [visibility](#visibility)
 
-## analysis_test_transition
+## analysis\_test\_transition
 
-``` rule-signature
+```
 transition analysis_test_transition(*, settings)
 ```
 
-Creates a configuration transition to be applied on an analysis-test rule's dependencies. This transition may only be applied on attributes of rules with `analysis_test = True`. Such rules are restricted in capabilities (for example, the size of their dependency tree is limited), so transitions created using this function are limited in potential scope as compared to transitions created using [`transition()`](../builtins/transition.html).
+Creates a configuration transition to be applied on an analysis-test rule's dependencies. This transition may only be applied on attributes of rules with `analysis_test = True`. Such rules are restricted in capabilities (for example, the size of their dependency tree is limited), so transitions created using this function are limited in potential scope as compared to transitions created using [`transition()`](../builtins/transition.mdx).
 
 This function is primarily designed to facilitate the [Analysis Test Framework](https://bazel.build/rules/testing) core library. See its documentation (or its implementation) for best practices.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="analysis_test_transition.settings"><code>settings</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-required<br />
-A dictionary containing information about configuration settings which should be set by this configuration transition. Keys are build setting labels and values are their new post-transition values. All other settings are unchanged. Use this to declare specific configuration settings that an analysis test requires to be set in order to pass.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `settings` | [dict](../core/dict.mdx); required  A dictionary containing information about configuration settings which should be set by this configuration transition. Keys are build setting labels and values are their new post-transition values. All other settings are unchanged. Use this to declare specific configuration settings that an analysis test requires to be set in order to pass. |
 
 ## aspect
 
-``` rule-signature
-Aspect aspect(implementation, attr_aspects=[], toolchains_aspects=[], attrs={}, required_providers=[], required_aspect_providers=[], provides=[], requires=[], propagation_predicate=None, fragments=[], host_fragments=[], toolchains=[], doc=None, *, apply_to_generating_rules=False, exec_compatible_with=[], exec_groups=None, subrules=[])
+```
+Aspect aspect(implementation, attr_aspects=[], toolchains_aspects=[], attrs=\{\}, required_providers=[], required_aspect_providers=[], provides=[], requires=[], propagation_predicate=None, fragments=[], host_fragments=[], toolchains=[], doc=None, *, apply_to_generating_rules=False, exec_compatible_with=[], exec_groups=None, subrules=[])
 ```
 
 Creates a new aspect. The result of this function must be stored in a global value. Please see the [introduction to Aspects](https://bazel.build/extending/aspects) for more details.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="aspect.implementation"><code>implementation</code></td>
-<td><a href="../core/function.html" class="anchor">function</a>;
-required<br />
-A Starlark function that implements this aspect, with exactly two parameters: <a href="../builtins/Target.html">Target</a> (the target to which the aspect is applied) and <a href="../builtins/ctx.html">ctx</a> (the rule context which the target is created from). Attributes of the target are available via the <code>ctx.rule</code> field. This function is evaluated during the analysis phase for each application of an aspect to a target.</td>
-</tr>
-<tr>
-<td id="aspect.attr_aspects"><code>attr_aspects</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s; or <a href="../core/function.html" class="anchor">function</a>;
-default is <code>[]</code><br />
-Accepts a list of attribute names or [Experimental] a function that returns the list of attribute names. The aspect propagates along dependencies specified in the attributes of a target with these names. Common values here include <code>deps</code> and <code>exports</code>. The list can also contain a single string <code>"*"</code> to propagate along all dependencies of a target.</td>
-</tr>
-<tr>
-<td id="aspect.toolchains_aspects"><code>toolchains_aspects</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>; or <a href="../core/function.html" class="anchor">function</a>;
-default is <code>[]</code><br />
-Accepts a list of toolchain types or [Experimental] a function that returns the list of toolchain types. The aspect propagates to target toolchains which match these toolchain types.</td>
-</tr>
-<tr>
-<td id="aspect.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dictionary declaring all the attributes of the aspect. It maps from an attribute name to an attribute object, like <code>attr.label</code> or <code>attr.string</code> (see <a href="../toplevel/attr.html"><code>attr</code></a> module). Aspect attributes are available to implementation function as fields of <code>ctx</code> parameter.
-<p>Implicit attributes starting with <code>_</code> must have default values, and have type <code>label</code> or <code>label_list</code>.</p>
-<p>Explicit attributes must have type <code>string</code>, and must use the <code>values</code> restriction. Explicit attributes restrict the aspect to only be used with rules that have attributes of the same name, type, and valid values according to the restriction.</p>
-<p>Declared attributes will convert <code>None</code> to the default value.</p></td>
-</tr>
-<tr>
-<td id="aspect.required_providers"><code>required_providers</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-This attribute allows the aspect to limit its propagation to only the targets whose rules advertise its required providers. The value must be a list containing either individual providers or lists of providers but not both. For example, <code>[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]</code> is a valid value while <code>[FooInfo, BarInfo, [BazInfo, QuxInfo]]</code> is not valid.
-<p>An unnested list of providers will automatically be converted to a list containing one list of providers. That is, <code>[FooInfo, BarInfo]</code> will automatically be converted to <code>[[FooInfo, BarInfo]]</code>.</p>
-<p>To make some rule (e.g. <code>some_rule</code>) targets visible to an aspect, <code>some_rule</code> must advertise all providers from at least one of the required providers lists. For example, if the <code>required_providers</code> of an aspect are <code>[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]</code>, this aspect can see <code>some_rule</code> targets if and only if <code>some_rule</code> provides <code>FooInfo</code>, <em>or</em> <code>BarInfo</code>, <em>or</em> both <code>BazInfo</code> <em>and</em> <code>QuxInfo</code>.</p></td>
-</tr>
-<tr>
-<td id="aspect.required_aspect_providers"><code>required_aspect_providers</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-This attribute allows this aspect to inspect other aspects. The value must be a list containing either individual providers or lists of providers but not both. For example, <code>[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]</code> is a valid value while <code>[FooInfo, BarInfo, [BazInfo, QuxInfo]]</code> is not valid.
-<p>An unnested list of providers will automatically be converted to a list containing one list of providers. That is, <code>[FooInfo, BarInfo]</code> will automatically be converted to <code>[[FooInfo, BarInfo]]</code>.</p>
-<p>To make another aspect (e.g. <code>other_aspect</code>) visible to this aspect, <code>other_aspect</code> must provide all providers from at least one of the lists. In the example of <code>[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]</code>, this aspect can see <code>other_aspect</code> if and only if <code>other_aspect</code> provides <code>FooInfo</code>, <em>or</em> <code>BarInfo</code>, <em>or</em> both <code>BazInfo</code> <em>and</em> <code>QuxInfo</code>.</p></td>
-</tr>
-<tr>
-<td id="aspect.provides"><code>provides</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-A list of providers that the implementation function must return.
-<p>It is an error if the implementation function omits any of the types of providers listed here from its return value. However, the implementation function may return additional providers not listed here.</p>
-<p>Each element of the list is an <code>*Info</code> object returned by <a href="../globals/bzl.html#provider"><code>provider()</code></a>. When a target of the rule is used as a dependency for a target that declares a required provider, it is not necessary to specify that provider here. It is enough that the implementation function returns it. However, it is considered best practice to specify it, even though this is not required. The <a href="../globals/bzl.html#aspect.required_providers"><code>required_providers</code></a> field of an <a href="../globals/bzl.html#aspect">aspect</a> does, however, require that providers are specified here.</p></td>
-</tr>
-<tr>
-<td id="aspect.requires"><code>requires</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/Aspect.html" class="anchor">Aspect</a>s;
-default is <code>[]</code><br />
-List of aspects required to be propagated before this aspect.</td>
-</tr>
-<tr>
-<td id="aspect.propagation_predicate"><code>propagation_predicate</code></td>
-<td><a href="../core/function.html" class="anchor">function</a>; or <code>None</code>;
-default is <code>None</code><br />
-Experimental: a function that returns a boolean value indicating whether the aspect should be propagated to a target.</td>
-</tr>
-<tr>
-<td id="aspect.fragments"><code>fragments</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-List of names of configuration fragments that the aspect requires in target configuration.</td>
-</tr>
-<tr>
-<td id="aspect.host_fragments"><code>host_fragments</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-List of names of configuration fragments that the aspect requires in host configuration.</td>
-</tr>
-<tr>
-<td id="aspect.toolchains"><code>toolchains</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-If set, the set of toolchains this aspect requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination. Toolchains will be found by checking the current platform, and provided to the aspect implementation via <code>ctx.toolchain</code>.</td>
-</tr>
-<tr>
-<td id="aspect.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the aspect that can be extracted by documentation generating tools.</td>
-</tr>
-<tr>
-<td id="aspect.apply_to_generating_rules"><code>apply_to_generating_rules</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-If true, the aspect will, when applied to an output file, instead apply to the output file's generating rule.
-<p>For example, suppose an aspect propagates transitively through attribute `deps` and it is applied to target `alpha`. Suppose `alpha` has `deps = [':beta_output']`, where `beta_output` is a declared output of a target `beta`. Suppose `beta` has a target `charlie` as one of its `deps`. If `apply_to_generating_rules=True` for the aspect, then the aspect will propagate through `alpha`, `beta`, and `charlie`. If False, then the aspect will propagate only to `alpha`.</p>
-<p>False by default.</p></td>
-</tr>
-<tr>
-<td id="aspect.exec_compatible_with"><code>exec_compatible_with</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-A list of constraints on the execution platform that apply to all instances of this aspect.</td>
-</tr>
-<tr>
-<td id="aspect.exec_groups"><code>exec_groups</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>; or <code>None</code>;
-default is <code>None</code><br />
-Dict of execution group name (string) to <a href="../globals/bzl.html#exec_group"><code>exec_group</code>s</a>. If set, allows aspects to run actions on multiple execution platforms within a single instance. See <a href="/reference/exec-groups">execution groups documentation</a> for more info.</td>
-</tr>
-<tr>
-<td id="aspect.subrules"><code>subrules</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/Subrule.html" class="anchor">Subrule</a>s;
-default is <code>[]</code><br />
-Experimental: list of subrules used by this aspect.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | [function](../core/function.mdx); required  A Starlark function that implements this aspect, with exactly two parameters: [Target](../builtins/Target.mdx) (the target to which the aspect is applied) and [ctx](../builtins/ctx.mdx) (the rule context which the target is created from). Attributes of the target are available via the `ctx.rule` field. This function is evaluated during the analysis phase for each application of an aspect to a target. |
+| `attr_aspects` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; or [function](../core/function.mdx); default is `[]`  Accepts a list of attribute names or [Experimental] a function that returns the list of attribute names. The aspect propagates along dependencies specified in the attributes of a target with these names. Common values here include `deps` and `exports`. The list can also contain a single string `"*"` to propagate along all dependencies of a target. |
+| `toolchains_aspects` | [sequence](../core/list.mdx); or [function](../core/function.mdx); default is `[]`  Accepts a list of toolchain types or [Experimental] a function that returns the list of toolchain types. The aspect propagates to target toolchains which match these toolchain types. |
+| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  A dictionary declaring all the attributes of the aspect. It maps from an attribute name to an attribute object, like `attr.label` or `attr.string` (see [`attr`](../toplevel/attr.mdx) module). Aspect attributes are available to implementation function as fields of `ctx` parameter. Implicit attributes starting with `_` must have default values, and have type `label` or `label_list`.  Explicit attributes must have type `string`, and must use the `values` restriction. Explicit attributes restrict the aspect to only be used with rules that have attributes of the same name, type, and valid values according to the restriction.  Declared attributes will convert `None` to the default value. |
+| `required_providers` | [sequence](../core/list.mdx); default is `[]`  This attribute allows the aspect to limit its propagation to only the targets whose rules advertise its required providers. The value must be a list containing either individual providers or lists of providers but not both. For example, `[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]` is a valid value while `[FooInfo, BarInfo, [BazInfo, QuxInfo]]` is not valid. An unnested list of providers will automatically be converted to a list containing one list of providers. That is, `[FooInfo, BarInfo]` will automatically be converted to `[[FooInfo, BarInfo]]`. To make some rule (e.g. `some_rule`) targets visible to an aspect, `some_rule` must advertise all providers from at least one of the required providers lists. For example, if the `required_providers` of an aspect are `[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]`, this aspect can see `some_rule` targets if and only if `some_rule` provides `FooInfo`, *or* `BarInfo`, *or* both `BazInfo` *and* `QuxInfo`. |
+| `required_aspect_providers` | [sequence](../core/list.mdx); default is `[]`  This attribute allows this aspect to inspect other aspects. The value must be a list containing either individual providers or lists of providers but not both. For example, `[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]` is a valid value while `[FooInfo, BarInfo, [BazInfo, QuxInfo]]` is not valid. An unnested list of providers will automatically be converted to a list containing one list of providers. That is, `[FooInfo, BarInfo]` will automatically be converted to `[[FooInfo, BarInfo]]`. To make another aspect (e.g. `other_aspect`) visible to this aspect, `other_aspect` must provide all providers from at least one of the lists. In the example of `[[FooInfo], [BarInfo], [BazInfo, QuxInfo]]`, this aspect can see `other_aspect` if and only if `other_aspect` provides `FooInfo`, *or* `BarInfo`, *or* both `BazInfo` *and* `QuxInfo`. |
+| `provides` | [sequence](../core/list.mdx); default is `[]`  A list of providers that the implementation function must return. It is an error if the implementation function omits any of the types of providers listed here from its return value. However, the implementation function may return additional providers not listed here. Each element of the list is an `*Info` object returned by [`provider()`](../globals/bzl.html#provider). When a target of the rule is used as a dependency for a target that declares a required provider, it is not necessary to specify that provider here. It is enough that the implementation function returns it. However, it is considered best practice to specify it, even though this is not required. The [`required_providers`](../globals/bzl.html#aspect.required_providers) field of an [aspect](../globals/bzl.html#aspect) does, however, require that providers are specified here. |
+| `requires` | [sequence](../core/list.mdx) of [Aspect](../builtins/Aspect.mdx)s; default is `[]`  List of aspects required to be propagated before this aspect. |
+| `propagation_predicate` | [function](../core/function.mdx); or `None`; default is `None`  Experimental: a function that returns a boolean value indicating whether the aspect should be propagated to a target. |
+| `fragments` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  List of names of configuration fragments that the aspect requires in target configuration. |
+| `host_fragments` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  List of names of configuration fragments that the aspect requires in host configuration. |
+| `toolchains` | [sequence](../core/list.mdx); default is `[]`  If set, the set of toolchains this aspect requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination. Toolchains will be found by checking the current platform, and provided to the aspect implementation via `ctx.toolchain`. |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None`  A description of the aspect that can be extracted by documentation generating tools. |
+| `apply_to_generating_rules` | [bool](../core/bool.mdx); default is `False`  If true, the aspect will, when applied to an output file, instead apply to the output file's generating rule. For example, suppose an aspect propagates transitively through attribute `deps` and it is applied to target `alpha`. Suppose `alpha` has `deps = [':beta\_output']`, where `beta\_output` is a declared output of a target `beta`. Suppose `beta` has a target `charlie` as one of its `deps`. If `apply\_to\_generating\_rules=True` for the aspect, then the aspect will propagate through `alpha`, `beta`, and `charlie`. If False, then the aspect will propagate only to `alpha`.  False by default. |
+| `exec_compatible_with` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  A list of constraints on the execution platform that apply to all instances of this aspect. |
+| `exec_groups` | [dict](../core/dict.mdx); or `None`; default is `None`  Dict of execution group name (string) to [`exec_group`s](../globals/bzl.html#exec_group). If set, allows aspects to run actions on multiple execution platforms within a single instance. See [execution groups documentation](./reference/exec-groups) for more info. |
+| `subrules` | [sequence](../core/list.mdx) of [Subrule](../builtins/Subrule.mdx)s; default is `[]`  Experimental: list of subrules used by this aspect. |
 
-## configuration_field
+## configuration\_field
 
-``` rule-signature
+```
 LateBoundDefault configuration_field(fragment, name)
 ```
 
@@ -200,15 +80,15 @@ References a late-bound default value for an attribute of type [label](../toplev
 
 Example usage:
 
-Defining a rule attribute:  
+Defining a rule attribute:   
 
-``` python
+```
 '_foo': attr.label(default=configuration_field(fragment='java', name='toolchain'))
 ```
 
-Accessing in rule implementation:  
+Accessing in rule implementation:   
 
-``` python
+```
   def _rule_impl(ctx):
     foo_info = ctx.attr._foo
     ...
@@ -216,40 +96,22 @@ Accessing in rule implementation:
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="configuration_field.fragment"><code>fragment</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The name of a configuration fragment which contains the late-bound value.</td>
-</tr>
-<tr>
-<td id="configuration_field.name"><code>name</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The name of the value to obtain from the configuration fragment.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `fragment` | [string](../core/string.mdx); required |
+| `name` | [string](../core/string.mdx); required |
 
 ## depset
 
-``` rule-signature
+```
 depset depset(direct=None, order="default", *, transitive=None)
 ```
 
-Creates a [depset](../builtins/depset.html). The `direct` parameter is a list of direct elements of the depset, and `transitive` parameter is a list of depsets whose elements become indirect elements of the created depset. The order in which elements are returned when the depset is converted to a list is specified by the `order` parameter. See the [Depsets overview](https://bazel.build/extending/depsets) for more information.
+Creates a [depset](../builtins/depset.mdx). The `direct` parameter is a list of direct elements of the depset, and `transitive` parameter is a list of depsets whose elements become indirect elements of the created depset. The order in which elements are returned when the depset is converted to a list is specified by the `order` parameter. See the [Depsets overview](https://bazel.build/extending/depsets) for more information.
 
 All elements (direct and indirect) of a depset must be of the same type, as obtained by the expression [`type(x)`](../globals/all#type).
 
-Because a hash-based set is used to eliminate duplicates during iteration, all elements of a depset should be hashable. However, this invariant is not currently checked consistently in all constructors. Use the --incompatible_always_check_depset_elements flag to enable consistent checking; this will be the default behavior in future releases; see [Issue 10313](https://github.com/bazelbuild/bazel/issues/10313).
+Because a hash-based set is used to eliminate duplicates during iteration, all elements of a depset should be hashable. However, this invariant is not currently checked consistently in all constructors. Use the --incompatible\_always\_check\_depset\_elements flag to enable consistent checking; this will be the default behavior in future releases; see [Issue 10313](https://github.com/bazelbuild/bazel/issues/10313).
 
 In addition, elements must currently be immutable, though this restriction will be relaxed in future.
 
@@ -257,111 +119,47 @@ The order of the created depset should be *compatible* with the order of its `tr
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="depset.direct"><code>direct</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>; or <code>None</code>;
-default is <code>None</code><br />
-A list of <em>direct</em> elements of a depset.</td>
-</tr>
-<tr>
-<td id="depset.order"><code>order</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>"default"</code><br />
-The traversal strategy for the new depset. See <a href="../builtins/depset.html">here</a> for the possible values.</td>
-</tr>
-<tr>
-<td id="depset.transitive"><code>transitive</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/depset.html" class="anchor">depset</a>s; or <code>None</code>;
-default is <code>None</code><br />
-A list of depsets whose elements will become indirect elements of the depset.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `direct` | [sequence](../core/list.mdx); or `None`; default is `None`  A list of *direct* elements of a depset. |
+| `order` | [string](../core/string.mdx); default is `"default"`  The traversal strategy for the new depset. See [here](../builtins/depset.mdx) for the possible values. |
+| `transitive` | [sequence](../core/list.mdx) of [depset](../builtins/depset.mdx)s; or `None`; default is `None`  A list of depsets whose elements will become indirect elements of the depset. |
 
-## exec_group
+## exec\_group
 
-``` rule-signature
+```
 exec_group exec_group(*, toolchains=[], exec_compatible_with=[])
 ```
 
-Creates an [execution group](/reference/exec-groups) which can be used to create actions for a specific execution platform during rule implementation.
+Creates an [execution group](./reference/exec-groups) which can be used to create actions for a specific execution platform during rule implementation.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="exec_group.toolchains"><code>toolchains</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-The set of toolchains this execution group requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination.</td>
-</tr>
-<tr>
-<td id="exec_group.exec_compatible_with"><code>exec_compatible_with</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-A list of constraints on the execution platform.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `toolchains` | [sequence](../core/list.mdx); default is `[]`  The set of toolchains this execution group requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination. |
+| `exec_compatible_with` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  A list of constraints on the execution platform. |
 
-## exec_transition
+## exec\_transition
 
-``` rule-signature
+```
 transition exec_transition(*, implementation, inputs, outputs)
 ```
 
-A specialized version of [`transition()`](../builtins/transition.html) used to define the exec transition. See its documentation (or its implementation) for best practices. Only usable from the Bazel builtins.
+A specialized version of [`transition()`](../builtins/transition.mdx) used to define the exec transition. See its documentation (or its implementation) for best practices. Only usable from the Bazel builtins.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="exec_transition.implementation"><code>implementation</code></td>
-<td>callable;
-required<br />
-</td>
-</tr>
-<tr>
-<td id="exec_transition.inputs"><code>inputs</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-required<br />
-</td>
-</tr>
-<tr>
-<td id="exec_transition.outputs"><code>outputs</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-required<br />
-</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | callable; required |
+| `inputs` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; required |
+| `outputs` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; required |
 
 ## macro
 
-``` rule-signature
-macro macro(*, implementation, attrs={}, inherit_attrs=None, finalizer=False, doc=None)
+```
+macro macro(*, implementation, attrs=\{\}, inherit_attrs=None, finalizer=False, doc=None)
 ```
 
 Defines a symbolic macro, which may be called in `BUILD` files or macros (legacy or
@@ -370,174 +168,23 @@ symbolic) to define targets – possibly multiple ones.
 The value returned by `macro(...)` must be assigned to a global variable in a .bzl
 file; the name of the global variable will be the macro symbol's name.
 
-See [Macros](/extending/macros) for a comprehensive guide on how to use symbolic
+See [Macros](./extending/macros) for a comprehensive guide on how to use symbolic
 macros.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="macro.implementation"><code>implementation</code></td>
-<td><a href="../core/function.html" class="anchor">function</a>;
-required<br />
-The Starlark function implementing this macro. The values of the macro's attributes are passed to
-the implementation function as keyword arguments. The implementation function must have at least two
-named parameters, <code>name</code> and <code>visibility</code>, and if the macro inherits
-attributes (see <code>inherit_attrs</code> below), it must have a <code>**kwargs</code> residual
-keyword parameter.
-<p>By convention, the implementation function should have a named parameter for any attribute that
-the macro needs to examine, modify, or pass to non-"main" targets, while the "bulk" inherited
-attributes which will be passed to the "main" target unchanged are passed as <code>**kwargs</code>.</p>
-<p>The implementation function must not return a value. Instead, the implementation function
-<em>declares targets</em> by calling rule or macro symbols.</p>
-<p>The name of any target or inner symbolic macro declared by a symbolic macro (including by any
-Starlark function that the macro's implementation function transitively calls) must either equal
-<code>name</code> (this is referred to as the "main" target) or start with <code>name</code>,
-followed by a separator chracter (<code>"_"</code>, <code>"-"</code>, or <code>"."</code>) and a
-string suffix. (Targets violating this naming scheme are allowed to be declared, but cannot be
-built, configured, or depended upon.)</p>
-<p>By default, targets declared by a symbolic macro (including by any Starlark function that the
-macro's implementation function transitively calls) are visible only in the package containing the
-.bzl file defining the macro. To declare targets visible externally, <em>including to the caller of
-the symbolic macro</em>, the implementation function must set <code>visibility</code> appropriately
-– typically, by passing <code>visibility = visibility</code> to the rule or macro symbol being
-called.</p>
-<p>The following APIs are unavailable within a macro implementation function and any Starlark
-function it transitively calls:</p>
-<ul>
-<li><a href="/reference/be/functions#package"><code>package()</code>, <code>licenses()</code></a></li>
-<li><code>environment_group()</code></li>
-<li><a href="../toplevel/native#glob"><code>native.glob()</code></a> – instead, you may pass
-a glob into the macro via a label list attribute</li>
-<li><a href="../toplevel/native#subpackages"><code>native.subpackages()</code></a></li>
-<li>(allowed in rule finalizers only, see <code>finalizer</code> below)
-<a href="../toplevel/native#existing_rules"><code>native.existing_rules()</code></a>,
-<a href="../toplevel/native#existing_rule"><code>native.existing_rule()</code></a></li>
-<li>(for <code>WORKSPACE</code> threads)
-<a href="../globals/workspace#workspace"><code>workspace()</code></a>,
-<a href="../globals/workspace#register_toolchains"><code>register_toolchains()</code></a>,
-<a href="../globals/workspace#register_execution_platforms%3E%3Ccode%3Eregister_execution_platforms()%3C/code%3E%3C/a%3E,%0A%20%20%20%20%3Ca%20href=" data-..="" data-globals="" data-workspace#bind"=""><code>bind()</code></a>, repository rule instantiation</li>
-</ul></td>
-</tr>
-<tr>
-<td id="macro.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dictionary of the attributes this macro supports, analogous to
-<a href="#rule.attrs">rule.attrs</a>. Keys are attribute names, and values are either attribute
-objects like <code>attr.label_list(...)</code> (see the <a href="../toplevel/attr.html">attr</a>
-module), or <code>None</code>. A <code>None</code> entry means that the macro does not have an
-attribute by that name, even if it would have otherwise inherited one via <code>inherit_attrs</code>
-(see below).
-<p>The special <code>name</code> attribute is predeclared and must not be included in the
-dictionary. The <code>visibility</code> attribute name is reserved and must not be included in the
-dictionary.</p>
-<p>Attributes whose names start with <code>_</code> are private -- they cannot be passed at the call
-site of the rule. Such attributes can be assigned a default value (as in
-<code>attr.label(default="//pkg:foo")</code>) to create an implicit dependency on a label.</p>
-<p>To limit memory usage, there is a cap on the number of attributes that may be declared.</p></td>
-</tr>
-<tr>
-<td id="macro.inherit_attrs"><code>inherit_attrs</code></td>
-<td><a href="../builtins/rule.html" class="anchor">rule</a>; or <a href="../builtins/macro.html" class="anchor">macro</a>; or <a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A rule symbol, macro symbol, or the name of a built-in common attribute list (see below) from which
-the macro should inherit attributes.
-<p>If <code>inherit_attrs</code> is set to the string <code>"common"</code>, the macro will inherit
-<a href="/reference/be/common-definitions#common-attributes">common rule attribute definitions</a>
-used by all Starlark rules.</p>
-<p>Note that if the return value of <code>rule()</code> or <code>macro()</code> was not assigned to
-a global variable in a .bzl file, then such a value has not been registered as a rule or macro
-symbol, and therefore cannot be used for <code>inherit_attrs</code>.</p>
-<p>The inheritance mechanism works as follows:</p>
-<ol>
-<li>The special <code>name</code> and <code>visibility</code> attributes are never inherited;</li>
-<li>Hidden attributes (ones whose name starts with <code>"_"</code>) are never inherited;</li>
-<li>Attributes whose names are already defined in the <code>attrs</code> dictionary are never
-inherited (the entry in <code>attrs</code> takes precedence; note that an entry may be set to
-<code>None</code> to ensure that no attribute by that name gets defined on the macro);</li>
-<li>All other attributes are inherited from the rule or macro and effectively merged into the
-<code>attrs</code> dict.</li>
-</ol>
-<p>When a non-mandatory attribute is inherited, the default value of the attribute is overridden
-to be <code>None</code>, regardless of what it was specified in the original rule or macro. This
-ensures that when the macro forwards the attribute's value to an instance of the wrapped rule or
-macro – such as by passing in the unmodified <code>**kwargs</code> – a value that was
-absent from the outer macro's call will also be absent in the inner rule or macro's call (since
-passing <code>None</code> to an attribute is treated the same as omitting the attribute).
-This is important because omitting an attribute has subtly different semantics from passing
-its apparent default value. In particular, omitted attributes are not shown in some <code>bazel query</code> output formats, and computed defaults only execute when the value is omitted. If the
-macro needs to examine or modify an inherited attribute – for example, to add a value to an
-inherited <code>tags</code> attribute – you must make sure to handle the <code>None</code>
-case in the macro's implementation function.</p>
-<p>For example, the following macro inherits all attributes from <code>native.cc_library</code>,
-except for <code>cxxopts</code> (which is removed from the attribute list) and <code>copts</code>
-(which is given a new definition). It also takes care to checks for the default <code>None</code>
-value of the inherited <code>tags</code> attribute before appending an additional tag.</p>
-<pre class="language-python"><code>
-def _my_cc_library_impl(name, visibility, tags, **kwargs):
-    # Append a tag; tags attr was inherited from native.cc_library, and
-    # therefore is None unless explicitly set by the caller of my_cc_library()
-    my_tags = (tags or []) + [&quot;my_custom_tag&quot;]
-    native.cc_library(
-        name = name,
-        visibility = visibility,
-        tags = my_tags,
-        **kwargs
-    )
-&#10;my_cc_library = macro(
-    implementation = _my_cc_library_impl,
-    inherit_attrs = native.cc_library,
-    attrs = {
-        &quot;cxxopts&quot;: None,
-        &quot;copts&quot;: attr.string_list(default = [&quot;-D_FOO&quot;]),
-    },
-)</code></pre>
-<p>If <code>inherit_attrs</code> is set, the macro's implementation function <em>must</em> have a
-<code>**kwargs</code> residual keyword parameter.</p>
-<p>By convention, a macro should pass inherited, non-overridden attributes unchanged to the "main"
-rule or macro symbol which the macro is wrapping. Typically, most inherited attributes will not have
-a parameter in the implementation function's parameter list, and will simply be passed via
-<code>**kwargs</code>. It can be convenient for the implementation function to have explicit
-parameters for some inherited attributes (most commonly, <code>tags</code> and
-<code>testonly</code>) if the macro needs to pass those attributes to both "main" and non-"main"
-targets – but if the macro also needs to examine or manipulate those attributes, you must take
-care to handle the <code>None</code> default value of non-mandatory inherited attributes.</p></td>
-</tr>
-<tr>
-<td id="macro.finalizer"><code>finalizer</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-Whether this macro is a rule finalizer, which is a macro that, regardless of its position in a
-<code>BUILD</code> file, is evaluated at the end of package loading, after all non-finalizer targets
-have been defined.
-<p>Unlike ordinary symbolic macros, rule finalizers may call
-<a href="../toplevel/native#existing_rule"><code>native.existing_rule()</code></a> and
-<a href="../toplevel/native#existing_rules"><code>native.existing_rules()</code></a> to query the
-set of <em>non-finalizer</em> rule targets defined in the current package. Note that
-<code>native.existing_rule()</code> and <code>native.existing_rules()</code> cannot access the
-targets defined by any rule finalizer, including this one.</p></td>
-</tr>
-<tr>
-<td id="macro.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the macro that can be extracted by documentation generating tools.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | [function](../core/function.mdx); required  The Starlark function implementing this macro. The values of the macro's attributes are passed to the implementation function as keyword arguments. The implementation function must have at least two named parameters, `name` and `visibility`, and if the macro inherits attributes (see `inherit_attrs` below), it must have a `**kwargs` residual keyword parameter. By convention, the implementation function should have a named parameter for any attribute that the macro needs to examine, modify, or pass to non-"main" targets, while the "bulk" inherited attributes which will be passed to the "main" target unchanged are passed as `**kwargs`. The implementation function must not return a value. Instead, the implementation function *declares targets* by calling rule or macro symbols. The name of any target or inner symbolic macro declared by a symbolic macro (including by any Starlark function that the macro's implementation function transitively calls) must either equal `name` (this is referred to as the "main" target) or start with `name`, followed by a separator chracter (`"_"`, `"-"`, or `"."`) and a string suffix. (Targets violating this naming scheme are allowed to be declared, but cannot be built, configured, or depended upon.) By default, targets declared by a symbolic macro (including by any Starlark function that the macro's implementation function transitively calls) are visible only in the package containing the .bzl file defining the macro. To declare targets visible externally, *including to the caller of the symbolic macro*, the implementation function must set `visibility` appropriately – typically, by passing `visibility = visibility` to the rule or macro symbol being called. The following APIs are unavailable within a macro implementation function and any Starlark function it transitively calls:  * [`package()`, `licenses()`* `environment_group()`* [`native.glob()`](../toplevel/native#glob) – instead, you may pass       a glob into the macro via a label list attribute* [`native.subpackages()`](../toplevel/native#subpackages)* (allowed in rule finalizers only, see `finalizer` below)           [`native.existing_rules()`](../toplevel/native#existing_rules),           [`native.existing_rule()`](../toplevel/native#existing_rule)* (for `WORKSPACE` threads)             [`workspace()`](../globals/workspace#workspace),             [`register_toolchains()`](../globals/workspace#register_toolchains),             [`bind()`](../globals/workspace#register_execution_platforms](/reference/be/functions#package) |
+| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  A dictionary of the attributes this macro supports, analogous to [rule.attrs](#rule.attrs). Keys are attribute names, and values are either attribute objects like `attr.label_list(...)` (see the [attr](../toplevel/attr.mdx) module), or `None`. A `None` entry means that the macro does not have an attribute by that name, even if it would have otherwise inherited one via `inherit_attrs` (see below). The special `name` attribute is predeclared and must not be included in the dictionary. The `visibility` attribute name is reserved and must not be included in the dictionary. Attributes whose names start with `_` are private -- they cannot be passed at the call site of the rule. Such attributes can be assigned a default value (as in `attr.label(default="//pkg:foo")`) to create an implicit dependency on a label. To limit memory usage, there is a cap on the number of attributes that may be declared. |
+| `inherit_attrs` | [rule](../builtins/rule.mdx); or [macro](../builtins/macro.mdx); or [string](../core/string.mdx); or `None`; default is `None`  A rule symbol, macro symbol, or the name of a built-in common attribute list (see below) from which the macro should inherit attributes. If `inherit_attrs` is set to the string `"common"`, the macro will inherit [common rule attribute definitions](./reference/be/common-definitions#common-attributes) used by all Starlark rules. Note that if the return value of `rule()` or `macro()` was not assigned to a global variable in a .bzl file, then such a value has not been registered as a rule or macro symbol, and therefore cannot be used for `inherit_attrs`. The inheritance mechanism works as follows:   1. The special `name` and `visibility` attributes are never inherited;- Hidden attributes (ones whose name starts with `"_"`) are never inherited;- Attributes whose names are already defined in the `attrs` dictionary are never        inherited (the entry in `attrs` takes precedence; note that an entry may be set to        `None` to ensure that no attribute by that name gets defined on the macro);- All other attributes are inherited from the rule or macro and effectively merged into the          `attrs` dict.   When a non-mandatory attribute is inherited, the default value of the attribute is overridden to be `None`, regardless of what it was specified in the original rule or macro. This ensures that when the macro forwards the attribute's value to an instance of the wrapped rule or macro – such as by passing in the unmodified `**kwargs` – a value that was absent from the outer macro's call will also be absent in the inner rule or macro's call (since passing `None` to an attribute is treated the same as omitting the attribute). This is important because omitting an attribute has subtly different semantics from passing its apparent default value. In particular, omitted attributes are not shown in some `bazel query` output formats, and computed defaults only execute when the value is omitted. If the macro needs to examine or modify an inherited attribute – for example, to add a value to an inherited `tags` attribute – you must make sure to handle the `None` case in the macro's implementation function. For example, the following macro inherits all attributes from `native.cc_library`, except for `cxxopts` (which is removed from the attribute list) and `copts` (which is given a new definition). It also takes care to checks for the default `None` value of the inherited `tags` attribute before appending an additional tag.  ``` def _my_cc_library_impl(name, visibility, tags, **kwargs):     # Append a tag; tags attr was inherited from native.cc_library, and     # therefore is None unless explicitly set by the caller of my_cc_library()     my_tags = (tags or []) + ["my_custom_tag"]     native.cc_library(         name = name,         visibility = visibility,         tags = my_tags,         **kwargs     )  my_cc_library = macro(     implementation = _my_cc_library_impl,     inherit_attrs = native.cc_library,     attrs = \{         "cxxopts": None,         "copts": attr.string_list(default = ["-D_FOO"]),     \}, ) ```   If `inherit_attrs` is set, the macro's implementation function *must* have a `**kwargs` residual keyword parameter. By convention, a macro should pass inherited, non-overridden attributes unchanged to the "main" rule or macro symbol which the macro is wrapping. Typically, most inherited attributes will not have a parameter in the implementation function's parameter list, and will simply be passed via `**kwargs`. It can be convenient for the implementation function to have explicit parameters for some inherited attributes (most commonly, `tags` and `testonly`) if the macro needs to pass those attributes to both "main" and non-"main" targets – but if the macro also needs to examine or manipulate those attributes, you must take care to handle the `None` default value of non-mandatory inherited attributes. |
+| `finalizer` | [bool](../core/bool.mdx); default is `False`  Whether this macro is a rule finalizer, which is a macro that, regardless of its position in a `BUILD` file, is evaluated at the end of package loading, after all non-finalizer targets have been defined. Unlike ordinary symbolic macros, rule finalizers may call [`native.existing_rule()`](../toplevel/native#existing_rule) and [`native.existing_rules()`](../toplevel/native#existing_rules) to query the set of *non-finalizer* rule targets defined in the current package. Note that `native.existing_rule()` and `native.existing_rules()` cannot access the targets defined by any rule finalizer, including this one. |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None`  A description of the macro that can be extracted by documentation generating tools. |
 
-## materializer_rule
+## materializer\_rule
 
-``` rule-signature
-callable materializer_rule(*, implementation, attrs={}, doc=None)
+```
+callable materializer_rule(*, implementation, attrs=\{\}, doc=None)
 ```
 
 Creates a new materializer rule, which can be called from a BUILD file or a macro to create materializer targets.
@@ -546,103 +193,40 @@ Materializer targets are used to dynamically select dependencies at analysis tim
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="materializer_rule.implementation"><code>implementation</code></td>
-<td><a href="../core/function.html" class="anchor">function</a>;
-required<br />
-The Starlark function implementing this materializer rule. It must have exactly one parameter: <a href="../builtins/ctx.html">ctx</a>. This function is called during the analysis phase for each instance of the rule. Materializer rules return exactly one and only one MaterializedDepsInfo provider which specifies the dependencies to materialize in place of any instance of this rule in the attributes of another target.</td>
-</tr>
-<tr>
-<td id="materializer_rule.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dictionary to declare all the attributes of the rule. It maps from an attribute name to an attribute object (see
-<a href="../toplevel/attr.html"><code>attr</code></a> module). Attributes starting with <code>_</code> are private, and can be used to add an implicit dependency on a label. The attribute <code>name</code> is implicitly added and must not be specified. Attributes <code>visibility</code>, <code>deprecation</code>, <code>tags</code>, <code>testonly</code>, and <code>features</code> are implicitly added and cannot be overridden. Most rules need only a handful of attributes. To limit memory usage, there is a cap on the number of attributes that may be declared.
-<p>Declared attributes will convert <code>None</code> to the default value.</p></td>
-</tr>
-<tr>
-<td id="materializer_rule.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the rule that can be extracted by documentation generating tools.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | [function](../core/function.mdx); required  The Starlark function implementing this materializer rule. It must have exactly one parameter: [ctx](../builtins/ctx.mdx). This function is called during the analysis phase for each instance of the rule. Materializer rules return exactly one and only one MaterializedDepsInfo provider which specifies the dependencies to materialize in place of any instance of this rule in the attributes of another target. |
+| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  A dictionary to declare all the attributes of the rule. It maps from an attribute name to an attribute object (see [`attr`](../toplevel/attr.mdx) module). Attributes starting with `_` are private, and can be used to add an implicit dependency on a label. The attribute `name` is implicitly added and must not be specified. Attributes `visibility`, `deprecation`, `tags`, `testonly`, and `features` are implicitly added and cannot be overridden. Most rules need only a handful of attributes. To limit memory usage, there is a cap on the number of attributes that may be declared. Declared attributes will convert `None` to the default value. |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None`  A description of the rule that can be extracted by documentation generating tools. |
 
-## module_extension
+## module\_extension
 
-``` rule-signature
-unknown module_extension(implementation, *, tag_classes={}, doc=None, environ=[], os_dependent=False, arch_dependent=False)
+```
+unknown module_extension(implementation, *, tag_classes=\{\}, doc=None, environ=[], os_dependent=False, arch_dependent=False)
 ```
 
-Creates a new module extension. Store it in a global value, so that it can be exported and used in a MODULE.bazel file with [`use_extension`](../globals/module.html#use_extension).
+Creates a new module extension. Store it in a global value, so that it can be exported and used in a MODULE.bazel file with `use_extension`.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="module_extension.implementation"><code>implementation</code></td>
-<td>callable;
-required<br />
-The function that implements this module extension. Must take a single parameter, <a href="../builtins/module_ctx.html"><code>module_ctx</code></a>. The function is called once at the beginning of a build to determine the set of available repos.</td>
-</tr>
-<tr>
-<td id="module_extension.tag_classes"><code>tag_classes</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dictionary to declare all the tag classes used by the extension. It maps from the name of the tag class to a <a href="../builtins/tag_class.html"><code>tag_class</code></a> object.</td>
-</tr>
-<tr>
-<td id="module_extension.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the module extension that can be extracted by documentation generating tools.</td>
-</tr>
-<tr>
-<td id="module_extension.environ"><code>environ</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-Provides a list of environment variable that this module extension depends on. If an environment variable in that list changes, the extension will be re-evaluated.</td>
-</tr>
-<tr>
-<td id="module_extension.os_dependent"><code>os_dependent</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-Indicates whether this extension is OS-dependent or not</td>
-</tr>
-<tr>
-<td id="module_extension.arch_dependent"><code>arch_dependent</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-Indicates whether this extension is architecture-dependent or not</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | callable; required  The function that implements this module extension. Must take a single parameter, `module_ctx`. The function is called once at the beginning of a build to determine the set of available repos. |
+| `tag_classes` | [dict](../core/dict.mdx); default is `\{\}`  A dictionary to declare all the tag classes used by the extension. It maps from the name of the tag class to a `tag_class` object. |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None`  A description of the module extension that can be extracted by documentation generating tools. |
+| `environ` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  Provides a list of environment variable that this module extension depends on. If an environment variable in that list changes, the extension will be re-evaluated. |
+| `os_dependent` | [bool](../core/bool.mdx); default is `False`  Indicates whether this extension is OS-dependent or not |
+| `arch_dependent` | [bool](../core/bool.mdx); default is `False`  Indicates whether this extension is architecture-dependent or not |
 
 ## provider
 
-``` rule-signature
+```
 unknown provider(doc=None, *, fields=None, init=None)
 ```
 
 Defines a provider symbol. The resulting value of this function must be stored in a global value to be usable in a rule or aspect implementation. Providers can be instantiated by calling the resulting value as a function, or used directly as an index key for retrieving an instance of that provider from a target. Example:  
 
-``` python
+```
 MyInfo = provider()
 ...
 def _my_library_impl(ctx):
@@ -655,76 +239,21 @@ def _my_library_impl(ctx):
 
 See [Rules (Providers)](https://bazel.build/extending/rules#providers) for a comprehensive guide on how to use providers.
 
-Returns a [`Provider`](../builtins/Provider.html) callable value if `init` is not specified.
+Returns a [`Provider`](../builtins/Provider.mdx) callable value if `init` is not specified.
 
-If `init` is specified, returns a tuple of 2 elements: a [`Provider`](../builtins/Provider.html) callable value and a *raw constructor* callable value. See [Rules (Custom initialization of custom providers)](https://bazel.build/extending/rules#custom_initialization_of_providers) and the discussion of the `init` parameter below for details.
+If `init` is specified, returns a tuple of 2 elements: a [`Provider`](../builtins/Provider.mdx) callable value and a *raw constructor* callable value. See  [Rules (Custom initialization of custom providers)](https://bazel.build/extending/rules#custom_initialization_of_providers) and the discussion of the `init` parameter below for details.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="provider.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the provider that can be extracted by documentation generating tools.</td>
-</tr>
-<tr>
-<td id="provider.fields"><code>fields</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s; or <a href="../core/dict.html" class="anchor">dict</a>; or <code>None</code>;
-default is <code>None</code><br />
-If specified, restricts the set of allowed fields.<br />
-Possible values are:
-<ul>
-<li><p>list of fields:<br />
-</p>
-<pre class="language-python"><code>provider(fields = [&#39;a&#39;, &#39;b&#39;])</code></pre></li>
-<li><p>dictionary field name -&gt; documentation:<br />
-</p>
-<pre class="language-python"><code>provider(
-       fields = { &#39;a&#39; : &#39;Documentation for a&#39;, &#39;b&#39; : &#39;Documentation for b&#39; })</code></pre></li>
-</ul>
-All fields are optional.</td>
-</tr>
-<tr>
-<td id="provider.init"><code>init</code></td>
-<td>callable; or <code>None</code>;
-default is <code>None</code><br />
-An optional callback for preprocessing and validating the provider's field values during instantiation. If <code>init</code> is specified, <code>provider()</code> returns a tuple of 2 elements: the normal provider symbol and a <em>raw constructor</em>.
-<p>A precise description follows; see <a href="https://bazel.build/extending/rules#custom_initialization_of_providers">Rules (Custom initialization of providers)</a> for an intuitive discussion and use cases.</p>
-<p>Let <code>P</code> be the provider symbol created by calling <code>provider()</code>. Conceptually, an instance of <code>P</code> is generated by calling a default constructor function <code>c(*args, **kwargs)</code>, which does the following:</p>
-<ul>
-<li>If <code>args</code> is non-empty, an error occurs.</li>
-<li>If the <code>fields</code> parameter was specified when <code>provider()</code> was called, and if <code>kwargs</code> contains any key that was not listed in <code>fields</code>, an error occurs.</li>
-<li>Otherwise, <code>c</code> returns a new instance that has, for each <code>k: v</code> entry in <code>kwargs</code>, a field named <code>k</code> with value <code>v</code>.</li>
-</ul>
-In the case where an <code>init</code> callback is <em>not</em> given, a call to the symbol <code>P</code> itself acts as a call to the default constructor function <code>c</code>; in other words, <code>P(*args, **kwargs)</code> returns <code>c(*args, **kwargs)</code>. For example,
-<pre class="language-python"><code>MyInfo = provider()
-m = MyInfo(foo = 1)</code></pre>
-will straightforwardly make it so that <code>m</code> is a <code>MyInfo</code> instance with <code>m.foo == 1</code>.
-<p>But in the case where <code>init</code> is specified, the call <code>P(*args, **kwargs)</code> will perform the following steps instead:</p>
-<ol>
-<li>The callback is invoked as <code>init(*args, **kwargs)</code>, that is, with the exact same positional and keyword arguments as were passed to <code>P</code>.</li>
-<li>The return value of <code>init</code> is expected to be a dictionary, <code>d</code>, whose keys are field name strings. If it is not, an error occurs.</li>
-<li>A new instance of <code>P</code> is generated as if by calling the default constructor with <code>d</code>'s entries as keyword arguments, as in <code>c(**d)</code>.</li>
-</ol>
-<p>NB: the above steps imply that an error occurs if <code>*args</code> or <code>**kwargs</code> does not match <code>init</code>'s signature, or the evaluation of <code>init</code>'s body fails (perhaps intentionally via a call to <a href="../globals/all.html#fail"><code>fail()</code></a>), or if the return value of <code>init</code> is not a dictionary with the expected schema.</p>
-<p>In this way, the <code>init</code> callback generalizes normal provider construction by allowing positional arguments and arbitrary logic for preprocessing and validation. It does <em>not</em> enable circumventing the list of allowed <code>fields</code>.</p>
-<p>When <code>init</code> is specified, the return value of <code>provider()</code> becomes a tuple <code>(P, r)</code>, where <code>r</code> is the <em>raw constructor</em>. In fact, the behavior of <code>r</code> is exactly that of the default constructor function <code>c</code> discussed above. Typically, <code>r</code> is bound to a variable whose name is prefixed with an underscore, so that only the current .bzl file has direct access to it:</p>
-<pre class="language-python"><code>MyInfo, _new_myinfo = provider(init = ...)</code></pre></td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None` |
+| `fields` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; or [dict](../core/dict.mdx); or `None`; default is `None`  If specified, restricts the set of allowed fields.  Possible values are:  * list of fields:     ```   provider(fields = ['a', 'b'])   ```     * dictionary field name -> documentation:       ```     provider(            fields = \{ 'a' : 'Documentation for a', 'b' : 'Documentation for b' \})     ```  All fields are optional. |
+| `init` | callable; or `None`; default is `None` |
 
-## repository_rule
+## repository\_rule
 
-``` rule-signature
+```
 callable repository_rule(implementation, *, attrs=None, local=False, environ=[], configure=False, remotable=False, doc=None)
 ```
 
@@ -732,67 +261,20 @@ Creates a new repository rule. Store it in a global value, so that it can be loa
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="repository_rule.implementation"><code>implementation</code></td>
-<td>callable;
-required<br />
-the function that implements this rule. Must have a single parameter, <a href="../builtins/repository_ctx.html"><code>repository_ctx</code></a>. The function is called during the loading phase for each instance of the rule.</td>
-</tr>
-<tr>
-<td id="repository_rule.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>; or <code>None</code>;
-default is <code>None</code><br />
-A dictionary to declare all the attributes of the repository rule. It maps from an attribute name to an attribute object (see
-<a href="../toplevel/attr.html"><code>attr</code></a> module). Attributes starting with <code>_</code> are private, and can be used to add an implicit dependency on a label to a file (a repository rule cannot depend on a generated artifact). The attribute <code>name</code> is implicitly added and must not be specified.
-<p>Declared attributes will convert <code>None</code> to the default value.</p></td>
-</tr>
-<tr>
-<td id="repository_rule.local"><code>local</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-Indicate that this rule fetches everything from the local system and should be reevaluated at every fetch.</td>
-</tr>
-<tr>
-<td id="repository_rule.environ"><code>environ</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-<strong>Deprecated</strong>. This parameter has been deprecated. Migrate to <code>repository_ctx.getenv</code> instead.<br />
-Provides a list of environment variable that this repository rule depends on. If an environment variable in that list change, the repository will be refetched.</td>
-</tr>
-<tr>
-<td id="repository_rule.configure"><code>configure</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-Indicate that the repository inspects the system for configuration purpose</td>
-</tr>
-<tr>
-<td id="repository_rule.remotable"><code>remotable</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-<strong>Experimental</strong>. This parameter is experimental and may change at any time. Please do not depend on it. It may be enabled on an experimental basis by setting <code>--experimental_repo_remote_exec</code><br />
-Compatible with remote execution</td>
-</tr>
-<tr>
-<td id="repository_rule.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the repository rule that can be extracted by documentation generating tools.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | callable; required |
+| `attrs` | [dict](../core/dict.mdx); or `None`; default is `None` |
+| `local` | [bool](../core/bool.mdx); default is `False`  Indicate that this rule fetches everything from the local system and should be reevaluated at every fetch. |
+| `environ` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  **Deprecated**. This parameter has been deprecated. Migrate to `repository_ctx.getenv` instead. Provides a list of environment variable that this repository rule depends on. If an environment variable in that list change, the repository will be refetched. |
+| `configure` | [bool](../core/bool.mdx); default is `False`  Indicate that the repository inspects the system for configuration purpose |
+| `remotable` | [bool](../core/bool.mdx); default is `False`  **Experimental**. This parameter is experimental and may change at any time. Please do not depend on it. It may be enabled on an experimental basis by setting `--experimental_repo_remote_exec`  Compatible with remote execution |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None` |
 
 ## rule
 
-``` rule-signature
-callable rule(implementation, *, test=unbound, attrs={}, outputs=None, executable=unbound, output_to_genfiles=False, fragments=[], host_fragments=[], _skylark_testable=False, toolchains=[], doc=None, provides=[], dependency_resolution_rule=False, exec_compatible_with=[], analysis_test=False, build_setting=None, cfg=None, exec_groups=None, initializer=None, parent=None, extendable=None, subrules=[])
+```
+callable rule(implementation, *, test=unbound, attrs=\{\}, outputs=None, executable=unbound, output_to_genfiles=False, fragments=[], host_fragments=[], _skylark_testable=False, toolchains=[], doc=None, provides=[], dependency_resolution_rule=False, exec_compatible_with=[], analysis_test=False, build_setting=None, cfg=None, exec_groups=None, initializer=None, parent=None, extendable=None, subrules=[])
 ```
 
 Creates a new rule, which can be called from a BUILD file or a macro to create targets.
@@ -803,310 +285,82 @@ Test rules are required to have a name ending in `_test`, while all other rules 
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="rule.implementation"><code>implementation</code></td>
-<td><a href="../core/function.html" class="anchor">function</a>;
-required<br />
-the Starlark function implementing this rule, must have exactly one parameter: <a href="../builtins/ctx.html">ctx</a>. The function is called during the analysis phase for each instance of the rule. It can access the attributes provided by the user. It must create actions to generate all the declared outputs.</td>
-</tr>
-<tr>
-<td id="rule.test"><code>test</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>unbound</code><br />
-Whether this rule is a test rule, that is, whether it may be the subject of a <code>bazel test</code> command. All test rules are automatically considered <a href="#rule.executable">executable</a>; it is unnecessary (and discouraged) to explicitly set <code>executable = True</code> for a test rule. The value defaults to <code>False</code>. See the <a href="https://bazel.build/extending/rules#executable_rules_and_test_rules">Rules page</a> for more information.</td>
-</tr>
-<tr>
-<td id="rule.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dictionary to declare all the attributes of the rule. It maps from an attribute name to an attribute object (see
-<a href="../toplevel/attr.html"><code>attr</code></a> module). Attributes starting with <code>_</code> are private, and can be used to add an implicit dependency on a label. The attribute <code>name</code> is implicitly added and must not be specified. Attributes <code>visibility</code>, <code>deprecation</code>, <code>tags</code>, <code>testonly</code>, and <code>features</code> are implicitly added and cannot be overridden. Most rules need only a handful of attributes. To limit memory usage, there is a cap on the number of attributes that may be declared.
-<p>Declared attributes will convert <code>None</code> to the default value.</p></td>
-</tr>
-<tr>
-<td id="rule.outputs"><code>outputs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>; or <code>None</code>; or <a href="../core/function.html" class="anchor">function</a>;
-default is <code>None</code><br />
-<strong>Deprecated</strong>. This parameter is deprecated and will be removed soon. Please do not depend on it. It is <em>disabled</em> with <code>--incompatible_no_rule_outputs_param</code>. Use this flag to verify your code is compatible with its imminent removal.<br />
-This parameter has been deprecated. Migrate rules to use <code>OutputGroupInfo</code> or <code>attr.output</code> instead.
-<p>A schema for defining predeclared outputs. Unlike <a href="../toplevel/attr.html#output"><code>output</code></a> and <a href="../toplevel/attr.html#output_list"><code>output_list</code></a> attributes, the user does not specify the labels for these files. See the <a href="https://bazel.build/extending/rules#files">Rules page</a> for more on predeclared outputs.</p>
-<p>The value of this argument is either a dictionary or a callback function that produces a dictionary. The callback works similar to computed dependency attributes: The function's parameter names are matched against the rule's attributes, so for example if you pass <code>outputs = _my_func</code> with the definition <code>def _my_func(srcs, deps): ...</code>, the function has access to the attributes <code>srcs</code> and <code>deps</code>. Whether the dictionary is specified directly or via a function, it is interpreted as follows.</p>
-<p>Each entry in the dictionary creates a predeclared output where the key is an identifier and the value is a string template that determines the output's label. In the rule's implementation function, the identifier becomes the field name used to access the output's <a href="../builtins/File.html"><code>File</code></a> in <a href="../builtins/ctx.html#outputs"><code>ctx.outputs</code></a>. The output's label has the same package as the rule, and the part after the package is produced by substituting each placeholder of the form <code>"%{ATTR}"</code> with a string formed from the value of the attribute <code>ATTR</code>:</p>
-<ul>
-<li>String-typed attributes are substituted verbatim.</li>
-<li>Label-typed attributes become the part of the label after the package, minus the file extension. For example, the label <code>"//pkg:a/b.c"</code> becomes <code>"a/b"</code>.</li>
-<li>Output-typed attributes become the part of the label after the package, including the file extension (for the above example, <code>"a/b.c"</code>).</li>
-<li>All list-typed attributes (for example, <code>attr.label_list</code>) used in placeholders are required to have <em>exactly one element</em>. Their conversion is the same as their non-list version (<code>attr.label</code>).</li>
-<li>Other attribute types may not appear in placeholders.</li>
-<li>The special non-attribute placeholders <code>%{dirname}</code> and <code>%{basename}</code> expand to those parts of the rule's label, excluding its package. For example, in <code>"//pkg:a/b.c"</code>, the dirname is <code>a</code> and the basename is <code>b.c</code>.</li>
-</ul>
-<p>In practice, the most common substitution placeholder is <code>"%{name}"</code>. For example, for a target named "foo", the outputs dict <code>{"bin": "%{name}.exe"}</code> predeclares an output named <code>foo.exe</code> that is accessible in the implementation function as <code>ctx.outputs.bin</code>.</p></td>
-</tr>
-<tr>
-<td id="rule.executable"><code>executable</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>unbound</code><br />
-Whether this rule is considered executable, that is, whether it may be the subject of a <code>bazel run</code> command. It defaults to <code>False</code>. See the <a href="https://bazel.build/extending/rules#executable_rules_and_test_rules">Rules page</a> for more information.</td>
-</tr>
-<tr>
-<td id="rule.output_to_genfiles"><code>output_to_genfiles</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-If true, the files will be generated in the genfiles directory instead of the bin directory. Unless you need it for compatibility with existing rules (e.g. when generating header files for C++), do not set this flag.</td>
-</tr>
-<tr>
-<td id="rule.fragments"><code>fragments</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-List of names of configuration fragments that the rule requires in target configuration.</td>
-</tr>
-<tr>
-<td id="rule.host_fragments"><code>host_fragments</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-List of names of configuration fragments that the rule requires in host configuration.</td>
-</tr>
-<tr>
-<td id="rule._skylark_testable"><code>_skylark_testable</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-<em>(Experimental)</em><br />
-<br />
-If true, this rule will expose its actions for inspection by rules that depend on it via an <code>Actions</code> provider. The provider is also available to the rule itself by calling <a href="../builtins/ctx.html#created_actions">ctx.created_actions()</a>.<br />
-<br />
-This should only be used for testing the analysis-time behavior of Starlark rules. This flag may be removed in the future.</td>
-</tr>
-<tr>
-<td id="rule.toolchains"><code>toolchains</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-If set, the set of toolchains this rule requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination. Toolchains will be found by checking the current platform, and provided to the rule implementation via <code>ctx.toolchain</code>.</td>
-</tr>
-<tr>
-<td id="rule.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the rule that can be extracted by documentation generating tools.</td>
-</tr>
-<tr>
-<td id="rule.provides"><code>provides</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-A list of providers that the implementation function must return.
-<p>It is an error if the implementation function omits any of the types of providers listed here from its return value. However, the implementation function may return additional providers not listed here.</p>
-<p>Each element of the list is an <code>*Info</code> object returned by <a href="../globals/bzl.html#provider"><code>provider()</code></a>. When a target of the rule is used as a dependency for a target that declares a required provider, it is not necessary to specify that provider here. It is enough that the implementation function returns it. However, it is considered best practice to specify it, even though this is not required. The <a href="../globals/bzl.html#aspect.required_providers"><code>required_providers</code></a> field of an <a href="../globals/bzl.html#aspect">aspect</a> does, however, require that providers are specified here.</p></td>
-</tr>
-<tr>
-<td id="rule.dependency_resolution_rule"><code>dependency_resolution_rule</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-If set, the rule can be a dependency through attributes also marked as available in materializers. Every attribute of rules with this flag set must be marked as available in materializers also. This is so that rules so marked cannot depend on rules that are not so marked.</td>
-</tr>
-<tr>
-<td id="rule.exec_compatible_with"><code>exec_compatible_with</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-A list of constraints on the execution platform that apply to all targets of this rule type.</td>
-</tr>
-<tr>
-<td id="rule.analysis_test"><code>analysis_test</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>;
-default is <code>False</code><br />
-If true, then this rule is treated as an analysis test.
-<p>Note: Analysis test rules are primarily defined using infrastructure provided in core Starlark libraries. See <a href="https://bazel.build/rules/testing#testing-rules">Testing</a> for guidance.</p>
-<p>If a rule is defined as an analysis test rule, it becomes allowed to use configuration transitions defined using <a href="#analysis_test_transition">analysis_test_transition</a> on its attributes, but opts into some restrictions:</p>
-<ul>
-<li>Targets of this rule are limited in the number of transitive dependencies they may have.</li>
-<li>The rule is considered a test rule (as if <code>test=True</code> were set). This supersedes the value of <code>test</code></li>
-<li>The rule implementation function may not register actions. Instead, it must register a pass/fail result via providing <a href="../providers/AnalysisTestResultInfo.html">AnalysisTestResultInfo</a>.</li>
-</ul></td>
-</tr>
-<tr>
-<td id="rule.build_setting"><code>build_setting</code></td>
-<td><a href="../builtins/BuildSetting.html" class="anchor">BuildSetting</a>; or <code>None</code>;
-default is <code>None</code><br />
-If set, describes what kind of <a href="/rules/config#user-defined-build-settings"><code>build setting</code></a> this rule is. See the <a href="../toplevel/config.html"><code>config</code></a> module. If this is set, a mandatory attribute named "build_setting_default" is automatically added to this rule, with a type corresponding to the value passed in here.</td>
-</tr>
-<tr>
-<td id="rule.cfg"><code>cfg</code></td>
-<td>default is <code>None</code><br />
-If set, points to the configuration transition the rule will apply to its own configuration before analysis.</td>
-</tr>
-<tr>
-<td id="rule.exec_groups"><code>exec_groups</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>; or <code>None</code>;
-default is <code>None</code><br />
-Dict of execution group name (string) to <a href="../globals/bzl.html#exec_group"><code>exec_group</code>s</a>. If set, allows rules to run actions on multiple execution platforms within a single target. See <a href="/reference/exec-groups">execution groups documentation</a> for more info.</td>
-</tr>
-<tr>
-<td id="rule.initializer"><code>initializer</code></td>
-<td>default is <code>None</code><br />
-Experimental: the Stalark function initializing the attributes of the rule.
-<p>The function is called at load time for each instance of the rule. It's called with <code>name</code> and the values of public attributes defined by the rule (not with generic attributes, for example <code>tags</code>).</p>
-<p>It has to return a dictionary from the attribute names to the desired values. The attributes that are not returned are unaffected. Returning <code>None</code> as value results in using the default value specified in the attribute definition.</p>
-<p>Initializers are evaluated before the default values specified in an attribute definition. Consequently, if a parameter in the initializer's signature contains a default values, it overwrites the default from the attribute definition (except if returning <code>None</code>).</p>
-<p>Similarly, if a parameter in the initializer's signature doesn't have a default, the parameter will become mandatory. It's a good practice to omit default/mandatory settings on an attribute definition in such cases.</p>
-<p>It's a good practice to use <code>**kwargs</code> for attributes that are not handled.</p>
-<p>In case of extended rules, all initializers are called proceeding from child to ancestors. Each initializer is passed only the public attributes it knows about.</p></td>
-</tr>
-<tr>
-<td id="rule.parent"><code>parent</code></td>
-<td>default is <code>None</code><br />
-Experimental: the Stalark rule that is extended. When set the public attributes are merged as well as advertised providers. The rule matches <code>executable</code> and <code>test</code> from the parent. Values of <code>fragments</code>, <code>toolchains</code>, <code>exec_compatible_with</code>, and <code>exec_groups</code> are merged. Legacy or deprecated parameters may not be set. Incoming configuration transition <code>cfg</code> of parent is applied after thisrule's incoming configuration.</td>
-</tr>
-<tr>
-<td id="rule.extendable"><code>extendable</code></td>
-<td><a href="../core/bool.html" class="anchor">bool</a>; or <a href="../builtins/Label.html" class="anchor">Label</a>; or <a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-Experimental: A label of an allowlist defining which rules can extending this rule. It can be set also to True/False to always allow/disallow extending. Bazel defaults to always allowing extensions.</td>
-</tr>
-<tr>
-<td id="rule.subrules"><code>subrules</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/Subrule.html" class="anchor">Subrule</a>s;
-default is <code>[]</code><br />
-Experimental: List of subrules used by this rule.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | [function](../core/function.mdx); required  the Starlark function implementing this rule, must have exactly one parameter: [ctx](../builtins/ctx.mdx). The function is called during the analysis phase for each instance of the rule. It can access the attributes provided by the user. It must create actions to generate all the declared outputs. |
+| `test` | [bool](../core/bool.mdx); default is `unbound`  Whether this rule is a test rule, that is, whether it may be the subject of a `bazel test` command. All test rules are automatically considered [executable](#rule.executable); it is unnecessary (and discouraged) to explicitly set `executable = True` for a test rule. The value defaults to `False`. See the  [Rules page](https://bazel.build/extending/rules#executable_rules_and_test_rules) for more information. |
+| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  A dictionary to declare all the attributes of the rule. It maps from an attribute name to an attribute object (see [`attr`](../toplevel/attr.mdx) module). Attributes starting with `_` are private, and can be used to add an implicit dependency on a label. The attribute `name` is implicitly added and must not be specified. Attributes `visibility`, `deprecation`, `tags`, `testonly`, and `features` are implicitly added and cannot be overridden. Most rules need only a handful of attributes. To limit memory usage, there is a cap on the number of attributes that may be declared. Declared attributes will convert `None` to the default value. |
+| `outputs` | [dict](../core/dict.mdx); or `None`; or [function](../core/function.mdx); default is `None`  **Deprecated**. This parameter is deprecated and will be removed soon. Please do not depend on it. It is *disabled* with `--incompatible_no_rule_outputs_param`. Use this flag to verify your code is compatible with its imminent removal.  This parameter has been deprecated. Migrate rules to use `OutputGroupInfo` or `attr.output` instead. A schema for defining predeclared outputs. Unlike [`output`](../toplevel/attr.html#output) and [`output_list`](../toplevel/attr.html#output_list) attributes, the user does not specify the labels for these files. See the [Rules page](https://bazel.build/extending/rules#files) for more on predeclared outputs. The value of this argument is either a dictionary or a callback function that produces a dictionary. The callback works similar to computed dependency attributes: The function's parameter names are matched against the rule's attributes, so for example if you pass `outputs = _my_func` with the definition `def _my_func(srcs, deps): ...`, the function has access to the attributes `srcs` and `deps`. Whether the dictionary is specified directly or via a function, it is interpreted as follows. Each entry in the dictionary creates a predeclared output where the key is an identifier and the value is a string template that determines the output's label. In the rule's implementation function, the identifier becomes the field name used to access the output's [`File`](../builtins/File.mdx) in [`ctx.outputs`](../builtins/ctx.html#outputs). The output's label has the same package as the rule, and the part after the package is produced by substituting each placeholder of the form `"%\{ATTR\}"` with a string formed from the value of the attribute `ATTR`:  * String-typed attributes are substituted verbatim.* Label-typed attributes become the part of the label after the package, minus the file extension. For example, the label `"//pkg:a/b.c"` becomes `"a/b"`.* Output-typed attributes become the part of the label after the package, including the file extension (for the above example, `"a/b.c"`).* All list-typed attributes (for example, `attr.label_list`) used in placeholders are required to have *exactly one element*. Their conversion is the same as their non-list version (`attr.label`).* Other attribute types may not appear in placeholders.* The special non-attribute placeholders `%\{dirname\}` and `%\{basename\}` expand to those parts of the rule's label, excluding its package. For example, in `"//pkg:a/b.c"`, the dirname is `a` and the basename is `b.c`.   In practice, the most common substitution placeholder is `"%\{name\}"`. For example, for a target named "foo", the outputs dict `\{"bin": "%\{name\}.exe"\}` predeclares an output named `foo.exe` that is accessible in the implementation function as `ctx.outputs.bin`. |
+| `executable` | [bool](../core/bool.mdx); default is `unbound` |
+| `output_to_genfiles` | [bool](../core/bool.mdx); default is `False`  If true, the files will be generated in the genfiles directory instead of the bin directory. Unless you need it for compatibility with existing rules (e.g. when generating header files for C++), do not set this flag. |
+| `fragments` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  List of names of configuration fragments that the rule requires in target configuration. |
+| `host_fragments` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  List of names of configuration fragments that the rule requires in host configuration. |
+| `_skylark_testable` | [bool](../core/bool.mdx); default is `False`  *(Experimental)*  If true, this rule will expose its actions for inspection by rules that depend on it via an `Actions` provider. The provider is also available to the rule itself by calling [ctx.created\_actions()](../builtins/ctx.html#created_actions).  This should only be used for testing the analysis-time behavior of Starlark rules. This flag may be removed in the future. |
+| `toolchains` | [sequence](../core/list.mdx); default is `[]`  If set, the set of toolchains this rule requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination. Toolchains will be found by checking the current platform, and provided to the rule implementation via `ctx.toolchain`. |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None`  A description of the rule that can be extracted by documentation generating tools. |
+| `provides` | [sequence](../core/list.mdx); default is `[]`  A list of providers that the implementation function must return. It is an error if the implementation function omits any of the types of providers listed here from its return value. However, the implementation function may return additional providers not listed here. Each element of the list is an `*Info` object returned by [`provider()`](../globals/bzl.html#provider). When a target of the rule is used as a dependency for a target that declares a required provider, it is not necessary to specify that provider here. It is enough that the implementation function returns it. However, it is considered best practice to specify it, even though this is not required. The [`required_providers`](../globals/bzl.html#aspect.required_providers) field of an [aspect](../globals/bzl.html#aspect) does, however, require that providers are specified here. |
+| `dependency_resolution_rule` | [bool](../core/bool.mdx); default is `False`  If set, the rule can be a dependency through attributes also marked as available in materializers. Every attribute of rules with this flag set must be marked as available in materializers also. This is so that rules so marked cannot depend on rules that are not so marked. |
+| `exec_compatible_with` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  A list of constraints on the execution platform that apply to all targets of this rule type. |
+| `analysis_test` | [bool](../core/bool.mdx); default is `False`  If true, then this rule is treated as an analysis test. Note: Analysis test rules are primarily defined using infrastructure provided in core Starlark libraries. See [Testing](https://bazel.build/rules/testing#testing-rules) for guidance. If a rule is defined as an analysis test rule, it becomes allowed to use configuration transitions defined using [analysis\_test\_transition](#analysis_test_transition) on its attributes, but opts into some restrictions:  * Targets of this rule are limited in the number of transitive dependencies they may have.* The rule is considered a test rule (as if `test=True` were set). This supersedes the value of `test`   * The rule implementation function may not register actions. Instead, it must register a pass/fail result via providing [AnalysisTestResultInfo](../providers/AnalysisTestResultInfo.mdx). |
+| `build_setting` | [BuildSetting](../builtins/BuildSetting.mdx); or `None`; default is `None`  If set, describes what kind of [`build setting`](./rules/config#user-defined-build-settings) this rule is. See the [`config`](../toplevel/config.mdx) module. If this is set, a mandatory attribute named "build\_setting\_default" is automatically added to this rule, with a type corresponding to the value passed in here. |
+| `cfg` | default is `None`  If set, points to the configuration transition the rule will apply to its own configuration before analysis. |
+| `exec_groups` | [dict](../core/dict.mdx); or `None`; default is `None`  Dict of execution group name (string) to [`exec_group`s](../globals/bzl.html#exec_group). If set, allows rules to run actions on multiple execution platforms within a single target. See [execution groups documentation](./reference/exec-groups) for more info. |
+| `initializer` | default is `None`  Experimental: the Stalark function initializing the attributes of the rule. The function is called at load time for each instance of the rule. It's called with `name` and the values of public attributes defined by the rule (not with generic attributes, for example `tags`). It has to return a dictionary from the attribute names to the desired values. The attributes that are not returned are unaffected. Returning `None` as value results in using the default value specified in the attribute definition. Initializers are evaluated before the default values specified in an attribute definition. Consequently, if a parameter in the initializer's signature contains a default values, it overwrites the default from the attribute definition (except if returning `None`). Similarly, if a parameter in the initializer's signature doesn't have a default, the parameter will become mandatory. It's a good practice to omit default/mandatory settings on an attribute definition in such cases. It's a good practice to use `**kwargs` for attributes that are not handled. In case of extended rules, all initializers are called proceeding from child to ancestors. Each initializer is passed only the public attributes it knows about. |
+| `parent` | default is `None`  Experimental: the Stalark rule that is extended. When set the public attributes are merged as well as advertised providers. The rule matches `executable` and `test` from the parent. Values of `fragments`, `toolchains`, `exec_compatible_with`, and `exec_groups` are merged. Legacy or deprecated parameters may not be set. Incoming configuration transition `cfg` of parent is applied after thisrule's incoming configuration. |
+| `extendable` | [bool](../core/bool.mdx); or [Label](../builtins/Label.mdx); or [string](../core/string.mdx); or `None`; default is `None`  Experimental: A label of an allowlist defining which rules can extending this rule. It can be set also to True/False to always allow/disallow extending. Bazel defaults to always allowing extensions. |
+| `subrules` | [sequence](../core/list.mdx) of [Subrule](../builtins/Subrule.mdx)s; default is `[]`  Experimental: List of subrules used by this rule. |
 
 ## select
 
-``` rule-signature
+```
 unknown select(x, no_match_error='')
 ```
 
-`select()` is the helper function that makes a rule attribute [configurable](/reference/be/common-definitions#configurable-attributes). See [build encyclopedia](/reference/be/functions#select) for details.
+`select()` is the helper function that makes a rule attribute [configurable](./reference/be/common-definitions#configurable-attributes). See [build encyclopedia](./reference/be/functions#select) for details.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="select.x"><code>x</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-required<br />
-A dict that maps configuration conditions to values. Each key is a <a href="../builtins/Label.html">Label</a> or a label string that identifies a config_setting or constraint_value instance. See the <a href="https://bazel.build/extending/legacy-macros#label-resolution">documentation on macros</a> for when to use a Label instead of a string. If <code>--incompatible_resolve_select_keys_eagerly</code> is enabled, the keys are resolved to <code>Label</code> objects relative to the package of the file that contains this call to <code>select</code>.</td>
-</tr>
-<tr>
-<td id="select.no_match_error"><code>no_match_error</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-default is <code>''</code><br />
-Optional custom error to report if no condition matches.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `x` | [dict](../core/dict.mdx); required  A dict that maps configuration conditions to values. Each key is a [Label](../builtins/Label.mdx) or a label string that identifies a config\_setting or constraint\_value instance. See the [documentation on macros](https://bazel.build/extending/legacy-macros#label-resolution) for when to use a Label instead of a string. If `--incompatible_resolve_select_keys_eagerly` is enabled, the keys are resolved to `Label` objects relative to the package of the file that contains this call to `select`. |
+| `no_match_error` | [string](../core/string.mdx); default is `''`  Optional custom error to report if no condition matches. |
 
 ## subrule
 
-``` rule-signature
-Subrule subrule(*, implementation, attrs={}, toolchains=[], fragments=[], subrules=[])
+```
+Subrule subrule(*, implementation, attrs=\{\}, toolchains=[], fragments=[], subrules=[])
 ```
 
 Constructs a new instance of a subrule. The result of this function must be stored in a global variable before it can be used.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="subrule.implementation"><code>implementation</code></td>
-<td><a href="../core/function.html" class="anchor">function</a>;
-required<br />
-The Starlark function implementing this subrule</td>
-</tr>
-<tr>
-<td id="subrule.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dictionary to declare all the (private) attributes of the subrule.
-Subrules may only have private attributes that are label-typed (i.e. label or label-list). The resolved values corresponding to these labels are automatically passed by Bazel to the subrule's implementation function as named arguments (thus the implementation function is required to accept named parameters matching the attribute names). The types of these values will be:
-<ul>
-<li><code>FilesToRunProvider</code> for label attributes with <code>executable=True</code></li>
-<li><code>File</code> for label attributes with <code>allow_single_file=True</code></li>
-<li><code>Target</code> for all other label attributes</li>
-<li><code>[Target]</code> for all label-list attributes</li>
-</ul></td>
-</tr>
-<tr>
-<td id="subrule.toolchains"><code>toolchains</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-If set, the set of toolchains this subrule requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination. Toolchains will be found by checking the current platform, and provided to the subrule implementation via <code>ctx.toolchains</code>. Note that AEGs need to be enabled on the consuming rule(s) if this parameter is set. In case you haven't migrated to AEGs yet, see https://bazel.build/extending/auto-exec-groups#migration-aegs.</td>
-</tr>
-<tr>
-<td id="subrule.fragments"><code>fragments</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-default is <code>[]</code><br />
-List of names of configuration fragments that the subrule requires in target configuration.</td>
-</tr>
-<tr>
-<td id="subrule.subrules"><code>subrules</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/Subrule.html" class="anchor">Subrule</a>s;
-default is <code>[]</code><br />
-List of other subrules needed by this subrule.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `implementation` | [function](../core/function.mdx); required  The Starlark function implementing this subrule |
+| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  A dictionary to declare all the (private) attributes of the subrule.  Subrules may only have private attributes that are label-typed (i.e. label or label-list). The resolved values corresponding to these labels are automatically passed by Bazel to the subrule's implementation function as named arguments (thus the implementation function is required to accept named parameters matching the attribute names). The types of these values will be:  * `FilesToRunProvider` for label attributes with `executable=True` * `File` for label attributes with `allow_single_file=True` * `Target` for all other label attributes * `[Target]` for all label-list attributes |
+| `toolchains` | [sequence](../core/list.mdx); default is `[]`  If set, the set of toolchains this subrule requires. The list can contain String, Label, or StarlarkToolchainTypeApi objects, in any combination. Toolchains will be found by checking the current platform, and provided to the subrule implementation via `ctx.toolchains`. Note that AEGs need to be enabled on the consuming rule(s) if this parameter is set. In case you haven't migrated to AEGs yet, see https://bazel.build/extending/auto-exec-groups#migration-aegs. |
+| `fragments` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  List of names of configuration fragments that the subrule requires in target configuration. |
+| `subrules` | [sequence](../core/list.mdx) of [Subrule](../builtins/Subrule.mdx)s; default is `[]`  List of other subrules needed by this subrule. |
 
-## tag_class
+## tag\_class
 
-``` rule-signature
-tag_class tag_class(attrs={}, *, doc=None)
+```
+tag_class tag_class(attrs=\{\}, *, doc=None)
 ```
 
-Creates a new tag_class object, which defines an attribute schema for a class of tags, which are data objects usable by a module extension.
+Creates a new tag\_class object, which defines an attribute schema for a class of tags, which are data objects usable by a module extension.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="tag_class.attrs"><code>attrs</code></td>
-<td><a href="../core/dict.html" class="anchor">dict</a>;
-default is <code>{}</code><br />
-A dictionary to declare all the attributes of this tag class. It maps from an attribute name to an attribute object (see
-<a href="../toplevel/attr.html">attr</a> module).
-<p>Note that unlike <a href="../globals/bzl.html#rule"><code>rule()</code></a>, <a href="../globals/bzl.html#aspect"><code>aspect()</code></a> and <a href="../globals/bzl.html#repository_rule"><code>repository_rule()</code></a>,
-declared attributes will not convert <code>None</code> to the default value. For the default to be used, the attribute must be omitted entirely by the caller.</p></td>
-</tr>
-<tr>
-<td id="tag_class.doc"><code>doc</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-A description of the tag class that can be extracted by documentation generating tools.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  A dictionary to declare all the attributes of this tag class. It maps from an attribute name to an attribute object (see [attr](../toplevel/attr.mdx) module). Note that unlike [`rule()`](../globals/bzl.html#rule), [`aspect()`](../globals/bzl.html#aspect) and [`repository_rule()`](../globals/bzl.html#repository_rule), declared attributes will not convert `None` to the default value. For the default to be used, the attribute must be omitted entirely by the caller. |
+| `doc` | [string](../core/string.mdx); or `None`; default is `None`  A description of the tag class that can be extracted by documentation generating tools. |
 
 ## visibility
 
-``` rule-signature
+```
 None visibility(value)
 ```
 
@@ -1120,27 +374,6 @@ If the flag `--check_bzl_visibility` is set to false, load visibility violations
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="visibility.value"><code>value</code></td>
-<td>required<br />
-A list of package specification strings, or a single package specification string.
-<p>Package specifications follow the same format as for <a href="/reference/be/functions#package_group"><code>package_group</code></a>, except that negative package specifications are not permitted. That is, a specification may have the forms:</p>
-<ul>
-<li><code>"//foo"</code>: the package <code>//foo</code></li>
-<li><code>"//foo/..."</code>: the package <code>//foo</code> and all of its subpackages.</li>
-<li><code>"public"</code> or <code>"private"</code>: all packages or no packages, respectively</li>
-</ul>
-<p>The "@" syntax is not allowed; all specifications are interpreted relative to the current module's repository.</p>
-<p>If <code>value</code> is a list of strings, the set of packages granted visibility to this module is the union of the packages represented by each specification. (An empty list has the same effect as <code>private</code>.) If <code>value</code> is a single string, it is treated as if it were the singleton list <code>[value]</code>.</p>
-<p>Note that the flags <code>--incompatible_package_group_has_public_syntax</code> and <code>--incompatible_fix_package_group_reporoot_syntax</code> have no effect on this argument. The <code>"public"</code> and <code>"private"</code> values are always available, and <code>"//..."</code> is always interpreted as "all packages in the current repository".</p></td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `value` | required  A list of package specification strings, or a single package specification string. Package specifications follow the same format as for `package_group`, except that negative package specifications are not permitted. That is, a specification may have the forms:  * `"//foo"`: the package `//foo`* `"//foo/..."`: the package `//foo` and all of its subpackages.* `"public"` or `"private"`: all packages or no packages, respectively   The "@" syntax is not allowed; all specifications are interpreted relative to the current module's repository. If `value` is a list of strings, the set of packages granted visibility to this module is the union of the packages represented by each specification. (An empty list has the same effect as `private`.) If `value` is a single string, it is treated as if it were the singleton list `[value]`. Note that the flags `--incompatible_package_group_has_public_syntax` and `--incompatible_fix_package_group_reporoot_syntax` have no effect on this argument. The `"public"` and `"private"` values are always available, and `"//..."` is always interpreted as "all packages in the current repository". |

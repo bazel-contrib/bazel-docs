@@ -2,27 +2,24 @@
 title: 'cpp'
 ---
 
-# cpp
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CppConfigurationApi.java" %}
-{% include "\_buttons.html" %}
 A configuration fragment for C++.
 
 ## Members
 
-- [apple_generate_dsym](#apple_generate_dsym)
-- [conlyopts](#conlyopts)
-- [copts](#copts)
-- [custom_malloc](#custom_malloc)
-- [cxxopts](#cxxopts)
-- [linkopts](#linkopts)
-- [objc_generate_linkmap](#objc_generate_linkmap)
-- [objc_should_strip_binary](#objc_should_strip_binary)
-- [objccopts](#objccopts)
+* [apple\_generate\_dsym](#apple_generate_dsym)
+* [conlyopts](#conlyopts)
+* [copts](#copts)
+* [custom\_malloc](#custom_malloc)
+* [cxxopts](#cxxopts)
+* [linkopts](#linkopts)
+* [objc\_generate\_linkmap](#objc_generate_linkmap)
+* [objc\_should\_strip\_binary](#objc_should_strip_binary)
+* [objccopts](#objccopts)
 
-## apple_generate_dsym
+## apple\_generate\_dsym
 
-``` rule-signature
+```
 bool cpp.apple_generate_dsym
 ```
 
@@ -30,64 +27,66 @@ Whether to generate Apple debug symbol(.dSYM) artifacts.
 
 ## conlyopts
 
-``` rule-signature
+```
 list cpp.conlyopts
 ```
 
-The flags passed to Bazel by [`--conlyopt`](/docs/user-manual#flag--conlyopt) option.
+The flags passed to Bazel by [`--conlyopt`](./docs/user-manual#flag--conlyopt) option.
 
 ## copts
 
-``` rule-signature
+```
 list cpp.copts
 ```
 
-The flags passed to Bazel by [`--copt`](/docs/user-manual#flag--copt) option.
+The flags passed to Bazel by [`--copt`](./docs/user-manual#flag--copt) option.
 
-## custom_malloc
+## custom\_malloc
 
-``` rule-signature
+```
 Label cpp.custom_malloc
 ```
 
-Returns label pointed to by [`--custom_malloc`](/docs/user-manual#flag--custom_malloc) option. Can be accessed with [`configuration_field`](../globals/bzl.html#configuration_field):  
+Returns label pointed to by [`--custom_malloc`](./docs/user-manual#flag--custom_malloc) option. Can be accessed with [`configuration_field`](../globals/bzl.html#configuration_field):  
 
-    attr.label(
-        default = configuration_field(
-            fragment = "cpp",
-            name = "custom_malloc"
-        )
-    )
+```
+attr.label(  
+    default = configuration_field(  
+        fragment = "cpp",  
+        name = "custom_malloc"  
+    )  
+)
+```
 
 May return `None`.
 
 ## cxxopts
 
-``` rule-signature
+```
 list cpp.cxxopts
 ```
 
-The flags passed to Bazel by [`--cxxopt`](/docs/user-manual#flag--cxxopt) option.
+The flags passed to Bazel by [`--cxxopt`](./docs/user-manual#flag--cxxopt) option.
 
 ## linkopts
 
-``` rule-signature
+```
 list cpp.linkopts
 ```
 
-The flags passed to Bazel by [`--linkopt`](/docs/user-manual#flag--linkopt) option.
+The flags passed to Bazel by [`--linkopt`](./docs/user-manual#flag--linkopt) option.
 
-## objc_generate_linkmap
+## objc\_generate\_linkmap
 
-``` rule-signature
+```
 bool cpp.objc_generate_linkmap
 ```
 
 (Apple-only) Whether to generate linkmap artifacts.
 
-## objc_should_strip_binary
+## objc\_should\_strip\_binary
 
-``` rule-signature
+```
 bool cpp.objc_should_strip_binary
 ```
 
@@ -95,8 +94,8 @@ bool cpp.objc_should_strip_binary
 
 ## objccopts
 
-``` rule-signature
+```
 list cpp.objccopts
 ```
 
-The flags passed to Bazel by [`--objccopt`](/docs/user-manual#flag--objccopt) option.
+The flags passed to Bazel by [`--objccopt`](./docs/user-manual#flag--objccopt) option.

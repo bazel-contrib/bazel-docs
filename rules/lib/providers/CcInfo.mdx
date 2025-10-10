@@ -2,21 +2,18 @@
 title: 'CcInfo'
 ---
 
-# CcInfo
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/cpp/CcInfoApi.java" %}
-{% include "\_buttons.html" %}
 A provider for compilation and linking of C++. This is also a marking provider telling C++ rules that they can depend on the rule with this provider. If it is not intended for the rule to be depended on by C++, the rule should wrap the CcInfo in some other provider.
 
 ## Members
 
-- [CcInfo](#CcInfo)
-- [compilation_context](#compilation_context)
-- [linking_context](#linking_context)
+* [CcInfo](#CcInfo)
+* [compilation\_context](#compilation_context)
+* [linking\_context](#linking_context)
 
 ## CcInfo
 
-``` rule-signature
+```
 CcInfo CcInfo(*, compilation_context=None, linking_context=None, debug_context=None)
 ```
 
@@ -24,46 +21,23 @@ The `CcInfo` constructor.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="CcInfo.compilation_context"><code>compilation_context</code></td>
-<td><a href="../builtins/CompilationContext.html" class="anchor">CompilationContext</a>; or <code>None</code>;
-default is <code>None</code><br />
-The <code>CompilationContext</code>.</td>
-</tr>
-<tr>
-<td id="CcInfo.linking_context"><code>linking_context</code></td>
-<td><a href="../builtins/struct.html" class="anchor">struct</a>; or <code>None</code>;
-default is <code>None</code><br />
-The <code>LinkingContext</code>.</td>
-</tr>
-<tr>
-<td id="CcInfo.debug_context"><code>debug_context</code></td>
-<td><a href="../builtins/struct.html" class="anchor">struct</a>; or <code>None</code>;
-default is <code>None</code><br />
-The <code>DebugContext</code>.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `compilation_context` | [CompilationContext](../builtins/CompilationContext.mdx); or `None`; default is `None`  The `CompilationContext`. |
+| `linking_context` | [struct](../builtins/struct.mdx); or `None`; default is `None`  The `LinkingContext`. |
+| `debug_context` | [struct](../builtins/struct.mdx); or `None`; default is `None`  The `DebugContext`. |
 
-## compilation_context
+## compilation\_context
 
-``` rule-signature
+```
 CompilationContext CcInfo.compilation_context
 ```
 
 Returns the `CompilationContext`
 
-## linking_context
+## linking\_context
 
-``` rule-signature
+```
 struct CcInfo.linking_context
 ```
 

@@ -2,20 +2,17 @@
 title: 'repo'
 ---
 
-# REPO.bazel files
 
-{% dynamic setvar source_file "NONE" %}
-{% include "\_buttons.html" %}
 Methods available in REPO.bazel files.
 
 ## Members
 
-- [ignore_directories](#ignore_directories)
-- [repo](#repo)
+* [ignore\_directories](#ignore_directories)
+* [repo](#repo)
 
-## ignore_directories
+## ignore\_directories
 
-``` rule-signature
+```
 None ignore_directories(dirs)
 ```
 
@@ -25,26 +22,13 @@ This function takes a list of strings and a directory is ignored if any of the g
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="ignore_directories.dirs"><code>dirs</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../core/string.html" class="anchor">string</a>s;
-required<br />
-</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `dirs` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; required |
 
 ## repo
 
-``` rule-signature
+```
 None repo(**kwargs)
 ```
 
@@ -52,18 +36,6 @@ Declares metadata that applies to every rule in the repository. It must be calle
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="repo.kwargs"><code>kwargs</code></td>
-<td>required<br />
-The <code>repo()</code> function accepts exactly the same arguments as the <a href="/reference/be/functions#package"><code>package()</code></a> function in BUILD files.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `kwargs` | required  The `repo()` function accepts exactly the same arguments as the [`package()`](./reference/be/functions#package) function in BUILD files. |

@@ -2,58 +2,52 @@
 title: 'dict'
 ---
 
-# dict
 
-{% dynamic setvar source_file "src/main/java/net/starlark/java/eval/Dict.java" %}
-{% include "\_buttons.html" %}
 dict is a built-in type representing an associative mapping or *dictionary*. A dictionary supports indexing using `d[k]` and key membership testing using `k in d`; both operations take constant time. Unfrozen dictionaries are mutable, and may be updated by assigning to `d[k]` or by calling certain methods. Dictionaries are iterable; iteration yields the sequence of keys in insertion order. Iteration order is unaffected by updating the value associated with an existing key, but is affected by removing then reinserting a key.
 
-    d = {0: "x", 2: "z", 1: "y"}
-    [k for k in d]  # [0, 2, 1]
-    d.pop(2)
-    d[0], d[2] = "a", "b"
-    0 in d, "a" in d  # (True, False)
-    [(k, v) for k, v in d.items()]  # [(0, "a"), (1, "y"), (2, "b")]
+```
+d = \{0: "x", 2: "z", 1: "y"\}
+[k for k in d]  # [0, 2, 1]
+d.pop(2)
+d[0], d[2] = "a", "b"
+0 in d, "a" in d  # (True, False)
+[(k, v) for k, v in d.items()]  # [(0, "a"), (1, "y"), (2, "b")]
+```
 
 There are four ways to construct a dictionary:
 
-1.  A dictionary expression `{k: v, ...}` yields a new dictionary with the specified key/value entries, inserted in the order they appear in the expression. Evaluation fails if any two key expressions yield the same value.
+1. A dictionary expression `\{k: v, ...\}` yields a new dictionary with the specified key/value entries, inserted in the order they appear in the expression. Evaluation fails if any two key expressions yield the same value.- A dictionary comprehension `\{k: v for vars in seq\}` yields a new dictionary into which each key/value pair is inserted in loop iteration order. Duplicates are permitted: the first insertion of a given key determines its position in the sequence, and the last determines its associated value.
 
-2.  A dictionary comprehension `{k: v for vars in seq}` yields a new dictionary into which each key/value pair is inserted in loop iteration order. Duplicates are permitted: the first insertion of a given key determines its position in the sequence, and the last determines its associated value.
+     ```
+     \{k: v for k, v in (("a", 0), ("b", 1), ("a", 2))\}  # \{"a": 2, "b": 1\}
+     \{i: 2*i for i in range(3)\}  # \{0: 0, 1: 2, 2: 4\}
+     ```
 
-    ``` python
+     - A call to the built-in [dict](../globals/all.html#dict) function returns a dictionary containing the specified entries, which are inserted in argument order, positional arguments before named. As with comprehensions, duplicate keys are permitted.- The union expression `x | y` yields a new dictionary by combining two existing dictionaries. If the two dictionaries have a key `k` in common, the right hand side dictionary's value of the key (in other words, `y[k]`) wins. The `|=` variant of the union operator modifies a dictionary in-place. Example:  
 
-    {k: v for k, v in (("a", 0), ("b", 1), ("a", 2))}  # {"a": 2, "b": 1}
-    {i: 2*i for i in range(3)}  # {0: 0, 1: 2, 2: 4}
-    ```
-
-3.  A call to the built-in [dict](../globals/all.html#dict) function returns a dictionary containing the specified entries, which are inserted in argument order, positional arguments before named. As with comprehensions, duplicate keys are permitted.
-
-4.  The union expression `x | y` yields a new dictionary by combining two existing dictionaries. If the two dictionaries have a key `k` in common, the right hand side dictionary's value of the key (in other words, `y[k]`) wins. The `|=` variant of the union operator modifies a dictionary in-place. Example:  
-
-    ``` python
-    d = {"foo": "FOO", "bar": "BAR"} | {"foo": "FOO2", "baz": "BAZ"}
-    # d == {"foo": "FOO2", "bar": "BAR", "baz": "BAZ"}
-    d = {"a": 1, "b": 2}
-    d |= {"b": 3, "c": 4}
-    # d == {"a": 1, "b": 3, "c": 4}
-    ```
+         ```
+         d = \{"foo": "FOO", "bar": "BAR"\} | \{"foo": "FOO2", "baz": "BAZ"\}
+         # d == \{"foo": "FOO2", "bar": "BAR", "baz": "BAZ"\}
+         d = \{"a": 1, "b": 2\}
+         d |= \{"b": 3, "c": 4\}
+         # d == \{"a": 1, "b": 3, "c": 4\}
+         ```
 
 ## Members
 
-- [clear](#clear)
-- [get](#get)
-- [items](#items)
-- [keys](#keys)
-- [pop](#pop)
-- [popitem](#popitem)
-- [setdefault](#setdefault)
-- [update](#update)
-- [values](#values)
+* [clear](#clear)
+* [get](#get)
+* [items](#items)
+* [keys](#keys)
+* [pop](#pop)
+* [popitem](#popitem)
+* [setdefault](#setdefault)
+* [update](#update)
+* [values](#values)
 
 ## clear
 
-``` rule-signature
+```
 None dict.clear()
 ```
 
@@ -61,7 +55,7 @@ Remove all items from the dictionary.
 
 ## get
 
-``` rule-signature
+```
 unknown dict.get(key, default=None)
 ```
 
@@ -69,54 +63,38 @@ Returns the value for `key` if `key` is in the dictionary, else `default`. If `d
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="get.key"><code>key</code></td>
-<td>required<br />
-The key to look for.</td>
-</tr>
-<tr>
-<td id="get.default"><code>default</code></td>
-<td>default is <code>None</code><br />
-The default value to use (instead of None) if the key is not found.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `key` | required |
+| `default` | default is `None`  The default value to use (instead of None) if the key is not found. |
 
 ## items
 
-``` rule-signature
+```
 list dict.items()
 ```
 
 Returns the list of key-value tuples:
 
-``` python
-{2: "a", 4: "b", 1: "c"}.items() == [(2, "a"), (4, "b"), (1, "c")]
+```
+\{2: "a", 4: "b", 1: "c"\}.items() == [(2, "a"), (4, "b"), (1, "c")]
 ```
 
 ## keys
 
-``` rule-signature
+```
 list dict.keys()
 ```
 
 Returns the list of keys:
 
-``` python
-{2: "a", 4: "b", 1: "c"}.keys() == [2, 4, 1]
+```
+\{2: "a", 4: "b", 1: "c"\}.keys() == [2, 4, 1]
 ```
 
 ## pop
 
-``` rule-signature
+```
 unknown dict.pop(key, default=unbound)
 ```
 
@@ -124,30 +102,14 @@ Removes a `key` from the dict, and returns the associated value. If no entry wit
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="pop.key"><code>key</code></td>
-<td>required<br />
-The key.</td>
-</tr>
-<tr>
-<td id="pop.default"><code>default</code></td>
-<td>default is <code>unbound</code><br />
-a default value if the key is absent.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `key` | required  The key. |
+| `default` | default is `unbound`  a default value if the key is absent. |
 
 ## popitem
 
-``` rule-signature
+```
 tuple dict.popitem()
 ```
 
@@ -155,7 +117,7 @@ Remove and return the first `(key, value)` pair from the dictionary. `popitem` i
 
 ## setdefault
 
-``` rule-signature
+```
 unknown dict.setdefault(key, default=None)
 ```
 
@@ -163,30 +125,14 @@ If `key` is in the dictionary, return its value. If not, insert key with a value
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="setdefault.key"><code>key</code></td>
-<td>required<br />
-The key.</td>
-</tr>
-<tr>
-<td id="setdefault.default"><code>default</code></td>
-<td>default is <code>None</code><br />
-a default value if the key is absent.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `key` | required  The key. |
+| `default` | default is `None`  a default value if the key is absent. |
 
 ## update
 
-``` rule-signature
+```
 None dict.update(pairs=[], **kwargs)
 ```
 
@@ -197,35 +143,19 @@ Each keyword argument `name=value` causes the name/value pair to be inserted int
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="update.pairs"><code>pairs</code></td>
-<td>default is <code>[]</code><br />
-Either a dictionary or a list of entries. Entries must be tuples or lists with exactly two elements: key, value.</td>
-</tr>
-<tr>
-<td id="update.kwargs"><code>kwargs</code></td>
-<td>required<br />
-Dictionary of additional entries.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `pairs` | default is `[]`  Either a dictionary or a list of entries. Entries must be tuples or lists with exactly two elements: key, value. |
+| `kwargs` | required  Dictionary of additional entries. |
 
 ## values
 
-``` rule-signature
+```
 list dict.values()
 ```
 
 Returns the list of values:
 
-``` python
-{2: "a", 4: "b", 1: "c"}.values() == ["a", "b", "c"]
+```
+\{2: "a", 4: "b", 1: "c"\}.values() == ["a", "b", "c"]
 ```

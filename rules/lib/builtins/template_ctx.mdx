@@ -2,29 +2,26 @@
 title: 'template_ctx'
 ---
 
-# template_ctx
 
-{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkTemplateContextApi.java" %}
-{% include "\_buttons.html" %}
 A context object that is passed to the action template expansion function.
 
 ## Members
 
-- [args](#args)
-- [declare_file](#declare_file)
-- [run](#run)
+* [args](#args)
+* [declare\_file](#declare_file)
+* [run](#run)
 
 ## args
 
-``` rule-signature
+```
 Args template_ctx.args()
 ```
 
 Returns an Args object that can be used to build memory-efficient command lines.
 
-## declare_file
+## declare\_file
 
-``` rule-signature
+```
 File template_ctx.declare_file(filename, *, directory)
 ```
 
@@ -34,32 +31,14 @@ Remember that in addition to declaring a file, you must separately create an act
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="declare_file.filename"><code>filename</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>;
-required<br />
-The relative path of the file within the directory.</td>
-</tr>
-<tr>
-<td id="declare_file.directory"><code>directory</code></td>
-<td><a href="../builtins/File.html" class="anchor">File</a>;
-required<br />
-The directory in which the file should be created.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `filename` | [string](../core/string.mdx); required  The relative path of the file within the directory. |
+| `directory` | [File](../builtins/File.mdx); required  The directory in which the file should be created. |
 
 ## run
 
-``` rule-signature
+```
 None template_ctx.run(*, outputs, inputs=[], executable, tools=None, arguments=[], progress_message=None)
 ```
 
@@ -67,56 +46,11 @@ Creates an action that runs an executable.
 
 ### Parameters
 
-<table class="table table-bordered table-condensed table-params">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td id="run.outputs"><code>outputs</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s;
-required<br />
-List of the output files of the action.</td>
-</tr>
-<tr>
-<td id="run.inputs"><code>inputs</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a> of <a href="../builtins/File.html" class="anchor">File</a>s; or <a href="../builtins/depset.html" class="anchor">depset</a>;
-default is <code>[]</code><br />
-List or depset of the input files of the action.</td>
-</tr>
-<tr>
-<td id="run.executable"><code>executable</code></td>
-<td><a href="../builtins/File.html" class="anchor">File</a>; or <a href="../core/string.html" class="anchor">string</a>; or <a href="../providers/FilesToRunProvider.html" class="anchor">FilesToRunProvider</a>;
-required<br />
-The executable file to be called by the action.</td>
-</tr>
-<tr>
-<td id="run.tools"><code>tools</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>; or <a href="../builtins/depset.html" class="anchor">depset</a>; or <code>None</code>;
-default is <code>None</code><br />
-List or <a href="../builtins/depset.html"><code>depset</code></a> of any tools needed by the action. Tools are executable inputs that may have their own runfiles which are automatically made available to the action.
-<p>When a list is provided, it can be a heterogenous collection of:</p>
-<ul>
-<li><code>File</code>s</li>
-<li><code>FilesToRunProvider</code> instances</li>
-<li><code>depset</code>s of <code>File</code>s</li>
-</ul>
-<code>File</code>s from <a href="../builtins/ctx#executable"><code>ctx.executable</code></a> and <code>FilesToRunProvider</code>s which are directly in the list will have their runfiles automatically added. All tools are implicitly added as inputs.</td>
-</tr>
-<tr>
-<td id="run.arguments"><code>arguments</code></td>
-<td><a href="../core/list.html" class="anchor">sequence</a>;
-default is <code>[]</code><br />
-Command line arguments of the action. Must be a list of strings or <a href="#args"><code>actions.args()</code></a> objects.</td>
-</tr>
-<tr>
-<td id="run.progress_message"><code>progress_message</code></td>
-<td><a href="../core/string.html" class="anchor">string</a>; or <code>None</code>;
-default is <code>None</code><br />
-Progress message to show to the user during the build.</td>
-</tr>
-</tbody>
-</table>
+| Parameter | Description |
+| --- | --- |
+| `outputs` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; required  List of the output files of the action. |
+| `inputs` | [sequence](../core/list.mdx) of [File](../builtins/File.mdx)s; or [depset](../builtins/depset.mdx); default is `[]`  List or depset of the input files of the action. |
+| `executable` | [File](../builtins/File.mdx); or [string](../core/string.mdx); or [FilesToRunProvider](../providers/FilesToRunProvider.mdx); required  The executable file to be called by the action. |
+| `tools` | [sequence](../core/list.mdx); or [depset](../builtins/depset.mdx); or `None`; default is `None`  List or [`depset`](../builtins/depset.mdx) of any tools needed by the action. Tools are executable inputs that may have their own runfiles which are automatically made available to the action. When a list is provided, it can be a heterogenous collection of:  * `File`s * `FilesToRunProvider` instances * `depset`s of `File`s  `File`s from [`ctx.executable`](../builtins/ctx#executable) and `FilesToRunProvider`s which are directly in the list will have their runfiles automatically added. All tools are implicitly added as inputs. |
+| `arguments` | [sequence](../core/list.mdx); default is `[]`  Command line arguments of the action. Must be a list of strings or [`actions.args()`](#args) objects. |
+| `progress_message` | [string](../core/string.mdx); or `None`; default is `None`  Progress message to show to the user during the build. |
