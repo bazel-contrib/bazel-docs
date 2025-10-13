@@ -1,0 +1,342 @@
+---
+title: 'Bazel Flag Cheat Sheet'
+---
+
+Navigating Bazel's extensive list of command line flags can be a challenge. This page focuses on the most crucial flags you'll need to know.
+
+<Tip>
+Select the flag name in table to navigate to its entry in the command line reference.
+</Tip>
+
+## Useful general options
+
+The following flags are meant to be set explicitly on the command line.
+
+### --config
+
+You can organize flags in a `.bazelrc` file into configurations, like ones for debugging or release builds. Additional configuration groups can be selected with `--config=<group>`.
+
+[See command line reference](/reference/command-line-reference#flag--config)
+
+### --keep_going
+
+Bazel should try as much as possible to continue with build and test execution. By default, Bazel fails eagerly.
+
+[See command line reference](/reference/command-line-reference#flag--keep_going)
+
+### --remote_download_outputs
+
+When using remote execution or caching (both disk and remote), you can signal to Bazel that you want to download **all** (intermediate) build artifacts as follows:
+
+```bash
+--remote_download_outputs=all
+```
+
+By default, Bazel only downloads top-level artifacts, such as the final binary, and intermediate artifacts that are necessary for local actions.
+
+[See command line reference](/reference/command-line-reference#flag--remote_download_outputs)
+
+### --stamp
+
+Adds build info (user, timestamp) to binaries.
+
+<Note>
+Because this increases build time, it's only intended for release builds.
+</Note>
+
+[See command line reference](/reference/command-line-reference#flag--stamp)
+
+## Uncover Build & Test Issues
+
+The following flags can help you better understand Bazel build or test errors.
+
+### --announce_rc
+
+Shows which flags are implicitly set through user-defined, machine-defined, or project-defined `.bazelrc` files.
+
+[See command line reference](/reference/command-line-reference#flag--announce_rc)
+
+### --auto_output_filter
+
+By default, Bazel tries to prevent log spam and does only print compiler warnings and Starlark debug output for packages and subpackages requested on the command line. To disable all filtering, set `--auto_output_filter=none`.
+
+[See command line reference](/reference/command-line-reference#flag--auto_output_filter)
+
+### --sandbox_debug
+
+Lets you drill into sandboxing errors. For details on why Bazel sandboxes builds by default and what gets sandboxed, see our [sandboxing documentation](/docs/sandboxing).
+
+<Tip>
+If you think the error might be caused by sandboxing, try turning sandboxing off temporarily.
+
+To do this, add `--spawn_strategy=local` to your command.
+</Tip>
+
+[See command line reference](/reference/command-line-reference#flag--sandbox_debug)
+
+### --subcommands (-s)
+
+Displays a comprehensive list of every command that Bazel runs during a build, regardless of whether it succeeds or fails.
+
+[See command line reference](/reference/command-line-reference#flag--subcommands)
+
+## Startup
+
+<Warning>
+Startup flags need to be passed before the command and cause a server restart. Toggle these flags with caution.
+</Warning>
+
+### --bazelrc
+
+You can specify default Bazel options in `.bazelrc` files. If multiple `.bazelrc` files exist, you can select which one to use with `--bazelrc=/path/to/.bazelrc`.
+
+To ignore all `.bazelrc` files, use `--bazelrc=/dev/null`.
+
+[See command line reference](/reference/command-line-reference#flag--bazelrc)
+
+### --output_base
+
+Bazel stores all data at `~/.cache/bazel/_bazel_$USER` by default. If this directory is on a network drive, you may want to relocate it to local storage using `--output_base=/path/to/base`.
+
+[See command line reference](/reference/command-line-reference#flag--output_base)
+
+## Set Bazelrc files
+
+You can control which `.bazelrc` files Bazel reads and in what order.
+
+### --bazelrc
+
+Specifies the path to a `.bazelrc` file to use. Can be passed multiple times.
+
+[See command line reference](/reference/command-line-reference#flag--bazelrc)
+
+### --nosystem_rc
+
+Prevents reading system-wide `.bazelrc` files.
+
+[See command line reference](/reference/command-line-reference#flag--nosystem_rc)
+
+### --noworkspace_rc
+
+Prevents reading workspace `.bazelrc` files.
+
+[See command line reference](/reference/command-line-reference#flag--noworkspace_rc)
+
+### --nohome_rc
+
+Prevents reading home directory `.bazelrc` files.
+
+[See command line reference](/reference/command-line-reference#flag--nohome_rc)
+
+## Building and Testing
+
+Flags for optimizing your build and test workflows.
+
+### --jobs (-j)
+
+Controls how many parallel jobs Bazel runs. The default is based on your host's capacity. Setting it too high may cause thrashing, while setting it too low underutilizes resources.
+
+```bash
+bazel build --jobs=50 //my:target
+```
+
+[See command line reference](/reference/command-line-reference#flag--jobs)
+
+### --local_resources
+
+Explicitly sets the amount of local resources (RAM, CPU) that Bazel can use. Useful when running builds on machines with limited resources.
+
+```bash
+--local_resources=12000,8,1.0
+```
+
+[See command line reference](/reference/command-line-reference#flag--local_resources)
+
+### --test_output
+
+Controls how test output is displayed:
+- `summary` - shows only final summary (default)
+- `errors` - shows output from failed tests
+- `all` - shows all test output
+- `streamed` - streams test output in real-time
+
+```bash
+bazel test --test_output=errors //my:test
+```
+
+[See command line reference](/reference/command-line-reference#flag--test_output)
+
+### --test_filter
+
+Runs only tests whose names match the specified pattern. Useful for running a subset of tests.
+
+```bash
+bazel test --test_filter=MyTestCase.testMethod //my:test
+```
+
+[See command line reference](/reference/command-line-reference#flag--test_filter)
+
+### --cache_test_results
+
+Controls whether test results are cached. Set to `no` or `false` to force tests to re-run even if nothing has changed.
+
+```bash
+bazel test --cache_test_results=no //my:test
+```
+
+[See command line reference](/reference/command-line-reference#flag--cache_test_results)
+
+## Remote Execution and Caching
+
+Flags for configuring remote build execution and caching.
+
+### --remote_executor
+
+Specifies the remote execution endpoint.
+
+```bash
+--remote_executor=grpc://remote.build.example.com:8080
+```
+
+[See command line reference](/reference/command-line-reference#flag--remote_executor)
+
+### --remote_cache
+
+Specifies the remote cache endpoint.
+
+```bash
+--remote_cache=grpc://cache.build.example.com:8080
+```
+
+[See command line reference](/reference/command-line-reference#flag--remote_cache)
+
+### --remote_timeout
+
+Sets the timeout for remote execution and cache operations.
+
+```bash
+--remote_timeout=60s
+```
+
+[See command line reference](/reference/command-line-reference#flag--remote_timeout)
+
+## Debugging
+
+Flags to help debug build issues.
+
+### --explain
+
+Generates a detailed explanation of why each action was executed, writing it to the specified file.
+
+```bash
+bazel build --explain=explain.log //my:target
+```
+
+[See command line reference](/reference/command-line-reference#flag--explain)
+
+### --verbose_explanations
+
+Provides more detailed explanations when used with `--explain`.
+
+[See command line reference](/reference/command-line-reference#flag--verbose_explanations)
+
+### --profile
+
+Generates a JSON profile of the build, useful for performance analysis.
+
+```bash
+bazel build --profile=profile.json //my:target
+```
+
+You can analyze the profile with `bazel analyze-profile profile.json`.
+
+[See command line reference](/reference/command-line-reference#flag--profile)
+
+## Output Control
+
+### --output_filter
+
+Filters build output to show only messages from targets matching the specified pattern.
+
+```bash
+--output_filter=^//my/package
+```
+
+[See command line reference](/reference/command-line-reference#flag--output_filter)
+
+### --show_progress
+
+Controls whether to show progress messages during build.
+
+[See command line reference](/reference/command-line-reference#flag--show_progress)
+
+### --show_progress_rate_limit
+
+Sets the minimum time between progress updates (in seconds).
+
+```bash
+--show_progress_rate_limit=1.0
+```
+
+[See command line reference](/reference/command-line-reference#flag--show_progress_rate_limit)
+
+## Sandboxing
+
+### --spawn_strategy
+
+Controls the execution strategy for actions. Common values:
+- `sandboxed` - run in sandbox (default on Linux/macOS)
+- `local` - run without sandboxing
+- `worker` - use persistent worker processes
+- `remote` - execute remotely
+
+```bash
+--spawn_strategy=local
+```
+
+[See command line reference](/reference/command-line-reference#flag--spawn_strategy)
+
+### --sandbox_tmpfs_path
+
+Mounts a temporary filesystem at the specified path within the sandbox. Can improve performance for heavy I/O operations.
+
+```bash
+--sandbox_tmpfs_path=/tmp
+```
+
+[See command line reference](/reference/command-line-reference#flag--sandbox_tmpfs_path)
+
+## Configuration
+
+### --compilation_mode (-c)
+
+Sets the compilation mode:
+- `fastbuild` - fast compilation with minimal optimizations (default)
+- `opt` - optimized build for release
+- `dbg` - debug build with symbols
+
+```bash
+bazel build -c opt //my:target
+```
+
+[See command line reference](/reference/command-line-reference#flag--compilation_mode)
+
+### --platforms
+
+Specifies the target platform for the build.
+
+```bash
+--platforms=@platforms//os:linux
+```
+
+[See command line reference](/reference/command-line-reference#flag--platforms)
+
+### --cpu
+
+Specifies the target CPU architecture. Being replaced by `--platforms`.
+
+```bash
+--cpu=k8
+```
+
+[See command line reference](/reference/command-line-reference#flag--cpu)

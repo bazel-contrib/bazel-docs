@@ -186,6 +186,18 @@
                     ]
                   },
                   {
+                    "group": "Test Encyclopedia",
+                    "pages": [
+                      "reference/test-encyclopedia"
+                    ]
+                  },
+                  {
+                    "group": "Flag Cheat Sheet",
+                    "pages": [
+                      "reference/flag-cheatsheet"
+                    ]
+                  },
+                  {
                     "group": "Skyframe",
                     "pages": [
                       "reference/skyframe"
