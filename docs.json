@@ -20,12 +20,6 @@
                 "tab": "Tutorials",
                 "groups": [
                   {
-                    "group": "Getting Started",
-                    "pages": [
-                      "docs/diataxis-guide"
-                    ]
-                  },
-                  {
                     "group": "First Steps with Bazel",
                     "pages": [
                       "install/bazelisk",
