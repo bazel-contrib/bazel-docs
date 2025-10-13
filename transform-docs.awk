@@ -67,6 +67,17 @@ BEGIN {
     gsub(/\{: \.external\}/, "", $0)
 }
 
+# Convert underscores to dashes in anchor references for Mintlify compatibility
+# Mintlify auto-generates anchors with dashes, not underscores
+{
+    while (match($0, /\(#[^)]*_[^)]*\)/)) {
+        anchor = substr($0, RSTART, RLENGTH)
+        new_anchor = anchor
+        gsub(/_/, "-", new_anchor)
+        $0 = substr($0, 1, RSTART-1) new_anchor substr($0, RSTART+RLENGTH)
+    }
+}
+
 # Skip blank lines before first H1
 /^[ \t]*$/ && before_first_h1 == 1 { next }
 
