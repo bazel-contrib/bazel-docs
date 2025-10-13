@@ -50,7 +50,10 @@ query/language.mdx
 query/quickstart.mdx
 reference/flag-cheatsheet.mdx
 reference/test-encyclopedia.mdx
+reference/command-line-reference.mdx
 reference/be/be-nav.mdx
+reference/be/functions.mdx
+reference/be/platforms-and-toolchains.mdx
 release/rolling.mdx
 remote/ci.mdx
 remote/dynamic.mdx

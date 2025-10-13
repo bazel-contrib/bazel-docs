@@ -169,22 +169,14 @@
                       "reference/be/c-cpp",
                       "reference/be/common-definitions",
                       "reference/be/extra-actions",
-                      "reference/be/functions",
                       "reference/be/general",
                       "reference/be/java",
                       "reference/be/make-variables",
                       "reference/be/objective-c",
                       "reference/be/overview",
-                      "reference/be/platforms-and-toolchains",
-                      "reference/be/protocol-buffers",
+                      "reference/be/protocol-buffer",
                       "reference/be/python",
                       "reference/be/shell"
-                    ]
-                  },
-                  {
-                    "group": "Command line reference",
-                    "pages": [
-                      "reference/command-line-reference"
                     ]
                   },
                   {
