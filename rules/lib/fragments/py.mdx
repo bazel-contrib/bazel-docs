@@ -3,17 +3,18 @@ title: 'py'
 ---
 
 
+
 A configuration fragment for Python.
 
 ## Members
 
-* [build\_python\_zip](#build_python_zip)
-* [default\_python\_version](#default_python_version)
-* [default\_to\_explicit\_init\_py](#default_to_explicit_init_py)
-* [disable\_py2](#disable_py2)
-* [disallow\_native\_rules](#disallow_native_rules)
-* [include\_label\_in\_linkstamp](#include_label_in_linkstamp)
-* [use\_toolchains](#use_toolchains)
+- [build\_python\_zip](#build_python_zip)
+- [default\_python\_version](#default_python_version)
+- [default\_to\_explicit\_init\_py](#default_to_explicit_init_py)
+- [disable\_py2](#disable_py2)
+- [disallow\_native\_rules](#disallow_native_rules)
+- [include\_label\_in\_linkstamp](#include_label_in_linkstamp)
+- [use\_toolchains](#use_toolchains)
 
 ## build\_python\_zip
 
@@ -21,7 +22,9 @@ A configuration fragment for Python.
 bool py.build_python_zip
 ```
 
-The effective value of --build\_python\_zip
+ The effective value of --build\_python\_zip
+
+
 
 ## default\_python\_version
 
@@ -29,7 +32,9 @@ The effective value of --build\_python\_zip
 string py.default_python_version
 ```
 
-No-op: PY3 is the default Python version.
+ No-op: PY3 is the default Python version.
+
+
 
 ## default\_to\_explicit\_init\_py
 
@@ -37,7 +42,9 @@ No-op: PY3 is the default Python version.
 bool py.default_to_explicit_init_py
 ```
 
-The value from the --incompatible\_default\_to\_explicit\_init\_py flag
+ The value from the --incompatible\_default\_to\_explicit\_init\_py flag
+
+
 
 ## disable\_py2
 
@@ -45,7 +52,9 @@ The value from the --incompatible\_default\_to\_explicit\_init\_py flag
 bool py.disable_py2
 ```
 
-No-op: PY2 is no longer supported.
+ No-op: PY2 is no longer supported.
+
+
 
 ## disallow\_native\_rules
 
@@ -53,7 +62,9 @@ No-op: PY2 is no longer supported.
 bool py.disallow_native_rules
 ```
 
-The value of the --incompatible\_python\_disallow\_native\_rules flag.
+ The value of the --incompatible\_python\_disallow\_native\_rules flag.
+
+
 
 ## include\_label\_in\_linkstamp
 
@@ -61,7 +72,9 @@ The value of the --incompatible\_python\_disallow\_native\_rules flag.
 bool py.include_label_in_linkstamp
 ```
 
-Whether the build label is included in unstamped builds.
+ Whether the build label is included in unstamped builds.
+
+
 
 ## use\_toolchains
 
@@ -69,4 +82,4 @@ Whether the build label is included in unstamped builds.
 bool py.use_toolchains
 ```
 
-No-op: Python toolchains are always used.
+ No-op: Python toolchains are always used.

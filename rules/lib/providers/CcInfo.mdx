@@ -3,13 +3,14 @@ title: 'CcInfo'
 ---
 
 
+
 A provider for compilation and linking of C++. This is also a marking provider telling C++ rules that they can depend on the rule with this provider. If it is not intended for the rule to be depended on by C++, the rule should wrap the CcInfo in some other provider.
 
 ## Members
 
-* [CcInfo](#CcInfo)
-* [compilation\_context](#compilation_context)
-* [linking\_context](#linking_context)
+- [CcInfo](#CcInfo)
+- [compilation\_context](#compilation_context)
+- [linking\_context](#linking_context)
 
 ## CcInfo
 
@@ -17,15 +18,24 @@ A provider for compilation and linking of C++. This is also a marking provider t
 CcInfo CcInfo(*, compilation_context=None, linking_context=None, debug_context=None)
 ```
 
-The `CcInfo` constructor.
+ The `CcInfo` constructor.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `compilation_context` | [CompilationContext](../builtins/CompilationContext.mdx); or `None`; default is `None`  The `CompilationContext`. |
-| `linking_context` | [struct](../builtins/struct.mdx); or `None`; default is `None`  The `LinkingContext`. |
-| `debug_context` | [struct](../builtins/struct.mdx); or `None`; default is `None`  The `DebugContext`. |
+ParameterDescription`compilation_context`[CompilationContext](../builtins/CompilationContext.html); or `None`;
+ default is `None`
+
+ The `CompilationContext`.
+ `linking_context`[struct](../builtins/struct.html); or `None`;
+ default is `None`
+
+ The `LinkingContext`.
+ `debug_context`[struct](../builtins/struct.html); or `None`;
+ default is `None`
+
+ The `DebugContext`.
+
 
 ## compilation\_context
 
@@ -33,7 +43,7 @@ The `CcInfo` constructor.
 CompilationContext CcInfo.compilation_context
 ```
 
-Returns the `CompilationContext`
+ Returns the `CompilationContext`
 
 ## linking\_context
 
@@ -41,4 +51,4 @@ Returns the `CompilationContext`
 struct CcInfo.linking_context
 ```
 
-Returns the `LinkingContext`
+ Returns the `LinkingContext`

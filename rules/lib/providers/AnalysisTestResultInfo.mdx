@@ -3,13 +3,14 @@ title: 'AnalysisTestResultInfo'
 ---
 
 
+
 Encapsulates the result of analyis-phase testing. Build targets which return an instance of this provider signal to the build system that it should generate a 'stub' test executable which generates the equivalent test result. Analysis test rules (rules created with `analysis_test=True` **must** return an instance of this provider, and non-analysis-phase test rules **cannot** return this provider.
 
 ## Members
 
-* [AnalysisTestResultInfo](#AnalysisTestResultInfo)
-* [message](#message)
-* [success](#success)
+- [AnalysisTestResultInfo](#AnalysisTestResultInfo)
+- [message](#message)
+- [success](#success)
 
 ## AnalysisTestResultInfo
 
@@ -17,14 +18,20 @@ Encapsulates the result of analyis-phase testing. Build targets which return an 
 AnalysisTestResultInfo AnalysisTestResultInfo(success, message)
 ```
 
-The `AnalysisTestResultInfo` constructor.
+ The `AnalysisTestResultInfo` constructor.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `success` | [bool](../core/bool.mdx); required  If true, then the analysis-phase test represented by this target should pass. If false, the test should fail. |
-| `message` | [string](../core/string.mdx); required  A descriptive message containing information about the test and its success/failure. |
+ParameterDescription`success`[bool](../core/bool.html);
+ required
+
+ If true, then the analysis-phase test represented by this target should pass. If false, the test should fail.
+ `message`[string](../core/string.html);
+ required
+
+ A descriptive message containing information about the test and its success/failure.
+
 
 ## message
 
@@ -32,7 +39,9 @@ The `AnalysisTestResultInfo` constructor.
 string AnalysisTestResultInfo.message
 ```
 
-A descriptive message containing information about the test and its success/failure.
+ A descriptive message containing information about the test and its success/failure.
+
+
 
 ## success
 
@@ -40,4 +49,4 @@ A descriptive message containing information about the test and its success/fail
 bool AnalysisTestResultInfo.success
 ```
 
-If true, then the analysis-phase test represented by this target passed. If false, the test failed.
+ If true, then the analysis-phase test represented by this target passed. If false, the test failed.

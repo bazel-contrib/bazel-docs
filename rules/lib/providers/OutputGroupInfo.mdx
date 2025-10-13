@@ -3,12 +3,14 @@ title: 'OutputGroupInfo'
 ---
 
 
-A provider that indicates what output groups a rule has.  
+
+A provider that indicates what output groups a rule has.
+
 See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files) for more information.
 
 ## Members
 
-* [OutputGroupInfo](#OutputGroupInfo)
+- [OutputGroupInfo](#OutputGroupInfo)
 
 ## OutputGroupInfo
 
@@ -16,16 +18,18 @@ See [Requesting output files](https://bazel.build/extending/rules#requesting_out
 OutputGroupInfo OutputGroupInfo(**kwargs)
 ```
 
-Instantiate this provider with   
+ Instantiate this provider with
 
 ```
-OutputGroupInfo(group1 = \<files\>, group2 = \<files\>...)
+OutputGroupInfo(group1 = <files>, group2 = <files>...)
 ```
 
-See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files)  for more information.
+See [Requesting output files](https://bazel.build/extending/rules#requesting_output_files) for more information.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `kwargs` | default is `\{\}` |
+ParameterDescription`kwargs`
+ default is `{}`
+
+ Dictionary of arguments.

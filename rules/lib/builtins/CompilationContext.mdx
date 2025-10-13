@@ -3,23 +3,24 @@ title: 'CompilationContext'
 ---
 
 
+
 Immutable store of information needed for C++ compilation that is aggregated across dependencies.
 
 ## Members
 
-* [defines](#defines)
-* [direct\_headers](#direct_headers)
-* [direct\_private\_headers](#direct_private_headers)
-* [direct\_public\_headers](#direct_public_headers)
-* [direct\_textual\_headers](#direct_textual_headers)
-* [external\_includes](#external_includes)
-* [framework\_includes](#framework_includes)
-* [headers](#headers)
-* [includes](#includes)
-* [local\_defines](#local_defines)
-* [quote\_includes](#quote_includes)
-* [system\_includes](#system_includes)
-* [validation\_artifacts](#validation_artifacts)
+- [defines](#defines)
+- [direct\_headers](#direct_headers)
+- [direct\_private\_headers](#direct_private_headers)
+- [direct\_public\_headers](#direct_public_headers)
+- [direct\_textual\_headers](#direct_textual_headers)
+- [external\_includes](#external_includes)
+- [framework\_includes](#framework_includes)
+- [headers](#headers)
+- [includes](#includes)
+- [local\_defines](#local_defines)
+- [quote\_includes](#quote_includes)
+- [system\_includes](#system_includes)
+- [validation\_artifacts](#validation_artifacts)
 
 ## defines
 
@@ -27,7 +28,9 @@ Immutable store of information needed for C++ compilation that is aggregated acr
 depset CompilationContext.defines
 ```
 
-Returns the set of defines needed to compile this target. Each define is a string. These values are propagated to the target's transitive dependents, that is, any rules that depend on this target.
+ Returns the set of defines needed to compile this target. Each define is a string. These values are propagated to the target's transitive dependents, that is, any rules that depend on this target.
+
+
 
 ## direct\_headers
 
@@ -35,7 +38,9 @@ Returns the set of defines needed to compile this target. Each define is a strin
 list CompilationContext.direct_headers
 ```
 
-Returns the list of modular headers that are declared by this target. This includes both public headers (such as those listed in "hdrs") and private headers (such as those listed in "srcs").
+ Returns the list of modular headers that are declared by this target. This includes both public headers (such as those listed in "hdrs") and private headers (such as those listed in "srcs").
+
+
 
 ## direct\_private\_headers
 
@@ -43,7 +48,9 @@ Returns the list of modular headers that are declared by this target. This inclu
 list CompilationContext.direct_private_headers
 ```
 
-Returns the list of modular private headers (those listed in "srcs") that are declared by this target.
+ Returns the list of modular private headers (those listed in "srcs") that are declared by this target.
+
+
 
 ## direct\_public\_headers
 
@@ -51,7 +58,9 @@ Returns the list of modular private headers (those listed in "srcs") that are de
 list CompilationContext.direct_public_headers
 ```
 
-Returns the list of modular public headers (those listed in "hdrs") that are declared by this target.
+ Returns the list of modular public headers (those listed in "hdrs") that are declared by this target.
+
+
 
 ## direct\_textual\_headers
 
@@ -59,7 +68,9 @@ Returns the list of modular public headers (those listed in "hdrs") that are dec
 list CompilationContext.direct_textual_headers
 ```
 
-Returns the list of textual headers that are declared by this target.
+ Returns the list of textual headers that are declared by this target.
+
+
 
 ## external\_includes
 
@@ -67,7 +78,9 @@ Returns the list of textual headers that are declared by this target.
 depset CompilationContext.external_includes
 ```
 
-Returns the set of search paths (as strings) for external header files referenced by angle bracket. Usually passed with -isystem.
+ Returns the set of search paths (as strings) for external header files referenced by angle bracket. Usually passed with -isystem.
+
+
 
 ## framework\_includes
 
@@ -75,7 +88,9 @@ Returns the set of search paths (as strings) for external header files reference
 depset CompilationContext.framework_includes
 ```
 
-Returns the set of search paths (as strings) for framework header files. Usually passed with -F.
+ Returns the set of search paths (as strings) for framework header files. Usually passed with -F.
+
+
 
 ## headers
 
@@ -83,7 +98,9 @@ Returns the set of search paths (as strings) for framework header files. Usually
 depset CompilationContext.headers
 ```
 
-Returns the set of headers needed to compile this target.
+ Returns the set of headers needed to compile this target.
+
+
 
 ## includes
 
@@ -91,7 +108,9 @@ Returns the set of headers needed to compile this target.
 depset CompilationContext.includes
 ```
 
-Returns the set of search paths (as strings) for header files referenced both by angle bracket and quotes. Usually passed with -I.
+ Returns the set of search paths (as strings) for header files referenced both by angle bracket and quotes. Usually passed with -I.
+
+
 
 ## local\_defines
 
@@ -99,7 +118,9 @@ Returns the set of search paths (as strings) for header files referenced both by
 depset CompilationContext.local_defines
 ```
 
-Returns the set of defines needed to compile this target. Each define is a string. These values are not propagated to the target's transitive dependents.
+ Returns the set of defines needed to compile this target. Each define is a string. These values are not propagated to the target's transitive dependents.
+
+
 
 ## quote\_includes
 
@@ -107,7 +128,9 @@ Returns the set of defines needed to compile this target. Each define is a strin
 depset CompilationContext.quote_includes
 ```
 
-Returns the set of search paths (as strings) for header files referenced by quotes, e.g. #include "foo/bar/header.h". They can be either relative to the exec root or absolute. Usually passed with -iquote.
+ Returns the set of search paths (as strings) for header files referenced by quotes, e.g. #include "foo/bar/header.h". They can be either relative to the exec root or absolute. Usually passed with -iquote.
+
+
 
 ## system\_includes
 
@@ -115,7 +138,9 @@ Returns the set of search paths (as strings) for header files referenced by quot
 depset CompilationContext.system_includes
 ```
 
-Returns the set of search paths (as strings) for header files referenced by angle brackets, e.g. #include &lt;foo/bar/header.h&gt;. They can be either relative to the exec root or absolute. Usually passed with -isystem.
+ Returns the set of search paths (as strings) for header files referenced by angle brackets, e.g. #include <foo/bar/header.h>. They can be either relative to the exec root or absolute. Usually passed with -isystem.
+
+
 
 ## validation\_artifacts
 
@@ -123,4 +148,4 @@ Returns the set of search paths (as strings) for header files referenced by angl
 depset CompilationContext.validation_artifacts
 ```
 
-Returns the set of validation artifacts.
+ Returns the set of validation artifacts.

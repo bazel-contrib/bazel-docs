@@ -1,14 +1,15 @@
 ---
-title: 'repo'
+title: 'REPO.bazel files'
 ---
+
 
 
 Methods available in REPO.bazel files.
 
 ## Members
 
-* [ignore\_directories](#ignore_directories)
-* [repo](#repo)
+- [ignore\_directories](#ignore_directories)
+- [repo](#repo)
 
 ## ignore\_directories
 
@@ -16,15 +17,15 @@ Methods available in REPO.bazel files.
 None ignore_directories(dirs)
 ```
 
-The list of directories to ignore in this repository.
+ The list of directories to ignore in this repository.
 
 This function takes a list of strings and a directory is ignored if any of the given strings matches its repository-relative path according to the semantics of the `glob()` function. This function can be used to ignore directories that are implementation details of source control systems, output files of other build systems, etc.
 
+
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `dirs` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; required |
+ParameterDescription`dirs`[sequence](../core/list.html) of [string](../core/string.html) s;
+ required
 
 ## repo
 
@@ -32,10 +33,12 @@ This function takes a list of strings and a directory is ignored if any of the g
 None repo(**kwargs)
 ```
 
-Declares metadata that applies to every rule in the repository. It must be called at most once per REPO.bazel file. If called, it must be the first call in the REPO.bazel file.
+ Declares metadata that applies to every rule in the repository. It must be called at most once per REPO.bazel file. If called, it must be the first call in the REPO.bazel file.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `kwargs` | required  The `repo()` function accepts exactly the same arguments as the [`package()`](./reference/be/functions#package) function in BUILD files. |
+ParameterDescription`kwargs`
+ required
+
+ The `repo()` function accepts exactly the same arguments as the [`package()`](/reference/be/functions#package) function in BUILD files.

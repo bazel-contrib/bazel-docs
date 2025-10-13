@@ -1,20 +1,21 @@
 ---
-title: 'apple_common'
+title: 'apple\_common'
 ---
+
 
 
 Functions for Starlark to access internals of the apple rule implementations.
 
 ## Members
 
-* [apple\_host\_system\_env](#apple_host_system_env)
-* [apple\_toolchain](#apple_toolchain)
-* [dotted\_version](#dotted_version)
-* [platform](#platform)
-* [platform\_type](#platform_type)
-* [target\_apple\_env](#target_apple_env)
-* [XcodeProperties](#XcodeProperties)
-* [XcodeVersionConfig](#XcodeVersionConfig)
+- [apple\_host\_system\_env](#apple_host_system_env)
+- [apple\_toolchain](#apple_toolchain)
+- [dotted\_version](#dotted_version)
+- [platform](#platform)
+- [platform\_type](#platform_type)
+- [target\_apple\_env](#target_apple_env)
+- [XcodeProperties](#XcodeProperties)
+- [XcodeVersionConfig](#XcodeVersionConfig)
 
 ## apple\_host\_system\_env
 
@@ -22,13 +23,16 @@ Functions for Starlark to access internals of the apple rule implementations.
 dict apple_common.apple_host_system_env(xcode_config)
 ```
 
-Returns a [dict](../core/dict.mdx) of environment variables that should be set for actions that need to run build tools on an Apple host system, such as the version of Xcode that should be used. The keys are variable names and the values are their corresponding values.
+ Returns a [dict](../core/dict.html) of environment variables that should be set for actions that need to run build tools on an Apple host system, such as the version of Xcode that should be used. The keys are variable names and the values are their corresponding values.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `xcode_config` | required  A provider containing information about the Xcode configuration. |
+ParameterDescription`xcode_config`
+ required
+
+ A provider containing information about the Xcode configuration.
+
 
 ## apple\_toolchain
 
@@ -36,7 +40,9 @@ Returns a [dict](../core/dict.mdx) of environment variables that should be set f
 unknown apple_common.apple_toolchain()
 ```
 
-Utilities for resolving items from the apple toolchain.
+ Utilities for resolving items from the apple toolchain.
+
+
 
 ## dotted\_version
 
@@ -44,13 +50,16 @@ Utilities for resolving items from the apple toolchain.
 DottedVersion apple_common.dotted_version(version)
 ```
 
-Creates a new [DottedVersion](../builtins/DottedVersion.mdx) instance.
+ Creates a new [DottedVersion](../builtins/DottedVersion.html) instance.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `version` | [string](../core/string.mdx); required  The string representation of the DottedVersion. |
+ParameterDescription`version`[string](../core/string.html);
+ required
+
+ The string representation of the DottedVersion.
+
 
 ## platform
 
@@ -58,19 +67,21 @@ Creates a new [DottedVersion](../builtins/DottedVersion.mdx) instance.
 struct apple_common.platform
 ```
 
-An enum-like struct that contains the following fields corresponding to Apple platforms:  
+ An enum-like struct that contains the following fields corresponding to Apple platforms:
 
-* `ios_device`
-* `ios_simulator`
-* `macos`
-* `tvos_device`
-* `tvos_simulator`
-* `visionos_device`
-* `visionos_simulator`
-* `watchos_device`
-* `watchos_simulator`
+- `ios_device`
+- `ios_simulator`
+- `macos`
+- `tvos_device`
+- `tvos_simulator`
+- `visionos_device`
+- `visionos_simulator`
+- `watchos_device`
+- `watchos_simulator`
 
 These values can be passed to methods that expect a platform, like [XcodeVersionConfig.sdk\_version\_for\_platform](../providers/XcodeVersionConfig.html#sdk_version_for_platform).
+
+
 
 ## platform\_type
 
@@ -78,13 +89,13 @@ These values can be passed to methods that expect a platform, like [XcodeVersion
 struct apple_common.platform_type
 ```
 
-An enum-like struct that contains the following fields corresponding to Apple platform types:  
+ An enum-like struct that contains the following fields corresponding to Apple platform types:
 
-* `ios`
-* `macos`
-* `tvos`
-* `visionos`
-* `watchos`
+- `ios`
+- `macos`
+- `tvos`
+- `visionos`
+- `watchos`
 
 These values can be passed to methods that expect a platform type, like the 'apple' configuration fragment's [multi\_arch\_platform](../fragments/apple.html#multi_arch_platform) method.
 
@@ -92,6 +103,7 @@ Example:
 
 ```
 ctx.fragments.apple.multi_arch_platform(apple_common.platform_type.ios)
+
 ```
 
 ## target\_apple\_env
@@ -100,14 +112,20 @@ ctx.fragments.apple.multi_arch_platform(apple_common.platform_type.ios)
 dict apple_common.target_apple_env(xcode_config, platform)
 ```
 
-Returns a `dict` of environment variables that should be set for actions that build targets of the given Apple platform type. For example, this dictionary contains variables that denote the platform name and SDK version with which to build. The keys are variable names and the values are their corresponding values.
+ Returns a `dict` of environment variables that should be set for actions that build targets of the given Apple platform type. For example, this dictionary contains variables that denote the platform name and SDK version with which to build. The keys are variable names and the values are their corresponding values.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `xcode_config` | required |
-| `platform` | required |
+ParameterDescription`xcode_config`
+ required
+
+ A provider containing information about the Xcode configuration.
+ `platform`
+ required
+
+ The apple platform.
+
 
 ## XcodeProperties
 
@@ -115,13 +133,14 @@ Returns a `dict` of environment variables that should be set for actions that bu
 Provider apple_common.XcodeProperties
 ```
 
-The constructor/key for the `XcodeVersionProperties` provider.
+ The constructor/key for the `XcodeVersionProperties` provider.
 
-If a target propagates the `XcodeVersionProperties` provider, use this as the key with which to retrieve it. Example:  
+If a target propagates the `XcodeVersionProperties` provider, use this as the key with which to retrieve it. Example:
 
 ```
 dep = ctx.attr.deps[0]
 p = dep[apple_common.XcodeVersionProperties]
+
 ```
 
 ## XcodeVersionConfig
@@ -130,4 +149,4 @@ p = dep[apple_common.XcodeVersionProperties]
 Provider apple_common.XcodeVersionConfig
 ```
 
-The constructor/key for the `XcodeVersionConfig` provider.
+ The constructor/key for the `XcodeVersionConfig` provider.

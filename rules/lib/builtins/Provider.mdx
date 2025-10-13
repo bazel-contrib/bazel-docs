@@ -3,10 +3,12 @@ title: 'Provider'
 ---
 
 
-A constructor for simple value objects, known as provider instances.  
+
+A constructor for simple value objects, known as provider instances.
+
 This value has a dual purpose:
 
-* It is a function that can be called to construct 'struct'-like values:
+- It is a function that can be called to construct 'struct'-like values:
 
   ```
   DataInfo = provider()
@@ -14,13 +16,14 @@ This value has a dual purpose:
   print(d.x + d.y) # prints 5
   ```
 
-  Note: Some providers, defined internally, do not allow instance creation
-* It is a *key* to access a provider instance on a [Target](../builtins/Target.mdx)
+   Note: Some providers, defined internally, do not allow instance creation
+- It is a _key_ to access a provider instance on a [Target](../builtins/Target.html)
 
   ```
   DataInfo = provider()
   def _rule_impl(ctx)
     ... ctx.attr.dep[DataInfo]
   ```
+
 
 Create a new `Provider` using the [provider](../globals/bzl.html#provider) function.

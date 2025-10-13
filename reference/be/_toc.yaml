@@ -1,0 +1,33 @@
+toc:
+- title: Build encyclopedia
+  section:
+  - title: Overview
+    path: /reference/be/overview
+  - title: Common definitions
+    path: /reference/be/common-definitions
+  - title: Make variables
+    path: /reference/be/make-variables
+  - title: Functions
+    path: /reference/be/functions
+  - title: Core rules
+    section:
+    - title: Extra Actions
+      path: /reference/be/extra-actions
+    - title: General
+      path: /reference/be/general
+    - title: Platforms and Toolchains
+      path: /reference/be/platforms-and-toolchains
+  - title: Language Specific rules
+    section:
+    - title: C / C++
+      path: /reference/be/c-cpp
+    - title: Java
+      path: /reference/be/java
+    - title: Objective-C
+      path: /reference/be/objective-c
+    - title: Protocol Buffer
+      path: /reference/be/protocol-buffer
+    - title: Python
+      path: /reference/be/python
+    - title: Shell
+      path: /reference/be/shell

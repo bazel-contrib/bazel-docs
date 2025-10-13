@@ -3,34 +3,53 @@ title: 'testing'
 ---
 
 
+
 Helper methods for Starlark to access testing infrastructure.
 
 ## Members
 
-* [analysis\_test](#analysis_test)
-* [ExecutionInfo](#ExecutionInfo)
-* [TestEnvironment](#TestEnvironment)
+- [analysis\_test](#analysis_test)
+- [ExecutionInfo](#ExecutionInfo)
+- [TestEnvironment](#TestEnvironment)
 
 ## analysis\_test
 
 ```
-None testing.analysis_test(name, implementation, attrs=\{\}, fragments=[], toolchains=[], attr_values=\{\})
+None testing.analysis_test(name, implementation, attrs={}, fragments=[], toolchains=[], attr_values={})
 ```
 
-Creates a new analysis test target.
+ Creates a new analysis test target.
 
 The number of transitive dependencies of the test are limited. The limit is controlled by `--analysis_testing_deps_limit` flag.
 
+
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `name` | [string](../core/string.mdx); required  Name of the target. It should be a Starlark identifier, matching pattern '[A-Za-z\_][A-Za-z0-9\_]\*'. |
-| `implementation` | [function](../core/function.mdx); required  The Starlark function implementing this analysis test. It must have exactly one parameter: [ctx](../builtins/ctx.mdx). The function is called during the analysis phase. It can access the attributes declared by `attrs` and populated via `attr_values`. The implementation function may not register actions. Instead, it must register a pass/fail result via providing [AnalysisTestResultInfo](../providers/AnalysisTestResultInfo.mdx). |
-| `attrs` | [dict](../core/dict.mdx); default is `\{\}`  Dictionary declaring the attributes. See the [rule](../globals/bzl.html#rule) call. Attributes are allowed to use configuration transitions defined using [analysis\_test\_transition](../globals/bzl.html#analysis_test_transition). |
-| `fragments` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  List of configuration fragments that are available to the implementation of the analysis test. |
-| `toolchains` | [sequence](../core/list.mdx); default is `[]`  The set of toolchains the test requires. See the [rule](../globals/bzl.html#rule) call. |
-| `attr_values` | [dict](../core/dict.mdx) of [string](../core/string.mdx)s; default is `\{\}`  Dictionary of attribute values to pass to the implementation. |
+ParameterDescription`name`[string](../core/string.html);
+ required
+
+ Name of the target. It should be a Starlark identifier, matching pattern '\[A-Za-z\_\]\[A-Za-z0-9\_\]\*'.
+ `implementation`[function](../core/function.html);
+ required
+
+ The Starlark function implementing this analysis test. It must have exactly one parameter: [ctx](../builtins/ctx.html). The function is called during the analysis phase. It can access the attributes declared by `attrs` and populated via `attr_values`. The implementation function may not register actions. Instead, it must register a pass/fail result via providing [AnalysisTestResultInfo](../providers/AnalysisTestResultInfo.html).
+ `attrs`[dict](../core/dict.html);
+ default is `{}`
+
+ Dictionary declaring the attributes. See the [rule](../globals/bzl.html#rule) call. Attributes are allowed to use configuration transitions defined using [analysis\_test\_transition](../globals/bzl.html#analysis_test_transition).
+ `fragments`[sequence](../core/list.html) of [string](../core/string.html) s;
+ default is `[]`
+
+ List of configuration fragments that are available to the implementation of the analysis test.
+ `toolchains`[sequence](../core/list.html);
+ default is `[]`
+
+ The set of toolchains the test requires. See the [rule](../globals/bzl.html#rule) call.
+ `attr_values`[dict](../core/dict.html) of [string](../core/string.html) s;
+ default is `{}`
+
+ Dictionary of attribute values to pass to the implementation.
+
 
 ## ExecutionInfo
 
@@ -38,7 +57,9 @@ The number of transitive dependencies of the test are limited. The limit is cont
 ExecutionInfo testing.ExecutionInfo
 ```
 
-[testing.ExecutionInfo](../providers/ExecutionInfo.mdx) provider key/constructor
+ [testing.ExecutionInfo](../providers/ExecutionInfo.html) provider key/constructor
+
+
 
 ## TestEnvironment
 
@@ -46,11 +67,16 @@ ExecutionInfo testing.ExecutionInfo
 RunEnvironmentInfo testing.TestEnvironment(environment, inherited_environment=[])
 ```
 
-**Deprecated: Use RunEnvironmentInfo instead.** Creates a new test environment provider. Use this provider to specify extra environment variables to be made available during test execution.
+ **Deprecated: Use RunEnvironmentInfo instead.** Creates a new test environment provider. Use this provider to specify extra environment variables to be made available during test execution.
+
 
 ### Parameters
 
-| Parameter | Description |
-| --- | --- |
-| `environment` | [dict](../core/dict.mdx); required  A map of string keys and values that represent environment variables and their values. These will be made available during the test execution. |
-| `inherited_environment` | [sequence](../core/list.mdx) of [string](../core/string.mdx)s; default is `[]`  A sequence of names of environment variables. These variables are made available during the test execution with their current value taken from the shell environment. If a variable is contained in both `environment` and `inherited_environment`, the value inherited from the shell environment will take precedence if set. |
+ParameterDescription`environment`[dict](../core/dict.html);
+ required
+
+ A map of string keys and values that represent environment variables and their values. These will be made available during the test execution.
+ `inherited_environment`[sequence](../core/list.html) of [string](../core/string.html) s;
+ default is `[]`
+
+ A sequence of names of environment variables. These variables are made available during the test execution with their current value taken from the shell environment. If a variable is contained in both `environment` and `inherited_environment`, the value inherited from the shell environment will take precedence if set.
