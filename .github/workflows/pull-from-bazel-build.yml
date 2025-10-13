@@ -78,3 +78,69 @@ jobs:
 
         - name: Create versioned navigation
           run: ./docs.json.update.sh
+    
+        - name: Set up Go
+          uses: actions/setup-go@v6
+          with:
+            go-version: '1.25.2'
+
+        - name: Initialize Go module for converter
+          run: |
+            cd html2md_converter
+            go mod init html-to-md-converter
+            go get github.com/JohannesKaufmann/html-to-markdown
+
+        - name: Build HTML to Markdown converter
+          run: |
+            cd html2md_converter
+            go build -o html-to-md main.go
+            
+        - name: Convert reference documentation HTML to Markdown
+          run: |
+            # Extract and convert HTML reference docs to Markdown
+            ./html2md_converter/html-to-md \
+              -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
+              -output reference-docs-temp
+
+        - name: Transform reference docs to MDX
+          run: |
+            # Process reference/ directory
+            find reference-docs-temp/reference -name "*.md" -type f | while read -r file; do
+              # Extract path relative to reference-docs-temp/
+              rel_path="${file#reference-docs-temp/}"
+              output_file="$rel_path"
+              output_file="${output_file%.md}.mdx"
+              mkdir -p "$(dirname "$output_file")"
+              awk -f transform-docs.awk "$file" > "$output_file"
+            done
+            
+            # Copy YAML files
+            find reference-docs-temp/reference -name "*.yaml" -type f | while read -r file; do
+              rel_path="${file#reference-docs-temp/}"
+              output_file="$rel_path"
+              mkdir -p "$(dirname "$output_file")"
+              cp "$file" "$output_file"
+            done
+
+        - name: Transform rules docs to MDX
+          run: |
+            # Process rules/ directory
+            find reference-docs-temp/rules -name "*.md" -type f | while read -r file; do
+              # Extract path relative to reference-docs-temp/
+              rel_path="${file#reference-docs-temp/}"
+              output_file="$rel_path"
+              output_file="${output_file%.md}.mdx"
+              mkdir -p "$(dirname "$output_file")"
+              awk -f transform-docs.awk "$file" > "$output_file"
+            done
+            
+            # Copy YAML files
+            find reference-docs-temp/rules -name "*.yaml" -type f | while read -r file; do
+              rel_path="${file#reference-docs-temp/}"
+              output_file="$rel_path"
+              mkdir -p "$(dirname "$output_file")"
+              cp "$file" "$output_file"
+            done
+
+        - name: Clean up temporary files
+          run: rm -rf reference-docs-temp
