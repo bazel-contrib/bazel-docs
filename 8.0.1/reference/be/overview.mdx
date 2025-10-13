@@ -1,0 +1,134 @@
+---
+title: 'Bazel BUILD Encyclopedia of Functions'
+---
+
+
+
+## Concepts and terminology
+
+- [Common definitions](/reference/be/common-definitions)  - [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization)
+  - [Label expansion](/reference/be/common-definitions#label-expansion)
+  - [Typical attributes for most rules](/reference/be/common-definitions#typical-attributes)
+  - [Common attributes for all rules](/reference/be/common-definitions#common-attributes)
+  - [Common attributes for tests](/reference/be/common-definitions#common-attributes-tests)
+  - [Common attributes for binaries](/reference/be/common-definitions#common-attributes-binaries)
+  - [Configurable attributes](/reference/be/common-definitions#configurable-attributes)
+  - [Implicit output targets](/reference/be/common-definitions#implicit-outputs)
+- ["Make" variables](/reference/be/make-variables)  - [Use](/reference/be/make-variables#use)
+
+## Functions
+
+- [package](/reference/be/functions.html#package)
+- [package\_group](/reference/be/functions.html#package_group)
+- [exports\_files](/reference/be/functions.html#exports_files)
+- [glob](/reference/be/functions.html#glob)
+- [select](/reference/be/functions.html#select)
+- [workspace](/rules/lib/globals/workspace#workspace)
+
+## Rules
+
+Native rules ship with the Bazel binary and do not require a `load` statement.
+Native rules are available globally in BUILD files. In .bzl files, you can find them in
+the `native` module.
+
+For non-native Starlark rules that ship separately from Bazel, see the list of
+[recommended rules](/rules/rules#recommended-rules).
+
+### Language-specific native rules
+
+LanguageFlagsBinary rulesLibrary rulesTest rulesOther rulesC / C++[cc\_binary](c-cpp.html#cc_binary)
+
+[cc\_import](c-cpp.html#cc_import)
+
+[cc\_library](c-cpp.html#cc_library)
+
+[cc\_shared\_library](c-cpp.html#cc_shared_library)
+
+[cc\_static\_library](c-cpp.html#cc_static_library)
+
+[cc\_test](c-cpp.html#cc_test)
+
+[cc\_toolchain](c-cpp.html#cc_toolchain)
+
+[fdo\_prefetch\_hints](c-cpp.html#fdo_prefetch_hints)
+
+[fdo\_profile](c-cpp.html#fdo_profile)
+
+[memprof\_profile](c-cpp.html#memprof_profile)
+
+[propeller\_optimize](c-cpp.html#propeller_optimize)
+
+Java[java\_binary](java.html#java_binary)
+
+[java\_import](java.html#java_import)
+
+[java\_library](java.html#java_library)
+
+[java\_test](java.html#java_test)
+
+[java\_package\_configuration](java.html#java_package_configuration)
+
+[java\_plugin](java.html#java_plugin)
+
+[java\_runtime](java.html#java_runtime)
+
+[java\_single\_jar](java.html#java_single_jar)
+
+[java\_toolchain](java.html#java_toolchain)
+
+Objective-C[objc\_import](objective-c.html#objc_import)
+
+[objc\_library](objective-c.html#objc_library)
+
+Protocol Buffer[cc\_proto\_library](protocol-buffer.html#cc_proto_library)
+
+[java\_lite\_proto\_library](protocol-buffer.html#java_lite_proto_library)
+
+[java\_proto\_library](protocol-buffer.html#java_proto_library)
+
+[proto\_library](protocol-buffer.html#proto_library)
+
+[py\_proto\_library](protocol-buffer.html#py_proto_library)
+
+[proto\_lang\_toolchain](protocol-buffer.html#proto_lang_toolchain)
+
+[proto\_toolchain](protocol-buffer.html#proto_toolchain)
+
+Python[py\_binary](python.html#py_binary)
+
+[py\_library](python.html#py_library)
+
+[py\_test](python.html#py_test)
+
+[py\_runtime](python.html#py_runtime)
+
+Shell[sh\_binary](shell.html#sh_binary)
+
+[sh\_library](shell.html#sh_library)
+
+[sh\_test](shell.html#sh_test)
+
+### Language-agnostic native rules
+
+FamilyRulesExtra Actions
+
+- [action\_listener](extra-actions.html#action_listener)
+- [extra\_action](extra-actions.html#extra_action)
+
+General
+
+- [alias](general.html#alias)
+- [config\_setting](general.html#config_setting)
+- [filegroup](general.html#filegroup)
+- [genquery](general.html#genquery)
+- [genrule](general.html#genrule)
+- [starlark\_doc\_extract](general.html#starlark_doc_extract)
+- [test\_suite](general.html#test_suite)
+
+Platforms and Toolchains
+
+- [constraint\_setting](platforms-and-toolchains.html#constraint_setting)
+- [constraint\_value](platforms-and-toolchains.html#constraint_value)
+- [platform](platforms-and-toolchains.html#platform)
+- [toolchain](platforms-and-toolchains.html#toolchain)
+- [toolchain\_type](platforms-and-toolchains.html#toolchain_type)
