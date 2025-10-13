@@ -6,8 +6,15 @@
 
 set -o errexit -o nounset -o pipefail
 
-SOURCE_DIR="upstream/site/en"
-DEST_DIR="${1:-.}"  # Use first argument or current directory as default
+# Primary upstream directory
+UPSTREAM_SITE="upstream/site/en"
+
+# Reference docs directory
+REFERENCE_DOCS="reference-docs-temp"
+
+# Destination directory (default to current directory)
+DEST_DIR="${1:-.}"
+
 # Files that live in this repo, not fetched from upstream
 LOCAL_FILES="
     index.mdx
@@ -43,6 +50,7 @@ query/language.mdx
 query/quickstart.mdx
 reference/flag-cheatsheet.mdx
 reference/test-encyclopedia.mdx
+reference/be/be-nav.mdx
 release/rolling.mdx
 remote/ci.mdx
 remote/dynamic.mdx
@@ -53,53 +61,56 @@ start/go.mdx
 tutorials/ccp-toolchain-config.mdx
 "
 
-# Check if source directory exists
-if [ ! -d "$SOURCE_DIR" ]; then
-    echo "Error: Source directory '$SOURCE_DIR' not found"
+# Verify that at least one source exists
+if [ ! -d "$UPSTREAM_SITE" ] && [ ! -d "$REFERENCE_DOCS" ]; then
+    echo "Error: neither source directory exists: '$UPSTREAM_SITE' or '$REFERENCE_DOCS'"
     exit 1
 fi
 
-# Create destination directory if it doesn't exist
 if [ ! -d "$DEST_DIR" ]; then
     echo "Creating destination directory: $DEST_DIR"
     mkdir -p "$DEST_DIR"
 fi
 
-echo "Finding all .md files in $SOURCE_DIR and copying to $DEST_DIR..."
+echo "Will search in '$UPSTREAM_SITE' and '$REFERENCE_DOCS' (if exists) to copy .md → .mdx to $DEST_DIR"
 
-# Find all .md files and copy them
-find "$SOURCE_DIR" -name "*.md" -type f | while read -r source_file; do
-    # Get relative path from upstream/site/en
-    relative_path="${source_file#$SOURCE_DIR/}"
-    
-    # Convert .md to .mdx
-    target_file="${relative_path%.md}.mdx"
-    
-    # Create target directory if it doesn't exist
-    target_dir=$(dirname "$DEST_DIR/$target_file")
-    if [ "$target_dir" != "$DEST_DIR" ]; then
+transform_docs() {
+    local SOURCE_DIR="$1"
+    if [ ! -d "$SOURCE_DIR" ]; then
+        echo "Warning: source directory '$SOURCE_DIR' not found, skipping"
+        return
+    fi
+
+    find "$SOURCE_DIR" -name "*.md" -type f | while read -r source_file; do
+        # Derive the relative path inside the source tree
+        relative_path="${source_file#$SOURCE_DIR/}"
+        target_file="${relative_path%.md}.mdx"
+        target_dir=$(dirname "$DEST_DIR/$target_file")
+
         mkdir -p "$target_dir"
-    fi
-    
+
     # Check if this file is in the BROKEN_FILES list
-    if echo "$BROKEN_FILES" | grep -q "^$target_file$"; then
-        echo "Skipping broken file: $target_file"
-        continue
-    fi
-    
+        if echo "$BROKEN_FILES" | grep -q "^$target_file$"; then
+            echo "Skipping broken file: $target_file"
+            continue
+        fi
+
     # Transform and copy the file
     echo "Transforming and copying $source_file to $DEST_DIR/$target_file"
     awk -f transform-docs.awk "$source_file" > "$DEST_DIR/$target_file"
-done
+    done
+}
 
-echo "Successfully copied all .md files to .mdx files in $DEST_DIR"
+# Copy from both sources
+transform_docs "$UPSTREAM_SITE"
+transform_docs "$REFERENCE_DOCS"
 
-# Convert community YAML files to MDX
 echo "Converting community YAML files to MDX..."
 ./convert-community-to-mdx.sh "$DEST_DIR/community/experts"
 ./convert-community-to-mdx.sh "$DEST_DIR/community/partners"
 
-# Copy community images to destination community/images/
-# We don't need to do this for images under a docs/ folder, so many other images already work
+echo "Copying community images..."
 mkdir -p "$DEST_DIR/community/images"
 cp upstream/site/en/community/images/* "$DEST_DIR/community/images/"
+
+echo "Done copying docs."

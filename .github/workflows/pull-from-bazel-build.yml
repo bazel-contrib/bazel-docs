@@ -73,12 +73,6 @@ jobs:
         - name: Clean up mdx files
           run: ./cleanup-mdx.sh
 
-        - name: Transform upstream docs to mdx
-          run: ./copy-upstream-docs.sh
-
-        - name: Create versioned navigation
-          run: ./docs.json.update.sh
-    
         - name: Set up Go
           uses: actions/setup-go@v6
           with:
@@ -102,45 +96,12 @@ jobs:
               -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
               -output reference-docs-temp
 
-        - name: Transform reference docs to MDX
-          run: |
-            # Process reference/ directory
-            find reference-docs-temp/reference -name "*.md" -type f | while read -r file; do
-              # Extract path relative to reference-docs-temp/
-              rel_path="${file#reference-docs-temp/}"
-              output_file="$rel_path"
-              output_file="${output_file%.md}.mdx"
-              mkdir -p "$(dirname "$output_file")"
-              awk -f transform-docs.awk "$file" > "$output_file"
-            done
-            
-            # Copy YAML files
-            find reference-docs-temp/reference -name "*.yaml" -type f | while read -r file; do
-              rel_path="${file#reference-docs-temp/}"
-              output_file="$rel_path"
-              mkdir -p "$(dirname "$output_file")"
-              cp "$file" "$output_file"
-            done
+        - name: Transform upstream docs to mdx
+          run: ./copy-upstream-docs.sh
 
-        - name: Transform rules docs to MDX
-          run: |
-            # Process rules/ directory
-            find reference-docs-temp/rules -name "*.md" -type f | while read -r file; do
-              # Extract path relative to reference-docs-temp/
-              rel_path="${file#reference-docs-temp/}"
-              output_file="$rel_path"
-              output_file="${output_file%.md}.mdx"
-              mkdir -p "$(dirname "$output_file")"
-              awk -f transform-docs.awk "$file" > "$output_file"
-            done
-            
-            # Copy YAML files
-            find reference-docs-temp/rules -name "*.yaml" -type f | while read -r file; do
-              rel_path="${file#reference-docs-temp/}"
-              output_file="$rel_path"
-              mkdir -p "$(dirname "$output_file")"
-              cp "$file" "$output_file"
-            done
-
+        - name: Create versioned navigation
+          run: ./docs.json.update.sh
+    
         - name: Clean up temporary files
           run: rm -rf reference-docs-temp
+

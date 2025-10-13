@@ -63,11 +63,6 @@ func processZipFile(f *zip.File, outputDir string, converter *md.Converter) erro
 		return copyMarkdownFile(f, outputDir)
 	}
 
-	// Handle YAML/YML files - copy them as-is
-	if isYAMLFile(f.Name) {
-		return copyYAMLFile(f, outputDir)
-	}
-
 	// Only process HTML files
 	if !isHTMLFile(f.Name) {
 		fmt.Printf("Skipping file: %s\n", f.Name)
