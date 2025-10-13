@@ -17,7 +17,199 @@
             "language": "en",
             "tabs": [
               {
-                "tab": "About Bazel",
+                "tab": "Tutorials",
+                "groups": [
+                  {
+                    "group": "Getting Started",
+                    "pages": [
+                      "docs/diataxis-guide"
+                    ]
+                  },
+                  {
+                    "group": "First Steps with Bazel",
+                    "pages": [
+                      "install/bazelisk",
+                      "start/cpp",
+                      "start/java",
+                      "start/android-app",
+                      "start/ios-app"
+                    ]
+                  },
+                  {
+                    "group": "Building with Bazel",
+                    "pages": [
+                      "tutorials/cpp-use-cases",
+                      "tutorials/cpp-dependency",
+                      "tutorials/cpp-labels",
+                      "tutorials/ccp-toolchain-config"
+                    ]
+                  },
+                  {
+                    "group": "Extending Bazel",
+                    "pages": [
+                      "rules/rules-tutorial",
+                      "rules/macro-tutorial",
+                      "rules/legacy-macro-tutorial",
+                      "rules/verbs-tutorial"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tab": "How-to Guides",
+                "groups": [
+                  {
+                    "group": "Installation & Setup",
+                    "pages": [
+                      "install",
+                      "install/os-x",
+                      "install/windows",
+                      "install/ubuntu",
+                      "install/suse",
+                      "install/docker-container",
+                      "install/compile-source",
+                      "install/completion",
+                      "install/ide"
+                    ]
+                  },
+                  {
+                    "group": "Building & Testing",
+                    "pages": [
+                      "run/build",
+                      "build/share-variables",
+                      "configure/coverage",
+                      "configure/best-practices",
+                      "configure/attributes",
+                      "configure/integrate-cpp",
+                      "configure/windows"
+                    ]
+                  },
+                  {
+                    "group": "Performance Optimization",
+                    "pages": [
+                      "advanced/performance/build-performance-metrics",
+                      "advanced/performance/build-performance-breakdown",
+                      "advanced/performance/json-trace-profile",
+                      "advanced/performance/memory",
+                      "advanced/performance/iteration-speed"
+                    ]
+                  },
+                  {
+                    "group": "Remote Execution & Caching",
+                    "pages": [
+                      "remote/rbe",
+                      "remote/cache-remote",
+                      "remote/caching",
+                      "remote/cache-local",
+                      "remote/ci",
+                      "remote/dynamic",
+                      "remote/sandbox",
+                      "remote/output-directories",
+                      "remote/persistent",
+                      "remote/multiplex",
+                      "remote/creating",
+                      "remote/rules",
+                      "remote/workspace"
+                    ]
+                  },
+                  {
+                    "group": "Migration",
+                    "pages": [
+                      "migrate",
+                      "migrate/maven",
+                      "migrate/xcode"
+                    ]
+                  },
+                  {
+                    "group": "Distributing Rules",
+                    "pages": [
+                      "rules/testing",
+                      "rules/performance",
+                      "rules/deploying"
+                    ]
+                  },
+                  {
+                    "group": "Contributing",
+                    "pages": [
+                      "contribute",
+                      "contribute/patch-acceptance",
+                      "contribute/maintainers-guide",
+                      "contribute/codebase",
+                      "contribute/search",
+                      "contribute/statemachine-guide",
+                      "contribute/docs",
+                      "contribute/release-notes"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tab": "Reference",
+                "groups": [
+                  {
+                    "group": "Build Encyclopedia",
+                    "pages": [
+                      "reference/be/overview",
+                      "reference/be/c-cpp",
+                      "reference/be/java",
+                      "reference/be/python",
+                      "reference/be/objective-c",
+                      "reference/be/protocol-buffer",
+                      "reference/be/shell",
+                      "reference/be/common-definitions",
+                      "reference/be/general",
+                      "reference/be/extra-actions",
+                      "reference/be/make-variables"
+                    ]
+                  },
+                  {
+                    "group": "Language Reference",
+                    "pages": [
+                      "rules/language",
+                      "rules/bzl-style",
+                      "rules/lib/overview",
+                      "rules/lib/globals"
+                    ]
+                  },
+                  {
+                    "group": "Technical Specifications",
+                    "pages": [
+                      "reference/glossary",
+                      "reference/skyframe",
+                      "remote/bep",
+                      "remote/bep-examples",
+                      "remote/bep-glossary",
+                      "community/recommended-rules",
+                      "community/remote-execution-services"
+                    ]
+                  },
+                  {
+                    "group": "Style Guides",
+                    "pages": [
+                      "build/style-guide",
+                      "contribute/docs-style-guide"
+                    ]
+                  },
+                  {
+                    "group": "Releases & Compatibility",
+                    "pages": [
+                      "release",
+                      "release/rolling",
+                      "release/backward-compatibility",
+                      "release/rule-compatibility"
+                    ]
+                  },
+                  {
+                    "group": "Getting Help",
+                    "pages": [
+                      "help",
+                      "contribute/policy"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tab": "Explanation",
                 "groups": [
                   {
                     "group": "Why Bazel?",
@@ -30,7 +222,7 @@
                     ]
                   },
                   {
-                    "group": "Build system basics",
+                    "group": "Build System Fundamentals",
                     "pages": [
                       "basics",
                       "basics/build-systems",
@@ -40,38 +232,9 @@
                       "basics/dependencies",
                       "basics/hermeticity"
                     ]
-                  }
-                ]
-              },
-              {
-                "tab": "Getting started",
-                "groups": [
-                  {
-                    "group": "Install",
-                    "pages": [
-                      "install",
-                      "install/bazelisk",
-                      "install/os-x",
-                      "install/windows",
-                      "install/ubuntu",
-                      "install/suse",
-                      "install/docker-container",
-                      "install/compile-source",
-                      "install/completion",
-                      "install/ide"
-                    ]
                   },
                   {
-                    "group": "First build tutorials",
-                    "pages": [
-                      "start/cpp",
-                      "start/java",
-                      "start/android-app",
-                      "start/ios-app"
-                    ]
-                  },
-                  {
-                    "group": "Concepts",
+                    "group": "Core Concepts",
                     "pages": [
                       "concepts/build-ref",
                       "concepts/labels",
@@ -81,193 +244,29 @@
                       "concepts/platforms",
                       "concepts/hermeticity"
                     ]
-                  }
-                ]
-              },
-              {
-                "tab": "User guide",
-                "groups": [
-                  {
-                    "group": "Releases",
-                    "pages": [
-                      "release",
-                      "release/rolling",
-                      "release/backward-compatibility",
-                      "release/rule-compatibility"
-                    ]
                   },
                   {
-                    "group": "Basics",
+                    "group": "Extending Bazel Concepts",
                     "pages": [
-                      "build/style-guide",
-                      "build/share-variables",
-                      "community/recommended-rules",
-                      "run/build"
-                    ]
-                  },
-                  {
-                    "group": "Advanced",
-                    "pages": [
-                      "configure/attributes",
-                      "configure/integrate-cpp",
-                      "configure/coverage",
-                      "configure/best-practices",
-                      "configure/windows",
-                      "advanced/performance/build-performance-metrics",
-                      "advanced/performance/build-performance-breakdown",
-                      "advanced/performance/json-trace-profile",
-                      "advanced/performance/memory",
-                      "advanced/performance/iteration-speed"
-                    ]
-                  },
-                  {
-                    "group": "Remote Execution",
-                    "pages": [
-                      "remote/rbe",
-                      "remote/rules",
-                      "remote/ci",
-                      "remote/dynamic",
-                      "remote/caching",
-                      "remote/sandbox",
-                      "remote/workspace",
-                      "remote/cache-remote",
-                      "remote/cache-local",
-                      "remote/output-directories",
-                      "remote/persistent",
-                      "remote/multiplex",
-                      "remote/creating",
-                      "remote/bep",
-                      "remote/bep-examples",
-                      "remote/bep-glossary"
-                    ]
-                  },
-                  {
-                    "group": "Tutorials",
-                    "pages": [
-                      "tutorials/cpp-use-cases",
-                      "tutorials/ccp-toolchain-config",
-                      "tutorials/cpp-dependency",
-                      "tutorials/cpp-labels"
-                    ]
-                  },
-                  {
-                    "group": "Migrate",
-                    "pages": [
-                      "migrate",
-                      "migrate/maven",
-                      "migrate/xcode"
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Reference",
-                "groups": [
-                  {
-                    "group": "Build encyclopedia",
-                    "pages": [
-                      "reference/be/c-cpp",
-                      "reference/be/common-definitions",
-                      "reference/be/extra-actions",
-                      "reference/be/general",
-                      "reference/be/java",
-                      "reference/be/make-variables",
-                      "reference/be/objective-c",
-                      "reference/be/overview",
-                      "reference/be/protocol-buffer",
-                      "reference/be/python",
-                      "reference/be/shell"
-                    ]
-                  },
-                  {
-                    "group": "Glossary",
-                    "pages": [
-                      "reference/glossary"
-                    ]
-                  },
-                  {
-                    "group": "Skyframe",
-                    "pages": [
-                      "reference/skyframe"
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Extending",
-                "groups": [
-                  {
-                    "group": "Concepts",
-                    "pages": [
-                      "extending/concepts"
-                    ]
-                  },
-                  {
-                    "group": "Writing rules",
-                    "pages": [
-                      "rules/rules-tutorial",
-                      "rules/macro-tutorial",
-                      "rules/legacy-macro-tutorial",
-                      "rules/verbs-tutorial",
-                      "rules/language",
-                      "rules/bzl-style",
+                      "extending/concepts",
                       "rules/challenges",
                       "rules/windows"
                     ]
                   },
                   {
-                    "group": "Distributing rules",
-                    "pages": [
-                      "rules/testing",
-                      "rules/performance",
-                      "rules/deploying"
-                    ]
-                  },
-                  {
-                    "group": "APIs",
-                    "pages": [
-                      "rules/lib/overview",
-                      "rules/lib/globals"
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Community",
-                "groups": [
-                  {
-                    "group": "Contributing",
-                    "pages": [
-                      "contribute",
-                      "contribute/policy",
-                      "contribute/patch-acceptance",
-                      "contribute/maintainers-guide",
-                      "contribute/codebase",
-                      "contribute/search",
-                      "contribute/statemachine-guide",
-                      "contribute/docs",
-                      "contribute/docs-style-guide",
-                      "contribute/design-documents",
-                      "contribute/release-notes"
-                    ]
-                  },
-                  {
-                    "group": "Programs",
+                    "group": "Community",
                     "pages": [
                       "community/update",
                       "community/sig",
                       "community/experts",
                       "community/partners",
-                      "community/users",
-                      "community/recommended-rules",
-                      "community/remote-execution-services"
+                      "community/users"
                     ]
                   },
                   {
-                    "group": "Getting help",
+                    "group": "Design & Architecture",
                     "pages": [
-                      "help",
-                      "contribute/policy"
+                      "contribute/design-documents"
                     ]
                   }
                 ]

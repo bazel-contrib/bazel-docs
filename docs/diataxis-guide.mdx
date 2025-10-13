@@ -1,0 +1,182 @@
+---
+title: 'Understanding the Diataxis Documentation Framework'
+description: 'Learn how Bazel documentation is organized using the Diataxis framework for better discoverability and learning'
+---
+
+# Understanding the Diataxis Documentation Framework
+
+Bazel documentation is organized using the [Diataxis framework](https://diataxis.fr/), a systematic approach to technical documentation that makes it easier for you to find exactly what you need, when you need it.
+
+## The Four Types of Documentation
+
+Diataxis organizes documentation into four distinct categories, each serving a different purpose:
+
+### 1. Tutorials (Learning-Oriented)
+
+**Purpose:** Take you by the hand through practical, hands-on exercises
+
+**Best for:** When you're learning Bazel for the first time or exploring a new feature
+
+**Characteristics:**
+- Step-by-step instructions
+- Focus on successfully completing a task
+- Learning through doing
+- Safety and confidence building
+
+**Examples in Bazel docs:**
+- Your first C++ build
+- Your first Java build  
+- Writing your first rule
+- Building an Android app
+
+<Tip>
+If you're new to Bazel, start with the **Tutorials** tab. These guides will walk you through your first builds step-by-step.
+</Tip>
+
+### 2. How-to Guides (Task-Oriented)
+
+**Purpose:** Help you solve a specific real-world problem or achieve a particular goal
+
+**Best for:** When you already understand Bazel basics and need to accomplish something specific
+
+**Characteristics:**
+- Focused on a single task or problem
+- Assumes you're already competent with Bazel
+- Practical directions to get work done
+- No unnecessary explanation
+
+**Examples in Bazel docs:**
+- How to set up remote caching
+- How to optimize build performance
+- How to migrate from Maven
+- How to configure code coverage
+
+<Note>
+How-to guides assume you understand Bazel fundamentals. If something is unfamiliar, check the **Explanation** tab for background context.
+</Note>
+
+### 3. Reference (Information-Oriented)
+
+**Purpose:** Provide technical specifications, facts, and precise information
+
+**Best for:** When you need to look up exact syntax, API details, or technical specifications
+
+**Characteristics:**
+- Dry, factual information
+- Comprehensive and accurate
+- Neutral tone (just the facts)
+- Organized to mirror Bazel's structure
+
+**Examples in Bazel docs:**
+- Build encyclopedia (all rule definitions)
+- Starlark language specification
+- Command-line reference
+- Glossary of terms
+
+<Tip>
+Think of reference documentation like a dictionary or encyclopedia—use it when you need to look something up, not to learn from scratch.
+</Tip>
+
+### 4. Explanation (Understanding-Oriented)
+
+**Purpose:** Provide context, background, and help you understand the "why" behind Bazel
+
+**Best for:** When you want to deepen your understanding or learn about concepts and design decisions
+
+**Characteristics:**
+- Discusses topics from different angles
+- Provides context and background
+- Explains "why" things work the way they do
+- Can include opinions and perspectives
+
+**Examples in Bazel docs:**
+- Why use Bazel?
+- Understanding artifact-based builds
+- Build system fundamentals
+- Hermeticity concepts
+
+<Note>
+Explanation docs help you build a mental model of how Bazel works. They're great for after you've completed some tutorials and want to understand concepts more deeply.
+</Note>
+
+## How to Use This Framework
+
+### Starting Your Bazel Journey
+
+1. **Complete a tutorial** from the Tutorials tab (e.g., "Your first C++ build")
+2. **Read explanations** about concepts you encountered (e.g., "Understanding BUILD files")
+3. **Try a how-to guide** for your specific use case (e.g., "Setting up remote caching")
+4. **Reference documentation** as needed when writing BUILD files or rules
+
+### When You're Stuck
+
+| Your Situation | Where to Look |
+|----------------|---------------|
+| "I want to learn Bazel from scratch" | **Tutorials** tab |
+| "I need to accomplish X" | **How-to Guides** tab |
+| "What's the exact syntax for Y?" | **Reference** tab |
+| "Why does Bazel work this way?" | **Explanation** tab |
+
+### Common Patterns
+
+<AccordionGroup>
+  <Accordion title="I'm a complete beginner">
+    1. Start with **Tutorials → First Steps with Bazel**
+    2. Read **Explanation → Why Bazel?** for context
+    3. Complete more **Tutorials** for your language (C++, Java, etc.)
+    4. Reference **How-to Guides** as you build real projects
+  </Accordion>
+
+  <Accordion title="I'm migrating from another build system">
+    1. Read **Explanation → Build System Fundamentals** to understand differences
+    2. Follow **How-to Guides → Migration** for your specific system (Maven, Make, etc.)
+    3. Use **Reference** documentation for syntax lookups
+    4. Try **Tutorials** to learn Bazel patterns hands-on
+  </Accordion>
+
+  <Accordion title="I need to optimize performance">
+    1. Check **How-to Guides → Performance Optimization** for practical steps
+    2. Read **Explanation → Distributed Builds** for background on caching
+    3. Reference **Reference → Build Event Protocol** for detailed specs
+  </Accordion>
+
+  <Accordion title="I'm writing custom rules">
+    1. Complete **Tutorials → Writing Your First Rule**
+    2. Read **Explanation → Extending Bazel Concepts**
+    3. Use **How-to Guides → Distributing Rules** for packaging
+    4. Reference **Reference → Language Reference** for Starlark syntax
+  </Accordion>
+</AccordionGroup>
+
+## Why Diataxis?
+
+The Diataxis framework solves a common documentation problem: different readers need different things at different times. By clearly separating these four types of documentation, you can:
+
+- **Find information faster** - No more hunting through mixed content
+- **Learn more effectively** - Tutorials teach, explanations clarify, without confusion
+- **Work more efficiently** - How-to guides get straight to solving your problem
+- **Look up details easily** - Reference material stays focused on facts
+
+## The Diataxis Compass
+
+When creating or updating documentation, we use this compass to ensure content stays focused:
+
+| If the content... | ...and serves the user's... | ...then it belongs to... |
+|-------------------|----------------------------|--------------------------|
+| Informs action | Acquisition of skill | **Tutorials** |
+| Informs action | Application of skill | **How-to Guides** |
+| Informs cognition | Application of skill | **Reference** |
+| Informs cognition | Acquisition of skill | **Explanation** |
+
+## Feedback
+
+Is something in the wrong place? Having trouble finding what you need? Let us know:
+
+- [File an issue on GitHub](https://github.com/bazelbuild/bazel/issues)
+- [Join us on Slack](https://slack.bazel.build)
+- [Ask on Stack Overflow](https://stackoverflow.com/questions/tagged/bazel) with the `bazel` tag
+
+## Learn More
+
+- [Diataxis Framework Official Site](https://diataxis.fr/) - Deep dive into the framework
+- [Contribute to Bazel Docs](/contribute/docs) - Help improve our documentation
