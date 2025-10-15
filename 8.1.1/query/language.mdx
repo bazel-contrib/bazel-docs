@@ -664,7 +664,7 @@ See the section on [graph order](#graph-order) for more details.
         <img src="/docs/images/somepath1.svg" alt="Somepath">
         <figcaption><code>somepath(S1 + S2, E)</code>, one possible result.</figcaption>
       </figure>
-<!-- digraph somepath1 {
+{/* digraph somepath1 {
   graph [size="4,4"]
   node [label="",shape=circle];
   n1;
@@ -688,14 +688,14 @@ See the section on [graph order](#graph-order) for more details.
   n3 -> n10;
   n10 -> n4;
   n10 -> n11;
-} -->
+} */}
     </td>
     <td>
       <figure>
         <img src="/docs/images/somepath2.svg" alt="Somepath">
         <figcaption><code>somepath(S1 + S2, E)</code>, another possible result.</figcaption>
       </figure>
-<!-- digraph somepath2 {
+{/* digraph somepath2 {
   graph [size="4,4"]
   node [label="",shape=circle];
   n1; n2; n3;
@@ -717,14 +717,14 @@ See the section on [graph order](#graph-order) for more details.
   n3 -> n10;
   n10 -> n4;
   n10 -> n11;
-} -->
+} */}
     </td>
     <td>
       <figure>
         <img src="/docs/images/allpaths.svg" alt="Allpaths">
         <figcaption><code>allpaths(S1 + S2, E)</code></figcaption>
       </figure>
-<!-- digraph allpaths {
+{/* digraph allpaths {
   graph [size="4,4"]
   node [label="",shape=circle];
   n1;
@@ -749,7 +749,7 @@ See the section on [graph order](#graph-order) for more details.
   n3 -> n10;
   n10 -> n4;
   n10 -> n11;
-} -->
+} */}
     </td>
   </tr>
 </table>
@@ -1442,8 +1442,8 @@ form. The output starts with an XML header such as this
   <query version="2">
 ```
 
-<!-- The docs should continue to document version 2 into perpetuity,
-     even if we add new formats, to handle clients synced to old CLs. -->
+{/* The docs should continue to document version 2 into perpetuity,
+     even if we add new formats, to handle clients synced to old CLs. */}
 
 and then continues with an XML element for each target
 in the result graph, in topological order (unless
