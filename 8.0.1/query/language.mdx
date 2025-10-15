@@ -1530,7 +1530,7 @@ full syntax for
 
 ### Querying with external repositories {#querying-external-repositories}
 
-If the build depends on rules from [external repositories](/external/overview)
+If the build depends on rules from [external repositories](/external/module)
 then query results will include these dependencies. For
 example, if `//foo:bar` depends on `@other-repo//baz:lib`, then
 `bazel query 'deps(//foo:bar)'` will list `@other-repo//baz:lib` as a
