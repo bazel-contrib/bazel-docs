@@ -250,7 +250,7 @@ universe scope (which is why they don't make sense for normal Query).
 Sky Query mode is activated by passing the following two flags:
 (`--universe_scope` or `--infer_universe_scope`) and
 `--order_output=no`.
-`--universe_scope=<target_pattern1>,...,<target_patternN>` tells query to
+`--universe_scope=&lt;target_pattern1&gt;,...,&lt;target_patternN&gt;` tells query to
 preload the transitive closure of the target pattern specified by the target patterns, which can
 be both additive and subtractive. All queries are then evaluated in this "scope". In particular,
 the [`allrdeps`](#allrdeps) and
@@ -304,17 +304,17 @@ it is faster and uses less memory.
 This is the grammar of the Bazel query language, expressed in EBNF notation:
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= <word>
-       | let <name> = <expr> in <expr>
-       | (<expr>)
-       | <expr> intersect <expr>
-       | <expr> ^ <expr>
-       | <expr> union <expr>
-       | <expr> + <expr>
-       | <expr> except <expr>
-       | <expr> - <expr>
-       | set(<word> *)
-       | <word> '(' <int> | <word> | <expr> ... ')'
+expr ::= &lt;word&gt;
+       | let &lt;name&gt; = &lt;expr&gt; in &lt;expr&gt;
+       | (&lt;expr&gt;)
+       | &lt;expr&gt; intersect &lt;expr&gt;
+       | &lt;expr&gt; ^ &lt;expr&gt;
+       | &lt;expr&gt; union &lt;expr&gt;
+       | &lt;expr&gt; + &lt;expr&gt;
+       | &lt;expr&gt; except &lt;expr&gt;
+       | &lt;expr&gt; - &lt;expr&gt;
+       | set(&lt;word&gt; *)
+       | &lt;word&gt; '(' &lt;int&gt; | &lt;word&gt; | &lt;expr&gt; ... ')'
 ```
 
 The following sections describe each of the productions of this grammar in order.
@@ -322,7 +322,7 @@ The following sections describe each of the productions of this grammar in order
 ### Target patterns {#target-patterns}
 
 ```
-expr ::= <word>
+expr ::= &lt;word&gt;
 ```
 
 Syntactically, a _target pattern_ is just a word. It's interpreted as an
@@ -365,21 +365,21 @@ of the result nodes against other nodes.) For more details, see the
 ### Variables {#variables}
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= let <name> = <expr>₁ in <expr>₂
-       | <$name>
+expr ::= let &lt;name&gt; = &lt;expr&gt;₁ in &lt;expr&gt;₂
+       | &lt;$name&gt;
 ```
 
 The Bazel query language allows definitions of and references to
 variables. The result of evaluation of a `let` expression is the same as
-that of <expr>₂, with all free occurrences
-of variable <name> replaced by the value of
-<expr>₁.
+that of &lt;expr&gt;₂, with all free occurrences
+of variable &lt;name&gt; replaced by the value of
+&lt;expr&gt;₁.
 
 For example, `let v = foo/... in allpaths($v, //common) intersect $v` is
 equivalent to the `allpaths(foo/...,//common) intersect foo/...`.
 
 An occurrence of a variable reference `name` other than in
-an enclosing `let <name> = ...` expression is an
+an enclosing `let &lt;name&gt; = ...` expression is an
 error. In other words, top-level query expressions cannot have free
 variables.
 
@@ -403,7 +403,7 @@ efficient query evaluation.
 ### Parenthesized expressions {#parenthesized-expressions}
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= (<expr>)
+expr ::= (&lt;expr&gt;)
 ```
 
 Parentheses associate subexpressions to force an order of evaluation.
@@ -412,12 +412,12 @@ A parenthesized expression evaluates to the value of its argument.
 ### Algebraic set operations: intersection, union, set difference {#algebraic-set-operations}
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= <expr> intersect <expr>
-       | <expr> ^ <expr>
-       | <expr> union <expr>
-       | <expr> + <expr>
-       | <expr> except <expr>
-       | <expr> - <expr>
+expr ::= &lt;expr&gt; intersect &lt;expr&gt;
+       | &lt;expr&gt; ^ &lt;expr&gt;
+       | &lt;expr&gt; union &lt;expr&gt;
+       | &lt;expr&gt; + &lt;expr&gt;
+       | &lt;expr&gt; except &lt;expr&gt;
+       | &lt;expr&gt; - &lt;expr&gt;
 ```
 
 These three operators compute the usual set operations over their arguments.
@@ -456,10 +456,10 @@ query expression.
 ### Read targets from an external source: set {#set}
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= set(<word> *)
+expr ::= set(&lt;word&gt; *)
 ```
 
-The `set(<a> <b> <c> ...)`
+The `set(&lt;a&gt; &lt;b&gt; &lt;c&gt; ...)`
 operator computes the union of a set of zero or more
 [target patterns](#target-patterns), separated by whitespace (no commas).
 
@@ -494,7 +494,7 @@ see the [graph order](#graph-order) section below.
 ## Functions {#functions}
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= <word> '(' <int> | <word> | <expr> ... ')'
+expr ::= &lt;word&gt; '(' &lt;int&gt; | &lt;word&gt; | &lt;expr&gt; ... ')'
 ```
 
 The query language defines several functions. The name of the function
@@ -524,13 +524,13 @@ functions are available:
 ### Transitive closure of dependencies: deps {#deps}
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= deps(<expr>)
-       | deps(<expr>, <depth>)
+expr ::= deps(&lt;expr&gt;)
+       | deps(&lt;expr&gt;, &lt;depth&gt;)
 ```
 
-The `deps(<x>)` operator evaluates to the graph formed
+The `deps(&lt;x&gt;)` operator evaluates to the graph formed
 by the transitive closure of dependencies of its argument set
-<x>. For example, the value of `deps(//foo)` is the
+&lt;x&gt;. For example, the value of `deps(//foo)` is the
 dependency graph rooted at the single node `foo`, including all its
 dependencies. The value of `deps(foo/...)` is the dependency graphs whose roots
 are all rules in every package beneath the `foo` directory. In this context,
@@ -548,20 +548,20 @@ literal specifying an upper bound on the depth of the search. So
 `foo` package, and `deps(foo:*, 2)` further includes the nodes directly
 reachable from the nodes in `deps(foo:*, 1)`, and so on. (These numbers
 correspond to the ranks shown in the [`minrank`](#output-ranked) output format.)
-If the <depth> parameter is omitted, the search is
+If the &lt;depth&gt; parameter is omitted, the search is
 unbounded: it computes the reflexive transitive closure of prerequisites.
 
 ### Transitive closure of reverse dependencies: rdeps {#rdeps}
 
 ```none {:.devsite-disable-click-to-copy}
-expr ::= rdeps(<expr>, <expr>)
-       | rdeps(<expr>, <expr>, <depth>)
+expr ::= rdeps(&lt;expr&gt;, &lt;expr&gt;)
+       | rdeps(&lt;expr&gt;, &lt;expr&gt;, &lt;depth&gt;)
 ```
 
-The `rdeps(<u>, <x>)`
+The `rdeps(&lt;u&gt;, &lt;x&gt;)`
 operator evaluates to the reverse dependencies of the argument set
-<x> within the transitive closure of the universe set
-<u>.
+&lt;x&gt; within the transitive closure of the universe set
+&lt;u&gt;.
 
 The resulting graph is ordered according to the dependency relation. See the
 section on [graph order](#graph-order) for more details.
@@ -572,14 +572,14 @@ graph only includes nodes within a distance of the specified depth from any
 node in the argument set. So `rdeps(//foo, //common, 1)` evaluates to all nodes
 in the transitive closure of `//foo` that directly depend on `//common`. (These
 numbers correspond to the ranks shown in the [`minrank`](#output-ranked) output
-format.) If the <depth> parameter is omitted, the
+format.) If the &lt;depth&gt; parameter is omitted, the
 search is unbounded.
 
 ### Transitive closure of all reverse dependencies: allrdeps {#allrdeps}
 
 ```
-expr ::= allrdeps(<expr>)
-       | allrdeps(<expr>, <depth>)
+expr ::= allrdeps(&lt;expr&gt;)
+       | allrdeps(&lt;expr&gt;, &lt;depth&gt;)
 ```
 
 Note: Only available with [Sky Query](#sky-query)
@@ -593,36 +593,36 @@ equivalent to `rdeps(//foo/..., //bar)`.
 ### Direct reverse dependencies in the same package: same_pkg_direct_rdeps {#same_pkg_direct_rdeps}
 
 ```
-expr ::= same_pkg_direct_rdeps(<expr>)
+expr ::= same_pkg_direct_rdeps(&lt;expr&gt;)
 ```
 
-The `same_pkg_direct_rdeps(<x>)` operator evaluates to the full set of targets
+The `same_pkg_direct_rdeps(&lt;x&gt;)` operator evaluates to the full set of targets
 that are in the same package as a target in the argument set, and which directly depend on it.
 
 ### Dealing with a target's package: siblings {#siblings}
 
 ```
-expr ::= siblings(<expr>)
+expr ::= siblings(&lt;expr&gt;)
 ```
 
-The `siblings(<x>)` operator evaluates to the full set of targets that are in
+The `siblings(&lt;x&gt;)` operator evaluates to the full set of targets that are in
 the same package as a target in the argument set.
 
 ### Arbitrary choice: some {#some}
 
 ```
-expr ::= some(<expr>)
-       | some(<expr>, <count>)
+expr ::= some(&lt;expr&gt;)
+       | some(&lt;expr&gt;, &lt;count&gt;)
 ```
 
-The `some(<x>, <k>)` operator
-selects at most <k> targets arbitrarily from its
-argument set <x>, and evaluates to a set containing
-only those targets. Parameter <k> is optional; if
+The `some(&lt;x&gt;, &lt;k&gt;)` operator
+selects at most &lt;k&gt; targets arbitrarily from its
+argument set &lt;x&gt;, and evaluates to a set containing
+only those targets. Parameter &lt;k&gt; is optional; if
 missing, the result will be a singleton set containing only one target
-arbitrarily selected. If the size of argument set <x> is
-smaller than <k>, the whole argument set
-<x> will be returned.
+arbitrarily selected. If the size of argument set &lt;x&gt; is
+smaller than &lt;k&gt;, the whole argument set
+&lt;x&gt; will be returned.
 
 For example, the expression `some(//foo:main union //bar:baz)` evaluates to a
 singleton set containing either `//foo:main` or `//bar:baz`—though which
@@ -640,8 +640,8 @@ expression `some(//foo:main intersect //bar:baz)`.
 ### Path operators: somepath, allpaths {#somepath-allpaths}
 
 ```
-expr ::= somepath(<expr>, <expr>)
-       | allpaths(<expr>, <expr>)
+expr ::= somepath(&lt;expr&gt;, &lt;expr&gt;)
+       | allpaths(&lt;expr&gt;, &lt;expr&gt;)
 ```
 
 The `somepath(<S>, <E>)` and
@@ -757,12 +757,12 @@ See the section on [graph order](#graph-order) for more details.
 ### Target kind filtering: kind {#kind}
 
 ```
-expr ::= kind(<word>, <expr>)
+expr ::= kind(&lt;word&gt;, &lt;expr&gt;)
 ```
 
-The `kind(<pattern>, <input>)`
+The `kind(&lt;pattern&gt;, &lt;input&gt;)`
 operator applies a filter to a set of targets, and discards those targets
-that are not of the expected kind. The <pattern>
+that are not of the expected kind. The &lt;pattern&gt;
 parameter specifies what kind of target to match.
 
 For example, the kinds for the four targets defined by the `BUILD` file
@@ -808,7 +808,7 @@ rule targets beneath `foo`, and `kind("source file", deps(//foo))`
 evaluates to the set of all source files in the transitive closure
 of dependencies of the `//foo` target.
 
-Quotation of the <pattern> argument is often required
+Quotation of the &lt;pattern&gt; argument is often required
 because without it, many [regular expressions](#regex), such as `source
 file` and `.*_test`, are not considered words by the parser.
 
@@ -818,21 +818,21 @@ When matching for `package group`, targets ending in
 ### Target name filtering: filter {#filter}
 
 ```
-expr ::= filter(<word>, <expr>)
+expr ::= filter(&lt;word&gt;, &lt;expr&gt;)
 ```
 
-The `filter(<pattern>, <input>)`
+The `filter(&lt;pattern&gt;, &lt;input&gt;)`
 operator applies a filter to a set of targets, and discards targets whose
 labels (in absolute form) do not match the pattern; it
 evaluates to a subset of its input.
 
-The first argument, <pattern> is a word containing a
+The first argument, &lt;pattern&gt; is a word containing a
 [regular expression](#regex) over target names. A `filter` expression
-evaluates to the set containing all targets <x> such that
-<x> is a member of the set <input> and the
+evaluates to the set containing all targets &lt;x&gt; such that
+&lt;x&gt; is a member of the set &lt;input&gt; and the
 label (in absolute form, such as `//foo:bar`)
-of <x> contains an (unanchored) match
-for the regular expression <pattern>. Since all
+of &lt;x&gt; contains an (unanchored) match
+for the regular expression &lt;pattern&gt;. Since all
 target names start with `//`, it may be used as an alternative
 to the `^` regular expression anchor.
 
@@ -857,8 +857,8 @@ which would first calculate the set of `//foo` dependencies and
 then would filter only targets matching the provided pattern—in other
 words, targets with names containing `//bar` as a substring.
 
-Another common use of the `filter(<pattern>,
-<expr>)` operator is to filter specific files by their
+Another common use of the `filter(&lt;pattern&gt;,
+&lt;expr&gt;)` operator is to filter specific files by their
 name or extension. For example,
 
 ```
@@ -870,27 +870,27 @@ will provide a list of all `.cc` files used to build `//foo`.
 ### Rule attribute filtering: attr {#attr}
 
 ```
-expr ::= attr(<word>, <word>, <expr>)
+expr ::= attr(&lt;word&gt;, &lt;word&gt;, &lt;expr&gt;)
 ```
 
 The
-`attr(<name>, <pattern>, <input>)`
+`attr(&lt;name&gt;, &lt;pattern&gt;, &lt;input&gt;)`
 operator applies a filter to a set of targets, and discards targets that aren't
-rules, rule targets that do not have attribute <name>
+rules, rule targets that do not have attribute &lt;name&gt;
 defined or rule targets where the attribute value does not match the provided
-[regular expression](#regex) <pattern>; it evaluates
+[regular expression](#regex) &lt;pattern&gt;; it evaluates
 to a subset of its input.
 
-The first argument, <name> is the name of the rule
+The first argument, &lt;name&gt; is the name of the rule
 attribute that should be matched against the provided
 [regular expression](#regex) pattern. The second argument,
-<pattern> is a regular expression over the attribute
+&lt;pattern&gt; is a regular expression over the attribute
 values. An `attr` expression evaluates to the set containing all targets
-<x> such that  <x> is a
-member of the set <input>, is a rule with the defined
-attribute <name> and the attribute value contains an
+&lt;x&gt; such that  &lt;x&gt; is a
+member of the set &lt;input&gt;, is a rule with the defined
+attribute &lt;name&gt; and the attribute value contains an
 (unanchored) match for the regular expression
-<pattern>. If <name> is an
+&lt;pattern&gt;. If &lt;name&gt; is an
 optional attribute and rule does not specify it explicitly then default
 attribute value will be used for comparison. For example,
 
@@ -963,18 +963,18 @@ the character after `key=value` will be a comma or `}`.
 ### Rule visibility filtering: visible {#visible}
 
 ```
-expr ::= visible(<expr>, <expr>)
+expr ::= visible(&lt;expr&gt;, &lt;expr&gt;)
 ```
 
-The `visible(<predicate>, <input>)` operator
+The `visible(&lt;predicate&gt;, &lt;input&gt;)` operator
 applies a filter to a set of targets, and discards targets without the
 required visibility.
 
-The first argument, <predicate>, is a set of targets that all targets
-in the output must be visible to. A <visible> expression
-evaluates to the set containing all targets <x> such that <x>
-is a member of the set <input>, and for all targets <y> in
-<predicate> <x> is visible to <y>. For example:
+The first argument, &lt;predicate&gt;, is a set of targets that all targets
+in the output must be visible to. A &lt;visible&gt; expression
+evaluates to the set containing all targets &lt;x&gt; such that &lt;x&gt;
+is a member of the set &lt;input&gt;, and for all targets &lt;y&gt; in
+&lt;predicate&gt; &lt;x&gt; is visible to &lt;y&gt;. For example:
 
 ```
 visible(//foo, //bar:*)
@@ -986,28 +986,28 @@ can depend on without violating visibility restrictions.
 ### Evaluation of rule attributes of type label: labels {#labels}
 
 ```
-expr ::= labels(<word>, <expr>)
+expr ::= labels(&lt;word&gt;, &lt;expr&gt;)
 ```
 
-The `labels(<attr_name>, <inputs>)`
+The `labels(&lt;attr_name&gt;, &lt;inputs&gt;)`
 operator returns the set of targets specified in the
-attribute <attr_name> of type "label" or "list of label" in
-some rule in set <inputs>.
+attribute &lt;attr_name&gt; of type "label" or "list of label" in
+some rule in set &lt;inputs&gt;.
 
 For example, `labels(srcs, //foo)` returns the set of
 targets appearing in the `srcs` attribute of
 the `//foo` rule. If there are multiple rules
-with `srcs` attributes in the <inputs> set, the
+with `srcs` attributes in the &lt;inputs&gt; set, the
 union of their `srcs` is returned.
 
 ### Expand and filter test_suites: tests {#tests}
 
 ```
-expr ::= tests(<expr>)
+expr ::= tests(&lt;expr&gt;)
 ```
 
-The `tests(<x>)` operator returns the set of all test
-rules in set <x>, expanding any `test_suite` rules into
+The `tests(&lt;x&gt;)` operator returns the set of all test
+rules in set &lt;x&gt;, expanding any `test_suite` rules into
 the set of individual tests that they refer to, and applying filtering by
 `tag` and `size`.
 
@@ -1028,12 +1028,12 @@ via `test_suite` rules.
 ### Package definition files: buildfiles {#buildfiles}
 
 ```
-expr ::= buildfiles(<expr>)
+expr ::= buildfiles(&lt;expr&gt;)
 ```
 
-The `buildfiles(<x>)` operator returns the set
+The `buildfiles(&lt;x&gt;)` operator returns the set
 of files that define the packages of each target in
-set <x>; in other words, for each package, its `BUILD` file,
+set &lt;x&gt;; in other words, for each package, its `BUILD` file,
 plus any .bzl files it references via `load`. Note that this
 also returns the `BUILD` files of the packages containing these
 `load`ed files.
@@ -1064,7 +1064,7 @@ misleading when formatted in a structured way, such as
 ### Package definition files: rbuildfiles {#rbuildfiles}
 
 ```
-expr ::= rbuildfiles(<word>, ...)
+expr ::= rbuildfiles(&lt;word&gt;, ...)
 ```
 
 Note: Only available with [Sky Query](#sky-query).
@@ -1077,7 +1077,7 @@ the set of `BUILD` files that transitively depend on these path fragments. For i
 return the `//foo:BUILD` target, as well as the targets for any other `BUILD` files that
 load `//bar:file.bzl`
 
-The scope of the <scope>rbuildfiles</scope> operator is the universe specified by the
+The scope of the &lt;scope&gt;rbuildfiles</scope> operator is the universe specified by the
 `--universe_scope` flag. Files that do not correspond directly to `BUILD` files and `.bzl`
 files do not affect the results. For instance, source files (like `foo.cc`) are ignored,
 even if they are explicitly mentioned in the `BUILD` file. Symlinks, however, are respected, so that
@@ -1096,12 +1096,12 @@ not those targets, but rather the path fragments that correspond to those target
 ### Package definition files: loadfiles {#loadfiles}
 
 ```
-expr ::= loadfiles(<expr>)
+expr ::= loadfiles(&lt;expr&gt;)
 ```
 
-The `loadfiles(<x>)` operator returns the set of
+The `loadfiles(&lt;x&gt;)` operator returns the set of
 Starlark files that are needed to load the packages of each target in
-set <x>. In other words, for each package, it returns the
+set &lt;x&gt;. In other words, for each package, it returns the
 .bzl files that are referenced from its `BUILD` files.
 
 Warning: Bazel pretends each of these .bzl files has a corresponding target
@@ -1410,7 +1410,7 @@ same `genrule`; in the factored graph, all these files
 are represented by a single node. This behavior may be disabled
 with the `--nograph:factored` option.
 
-#### `--graph:node_limit <n>` {#graph-nodelimit}
+#### `--graph:node_limit &lt;n&gt;` {#graph-nodelimit}
 
 The option specifies the maximum length of the label string for a
 graph node in the output. Longer labels will be truncated; -1
