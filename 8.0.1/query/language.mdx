@@ -303,7 +303,7 @@ it is faster and uses less memory.
 
 This is the grammar of the Bazel query language, expressed in EBNF notation:
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= &lt;word&gt;
        | let &lt;name&gt; = &lt;expr&gt; in &lt;expr&gt;
        | (&lt;expr&gt;)
@@ -364,7 +364,7 @@ of the result nodes against other nodes.) For more details, see the
 
 ### Variables {#variables}
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= let &lt;name&gt; = &lt;expr&gt;₁ in &lt;expr&gt;₂
        | &lt;$name&gt;
 ```
@@ -402,7 +402,7 @@ efficient query evaluation.
 
 ### Parenthesized expressions {#parenthesized-expressions}
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= (&lt;expr&gt;)
 ```
 
@@ -411,7 +411,7 @@ A parenthesized expression evaluates to the value of its argument.
 
 ### Algebraic set operations: intersection, union, set difference {#algebraic-set-operations}
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= &lt;expr&gt; intersect &lt;expr&gt;
        | &lt;expr&gt; ^ &lt;expr&gt;
        | &lt;expr&gt; union &lt;expr&gt;
@@ -455,7 +455,7 @@ query expression.
 
 ### Read targets from an external source: set {#set}
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= set(&lt;word&gt; *)
 ```
 
@@ -493,7 +493,7 @@ see the [graph order](#graph-order) section below.
 
 ## Functions {#functions}
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= &lt;word&gt; '(' &lt;int&gt; | &lt;word&gt; | &lt;expr&gt; ... ')'
 ```
 
@@ -523,7 +523,7 @@ functions are available:
 
 ### Transitive closure of dependencies: deps {#deps}
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= deps(&lt;expr&gt;)
        | deps(&lt;expr&gt;, &lt;depth&gt;)
 ```
@@ -553,7 +553,7 @@ unbounded: it computes the reflexive transitive closure of prerequisites.
 
 ### Transitive closure of reverse dependencies: rdeps {#rdeps}
 
-```none {:.devsite-disable-click-to-copy}
+```none
 expr ::= rdeps(&lt;expr&gt;, &lt;expr&gt;)
        | rdeps(&lt;expr&gt;, &lt;expr&gt;, &lt;depth&gt;)
 ```
@@ -1526,7 +1526,7 @@ be included in the XML output.
 
 Regular expressions in the query language use the Java regex library, so you can use the
 full syntax for
-[`java.util.regex.Pattern`](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html){: .external}.
+[`java.util.regex.Pattern`](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html).
 
 ### Querying with external repositories {#querying-external-repositories}
 
