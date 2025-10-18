@@ -262,7 +262,7 @@ ParameterDescription`name`[string](../core/string.html);
  Iterable of [string](../core/string.html) s;
  default is `[]`
 
- A list of bazel versions that allows users to declare which Bazel versions are compatible with this module. It does NOT affect dependency resolution, but bzlmod will use this information to check if your current Bazel version is compatible. The format of this value is a string of some constraint values separated by comma. Three constraints are supported: <=X.X.X: The Bazel version must be equal or older than X.X.X. Used when there is a known incompatible change in a newer version. >=X.X.X: The Bazel version must be equal or newer than X.X.X.Used when you depend on some features that are only available since X.X.X. -X.X.X: The Bazel version X.X.X is not compatible. Used when there is a bug in X.X.X that breaks you, but fixed in later versions.
+ A list of bazel versions that allows users to declare which Bazel versions are compatible with this module. It does NOT affect dependency resolution, but bzlmod will use this information to check if your current Bazel version is compatible. The format of this value is a string of some constraint values separated by comma. Three constraints are supported: <code>&lt;=X.X.X</code>: The Bazel version must be equal or older than X.X.X. Used when there is a known incompatible change in a newer version. <code>&gt;=X.X.Xgt;=X.X.X</code>: The Bazel version must be equal or newer than X.X.X.Used when you depend on some features that are only available since X.X.X. -X.X.X: The Bazel version X.X.X is not compatible. Used when there is a bug in X.X.X that breaks you, but fixed in later versions.
 
 
 ## multiple\_version\_override
