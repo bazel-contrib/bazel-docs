@@ -71,3 +71,4 @@ docker run --rm -it \
 
 # Cleanup temporary extraction directory if it exists
 [[ -d "$TEMP_EXTRACT" ]] && rm -rf "$TEMP_EXTRACT"
+rm -rf "htlm2md_converter/" # Clean up Go module files

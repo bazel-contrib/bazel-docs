@@ -24,44 +24,16 @@ LOCAL_FILES="
 # This output pasted from a CI job - we should burn it down to zero
 BROKEN_FILES="
 community/roadmaps-configurability.mdx
-community/users.mdx
-concepts/build-files.mdx
-concepts/dependencies.mdx
-concepts/labels.mdx
-configure/integrate-cpp.mdx
-configure/windows.mdx
-contribute/search.mdx
-docs/cc-toolchain-config-reference.mdx
 docs/mobile-install.mdx
-docs/user-manual.mdx
 extending/config.mdx
 extending/legacy-macros.mdx
 extending/macros.mdx
-external/extension.mdx
 external/faq.mdx
-external/migration.mdx
 external/mod-command.mdx
-external/overview.mdx
-external/registry.mdx
 external/vendor.mdx
-install/windows.mdx
-query/guide.mdx
-query/language.mdx
-query/quickstart.mdx
-reference/flag-cheatsheet.mdx
-reference/test-encyclopedia.mdx
-reference/command-line-reference.mdx
-reference/be/be-nav.mdx
-reference/be/functions.mdx
-reference/be/platforms-and-toolchains.mdx
-release/rolling.mdx
-remote/ci.mdx
-remote/dynamic.mdx
-rules/language.mdx
-rules/windows.mdx
-run/build.mdx
+external/migration.mdx
+external/overview.mdx
 start/go.mdx
-tutorials/ccp-toolchain-config.mdx
 "
 
 # Verify that at least one source exists

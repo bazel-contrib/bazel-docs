@@ -12,8 +12,11 @@ LOCAL_FILES="
 
 echo "Cleaning up .mdx files..."
 
-# Find all .mdx files in the repo (excluding upstream, work, .github, .cursor directories)
-find . -name "*.mdx" -type f | while read -r mdx_file; do
+# Find all .mdx files in the repo, excluding versioned directories
+# This excludes any directory starting with a digit (e.g., 6.5.0, 7.6.1, 8.0.1)
+find . -name "*.mdx" -type f \
+  -not -path "./[0-9]*/*" \
+  -not -path "./.github/*" | while read -r mdx_file; do
     
     # Check if this exact file path is in LOCAL_FILES
     if echo "$LOCAL_FILES" | grep -q "^\s*$mdx_file\s*$"; then
