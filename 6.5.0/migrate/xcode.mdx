@@ -68,7 +68,7 @@ To build or test an Xcode project with Bazel, do the following:
 
 5.  [Run the build](#run-build)
 
-6.  [Generate the Xcode project with rules_xcodeproj](#generate-the-xcode-project-with-rules_xcodeproj)
+6.  [Generate the Xcode project with rules_xcodeproj](#generate-the-xcode-project-with-rules-xcodeproj)
 
 ### Step 1: Create the `WORKSPACE` file
 
@@ -139,12 +139,12 @@ through a project generated with rules_xcodeproj. Add test targets as follows:
 *   [`ios_unit_test`](https://github.com/bazelbuild/rules_apple/blob/master/doc/rules-ios.md#ios_unit_test)
     to run library-based unit tests on iOS. For tests requiring the iOS
     simulator, Bazel will build the test outputs but not run the tests. You must
-    [generate an Xcode project with rules_xcodeproj](#generate-the-xcode-project-with-rules_xcodeproj)
+    [generate an Xcode project with rules_xcodeproj](#generate-the-xcode-project-with-rules-xcodeproj)
     and run the tests from within Xcode.
 
 *   [`ios_ui_test`](https://github.com/bazelbuild/rules_apple/blob/master/doc/rules-ios.md#ios_ui_test)
     to build outputs required to run user interface tests in the iOS simulator
-    using Xcode. You must [generate an Xcode project with rules_xcodeproj](#generate-the-xcode-project-with-rules_xcodeproj)
+    using Xcode. You must [generate an Xcode project with rules_xcodeproj](#generate-the-xcode-project-with-rules-xcodeproj)
     and run the tests from within Xcode. Bazel cannot natively run UI tests.
 
 At the minimum, specify a value for the `minimum_os_version` attribute. While

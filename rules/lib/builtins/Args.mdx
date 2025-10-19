@@ -23,7 +23,7 @@ When using string formatting ( `format`, `format_each`, and `format_joined` para
 
 Each of the `add*()` methods have an alternate form that accepts an extra positional parameter, an "arg name" string to insert before the rest of the arguments. For `add_all` and `add_joined` the extra string will not be added if the sequence turns out to be empty. For instance, the same usage can add either `--foo val1 val2 val3 --bar` or just `--bar` to the command line, depending on whether the given sequence contains `val1..val3` or is empty.
 
-If the size of the command line can grow longer than the maximum size allowed by the system, the arguments can be spilled over into parameter files. See [`use_param_file()`](#use_param_file) and [`set_param_file_format()`](#set_param_file_format).
+If the size of the command line can grow longer than the maximum size allowed by the system, the arguments can be spilled over into parameter files. See [`use_param_file()`](#use-param-file) and [`set_param_file_format()`](#set-param-file-format).
 
 Example: Suppose we wanted to generate the command line:
 
@@ -52,10 +52,10 @@ ctx.actions.run(
 ## Members
 
 - [add](#add)
-- [add\_all](#add_all)
-- [add\_joined](#add_joined)
-- [set\_param\_file\_format](#set_param_file_format)
-- [use\_param\_file](#use_param_file)
+- [add\_all](#add-all)
+- [add\_joined](#add-joined)
+- [set\_param\_file\_format](#set-param-file-format)
+- [use\_param\_file](#use-param-file)
 
 ## add
 
@@ -75,7 +75,7 @@ ParameterDescription`arg_name_or_value`
  `value`
  default is `unbound`
 
- The object to append. It will be converted to a string using the standard conversion mentioned above. Since there is no `map_each` parameter for this function, `value` should be either a string or a `File`. A list, tuple, depset, or directory `File` must be passed to [`add_all()` or](#add_all) [`add_joined()`](#add_joined) instead of this method.
+ The object to append. It will be converted to a string using the standard conversion mentioned above. Since there is no `map_each` parameter for this function, `value` should be either a string or a `File`. A list, tuple, depset, or directory `File` must be passed to [`add_all()` or](#add-all) [`add_joined()`](#add-joined) instead of this method.
  `format`[string](../core/string.html); or `None`;
  default is `None`
 
@@ -173,7 +173,7 @@ Args Args.add_joined(arg_name_or_values, values=unbound, *, join_with, map_each=
 
  Appends an argument to this command line by concatenating together multiple values using a separator. The items are processed lazily during the execution phase.
 
-Processing is similar to [`add_all()`](#add_all), but the list of arguments derived from `values` is combined into a single argument as if by `join_with.join(...)`, and then formatted using the given `format_joined` string template. Unlike `add_all()`, there is no `before_each` or `terminate_with` parameter since these are not generally useful when the items are combined into a single argument.
+Processing is similar to [`add_all()`](#add-all), but the list of arguments derived from `values` is combined into a single argument as if by `join_with.join(...)`, and then formatted using the given `format_joined` string template. Unlike `add_all()`, there is no `before_each` or `terminate_with` parameter since these are not generally useful when the items are combined into a single argument.
 
 If after filtering there are no strings to join into an argument, and if `omit_if_empty` is true (the default), no processing is done. Otherwise if there are no strings to join but `omit_if_empty` is false, the joined string will be an empty string.
 
@@ -196,11 +196,11 @@ ParameterDescription`arg_name_or_values`
  callable; or `None`;
  default is `None`
 
- Same as for [`add_all`](#add_all.map_each).
+ Same as for [`add_all`](#add-all.map-each).
  `format_each`[string](../core/string.html); or `None`;
  default is `None`
 
- Same as for [`add_all`](#add_all.format_each).
+ Same as for [`add_all`](#add-all.format-each).
  `format_joined`[string](../core/string.html); or `None`;
  default is `None`
 
@@ -212,15 +212,15 @@ ParameterDescription`arg_name_or_values`
  `uniquify`[bool](../core/bool.html);
  default is `False`
 
- Same as for [`add_all`](#add_all.uniquify).
+ Same as for [`add_all`](#add-all.uniquify).
  `expand_directories`[bool](../core/bool.html);
  default is `True`
 
- Same as for [`add_all`](#add_all.expand_directories).
+ Same as for [`add_all`](#add-all.expand-directories).
  `allow_closure`[bool](../core/bool.html);
  default is `False`
 
- Same as for [`add_all`](#add_all.allow_closure).
+ Same as for [`add_all`](#add-all.allow-closure).
 
 
 ## set\_param\_file\_format

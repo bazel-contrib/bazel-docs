@@ -10,18 +10,18 @@ The following functions are also available:
 
 ## Members
 
-- [existing\_rule](#existing_rule)
-- [existing\_rules](#existing_rules)
-- [exports\_files](#exports_files)
+- [existing\_rule](#existing-rule)
+- [existing\_rules](#existing-rules)
+- [exports\_files](#exports-files)
 - [glob](#glob)
-- [module\_name](#module_name)
-- [module\_version](#module_version)
-- [package\_default\_visibility](#package_default_visibility)
-- [package\_group](#package_group)
-- [package\_name](#package_name)
-- [package\_relative\_label](#package_relative_label)
-- [repo\_name](#repo_name)
-- [repository\_name](#repository_name)
+- [module\_name](#module-name)
+- [module\_version](#module-version)
+- [package\_default\_visibility](#package-default-visibility)
+- [package\_group](#package-group)
+- [package\_name](#package-name)
+- [package\_relative\_label](#package-relative-label)
+- [repo\_name](#repo-name)
+- [repository\_name](#repository-name)
 - [subpackages](#subpackages)
 
 ## existing\_rule
@@ -236,7 +236,7 @@ string native.repository_name()
 
  **Experimental**. This API is experimental and may change at any time. Please do not depend on it. It may be enabled on an experimental basis by setting `--+incompatible_enable_deprecated_label_apis`
 
-**Deprecated.** Prefer to use [`repo_name`](#repo_name) instead, which doesn't contain the spurious leading at-sign, but behaves identically otherwise.
+**Deprecated.** Prefer to use [`repo_name`](#repo-name) instead, which doesn't contain the spurious leading at-sign, but behaves identically otherwise.
 
 The canonical name of the repository containing the package currently being evaluated, with a single at-sign ( `@`) prefixed. For example, in packages that are called into existence by the WORKSPACE stanza `local_repository(name='local', path=...)` it will be set to `@local`. In packages in the main repository, it will be set to `@`.
 

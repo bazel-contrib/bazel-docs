@@ -6,17 +6,17 @@ title: 'C / C++ Rules'
 
 ## Rules
 
-- [cc\_binary](#cc_binary)
-- [cc\_import](#cc_import)
-- [cc\_library](#cc_library)
-- [cc\_shared\_library](#cc_shared_library)
-- [cc\_static\_library](#cc_static_library)
-- [cc\_test](#cc_test)
-- [cc\_toolchain](#cc_toolchain)
-- [fdo\_prefetch\_hints](#fdo_prefetch_hints)
-- [fdo\_profile](#fdo_profile)
-- [memprof\_profile](#memprof_profile)
-- [propeller\_optimize](#propeller_optimize)
+- [cc\_binary](#cc-binary)
+- [cc\_import](#cc-import)
+- [cc\_library](#cc-library)
+- [cc\_shared\_library](#cc-shared-library)
+- [cc\_static\_library](#cc-static-library)
+- [cc\_test](#cc-test)
+- [cc\_toolchain](#cc-toolchain)
+- [fdo\_prefetch\_hints](#fdo-prefetch-hints)
+- [fdo\_profile](#fdo-profile)
+- [memprof\_profile](#memprof-profile)
+- [propeller\_optimize](#propeller-optimize)
 
 ## cc\_binary
 
@@ -63,7 +63,7 @@ targets.
 
 It is also allowed to
 put linker scripts (.lds) into deps, and reference them in
-[linkopts](#cc_binary.linkopts).
+[linkopts](#cc-binary.linkopts).
  `srcs`
 
 List of [labels](/concepts/labels); default is `[]`
@@ -200,7 +200,7 @@ Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line to this target,
 as well as to every rule that depends on it. Be very careful, since this may have
 far-reaching effects. When in doubt, add define values to
-[`local_defines`](#cc_binary.local_defines) instead.
+[`local_defines`](#cc-binary.local-defines) instead.
  `distribs`
 
 List of strings; default is `[]`
@@ -235,10 +235,10 @@ with typical feature definitions will produce
 `-isystem path_to_package/include_entry`.
 This should only be used for third-party libraries that
 do not conform to the Google style of writing #include statements.
-Unlike [COPTS](#cc_binary.copts), these flags are added for this rule
+Unlike [COPTS](#cc-binary.copts), these flags are added for this rule
 and every rule that depends on it. (Note: not the rules it depends upon!) Be
 very careful, since this may have far-reaching effects. When in doubt, add
-"-I" flags to [COPTS](#cc_binary.copts) instead.
+"-I" flags to [COPTS](#cc-binary.copts) instead.
 
 The added `include` paths will include generated files as well as
 files in the source tree.
@@ -286,8 +286,8 @@ The presence of this flag means that linking occurs with the `-shared` flag
 to `gcc`, and the resulting shared library is suitable for loading into for
 example a Java program. However, for build purposes it will never be linked into the
 dependent binary, as it is assumed that shared libraries built with a
-[cc\_binary](#cc_binary) rule are only loaded manually by other programs, so
-it should not be considered a substitute for the [cc\_library](#cc_library)
+[cc\_binary](#cc-binary) rule are only loaded manually by other programs, so
+it should not be considered a substitute for the [cc\_library](#cc-library)
 rule. For sake of scalability we recommend avoiding this approach altogether and
 simply letting `java_library` depend on `cc_library` rules
 instead.
@@ -394,7 +394,7 @@ String; default is `""`
 Subject to ["Make" variable](/reference/be/make-variables) substitution.
 The value of this attribute is interpreted as a regular expression.
 Any preexisting `COPTS` that match this regular expression
-(including values explicitly specified in the rule's [copts](#cc_binary.copts) attribute)
+(including values explicitly specified in the rule's [copts](#cc-binary.copts) attribute)
 will be removed from `COPTS` for purposes of compiling this rule.
 This attribute should not be needed or used
 outside of `third_party`. The values are not preprocessed
@@ -649,10 +649,10 @@ with typical feature definitions will produce
 `-isystem path_to_package/include_entry`.
 This should only be used for third-party libraries that
 do not conform to the Google style of writing #include statements.
-Unlike [COPTS](#cc_binary.copts), these flags are added for this rule
+Unlike [COPTS](#cc-binary.copts), these flags are added for this rule
 and every rule that depends on it. (Note: not the rules it depends upon!) Be
 very careful, since this may have far-reaching effects. When in doubt, add
-"-I" flags to [COPTS](#cc_binary.copts) instead.
+"-I" flags to [COPTS](#cc-binary.copts) instead.
 
 The default `include` path doesn't include generated
 files. If you need to `#include` a generated header
@@ -1160,7 +1160,7 @@ Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line to this target,
 as well as to every rule that depends on it. Be very careful, since this may have
 far-reaching effects. When in doubt, add define values to
-[`local_defines`](#cc_binary.local_defines) instead.
+[`local_defines`](#cc-binary.local-defines) instead.
  `hdrs_check`
 
 String; default is `""`
@@ -1202,10 +1202,10 @@ with typical feature definitions will produce
 `-isystem path_to_package/include_entry`.
 This should only be used for third-party libraries that
 do not conform to the Google style of writing #include statements.
-Unlike [COPTS](#cc_binary.copts), these flags are added for this rule
+Unlike [COPTS](#cc-binary.copts), these flags are added for this rule
 and every rule that depends on it. (Note: not the rules it depends upon!) Be
 very careful, since this may have far-reaching effects. When in doubt, add
-"-I" flags to [COPTS](#cc_binary.copts) instead.
+"-I" flags to [COPTS](#cc-binary.copts) instead.
 
 The added `include` paths will include generated files as well as
 files in the source tree.
@@ -1760,7 +1760,7 @@ targets.
 
 It is also allowed to
 put linker scripts (.lds) into deps, and reference them in
-[linkopts](#cc_binary.linkopts).
+[linkopts](#cc-binary.linkopts).
  `srcs`
 
 List of [labels](/concepts/labels); default is `[]`
@@ -1897,7 +1897,7 @@ Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line to this target,
 as well as to every rule that depends on it. Be very careful, since this may have
 far-reaching effects. When in doubt, add define values to
-[`local_defines`](#cc_binary.local_defines) instead.
+[`local_defines`](#cc-binary.local-defines) instead.
  `distribs`
 
 List of strings; default is `[]`
@@ -1932,10 +1932,10 @@ with typical feature definitions will produce
 `-isystem path_to_package/include_entry`.
 This should only be used for third-party libraries that
 do not conform to the Google style of writing #include statements.
-Unlike [COPTS](#cc_binary.copts), these flags are added for this rule
+Unlike [COPTS](#cc-binary.copts), these flags are added for this rule
 and every rule that depends on it. (Note: not the rules it depends upon!) Be
 very careful, since this may have far-reaching effects. When in doubt, add
-"-I" flags to [COPTS](#cc_binary.copts) instead.
+"-I" flags to [COPTS](#cc-binary.copts) instead.
 
 The added `include` paths will include generated files as well as
 files in the source tree.
@@ -1983,8 +1983,8 @@ The presence of this flag means that linking occurs with the `-shared` flag
 to `gcc`, and the resulting shared library is suitable for loading into for
 example a Java program. However, for build purposes it will never be linked into the
 dependent binary, as it is assumed that shared libraries built with a
-[cc\_binary](#cc_binary) rule are only loaded manually by other programs, so
-it should not be considered a substitute for the [cc\_library](#cc_library)
+[cc\_binary](#cc-binary) rule are only loaded manually by other programs, so
+it should not be considered a substitute for the [cc\_library](#cc-library)
 rule. For sake of scalability we recommend avoiding this approach altogether and
 simply letting `java_library` depend on `cc_library` rules
 instead.
@@ -2091,7 +2091,7 @@ String; default is `""`
 Subject to ["Make" variable](/reference/be/make-variables) substitution.
 The value of this attribute is interpreted as a regular expression.
 Any preexisting `COPTS` that match this regular expression
-(including values explicitly specified in the rule's [copts](#cc_binary.copts) attribute)
+(including values explicitly specified in the rule's [copts](#cc-binary.copts) attribute)
 will be removed from `COPTS` for purposes of compiling this rule.
 This attribute should not be needed or used
 outside of `third_party`. The values are not preprocessed

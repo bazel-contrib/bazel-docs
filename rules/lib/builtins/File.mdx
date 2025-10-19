@@ -13,14 +13,14 @@ When a `File` is passed to an [`Args`](../builtins/Args.html) object without usi
 - [basename](#basename)
 - [dirname](#dirname)
 - [extension](#extension)
-- [is\_directory](#is_directory)
-- [is\_source](#is_source)
-- [is\_symlink](#is_symlink)
+- [is\_directory](#is-directory)
+- [is\_source](#is-source)
+- [is\_symlink](#is-symlink)
 - [owner](#owner)
 - [path](#path)
 - [root](#root)
-- [short\_path](#short_path)
-- [tree\_relative\_path](#tree_relative_path)
+- [short\_path](#short-path)
+- [tree\_relative\_path](#tree-relative-path)
 
 ## basename
 
@@ -129,4 +129,4 @@ string File.short_path
 string File.tree_relative_path
 ```
 
- The path of this file relative to the root of the ancestor's tree, if the ancestor's [is\_directory](#is_directory) field is true. `tree_relative_path` is only available for expanded files of a directory in an action command, i.e. [Args.add\_all()](../builtins/Args.html#add_all). For other types of files, it is an error to access this field.
+ The path of this file relative to the root of the ancestor's tree, if the ancestor's [is\_directory](#is-directory) field is true. `tree_relative_path` is only available for expanded files of a directory in an action command, i.e. [Args.add\_all()](../builtins/Args.html#add_all). For other types of files, it is an error to access this field.

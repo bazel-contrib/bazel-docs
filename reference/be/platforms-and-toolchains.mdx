@@ -10,11 +10,11 @@ The user should be familiar with the concepts explained [here](/extending/platfo
 
 ## Rules
 
-- [constraint\_setting](#constraint_setting)
-- [constraint\_value](#constraint_value)
+- [constraint\_setting](#constraint-setting)
+- [constraint\_value](#constraint-value)
 - [platform](#platform)
 - [toolchain](#toolchain)
-- [toolchain\_type](#toolchain_type)
+- [toolchain\_type](#toolchain-type)
 
 ## constraint\_setting
 
@@ -396,7 +396,7 @@ List of [labels](/concepts/labels); [nonconfigurable](common-definitions.html#co
  The label of a `platform` target that this platform should inherit from. Although
  the attribute takes a list, there should be no more than one platform present. Any
  constraint\_settings not set directly on this platform will be found in the parent platform.
- See the section on [Platform Inheritance](#platform_inheritance) for details.
+ See the section on [Platform Inheritance](#platform-inheritance) for details.
 
  `remote_execution_properties`
 
@@ -408,7 +408,7 @@ String; [nonconfigurable](common-definitions.html#configurable-attributes); defa
  interpret this, it is treated as opaque data that can be used by a specific SpawnRunner.
  This can include data from the parent platform's "remote\_execution\_properties" attribute,
  by using the macro "{PARENT\_REMOTE\_EXECUTION\_PROPERTIES}". See the section on
- [Platform Inheritance](#platform_inheritance) for details.
+ [Platform Inheritance](#platform-inheritance) for details.
 
  `required_settings`
 

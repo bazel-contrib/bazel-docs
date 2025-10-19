@@ -8,9 +8,9 @@ A configuration fragment for Apple platforms.
 
 ## Members
 
-- [multi\_arch\_platform](#multi_arch_platform)
-- [single\_arch\_cpu](#single_arch_cpu)
-- [single\_arch\_platform](#single_arch_platform)
+- [multi\_arch\_platform](#multi-arch-platform)
+- [single\_arch\_cpu](#single-arch-cpu)
+- [single\_arch\_platform](#single-arch-platform)
 
 ## multi\_arch\_platform
 
@@ -18,7 +18,7 @@ A configuration fragment for Apple platforms.
 apple_platform apple.multi_arch_platform(platform_type)
 ```
 
- The platform of the current configuration for the given platform type. This should only be invoked in a context where multiple architectures may be supported; consider [single\_arch\_platform](#single_arch_platform) for other cases.
+ The platform of the current configuration for the given platform type. This should only be invoked in a context where multiple architectures may be supported; consider [single\_arch\_platform](#single-arch-platform) for other cases.
 
 
 ### Parameters
@@ -45,4 +45,4 @@ string apple.single_arch_cpu
 apple_platform apple.single_arch_platform
 ```
 
- The platform of the current configuration. This should only be invoked in a context where only a single architecture may be supported; consider [multi\_arch\_platform](#multi_arch_platform) for other cases.
+ The platform of the current configuration. This should only be invoked in a context where only a single architecture may be supported; consider [multi\_arch\_platform](#multi-arch-platform) for other cases.

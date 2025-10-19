@@ -7,12 +7,12 @@ title: 'General Rules'
 ## Rules
 
 - [alias](#alias)
-- [config\_setting](#config_setting)
+- [config\_setting](#config-setting)
 - [filegroup](#filegroup)
 - [genquery](#genquery)
 - [genrule](#genrule)
-- [starlark\_doc\_extract](#starlark_doc_extract)
-- [test\_suite](#test_suite)
+- [starlark\_doc\_extract](#starlark-doc-extract)
+- [test\_suite](#test-suite)
 
 ## alias
 
@@ -39,8 +39,8 @@ of the referenced rule is used instead) with some minor exceptions:
 
 
 - Tests are not run if their alias is mentioned on the command line. To define an alias
-   that runs the referenced test, use a [`test_suite`](#test_suite)
-   rule with a single target in its [`tests`](#test_suite.tests)
+   that runs the referenced test, use a [`test_suite`](#test-suite)
+   rule with a single target in its [`tests`](#test-suite.tests)
    attribute.
 
 - When defining environment groups, the aliases to `environment` rules are not

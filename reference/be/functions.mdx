@@ -7,8 +7,8 @@ title: 'Functions'
 ## Contents
 
 - [package](#package)
-- [package\_group](#package_group)
-- [exports\_files](#exports_files)
+- [package\_group](#package-group)
+- [exports\_files](#exports-files)
 - [glob](#glob)
 - [select](#select)
 - [subpackages](#subpackages)
@@ -35,7 +35,7 @@ file, before any rule.
 
 AttributeDescription`default_applicable_licenses`
 
-Alias for [`default_package_metadata`](#package.default_package_metadata).
+Alias for [`default_package_metadata`](#package.default-package-metadata).
 
 
 `default_visibility`
@@ -50,7 +50,7 @@ value.
 
 For detailed information about the syntax of this attribute, see the
 documentation of [visibility](/concepts/visibility). The package default visibility does not apply to
-[exports\_files](#exports_files), which is public by default.
+[exports\_files](#exports-files), which is public by default.
 
 
 `default_deprecation`
@@ -379,7 +379,7 @@ There are several important limitations and caveats:
     `glob()` matches files only in your source tree, never
     generated files. If you are building a target that requires both
     source and generated files, you must append an explicit list of generated
-    files to the glob. See the [example](#glob_example)
+    files to the glob. See the [example](#glob-example)
     below with `:mylib` and `:gen_java_srcs`.
 
 
@@ -449,7 +449,7 @@ files, or emacs/vi/... auto-save files.
 
 When writing build rules you can enumerate the elements of the glob. This
 enables generating individual rules for every input, for example. See the
-[expanded glob example](#expanded_glob_example) section below.
+[expanded glob example](#expanded-glob-example) section below.
 
 ### Glob Examples
 

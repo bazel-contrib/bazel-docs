@@ -9,16 +9,16 @@ Module providing functions to create actions. Access this module using [`ctx.act
 ## Members
 
 - [args](#args)
-- [declare\_directory](#declare_directory)
-- [declare\_file](#declare_file)
-- [declare\_symlink](#declare_symlink)
-- [do\_nothing](#do_nothing)
-- [expand\_template](#expand_template)
-- [map\_directory](#map_directory)
+- [declare\_directory](#declare-directory)
+- [declare\_file](#declare-file)
+- [declare\_symlink](#declare-symlink)
+- [do\_nothing](#do-nothing)
+- [expand\_template](#expand-template)
+- [map\_directory](#map-directory)
 - [run](#run)
-- [run\_shell](#run_shell)
+- [run\_shell](#run-shell)
 - [symlink](#symlink)
-- [template\_dict](#template_dict)
+- [template\_dict](#template-dict)
 - [write](#write)
 
 ## args
@@ -469,7 +469,7 @@ If both `use_default_shell_env` and `env` are set to `True`, values set in `env`
  callable; or `None`;
  default is `None`
 
- A callback function for estimating resource usage if run locally. See [`ctx.actions.run()`](#run.resource_set).
+ A callback function for estimating resource usage if run locally. See [`ctx.actions.run()`](#run.resource-set).
  `toolchain`[Label](../builtins/Label.html); or [string](../core/string.html); or `None`;
  default is `unbound`
 
@@ -493,9 +493,9 @@ None actions.symlink(*, output, target_file=None, target_path=None, is_executabl
 
 This function must be called with exactly one of `target_file` or `target_path` specified.
 
-When you use `target_file`, declare `output` with [`declare_file()`](#declare_file) or [`declare_directory()`](#declare_directory) and match the type of `target_file`. This makes the symlink point to `target_file`. Bazel invalidates the output of this action whenever the target of the symlink or its contents change.
+When you use `target_file`, declare `output` with [`declare_file()`](#declare-file) or [`declare_directory()`](#declare-directory) and match the type of `target_file`. This makes the symlink point to `target_file`. Bazel invalidates the output of this action whenever the target of the symlink or its contents change.
 
-Otherwise, when you use `target_path`, declare `output` with [`declare_symlink()`](#declare_symlink)). In this case, the symlink points to `target_path`. Bazel never resolves the symlink and the output of this action is invalidated only when the text contents of the symlink (that is, the value of `readlink()`) changes. In particular, this can be used to create a dangling symlink.
+Otherwise, when you use `target_path`, declare `output` with [`declare_symlink()`](#declare-symlink)). In this case, the symlink points to `target_path`. Bazel never resolves the symlink and the output of this action is invalidated only when the text contents of the symlink (that is, the value of `readlink()`) changes. In particular, this can be used to create a dangling symlink.
 
 ### Parameters
 
@@ -540,7 +540,7 @@ TemplateDict actions.template_dict()
 None actions.write(output, content, is_executable=False, *, mnemonic=None)
 ```
 
- Creates a file write action. When the action is executed, it will write the given content to a file. This is used to generate files using information available in the analysis phase. If the file is large and with a lot of static content, consider using [`expand_template`](#expand_template).
+ Creates a file write action. When the action is executed, it will write the given content to a file. This is used to generate files using information available in the analysis phase. If the file is large and with a lot of static content, consider using [`expand_template`](#expand-template).
 
 
 ### Parameters

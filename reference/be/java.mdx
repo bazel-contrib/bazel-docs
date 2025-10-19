@@ -6,15 +6,15 @@ title: 'Java Rules'
 
 ## Rules
 
-- [java\_binary](#java_binary)
-- [java\_import](#java_import)
-- [java\_library](#java_library)
-- [java\_test](#java_test)
-- [java\_package\_configuration](#java_package_configuration)
-- [java\_plugin](#java_plugin)
-- [java\_runtime](#java_runtime)
-- [java\_single\_jar](#java_single_jar)
-- [java\_toolchain](#java_toolchain)
+- [java\_binary](#java-binary)
+- [java\_import](#java-import)
+- [java\_library](#java-library)
+- [java\_test](#java-test)
+- [java\_package\_configuration](#java-package-configuration)
+- [java\_plugin](#java-plugin)
+- [java\_runtime](#java-runtime)
+- [java\_single\_jar](#java-single-jar)
+- [java\_toolchain](#java-toolchain)
 
 ## java\_binary
 
@@ -48,7 +48,7 @@ for a list of configurable flags and environment variables accepted by the wrapp
    creates a self-contained jar file with a manifest that allows it to be run with the
    `java -jar` command or with the wrapper script's `--singlejar`
    option. Using the wrapper script is preferred to `java -jar` because it
-   also passes the [JVM flags](#java_binary-jvm_flags) and the options
+   also passes the [JVM flags](#java-binary-jvm-flags) and the options
    to load native libraries.
 
 
@@ -59,7 +59,7 @@ for a list of configurable flags and environment variables accepted by the wrapp
    into the JVM at runtime.
 
 
-  If your target specifies a [launcher](#java_binary.launcher)
+  If your target specifies a [launcher](#java-binary.launcher)
    attribute, then instead of being a normal JAR file, the \_deploy.jar will be a
    native binary. This will contain the launcher plus any native (C++) dependencies of
    your rule, all linked into a static binary. The actual jar file's bytes will be
@@ -76,9 +76,9 @@ application (minus the extension). For example, if your entry point is called
 `Main.java`, then your name could be `Main`.
 
 A `deps` attribute is not allowed in a `java_binary` rule without
-[`srcs`](#java_binary-srcs); such a rule requires a
-[`main_class`](#java_binary-main_class) provided by
-[`runtime_deps`](#java_binary-runtime_deps).
+[`srcs`](#java-binary-srcs); such a rule requires a
+[`main_class`](#java-binary-main-class) provided by
+[`runtime_deps`](#java-binary-runtime-deps).
 
 The following code snippet illustrates a common mistake:
 
@@ -148,7 +148,7 @@ any of the files listed above, they will be used the same way as described for s
 files.
 
 This argument is almost always required, except if a
-[`main_class`](#java_binary.main_class) attribute specifies a
+[`main_class`](#java-binary.main-class) attribute specifies a
 class on the runtime classpath or you specify the `runtime_deps` argument.
 
 `data`
@@ -302,7 +302,7 @@ depending on whether you are using the JDK launcher or another launcher:
 
 When using any launcher other than the default JDK launcher, the format
 of the `*_deploy.jar` output changes. See the main
-[java\_binary](#java_binary) docs for details.
+[java\_binary](#java-binary) docs for details.
 
 `main_class`
 
@@ -784,7 +784,7 @@ test code. The test runner's main method is invoked instead of the main class be
 - `name_deploy.jar`: A Java archive suitable
    for deployment. (Only built if explicitly requested.) See the description of the
    `name_deploy.jar` output from
-   [java\_binary](#java_binary) for more details.
+   [java\_binary](#java-binary) for more details.
 
 See the section on `java_binary()` arguments. This rule also
 supports all [attributes common\
@@ -853,7 +853,7 @@ any of the files listed above, they will be used the same way as described for s
 files.
 
 This argument is almost always required, except if a
-[`main_class`](#java_binary.main_class) attribute specifies a
+[`main_class`](#java-binary.main-class) attribute specifies a
 class on the runtime classpath or you specify the `runtime_deps` argument.
 
 `data`
@@ -995,7 +995,7 @@ depending on whether you are using the JDK launcher or another launcher:
 
 When using any launcher other than the default JDK launcher, the format
 of the `*_deploy.jar` output changes. See the main
-[java\_binary](#java_binary) docs for details.
+[java\_binary](#java-binary) docs for details.
 
 `main_class`
 

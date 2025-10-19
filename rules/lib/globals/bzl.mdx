@@ -8,21 +8,21 @@ Global methods available in all .bzl files.
 
 ## Members
 
-- [analysis\_test\_transition](#analysis_test_transition)
+- [analysis\_test\_transition](#analysis-test-transition)
 - [aspect](#aspect)
-- [configuration\_field](#configuration_field)
+- [configuration\_field](#configuration-field)
 - [depset](#depset)
-- [exec\_group](#exec_group)
-- [exec\_transition](#exec_transition)
+- [exec\_group](#exec-group)
+- [exec\_transition](#exec-transition)
 - [macro](#macro)
-- [materializer\_rule](#materializer_rule)
-- [module\_extension](#module_extension)
+- [materializer\_rule](#materializer-rule)
+- [module\_extension](#module-extension)
 - [provider](#provider)
-- [repository\_rule](#repository_rule)
+- [repository\_rule](#repository-rule)
 - [rule](#rule)
 - [select](#select)
 - [subrule](#subrule)
-- [tag\_class](#tag_class)
+- [tag\_class](#tag-class)
 - [visibility](#visibility)
 
 ## analysis\_test\_transition
@@ -633,7 +633,7 @@ MyInfo, _new_myinfo = provider(init = ...)
 callable repository_rule(implementation, *, attrs=None, local=False, environ=[], configure=False, remotable=False, doc=None)
 ```
 
- Creates a new repository rule. Store it in a global value, so that it can be loaded and called from a [`module_extension()`](#module_extension) implementation function, or used by [`use_repo_rule()`](../globals/module.html#use_repo_rule).
+ Creates a new repository rule. Store it in a global value, so that it can be loaded and called from a [`module_extension()`](#module-extension) implementation function, or used by [`use_repo_rule()`](../globals/module.html#use_repo_rule).
 
 
 
@@ -789,7 +789,7 @@ Each element of the list is an `*Info` object returned by [`provider()`](../glob
 
 Note: Analysis test rules are primarily defined using infrastructure provided in core Starlark libraries. See [Testing](https://bazel.build/rules/testing#testing-rules) for guidance.
 
-If a rule is defined as an analysis test rule, it becomes allowed to use configuration transitions defined using [analysis\_test\_transition](#analysis_test_transition) on its attributes, but opts into some restrictions:
+If a rule is defined as an analysis test rule, it becomes allowed to use configuration transitions defined using [analysis\_test\_transition](#analysis-test-transition) on its attributes, but opts into some restrictions:
 
 - Targets of this rule are limited in the number of transitive dependencies they may have.
 - The rule is considered a test rule (as if `test=True` were set). This supersedes the value of `test`

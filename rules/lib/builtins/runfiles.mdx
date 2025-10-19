@@ -10,11 +10,11 @@ See [runfiles guide](https://bazel.build/extending/rules#runfiles) for details.
 
 ## Members
 
-- [empty\_filenames](#empty_filenames)
+- [empty\_filenames](#empty-filenames)
 - [files](#files)
 - [merge](#merge)
-- [merge\_all](#merge_all)
-- [root\_symlinks](#root_symlinks)
+- [merge\_all](#merge-all)
+- [root\_symlinks](#root-symlinks)
 - [symlinks](#symlinks)
 
 ## empty\_filenames
@@ -45,7 +45,7 @@ runfiles runfiles.merge(other)
 
  Returns a new runfiles object that includes all the contents of this one and the argument.
 
-_Note:_ When you have many runfiles objects to merge, use [`merge_all()`](#merge_all) rather than calling `merge` in a loop. This avoids constructing deep depset structures which can cause build failures.
+_Note:_ When you have many runfiles objects to merge, use [`merge_all()`](#merge-all) rather than calling `merge` in a loop. This avoids constructing deep depset structures which can cause build failures.
 
 ### Parameters
 
