@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 .hugo_build.lock
 node_modules
+# ignore go build files
+html2md_converter/go.sum
+html2md_converter/go.mod
+html2md_converter/html-to-md
