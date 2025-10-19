@@ -719,7 +719,7 @@ ParameterDescription`actions`[actions](../builtins/actions.html);
 ## create\_lto\_compilation\_context
 
 ```
-LtoCompilationContext cc_common.create_lto_compilation_context(*, objects={})
+LtoCompilationContext cc_common.create_lto_compilation_context(*, objects=`{}`)
 ```
 
  Create LTO compilation context
@@ -728,7 +728,7 @@ LtoCompilationContext cc_common.create_lto_compilation_context(*, objects={})
 ### Parameters
 
 ParameterDescription`objects`[dict](../core/dict.html);
- default is `{}`
+ default is `\{\}`
 
  map of full object to index object
 
@@ -861,7 +861,7 @@ ParameterDescription`feature_configuration`[FeatureConfiguration](../builtins/Fe
 ## link
 
 ```
-CcLinkingOutputs cc_common.link(*, actions, name, feature_configuration, cc_toolchain, language='c++', output_type='executable', link_deps_statically=True, compilation_outputs=None, linking_contexts=[], user_link_flags=[], stamp=0, additional_inputs=[], additional_outputs=[], variables_extension={})
+CcLinkingOutputs cc_common.link(*, actions, name, feature_configuration, cc_toolchain, language='c++', output_type='executable', link_deps_statically=True, compilation_outputs=None, linking_contexts=[], user_link_flags=[], stamp=0, additional_inputs=[], additional_outputs=[], variables_extension=`{}`)
 ```
 
  Should be used for C++ transitive linking.
@@ -923,7 +923,7 @@ ParameterDescription`actions`[actions](../builtins/actions.html);
 
  For additional outputs to the linking action, e.g.: map files.
  `variables_extension`[dict](../core/dict.html);
- default is `{}`
+ default is `\{\}`
 
  Additional variables to pass to the toolchain configuration when create link command line.
 

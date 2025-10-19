@@ -212,7 +212,7 @@ Tags:
 
 `--output_base=&lt;path&gt;` default: see description
 
-If set, specifies the output location to which all build output will be written. Otherwise, the location will be ${OUTPUT\_ROOT}/ _blaze_ ${USER}/${MD5\_OF\_WORKSPACE\_ROOT}. Note: If you specify a different option from one to the next Bazel invocation for this value, you'll likely start up a new, additional Bazel server. Bazel starts exactly one server per specified output base. Typically there is one output base per workspace - however, with this option you may have multiple output bases per workspace and thereby run multiple builds for the same client on the same machine concurrently. See 'bazel help shutdown' on how to shutdown a Bazel server.
+If set, specifies the output location to which all build output will be written. Otherwise, the location will be ${OUTPUT\_ROOT}/ _blaze_ `${USER}`/${MD5\_OF\_WORKSPACE\_ROOT}. Note: If you specify a different option from one to the next Bazel invocation for this value, you'll likely start up a new, additional Bazel server. Bazel starts exactly one server per specified output base. Typically there is one output base per workspace - however, with this option you may have multiple output bases per workspace and thereby run multiple builds for the same client on the same machine concurrently. See 'bazel help shutdown' on how to shutdown a Bazel server.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -468,7 +468,7 @@ Tags:
 
 `--remote_download_symlink_template=<a string>` default: ""
 
-Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain {hash} and {size\_bytes} that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
+Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain `{hash}` and {size\_bytes} that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -1854,7 +1854,7 @@ Inherits all options from [build](#build).
 Options relating to query output and semantics:
 `--aspect_deps=<off, conservative or precise>` default: "conservative"
 
-How to resolve aspect dependencies when the output format is one of {xml,proto,record}. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
+How to resolve aspect dependencies when the output format is one of `{xml,proto,record}`. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
 
 Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
@@ -2340,7 +2340,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:{version}" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -2579,7 +2579,7 @@ Tags:
 
 `--fission=<a set of compilation modes>` default: "no"
 
-Specifies which compilation modes use fission for C++ compilations and links. May be any combination of {'fastbuild', 'dbg', 'opt'} or the special values 'yes' to enable all modes and 'no' to disable all modes.
+Specifies which compilation modes use fission for C++ compilations and links. May be any combination of `{'fastbuild', 'dbg', 'opt'}` or the special values 'yes' to enable all modes and 'no' to disable all modes.
 
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -4294,7 +4294,7 @@ Tags:
 
 `--remote_download_symlink_template=<a string>` default: ""
 
-Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain {hash} and {size\_bytes} that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
+Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain `{hash}` and {size\_bytes} that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -5333,7 +5333,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:{version}" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -5572,7 +5572,7 @@ Tags:
 
 `--fission=<a set of compilation modes>` default: "no"
 
-Specifies which compilation modes use fission for C++ compilations and links. May be any combination of {'fastbuild', 'dbg', 'opt'} or the special values 'yes' to enable all modes and 'no' to disable all modes.
+Specifies which compilation modes use fission for C++ compilations and links. May be any combination of `{'fastbuild', 'dbg', 'opt'}` or the special values 'yes' to enable all modes and 'no' to disable all modes.
 
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -6929,7 +6929,7 @@ Inherits all options from [test](#test).
 Options relating to query output and semantics:
 `--aspect_deps=<off, conservative or precise>` default: "conservative"
 
-How to resolve aspect dependencies when the output format is one of {xml,proto,record}. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
+How to resolve aspect dependencies when the output format is one of `{xml,proto,record}`. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
 
 Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
@@ -7408,7 +7408,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:{version}" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -7647,7 +7647,7 @@ Tags:
 
 `--fission=<a set of compilation modes>` default: "no"
 
-Specifies which compilation modes use fission for C++ compilations and links. May be any combination of {'fastbuild', 'dbg', 'opt'} or the special values 'yes' to enable all modes and 'no' to disable all modes.
+Specifies which compilation modes use fission for C++ compilations and links. May be any combination of `{'fastbuild', 'dbg', 'opt'}` or the special values 'yes' to enable all modes and 'no' to disable all modes.
 
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -9280,7 +9280,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:{version}" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -9519,7 +9519,7 @@ Tags:
 
 `--fission=<a set of compilation modes>` default: "no"
 
-Specifies which compilation modes use fission for C++ compilations and links. May be any combination of {'fastbuild', 'dbg', 'opt'} or the special values 'yes' to enable all modes and 'no' to disable all modes.
+Specifies which compilation modes use fission for C++ compilations and links. May be any combination of `{'fastbuild', 'dbg', 'opt'}` or the special values 'yes' to enable all modes and 'no' to disable all modes.
 
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -11781,7 +11781,7 @@ Tags:
 Options relating to query output and semantics:
 `--aspect_deps=<off, conservative or precise>` default: "conservative"
 
-How to resolve aspect dependencies when the output format is one of {xml,proto,record}. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
+How to resolve aspect dependencies when the output format is one of `{xml,proto,record}`. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
 
 Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
@@ -12471,7 +12471,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:{version}" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -12710,7 +12710,7 @@ Tags:
 
 `--fission=<a set of compilation modes>` default: "no"
 
-Specifies which compilation modes use fission for C++ compilations and links. May be any combination of {'fastbuild', 'dbg', 'opt'} or the special values 'yes' to enable all modes and 'no' to disable all modes.
+Specifies which compilation modes use fission for C++ compilations and links. May be any combination of `{'fastbuild', 'dbg', 'opt'}` or the special values 'yes' to enable all modes and 'no' to disable all modes.
 
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)

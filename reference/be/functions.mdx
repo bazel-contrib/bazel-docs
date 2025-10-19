@@ -614,10 +614,7 @@ Notes:
    is left out, some other rule must match to avoid an error.
 
 - `select` can be embedded _inside_ a larger
-   attribute assignment. So `srcs = ["common.sh"]
-      + select({ ":conditionA": ["myrule_a.sh"], ...})` and `
-      srcs = select({ ":conditionA": ["a.sh"]}) + select({ ":conditionB":
-      ["b.sh"]})` are valid expressions.
+   attribute assignment. So `srcs = ["common.sh"] + select({":conditionA": ["myrule_a.sh"], ...})` and `srcs = select({":conditionA": ["a.sh"]}) + select({":conditionB": ["b.sh"]})` are valid expressions.
 
 - `select` works with most, but not all, attributes. Incompatible
    attributes are marked `nonconfigurable` in their documentation.
