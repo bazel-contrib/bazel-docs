@@ -180,9 +180,35 @@
                     ]
                   },
                   {
+                    "group": "Command line reference",
+                    "pages": [
+                      "reference/command-line-reference"
+                    ]
+                  },
+                  {
+                    "group": "Query reference",
+                    "pages": [
+                      "query/language",
+                      "query/aquery",
+                      "query/cquery"
+                    ]
+                  },
+                  {
                     "group": "Glossary",
                     "pages": [
                       "reference/glossary"
+                    ]
+                  },
+                  {
+                    "group": "Test Encyclopedia",
+                    "pages": [
+                      "reference/test-encyclopedia"
+                    ]
+                  },
+                  {
+                    "group": "Flag Cheat Sheet",
+                    "pages": [
+                      "reference/flag-cheatsheet"
                     ]
                   },
                   {
