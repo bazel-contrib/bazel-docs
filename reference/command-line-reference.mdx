@@ -468,7 +468,7 @@ Tags:
 
 `--remote_download_symlink_template=<a string>` default: ""
 
-Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain `{hash}` and {size\_bytes} that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
+Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain `{hash}` and `{size_bytes}` that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -2340,7 +2340,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:`{version_label}`" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -4294,7 +4294,7 @@ Tags:
 
 `--remote_download_symlink_template=<a string>` default: ""
 
-Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain `{hash}` and {size\_bytes} that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
+Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain `{hash}` and `{size_bytes}` that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -4485,7 +4485,7 @@ Tags:
 
 `--local_resources=<a named double, 'name=value', where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-Set the number of resources available to Bazel. Takes in an assignment to a float or HOST\_RAM/HOST\_CPUS, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:<resource name>:<amount>" format. Overrides resources specified by --local\_{cpu\|ram\|extra}\_resources.
+Set the number of resources available to Bazel. Takes in an assignment to a float or HOST\_RAM/HOST\_CPUS, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:<resource name>:<amount>" format. Overrides resources specified by `--local_{cpu|ram|extra}_resources`.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -5333,7 +5333,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:`{version_label}`" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -7408,7 +7408,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:`{version_label}`" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -9009,7 +9009,7 @@ Tags:
 
 `--repo=<a string>` multiple uses are accumulated
 
-Only fetches the specified repository, which can be either {@apparent\_repo\_name} or {@@canonical\_repo\_name}. Only works when --enable\_bzlmod is on.
+Only fetches the specified repository, which can be either `{@apparent_repo_name}` or `{@@canonical_repo_name}`. Only works when --enable\_bzlmod is on.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
@@ -9280,7 +9280,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:`{version_label}`" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -12471,7 +12471,7 @@ Tags:
 
 `--[no]experimental_include_xcode_execution_requirements` default: "false"
 
-If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:{version\_label}" execution requirement.
+If set, add a "requires-xcode:`{version}`" execution requirement to every Xcode action. If the Xcode version has a hyphenated label, also add a "requires-xcode-label:`{version_label}`" execution requirement.
 
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
