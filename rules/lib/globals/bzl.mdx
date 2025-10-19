@@ -464,7 +464,7 @@ targets defined by any rule finalizer, including this one.
 ## materializer\_rule
 
 ```
-callable materializer_rule(*, implementation, attrs={}, doc=None)
+callable materializer_rule(*, implementation, attrs={}, doc=None, allow_real_deps=False)
 ```
 
  Creates a new materializer rule, which can be called from a BUILD file or a macro to create materializer targets.
@@ -490,6 +490,10 @@ Declared attributes will convert `None` to the default value.
  default is `None`
 
  A description of the rule that can be extracted by documentation generating tools.
+ `allow_real_deps`[bool](../core/bool.html);
+ default is `False`
+
+ Whether to allow instances of this materializer rule to have real dependencies (non-dormant deps / non-for\_dependency\_resolution). Subject to allowlist.
 
 
 ## module\_extension

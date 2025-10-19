@@ -150,11 +150,11 @@ None include(label)
 
  Includes the contents of another MODULE.bazel-like file. Effectively, `include()` behaves as if the included file is textually placed at the location of the `include()` call, except that variable bindings (such as those used for `use_extension`) are only ever visible in the file they occur in, not in any included or including files.
 
-Only the root module may use `include()`; it is an error if a `bazel_dep`'s MODULE file uses `include()`.
+Only the root module and modules subject to a non-registry override may use `include()`.
 
-Only files in the main repo may be included.
+Only files in the current module's repo may be included.
 
-`include()` allows you to segment the root module file into multiple parts, to avoid having an enormous MODULE.bazel file or to better manage access control for individual semantic segments.
+`include()` allows you to segment a module file into multiple parts, to avoid having an enormous MODULE.bazel file or to better manage access control for individual semantic segments.
 
 
 ### Parameters

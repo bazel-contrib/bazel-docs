@@ -486,7 +486,7 @@ When \`toolchain\` and \`exec\_group\` parameters are both set, \`exec\_group\` 
 ## symlink
 
 ```
-None actions.symlink(*, output, target_file=None, target_path=None, is_executable=False, progress_message=None)
+None actions.symlink(*, output, target_file=None, target_path=None, target_type=None, is_executable=False, progress_message=None)
 ```
 
  Creates an action that writes a symlink in the file system.
@@ -511,7 +511,15 @@ ParameterDescription`output`[File](../builtins/File.html);
  default is `None`
 
  The exact path that the output symlink will point to. No normalization or other processing is applied.
- `is_executable`[bool](../core/bool.html);
+ `target_type`[string](../core/string.html); or `None`;
+ default is `None`
+
+ May only be used with `target_path`, not `target_file`. If specified, it must be one of 'file' or 'directory', indicating the target path's expected type.
+
+On Windows, this determines which kind of filesystem object to create (junction for a directory, symlink for a file). It has no effect on other operating systems.
+
+
+`is_executable`[bool](../core/bool.html);
  default is `False`
 
  May only be used with `target_file`, not `target_path`. If true, when the action is executed, the `target_file`'s path is checked to confirm that it is executable, and an error is reported if it is not. Setting `is_executable` to False does not mean the target is not executable, just that no verification is done.
