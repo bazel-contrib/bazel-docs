@@ -25,8 +25,8 @@ Options can be passed to Bazel in different ways. Options that require a value
 can be passed with either an equals sign or a space:
 
 ```
---<option>=<value>
---<option> <value>
+--&lt;option&gt;=&lt;value&gt;
+--&lt;option&gt; &lt;value&gt;
 
 ```
 
@@ -34,15 +34,15 @@ Some options have a single character short form; in that case, the short form
 has to be passed with a single dash and a space.
 
 ```
--<short_form> <value>
+-<short_form> &lt;value&gt;
 
 ```
 
 Boolean options can be enabled as follows:
 
 ```
---<option>
---<option>=[true|yes|1]
+--&lt;option&gt;
+--&lt;option&gt;=[true|yes|1]
 
 ```
 
@@ -50,7 +50,7 @@ and disabled as follows:
 
 ```
 --no<option>
---<option>=[false|no|0]
+--&lt;option&gt;=[false|no|0]
 
 ```
 
@@ -58,7 +58,7 @@ Tristate options are usually set to automatic by default, and can be
 force-enabled as follows:
 
 ```
---<option>=[true|yes|1]
+--&lt;option&gt;=[true|yes|1]
 
 ```
 
@@ -66,7 +66,7 @@ or force-disabled as follows:
 
 ```
 --no<option>
---<option>=[false|no|0]
+--&lt;option&gt;=[false|no|0]
 
 ```
 
@@ -98,7 +98,7 @@ Only on Linux; use 'batch' CPU scheduling for Blaze. This policy is useful for w
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--bazelrc=<path>` multiple uses are accumulated
+`--bazelrc=&lt;path&gt;` multiple uses are accumulated
 
 The location of the user .bazelrc file containing default values of Bazel options. /dev/null indicates that all further `--bazelrc` s will be ignored, which is useful to disable the search for a user rc file, e.g. in release builds.
 This option can also be specified multiple times.
@@ -140,7 +140,7 @@ The hash function to use when computing file digests.
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 
-`--experimental_cgroup_parent=<path>` default: see description
+`--experimental_cgroup_parent=&lt;path&gt;` default: see description
 
 The cgroup where to start the bazel server as an absolute path. The server process will be started in the specified cgroup for each supported controller. For example, if the value of this flag is /build/bazel and the cpu and memory controllers are mounted respectively on /sys/fs/cgroup/cpu and /sys/fs/cgroup/memory, the server will be started in the cgroups /sys/fs/cgroup/cpu/build/bazel and /sys/fs/cgroup/memory/build/bazel.It is not an error if the specified cgroup is not writable for one or more of the controllers. This options does not have any effect on platforms that do not support cgroups.
 
@@ -154,7 +154,7 @@ If true, the Bazel server will be run with systemd-run, and the user will own th
 Tags:
 [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING), [`execution`](#effect_tag_EXECUTION)
 
-`--failure_detail_out=<path>` default: see description
+`--failure_detail_out=&lt;path&gt;` default: see description
 
 If set, specifies a location to write a failure\_detail protobuf message if the server experiences a failure and cannot report it via gRPC, as normal. Otherwise, the location will be ${OUTPUT\_BASE}/failure\_detail.rawproto.
 
@@ -210,14 +210,14 @@ The number of seconds the build server will wait idling before shutting down. Ze
 Tags:
 [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
-`--output_base=<path>` default: see description
+`--output_base=&lt;path&gt;` default: see description
 
 If set, specifies the output location to which all build output will be written. Otherwise, the location will be ${OUTPUT\_ROOT}/ _blaze_ ${USER}/${MD5\_OF\_WORKSPACE\_ROOT}. Note: If you specify a different option from one to the next Bazel invocation for this value, you'll likely start up a new, additional Bazel server. Bazel starts exactly one server per specified output base. Typically there is one output base per workspace - however, with this option you may have multiple output bases per workspace and thereby run multiple builds for the same client on the same machine concurrently. See 'bazel help shutdown' on how to shutdown a Bazel server.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
-`--output_user_root=<path>` default: see description
+`--output_user_root=&lt;path&gt;` default: see description
 
 The user-specific directory beneath which all build outputs are written; by default, this is a function of $USER, but by specifying a constant, build outputs can be shared between collaborating users.
 
@@ -238,7 +238,7 @@ If true, no informational messages are emitted on the console, only errors. Chan
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
-`--server_jvm_out=<path>` default: see description
+`--server_jvm_out=&lt;path&gt;` default: see description
 
 The location to write the server's JVM's output. If unset then defaults to a location in output\_base.
 
@@ -484,7 +484,7 @@ Expands to:
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--repo_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--repo_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies additional environment variables to be available only for repository rules. Note that repository rules see the full environment anyway, but in this way variables can be set via command-line flags and <code>.bazelrc</code> entries. The special syntax <code>=NAME</code> can be used to explicitly unset a variable.
 
@@ -891,7 +891,7 @@ Tags:
 
 `--override_module=<an equals-separated mapping of module name to path>` multiple uses are accumulated
 
-Override a module with a local path in the form of <module name>=<path>. If the given path is an absolute path, it will be used as it is. If the given path is a relative path, it is relative to the current working directory. If the given path starts with '%workspace%, it is relative to the workspace root, which is the output of `bazel info workspace`. If the given path is empty, then remove any previous overrides.
+Override a module with a local path in the form of &lt;module name&gt;=&lt;path&gt;. If the given path is an absolute path, it will be used as it is. If the given path is a relative path, it is relative to the current working directory. If the given path starts with '%workspace%, it is relative to the workspace root, which is the output of `bazel info workspace`. If the given path is empty, then remove any previous overrides.
 
 `--registry=<a string>` multiple uses are accumulated
 
@@ -936,14 +936,14 @@ If false, Blaze will discard the inmemory state from this build when the build f
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
-`--skyframe_high_water_mark_full_gc_drops_per_invocation=<an integer, >= 0>` default: "10"
+`--skyframe_high_water_mark_full_gc_drops_per_invocation=<an integer, &gt;= 0>` default: "10"
 
 Flag for advanced configuration of Bazel's internal Skyframe engine. If Bazel detects its retained heap percentage usage exceeds the threshold set by --skyframe\_high\_water\_mark\_threshold, when a full GC event occurs, it will drop unnecessary temporary Skyframe state, up to this many times per invocation. Defaults to 10. Zero means that full GC events will never trigger drops. If the limit is reached, Skyframe state will no longer be dropped when a full GC event occurs and that retained heap percentage threshold is exceeded.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--skyframe_high_water_mark_minor_gc_drops_per_invocation=<an integer, >= 0>` default: "10"
+`--skyframe_high_water_mark_minor_gc_drops_per_invocation=<an integer, &gt;= 0>` default: "10"
 
 Flag for advanced configuration of Bazel's internal Skyframe engine. If Bazel detects its retained heap percentage usage exceeds the threshold set by --skyframe\_high\_water\_mark\_threshold, when a minor GC event occurs, it will drop unnecessary temporary Skyframe state, up to this many times per invocation. Defaults to 10. Zero means that minor GC events will never trigger drops. If the limit is reached, Skyframe state will no longer be dropped when a minor GC event occurs and that retained heap percentage threshold is exceeded.
 
@@ -993,7 +993,7 @@ Sets the field check\_preceding\_lifecycle\_events\_present on PublishBuildToolE
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--bes_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--bes_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header in NAME=VALUE form that will be included in BES requests. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
@@ -1319,7 +1319,7 @@ Use this to suppress generation of the legacy important\_outputs field in the Ta
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--logging=<0 <= an integer <= 6>` default: "3"
+`--logging=&lt;0 &lt;= an integer <= 6>` default: "3"
 
 The logging level.
 
@@ -1544,11 +1544,11 @@ If true, uploading of action results to a disk or remote cache will happen in th
 
 If enabled, compress/decompress cache blobs with zstd when their size is at least --experimental\_remote\_cache\_compression\_threshold.
 
-`--remote_cache_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_cache_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in cache requests: --remote\_cache\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-`--remote_default_exec_properties=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_default_exec_properties=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Set the default exec properties to be used as the remote execution platform if an execution platform does not already set exec\_properties.
 
@@ -1566,11 +1566,11 @@ Force remote build outputs whose path matches this pattern to be downloaded, irr
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_downloader_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in remote downloader requests: --remote\_downloader\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-`--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_exec_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in execution requests: --remote\_exec\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
@@ -1586,7 +1586,7 @@ HOST or HOST:PORT of a remote execution endpoint. The supported schemas are grpc
 
 If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
 
-`--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in requests: --remote\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
@@ -1640,7 +1640,7 @@ Whether to upload locally executed action results to the remote cache if the rem
 If set to true, Bazel will compute the hash sum of all remote downloads and discard the remotely cached values if they don't match the expected value.
 
 Miscellaneous options, not otherwise categorized.:
-`--build_metadata=<a 'name=value' assignment>` multiple uses are accumulated
+`--build_metadata=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Custom key-value string pairs to supply in a build event.
 
@@ -1795,7 +1795,7 @@ Tags:
 
 `--inject_repository=<an equals-separated mapping of repository name to path>` multiple uses are accumulated
 
-Adds a new repository with a local path in the form of <repository name>=<path>. This only takes effect with --enable\_bzlmod and is equivalent to adding a corresponding `local_repository` to the root module's MODULE.bazel file via `use_repo_rule`. If the given path is an absolute path, it will be used as it is. If the given path is a relative path, it is relative to the current working directory. If the given path starts with '%workspace%', it is relative to the workspace root, which is the output of `bazel info workspace`. If the given path is empty, then remove any previous injections.
+Adds a new repository with a local path in the form of &lt;repository name&gt;=&lt;path&gt;. This only takes effect with --enable\_bzlmod and is equivalent to adding a corresponding `local_repository` to the root module's MODULE.bazel file via `use_repo_rule`. If the given path is an absolute path, it will be used as it is. If the given path is a relative path, it is relative to the current working directory. If the given path starts with '%workspace%', it is relative to the workspace root, which is the output of `bazel info workspace`. If the given path is empty, then remove any previous injections.
 
 `--invocation_id=<a UUID>` default: ""
 
@@ -1806,7 +1806,7 @@ Tags:
 
 `--override_repository=<an equals-separated mapping of repository name to path>` multiple uses are accumulated
 
-Override a repository with a local path in the form of <repository name>=<path>. If the given path is an absolute path, it will be used as it is. If the given path is a relative path, it is relative to the current working directory. If the given path starts with '%workspace%, it is relative to the workspace root, which is the output of `bazel info workspace`. If the given path is empty, then remove any previous overrides.
+Override a repository with a local path in the form of &lt;repository name&gt;=&lt;path&gt;. If the given path is an absolute path, it will be used as it is. If the given path is a relative path, it is relative to the current working directory. If the given path starts with '%workspace%, it is relative to the workspace root, which is the output of `bazel info workspace`. If the given path is empty, then remove any previous overrides.
 
 `--[no]progress_in_terminal_title` default: "false"
 
@@ -2627,7 +2627,7 @@ Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
-`--action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
@@ -2756,7 +2756,7 @@ Additional option to pass to gcc when compiling C++ source files.
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--define=<a 'name=value' assignment>` multiple uses are accumulated
+`--define=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Each --define option specifies an assignment for a build variable. In case of multiple values for a variable, the last one wins.
 
@@ -2861,7 +2861,7 @@ Which model to use for where in the output tree rules write their outputs, parti
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_override_platform_cpu_name=<a 'label=value' assignment>` multiple uses are accumulated
+`--experimental_override_platform_cpu_name=&lt;a 'label=value' assignment>` multiple uses are accumulated
 
 Each entry should be of the form label=value where label refers to a platform and values is the desired shortname to override the platform's CPU name in $(TARGET\_CPU) make variable and output path. Only used when --experimental\_platform\_in\_output\_dir, --incompatible\_target\_cpu\_from\_platform or --incompatible\_bep\_cpu\_from\_platform is true. Has highest naming priority.
 
@@ -2938,7 +2938,7 @@ If enabled, all C++ compilations produce position-independent code ("-fPIC"), li
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--host_action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with execution configurations. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the name=value pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
 
@@ -3199,7 +3199,7 @@ Tags:
 
 `--stripopt=<a string>` multiple uses are accumulated
 
-Additional options to pass to strip when generating a '<name>.stripped' binary.
+Additional options to pass to strip when generating a '&lt;name&gt;.stripped' binary.
 
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -3441,7 +3441,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is <resource>=<value>. If a single positive number is specified as <value> it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]<float> (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -3475,7 +3475,7 @@ Tags:
 
 Specifies number of times to run each test. If any of those attempts fail for any reason, the whole test is considered failed. Normally the value specified is just an integer. Example: --runs\_per\_test=3 will run all tests 3 times. Alternate syntax: regex\_filter@runs\_per\_test. Where runs\_per\_test stands for an integer value and regex\_filter stands for a list of include and exclude regular expression patterns (Also see --instrumentation\_filter). Example: --runs\_per\_test=//foo/. _,-//foo/bar/._@3 runs all tests in //foo/ except those under foo/bar three times. This option can be passed multiple times. The most recently passed argument that matches takes precedence. If nothing matches, the test is only run once.
 
-`--test_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--test_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies additional environment variables to be injected into the test runner environment. Variables can be either specified by <code>name</code>, in which case its value will be read from the Bazel client environment, or by the <code>name=value</code> pair. Previously set variables can be unset via <code>=name</code>. This option can be used multiple times to specify several variables. Used only by the 'bazel test' command.
 
@@ -3573,9 +3573,9 @@ Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
+`--flag_alias=&lt;a 'name=value' flag alias>` multiple uses are accumulated
 
-Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "<key>=<value>" as an argument.
+Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "&lt;key&gt;=&lt;value&gt;" as an argument.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
@@ -3848,14 +3848,14 @@ How many milliseconds should local execution be delayed, if remote execution was
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--dynamic_local_strategy=<a '[name=]value1[,..,valueN]' assignment>` multiple uses are accumulated
+`--dynamic_local_strategy=&lt;a '[name=]value1[,..,valueN]' assignment>` multiple uses are accumulated
 
 The local strategies, in order, to use for the given mnemonic - the first applicable strategy is used. For example, `worker,sandboxed` runs actions that support persistent workers using the worker strategy, and all others using the sandboxed strategy. If no mnemonic is given, the list of strategies is used as the fallback for all mnemonics. The default fallback list is `worker,sandboxed`, or `worker,sandboxed,standalone` if `experimental_local_lockfree_output` is set. Takes \[mnemonic=\]local\_strategy\[,local\_strategy,...\]
 
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--dynamic_remote_strategy=<a '[name=]value1[,..,valueN]' assignment>` multiple uses are accumulated
+`--dynamic_remote_strategy=&lt;a '[name=]value1[,..,valueN]' assignment>` multiple uses are accumulated
 
 The remote strategies, in order, to use for the given mnemonic - the first applicable strategy is used. If no mnemonic is given, the list of strategies is used as the fallback for all mnemonics. The default fallback list is `remote`, so this flag usually does not need to be set explicitly. Takes \[mnemonic=\]remote\_strategy\[,remote\_strategy,...\]
 
@@ -3926,7 +3926,7 @@ If set to true, the contents of stashed sandboxes for reuse\_sandbox\_directorie
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_sandbox_async_tree_delete_idle_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "4"
+`--experimental_sandbox_async_tree_delete_idle_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "4"
 
 If 0, sandboxes are deleted as soon as actions finish, blocking action completion. If greater than 0, sandboxes are deleted asynchronously in the background without blocking action completion. Asynchronous deletion uses a single thread while a command is running, but ramps up to as many threads as the value of this flag once the server becomes idle. Set to `auto` to use as many threads as the number of CPUs. A server shutdown blocks on any pending asynchronous deletions.
 
@@ -3940,14 +3940,14 @@ If true, actions whose mnemonic matches the input regex will have their resource
 Tags:
 [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_sandbox_limits=<a named double, 'name=value', where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
+`--experimental_sandbox_limits=<a named double, 'name=value', where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
 If > 0, each Linux sandbox will be limited to the given amount for the specified resource. Requires --incompatible\_use\_new\_cgroup\_implementation and overrides --experimental\_sandbox\_memory\_limit\_mb. Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_sandbox_memory_limit_mb=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]<float>.>` default: "0"
+`--experimental_sandbox_memory_limit_mb=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]&lt;float&gt;.>` default: "0"
 
 If > 0, each Linux sandbox will be limited to the given amount of memory (in MB). Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
 
@@ -3961,7 +3961,7 @@ If enabled, could shrink worker pool if worker memory pressure is high. This fla
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--experimental_total_worker_memory_limit_mb=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]<float>.>` default: "0"
+`--experimental_total_worker_memory_limit_mb=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]&lt;float&gt;.>` default: "0"
 
 If this limit is greater than zero idle workers might be killed if the total memory usage of all workers exceed the limit.
 
@@ -4003,7 +4003,7 @@ If enabled, Bazel may send cancellation requests to workers that support them.
 Tags:
 [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_worker_memory_limit_mb=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]<float>.>` default: "0"
+`--experimental_worker_memory_limit_mb=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]&lt;float&gt;.>` default: "0"
 
 If this limit is greater than zero, workers might be killed if the memory usage of the worker exceeds the limit. If not used together with dynamic execution and `--experimental_dynamic_ignore_local_signals=9`, this may crash your build.
 
@@ -4047,7 +4047,7 @@ Tags:
 
 `--genrule_strategy=<comma-separated list of options>` default: ""
 
-Specify how to execute genrules. This flag will be phased out. Instead, use --spawn\_strategy=<value> to control all actions or --strategy=Genrule=<value> to control genrules only.
+Specify how to execute genrules. This flag will be phased out. Instead, use --spawn\_strategy=&lt;value&gt; to control all actions or --strategy=Genrule=&lt;value&gt; to control genrules only.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION)
@@ -4066,9 +4066,9 @@ Placeholder option so that we can tell in Blaze whether the spawn scheduler was 
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--jobs=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` \[ `-j`\] default: "auto"
+`--jobs=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` \[ `-j`\] default: "auto"
 
-The number of concurrent jobs to run. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". Values must be between 1 and 5000. Values above 2500 may cause memory issues. "auto" calculates a reasonable default based on host resources.
+The number of concurrent jobs to run. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". Values must be between 1 and 5000. Values above 2500 may cause memory issues. "auto" calculates a reasonable default based on host resources.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
@@ -4080,9 +4080,9 @@ Continue as much as possible after an error. While the target that failed and th
 Tags:
 [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
+`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -4136,37 +4136,37 @@ Specify how spawn actions are executed by default. Accepts a comma-separated lis
 Tags:
 [`execution`](#effect_tag_EXECUTION)
 
-`--strategy=<a '[name=]value1[,..,valueN]' assignment>` multiple uses are accumulated
+`--strategy=&lt;a '[name=]value1[,..,valueN]' assignment>` multiple uses are accumulated
 
 Specify how to distribute compilation of other spawn actions. Accepts a comma-separated list of strategies from highest to lowest priority. For each action Bazel picks the strategy with the highest priority that can execute the action. The default value is "remote,worker,sandboxed,local". This flag overrides the values set by --spawn\_strategy (and --genrule\_strategy if used with mnemonic Genrule). See https://blog.bazel.build/2019/06/19/list-strategy.html for details.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION)
 
-`--strategy_regexp=<a '<RegexFilter>=value[,value]' assignment>` multiple uses are accumulated
+`--strategy_regexp=&lt;a '&lt;RegexFilter&gt;=value[,value]' assignment>` multiple uses are accumulated
 
 Override which spawn strategy should be used to execute spawn actions that have descriptions matching a certain regex\_filter. See --per\_file\_copt for details onregex\_filter matching. The last regex\_filter that matches the description is used. This option overrides other flags for specifying strategy. Example: --strategy\_regexp=//foo. _.cc,-//foo/bar=local means to run actions using local strategy if their descriptions match //foo._.cc but not //foo/bar. Example: --strategy\_regexp='Compiling.\*/bar=local --strategy\_regexp=Compiling=sandboxed will run 'Compiling //foo/bar/baz' with the 'local' strategy, but reversing the order would run it with 'sandboxed'.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION)
 
-`--worker_extra_flag=<a 'name=value' assignment>` multiple uses are accumulated
+`--worker_extra_flag=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Extra command-flags that will be passed to worker processes in addition to --persistent\_worker, keyed by mnemonic (e.g. --worker\_extra\_flag=Javac=--debug.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--worker_max_instances=<[name=]value, where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
+`--worker_max_instances=<[name=]value, where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-How many instances of each kind of persistent worker may be launched if you use the 'worker' strategy. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
+How many instances of each kind of persistent worker may be launched if you use the 'worker' strategy. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--worker_max_multiplex_instances=<[name=]value, where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
+`--worker_max_multiplex_instances=<[name=]value, where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-How many WorkRequests a multiplex worker process may receive in parallel if you use the 'worker' strategy with --worker\_multiplex. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
+How many WorkRequests a multiplex worker process may receive in parallel if you use the 'worker' strategy with --worker\_multiplex. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -4404,9 +4404,9 @@ Each test will be retried up to the specified number of times in case of any tes
 Tags:
 [`execution`](#effect_tag_EXECUTION)
 
-`--local_test_jobs=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
+`--local_test_jobs=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-The max number of local test jobs to run concurrently. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". 0 means local resources will limit the number of local test jobs to run concurrently instead. Setting this greater than the value for --jobs is ineffectual.
+The max number of local test jobs to run concurrently. Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". 0 means local resources will limit the number of local test jobs to run concurrently instead. Setting this greater than the value for --jobs is ineffectual.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION)
@@ -4462,9 +4462,9 @@ If true, enable the use of --experimental\_active\_directories to reduce Bazel's
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--local_cpu_resources=<an integer, or "HOST_CPUS", optionally followed by [-|*]<float>.>` default: "HOST\_CPUS"
+`--local_cpu_resources=<an integer, or "HOST_CPUS", optionally followed by [-|*]&lt;float&gt;.>` default: "HOST\_CPUS"
 
-Explicitly set the total number of local CPU cores available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST\_CPUS", optionally followed by \[-\| _\]<float> (eg. HOST\_CPUS_.5 to use half the available CPU cores). By default, ("HOST\_CPUS"), Bazel will query system configuration to estimate the number of CPU cores available.
+Explicitly set the total number of local CPU cores available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST\_CPUS", optionally followed by \[-\| _\]&lt;float&gt; (eg. HOST\_CPUS_.5 to use half the available CPU cores). By default, ("HOST\_CPUS"), Bazel will query system configuration to estimate the number of CPU cores available.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -4476,16 +4476,16 @@ Set the number of extra resources available to Bazel. Takes in a string-float pa
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--local_ram_resources=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]<float>.>` default: "HOST\_RAM\*.67"
+`--local_ram_resources=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]&lt;float&gt;.>` default: "HOST\_RAM\*.67"
 
-Explicitly set the total amount of local host RAM (in MB) available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST\_RAM", optionally followed by \[-\| _\]<float> (eg. HOST\_RAM_.5 to use half the available RAM). By default, ("HOST\_RAM\*.67"), Bazel will query system configuration to estimate the amount of RAM available and will use 67% of it.
+Explicitly set the total amount of local host RAM (in MB) available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST\_RAM", optionally followed by \[-\| _\]&lt;float&gt; (eg. HOST\_RAM_.5 to use half the available RAM). By default, ("HOST\_RAM\*.67"), Bazel will query system configuration to estimate the amount of RAM available and will use 67% of it.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--local_resources=<a named double, 'name=value', where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
+`--local_resources=<a named double, 'name=value', where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-Set the number of resources available to Bazel. Takes in an assignment to a float or HOST\_RAM/HOST\_CPUS, optionally followed by \[-\| _\]<float> (eg. memory=HOST\_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:<resource name>:<amount>" format. Overrides resources specified by --local\_{cpu\|ram\|extra}\_resources.
+Set the number of resources available to Bazel. Takes in an assignment to a float or HOST\_RAM/HOST\_CPUS, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:<resource name>:<amount>" format. Overrides resources specified by --local\_{cpu\|ram\|extra}\_resources.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -4701,7 +4701,7 @@ Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--aspects_parameters=<a 'name=value' assignment>` multiple uses are accumulated
+`--aspects_parameters=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specifies the values of the command-line aspects parameters. Each parameter value is specified via <param\_name>=<param\_value>, for example 'my\_param=my\_val' where 'my\_param' is a parameter of some aspect in --aspects list or required by an aspect in the list. This option can be used multiple times. However, it is not allowed to assign values to the same parameter more than once.
 
@@ -4852,11 +4852,11 @@ If true, uploading of action results to a disk or remote cache will happen in th
 
 If enabled, compress/decompress cache blobs with zstd when their size is at least --experimental\_remote\_cache\_compression\_threshold.
 
-`--remote_cache_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_cache_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in cache requests: --remote\_cache\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-`--remote_default_exec_properties=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_default_exec_properties=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Set the default exec properties to be used as the remote execution platform if an execution platform does not already set exec\_properties.
 
@@ -4874,11 +4874,11 @@ Force remote build outputs whose path matches this pattern to be downloaded, irr
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_downloader_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in remote downloader requests: --remote\_downloader\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-`--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_exec_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in execution requests: --remote\_exec\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
@@ -4894,7 +4894,7 @@ HOST or HOST:PORT of a remote execution endpoint. The supported schemas are grpc
 
 If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
 
-`--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
+`--remote_header=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Specify a header that will be included in requests: --remote\_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
@@ -5081,7 +5081,7 @@ Specifies a comma-separated list of test tags. Each tag can be optionally preced
 
 Specifies a comma-separated list of test timeouts. Each timeout can be optionally preceded with '-' to specify excluded timeouts. Only those test targets will be found that contain at least one included timeout and do not contain any excluded timeouts. This option affects --build\_tests\_only behavior and the test command.
 
-`--workspace_status_command=<path>` default: ""
+`--workspace_status_command=&lt;path&gt;` default: ""
 
 A command invoked at the beginning of the build to provide status information about the workspace in the form of key/value pairs. See the User's Manual for the full specification. Also see tools/buildstamp/get\_workspace\_status for an example.
 
@@ -5620,7 +5620,7 @@ Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
-`--action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
@@ -5749,7 +5749,7 @@ Additional option to pass to gcc when compiling C++ source files.
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--define=<a 'name=value' assignment>` multiple uses are accumulated
+`--define=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Each --define option specifies an assignment for a build variable. In case of multiple values for a variable, the last one wins.
 
@@ -5854,7 +5854,7 @@ Which model to use for where in the output tree rules write their outputs, parti
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_override_platform_cpu_name=<a 'label=value' assignment>` multiple uses are accumulated
+`--experimental_override_platform_cpu_name=&lt;a 'label=value' assignment>` multiple uses are accumulated
 
 Each entry should be of the form label=value where label refers to a platform and values is the desired shortname to override the platform's CPU name in $(TARGET\_CPU) make variable and output path. Only used when --experimental\_platform\_in\_output\_dir, --incompatible\_target\_cpu\_from\_platform or --incompatible\_bep\_cpu\_from\_platform is true. Has highest naming priority.
 
@@ -5931,7 +5931,7 @@ If enabled, all C++ compilations produce position-independent code ("-fPIC"), li
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--host_action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with execution configurations. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the name=value pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
 
@@ -6192,7 +6192,7 @@ Tags:
 
 `--stripopt=<a string>` multiple uses are accumulated
 
-Additional options to pass to strip when generating a '<name>.stripped' binary.
+Additional options to pass to strip when generating a '&lt;name&gt;.stripped' binary.
 
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -6434,7 +6434,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is <resource>=<value>. If a single positive number is specified as <value> it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]<float> (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -6468,7 +6468,7 @@ Tags:
 
 Specifies number of times to run each test. If any of those attempts fail for any reason, the whole test is considered failed. Normally the value specified is just an integer. Example: --runs\_per\_test=3 will run all tests 3 times. Alternate syntax: regex\_filter@runs\_per\_test. Where runs\_per\_test stands for an integer value and regex\_filter stands for a list of include and exclude regular expression patterns (Also see --instrumentation\_filter). Example: --runs\_per\_test=//foo/. _,-//foo/bar/._@3 runs all tests in //foo/ except those under foo/bar three times. This option can be passed multiple times. The most recently passed argument that matches takes precedence. If nothing matches, the test is only run once.
 
-`--test_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--test_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies additional environment variables to be injected into the test runner environment. Variables can be either specified by <code>name</code>, in which case its value will be read from the Bazel client environment, or by the <code>name=value</code> pair. Previously set variables can be unset via <code>=name</code>. This option can be used multiple times to specify several variables. Used only by the 'bazel test' command.
 
@@ -6566,9 +6566,9 @@ Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
+`--flag_alias=&lt;a 'name=value' flag alias>` multiple uses are accumulated
 
-Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "<key>=<value>" as an argument.
+Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "&lt;key&gt;=&lt;value&gt;" as an argument.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
@@ -7695,7 +7695,7 @@ Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
-`--action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
@@ -7824,7 +7824,7 @@ Additional option to pass to gcc when compiling C++ source files.
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--define=<a 'name=value' assignment>` multiple uses are accumulated
+`--define=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Each --define option specifies an assignment for a build variable. In case of multiple values for a variable, the last one wins.
 
@@ -7929,7 +7929,7 @@ Which model to use for where in the output tree rules write their outputs, parti
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_override_platform_cpu_name=<a 'label=value' assignment>` multiple uses are accumulated
+`--experimental_override_platform_cpu_name=&lt;a 'label=value' assignment>` multiple uses are accumulated
 
 Each entry should be of the form label=value where label refers to a platform and values is the desired shortname to override the platform's CPU name in $(TARGET\_CPU) make variable and output path. Only used when --experimental\_platform\_in\_output\_dir, --incompatible\_target\_cpu\_from\_platform or --incompatible\_bep\_cpu\_from\_platform is true. Has highest naming priority.
 
@@ -8006,7 +8006,7 @@ If enabled, all C++ compilations produce position-independent code ("-fPIC"), li
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--host_action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with execution configurations. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the name=value pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
 
@@ -8267,7 +8267,7 @@ Tags:
 
 `--stripopt=<a string>` multiple uses are accumulated
 
-Additional options to pass to strip when generating a '<name>.stripped' binary.
+Additional options to pass to strip when generating a '&lt;name&gt;.stripped' binary.
 
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -8509,7 +8509,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is <resource>=<value>. If a single positive number is specified as <value> it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]<float> (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -8543,7 +8543,7 @@ Tags:
 
 Specifies number of times to run each test. If any of those attempts fail for any reason, the whole test is considered failed. Normally the value specified is just an integer. Example: --runs\_per\_test=3 will run all tests 3 times. Alternate syntax: regex\_filter@runs\_per\_test. Where runs\_per\_test stands for an integer value and regex\_filter stands for a list of include and exclude regular expression patterns (Also see --instrumentation\_filter). Example: --runs\_per\_test=//foo/. _,-//foo/bar/._@3 runs all tests in //foo/ except those under foo/bar three times. This option can be passed multiple times. The most recently passed argument that matches takes precedence. If nothing matches, the test is only run once.
 
-`--test_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--test_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies additional environment variables to be injected into the test runner environment. Variables can be either specified by <code>name</code>, in which case its value will be read from the Bazel client environment, or by the <code>name=value</code> pair. Previously set variables can be unset via <code>=name</code>. This option can be used multiple times to specify several variables. Used only by the 'bazel test' command.
 
@@ -8641,9 +8641,9 @@ Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
+`--flag_alias=&lt;a 'name=value' flag alias>` multiple uses are accumulated
 
-Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "<key>=<value>" as an argument.
+Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "&lt;key&gt;=&lt;value&gt;" as an argument.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
@@ -8970,9 +8970,9 @@ Continue as much as possible after an error. While the target that failed and th
 Tags:
 [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
+`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -9567,7 +9567,7 @@ Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
-`--action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
@@ -9696,7 +9696,7 @@ Additional option to pass to gcc when compiling C++ source files.
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--define=<a 'name=value' assignment>` multiple uses are accumulated
+`--define=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Each --define option specifies an assignment for a build variable. In case of multiple values for a variable, the last one wins.
 
@@ -9801,7 +9801,7 @@ Which model to use for where in the output tree rules write their outputs, parti
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_override_platform_cpu_name=<a 'label=value' assignment>` multiple uses are accumulated
+`--experimental_override_platform_cpu_name=&lt;a 'label=value' assignment>` multiple uses are accumulated
 
 Each entry should be of the form label=value where label refers to a platform and values is the desired shortname to override the platform's CPU name in $(TARGET\_CPU) make variable and output path. Only used when --experimental\_platform\_in\_output\_dir, --incompatible\_target\_cpu\_from\_platform or --incompatible\_bep\_cpu\_from\_platform is true. Has highest naming priority.
 
@@ -9878,7 +9878,7 @@ If enabled, all C++ compilations produce position-independent code ("-fPIC"), li
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--host_action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with execution configurations. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the name=value pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
 
@@ -10139,7 +10139,7 @@ Tags:
 
 `--stripopt=<a string>` multiple uses are accumulated
 
-Additional options to pass to strip when generating a '<name>.stripped' binary.
+Additional options to pass to strip when generating a '&lt;name&gt;.stripped' binary.
 
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -10381,7 +10381,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is <resource>=<value>. If a single positive number is specified as <value> it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]<float> (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -10415,7 +10415,7 @@ Tags:
 
 Specifies number of times to run each test. If any of those attempts fail for any reason, the whole test is considered failed. Normally the value specified is just an integer. Example: --runs\_per\_test=3 will run all tests 3 times. Alternate syntax: regex\_filter@runs\_per\_test. Where runs\_per\_test stands for an integer value and regex\_filter stands for a list of include and exclude regular expression patterns (Also see --instrumentation\_filter). Example: --runs\_per\_test=//foo/. _,-//foo/bar/._@3 runs all tests in //foo/ except those under foo/bar three times. This option can be passed multiple times. The most recently passed argument that matches takes precedence. If nothing matches, the test is only run once.
 
-`--test_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--test_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies additional environment variables to be injected into the test runner environment. Variables can be either specified by <code>name</code>, in which case its value will be read from the Bazel client environment, or by the <code>name=value</code> pair. Previously set variables can be unset via <code>=name</code>. This option can be used multiple times to specify several variables. Used only by the 'bazel test' command.
 
@@ -10513,9 +10513,9 @@ Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
+`--flag_alias=&lt;a 'name=value' flag alias>` multiple uses are accumulated
 
-Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "<key>=<value>" as an argument.
+Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "&lt;key&gt;=&lt;value&gt;" as an argument.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
@@ -10929,9 +10929,9 @@ When enabled, passing multiple --modify\_execution\_info flags is additive. When
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
+`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -11009,7 +11009,7 @@ Tags:
 [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
-`--action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
@@ -11047,7 +11047,7 @@ Deprecated: this flag is not used internally by Blaze although there are legacy 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--define=<a 'name=value' assignment>` multiple uses are accumulated
+`--define=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Each --define option specifies an assignment for a build variable. In case of multiple values for a variable, the last one wins.
 
@@ -11089,7 +11089,7 @@ Which model to use for where in the output tree rules write their outputs, parti
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_override_platform_cpu_name=<a 'label=value' assignment>` multiple uses are accumulated
+`--experimental_override_platform_cpu_name=&lt;a 'label=value' assignment>` multiple uses are accumulated
 
 Each entry should be of the form label=value where label refers to a platform and values is the desired shortname to override the platform's CPU name in $(TARGET\_CPU) make variable and output path. Only used when --experimental\_platform\_in\_output\_dir, --incompatible\_target\_cpu\_from\_platform or --incompatible\_bep\_cpu\_from\_platform is true. Has highest naming priority.
 
@@ -11117,7 +11117,7 @@ The given features will be enabled or disabled by default for targets built in t
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--host_action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with execution configurations. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the name=value pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
 
@@ -11275,7 +11275,7 @@ Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 Options relating to the output and semantics of the \`mod\` subcommand:
-`--base_module=<"<root>" for the root module; <module>@<version> for a specific version of a module; <module> for all versions of a module; @<name> for a repo with the given apparent name; or @@<name> for a repo with the given canonical name>` default: "<root>"
+`--base_module=<"<root>" for the root module; <module>@<version> for a specific version of a module; <module> for all versions of a module; @&lt;name&gt; for a repo with the given apparent name; or @@&lt;name&gt; for a repo with the given canonical name>` default: "<root>"
 
 Specify a module relative to which the specified target repos will be interpreted.
 
@@ -11368,9 +11368,9 @@ Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
+`--flag_alias=&lt;a 'name=value' flag alias>` multiple uses are accumulated
 
-Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "<key>=<value>" as an argument.
+Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "&lt;key&gt;=&lt;value&gt;" as an argument.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
@@ -11433,9 +11433,9 @@ Continue as much as possible after an error. While the target that failed and th
 Tags:
 [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
+`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -11513,7 +11513,7 @@ Tags:
 [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
-`--action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
@@ -11551,7 +11551,7 @@ Deprecated: this flag is not used internally by Blaze although there are legacy 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--define=<a 'name=value' assignment>` multiple uses are accumulated
+`--define=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Each --define option specifies an assignment for a build variable. In case of multiple values for a variable, the last one wins.
 
@@ -11593,7 +11593,7 @@ Which model to use for where in the output tree rules write their outputs, parti
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_override_platform_cpu_name=<a 'label=value' assignment>` multiple uses are accumulated
+`--experimental_override_platform_cpu_name=&lt;a 'label=value' assignment>` multiple uses are accumulated
 
 Each entry should be of the form label=value where label refers to a platform and values is the desired shortname to override the platform's CPU name in $(TARGET\_CPU) make variable and output path. Only used when --experimental\_platform\_in\_output\_dir, --incompatible\_target\_cpu\_from\_platform or --incompatible\_bep\_cpu\_from\_platform is true. Has highest naming priority.
 
@@ -11621,7 +11621,7 @@ The given features will be enabled or disabled by default for targets built in t
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--host_action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with execution configurations. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the name=value pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
 
@@ -12068,9 +12068,9 @@ Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
+`--flag_alias=&lt;a 'name=value' flag alias>` multiple uses are accumulated
 
-Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "<key>=<value>" as an argument.
+Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "&lt;key&gt;=&lt;value&gt;" as an argument.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
@@ -12112,7 +12112,7 @@ If false, skip running the command line constructed for the built target. Note t
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--run_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--run_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to the target to run. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate. Note that the executed target will generally see the full environment of the host except for those variables that have been explicitly unset.
 
@@ -12175,9 +12175,9 @@ Continue as much as possible after an error. While the target that failed and th
 Tags:
 [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
+`--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]<float>) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST\_CPUS", "HOST\_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST\_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -12758,7 +12758,7 @@ Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
-`--action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
@@ -12887,7 +12887,7 @@ Additional option to pass to gcc when compiling C++ source files.
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--define=<a 'name=value' assignment>` multiple uses are accumulated
+`--define=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
 Each --define option specifies an assignment for a build variable. In case of multiple values for a variable, the last one wins.
 
@@ -12992,7 +12992,7 @@ Which model to use for where in the output tree rules write their outputs, parti
 Tags:
 [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_override_platform_cpu_name=<a 'label=value' assignment>` multiple uses are accumulated
+`--experimental_override_platform_cpu_name=&lt;a 'label=value' assignment>` multiple uses are accumulated
 
 Each entry should be of the form label=value where label refers to a platform and values is the desired shortname to override the platform's CPU name in $(TARGET\_CPU) make variable and output path. Only used when --experimental\_platform\_in\_output\_dir, --incompatible\_target\_cpu\_from\_platform or --incompatible\_bep\_cpu\_from\_platform is true. Has highest naming priority.
 
@@ -13069,7 +13069,7 @@ If enabled, all C++ compilations produce position-independent code ("-fPIC"), li
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_action_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--host_action_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies the set of environment variables available to actions with execution configurations. Variables can be either specified by name, in which case the value will be taken from the invocation environment, by the name=value pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
 
@@ -13330,7 +13330,7 @@ Tags:
 
 `--stripopt=<a string>` multiple uses are accumulated
 
-Additional options to pass to strip when generating a '<name>.stripped' binary.
+Additional options to pass to strip when generating a '&lt;name&gt;.stripped' binary.
 
 Tags:
 [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -13572,7 +13572,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is <resource>=<value>. If a single positive number is specified as <value> it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]<float> (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST\_RAM/HOST\_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.1,HOST\_RAM\*.2,HOST\_RAM\*.3,HOST\_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -13606,7 +13606,7 @@ Tags:
 
 Specifies number of times to run each test. If any of those attempts fail for any reason, the whole test is considered failed. Normally the value specified is just an integer. Example: --runs\_per\_test=3 will run all tests 3 times. Alternate syntax: regex\_filter@runs\_per\_test. Where runs\_per\_test stands for an integer value and regex\_filter stands for a list of include and exclude regular expression patterns (Also see --instrumentation\_filter). Example: --runs\_per\_test=//foo/. _,-//foo/bar/._@3 runs all tests in //foo/ except those under foo/bar three times. This option can be passed multiple times. The most recently passed argument that matches takes precedence. If nothing matches, the test is only run once.
 
-`--test_env=<a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
+`--test_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable>` multiple uses are accumulated
 
 Specifies additional environment variables to be injected into the test runner environment. Variables can be either specified by <code>name</code>, in which case its value will be read from the Bazel client environment, or by the <code>name=value</code> pair. Previously set variables can be unset via <code>=name</code>. This option can be used multiple times to specify several variables. Used only by the 'bazel test' command.
 
@@ -13704,9 +13704,9 @@ Tags:
 [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
-`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
+`--flag_alias=&lt;a 'name=value' flag alias>` multiple uses are accumulated
 
-Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "<key>=<value>" as an argument.
+Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form "&lt;key&gt;=&lt;value&gt;" as an argument.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)

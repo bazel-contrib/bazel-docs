@@ -533,7 +533,7 @@ that counts the number of lines in the file.
     name = "count_lines_" + f[:-3],  # strip ".cc"
     srcs = [f],
     outs = ["%s-linecount.txt" % f[:-3]],
-    cmd = "wc -l $< >$@",
+    cmd = "wc -l $&lt; &gt;$@",
  ) for f in glob(["*_test.cc"])]
 
 ```

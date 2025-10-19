@@ -1,4 +1,4 @@
-<style>
+{/* <style>
   .padbottom { padding-bottom: 10px; }
   .etabox {
     background: #EFEFEF;
@@ -24,7 +24,7 @@
     font-weight: bold;
     padding-left: 10px;
   }
-</style>
+</style> */}
 ---
 title: 'Bazel Build API 2021 Roadmap'
 ---
@@ -53,38 +53,38 @@ the particular language. Remove language specific logic from Bazel’s core.
 The Java rules will first be rewritten to Starlark and tested internally on a
 large code-base. After that they will be released to Bazel.
 
-<div class="padbottom"></div>
-<span class="etabox">Q1 2021</span>
+&nbsp;
+**Q1 2021**
 
 *   Improve the **Java sandwich**, making it possible to rewrite existing Java
-    rules. <span class="donestatus">DONE</span>
+    rules. <span class="donestatus">DONE**
 
-<div class="padbottom"></div>
-<span class="etabox">Q2 2021</span>
+&nbsp;
+**Q2 2021**
 
 *   Improve Starlark support for **native libraries** in Java.
-    <span class="inprogressstatus">IN PROGRESS</span>
+    <span class="inprogressstatus">IN PROGRESS**
 *   Improve <code>java_common</code> support for plugins and IDEs - proposal
     [Java common refactoring](https://docs.google.com/document/d/10isTEK5W9iCPp4BIyGBrLY5iti3Waaam6EeGVSjq3r8/edit).
-    <span class="inprogressstatus">IN PROGRESS</span>
+    <span class="inprogressstatus">IN PROGRESS**
 *   **java_library** rule is Starlarkified. <span class="inprogressstatus">IN
-    PROGRESS</span>
+    PROGRESS**
 
-<div class="padbottom"></div>
-<span class="etabox">Mid 2021</span>
+&nbsp;
+**Mid 2021**
 
 *   **java_binary and java_test** rules are Starlarkified.
 *   **java_import and java_plugin** rules are Starlarkified.
 
-<div class="padbottom"></div>
-<span class="etabox">Fall 2021</span>
+&nbsp;
+**Fall 2021**
 
 *   Starlarkification of **java_\*_proto_library**
 *   Remaining java rules are Starlarkified: **java_package_configuration,
     java_runtime, java_toolchain**.
 
-<div class="padbottom"></div>
-<span class="etabox">2022</span>
+&nbsp;
+**2022**
 
 *   Starlarkification of **java_common module**.
 
@@ -95,30 +95,30 @@ After that the C++ rules will be rewritten to Starlark piece by piece using
 builtins functionality. The API for C++ rules will not be made accessible from
 .bzl files until cc_module is rewritten in Starlark as well.
 
-<div class="padbottom"></div>
-<span class="etabox">Q1 2021</span>
+&nbsp;
+**Q1 2021**
 
-*   **Clang modules** support, <span class="droppedstatus">DROPPED*</span>
+*   **Clang modules** support, <span class="droppedstatus">DROPPED***
 *   and **Include scanning** support, expected performance improvements from
-    both <span class="droppedstatus">DROPPED*</span>
+    both <span class="droppedstatus">DROPPED***
 *   *We need more data to evaluate whether modules are really what is needed to
     improve performance.
 
-<div class="padbottom"></div>
-<span class="etabox">Q2 2021</span>
+&nbsp;
+**Q2 2021**
 
 *   Internal **Go rules** are Starlarkified <span class="inprogressstatus">IN
-    PROGRESS</span>
+    PROGRESS**
 *   Objective-C rules **objc_library and objc_import** and native code related
-    to them are Starlarkified <span class="inprogressstatus">IN PROGRESS</span>
+    to them are Starlarkified <span class="inprogressstatus">IN PROGRESS**
 
-<div class="padbottom"></div>
-<span class="etabox">Fall 2021 and beginning 2022</span>
+&nbsp;
+**Fall 2021 and beginning 2022**
 
 *   **cc_binary, cc_test and cc_library** are Starlarkified
 
-<div class="padbottom"></div>
-<span class="etabox">2022</span>
+&nbsp;
+**2022**
 
 *   Starlarkification of other C++ rules (**fdo_profile, cc_import,
     cc_toolchain, cc_toolchain_suite, fdo_prefetch_hints, cc_toolchain_alias,
@@ -127,10 +127,10 @@ builtins functionality. The API for C++ rules will not be made accessible from
 
 ## Misc
 
-<div class="padbottom"></div>
-<span class="etabox">Mid 2021</span>
+&nbsp;
+**Mid 2021**
 
 *   Aspect can propagate other aspects - proposal
     [Aspects Propagating Other Aspects](https://docs.google.com/document/d/1fVNyskIgMoiNeOOGt57LdDmEkAShkYUKYQTkf5yD1fA/edit).
-    <span class="inprogressstatus">IN PROGRESS</span>
+    <span class="inprogressstatus">IN PROGRESS**
 *   Improve Starlark testing framework
