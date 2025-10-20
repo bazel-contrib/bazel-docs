@@ -67,7 +67,23 @@ docker run --rm -it \
   -v "$PWD":/app \
   -w "$WORKDIR" \
   "$GO_IMAGE" \
-  ./html-to-md -zip "$INPUT_PATH" -output "/app/$REFERENCE_DIR"
+  bash -lc '
+    set -euo pipefail
+    export PATH="/usr/local/go/bin:$PATH"
+
+    echo "==> Initializing Go module (if needed)…"
+    [[ -f go.mod ]] || go mod init html-to-md-converter
+
+    echo "==> Ensuring dependency…"
+    go get github.com/JohannesKaufmann/html-to-markdown
+    go mod tidy
+
+    echo "==> Building converter…"
+    go build -o html-to-md main.go
+
+    echo "==> Running converter…"
+    ./html-to-md -zip "$1" -output "/app/'"$REFERENCE_DIR"'"
+  ' -- "$INPUT_PATH"
 
 # Cleanup temporary extraction directory if it exists
 [[ -d "$TEMP_EXTRACT" ]] && rm -rf "$TEMP_EXTRACT"
