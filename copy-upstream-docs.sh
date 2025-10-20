@@ -23,6 +23,7 @@ LOCAL_FILES="
 # Files that are not valid MDX syntax
 # This output pasted from a CI job - we should burn it down to zero
 BROKEN_FILES="
+community/roadmaps-configurability.mdx
 concepts/build-files.mdx
 concepts/dependencies.mdx
 concepts/labels.mdx
@@ -31,12 +32,25 @@ contribute/docs-style-guide.mdx
 contribute/search.mdx
 docs/cc-toolchain-config-reference.mdx
 docs/user-manual.mdx
+extending/config.mdx
+external/mod-command.mdx
 external/registry.mdx
 query/language.mdx
 query/quickstart.mdx
 reference/be/functions.mdx
 reference/be/platforms-and-toolchains.mdx
+reference/command-line-reference.mdx
 reference/flag-cheatsheet.mdx
+reference/test-encyclopedia.mdx
+remote/dynamic.mdx
+rules/lib/globals/bzl.mdx
+rules/lib/repo/cache.mdx
+rules/lib/repo/git.mdx
+rules/lib/repo/http.mdx
+rules/lib/repo/local.mdx
+rules/lib/repo/utils.mdx
+rules/windows.mdx
+run/build.mdx
 "
 
 # Verify that at least one source exists
