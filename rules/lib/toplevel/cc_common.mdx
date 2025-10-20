@@ -111,7 +111,7 @@ ParameterDescription`actions`[actions](../builtins/actions.html);
  `system_includes`[sequence](../core/list.html);
  default is `[]`
 
- Search paths for header files referenced by angle brackets, e.g. #include <foo/bar/header.h>. They can be either relative to the exec root or absolute. Usually passed with -isystem. Propagated to dependents transitively.
+ Search paths for header files referenced by angle brackets, e.g. #include &lt;foo/bar/header.h&gt;. They can be either relative to the exec root or absolute. Usually passed with -isystem. Propagated to dependents transitively.
  `framework_includes`[sequence](../core/list.html);
  default is `[]`
 
@@ -360,7 +360,7 @@ ParameterDescription`headers`
  `system_includes`
  default is `unbound`
 
- Set of search paths for header files referenced by angle brackets, i.e. #include <foo/bar/header.h>. They can be either relative to the exec root or absolute. Usually passed with -isystem
+ Set of search paths for header files referenced by angle brackets, i.e. #include &lt;foo/bar/header.h&gt;. They can be either relative to the exec root or absolute. Usually passed with -isystem
  `includes`
  default is `unbound`
 
@@ -739,7 +739,7 @@ ParameterDescription`objects`[dict](../core/dict.html);
 None cc_common.do_not_use_tools_cpp_compiler_present
 ```
 
- Do not use this field, its only purpose is to help with migration from config\_setting.values{'compiler') to config\_settings.flag\_values{'@bazel\_tools//tools/cpp:compiler'}
+ Do not use this field, its only purpose is to help with migration from config\_setting.values\{'compiler') to config\_settings.flag\_values\{'@bazel\_tools//tools/cpp:compiler'\}
 
 
 

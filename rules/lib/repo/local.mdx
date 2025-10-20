@@ -6,7 +6,7 @@ title: 'local repository rules'
 
 The following functions can be loaded from
 `@bazel_tools//tools/build_defs/repo:local.bzl`.
-// Generated with Stardoc: http://skydoc.bazel.build
+{/* Generated with Stardoc: http://skydoc.bazel.build */}
 
 Rules for making directories in the local filesystem available as repos.
 
@@ -54,7 +54,7 @@ Makes a local directory that already contains Bazel files available as a repo. T
 <tbody>
 <tr id="local_repository-name">
 <td><code>name</code></td>
-<td>
+<td></td>
 
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
@@ -67,7 +67,7 @@ A unique name for this repository.
 </tr>
 <tr id="local_repository-path">
 <td><code>path</code></td>
-<td>
+<td></td>
 
 String; required
 
@@ -82,7 +82,7 @@ The path can be either absolute, or relative to the workspace root.
 </tr>
 <tr id="local_repository-repo_mapping">
 <td><code>repo_mapping</code></td>
-<td>
+<td></td>
 
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
@@ -123,7 +123,7 @@ Makes a local directory that doesn't contain Bazel files available as a repo. Th
 <tbody>
 <tr id="new_local_repository-name">
 <td><code>name</code></td>
-<td>
+<td></td>
 
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
@@ -136,7 +136,7 @@ A unique name for this repository.
 </tr>
 <tr id="new_local_repository-build_file">
 <td><code>build_file</code></td>
-<td>
+<td></td>
 
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
@@ -153,7 +153,7 @@ The file addressed by this label does not need to be named BUILD, but can be. So
 </tr>
 <tr id="new_local_repository-build_file_content">
 <td><code>build_file_content</code></td>
-<td>
+<td></td>
 
 String; optional
 
@@ -168,7 +168,7 @@ Exactly one of `build_file` and `build_file_content` must be specified.
 </tr>
 <tr id="new_local_repository-path">
 <td><code>path</code></td>
-<td>
+<td></td>
 
 String; required
 
@@ -183,7 +183,7 @@ The path can be either absolute, or relative to the workspace root.
 </tr>
 <tr id="new_local_repository-repo_mapping">
 <td><code>repo_mapping</code></td>
-<td>
+<td></td>
 
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 

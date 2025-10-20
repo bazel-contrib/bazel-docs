@@ -6,7 +6,7 @@ title: 'utils repository rules'
 
 The following functions can be loaded from
 `@bazel_tools//tools/build_defs/repo:utils.bzl`.
-// Generated with Stardoc: http://skydoc.bazel.build
+{/* Generated with Stardoc: http://skydoc.bazel.build */}
 
 Utils for manipulating external repositories, once fetched.
 
@@ -53,7 +53,7 @@ Existing files will be overwritten.
 <tbody>
 <tr id="download_remote_files-ctx">
 <td><code>ctx</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -67,7 +67,7 @@ function.
 </tr>
 <tr id="download_remote_files-auth">
 <td><code>auth</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>None</code>
@@ -113,7 +113,7 @@ Support optional netrc and auth_patterns attributes if available.
 <tbody>
 <tr id="get_auth-ctx">
 <td><code>ctx</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -127,7 +127,7 @@ function.
 </tr>
 <tr id="get_auth-urls">
 <td><code>urls</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -173,7 +173,7 @@ https://bazel.build/rules/deploying#dependencies.
 <tbody>
 <tr id="maybe-repo_rule">
 <td><code>repo_rule</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -186,7 +186,7 @@ repository rule function.
 </tr>
 <tr id="maybe-name">
 <td><code>name</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -199,7 +199,7 @@ name of the repository to create.
 </tr>
 <tr id="maybe-kwargs">
 <td><code>kwargs</code></td>
-<td>
+<td></td>
 
 optional.
 
@@ -241,7 +241,7 @@ Utility function to parse at least a basic .netrc file.
 <tbody>
 <tr id="parse_netrc-contents">
 <td><code>contents</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -254,7 +254,7 @@ input for the parser.
 </tr>
 <tr id="parse_netrc-filename">
 <td><code>filename</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>"a .netrc file"</code>
@@ -304,7 +304,7 @@ then they are taken from `ctx.attr`.
 <tbody>
 <tr id="patch-ctx">
 <td><code>ctx</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -318,7 +318,7 @@ function.
 </tr>
 <tr id="patch-patches">
 <td><code>patches</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>None</code>
@@ -332,7 +332,7 @@ The patch files to apply. List of strings, Labels, or paths.
 </tr>
 <tr id="patch-patch_cmds">
 <td><code>patch_cmds</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>None</code>
@@ -347,7 +347,7 @@ time to bash -c. List of strings
 </tr>
 <tr id="patch-patch_cmds_win">
 <td><code>patch_cmds_win</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>None</code>
@@ -364,7 +364,7 @@ used and this parameter will be ignored.
 </tr>
 <tr id="patch-patch_tool">
 <td><code>patch_tool</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>None</code>
@@ -379,7 +379,7 @@ patches. String.
 </tr>
 <tr id="patch-patch_args">
 <td><code>patch_args</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>None</code>
@@ -393,7 +393,7 @@ Arguments to pass to the patch tool. List of strings.
 </tr>
 <tr id="patch-auth">
 <td><code>auth</code></td>
-<td>
+<td></td>
 
 optional.
 default is <code>None</code>
@@ -436,7 +436,7 @@ Utility function to parse at least a basic .netrc file.
 <tbody>
 <tr id="read_netrc-ctx">
 <td><code>ctx</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -450,7 +450,7 @@ function.
 </tr>
 <tr id="read_netrc-filename">
 <td><code>filename</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -493,7 +493,7 @@ Read user's default netrc file.
 <tbody>
 <tr id="read_user_netrc-ctx">
 <td><code>ctx</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -541,7 +541,7 @@ Existing files will be overwritten.
 <tbody>
 <tr id="symlink_files-ctx">
 <td><code>ctx</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -582,7 +582,7 @@ Utility function for altering and adding the specified attributes to a particula
 <tbody>
 <tr id="update_attrs-orig">
 <td><code>orig</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -596,7 +596,7 @@ by a particular rule invocation
 </tr>
 <tr id="update_attrs-keys">
 <td><code>keys</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -609,7 +609,7 @@ complete set of attributes defined on this rule
 </tr>
 <tr id="update_attrs-override">
 <td><code>override</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -651,7 +651,7 @@ Compute an auth dict from a parsed netrc file and a list of URLs.
 <tbody>
 <tr id="use_netrc-netrc">
 <td><code>netrc</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -665,7 +665,7 @@ read_netrc
 </tr>
 <tr id="use_netrc-urls">
 <td><code>urls</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -678,7 +678,7 @@ a list of URLs.
 </tr>
 <tr id="use_netrc-patterns">
 <td><code>patterns</code></td>
-<td>
+<td></td>
 
 required.
 
@@ -729,7 +729,7 @@ be present in `ctx.attr`; the latter two possibly with value None.
 <tbody>
 <tr id="workspace_and_buildfile-ctx">
 <td><code>ctx</code></td>
-<td>
+<td></td>
 
 required.
 
