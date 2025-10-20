@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # Read the versions and tabs
-VERSIONS_FILE="docs-versions.json"
+VERSIONS=$(jq -r '.[]' docs-versions.json)
 TABS_FILE="docs-tabs.json"
 OUTPUT_FILE="docs.json"
 INPUT_FILE="docs-no-versions.json"
@@ -12,56 +12,41 @@ INPUT_FILE="docs-no-versions.json"
 # Start with the base structure
 cp "$INPUT_FILE" "$OUTPUT_FILE"
 
-if [ ! -s "$VERSIONS_FILE" ]; then
-    echo "No versions found in $VERSIONS_FILE" >&2
-    exit 1
+# Create versions array - HEAD first, then others
+VERSIONS_JSON="["
+FIRST=true
+
+# Process HEAD first if it exists
+if echo "$VERSIONS" | grep -q "^HEAD$"; then
+    TABS_JSON=$(jq -c . "$TABS_FILE")
+    VERSIONS_JSON="$VERSIONS_JSON{\"version\":\"HEAD\",\"languages\":[{\"language\":\"en\",\"tabs\":$TABS_JSON}]}"
+    FIRST=false
 fi
 
-# Build the versions array using jq to avoid manual string building
-VERSIONS_JSON=$(jq -n --slurpfile tabs "$TABS_FILE" --slurpfile versions "$VERSIONS_FILE" '
-    ($tabs[0] // []) as $tabs_data |
-    def prefix_tabs($version):
-        $tabs_data
-        | map(
-            if has("groups") then
-                .groups |= map(
-                    if has("pages") then
-                        .pages |= map($version + "/" + .)
-                    else
-                        .
-                    end
-                )
-            else
-                .
-            end
-        );
+# Process other versions
+for version in $VERSIONS; do
+    if [ "$version" = "HEAD" ]; then
+        continue  # Already processed
+    fi
+    
+    if [ "$FIRST" = true ]; then
+        FIRST=false
+    else
+        VERSIONS_JSON="$VERSIONS_JSON,"
+    fi
+    
+    # For other versions, add version prefix to paths and strip patch version
+    TABS_JSON=$(jq -c --arg version "$version" '
+        map(.groups = (.groups | map(.pages = (.pages | map($version + "/" + .)))))
+    ' "$TABS_FILE")
+    DISPLAY_VERSION=$(echo "$version" | sed 's/\.[0-9]*$//')
+    
+    VERSIONS_JSON="$VERSIONS_JSON{\"version\":\"$DISPLAY_VERSION\",\"languages\":[{\"language\":\"en\",\"tabs\":$TABS_JSON}]}"
+done
 
-    def version_label($version):
-        if $version == "HEAD" then
-            "HEAD"
-        else
-            $version | sub("\\.[0-9]+$"; "")
-        end;
-
-    def build_entry($version):
-        {
-            version: version_label($version),
-            languages: [
-                {
-                    language: "en",
-                    tabs: (if $version == "HEAD" then $tabs_data else prefix_tabs($version) end)
-                }
-            ]
-        };
-
-    ($versions[0] // []) as $all_versions |
-    ([$all_versions[] | select(. == "HEAD")]) as $head |
-    ([$all_versions[] | select(. != "HEAD")]) as $others |
-    ($head | map(build_entry(.))) + ($others | map(build_entry(.)))
-')
+VERSIONS_JSON="$VERSIONS_JSON]"
 
 # Update the navigation.versions field
 jq --argjson versions "$VERSIONS_JSON" '.navigation.versions = $versions' "$OUTPUT_FILE" > "${OUTPUT_FILE}.tmp" && mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
 
-count=$(jq 'length' "$VERSIONS_FILE")
-echo "Created $OUTPUT_FILE with $count versions" 
+echo "Created $OUTPUT_FILE with $(echo "$VERSIONS" | wc -l) versions"
