@@ -13,15 +13,15 @@ Select the flag name in table to navigate to its entry in the command line refer
 
 The following flags are meant to be set explicitly on the command line.
 
-### [`--config`](https://bazel.build/reference/command-line-reference#flag--config) {#flag-config}
+### [`--config`](https://bazel.build/reference/command-line-reference#flag--config)
 
 You can organize flags in a `.bazelrc` file into configurations, like ones for debugging or release builds. Additional configuration groups can be selected with `--config=<group>`.
 
-### [`--keep_going`](https://bazel.build/reference/command-line-reference#flag--keep_going) {#flag-keep-going}
+### [`--keep_going`](https://bazel.build/reference/command-line-reference#flag--keep_going)
 
 Bazel should try as much as possible to continue with build and test execution. By default, Bazel fails eagerly.
 
-### [`--remote_download_outputs`](https://bazel.build/reference/command-line-reference#flag--remote_download_outputs) {#flag-remote-download-outputs}
+### [`--remote_download_outputs`](https://bazel.build/reference/command-line-reference#flag--remote_download_outputs)
 
 When using remote execution or caching (both disk and remote), you can signal to Bazel that you want to download **all** (intermediate) build artifacts as follows:
 
@@ -31,7 +31,7 @@ When using remote execution or caching (both disk and remote), you can signal to
 
 By default, Bazel only downloads top-level artifacts, such as the final binary, and intermediate artifacts that are necessary for local actions.
 
-### [`--stamp`](https://bazel.build/reference/command-line-reference#flag--stamp) {#flag-stamp}
+### [`--stamp`](https://bazel.build/reference/command-line-reference#flag--stamp)
 
 Adds build info (user, timestamp) to binaries.
 
@@ -43,15 +43,15 @@ Because this increases build time, it's only intended for release builds.
 
 The following flags can help you better understand Bazel build or test errors.
 
-### [`--announce_rc`](https://bazel.build/reference/command-line-reference#flag--announce_rc) {#flag-announce-rc}
+### [`--announce_rc`](https://bazel.build/reference/command-line-reference#flag--announce_rc)
 
 Shows which flags are implicitly set through user-defined, machine-defined, or project-defined `.bazelrc` files.
 
-### [`--auto_output_filter`](https://bazel.build/reference/command-line-reference#flag--auto_output_filter) {#flag-auto-output-filter}
+### [`--auto_output_filter`](https://bazel.build/reference/command-line-reference#flag--auto_output_filter)
 
 By default, Bazel tries to prevent log spam and does only print compiler warnings and Starlark debug output for packages and subpackages requested on the command line. To disable all filtering, set `--auto_output_filter=none`.
 
-### [`--sandbox_debug`](https://bazel.build/reference/command-line-reference#flag--sandbox_debug) {#flag-sandbox-debug}
+### [`--sandbox_debug`](https://bazel.build/reference/command-line-reference#flag--sandbox_debug)
 
 Lets you drill into sandboxing errors. For details on why Bazel sandboxes builds by default and what gets sandboxed, see our [sandboxing documentation](https://bazel.build/docs/sandboxing).
 
@@ -61,7 +61,7 @@ If you think the error might be caused by sandboxing, try turning sandboxing off
 To do this, add `--spawn_strategy=local` to your command.
 </Tip>
 
-### [`--subcommands (-s)`](https://bazel.build/reference/command-line-reference#flag--subcommands) {#flag-subcommands}
+### [`--subcommands (-s)`](https://bazel.build/reference/command-line-reference#flag--subcommands)
 
 Displays a comprehensive list of every command that Bazel runs during a build, regardless of whether it succeeds or fails.
 
@@ -71,7 +71,7 @@ Displays a comprehensive list of every command that Bazel runs during a build, r
 Startup flags need to be passed before the command and cause a server restart. Toggle these flags with caution.
 </Warning>
 
-### [`--bazelrc`](https://bazel.build/reference/command-line-reference#flag--bazelrc) {#flag-bazelrc}
+### [`--bazelrc`](https://bazel.build/reference/command-line-reference#flag--bazelrc)
 
 You can specify default Bazel options in `.bazelrc` files. If multiple `.bazelrc` files exist, you can select which `.bazelrc` file is used by adding `--bazelrc=<path to the .bazelrc file>`.
 
@@ -81,7 +81,7 @@ You can specify default Bazel options in `.bazelrc` files. If multiple `.bazelrc
 This is ideal for scenarios where you want to ensure a clean build environment, such as release builds, and prevent any unintended configuration changes from `.bazelrc` files.
 </Tip>
 
-### [`--host_jvm_args`](https://bazel.build/docs/user-manual#host-jvm-args) {#flag-host-jvm-args}
+### [`--host_jvm_args`](https://bazel.build/docs/user-manual#host-jvm-args)
 
 Limits the amount of RAM the Bazel server uses.
 
@@ -99,7 +99,7 @@ For example, the following limits the Bazel heap size to **3**GB:
 - k for kilobytes
 </Note>
 
-### [`--output_base`](https://bazel.build/reference/command-line-reference#flag--output_base) {#flag-output-base}
+### [`--output_base`](https://bazel.build/reference/command-line-reference#flag--output_base)
 
 Controls Bazel's output tree. Bazel doesn't store build outputs, including logs, within the source tree itself. Instead, it uses a distinct output tree for this purpose.
 
@@ -111,19 +111,19 @@ Using multiple output bases in one Bazel workspace lets you run multiple Bazel s
 
 The following flags are related to Bazel test.
 
-### [`--java_debug`](https://bazel.build/reference/command-line-reference#flag--java_debug) {#flag-java-debug}
+### [`--java_debug`](https://bazel.build/reference/command-line-reference#flag--java_debug)
 
 Causes Java tests to wait for a debugger connection before being executed.
 
-### [`--runs_per_test`](https://bazel.build/reference/command-line-reference#flag--runs_per_test) {#flag-runs-per-test}
+### [`--runs_per_test`](https://bazel.build/reference/command-line-reference#flag--runs_per_test)
 
 The number of times to run tests. For example, to run tests N times, add `--runs_per_test=N`. This can be useful to debug flaky tests and see whether a fix causes a test to pass consistently.
 
-### [`--test_filter`](https://bazel.build/reference/command-line-reference#flag--test_filter) {#flag-test-filter}
+### [`--test_filter`](https://bazel.build/reference/command-line-reference#flag--test_filter)
 
 This flag is particularly useful when iterating on a single test method, such as when a change you made breaks a test. Instead of re-running all the test methods in the test suite, you can focus solely on the specific test(s) that failed. This allows for faster feedback and more efficient debugging. This flag is often used in conjunction with `--test_output=streamed` for real-time test output.
 
-### [`--test_output`](https://bazel.build/reference/command-line-reference#flag--test_output) {#flag-test-output}
+### [`--test_output`](https://bazel.build/reference/command-line-reference#flag--test_output)
 
 Specifies the output mode. By default, Bazel captures test output in local log files. When iterating on a broken test, you typically want to use `--test_output=streamed` to see the test output in real time.
 
@@ -131,7 +131,7 @@ Specifies the output mode. By default, Bazel captures test output in local log f
 
 The following flags are related to Bazel run.
 
-### [`--run_under`](https://bazel.build/reference/command-line-reference#flag--run_under) {#flag-run-under}
+### [`--run_under`](https://bazel.build/reference/command-line-reference#flag--run_under)
 
 Changes how executables are invoked. For example `--run_under="strace -c"` is commonly used for debugging.
 
@@ -139,19 +139,19 @@ Changes how executables are invoked. For example `--run_under="strace -c"` is co
 
 The following flags are related to user-specific `.bazelrc` options.
 
-### [`--disk_cache`](https://bazel.build/reference/command-line-reference#flag--disk_cache) {#flag-disk-cache}
+### [`--disk_cache`](https://bazel.build/reference/command-line-reference#flag--disk_cache)
 
 A path to a directory where Bazel can read and write actions and action outputs. If the directory doesn't exist, it will be created.
 
 You can share build artifacts between multiple branches or workspaces and speed up Bazel builds by adding `--disk_cache=<path>` to your command.
 
-### [`--jobs`](https://bazel.build/reference/command-line-reference#flag--jobs) {#flag-jobs}
+### [`--jobs`](https://bazel.build/reference/command-line-reference#flag--jobs)
 
 The number of concurrent jobs to run.
 
 This is typically only required when using remote execution where a remote build cluster executes more jobs than you have cores locally.
 
-### [`--local_resources`](https://bazel.build/reference/command-line-reference#flag--local_resources) {#flag-local-resources}
+### [`--local_resources`](https://bazel.build/reference/command-line-reference#flag--local_resources)
 
 Limits how much CPU or RAM is consumed by locally running actions.
 
@@ -159,7 +159,7 @@ Limits how much CPU or RAM is consumed by locally running actions.
 This has no impact on the amount of CPU or RAM that the Bazel server itself consumes for tasks like analysis and build orchestration.
 </Note>
 
-### [`--sandbox_base`](https://bazel.build/reference/command-line-reference#flag--sandbox_base) {#flag-sandbox-base}
+### [`--sandbox_base`](https://bazel.build/reference/command-line-reference#flag--sandbox_base)
 
 Lets the sandbox create its sandbox directories underneath this path. By default, Bazel executes local actions sandboxed which adds some overhead to the build.
 
@@ -171,31 +171,31 @@ Specify a path on tmpfs, for example `/run/shm`, to possibly improve performance
 
 The following flags are related to project-specific `.bazelrc` options.
 
-### [`--flaky_test_attempts`](https://bazel.build/reference/command-line-reference#flag--flaky_test_attempts) {#flag-flaky-test-attempts}
+### [`--flaky_test_attempts`](https://bazel.build/reference/command-line-reference#flag--flaky_test_attempts)
 
 Retry each test up to the specified number of times in case of any test failure. This is especially useful on Continuous Integration. Tests that require more than one attempt to pass are marked as **FLAKY** in the test summary.
 
-### [`--remote_cache`](https://bazel.build/reference/command-line-reference#flag--remote_cache) {#flag-remote-cache}
+### [`--remote_cache`](https://bazel.build/reference/command-line-reference#flag--remote_cache)
 
 A URI of a caching endpoint. Setting up remote caching can be a great way to speed up Bazel builds. It can be combined with a local disk cache.
 
-### [`--remote_download_regex`](https://bazel.build/reference/command-line-reference#flag--remote_download_regex) {#flag-remote-download-regex}
+### [`--remote_download_regex`](https://bazel.build/reference/command-line-reference#flag--remote_download_regex)
 
 Force remote build outputs whose path matches this pattern to be downloaded, irrespective of the `--remote_download_outputs` setting. Multiple patterns may be specified by repeating this flag.
 
-### [`--remote_executor`](https://bazel.build/reference/command-line-reference#flag--remote_executor) {#flag-remote-executor}
+### [`--remote_executor`](https://bazel.build/reference/command-line-reference#flag--remote_executor)
 
 `HOST` or `HOST:PORT` of a remote execution endpoint. Pass this if you are using a remote execution service. You'll often need to Add `--remote_instance_name=<name>`.
 
-### [`--remote_instance_name`](https://bazel.build/reference/command-line-reference#flag--remote_instance_name) {#flag-remote-instance-name}
+### [`--remote_instance_name`](https://bazel.build/reference/command-line-reference#flag--remote_instance_name)
 
 The value to pass as `instance_name` in the remote execution API.
 
-### [`--show_timestamps`](https://bazel.build/docs/user-manual#show-timestamps) {#flag-show-timestamps}
+### [`--show_timestamps`](https://bazel.build/docs/user-manual#show-timestamps)
 
 If specified, a timestamp is added to each message generated by Bazel specifying the time at which the message was displayed. This is useful on CI systems to quickly understand what step took how long.
 
-### [`--spawn_strategy`](https://bazel.build/reference/command-line-reference#flag--spawn_strategy) {#flag-spawn-strategy}
+### [`--spawn_strategy`](https://bazel.build/reference/command-line-reference#flag--spawn_strategy)
 
 Even with remote execution, running some build actions locally might be faster. This depends on factors like your build cluster's capacity, network speed, and network delays.
 
