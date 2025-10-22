@@ -5,14 +5,14 @@ title: 'Command-Line Reference'
 
 
 ```
-bazel [<startup options>] <command> [<args>]
+bazel [<startup options>] `<command>` [`<args>`]
 
 ```
 
 or
 
 ```
-bazel [<startup options>] <command> [<args>] -- [<target patterns>]
+bazel [<startup options>] `<command>` [`<args>`] -- [<target patterns>]
 
 ```
 
@@ -49,7 +49,7 @@ Boolean options can be enabled as follows:
 and disabled as follows:
 
 ```
---no<option>
+--no`<option>`
 --&lt;option&gt;=[false|no|0]
 
 ```
@@ -65,7 +65,7 @@ force-enabled as follows:
 or force-disabled as follows:
 
 ```
---no<option>
+--no`<option>`
 --&lt;option&gt;=[false|no|0]
 
 ```
@@ -156,7 +156,7 @@ Tags:
 
 `--failure_detail_out=&lt;path&gt;` default: see description
 
-If set, specifies a location to write a failure\_detail protobuf message if the server experiences a failure and cannot report it via gRPC, as normal. Otherwise, the location will be ${OUTPUT\_BASE}/failure\_detail.rawproto.
+If set, specifies a location to write a failure\_detail protobuf message if the server experiences a failure and cannot report it via gRPC, as normal. Otherwise, the location will be `${OUTPUT_BASE}/failure_detail.rawproto`.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -212,7 +212,7 @@ Tags:
 
 `--output_base=&lt;path&gt;` default: see description
 
-If set, specifies the output location to which all build output will be written. Otherwise, the location will be ${OUTPUT\_ROOT}/ _blaze_ `${USER}`/${MD5\_OF\_WORKSPACE\_ROOT}. Note: If you specify a different option from one to the next Bazel invocation for this value, you'll likely start up a new, additional Bazel server. Bazel starts exactly one server per specified output base. Typically there is one output base per workspace - however, with this option you may have multiple output bases per workspace and thereby run multiple builds for the same client on the same machine concurrently. See 'bazel help shutdown' on how to shutdown a Bazel server.
+If set, specifies the output location to which all build output will be written. Otherwise, the location will be `${OUTPUT_ROOT}/_blaze_${USER}/${MD5_OF_WORKSPACE_ROOT}`. Note: If you specify a different option from one to the next Bazel invocation for this value, you'll likely start up a new, additional Bazel server. Bazel starts exactly one server per specified output base. Typically there is one output base per workspace - however, with this option you may have multiple output bases per workspace and thereby run multiple builds for the same client on the same machine concurrently. See 'bazel help shutdown' on how to shutdown a Bazel server.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -358,7 +358,7 @@ Tags:
 
 `--repo_contents_cache=<a path>` default: see description
 
-Specifies the location of the repo contents cache, which contains fetched repo directories shareable across workspaces. An empty string as argument requests the repo contents cache to be disabled, otherwise the default of '<--repository\_cache>/contents' is used. Note that this means setting '--repository\_cache=' would by default disable the repo contents cache as well, unless '--repo\_contents\_cache=<some\_path>' is also set.
+Specifies the location of the repo contents cache, which contains fetched repo directories shareable across workspaces. An empty string as argument requests the repo contents cache to be disabled, otherwise the default of `'<--repository_cache>/contents'` is used. Note that this means setting `'--repository_cache='` would by default disable the repo contents cache as well, unless `'--repo_contents_cache=<some_path>'` is also set.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -380,14 +380,14 @@ Tags:
 
 `--repository_cache=<a path>` default: see description
 
-Specifies the cache location of the downloaded values obtained during the fetching of external repositories. An empty string as argument requests the cache to be disabled, otherwise the default of '<--output\_user\_root>/cache/repos/v1' is used
+Specifies the cache location of the downloaded values obtained during the fetching of external repositories. An empty string as argument requests the cache to be disabled, otherwise the default of `'<--output_user_root>/cache/repos/v1'` is used
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 
 `--[no]repository_disable_download` default: "false"
 
-If set, downloading using ctx.download{,\_and\_extract} is not allowed during repository fetching. Note that network access is not completely disabled; ctx.execute could still run an arbitrary executable that accesses the Internet.
+If set, downloading using `ctx.download{,_and_extract}` is not allowed during repository fetching. Note that network access is not completely disabled; ctx.execute could still run an arbitrary executable that accesses the Internet.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -910,7 +910,7 @@ Tags:
 Options that trigger optimizations of the build time:
 `--gc_thrashing_limits=<comma separated pairs of <period>:<count>>` default: "1s:2,20s:3,1m:5"
 
-Limits which, if reached, cause GcThrashingDetector to crash Bazel with an OOM. Each limit is specified as <period>:<count> where period is a duration and count is a positive integer. If more than --gc\_thrashing\_threshold percent of tenured space (old gen heap) remains occupied after <count> consecutive full GCs within <period>, an OOM is triggered. Multiple limits can be specified separated by commas.
+Limits which, if reached, cause GcThrashingDetector to crash Bazel with an OOM. Each limit is specified as `<period>:<count>` where period is a duration and count is a positive integer. If more than --gc\_thrashing\_threshold percent of tenured space (old gen heap) remains occupied after `<count>` consecutive full GCs within `<period>`, an OOM is triggered. Multiple limits can be specified separated by commas.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -1009,7 +1009,7 @@ Tags:
 
 `--bes_keywords=<comma-separated list of options>` multiple uses are accumulated
 
-Specifies a list of notification keywords to be added the default set of keywords published to BES ("command\_name=<command\_name> ", "protocol\_name=BEP"). Defaults to none.
+Specifies a list of notification keywords to be added the default set of keywords published to BES (`"command_name=<command_name> "`, `"protocol_name=BEP"`). Defaults to none.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -1303,7 +1303,7 @@ Tags:
 
 `--[no]heap_dump_on_oom` default: "false"
 
-Whether to manually output a heap dump if an OOM is thrown (including manual OOMs due to reaching --gc\_thrashing\_limits). The dump will be written to <output\_base>/<invocation\_id>.heapdump.hprof. This option effectively replaces -XX:+HeapDumpOnOutOfMemoryError, which has no effect for manual OOMs.
+Whether to manually output a heap dump if an OOM is thrown (including manual OOMs due to reaching --gc\_thrashing\_limits). The dump will be written to `<output_base>/<invocation_id>.heapdump.hprof`. This option effectively replaces -XX:+HeapDumpOnOutOfMemoryError, which has no effect for manual OOMs.
 
 Tags:
 [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
@@ -1530,7 +1530,7 @@ Default to 'minimal'.
 
 `--remote_bytestream_uri_prefix=<a string>` default: see description
 
-The hostname and instance name to be used in bytestream:// URIs that are written into build event streams. This option can be set when builds are performed using a proxy, which causes the values of --remote\_executor and --remote\_instance\_name to no longer correspond to the canonical name of the remote execution service. When not set, it will default to "${hostname}/${instance\_name}".
+The hostname and instance name to be used in bytestream:// URIs that are written into build event streams. This option can be set when builds are performed using a proxy, which causes the values of --remote\_executor and --remote\_instance\_name to no longer correspond to the canonical name of the remote execution service. When not set, it will default to `"${hostname}/${instance_name}"`.
 
 `--remote_cache=<a string>` default: see description
 
@@ -1653,7 +1653,7 @@ Use terminal controls to colorize output.
 
 `--config=<a string>` multiple uses are accumulated
 
-Selects additional config sections from the rc files; for every <command>, it also pulls in the options from <command>:<config> if such a section exists; if this section doesn't exist in any .rc file, Blaze fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
+Selects additional config sections from the rc files; for every `<command>`, it also pulls in the options from `<command>:<config>` if such a section exists; if this section doesn't exist in any .rc file, Blaze fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
 
 `--credential_helper=<Path to a credential helper. It may be absolute, relative to the PATH environment variable, or %workspace%-relative. The path be optionally prefixed by a scope  followed by an '='. The scope is a domain name, optionally with a single leading '*' wildcard component. A helper applies to URIs matching its scope, with more specific scopes preferred. If a helper has no scope, it applies to every URI.>` multiple uses are accumulated
 
@@ -1722,7 +1722,7 @@ If set to a positive value, the disk cache will be periodically garbage collecte
 
 `--[no]experimental_enable_thread_dump` default: "false"
 
-Whether to enable thread dumps. If true, Bazel will dump the state of all threads (including virtual threads) to a file every --experimental\_thread\_dump\_interval, or after action execution being inactive for --experimental\_thread\_dump\_action\_execution\_inactivity\_duration. The dumps will be written to the <output\_base>/server/thread\_dumps/ directory.
+Whether to enable thread dumps. If true, Bazel will dump the state of all threads (including virtual threads) to a file every --experimental\_thread\_dump\_interval, or after action execution being inactive for --experimental\_thread\_dump\_action\_execution\_inactivity\_duration. The dumps will be written to the `<output_base>/server/thread_dumps/` directory.
 
 Tags:
 [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
@@ -2593,7 +2593,7 @@ Tags:
 
 `--[no]incompatible_compact_repo_mapping_manifest` default: "false"
 
-If enabled, the <binary>.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
+If enabled, the `<binary>`.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -2631,7 +2631,7 @@ Options that let the user configure the intended output, affecting its value, as
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
-<br>
+<br />
 Note that unless <code>--incompatible\_repo\_env\_ignores\_action\_env</code> is true, all <code>name=value</code> pairs will be available to repository rules.
 
 Tags:
@@ -2926,7 +2926,7 @@ Tags:
 
 `--features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones. See also --host\_features
+The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones. See also --host\_features
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -2982,7 +2982,7 @@ Tags:
 
 `--host_features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones.
+The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -4235,7 +4235,7 @@ Tags:
 Options that let the user configure the intended output, affecting its value, as opposed to its existence:
 `--aspects=<comma-separated list of options>` multiple uses are accumulated
 
-Comma-separated list of aspects to be applied to top-level targets. In the list, if aspect some\_aspect specifies required aspect providers via required\_aspect\_providers, some\_aspect will run after every aspect that was mentioned before it in the aspects list whose advertised providers satisfy some\_aspect required aspect providers. Moreover, some\_aspect will run after all its required aspects specified by requires attribute. some\_aspect will then have access to the values of those aspects' providers. <bzl-file-label>%<aspect\_name>, for example '//tools:my\_def.bzl%my\_aspect', where 'my\_aspect' is a top-level value from a file tools/my\_def.bzl
+Comma-separated list of aspects to be applied to top-level targets. In the list, if aspect some\_aspect specifies required aspect providers via required\_aspect\_providers, some\_aspect will run after every aspect that was mentioned before it in the aspects list whose advertised providers satisfy some\_aspect required aspect providers. Moreover, some\_aspect will run after all its required aspects specified by requires attribute. some\_aspect will then have access to the values of those aspects' providers. `<bzl-file-label>%<aspect_name>`, for example '//tools:my\_def.bzl%my\_aspect', where 'my\_aspect' is a top-level value from a file tools/my\_def.bzl
 
 `--bep_maximum_open_remote_upload_files=<an integer>` default: "-1"
 
@@ -4471,7 +4471,7 @@ Tags:
 
 `--local_extra_resources=<a named float, 'name=value'>` multiple uses are accumulated
 
-Set the number of extra resources available to Bazel. Takes in a string-float pair. Can be used multiple times to specify multiple types of extra resources. Bazel will limit concurrently running actions based on the available extra resources and the extra resources required. Tests can declare the amount of extra resources they need by using a tag of the "resources:<resoucename>:<amount>" format. Available CPU, RAM and resources cannot be set with this flag.
+Set the number of extra resources available to Bazel. Takes in a string-float pair. Can be used multiple times to specify multiple types of extra resources. Bazel will limit concurrently running actions based on the available extra resources and the extra resources required. Tests can declare the amount of extra resources they need by using a tag of the "resources:`<resoucename>`:`<amount>`" format. Available CPU, RAM and resources cannot be set with this flag.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -4485,7 +4485,7 @@ Tags:
 
 `--local_resources=<a named double, 'name=value', where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-Set the number of resources available to Bazel. Takes in an assignment to a float or HOST\_RAM/HOST\_CPUS, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:<resource name>:<amount>" format. Overrides resources specified by `--local_{cpu|ram|extra}_resources`.
+Set the number of resources available to Bazel. Takes in an assignment to a float or HOST\_RAM/HOST\_CPUS, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST\_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:`<resource name>`:`<amount>`" format. Overrides resources specified by `--local_{cpu|ram|extra}_resources`.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -4703,7 +4703,7 @@ Tags:
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 `--aspects_parameters=&lt;a 'name=value' assignment>` multiple uses are accumulated
 
-Specifies the values of the command-line aspects parameters. Each parameter value is specified via <param\_name>=<param\_value>, for example 'my\_param=my\_val' where 'my\_param' is a parameter of some aspect in --aspects list or required by an aspect in the list. This option can be used multiple times. However, it is not allowed to assign values to the same parameter more than once.
+Specifies the values of the command-line aspects parameters. Each parameter value is specified via `<param_name>=<param_value>`, for example 'my\_param=my\_val' where 'my\_param' is a parameter of some aspect in --aspects list or required by an aspect in the list. This option can be used multiple times. However, it is not allowed to assign values to the same parameter more than once.
 
 Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
@@ -4838,7 +4838,7 @@ Default to 'minimal'.
 
 `--remote_bytestream_uri_prefix=<a string>` default: see description
 
-The hostname and instance name to be used in bytestream:// URIs that are written into build event streams. This option can be set when builds are performed using a proxy, which causes the values of --remote\_executor and --remote\_instance\_name to no longer correspond to the canonical name of the remote execution service. When not set, it will default to "${hostname}/${instance\_name}".
+The hostname and instance name to be used in bytestream:// URIs that are written into build event streams. This option can be set when builds are performed using a proxy, which causes the values of --remote\_executor and --remote\_instance\_name to no longer correspond to the canonical name of the remote execution service. When not set, it will default to `"${hostname}/${instance_name}"`.
 
 `--remote_cache=<a string>` default: see description
 
@@ -5586,7 +5586,7 @@ Tags:
 
 `--[no]incompatible_compact_repo_mapping_manifest` default: "false"
 
-If enabled, the <binary>.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
+If enabled, the `<binary>`.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -5624,7 +5624,7 @@ Options that let the user configure the intended output, affecting its value, as
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
-<br>
+<br />
 Note that unless <code>--incompatible\_repo\_env\_ignores\_action\_env</code> is true, all <code>name=value</code> pairs will be available to repository rules.
 
 Tags:
@@ -5919,7 +5919,7 @@ Tags:
 
 `--features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones. See also --host\_features
+The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones. See also --host\_features
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -5975,7 +5975,7 @@ Tags:
 
 `--host_features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones.
+The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -7661,7 +7661,7 @@ Tags:
 
 `--[no]incompatible_compact_repo_mapping_manifest` default: "false"
 
-If enabled, the <binary>.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
+If enabled, the `<binary>`.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -7699,7 +7699,7 @@ Options that let the user configure the intended output, affecting its value, as
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
-<br>
+<br />
 Note that unless <code>--incompatible\_repo\_env\_ignores\_action\_env</code> is true, all <code>name=value</code> pairs will be available to repository rules.
 
 Tags:
@@ -7994,7 +7994,7 @@ Tags:
 
 `--features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones. See also --host\_features
+The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones. See also --host\_features
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -8050,7 +8050,7 @@ Tags:
 
 `--host_features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones.
+The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -9533,7 +9533,7 @@ Tags:
 
 `--[no]incompatible_compact_repo_mapping_manifest` default: "false"
 
-If enabled, the <binary>.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
+If enabled, the `<binary>`.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -9571,7 +9571,7 @@ Options that let the user configure the intended output, affecting its value, as
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
-<br>
+<br />
 Note that unless <code>--incompatible\_repo\_env\_ignores\_action\_env</code> is true, all <code>name=value</code> pairs will be available to repository rules.
 
 Tags:
@@ -9866,7 +9866,7 @@ Tags:
 
 `--features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones. See also --host\_features
+The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones. See also --host\_features
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -9922,7 +9922,7 @@ Tags:
 
 `--host_features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones.
+The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -10989,7 +10989,7 @@ Tags:
 
 `--[no]incompatible_compact_repo_mapping_manifest` default: "false"
 
-If enabled, the <binary>.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
+If enabled, the `<binary>`.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -11013,7 +11013,7 @@ Options that let the user configure the intended output, affecting its value, as
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
-<br>
+<br />
 Note that unless <code>--incompatible\_repo\_env\_ignores\_action\_env</code> is true, all <code>name=value</code> pairs will be available to repository rules.
 
 Tags:
@@ -11112,7 +11112,7 @@ Tags:
 
 `--features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones. See also --host\_features
+The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones. See also --host\_features
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -11140,7 +11140,7 @@ Tags:
 
 `--host_features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones.
+The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -11275,7 +11275,7 @@ Tags:
 [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 Options relating to the output and semantics of the \`mod\` subcommand:
-`--base_module=<"<root>" for the root module; <module>@<version> for a specific version of a module; <module> for all versions of a module; @&lt;name&gt; for a repo with the given apparent name; or @@&lt;name&gt; for a repo with the given canonical name>` default: "<root>"
+`--base_module=<"&lt;root&gt;" for the root module; &lt;module&gt;@&lt;version&gt; for a specific version of a module; &lt;module&gt; for all versions of a module; @&lt;name&gt; for a repo with the given apparent name; or @@&lt;name&gt; for a repo with the given canonical name>` default: "&lt;root&gt;"
 
 Specify a module relative to which the specified target repos will be interpreted.
 
@@ -11317,16 +11317,16 @@ Specify how much detail about extension usages to include in the query result. "
 Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
-`--extension_usages=<a comma-separated list of <module>s>` default: ""
+`--extension_usages=<a comma-separated list of &lt;module&gt;s>` default: ""
 
 Specify modules whose extension usages will be displayed in the show\_extension query.
 
 Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
-`--from=<a comma-separated list of <module>s>` default: "<root>"
+`--from=<a comma-separated list of &lt;module&gt;s>` default: "&lt;root&gt;"
 
-The module(s) starting from which the dependency graph query will be displayed. Check each query’s description for the exact semantics. Defaults to <root>.
+The module(s) starting from which the dependency graph query will be displayed. Check each query's description for the exact semantics. Defaults to &lt;root&gt;.
 
 Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -11493,7 +11493,7 @@ Tags:
 
 `--[no]incompatible_compact_repo_mapping_manifest` default: "false"
 
-If enabled, the <binary>.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
+If enabled, the `<binary>`.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -11517,7 +11517,7 @@ Options that let the user configure the intended output, affecting its value, as
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
-<br>
+<br />
 Note that unless <code>--incompatible\_repo\_env\_ignores\_action\_env</code> is true, all <code>name=value</code> pairs will be available to repository rules.
 
 Tags:
@@ -11616,7 +11616,7 @@ Tags:
 
 `--features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones. See also --host\_features
+The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones. See also --host\_features
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -11644,7 +11644,7 @@ Tags:
 
 `--host_features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones.
+The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -12724,7 +12724,7 @@ Tags:
 
 `--[no]incompatible_compact_repo_mapping_manifest` default: "false"
 
-If enabled, the <binary>.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
+If enabled, the `<binary>`.repo\_mapping file emits a module extension's repo mapping only once instead of once for each repo generated by the extension that contributes runfiles.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -12762,7 +12762,7 @@ Options that let the user configure the intended output, affecting its value, as
 
 Specifies the set of environment variables available to actions with target configuration. Variables can be either specified by <code>name</code>, in which case
 the value will be taken from the invocation environment, by the <code>name=value</code> pair which sets the value independent of the invocation environment, or by <code>=name</code>, which unsets the variable of that name. This option can be used multiple times; for options given for the same variable, the latest wins, options for different variables accumulate.
-<br>
+<br />
 Note that unless <code>--incompatible\_repo\_env\_ignores\_action\_env</code> is true, all <code>name=value</code> pairs will be available to repository rules.
 
 Tags:
@@ -13057,7 +13057,7 @@ Tags:
 
 `--features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones. See also --host\_features
+The given features will be enabled or disabled by default for targets built in the target configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones. See also --host\_features
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -13113,7 +13113,7 @@ Tags:
 
 `--host_features=<a string>` multiple uses are accumulated
 
-The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -<feature> will disable the feature. Negative features always override positive ones.
+The given features will be enabled or disabled by default for targets built in the exec configuration. Specifying -`<feature>` will disable the feature. Negative features always override positive ones.
 
 Tags:
 [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
