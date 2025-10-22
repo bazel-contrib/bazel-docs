@@ -98,7 +98,7 @@ If this option is set to false, visibility checks are demoted to warnings.
 The default value of this option is true, so that by default, visibility
 checking is done.
 
-#### `--output_filter={regex}`
+#### `--output_filter=\{regex\}`
 
 The `--output_filter` option will only show build and compilation
 warnings for targets that match the regular expression. If a target does not
@@ -118,7 +118,7 @@ Here are some typical values for this option:
 
 These options control which options Bazel will pass to other tools.
 
-#### `--copt={cc-option}`
+#### `--copt=\{cc-option\}`
 
 This option takes an argument which is to be passed to the compiler.
 The argument will be passed to the compiler whenever it is invoked
@@ -147,35 +147,35 @@ Similarly, compiler options that only have an
 effect at link time (such as `-l`) should be specified in
 `--linkopt`, not in `--copt`.
 
-#### `--host_copt={cc-option}`
+#### `--host_copt=\{cc-option\}`
 
 This option takes an argument which is to be passed to the compiler for source files
 that are compiled in the exec configuration. This is analogous to
 the [`--copt`](#copt) option, but applies only to the
 exec configuration.
 
-#### `--host_conlyopt={cc-option}`
+#### `--host_conlyopt=\{cc-option\}`
 
 This option takes an argument which is to be passed to the compiler for C source files
 that are compiled in the exec configuration. This is analogous to
 the [`--conlyopt`](#cconlyopt) option, but applies only
 to the exec configuration.
 
-#### `--host_cxxopt={cc-option}`
+#### `--host_cxxopt=\{cc-option\}`
 
 This option takes an argument which is to be passed to the compiler for C++ source files
 that are compiled in the exec configuration. This is analogous to
 the [`--cxxopt`](#cxxopt) option, but applies only to the
 exec configuration.
 
-#### `--host_linkopt={linker-option}`
+#### `--host_linkopt=\{linker-option\}`
 
 This option takes an argument which is to be passed to the linker for source files
 that are compiled in the exec configuration. This is analogous to
 the [`--linkopt`](#linkopt) option, but applies only to
 the exec configuration.
 
-#### `--conlyopt={cc-option}`
+#### `--conlyopt=\{cc-option\}`
 
 This option takes an argument which is to be passed to the compiler when compiling C source files.
 
@@ -186,7 +186,7 @@ not to C++ compilation or linking. So you can pass C-specific options
 Note: copts parameters listed in specific cc_library or cc_binary build rules
 are placed on the compiler command line _after_ these options.
 
-#### `--cxxopt={cc-option}`
+#### `--cxxopt=\{cc-option\}`
 
 This option takes an argument which is to be passed to the compiler when
 compiling C++ source files.
@@ -204,7 +204,7 @@ For example:
 Note: copts parameters listed in specific cc_library or cc_binary build rules
 are placed on the compiler command line _after_ these options.
 
-#### `--linkopt={linker-option}`
+#### `--linkopt=\{linker-option\}`
 
 This option takes an argument which is to be passed to the compiler when linking.
 
@@ -254,7 +254,7 @@ pass `--stripopt=--strip-all` and explicitly build the
 `--stripopt`, this applies a strip action after the final binary is
 linked rather than including stripping in all of the build's link actions.
 
-#### `--stripopt={strip-option}`
+#### `--stripopt=\{strip-option\}`
 
 This is an additional option to pass to the `strip` command when generating
 a [`*.stripped` binary](/reference/be/c-cpp#cc_binary_implicit_outputs). The default
@@ -263,7 +263,7 @@ is `-S -p`. This option can be used multiple times.
 Note: `--stripopt` does not apply to the stripping of the main
 binary with `[--strip](#flag--strip)=(always|sometimes)`.
 
-#### `--fdo_instrument={profile-output-dir}`
+#### `--fdo_instrument=\{profile-output-dir\}`
 
 The `--fdo_instrument` option enables the generation of
 FDO (feedback directed optimization) profile output when the
@@ -273,7 +273,7 @@ containing profile information for each .o file.
 
 Once the profile data tree has been generated, the profile tree
 should be zipped up, and provided to the
-`--fdo_optimize={profile-zip}`
+`--fdo_optimize=\{profile-zip\}`
 Bazel option to enable the FDO-optimized compilation.
 
 For the LLVM compiler the argument is also the directory under which the raw LLVM profile
@@ -282,7 +282,7 @@ data file(s) is dumped. For example:
 
 The options `--fdo_instrument` and `--fdo_optimize` cannot be used at the same time.
 
-#### `--fdo_optimize={profile-zip}`
+#### `--fdo_optimize=\{profile-zip\}`
 
 The `--fdo_optimize` option enables the use of the
 per-object file profile information to perform FDO (feedback
@@ -303,7 +303,7 @@ extension.
 
 The options `--fdo_instrument` and `--fdo_optimize` cannot be used at the same time.
 
-#### `--java_language_version={version}`
+#### `--java_language_version=\{version\}`
 
 This option specifies the version of Java sources. For example:
 
@@ -316,12 +316,12 @@ Default value is 11. -->
 Possible values are: 8, 9, 10, 11, 17, and 21 and may be extended by
 registering custom Java toolchains using `default_java_toolchain`.
 
-#### `--tool_java_language_version={version}`
+#### `--tool_java_language_version=\{version\}`
 
 The Java language version used to build tools that are executed during a build.
 Default value is 11.
 
-#### `--java_runtime_version={version}`
+#### `--java_runtime_version=\{version\}`
 
 This option specifies the version of JVM to use to execute the code and run the tests. For
 example:
@@ -333,17 +333,17 @@ example:
 downloads JDK 11 from a remote repository and run the Java application using it.
 
 Default value is `local_jdk`.
-Possible values are: `local_jdk`, `local_jdk_{version}`,
+Possible values are: `local_jdk`, `local_jdk_\{version\}`,
 `remotejdk_11`, `remotejdk_17`, and `remotejdk_21`.
 You can extend the values by registering custom JVM using either
 `local_java_repository` or `remote_java_repository` repository rules.
 
-#### `--tool_java_runtime_version={version}`
+#### `--tool_java_runtime_version=\{version\}`
 
 The version of JVM used to execute tools that are needed during a build.
 Default value is `remotejdk_11`.
 
-#### `--jvmopt={jvm-option}`
+#### `--jvmopt=\{jvm-option\}`
 
 This option allows option arguments to be passed to the Java VM. It can be used
 with one big argument, or multiple times with individual arguments. For example:
@@ -355,7 +355,7 @@ with one big argument, or multiple times with individual arguments. For example:
 will use the server VM for launching all Java binaries and set the
 startup heap size for the VM to 256 MB.
 
-#### `--javacopt={javac-option}`
+#### `--javacopt=\{javac-option\}`
 
 This option allows option arguments to be passed to javac. It can be used
 with one big argument, or multiple times with individual arguments. For example:
@@ -421,7 +421,7 @@ needing to do a full rebuild _every_ time.
   Debugging information will not be generated in `opt` mode
   unless you also pass `--copt -g`.
 
-#### `--cpu={cpu}`
+#### `--cpu=\{cpu\}`
 
 This option specifies the target CPU architecture to be used for
 the compilation of binaries during the build.
@@ -430,7 +430,7 @@ Note: A particular combination of crosstool version, compiler version,
 and target CPU is allowed only if it has been specified in the currently
 used CROSSTOOL file.
 
-#### `--action_env={VAR=VALUE}`
+#### `--action_env=\{VAR=VALUE\}`
 
 Specifies the set of environment variables available during the execution of all actions.
 Variables can be either specified by name, in which case the value will be taken from the
@@ -440,14 +440,14 @@ invocation environment.
 This `--action_env` flag can be specified multiple times. If a value is assigned to the same
 variable across multiple `--action_env` flags, the latest assignment wins.
 
-#### `--experimental_action_listener={label}`
+#### `--experimental_action_listener=\{label\}`
 
 Warning: Extra actions are deprecated. Use
 [aspects](/extending/aspects)
 instead.
 
 The `experimental_action_listener` option instructs Bazel to use
-details from the [`action_listener`](/reference/be/extra-actions#action_listener) rule specified by {label} to
+details from the [`action_listener`](/reference/be/extra-actions#action_listener) rule specified by \{label\} to
 insert [`extra_actions`](/reference/be/extra-actions#extra_action) into the build graph.
 
 #### `--[no]experimental_extra_action_top_level_only` {:experimental-extra-action-top-level-only}
@@ -459,7 +459,7 @@ If this option is set to true, extra actions specified by the
 [ `--experimental_action_listener`](#experimental-action-listener) command
 line option will only be scheduled for top level targets.
 
-#### `--experimental_extra_action_filter={regex}`
+#### `--experimental_extra_action_filter=\{regex\}`
 
 Warning: Extra actions are deprecated. Use
 [aspects](/extending/aspects) instead.
@@ -483,7 +483,7 @@ to only apply to actions of which the owner's label contains '/bar/':
   --experimental_extra_action_filter=.*/bar/.*
 ```
 
-#### `--host_cpu={cpu}`
+#### `--host_cpu=\{cpu\}`
 
 This option specifies the name of the CPU architecture that should be
 used to build host tools.
@@ -546,7 +546,7 @@ to the C++ compiler. If an option contains a `,` it has to be quoted like so
 adds the `-O0` and the `-fprofile-arcs` options to the command
 line of the C++ compiler for all `.cc` files in `//foo/` except `file.cc`.
 
-#### `--dynamic_mode={mode}`
+#### `--dynamic_mode=\{mode\}`
 
 Determines whether C++ binaries will be linked dynamically, interacting with
 the [linkstatic attribute](/reference/be/c-cpp#cc_binary.linkstatic) on build rules.
@@ -597,32 +597,32 @@ Selects whether to perform resource shrinking for android_binary rules. Sets the
 [shrink_resources attribute](/reference/be/android#android_binary.shrink_resources) on
 android_binary rules; see the documentation for that rule for further details. Defaults to off.
 
-#### `--custom_malloc={malloc-library-target}`
+#### `--custom_malloc=\{malloc-library-target\}`
 
 When specified, always use the given malloc implementation, overriding all
 `malloc="target"` attributes, including in those targets that use the
 default (by not specifying any `malloc`).
 
-#### `--crosstool_top={label}`
+#### `--crosstool_top=\{label\}`
 
 This option specifies the location of the crosstool compiler suite
 to be used for all C++ compilation during a build. Bazel will look in that
 location for a CROSSTOOL file and uses that to automatically determine
 settings for `--compiler`.
 
-#### `--host_crosstool_top={label}`
+#### `--host_crosstool_top=\{label\}`
 
 If not specified, Bazel uses the value of `--crosstool_top` to compile
 code in the exec configuration, such as tools run during the build. The main purpose of this flag
 is to enable cross-compilation.
 
-#### `--apple_crosstool_top={label}`
+#### `--apple_crosstool_top=\{label\}`
 
 The crosstool to use for compiling C/C++ rules in the transitive `deps` of
 objc_*, ios__*, and apple_* rules. For those targets, this flag overwrites
 `--crosstool_top`.
 
-#### `--compiler={version}`
+#### `--compiler=\{version\}`
 
 This option specifies the C/C++ compiler version (such as `gcc-4.1.0`)
 to be used for the compilation of binaries during the build. If you want to
@@ -632,7 +632,7 @@ specifying this flag.
 Note: Only certain combinations of crosstool version, compiler version,
 and target CPU are allowed.
 
-#### `--android_sdk={label}`
+#### `--android_sdk=\{label\}`
 
 Deprecated. This shouldn't be directly specified.
 
@@ -643,19 +643,19 @@ rule.
 The Android SDK will be automatically selected if an `android_sdk_repository`
 rule is defined in the WORKSPACE file.
 
-#### `--java_toolchain={label}`
+#### `--java_toolchain=\{label\}`
 
 No-op. Kept only for backwards compatibility.
 
-#### `--host_java_toolchain={label}`
+#### `--host_java_toolchain=\{label\}`
 
 No-op. Kept only for backwards compatibility.
 
-#### `--javabase=({label})`
+#### `--javabase=(\{label\})`
 
 No-op. Kept only for backwards compatibility.
 
-#### `--host_javabase={label}`
+#### `--host_javabase=\{label\}`
 
 No-op. Kept only for backwards compatibility.
 
@@ -1281,7 +1281,7 @@ Please see background information on [Platforms](/extending/platforms) and [Tool
 The labels of the platform rules describing the target platforms for the
 current command.
 
-#### `--host_platform={label}`
+#### `--host_platform=\{label\}`
 
 The label of a platform rule that describes the host system.
 
@@ -1301,7 +1301,7 @@ can be specified by exact target, or as a target pattern. These toolchains will
 be considered before those declared in MODULE.bazel files by
 [register_toolchains()](/rules/lib/globals/module#register_toolchains).
 
-#### `--toolchain_resolution_debug={regex}`
+#### `--toolchain_resolution_debug=\{regex\}`
 
 Print debug information while finding toolchains if the toolchain type matches
 the regex. Multiple regexes can be separated by commas. The regex can be
