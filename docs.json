@@ -246,6 +246,7 @@
                       "contribute/search",
                       "contribute/statemachine-guide",
                       "contribute/docs",
+                      "contribute/bazel-online-flow",
                       "contribute/docs-style-guide",
                       "contribute/design-documents",
                       "contribute/release-notes"
