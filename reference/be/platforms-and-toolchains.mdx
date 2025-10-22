@@ -229,7 +229,7 @@ is a parent platform:
     `remote_execution_properties` will be used.
 
 2. If `remote_execution_property` is set on the child platform, and contains the
-    literal string {PARENT\_REMOTE\_EXECUTION\_PROPERTIES}, that macro will be
+    literal string `{PARENT\_REMOTE\_EXECUTION\_PROPERTIES}`, that macro will be
     replaced with the contents of the parent's `remote_execution_property` attribute.
 
 3. If `remote_execution_property` is set on the child platform, and does not contain
@@ -360,7 +360,7 @@ cpu architecture to be both `@platforms//cpu:x86_64` and
 
 `exec_properties`
 
-Dictionary: String -> String; [nonconfigurable](common-definitions.html#configurable-attributes); default is `{}`
+Dictionary: `String -> String`; [nonconfigurable](common-definitions.html#configurable-attributes); default is `{}`
 
  A map of strings that affect the way actions are executed remotely. Bazel makes no attempt
  to interpret this, it is treated as opaque data that's forwarded via the Platform field of
@@ -407,7 +407,7 @@ String; [nonconfigurable](common-definitions.html#configurable-attributes); defa
  A string used to configure a remote execution platform. Actual builds make no attempt to
  interpret this, it is treated as opaque data that can be used by a specific SpawnRunner.
  This can include data from the parent platform's "remote\_execution\_properties" attribute,
- by using the macro "{PARENT\_REMOTE\_EXECUTION\_PROPERTIES}". See the section on
+ by using the macro `"{PARENT\_REMOTE\_EXECUTION\_PROPERTIES}"`. See the section on
  [Platform Inheritance](#platform_inheritance) for details.
 
  `required_settings`

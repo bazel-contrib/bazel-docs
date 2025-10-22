@@ -111,7 +111,7 @@ ParameterDescription`actions`[actions](../builtins/actions.html);
  `system_includes`[sequence](../core/list.html);
  default is `[]`
 
- Search paths for header files referenced by angle brackets, e.g. #include <foo/bar/header.h>. They can be either relative to the exec root or absolute. Usually passed with -isystem. Propagated to dependents transitively.
+ Search paths for header files referenced by angle brackets, e.g. #include &lt;foo/bar/header.h&gt;. They can be either relative to the exec root or absolute. Usually passed with -isystem. Propagated to dependents transitively.
  `framework_includes`[sequence](../core/list.html);
  default is `[]`
 
@@ -360,7 +360,7 @@ ParameterDescription`headers`
  `system_includes`
  default is `unbound`
 
- Set of search paths for header files referenced by angle brackets, i.e. #include <foo/bar/header.h>. They can be either relative to the exec root or absolute. Usually passed with -isystem
+ Set of search paths for header files referenced by angle brackets, i.e. #include &lt;foo/bar/header.h&gt;. They can be either relative to the exec root or absolute. Usually passed with -isystem
  `includes`
  default is `unbound`
 
@@ -719,7 +719,7 @@ ParameterDescription`actions`[actions](../builtins/actions.html);
 ## create\_lto\_compilation\_context
 
 ```
-LtoCompilationContext cc_common.create_lto_compilation_context(*, objects={})
+LtoCompilationContext cc_common.create_lto_compilation_context(*, objects=`{}`)
 ```
 
  Create LTO compilation context
@@ -728,7 +728,7 @@ LtoCompilationContext cc_common.create_lto_compilation_context(*, objects={})
 ### Parameters
 
 ParameterDescription`objects`[dict](../core/dict.html);
- default is `{}`
+ default is `\{\}`
 
  map of full object to index object
 
@@ -739,7 +739,7 @@ ParameterDescription`objects`[dict](../core/dict.html);
 None cc_common.do_not_use_tools_cpp_compiler_present
 ```
 
- Do not use this field, its only purpose is to help with migration from config\_setting.values{'compiler') to config\_settings.flag\_values{'@bazel\_tools//tools/cpp:compiler'}
+ Do not use this field, its only purpose is to help with migration from config\_setting.values`{'compiler')` to config\_settings.flag\_values`{'@bazel_tools//tools/cpp:compiler'}`
 
 
 
@@ -861,7 +861,7 @@ ParameterDescription`feature_configuration`[FeatureConfiguration](../builtins/Fe
 ## link
 
 ```
-CcLinkingOutputs cc_common.link(*, actions, name, feature_configuration, cc_toolchain, language='c++', output_type='executable', link_deps_statically=True, compilation_outputs=None, linking_contexts=[], user_link_flags=[], stamp=0, additional_inputs=[], additional_outputs=[], variables_extension={})
+CcLinkingOutputs cc_common.link(*, actions, name, feature_configuration, cc_toolchain, language='c++', output_type='executable', link_deps_statically=True, compilation_outputs=None, linking_contexts=[], user_link_flags=[], stamp=0, additional_inputs=[], additional_outputs=[], variables_extension=`{}`)
 ```
 
  Should be used for C++ transitive linking.
@@ -923,7 +923,7 @@ ParameterDescription`actions`[actions](../builtins/actions.html);
 
  For additional outputs to the linking action, e.g.: map files.
  `variables_extension`[dict](../core/dict.html);
- default is `{}`
+ default is `\{\}`
 
  Additional variables to pass to the toolchain configuration when create link command line.
 
