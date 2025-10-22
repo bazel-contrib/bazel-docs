@@ -1308,7 +1308,7 @@ Whether to manually output a heap dump if an OOM is thrown (including manual OOM
 Tags:
 [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
-`--jvm_heap_histogram_internal_object_pattern=<a valid Java regular expression>` default: "jdk\\.internal\\.vm\\.Filler.+"
+`--jvm_heap_histogram_internal_object_pattern=<a valid Java regular expression>` default: "jdk[-|*].internal[-|*].vm[-|*].Filler.+"
 
 Regex for overriding the matching logic for JDK21+ JVM heap memory collection. We are relying on volatile internal G1 GC implemenation details to get a clean memory metric, this option allows us to adapt to changes in that internal implementation without having to wait for a binary release. Passed to JDK Matcher.find()
 
@@ -1952,7 +1952,7 @@ Tags:
 
 `--[no]line_terminator_null` default: "false"
 
-Whether each format is terminated with \\0 instead of newline.
+Whether each format is terminated with [-|*]0 instead of newline.
 
 Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -2905,7 +2905,7 @@ Tags:
 
 `--fdo_optimize=<a string>` default: see description
 
-Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` \- you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
+Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` [-|*] you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -3441,7 +3441,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -4068,7 +4068,7 @@ Tags:
 
 `--jobs=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` \[ `-j`\] default: "auto"
 
-The number of concurrent jobs to run. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". Values must be between 1 and 5000. Values above 2500 may cause memory issues. "auto" calculates a reasonable default based on host resources.
+The number of concurrent jobs to run. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". Values must be between 1 and 5000. Values above 2500 may cause memory issues. "auto" calculates a reasonable default based on host resources.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
@@ -4082,7 +4082,7 @@ Tags:
 
 `--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -4159,14 +4159,14 @@ Tags:
 
 `--worker_max_instances=<[name=]value, where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-How many instances of each kind of persistent worker may be launched if you use the 'worker' strategy. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
+How many instances of each kind of persistent worker may be launched if you use the 'worker' strategy. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--worker_max_multiplex_instances=<[name=]value, where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-How many WorkRequests a multiplex worker process may receive in parallel if you use the 'worker' strategy with --worker_multiplex. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
+How many WorkRequests a multiplex worker process may receive in parallel if you use the 'worker' strategy with --worker_multiplex. May be specified as \[name=value\] to give a different value per mnemonic. The limit is based on worker keys, which are differentiated based on mnemonic, but also on startup flags and environment, so there can in some cases be more workers per mnemonic than this flag specifies. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". 'auto' calculates a reasonable default based on machine capacity. "=value" sets a default for unspecified mnemonics.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -4406,7 +4406,7 @@ Tags:
 
 `--local_test_jobs=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-The max number of local test jobs to run concurrently. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". 0 means local resources will limit the number of local test jobs to run concurrently instead. Setting this greater than the value for --jobs is ineffectual.
+The max number of local test jobs to run concurrently. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". 0 means local resources will limit the number of local test jobs to run concurrently instead. Setting this greater than the value for --jobs is ineffectual.
 
 Tags:
 [`execution`](#effect_tag_EXECUTION)
@@ -4464,7 +4464,7 @@ Tags:
 
 `--local_cpu_resources=<an integer, or "HOST_CPUS", optionally followed by [-|*]&lt;float&gt;.>` default: "HOST_CPUS"
 
-Explicitly set the total number of local CPU cores available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST_CPUS", optionally followed by \[-\| _\]&lt;float&gt; (eg. HOST_CPUS_.5 to use half the available CPU cores). By default, ("HOST_CPUS"), Bazel will query system configuration to estimate the number of CPU cores available.
+Explicitly set the total number of local CPU cores available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST_CPUS", optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. HOST_CPUS_.5 to use half the available CPU cores). By default, ("HOST_CPUS"), Bazel will query system configuration to estimate the number of CPU cores available.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -4478,14 +4478,14 @@ Tags:
 
 `--local_ram_resources=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]&lt;float&gt;.>` default: "HOST_RAM\*.67"
 
-Explicitly set the total amount of local host RAM (in MB) available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST_RAM", optionally followed by \[-\| _\]&lt;float&gt; (eg. HOST_RAM_.5 to use half the available RAM). By default, ("HOST_RAM\*.67"), Bazel will query system configuration to estimate the amount of RAM available and will use 67% of it.
+Explicitly set the total amount of local host RAM (in MB) available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST_RAM", optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. HOST_RAM_.5 to use half the available RAM). By default, ("HOST_RAM\*.67"), Bazel will query system configuration to estimate the amount of RAM available and will use 67% of it.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--local_resources=<a named double, 'name=value', where value is an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` multiple uses are accumulated
 
-Set the number of resources available to Bazel. Takes in an assignment to a float or HOST_RAM/HOST_CPUS, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:<resource name>:&lt;amount&gt;" format. Overrides resources specified by --local_{cpu\|ram\|extra}_resources.
+Set the number of resources available to Bazel. Takes in an assignment to a float or HOST_RAM/HOST_CPUS, optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. memory=HOST_RAM_.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:<resource name>:&lt;amount&gt;" format. Overrides resources specified by --local_{cpu|ram|extra}_resources.
 
 Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -5898,7 +5898,7 @@ Tags:
 
 `--fdo_optimize=<a string>` default: see description
 
-Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` \- you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
+Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` [-|*] you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -6434,7 +6434,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -6992,7 +6992,7 @@ Tags:
 
 `--[no]line_terminator_null` default: "false"
 
-Whether each format is terminated with \\0 instead of newline.
+Whether each format is terminated with [-|*]0 instead of newline.
 
 Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -7006,7 +7006,7 @@ Tags:
 
 `--output=<a string>` default: "label"
 
-The format in which the cquery results should be printed. Allowed values for cquery are: label, label_kind, textproto, transitions, proto, streamed_proto, jsonproto. If you select 'transitions', you also have to specify the --transitions=(lite\|full) option.
+The format in which the cquery results should be printed. Allowed values for cquery are: label, label_kind, textproto, transitions, proto, streamed_proto, jsonproto. If you select 'transitions', you also have to specify the --transitions=(lite[-|*]full) option.
 
 Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -7973,7 +7973,7 @@ Tags:
 
 `--fdo_optimize=<a string>` default: see description
 
-Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` \- you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
+Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` [-|*] you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -8509,7 +8509,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -8972,7 +8972,7 @@ Tags:
 
 `--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -9845,7 +9845,7 @@ Tags:
 
 `--fdo_optimize=<a string>` default: see description
 
-Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` \- you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
+Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` [-|*] you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -10381,7 +10381,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 
@@ -10931,7 +10931,7 @@ Tags:
 
 `--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -11435,7 +11435,7 @@ Tags:
 
 `--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -11865,7 +11865,7 @@ Tags:
 
 `--[no]line_terminator_null` default: "false"
 
-Whether each format is terminated with \\0 instead of newline.
+Whether each format is terminated with [-|*]0 instead of newline.
 
 Tags:
 [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -11890,7 +11890,7 @@ Tags:
 
 `--null`
 
-Whether each format is terminated with \\0 instead of newline.
+Whether each format is terminated with [-|*]0 instead of newline.
 
 Expands to:
 
@@ -12177,7 +12177,7 @@ Tags:
 
 `--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 
-Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-\| _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
+Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation (\[-[-|*] _\]&lt;float&gt;) eg. "auto", "HOST_CPUS_.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
 Tags:
 [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
@@ -13036,7 +13036,7 @@ Tags:
 
 `--fdo_optimize=<a string>` default: see description
 
-Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` \- you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
+Use FDO profile information to optimize compilation. Specify the name of a zip file containing a .gcda file tree, an afdo file containing an auto profile, or an LLVM profile file. This flag also accepts files specified as labels (e.g. `//foo/bar:file.afdo` [-|*] you may need to add an `exports_files` directive to the corresponding package) and labels pointing to `fdo_profile` targets. This flag will be superseded by the `fdo_profile` rule.
 
 Tags:
 [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
@@ -13572,7 +13572,7 @@ Tags:
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 
-Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-\| _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
+Override the default resources amount for tests. The expected format is &lt;resource&gt;=&lt;value&gt;. If a single positive number is specified as &lt;value&gt; it will override the default resources for all test sizes. If 4 comma-separated numbers are specified, they will override the resource amount for respectively the small, medium, large, enormous test sizes. Values can also be HOST_RAM/HOST_CPU, optionally followed by \[-[-|*] _\]&lt;float&gt; (eg. memory=HOST_RAM_.1,HOST_RAM\*.2,HOST_RAM\*.3,HOST_RAM\*.4). The default test resources specified by this flag are overridden by explicit resources specified in tags.
 
 `--[no]experimental_android_use_parallel_dex2oat` default: "false"
 

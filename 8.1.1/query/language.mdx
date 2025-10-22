@@ -657,9 +657,9 @@ S to any target in E.
 The resulting graphs are ordered according to the dependency relation.
 See the section on [graph order](#graph-order) for more details.
 
-table
-  tr
-    td
+<table>
+  <tr>
+    <td>
       <figure>
         <img src="/docs/images/somepath1.svg" alt="Somepath" />
         <figcaption><code>somepath(S1 + S2, E)</code>, one possible result.</figcaption>
@@ -693,7 +693,7 @@ table
     <td>
       <figure>
         <img src="/docs/images/somepath2.svg" alt="Somepath" />
-        figcaptioncodesomepath(S1 + S2, E)</code>, another possible result.</figcaption>
+        <figcaption><code>somepath(S1 + S2, E)</code>, another possible result.</figcaption>
       </figure>
 {/* digraph somepath2 {
   graph [size="4,4"]
@@ -719,10 +719,10 @@ table
   n10 -> n11;
 } */}
     </td>
-    td
-      figure
-        <img src="/docs/images/allpaths.svg" alt="Allpaths">
-        figcaptioncodeallpaths(S1 + S2, E)</code></figcaption>
+    <td>
+      <figure>
+        <img src="/docs/images/allpaths.svg" alt="Allpaths" />
+        <figcaption><code>allpaths(S1 + S2, E)</code></figcaption>
       </figure>
 {/* digraph allpaths {
   graph [size="4,4"]
@@ -768,15 +768,15 @@ parameter specifies what kind of target to match.
 For example, the kinds for the four targets defined by the `BUILD` file
 (for package `p`) shown below are illustrated in the table:
 
-table
-  tr
-    thCode</th>
-    thTarget</th>
-    thKind</th>
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Target</th>
+    <th>Kind</th>
   </tr>
-  tr
+  <tr>
     <td rowspan="4">
-      pre
+      <pre>
         genrule(
             name = "a",
             srcs = ["a.in"],
@@ -785,20 +785,20 @@ table
         )
       </pre>
     </td>
-    tdcode//p:a</code></td>
-    tdgenrule rule</td>
+    <td><code>//p:a</code></td>
+    <td>genrule rule</td>
   </tr>
-  tr
-    tdcode//p:a.in</code></td>
-    tdsource file</td>
+  <tr>
+    <td><code>//p:a.in</code></td>
+    <td>source file</td>
   </tr>
-  tr
-    tdcode//p:a.out</code></td>
-    tdgenerated file</td>
+  <tr>
+    <td><code>//p:a.out</code></td>
+    <td>generated file</td>
   </tr>
-  tr
-    tdcode//p:BUILD</code></td>
-    tdsource file</td>
+  <tr>
+    <td><code>//p:BUILD</code></td>
+    <td>source file</td>
   </tr>
 </table>
 
@@ -989,9 +989,9 @@ can depend on without violating visibility restrictions.
 expr ::= labels(word, `expr`)
 ```
 
-The `labels(<attr_name>, inputs)`
+The `labels(`attr_name`, inputs)`
 operator returns the set of targets specified in the
-attribute <attr_name> of type "label" or "list of label" in
+attribute `attr_name` of type "label" or "list of label" in
 some rule in set inputs.
 
 For example, `labels(srcs, //foo)` returns the set of
@@ -1077,7 +1077,7 @@ the set of `BUILD` files that transitively depend on these path fragments. For i
 return the `//foo:BUILD` target, as well as the targets for any other `BUILD` files that
 load `//bar:file.bzl`
 
-The scope of the scoperbuildfiles</scope> operator is the universe specified by the
+The scope of the scope of the `rbuildfiles` operator is the universe specified by the
 `--universe_scope` flag. Files that do not correspond directly to `BUILD` files and `.bzl`
 files do not affect the results. For instance, source files (like `foo.cc`) are ignored,
 even if they are explicitly mentioned in the `BUILD` file. Symlinks, however, are respected, so that
@@ -1314,12 +1314,12 @@ For example, the graph on the left yields the outputs on the right
 when `--output minrank` and `--output maxrank`
 are specified, respectively.
 
-table
-  tr
+<table>
+  <tr>
     td<img src="/docs/images/out-ranked.svg" alt="Out ranked">
     </td>
-    td
-      pre
+    <td>
+      <pre>
       minrank
 
       0 //c:c
@@ -1329,8 +1329,8 @@ table
       2 //a:a.cc
       </pre>
     </td>
-    td
-      pre
+    <td>
+      <pre>
       maxrank
 
       0 //c:c
