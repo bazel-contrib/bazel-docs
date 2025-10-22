@@ -66,7 +66,7 @@ The code in package `b` uses code in package `c`, and thus `a` transitively
 depends on `c`.
 
 
-### Comparing a/BUILD and <strong>b</strong>/BUILD
+### Comparing a/BUILD and **b**/BUILD
 
 ![Declared dependency graph with arrows connecting a, b, and c](/docs/images/a_b_c.svg)
 
@@ -175,18 +175,11 @@ As you look over our `BUILD` files, you might notice that some `data` labels
 refer to directories. These labels end with `/.` or `/` like these examples,
 which you should not use:
 
-<p><span class="compare-worse">Not recommended</span> —
-  <code>data = ["//data/regression:unittest/."]</code>
-</p>
+**Not recommended** — `data = ["//data/regression:unittest/."]`
 
-<p><span class="compare-worse">Not recommended</span> —
-  <code>data = ["testdata/."]</code>
-</p>
+**Not recommended** — `data = ["testdata/."]`
 
-<p><span class="compare-worse">Not recommended</span> —
-  <code>data = ["testdata/"]</code>
-</p>
-
+**Not recommended** — `data = ["testdata/"]`
 
 This seems convenient, particularly for tests because it allows a test to
 use all the data files in the directory.
@@ -202,10 +195,7 @@ enumerate the set of files contained within them, either explicitly or using the
 [`glob()`](/reference/be/functions#glob) function. (Use `**` to force the
 `glob()` to be recursive.)
 
-
-<p><span class="compare-better">Recommended</span> —
-  <code>data = glob(["testdata/**"])</code>
-</p>
+**Recommended** — `data = glob(["testdata/**"])`
 
 Unfortunately, there are some scenarios where directory labels must be used.
 For example, if the `testdata` directory contains files whose names don't

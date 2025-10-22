@@ -132,71 +132,12 @@ defined in the build. The toolchain specification allows for more granular
 constraints for use directly within the Starlark rule that govern feature
 support and expansion. These are:
 
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Constraint</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td>`requires = [
-   feature_set (features = [
-       'feature-name-1',
-       'feature-name-2'
-   ]),
-]`
-   </td>
-   <td>Feature-level. The feature is supported only if the specified required
-       features are enabled. For example, when a feature is only supported in
-       certain build modes (<code>opt</code>, <code>dbg</code>, or
-       <code>fastbuild</code>). If `requires` contains multiple `feature_set`s
-       the feature is supported if any of the `feature_set`s is satisfied
-       (when all specified features are enabled).
-   </td>
-  </tr>
-  <tr>
-   <td>`implies = ['feature']`
-   </td>
-   <td><p>Feature-level. This feature implies the specified feature(s).
-       Enabling a feature also implicitly enables all features implied by it
-       (that is, it functions recursively).</p>
-       <p>Also provides the ability to factor common subsets of functionality out of
-       a set of features, such as the common parts of sanitizers. Implied
-       features cannot be disabled.</p>
-   </td>
-  </tr>
-  <tr>
-   <td>`provides = ['feature']`
-   </td>
-   <td><p>Feature-level. Indicates that this feature is one of several mutually
-       exclusive alternate features. For example, all of the sanitizers could
-       specify <code>provides = ["sanitizer"]</code>.</p>
-       <p>This improves error handling by listing the alternatives if the user asks
-       for two or more mutually exclusive features at once.</p>
-   </td>
-  </tr>
-  <tr>
-   <td>`with_features = [
-  with_feature_set(
-    features = ['feature-1'],
-    not_features = ['feature-2'],
-  ),
-]`
-   </td>
-   <td>Flag set-level. A feature can specify multiple flag sets with multiple.
-     When <code>with_features</code> is specified, the flag set will only expand
-     to the build command if there is at least one <code>with_feature_set</code>
-     for which all of the features in the specified <code>features</code> set
-     are enabled, and all the features specified in <code>not_features</code>
-     set are disabled.
-     If <code>with_features</code> is not specified, the flag set will be
-     applied unconditionally for every action specified.
-   </td>
-  </tr>
-</table>
+| Constraint | Description |
+|------------|-------------|
+| `requires = [feature_set (features = ['feature-name-1', 'feature-name-2']),]` | Feature-level. The feature is supported only if the specified required features are enabled. For example, when a feature is only supported in certain build modes (`opt`, `dbg`, or `fastbuild`). If `requires` contains multiple `feature_set`s the feature is supported if any of the `feature_set`s is satisfied (when all specified features are enabled). |
+| `implies = ['feature']` | Feature-level. This feature implies the specified feature(s). Enabling a feature also implicitly enables all features implied by it (that is, it functions recursively). Also provides the ability to factor common subsets of functionality out of a set of features, such as the common parts of sanitizers. Implied features cannot be disabled. |
+| `provides = ['feature']` | Feature-level. Indicates that this feature is one of several mutually exclusive alternate features. For example, all of the sanitizers could specify `provides = ["sanitizer"]`. This improves error handling by listing the alternatives if the user asks for two or more mutually exclusive features at once. |
+| `with_features = [with_feature_set(features = ['feature-1'], not_features = ['feature-2'],),]` | Flag set-level. A feature can specify multiple flag sets with multiple. When `with_features` is specified, the flag set will only expand to the build command if there is at least one `with_feature_set` for which all of the features in the specified `features` set are enabled, and all the features specified in `not_features` set are disabled. If `with_features` is not specified, the flag set will be applied unconditionally for every action specified. |
 
 ## Actions
 
@@ -221,145 +162,43 @@ that implements an action (such as `CppCompileAction`). In particular, the
 
 ### Assembler actions
 
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Action</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>preprocess-assemble</code>
-   </td>
-   <td>Assemble with preprocessing. Typically for <code>.S</code> files.
-   </td>
-  </tr>
-  <tr>
-   <td><code>assemble</code>
-   </td>
-   <td>Assemble without preprocessing. Typically for <code>.s</code> files.
-   </td>
-  </tr>
-</table>
+| Action | Description |
+|--------|-------------|
+| `preprocess-assemble` | Assemble with preprocessing. Typically for `.S` files. |
+| `assemble` | Assemble without preprocessing. Typically for `.s` files. |
 
 ### Compiler actions
 
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Action</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>cc-flags-make-variable</code>
-   </td>
-   <td>Propagates <code>CC_FLAGS</code> to genrules.
-   </td>
-  </tr>
-  <tr>
-   <td><code>c-compile</code>
-   </td>
-   <td>Compile as C.
-   </td>
-  </tr>
-  <tr>
-   <td><code>c++-compile</code>
-   </td>
-   <td>Compile as C++.
-   </td>
-  </tr>
-  <tr>
-   <td><code>c++-header-parsing</code>
-   </td>
-   <td>Run the compiler's parser on a header file to ensure that the header is
-     self-contained, as it will otherwise produce compilation errors. Applies
-     only to toolchains that support modules.
-   </td>
-  </tr>
-</table>
+| Action | Description |
+|--------|-------------|
+| `cc-flags-make-variable` | Propagates `CC_FLAGS` to genrules. |
+| `c-compile` | Compile as C. |
+| `c++-compile` | Compile as C++. |
+| `c++-header-parsing` | Run the compiler's parser on a header file to ensure that the header is self-contained, as it will otherwise produce compilation errors. Applies only to toolchains that support modules. |
 
 ### Link actions
 
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Action</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>c++-link-dynamic-library</code>
-   </td>
-   <td>Link a shared library containing all of its dependencies.
-   </td>
-  </tr>
-  <tr>
-   <td><code>c++-link-nodeps-dynamic-library</code>
-   </td>
-   <td>Link a shared library only containing <code>cc_library</code> sources.
-   </td>
-  </tr>
-  <tr>
-   <td><code>c++-link-executable</code>
-   </td>
-   <td>Link a final ready-to-run library.
-   </td>
-  </tr>
-</table>
+| Action | Description |
+|--------|-------------|
+| `c++-link-dynamic-library` | Link a shared library containing all of its dependencies. |
+| `c++-link-nodeps-dynamic-library` | Link a shared library only containing `cc_library` sources. |
+| `c++-link-executable` | Link a final ready-to-run library. |
 
 ### AR actions
 
 AR actions assemble object files into archive libraries (`.a` files) via `ar`
 and encode some semantics into the name.
 
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Action</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>c++-link-static-library</code>
-   </td>
-   <td>Create a static library (archive).
-   </td>
-  </tr>
-</table>
+| Action | Description |
+|--------|-------------|
+| `c++-link-static-library` | Create a static library (archive). |
 
 ### LTO actions
 
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Action</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>lto-backend</code>
-   </td>
-   <td>ThinLTO action compiling bitcodes into native objects.
-   </td>
-  </tr>
-  <tr>
-   <td><code>lto-index</code>
-   </td>
-   <td>ThinLTO action generating global index.
-   </td>
-  </tr>
-</table>
+| Action | Description |
+|--------|-------------|
+| `lto-backend` | ThinLTO action compiling bitcodes into native objects. |
+| `lto-index` | ThinLTO action generating global index. |
 
 ## Using action_config
 
@@ -370,46 +209,12 @@ execution.
 
 The `action_config()` constructor has the following parameters:
 
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Attribute</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>action_name</code>
-   </td>
-    <td>The Bazel action to which this action corresponds.
-        Bazel uses this attribute to discover per-action tool and execution
-        requirements.
-   </td>
-  </tr>
-  <tr>
-   <td><code>tools</code>
-   </td>
-   <td>The executable to invoke. The tool applied to the action will be the
-       first tool in the list with a feature set that matches the feature
-       configuration. Default value must be provided.
-   </td>
-  </tr>
-  <tr>
-   <td><code>flag_sets</code>
-   </td>
-   <td>A list of flags that applies to a group of actions. Same as for a
-       feature.
-   </td>
-  </tr>
-  <tr>
-   <td><code>env_sets</code>
-   </td>
-   <td>A list of environment constraints that applies to a group of actions.
-       Same as for a feature.
-   </td>
-  </tr>
-</table>
+| Attribute | Description |
+|-----------|-------------|
+| `action_name` | The Bazel action to which this action corresponds. Bazel uses this attribute to discover per-action tool and execution requirements. |
+| `tools` | The executable to invoke. The tool applied to the action will be the first tool in the list with a feature set that matches the feature configuration. Default value must be provided. |
+| `flag_sets` | A list of flags that applies to a group of actions. Same as for a feature. |
+| `env_sets` | A list of environment constraints that applies to a group of actions. Same as for a feature. |
 
 An `action_config` can require and imply other features and
 <code>action_config</code>s as dictated by the
@@ -432,30 +237,10 @@ are clearly described in a single place in the toolchain.
 An`action_config` can specify a set of tools via its `tools` parameter.
 The `tool()` constructor takes in the following parameters:
 
-
-<table>
-  <col width="300">
-  <col width="600">
-  <tr>
-   <td><strong>Field</strong>
-   </td>
-   <td><strong>Description</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>path</code>
-   </td>
-   <td>Path to the tool in question (relative to the current location).
-   </td>
-  </tr>
-  <tr>
-   <td><code>with_features</code>
-   </td>
-   <td>A list of feature sets out of which at least one must be satisfied
-       for this tool to apply.
-   </td>
-  </tr>
-</table>
+| Field | Description |
+|-------|-------------|
+| `path` | Path to the tool in question (relative to the current location). |
+| `with_features` | A list of feature sets out of which at least one must be satisfied for this tool to apply. |
 
 For a given `action_config`, only a single `tool` applies
 its tool path and execution requirements to the Bazel action. A tool is selected

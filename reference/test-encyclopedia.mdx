@@ -104,54 +104,22 @@ amount of time to run to completion. The time limit for a test is based on its
 [`timeout`](/reference/be/common-definitions#test.timeout) attribute according
 to the following table:
 
-<table>
-  <tr>
-    <th>timeout</th>
-    <th>Time Limit (sec.)</th>
-  </tr>
-  <tr>
-    <td>short</td>
-    <td>60</td>
-  </tr>
-  <tr>
-    <td>moderate</td>
-    <td>300</td>
-  </tr>
-  <tr>
-    <td>long</td>
-    <td>900</td>
-  </tr>
-  <tr>
-    <td>eternal</td>
-    <td>3600</td>
-  </tr>
-</table>
+| timeout | Time Limit (sec.) |
+|---------|-------------------|
+| short | 60 |
+| moderate | 300 |
+| long | 900 |
+| eternal | 3600 |
 
 Tests which do not explicitly specify a timeout have one implied based on the
 test's [`size`](/reference/be/common-definitions#test.size) as follows:
 
-<table>
-  <tr>
-    <th>size</th>
-    <th>Implied timeout label</th>
-  </tr>
-  <tr>
-    <td>small</td>
-    <td>short</td>
-  </tr>
-  <tr>
-    <td>medium</td>
-    <td>moderate</td>
-  </tr>
-  <tr>
-    <td>large</td>
-    <td>long</td>
-  </tr>
-  <tr>
-    <td>enormous</td>
-    <td>eternal</td>
-  </tr>
-</table>
+| size | Implied timeout label |
+|------|-----------------------|
+| small | short |
+| medium | moderate |
+| large | long |
+| enormous | eternal |
 
 A "large" test with no explicit timeout setting will be allotted 900
 seconds to run. A "medium" test with a timeout of "short" will be allotted 60
@@ -176,28 +144,12 @@ sets the test timeout to two minutes.
 
 There is also a recommended lower bound for test timeouts as follows:
 
-<table>
-  <tr>
-    <th>timeout</th>
-    <th>Time minimum (sec.)</th>
-  </tr>
-  <tr>
-    <td>short</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td>moderate</td>
-    <td>30</td>
-  </tr>
-  <tr>
-    <td>long</td>
-    <td>300</td>
-  </tr>
-  <tr>
-    <td>eternal</td>
-    <td>900</td>
-  </tr>
-</table>
+| timeout | Time minimum (sec.) |
+|---------|---------------------|
+| short | 0 |
+| moderate | 30 |
+| long | 300 |
+| eternal | 900 |
 
 For example, if a "moderate" test completes in 5.5s, consider setting `timeout =
 "short"` or `size = "small"`. Using the bazel `--test_verbose_timeout_warnings`

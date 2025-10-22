@@ -96,14 +96,17 @@ package `my/app/testdata` (each of these two directories has its own
 are two ways (one wrong, one correct) to refer to this file within
 `//my/app:BUILD`:
 
-<p><span class="compare-worse">Wrong</span> — <code>testdata</code> is a different package, so you can't use a relative path</p>
-<pre class="prettyprint">testdata/testdepot.zip```
+**Wrong** — `testdata` is a different package, so you can't use a relative path
 
-<p><span class="compare-better">Correct</span> — refer to <code>testdata</code> with its full path</p>
+```
+testdata/testdepot.zip
+```
 
-<pre class="prettyprint">//my/app/testdata:testdepot.zip```
+**Correct** — refer to `testdata` with its full path
 
-
+```
+//my/app/testdata:testdepot.zip
+```
 
 Labels starting with `@@//` are references to the main
 repository, which will still work even from external repositories.
@@ -143,11 +146,9 @@ forbidden) nor contain multiple consecutive slashes as path separators
 (for example, `foo//bar`). Similarly, up-level references (`..`) and
 current-directory references (`./`) are forbidden.
 
-<p><span class="compare-worse">Wrong</span> — Do not use <code>..</code> to refer to files in other packages</p>
+**Wrong** — Do not use `..` to refer to files in other packages
 
-<p><span class="compare-better">Correct</span> — Use
-  <code>//{{ "<var>" }}package-name{{ "</var>" }}:{{ "<var>" }}filename{{ "</var>" }}</code></p>
-
+**Correct** — Use `//package-name:filename`
 
 While it is common to use `/` in the name of a file target, avoid the use of
 `/` in the names of rules. Especially when the shorthand form of a label is
@@ -244,16 +245,12 @@ This directed acyclic graph over targets is called the _target graph_ or
 _build dependency graph_, and is the domain over which the
 [Bazel Query tool](/query/guide) operates.
 
-<table class="columns">
-  <tr>
-    <td><a class="button button-with-icon button-primary"
-           href="/concepts/build-ref">
-        <span class="material-icons" aria-hidden="true">arrow_back</span>Targets</a>
-    </td>
-    <td><a class="button button-with-icon button-primary"
-           href="/concepts/build-files">
-        BUILD files<span class="material-icons icon-after" aria-hidden="true">arrow_forward</span></a>
-    </td>
-  </tr>
-</table>
+<Columns cols={2}>
+  <Card title="← Targets" href="/concepts/build-ref" icon="arrow-left">
+    Learn about build targets
+  </Card>
+  <Card title="BUILD files →" href="/concepts/build-files" icon="arrow-right">
+    Understand BUILD file syntax
+  </Card>
+</Columns>
 
