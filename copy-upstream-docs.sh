@@ -25,15 +25,8 @@ LOCAL_FILES="
 BROKEN_FILES="
 community/roadmaps-configurability.mdx
 community/users.mdx
-concepts/build-files.mdx
-concepts/dependencies.mdx
-concepts/labels.mdx
 configure/integrate-cpp.mdx
-configure/windows.mdx
-contribute/search.mdx
-docs/cc-toolchain-config-reference.mdx
 docs/mobile-install.mdx
-docs/user-manual.mdx
 extending/config.mdx
 extending/legacy-macros.mdx
 extending/macros.mdx
@@ -47,9 +40,6 @@ external/vendor.mdx
 install/windows.mdx
 query/guide.mdx
 query/language.mdx
-query/quickstart.mdx
-reference/flag-cheatsheet.mdx
-reference/test-encyclopedia.mdx
 reference/command-line-reference.mdx
 reference/be/be-nav.mdx
 reference/be/functions.mdx
@@ -59,7 +49,6 @@ remote/ci.mdx
 remote/dynamic.mdx
 rules/language.mdx
 rules/windows.mdx
-run/build.mdx
 start/go.mdx
 tutorials/ccp-toolchain-config.mdx
 "
