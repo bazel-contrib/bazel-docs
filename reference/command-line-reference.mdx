@@ -4464,6 +4464,10 @@ Tags:
 
 `--local_cpu_resources=<an integer, or "HOST_CPUS", optionally followed by [-|*]<float>.>` default: "HOST\_CPUS"
 
+<Warning>
+**Deprecated:** This flag is deprecated. Use [`--local_resources`](#flag--local_resources) instead with `cpu=<value>` syntax (e.g., `--local_resources=cpu=HOST_CPUS*.5`).
+</Warning>
+
 Explicitly set the total number of local CPU cores available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST\_CPUS", optionally followed by \[-\| _\]<float> (eg. HOST\_CPUS_.5 to use half the available CPU cores). By default, ("HOST\_CPUS"), Bazel will query system configuration to estimate the number of CPU cores available.
 
 Tags:
@@ -4477,6 +4481,10 @@ Tags:
 [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--local_ram_resources=<an integer number of MBs, or "HOST_RAM", optionally followed by [-|*]<float>.>` default: "HOST\_RAM\*.67"
+
+<Warning>
+**Deprecated:** This flag is deprecated. Use [`--local_resources`](#flag--local_resources) instead with `memory=<value>` syntax (e.g., `--local_resources=memory=HOST_RAM*.5`).
+</Warning>
 
 Explicitly set the total amount of local host RAM (in MB) available to Bazel to spend on build actions executed locally. Takes an integer, or "HOST\_RAM", optionally followed by \[-\| _\]<float> (eg. HOST\_RAM_.5 to use half the available RAM). By default, ("HOST\_RAM\*.67"), Bazel will query system configuration to estimate the amount of RAM available and will use 67% of it.
 
