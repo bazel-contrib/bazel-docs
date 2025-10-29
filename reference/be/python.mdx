@@ -45,7 +45,7 @@ The order of this list can matter because it affects the order that information
 from dependencies is merged in, which can be relevant depending on the ordering
 mode of depsets that are merged.
 
-\\* {obj}\`PyInfo.site\_packages\_symlinks\` uses topological ordering.
+\\* {obj}\`PyInfo.venv\_symlinks\` uses default ordering.
 
 See {obj}\`PyInfo\` for more information about the ordering of its depsets and
 how its fields are merged.
@@ -333,7 +333,7 @@ The order of this list can matter because it affects the order that information
 from dependencies is merged in, which can be relevant depending on the ordering
 mode of depsets that are merged.
 
-\\* {obj}\`PyInfo.site\_packages\_symlinks\` uses topological ordering.
+\\* {obj}\`PyInfo.venv\_symlinks\` uses default ordering.
 
 See {obj}\`PyInfo\` for more information about the ordering of its depsets and
 how its fields are merged.
@@ -385,19 +385,21 @@ under the binary's venv site-packages directory that should be made available (i
 namespace packages\](
 https://packaging.python.org/en/latest/guides/packaging-namespace-packages/#native-namespace-packages).
 However, the \*content\* of the files cannot be taken into account, merely their
-presence or absense. Stated another way: \[pkgutil-style namespace packages\](
+presence or absence. Stated another way: \[pkgutil-style namespace packages\](
 https://packaging.python.org/en/latest/guides/packaging-namespace-packages/#pkgutil-style-namespace-packages)
 won't be understood as namespace packages; they'll be seen as regular packages. This will
 likely lead to conflicts with other targets that contribute to the namespace.
 
-:::{tip}
-This attributes populates {obj}\`PyInfo.site\_packages\_symlinks\`, which is
-a topologically ordered depset. This means dependencies closer and earlier
-to a consumer have precedence. See {obj}\`PyInfo.site\_packages\_symlinks\` for
-more information.
+:::{seealso}
+This attributes populates {obj}\`PyInfo.venv\_symlinks\`.
 :::
 
 :::{versionadded} 1.4.0
+:::
+:::{versionchanged} 1.5.0
+The topological order has been removed and if 2 different versions of the same PyPI
+package are observed, the behaviour has no guarantees except that it is deterministic
+and that only one package version will be included.
 :::
  `imports`
 
@@ -535,7 +537,7 @@ The order of this list can matter because it affects the order that information
 from dependencies is merged in, which can be relevant depending on the ordering
 mode of depsets that are merged.
 
-\\* {obj}\`PyInfo.site\_packages\_symlinks\` uses topological ordering.
+\\* {obj}\`PyInfo.venv\_symlinks\` uses default ordering.
 
 See {obj}\`PyInfo\` for more information about the ordering of its depsets and
 how its fields are merged.
@@ -778,7 +780,7 @@ be avoided if possible.
 [View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_runtime_rule.bzl)
 
 ```
-py_runtime(name, abi_flags, aspect_hints, bootstrap_template, compatible_with, coverage_tool, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, files, implementation_name, interpreter, interpreter_path, interpreter_version_info, package_metadata, pyc_tag, python_version, restricted_to, site_init_template, stage2_bootstrap_template, stub_shebang, tags, target_compatible_with, testonly, toolchains, visibility, zip_main_template)
+py_runtime(name, abi_flags, aspect_hints, bootstrap_template, compatible_with, coverage_tool, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, files, implementation_name, interpreter, interpreter_path, interpreter_version_info, package_metadata, pyc_tag, python_version, restricted_to, site_init_template, stage2_bootstrap_template, stub_shebang, supports_build_time_venv, tags, target_compatible_with, testonly, toolchains, visibility, zip_main_template)
 ```
 
  Represents a Python runtime used to execute Python code.
@@ -971,6 +973,16 @@ See https://github.com/bazelbuild/bazel/issues/8685 for
 motivation.
 
 Does not apply to Windows.
+ `supports_build_time_venv`
+
+Boolean; default is `True`
+
+ Whether this runtime supports virtualenvs created at build time.
+
+See {obj}\`PyRuntimeInfo.supports\_build\_time\_venv\` for docs.
+
+:::{versionadded} 1.5.0
+:::
  `zip_main_template`
 
 [Label](/concepts/labels); default is `"@rules_python//python/private:zip_main_template"`

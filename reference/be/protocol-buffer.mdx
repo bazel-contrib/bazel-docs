@@ -166,7 +166,7 @@ rules to generate Java code for.
 [View rule sourceopen\_in\_new](https://github.com/protocolbuffers/protobuf/tree/v29.0-rc2/bazel/private/proto_library_rule.bzl)
 
 ```
-proto_library(name, deps, srcs, data, allow_exports, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, exports, features, import_prefix, licenses, option_deps, package_metadata, restricted_to, strip_import_prefix, tags, target_compatible_with, testonly, toolchains, visibility)
+proto_library(name, deps, srcs, data, allow_exports, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, exports, extension_declarations, features, import_prefix, licenses, option_deps, package_metadata, restricted_to, strip_import_prefix, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
 Use `proto_library` to define libraries of protocol buffers which
@@ -238,6 +238,12 @@ It's an error if you use "import public" but do not list the corresponding libra
 in the exports attribute.
 Note that you have list the library both in deps and exports since not all
 lang\_proto\_library implementations have been changed yet.
+ `extension_declarations`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ List of files containing extension declarations. This attribute is only allowed
+for use with MessageSet.
  `import_prefix`
 
 String; default is `""`
