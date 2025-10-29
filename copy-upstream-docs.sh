@@ -35,6 +35,7 @@ docs/user-manual.mdx
 extending/config.mdx
 external/mod-command.mdx
 external/registry.mdx
+external/migration_tool.mdx
 query/language.mdx
 query/quickstart.mdx
 reference/be/functions.mdx
@@ -49,6 +50,7 @@ rules/lib/repo/git.mdx
 rules/lib/repo/http.mdx
 rules/lib/repo/local.mdx
 rules/lib/repo/utils.mdx
+rules/lib/globals/module.mdx
 rules/windows.mdx
 run/build.mdx
 "
