@@ -1,0 +1,20 @@
+name: Generate Documentation on PR
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: generate-docs-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  generate-docs:
+    # Skip Dependabot PRs (handled by auto-merge workflow)
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    uses: ./.github/workflows/pull-fresh-upstream.yml
+    secrets: inherit

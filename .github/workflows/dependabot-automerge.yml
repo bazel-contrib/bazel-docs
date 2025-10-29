@@ -13,27 +13,45 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  automerge:
-    timeout-minutes: 10
-    # Only run on Dependabot PRs targeting main
+  check-dependabot:
+    timeout-minutes: 5
     if: >
       github.event.pull_request.user.login == 'dependabot[bot]' &&
       github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
+    outputs:
+      should_process: ${{ steps.check.outputs.should_process }}
     steps:
       - name: Fetch Dependabot metadata
         id: meta
         uses: dependabot/fetch-metadata@v2
         with:
-          # already added to repo
           github-token: ${{ secrets.GH_AUTOMERGE_PAT }}
 
-      # Gate: only submodules updates; only the "upstream" submodule path
+      - name: Check if upstream submodule
+        id: check
+        run: |
+          if [[ "${{ steps.meta.outputs.package-ecosystem }}" == "submodules" ]] && \
+             [[ "${{ steps.meta.outputs.dependency-names }}" == *"upstream"* ]]; then
+            echo "should_process=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_process=false" >> $GITHUB_OUTPUT
+          fi
+
+  # Generate docs after dependabot updates the submodule
+  generate-docs:
+    needs: check-dependabot
+    if: needs.check-dependabot.outputs.should_process == 'true'
+    uses: ./.github/workflows/pull-fresh-upstream.yml
+    secrets: inherit
+
+  # Auto-merge after docs are generated
+  enable-automerge:
+    needs: [check-dependabot, generate-docs]
+    if: needs.check-dependabot.outputs.should_process == 'true'
+    runs-on: ubuntu-latest
+    steps:
       - name: Enable auto-merge (squash)
-        if: >
-          steps.meta.outputs.package-ecosystem == 'submodules' &&
-          contains(steps.meta.outputs.dependency-names, 'upstream')
         run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
         env:
-          # already added to repo
           GH_TOKEN: ${{ secrets.GH_AUTOMERGE_PAT }}

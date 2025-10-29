@@ -1,29 +1,16 @@
-name: Pull Bazel Build Upstream Repo
+name: Pull Fresh Upstream Documentation
 
 on:
-  pull_request:
-    # synchronize means it will trigger when a PR is updated
-    types: [opened, synchronize, reopened]
-  push:
-    branches: [main]
-    # called from trigger-from-bazel-repo.yml
-  workflow_dispatch:
-    inputs:
-        bazelCommitHash:
-          description: 'The commit hash of the Bazel repo to use'
-          type: string
-          default: origin/main
-  # allow debugging by triggering from the GitHub UI
   workflow_call:
     inputs:
-        bazelCommitHash:
-          description: 'The commit hash of the Bazel repo to use'
-          type: string
-          default: origin/main
+      bazelCommitHash:
+        description: 'Specific Bazel commit hash to checkout (optional)'
+        required: false
+        type: string
+        default: ''
+
 jobs:
   pull-fresh-upstream:
-    # don't run on dependabot PRs
-    if: ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,120 +18,120 @@ jobs:
       pull-requests: write
     
     steps:
-        - uses: actions/checkout@v5
-          with:
-            # Don't auto-init submodules
-            submodules: false
-            # this token is necessary so that further down this YAML file,
-            # the action can push into the repo, and trigger the required check (this workflow)
-            # otherwise, the default GITHUB_TOKEN cannot be considered a 'synchronize' event
-            token: ${{ secrets.GH_AUTOMERGE_PAT }}
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          # Don't auto-init submodules
+          submodules: false
+          # This token is necessary so that the action can push into the repo
+          # and trigger the required check (this workflow). Otherwise, the 
+          # default GITHUB_TOKEN cannot be considered a 'synchronize' event
+          token: ${{ secrets.GH_AUTOMERGE_PAT }}
 
-        - name: Checkout submodules
-          run: git submodule update --init -- upstream
+      - name: Checkout submodules
+        run: git submodule update --init -- upstream
 
-        - name: Checkout commit of Bazel Build submodule
-          if: ${{ inputs.bazelCommitHash != '' }}
-          working-directory: upstream
-          run: git checkout '${{ inputs.bazelCommitHash }}'
+      - name: Checkout commit of Bazel Build submodule
+        if: ${{ inputs.bazelCommitHash != '' }}
+        working-directory: upstream
+        run: git checkout '${{ inputs.bazelCommitHash }}'
 
-        - name: Setup Bazel
-          uses: bazel-contrib/setup-bazel@0.15.0
-          with:
-            bazelisk-cache: true
-            repository-cache: true
+      - name: Setup Bazel
+        uses: bazel-contrib/setup-bazel@0.15.0
+        with:
+          bazelisk-cache: true
+          repository-cache: true
        
-        - name: Build reference documentation
-          working-directory: upstream
-          run: >
-            bazel build
-            --config=docs
-            --build_metadata=ROLE=DOCS
-            --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_ORG_API_KEY }}
-            --bes_results_url=https://app.buildbuddy.io/invocation/
-            --bes_backend=grpcs://remote.buildbuddy.io
-            --remote_cache=grpcs://remote.buildbuddy.io
-            --remote_timeout=10m
-            //src/main/java/com/google/devtools/build/lib:gen_reference_docs
+      - name: Build reference documentation
+        working-directory: upstream
+        run: >
+          bazel build
+          --config=docs
+          --build_metadata=ROLE=DOCS
+          --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_ORG_API_KEY }}
+          --bes_results_url=https://app.buildbuddy.io/invocation/
+          --bes_backend=grpcs://remote.buildbuddy.io
+          --remote_cache=grpcs://remote.buildbuddy.io
+          --remote_timeout=10m
+          //src/main/java/com/google/devtools/build/lib:gen_reference_docs
 
-        # Upload reference-docs.zip as an artifact for debugging purposes
-        - name: Upload reference docs artifact
-          if: ${{ github.ref != 'refs/heads/main' }}
-          uses: actions/upload-artifact@v4.6.2
-          with:
-            name: reference-docs
-            path: upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip
-            retention-days: 7
+      - name: Upload reference docs artifact
+        if: ${{ github.ref != 'refs/heads/main' }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: reference-docs
+          path: upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip
+          retention-days: 7
 
-        - name: Clean up mdx files
-          run: ./cleanup-mdx.sh
+      - name: Clean up mdx files
+        run: ./cleanup-mdx.sh
 
-        - name: Set up Go
-          uses: actions/setup-go@v6
-          with:
-            go-version: '1.25.2'
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.25.2'
 
-        - name: Initialize Go module for converter
-          run: |
-            cd html2md_converter
-            go mod init html-to-md-converter
-            go get github.com/JohannesKaufmann/html-to-markdown
+      - name: Initialize Go module for converter
+        run: |
+          cd html2md_converter
+          go mod init html-to-md-converter
+          go get github.com/JohannesKaufmann/html-to-markdown
 
-        - name: Build HTML to Markdown converter
-          run: |
-            cd html2md_converter
-            go build -o html-to-md main.go
+      - name: Build HTML to Markdown converter
+        run: |
+          cd html2md_converter
+          go build -o html-to-md main.go
             
-        - name: Convert reference documentation HTML to Markdown
-          run: |
-            # Extract and convert HTML reference docs to Markdown
-            ./html2md_converter/html-to-md \
-              -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
-              -output reference-docs-temp
+      - name: Convert reference documentation HTML to Markdown
+        run: |
+          # Extract and convert HTML reference docs to Markdown
+          ./html2md_converter/html-to-md \
+            -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
+            -output reference-docs-temp
 
-        - name: Transform upstream docs to mdx
-          run: ./copy-upstream-docs.sh
+      - name: Transform upstream docs to mdx
+        run: ./copy-upstream-docs.sh
 
-        - name: Create versioned navigation
-          run: ./docs.json.update.sh
+      - name: Create versioned navigation
+        run: ./docs.json.update.sh
     
-        - name: Clean up temporary files
-          run: rm -rf reference-docs-temp
+      - name: Clean up temporary files
+        run: rm -rf reference-docs-temp
 
-        - name: Configure Git
-          run: |
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-        - name: Commit and push changes
-          env:
-            BRANCH: ${{ github.head_ref || github.ref_name }}
-          run: |
-            set -euo pipefail
-            
-            # Ensure local branch points at origin/BRANCH and is checked out
-            git fetch origin "$BRANCH"
-            git switch -C "$BRANCH" "origin/$BRANCH"
-            git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
-            
-            # Rebase onto latest remote before creating a new commit
-            git pull
-            
-            # Clean up any modified content in submodules (keep pointer changes)
-            # This handles the "modified content" issue while preserving submodule commit updates
-            cd upstream
-            git reset --hard
-            git clean -fd
-            cd ..
-            
-            if [[ -n "$(git status --porcelain)" ]]; then
-              echo "Changes detected, committing and pushing..."
-              git add -A
-              git commit -m $'chore: update documentation from upstream Bazel repo\n\nGenerated by GitHub Actions workflow from upstream Bazel repository.\nThis commit includes transformed documentation files ready for Mintlify deployment.'
-            
-              # Push back to the same branch
-              git push origin "HEAD:$BRANCH"
-              echo "Changes committed and pushed successfully"
-            else
-              echo "No changes detected, skipping commit"
-            fi
+      - name: Commit and push changes
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          
+          # Ensure local branch points at origin/BRANCH and is checked out
+          git fetch origin "$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+          
+          # Rebase onto latest remote before creating a new commit
+          git pull
+          
+          # Clean up any modified content in submodules (keep pointer changes)
+          # This handles the "modified content" issue while preserving submodule commit updates
+          cd upstream
+          git reset --hard
+          git clean -fd
+          cd ..
+          
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "Changes detected, committing and pushing..."
+            git add -A
+            git commit -m $'chore: update documentation from upstream Bazel repo\n\nGenerated by GitHub Actions workflow from upstream Bazel repository.\nThis commit includes transformed documentation files ready for Mintlify deployment.'
+          
+            # Push back to the same branch
+            git push origin "HEAD:$BRANCH"
+            echo "Changes committed and pushed successfully"
+          else
+            echo "No changes detected, skipping commit"
+          fi
