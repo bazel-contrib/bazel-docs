@@ -42,7 +42,7 @@ jobs:
   generate-docs:
     needs: check-dependabot
     if: needs.check-dependabot.outputs.should_process == 'true'
-    uses: ./.github/workflows/pull-fresh-upstream.yml
+    uses: ./.github/workflows/pull-from-bazel-build.yml
     secrets: inherit
 
   # Auto-merge after docs are generated

@@ -16,5 +16,5 @@ jobs:
   generate-docs:
     # Skip Dependabot PRs (handled by auto-merge workflow)
     if: github.event.pull_request.user.login != 'dependabot[bot]'
-    uses: ./.github/workflows/pull-fresh-upstream.yml
+    uses: ./.github/workflows/pull-from-bazel-build.yml
     secrets: inherit
