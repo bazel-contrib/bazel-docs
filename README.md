@@ -10,11 +10,18 @@ This tool implements the improvements outlined in [Bazel Docs: Why It Might Be T
 
 https://bazel.online
 
+## Repository Structure
+
+- **Root directory**: Contains the latest (HEAD) documentation
+- **versions/ directory**: Contains version-specific documentation (e.g., `versions/8.4.2/`, `versions/7.7.0/`)
+- **upstream/**: Git submodule containing the source Bazel repository
+
 ## How it works
 
-1. Clones the Devsite source from `bazel.build/docs` using a git submodule.
+1. Clones the Devsite source from `bazel.build/docs` using a git submodule (`upstream/`).
 2. Transforms Devsite frontmatter and directory layout into MDX format.
-3. Hosted on Mintlify
+3. Version-specific docs are organized in the `versions/` directory.
+4. Hosted on Mintlify at https://bazel.online
 
 ## Usage
 

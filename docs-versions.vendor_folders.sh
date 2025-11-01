@@ -16,7 +16,7 @@ VERSIONS=$(jq -r '.[] | select(. != "HEAD")' docs-versions.json)
 
 # Check which folders are missing and create them
 for VERSION in $VERSIONS; do
-    if [ ! -d "$VERSION" ]; then
+    if [ ! -d "versions/$VERSION" ]; then
         echo "Creating missing folder for version: $VERSION"
         
         # Change to upstream directory and reset to the specific tag
@@ -29,12 +29,12 @@ for VERSION in $VERSIONS; do
         cd ..
         
         # Run the copy-upstream-docs.sh script with the version directory
-        echo "Copying docs to directory: $VERSION"
-        ./copy-upstream-docs.sh "$VERSION"
+        echo "Copying docs to directory: versions/$VERSION"
+        ./copy-upstream-docs.sh "versions/$VERSION"
         
         echo "Successfully created docs for version $VERSION"
     else
-        echo "Folder $VERSION already exists, skipping"
+        echo "Folder versions/$VERSION already exists, skipping"
     fi
 done
 
