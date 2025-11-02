@@ -62,7 +62,7 @@ run ./cleanup-mdx.sh
 run ./run-in-go-docker.sh "$REFERENCE_ZIP"
   
 
-run ./copy-upstream-docs.sh
+run ./docs-versions.vendor_folders.sh
 run ./docs.json.update.sh
 
 rm -rf "reference-docs-temp"

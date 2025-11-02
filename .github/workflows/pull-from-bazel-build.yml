@@ -88,8 +88,8 @@ jobs:
             -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
             -output reference-docs-temp
 
-      - name: Transform upstream docs to mdx
-        run: ./copy-upstream-docs.sh
+      - name: Create or update versioned docs folders
+        run: ./docs-versions.vendor_folders.sh
 
       - name: Create versioned navigation
         run: ./docs.json.update.sh

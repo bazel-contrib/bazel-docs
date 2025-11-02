@@ -5,12 +5,16 @@
 
 set -e
 
-FILE=${1}
-INPUT_FILE="upstream/site/en/${FILE}/_index.yaml"
+# $1 is the source topic (e.g., "community/experts")
+# $2 is the destination base path (e.g., "my-docs/community/experts")
+SOURCE_TOPIC=${1}
+DEST_BASE_PATH=${2}
+
+INPUT_FILE="upstream/site/en/${SOURCE_TOPIC}/_index.yaml"
 TITLE=$(yq eval '.landing_page.rows[0].heading' "$INPUT_FILE")
 DESCRIPTION=$(yq eval '.landing_page.rows[0].description' "$INPUT_FILE")
 
-OUTPUT_FILE="${FILE}.mdx"
+OUTPUT_FILE="${DEST_BASE_PATH}.mdx"
 # Create the MDX file
 cat > "$OUTPUT_FILE" << EOF
 ---

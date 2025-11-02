@@ -99,12 +99,17 @@ transform_docs() {
 transform_docs "$UPSTREAM_SITE"
 transform_docs "$REFERENCE_DOCS"
 
-echo "Converting community YAML files to MDX..."
-./convert-community-to-mdx.sh "$DEST_DIR/community/experts"
-./convert-community-to-mdx.sh "$DEST_DIR/community/partners"
+# Conditionally run the community page generation if the source files exist.
+if [ -f "upstream/site/en/community/experts/_index.yaml" ]; then
+  echo "Converting community YAML files to MDX..."
+  ./convert-community-to-mdx.sh "community/experts" "$DEST_DIR/community/experts"
+  ./convert-community-to-mdx.sh "community/partners" "$DEST_DIR/community/partners"
 
-echo "Copying community images..."
-mkdir -p "$DEST_DIR/community/images"
-cp upstream/site/en/community/images/* "$DEST_DIR/community/images/"
+  echo "Copying community images..."
+  mkdir -p "$DEST_DIR/community/images"
+  cp upstream/site/en/community/images/* "$DEST_DIR/community/images/"
+else
+  echo "Skipping community file conversion (source not found)."
+fi
 
 echo "Done copying docs."
