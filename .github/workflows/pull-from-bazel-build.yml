@@ -30,7 +30,12 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init -- upstream
 
-      - name: Update submodule to latest master for HEAD build
+      - name: Get submodule commit hash
+        working-directory: upstream
+        run: git rev-parse HEAD
+
+      - name: Update submodule to latest master (if no specific commit is given)
+        if: ${{ inputs.bazelCommitHash == '' }}
         working-directory: upstream
         run: |
           git fetch origin master
