@@ -61,7 +61,13 @@ run ./cleanup-mdx.sh
 
 run ./run-in-go-docker.sh "$REFERENCE_ZIP"
   
+# Ensure the submodule is on the latest master for the HEAD build
+run cd upstream && git checkout master && git pull && cd ..
 
+# First, generate the HEAD docs in the root directory
+run ./copy-upstream-docs.sh
+
+# Then, generate all the versioned docs
 run ./docs-versions.vendor_folders.sh
 run ./docs.json.update.sh
 

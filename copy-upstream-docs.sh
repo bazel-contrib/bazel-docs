@@ -101,29 +101,92 @@ transform_docs() {
 transform_docs "$UPSTREAM_SITE"
 transform_docs "$REFERENCE_DOCS"
 
-echo "Converting community YAML files to MDX..."
+# --- Community Page Conversion Logic ---
 
-# Check and convert experts
-if [ -f "upstream/site/en/community/experts/_index.yaml" ]; then
-    echo "Converting experts..."
-    ./convert-community-to-mdx.sh "community/experts" "$DEST_DIR/community/experts"
+function convert_community_page() {
+    local topic="$1" # e.g., "experts" or "partners"
+    local source_yaml="upstream/site/en/community/${topic}/_index.yaml"
+    local output_mdx="${DEST_DIR}/community/${topic}.mdx"
+
+    if [ ! -f "$source_yaml" ]; then
+        echo "Skipping ${topic} conversion (source YAML not found)."
+        return
+    fi
+
+    echo "Converting ${topic} YAML to MDX..."
+
+    local title=$(yq eval '.landing_page.rows[0].heading' "$source_yaml")
+    local description=$(yq eval '.landing_page.rows[0].description' "$source_yaml")
+
+    # Ensure destination directory exists
+    mkdir -p "$(dirname "$output_mdx")"
+
+    # Create the MDX file
+    cat > "$output_mdx" << EOF
+---
+title: '$title'
+---
+
+$description
+
+---
+
+EOF
+
+    # Process each item and group into pairs, appending to the new file
+    yq eval '.landing_page.rows[0].items[]' "$source_yaml" -o json | jq -r '
+    "<Card title=\"" + .heading + "\" img=\"" + (.image_path) + "\"" +
+    (if .buttons then " cta=\"" + .buttons[0].label + "\" href=\"" + .buttons[0].path + "\"" else "" end) +
+    ">" + "\n" +
+    .description + "\n" +
+    "</Card>"
+    ' | awk '
+    BEGIN { 
+        count = 0
+        card_buffer = ""
+    }
+    /^<Card/ {
+        if (count % 2 == 0) {
+            print "<Columns cols={2}>"
+        }
+        card_buffer = $0
+        next
+    }
+    {
+        card_buffer = card_buffer "\n" $0
+    }
+    /^<\/Card>/ {
+        print card_buffer
+        count++
+        if (count % 2 == 0) {
+            print "</Columns>"
+            print ""
+        }
+        card_buffer = ""
+    }
+    END {
+        if (count % 2 == 1) {
+            print "</Columns>"
+            print ""
+        }
+    }' >> "$output_mdx"
+
+    echo "Generated $output_mdx"
+}
+
+# Run conversion for community pages and copy images
+if [ -d "upstream/site/en/community" ]; then
+    convert_community_page "experts"
+    convert_community_page "partners"
+
+    if [ -d "upstream/site/en/community/images" ]; then
+        echo "Copying community images..."
+        mkdir -p "$DEST_DIR/community/images"
+        cp upstream/site/en/community/images/* "$DEST_DIR/community/images/"
+    fi
 else
-    echo "Skipping experts conversion (file not found)."
+    echo "Skipping community conversion (directory not found)."
 fi
 
-# Check and convert partners
-if [ -f "upstream/site/en/community/partners/_index.yaml" ]; then
-    echo "Converting partners..."
-    ./convert-community-to-mdx.sh "community/partners" "$DEST_DIR/community/partners"
-else
-    echo "Skipping partners conversion (file not found)."
-fi
-
-# Copy images only if at least one of the community files existed
-if [ -f "upstream/site/en/community/experts/_index.yaml" ] || [ -f "upstream/site/en/community/partners/_index.yaml" ]; then
-    echo "Copying community images..."
-    mkdir -p "$DEST_DIR/community/images"
-    cp upstream/site/en/community/images/* "$DEST_DIR/community/images/"
-fi
 
 echo "Done copying docs."
