@@ -45,7 +45,6 @@ jobs:
         working-directory: upstream
         run: >
           bazel build
-          --config=docs
           --build_metadata=ROLE=DOCS
           --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_ORG_API_KEY }}
           --bes_results_url=https://app.buildbuddy.io/invocation/
