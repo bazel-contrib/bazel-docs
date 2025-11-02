@@ -45,6 +45,8 @@ reference/flag-cheatsheet.mdx
 reference/test-encyclopedia.mdx
 remote/dynamic.mdx
 rules/lib/globals/bzl.mdx
+rules/lib/providers/DebugPackageInfo.mdx
+rules/lib/toplevel/java_common.mdx
 rules/lib/repo/cache.mdx
 rules/lib/repo/git.mdx
 rules/lib/repo/http.mdx
