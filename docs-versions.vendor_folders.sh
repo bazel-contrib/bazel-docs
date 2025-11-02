@@ -32,24 +32,6 @@ for VERSION in $VERSIONS; do
         echo "Copying docs to directory: versions/$VERSION"
         ./copy-upstream-docs.sh "versions/$VERSION"
         
-        echo "Converting community YAML files to MDX..."
-
-        # Check and convert experts
-        if [ -f "upstream/site/en/community/experts/_index.yaml" ]; then
-            echo "Converting experts for version $VERSION"
-            ./convert-community-to-mdx.sh "community/experts" "versions/$VERSION/community/experts"
-        else
-            echo "Skipping experts conversion (file not found for $VERSION)"
-        fi
-        
-        # Check and convert partners
-        if [ -f "upstream/site/en/community/partners/_index.yaml" ]; then
-            echo "Converting partners for version $VERSION"
-            ./convert-community-to-mdx.sh "community/partners" "versions/$VERSION/community/partners"
-        else
-            echo "Skipping partners conversion (file not found for $VERSION)"
-        fi
-        
         echo "Successfully created docs for version $VERSION"
     else
         echo "Folder versions/$VERSION already exists, skipping"

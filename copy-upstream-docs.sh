@@ -99,17 +99,29 @@ transform_docs() {
 transform_docs "$UPSTREAM_SITE"
 transform_docs "$REFERENCE_DOCS"
 
-# Conditionally run the community page generation if the source files exist.
-if [ -f "upstream/site/en/community/experts/_index.yaml" ]; then
-  echo "Converting community YAML files to MDX..."
-  ./convert-community-to-mdx.sh "community/experts" "$DEST_DIR/community/experts"
-  ./convert-community-to-mdx.sh "community/partners" "$DEST_DIR/community/partners"
+echo "Converting community YAML files to MDX..."
 
-  echo "Copying community images..."
-  mkdir -p "$DEST_DIR/community/images"
-  cp upstream/site/en/community/images/* "$DEST_DIR/community/images/"
+# Check and convert experts
+if [ -f "upstream/site/en/community/experts/_index.yaml" ]; then
+    echo "Converting experts..."
+    ./convert-community-to-mdx.sh "community/experts" "$DEST_DIR/community/experts"
 else
-  echo "Skipping community file conversion (source not found)."
+    echo "Skipping experts conversion (file not found)."
+fi
+
+# Check and convert partners
+if [ -f "upstream/site/en/community/partners/_index.yaml" ]; then
+    echo "Converting partners..."
+    ./convert-community-to-mdx.sh "community/partners" "$DEST_DIR/community/partners"
+else
+    echo "Skipping partners conversion (file not found)."
+fi
+
+# Copy images only if at least one of the community files existed
+if [ -f "upstream/site/en/community/experts/_index.yaml" ] || [ -f "upstream/site/en/community/partners/_index.yaml" ]; then
+    echo "Copying community images..."
+    mkdir -p "$DEST_DIR/community/images"
+    cp upstream/site/en/community/images/* "$DEST_DIR/community/images/"
 fi
 
 echo "Done copying docs."
