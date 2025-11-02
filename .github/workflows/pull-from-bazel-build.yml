@@ -30,6 +30,12 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init -- upstream
 
+      - name: Update submodule to latest master for HEAD build
+        working-directory: upstream
+        run: |
+          git fetch origin master
+          git checkout master
+
       - name: Checkout commit of Bazel Build submodule
         if: ${{ inputs.bazelCommitHash != '' }}
         working-directory: upstream
@@ -45,6 +51,7 @@ jobs:
         working-directory: upstream
         run: >
           bazel build
+          --config=docs
           --build_metadata=ROLE=DOCS
           --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_ORG_API_KEY }}
           --bes_results_url=https://app.buildbuddy.io/invocation/
