@@ -1,0 +1,181 @@
+name: Nightly Release Documentation Build
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run nightly at midnight
+  workflow_dispatch: # Allow manual runs
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.get_versions.outputs.versions }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Get versions
+        id: get_versions
+        run: echo "versions=$(jq -c . docs-versions.json)" >> $GITHUB_OUTPUT
+
+  nightly-release:
+    needs: setup
+    strategy:
+      matrix:
+        version: ${{ fromJson(needs.setup.outputs.versions) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          submodules: false
+
+      - name: Checkout submodules
+        run: git submodule update --init -- upstream
+
+      - name: Checkout correct submodule version
+        working-directory: upstream
+        run: |
+          git fetch origin
+          if [ "${{ matrix.version }}" == "HEAD" ]; then
+            git checkout master
+          else
+            git checkout "${{ matrix.version }}"
+          fi
+
+      - name: Setup Bazel
+        uses: bazel-contrib/setup-bazel@0.15.0
+        with:
+          bazelisk-cache: true
+          repository-cache: true
+       
+      - name: Build reference documentation
+        id: build_ref_docs
+        working-directory: upstream
+        continue-on-error: true
+        run: >
+          bazel build
+          --config=docs
+          --build_metadata=ROLE=DOCS
+          --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_ORG_API_KEY }}
+          --bes_results_url=https://app.buildbuddy.io/invocation/
+          --bes_backend=grpcs://remote.buildbuddy.io
+          --remote_cache=grpcs://remote.buildbuddy.io
+          --remote_timeout=10m
+          //src/main/java/com/google/devtools/build/lib:gen_reference_docs
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.25.2'
+
+      - name: Initialize Go module for converter
+        run: |
+          cd html2md_converter
+          go mod init html-to-md-converter
+          go get github.com/JohannesKaufmann/html-to-markdown
+
+      - name: Build HTML to Markdown converter
+        run: |
+          cd html2md_converter
+          go build -o html-to-md main.go
+            
+      - name: Convert reference documentation HTML to Markdown
+        if: steps.build_ref_docs.outcome == 'success'
+        run: |
+          ./html2md_converter/html-to-md \
+            -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
+            -output reference-docs-temp
+
+      - name: Handle failed reference doc build
+        if: steps.build_ref_docs.outcome != 'success'
+        run: |
+          echo "Warning: Could not build reference docs for ${{ matrix.version }}. Reference docs may be incomplete for this version."
+          rm -rf reference-docs-temp
+          mkdir -p reference-docs-temp
+
+      - name: Copy Docs
+        run: |
+          DEST_DIR="."
+          if [ "${{ matrix.version }}" != "HEAD" ]; then
+            DEST_DIR="versions/${{ matrix.version }}"
+          fi
+          echo "Copying docs to directory: $DEST_DIR"
+          ./copy-upstream-docs.sh "$DEST_DIR"
+    
+      - name: Upload generated docs as artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: docs-${{ matrix.version }}
+          path: |
+            ./**/*.mdx
+            !./versions/
+            ./versions/${{ matrix.version }}
+          retention-days: 1
+
+  publish:
+    needs: nightly-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GH_AUTOMERGE_PAT }}
+
+      - name: Clean up old docs
+        run: |
+          # Remove all generated docs from the root, except for index.mdx and any other non-generated files.
+          find . -maxdepth 1 -name "*.mdx" -not -name "index.mdx" -delete
+          # Remove all old version directories
+          rm -rf versions
+
+      - name: Download all generated docs
+        uses: actions/download-artifact@v6
+
+      - name: Combine all docs
+        run: |
+          # The download action places each artifact in its own directory.
+          # We need to move them to the correct final locations.
+          find . -mindepth 2 -name "*.mdx" -exec mv {} . \;
+
+      - name: Create versioned navigation
+        run: ./docs.json.update.sh
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Pull Request with updated docs
+        env:
+          GH_TOKEN: ${{ secrets.GH_AUTOMERGE_PAT }}
+        run: |
+          set -euo pipefail
+          
+          # Only proceed if there are changes
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes detected, skipping PR creation."
+            exit 0
+          fi
+
+          BRANCH_NAME="nightly-doc-update-$(date +%Y-%m-%d)"
+          git checkout -b "$BRANCH_NAME"
+          
+          echo "Changes detected, committing and pushing to new branch..."
+          git add -A
+          git commit -m $'chore: nightly documentation update from upstream'
+          git push origin "$BRANCH_NAME" --force
+          
+          echo "Creating Pull Request..."
+          gh pr create \
+            --title "Nightly Documentation Update" \
+            --body "Automated nightly update of documentation from the upstream Bazel repository." \
+            --base main \
+            --head "$BRANCH_NAME"
+            
+          echo "Enabling auto-merge for the PR..."
+          gh pr merge --auto --squash "$BRANCH_NAME"

@@ -101,12 +101,6 @@ jobs:
 
       - name: Copy HEAD docs
         run: ./copy-upstream-docs.sh
-
-      - name: Create or update versioned docs folders
-        run: ./docs-versions.vendor_folders.sh
-
-      - name: Create versioned navigation
-        run: ./docs.json.update.sh
     
       - name: Clean up temporary files
         run: rm -rf reference-docs-temp

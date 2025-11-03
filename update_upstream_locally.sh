@@ -59,17 +59,21 @@ fi
 
 run ./cleanup-mdx.sh
 
+# Ensure the submodule is on the latest master for the HEAD build
+(
+  cd upstream
+  echo "+ Updating submodule to latest master..."
+  git fetch origin
+  git checkout master
+  git reset --hard origin/master
+)
+
+# Now that the submodule is on master, generate the reference docs for HEAD
 run ./run-in-go-docker.sh "$REFERENCE_ZIP"
   
-# Ensure the submodule is on the latest master for the HEAD build
-run cd upstream && git checkout master && git pull && cd ..
-
-# First, generate the HEAD docs in the root directory
+# Generate the HEAD docs in the root directory
 run ./copy-upstream-docs.sh
 
-# Then, generate all the versioned docs
-run ./docs-versions.vendor_folders.sh
-run ./docs.json.update.sh
-
 rm -rf "reference-docs-temp"
+
 echo "Workflow reproduction completed successfully."
