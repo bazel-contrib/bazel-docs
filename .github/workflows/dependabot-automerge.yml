@@ -13,42 +13,38 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  check-dependabot:
-    timeout-minutes: 5
-    if: >
-      github.event.pull_request.user.login == 'dependabot[bot]' &&
-      github.event.pull_request.base.ref == 'main'
+  get_info:
+    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     outputs:
-      should_process: ${{ steps.check.outputs.should_process }}
+      commit_hash: ${{ steps.get_hash.outputs.commit_hash }}
+      update-type: ${{ steps.metadata.outputs.update-type }}
     steps:
-      - name: Fetch Dependabot metadata
-        id: meta
-        uses: dependabot/fetch-metadata@v2
+      - name: Checkout repository
+        uses: actions/checkout@v5
         with:
-          github-token: ${{ secrets.GH_AUTOMERGE_PAT }}
+          submodules: true
 
-      - name: Check if upstream submodule
-        id: check
-        run: |
-          if [[ "${{ steps.meta.outputs.package-ecosystem }}" == "submodules" ]] && \
-             [[ "${{ steps.meta.outputs.dependency-names }}" == *"upstream"* ]]; then
-            echo "should_process=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_process=false" >> $GITHUB_OUTPUT
-          fi
+      - name: Get PR metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2.4.0
 
-  # Generate docs after dependabot updates the submodule
+      - name: Get submodule commit hash
+        id: get_hash
+        working-directory: ./upstream
+        run: echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
   generate-docs:
-    needs: check-dependabot
-    if: needs.check-dependabot.outputs.should_process == 'true'
+    needs: get_info
+    if: github.actor == 'dependabot[bot]'
     uses: ./.github/workflows/pull-from-bazel-build.yml
+    with:
+      bazelCommitHash: ${{ needs.get_info.outputs.commit_hash }}
     secrets: inherit
 
-  # Auto-merge after docs are generated
-  enable-automerge:
-    needs: [check-dependabot, generate-docs]
-    if: needs.check-dependabot.outputs.should_process == 'true'
+  automerge:
+    if: github.actor == 'dependabot[bot]'
+    needs: generate-docs
     runs-on: ubuntu-latest
     steps:
       - name: Enable auto-merge (squash)

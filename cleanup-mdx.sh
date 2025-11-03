@@ -12,10 +12,9 @@ LOCAL_FILES="
 
 echo "Cleaning up .mdx files..."
 
-# Find all .mdx files in the repo, excluding versioned directories
-# This excludes any directory starting with a digit (e.g., 6.5.0, 7.6.1, 8.0.1)
+# Find all .mdx files in the repo, excluding the versions/ directory
 find . -name "*.mdx" -type f \
-  -not -path "./[0-9]*/*" \
+  -not -path "./versions/*" \
   -not -path "./.github/*" | while read -r mdx_file; do
     
     # Check if this exact file path is in LOCAL_FILES

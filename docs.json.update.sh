@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Create docs.json with versioned navigation
 
+
 set -euo pipefail
 
 # Read the versions and tabs
@@ -35,10 +36,10 @@ for version in $VERSIONS; do
         VERSIONS_JSON="$VERSIONS_JSON,"
     fi
     
-    # For other versions, add version prefix to paths and strip patch version
+    # For other versions, add "version/" prefix to paths
     TABS_JSON=$(jq -c --arg version "$version" '
-        map(.groups = (.groups | map(.pages = (.pages | map($version + "/" + .)))))
-    ' "$TABS_FILE")
+  map(.groups = (.groups | map(.pages = (.pages | map("versions/" + $version + "/" + .)))))
+' "$TABS_FILE")
     DISPLAY_VERSION=$(echo "$version" | sed 's/\.[0-9]*$//')
     
     VERSIONS_JSON="$VERSIONS_JSON{\"version\":\"$DISPLAY_VERSION\",\"languages\":[{\"language\":\"en\",\"tabs\":$TABS_JSON}]}"

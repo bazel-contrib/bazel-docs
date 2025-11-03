@@ -30,6 +30,17 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init -- upstream
 
+      - name: Get submodule commit hash
+        working-directory: upstream
+        run: git rev-parse HEAD
+
+      - name: Update submodule to latest master (if no specific commit is given)
+        if: ${{ inputs.bazelCommitHash == '' }}
+        working-directory: upstream
+        run: |
+          git fetch origin master
+          git checkout master
+
       - name: Checkout commit of Bazel Build submodule
         if: ${{ inputs.bazelCommitHash != '' }}
         working-directory: upstream
@@ -88,11 +99,8 @@ jobs:
             -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
             -output reference-docs-temp
 
-      - name: Transform upstream docs to mdx
+      - name: Copy HEAD docs
         run: ./copy-upstream-docs.sh
-
-      - name: Create versioned navigation
-        run: ./docs.json.update.sh
     
       - name: Clean up temporary files
         run: rm -rf reference-docs-temp
