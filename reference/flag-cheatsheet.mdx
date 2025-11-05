@@ -1,0 +1,91 @@
+---
+title: 'Bazel flag cheat sheet'
+---
+
+Navigating Bazel's extensive list of command line flags can be a challenge. This page focuses on the most crucial flags you'll need to know.
+
+**Tip:** Select the flag name in table to navigate to its entry in the command line reference.
+
+## Useful general options
+
+The following flags are meant to be set explicitly on the command line.
+
+| Flag                            | Description                                                                                                                                                                                                                                                                                                                                              |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ### `--config`                  | You can organize flags in a **.bazelrc** file into configurations, like ones for debugging or release builds. Additional configuration groups can be selected with `--config=&lt;group&gt;`.                                                                                                                                                             |
+| ### `--keep_going`              | Bazel should try as much as possible to continue with build and test execution. By default, Bazel fails eagerly.```
+&lt;/td&gt;
+```                                                                                                                                                                                                                      |
+| ### `--remote_download_outputs` | When using remote execution or caching (both disk and remote), you can signal to Bazel that you want to download **all** (intermediate) build artifacts as follows:```
+--remote_download_outputs=all
+```By default, Bazel only downloads top-level artifacts, such as the final binary, and intermediate artifacts that are necessary for local actions. |
+| ### `--stamp`                   | Adds build info (user, timestamp) to binaries.**Note:** Because this increases build time, it's only intended for release builds.                                                                                                                                                                                                                        |
+
+## Uncover Build & Test Issues
+
+The following flags can help you better understand Bazel build or test errors.
+
+| Flag                       | Description                                                                                                                                                                                                                                                                                                                                                  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ### `--announce_rc`        | Shows which flags are implicitly set through user-defined, machine-defined, or project-defined **.bazelrc** files.                                                                                                                                                                                                                                           |
+| ### `--auto_output_filter` | By default, Bazel tries to prevent log spam and does only print compiler warnings and Starlark debug output for packages and subpackages requested on the command line. To disable all filtering, set `--auto_output_filter=none`.                                                                                                                           |
+| ### `--sandbox_debug`      | Lets you drill into sandboxing errors. For details on why Bazel sandboxes builds by default and what gets sandboxed, see our [sandboxing documentation](https://bazel.build/docs/sandboxing).**Tip:** If you think the error might be caused by sandboxing, try turning sandboxing off temporarily.To do this, add `--spawn_strategy=local` to your command. |
+| ### `--subcommands (-s)`   | Displays a comprehensive list of every command that Bazel runs during a build, regardless of whether it succeeds or fails                                                                                                                                                                                                                                    |
+
+## Startup
+
+Caution: Startup flags need to be passed before the command and cause a server restart. Toggle these flags with caution.
+
+| Flag                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ### `--bazelrc`       | You can specify default Bazel options in **.bazelrc** files. If multiple **.bazelrc** files exist, you can select which **.bazelrc** file is used by adding `--bazelrc=&lt;path to the .bazelrc file&gt;`.**Tip:** `--bazelrc=dev/null` disables the search for **.bazelrc** files.This is ideal for scenarios where you want to ensure a clean build environment, such as release builds, and prevent any unintended configuration changes from **.bazelrc** files                               |
+| ### `--host_jvm_args` | Limits the amount of RAM the Bazel server uses.For example, the following limits the Bazel heap size to **3**GB:```
+--host_jvm_args=-Xmx3g
+```**Note:** `-Xmx` is used to set the maximum heap size for the Java Virtual Machine (JVM). The heap is the area of memory where objects are allocated. The correct format for this option is `-Xmx&lt;size&gt;` , where `&lt;size&gt;` is the maximum heap size, specified with a unit such as:* m for megabytes
+* g for gigabytes
+* k for kilobytes |
+| ### `--output_base`   | Controls Bazel's output tree. Bazel doesn't store build outputs, including logs, within the source tree itself. Instead, it uses a distinct output tree for this purpose.**Tip:** Using multiple output bases in one Bazel workspace lets you run multiple Bazel servers concurrently. This can be useful when trying to avoid analysis thrashing. For more information, see [Choosing the output base](https://bazel.build/run/scripts#output-base-option).                                      |
+
+## Bazel tests
+
+The following flags are related to Bazel test
+
+| Flag                  | Description                                                                                                                                                                                                                                                                                                                                                                                                  |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ### `--java_debug`    | Causes Java tests to wait for a debugger connection before being executed.                                                                                                                                                                                                                                                                                                                                   |
+| ### `--runs_per_test` | The number of times to run tests. For example, to run tests N times, add `--runs_per_test=N`. This can be useful to debug flaky tests and see whether a fix causes a test to pass consistently.                                                                                                                                                                                                              |
+| ### `--test_filter`   | This flag is particularly useful when iterating on a single test method, such as when a change you made breaks a test. Instead of re-running all the test methods in the test suite, you can focus solely on the specific test(s) that failed. This allows for faster feedback and more efficient debugging. This flag is often used in conjunction with `--test_output=streamed` for real-time test output. |
+| ### `--test_output`   | Specifies the output mode. By default, Bazel captures test output in local log files. When iterating on a broken test, you typically want to use `--test_output=streamed` to see the test output in real time.                                                                                                                                                                                               |
+
+## Bazel run
+
+The following flags are related to Bazel run.
+
+| Flag              | Description                                                                                                |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| ### `--run_under` | Changes how executables are invoked. For example `--run_under="strace -c"` is commonly used for debugging. |
+
+## User-specific bazelrc options
+
+The following flags are related to user-specific **.bazelrc** options.
+
+| Flag                    | Description                                                                                                                                                                                                                                                                                                    |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ### `--disk_cache`      | A path to a directory where Bazel can read and write actions and action outputs. If the directory doesn't exist, it will be created.You can share build artifacts between multiple branches or workspaces and speed up Bazel builds by adding `--disk_cache=&lt;path&gt;` to your command.                     |
+| ### `--jobs`            | The number of concurrent jobs to run.This is typically only required when using remote execution where a remote build cluster executes more jobs than you have cores locally.                                                                                                                                  |
+| ### `--local_resources` | Limits how much CPU or RAM is consumed by locally running actions.**Note:** This has no impact on the amount of CPU or RAM that the Bazel server itself consumes for tasks like analysis and build orchestration.                                                                                              |
+| ### `--sandbox_base`    | Lets the sandbox create its sandbox directories underneath this path. By default, Bazel executes local actions sandboxed which adds some overhead to the build.**Tip:** Specify a path on tmpfs, for example `/run/shm`, to possibly improve performance a lot when your build or tests have many input files. |
+
+## Project-specific bazelrc options
+
+The following flags are related to project-specific **.bazelrc** options.
+
+| Flag                          | Description                                                                                                                                                                                                                                                                                                        |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ### `--flaky_test_attempts`   | Retry each test up to the specified number of times in case of any test failure. This is especially useful on Continuous Integration. Tests that require more than one attempt to pass are marked as **FLAKY** in the test summary.                                                                                |
+| ### `--remote_cache`          | A URI of a caching endpoint. Setting up remote caching can be a great way to speed up Bazel builds. It can be combined with a local disk cache.                                                                                                                                                                    |
+| ### `--remote_download_regex` | Force remote build outputs whose path matches this pattern to be downloaded, irrespective of the `--remote_download_outputs` setting. Multiple patterns may be specified by repeating this flag.                                                                                                                   |
+| ### `--remote_executor`       | `HOST` or `HOST:PORT` of a remote execution endpoint. Pass this if you are using a remote execution service. You'll often need to Add `--remote_instance_name=&lt;name&gt;`.                                                                                                                                       |
+| ### `--remote_instance_name`  | The value to pass as `instance_name` in the remote execution API.                                                                                                                                                                                                                                                  |
+| ### `--show_timestamps`       | If specified, a timestamp is added to each message generated by Bazel specifying the time at which the message was displayed. This is useful on CI systems to quickly understand what step took how long.                                                                                                          |
+| ### `--spawn_strategy`        | Even with remote execution, running some build actions locally might be faster. This depends on factors like your build cluster's capacity, network speed, and network delays.**Tip:** To run actions both locally and remotely and accept the faster result add `--spawn_strategy=dynamic` to your build command. |

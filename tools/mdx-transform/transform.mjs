@@ -351,6 +351,29 @@ export function transformContent(content) {
     .replace(/https\\:\/\//g, 'https://')
     .replace(/http\\:\/\//g, 'http://');
   output = output.replace(/\\([{}])/g, '\$1');
+
+  // Escape comparison operators in table cells to prevent MDX parsing issues
+  // Process each line and escape < and > in table cell content
+  output = output.split('\n').map(line => {
+    // Only process table rows (lines with | characters)
+    if (line.includes('|') && !line.trim().startsWith('```')) {
+      // Split by | but preserve the delimiters
+      const cells = line.split('|');
+      return cells.map(cell => {
+        // Don't escape in code blocks (content within backticks)
+        if (cell.includes('`')) {
+          // More complex: need to preserve code vs non-code
+          return cell.replace(/([^`]+)/g, (nonCode) => {
+            return nonCode.replace(/<=/g, '&lt;=').replace(/>=/g, '&gt;=').replace(/(?<![&<>])([<>])(?!=)/g, '&lt;');
+          });
+        }
+        // Escape comparison operators
+        return cell.replace(/<=/g, '&lt;=').replace(/>=/g, '&gt;=');
+      }).join('|');
+    }
+    return line;
+  }).join('\n');
+
   return output;
 }
 

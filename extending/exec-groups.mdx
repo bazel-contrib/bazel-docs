@@ -2,40 +2,21 @@
 title: 'Execution Groups'
 ---
 
-
-
-Execution groups allow for multiple execution platforms within a single target.
-Each execution group has its own [toolchain](/extending/toolchains) dependencies and
-performs its own [toolchain resolution](/extending/toolchains#toolchain-resolution).
+Execution groups allow for multiple execution platforms within a single target. Each execution group has its own [toolchain](/extending/toolchains) dependencies and performs its own [toolchain resolution](/extending/toolchains#toolchain-resolution).
 
 ## Current status
 
-Execution groups for certain natively declared actions, like `CppLink`, can be
-used inside `exec_properties` to set per-action, per-target execution
-requirements. For more details, see the
-[Default execution groups](#exec-groups-for-native-rules) section.
+Execution groups for certain natively declared actions, like `CppLink`, can be used inside `exec_properties` to set per-action, per-target execution requirements. For more details, see the [Default execution groups](#exec-groups-for-native-rules) section.
 
 ## Background
 
-Execution groups allow the rule author to define sets of actions, each with a
-potentially different execution platform. Multiple execution platforms can allow
-actions to execution differently, for example compiling an iOS app on a remote
-(linux) worker and then linking/code signing on a local mac worker.
+Execution groups allow the rule author to define sets of actions, each with a potentially different execution platform. Multiple execution platforms can allow actions to execution differently, for example compiling an iOS app on a remote (linux) worker and then linking/code signing on a local mac worker.
 
-Being able to define groups of actions also helps alleviate the usage of action
-mnemonics as a proxy for specifying actions. Mnemonics are not guaranteed to be
-unique and can only reference a single action. This is especially helpful in
-allocating extra resources to specific memory and processing intensive actions
-like linking in C++ builds without over-allocating to less demanding tasks.
+Being able to define groups of actions also helps alleviate the usage of action mnemonics as a proxy for specifying actions. Mnemonics are not guaranteed to be unique and can only reference a single action. This is especially helpful in allocating extra resources to specific memory and processing intensive actions like linking in C++ builds without over-allocating to less demanding tasks.
 
 ## Defining execution groups
 
-During rule definition, rule authors can
-[declare](/rules/lib/globals/bzl#exec_group)
-a set of execution groups. On each execution group, the rule author can specify
-everything needed to select an execution platform for that execution group,
-namely any constraints via `exec_compatible_with` and toolchain types via
-`toolchain`.
+During rule definition, rule authors can [declare](/rules/lib/globals/bzl#exec_group) a set of execution groups. On each execution group, the rule author can specify everything needed to select an execution platform for that execution group, namely any constraints via `exec_compatible_with` and toolchain types via `toolchain`.
 
 ```python
 # foo.bzl
@@ -56,25 +37,13 @@ my_rule = rule(
 )
 ```
 
-In the code snippet above, you can see that tool dependencies can also specify
-transition for an exec group using the
-[`cfg`](/rules/lib/toplevel/attr#label)
-attribute param and the
-[`config`](/rules/lib/toplevel/config)
-module. The module exposes an `exec` function which takes a single string
-parameter which is the name of the exec group for which the dependency should be
-built.
+In the code snippet above, you can see that tool dependencies can also specify transition for an exec group using the [`cfg`](/rules/lib/toplevel/attr#label) attribute param and the [`config`](/rules/lib/toplevel/config) module. The module exposes an `exec` function which takes a single string parameter which is the name of the exec group for which the dependency should be built.
 
-As on native rules, the `test` execution group is present by default on Starlark
-test rules.
+As on native rules, the `test` execution group is present by default on Starlark test rules.
 
 ## Accessing execution groups
 
-In the rule implementation, you can declare that actions should be run on the
-execution platform of an execution group. You can do this by using the `exec_group`
-param of action generating methods, specifically [`ctx.actions.run`]
-(/rules/lib/builtins/actions#run) and
-[`ctx.actions.run_shell`](/rules/lib/builtins/actions#run_shell).
+In the rule implementation, you can declare that actions should be run on the execution platform of an execution group. You can do this by using the `exec_group` param of action generating methods, specifically \[`ctx.actions.run`] (/rules/lib/builtins/actions#run) and [`ctx.actions.run_shell`](/rules/lib/builtins/actions#run_shell).
 
 ```python
 # foo.bzl
@@ -86,9 +55,7 @@ def _impl(ctx):
   )
 ```
 
-Rule authors will also be able to access the [resolved toolchains](/extending/toolchains#toolchain-resolution)
-of execution groups, similarly to how you
-can access the resolved toolchain of a target:
+Rule authors will also be able to access the [resolved toolchains](/extending/toolchains#toolchain-resolution) of execution groups, similarly to how you can access the resolved toolchain of a target:
 
 ```python
 # foo.bzl
@@ -101,28 +68,18 @@ def _impl(ctx):
   )
 ```
 
-Note: If an action uses a toolchain from an execution group, but doesn't specify
-that execution group in the action declaration, that may potentially cause
-issues. A mismatch like this may not immediately cause failures, but is a latent
-problem.
+Note: If an action uses a toolchain from an execution group, but doesn't specify that execution group in the action declaration, that may potentially cause issues. A mismatch like this may not immediately cause failures, but is a latent problem.
 
 ### Default execution groups
 
 The following execution groups are predefined:
 
-* `test`: Test runner actions (for more details, see
-  the [execution platform section of the Test Encylopedia](/reference/test-encyclopedia#execution-platform)).
-* `cpp_link`: C++ linking actions.
+- `test`: Test runner actions (for more details, see the [execution platform section of the Test Encylopedia](/reference/test-encyclopedia#execution-platform)).
+- `cpp_link`: C++ linking actions.
 
 ## Using execution groups to set execution properties
 
-Execution groups are integrated with the
-[`exec_properties`](/reference/be/common-definitions#common-attributes)
-attribute that exists on every rule and allows the target writer to specify a
-string dict of properties that is then passed to the execution machinery. For
-example, if you wanted to set some property, say memory, for the target and give
-certain actions a higher memory allocation, you would write an `exec_properties`
-entry with an execution-group-augmented key, such as:
+Execution groups are integrated with the [`exec_properties`](/reference/be/common-definitions#common-attributes) attribute that exists on every rule and allows the target writer to specify a string dict of properties that is then passed to the execution machinery. For example, if you wanted to set some property, say memory, for the target and give certain actions a higher memory allocation, you would write an `exec_properties` entry with an execution-group-augmented key, such as:
 
 ```python
 # BUILD
@@ -136,24 +93,13 @@ my_rule(
 )
 ```
 
-All actions with `exec_group = "link"` would see the exec properties
-dictionary as `{"mem": "16g"}`. As you see here, execution-group-level
-settings override target-level settings.
+All actions with `exec_group = "link"` would see the exec properties dictionary as `{"mem": "16g"}`. As you see here, execution-group-level settings override target-level settings.
 
 ## Using execution groups to set platform constraints
 
-Execution groups are also integrated with the
-[`exec_compatible_with`](/reference/be/common-definitions#common-attributes) and
-[`exec_group_compatible_with`](/reference/be/common-definitions#common-attributes)
-attributes that exist on every rule and allow the target writer to specify
-additional constraints that must be satisfied by the execution platforms
-selected for the target's actions.
+Execution groups are also integrated with the [`exec_compatible_with`](/reference/be/common-definitions#common-attributes) and [`exec_group_compatible_with`](/reference/be/common-definitions#common-attributes) attributes that exist on every rule and allow the target writer to specify additional constraints that must be satisfied by the execution platforms selected for the target's actions.
 
-For example, if the rule `my_test` defines the `link` execution group in
-addition to the default and the `test` execution group, then the following
-usage of these attributes would run actions in the default execution group on
-a platform with a high number of CPUs, the test action on Linux, and the link
-action on the default execution platform:
+For example, if the rule `my_test` defines the `link` execution group in addition to the default and the `test` execution group, then the following usage of these attributes would run actions in the default execution group on a platform with a high number of CPUs, the test action on Linux, and the link action on the default execution platform:
 
 ```python
 # BUILD
@@ -180,23 +126,16 @@ my_test(
 
 ### Execution groups for native rules
 
-The following execution groups are available for actions defined by native
-rules:
+The following execution groups are available for actions defined by native rules:
 
-* `test`: Test runner actions.
-* `cpp_link`: C++ linking actions.
+- `test`: Test runner actions.
+- `cpp_link`: C++ linking actions.
 
 ### Execution groups and platform execution properties
 
-It is possible to define `exec_properties` for arbitrary execution groups on
-platform targets (unlike `exec_properties` set directly on a target, where
-properties for unknown execution groups are rejected). Targets then inherit the
-execution platform's `exec_properties` that affect the default execution group
-and any other relevant execution groups.
+It is possible to define `exec_properties` for arbitrary execution groups on platform targets (unlike `exec_properties` set directly on a target, where properties for unknown execution groups are rejected). Targets then inherit the execution platform's `exec_properties` that affect the default execution group and any other relevant execution groups.
 
-For example, suppose running tests on the exec platform requires some resource
-to be available, but it isn't required for compiling and linking; this can be
-modelled as follows:
+For example, suppose running tests on the exec platform requires some resource to be available, but it isn't required for compiling and linking; this can be modelled as follows:
 
 ```python
 constraint_setting(name = "resource")
@@ -217,5 +156,4 @@ cc_test(
 )
 ```
 
-`exec_properties` defined directly on targets take precedence over those that
-are inherited from the execution platform.
+`exec_properties` defined directly on targets take precedence over those that are inherited from the execution platform.

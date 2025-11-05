@@ -2,47 +2,23 @@
 title: 'Testing'
 ---
 
-
-
-There are several different approaches to testing Starlark code in Bazel. This
-page gathers the current best practices and frameworks by use case.
+There are several different approaches to testing Starlark code in Bazel. This page gathers the current best practices and frameworks by use case.
 
 ## Testing rules
 
-[Skylib](https://github.com/bazelbuild/bazel-skylib) has a test framework called
-[`unittest.bzl`](https://github.com/bazelbuild/bazel-skylib/blob/main/lib/unittest.bzl)
-for checking the analysis-time behavior of rules, such as their actions and
-providers. Such tests are called "analysis tests" and are currently the best
-option for testing the inner workings of rules.
+[Skylib](https://github.com/bazelbuild/bazel-skylib) has a test framework called [`unittest.bzl`](https://github.com/bazelbuild/bazel-skylib/blob/main/lib/unittest.bzl) for checking the analysis-time behavior of rules, such as their actions and providers. Such tests are called "analysis tests" and are currently the best option for testing the inner workings of rules.
 
 Some caveats:
 
-*   Test assertions occur within the build, not a separate test runner process.
-    Targets that are created by the test must be named such that they do not
-    collide with targets from other tests or from the build. An error that
-    occurs during the test is seen by Bazel as a build breakage rather than a
-    test failure.
+- Test assertions occur within the build, not a separate test runner process. Targets that are created by the test must be named such that they do not collide with targets from other tests or from the build. An error that occurs during the test is seen by Bazel as a build breakage rather than a test failure.
 
-*   It requires a fair amount of boilerplate to set up the rules under test and
-    the rules containing test assertions. This boilerplate may seem daunting at
-    first. It helps to [keep in mind](/extending/concepts#evaluation-model) that macros
-    are evaluated and targets generated during the loading phase, while rule
-    implementation functions don't run until later, during the analysis phase.
+- It requires a fair amount of boilerplate to set up the rules under test and the rules containing test assertions. This boilerplate may seem daunting at first. It helps to [keep in mind](/extending/concepts#evaluation-model) that macros are evaluated and targets generated during the loading phase, while rule implementation functions don't run until later, during the analysis phase.
 
-*   Analysis tests are intended to be fairly small and lightweight. Certain
-    features of the analysis testing framework are restricted to verifying
-    targets with a maximum number of transitive dependencies (currently 500).
-    This is due to performance implications of using these features with larger
-    tests.
+- Analysis tests are intended to be fairly small and lightweight. Certain features of the analysis testing framework are restricted to verifying targets with a maximum number of transitive dependencies (currently 500). This is due to performance implications of using these features with larger tests.
 
-The basic principle is to define a testing rule that depends on the
-rule-under-test. This gives the testing rule access to the rule-under-test's
-providers.
+The basic principle is to define a testing rule that depends on the rule-under-test. This gives the testing rule access to the rule-under-test's providers.
 
-The testing rule's implementation function carries out assertions. If there are
-any failures, these are not raised immediately by calling `fail()` (which would
-trigger an analysis-time build error), but rather by storing the errors in a
-generated script that fails at test execution time.
+The testing rule's implementation function carries out assertions. If there are any failures, these are not raised immediately by calling `fail()` (which would trigger an analysis-time build error), but rather by storing the errors in a generated script that fails at test execution time.
 
 See below for a minimal toy example, followed by an example that checks actions.
 
@@ -68,7 +44,6 @@ myrule = rule(
 ```
 
 `//mypkg/myrules_test.bzl`:
-
 
 ```python
 load("@bazel_skylib//lib:unittest.bzl", "asserts", "analysistest")
@@ -139,47 +114,31 @@ myrules_test_suite(name = "myrules_test")
 
 The test can be run with `bazel test //mypkg:myrules_test`.
 
-Aside from the initial `load()` statements, there are two main parts to the
-file:
+Aside from the initial `load()` statements, there are two main parts to the file:
 
-*   The tests themselves, each of which consists of 1) an analysis-time
-    implementation function for the testing rule, 2) a declaration of the
-    testing rule via `analysistest.make()`, and 3) a loading-time function
-    (macro) for declaring the rule-under-test (and its dependencies) and testing
-    rule. If the assertions do not change between test cases, 1) and 2) may be
-    shared by multiple test cases.
+- The tests themselves, each of which consists of 1) an analysis-time implementation function for the testing rule, 2) a declaration of the testing rule via `analysistest.make()`, and 3) a loading-time function (macro) for declaring the rule-under-test (and its dependencies) and testing rule. If the assertions do not change between test cases, 1) and 2) may be shared by multiple test cases.
 
-*   The test suite function, which calls the loading-time functions for each
-    test, and declares a `test_suite` target bundling all tests together.
+- The test suite function, which calls the loading-time functions for each test, and declares a `test_suite` target bundling all tests together.
 
-For consistency, follow the recommended naming convention: Let `foo` stand for
-the part of the test name that describes what the test is checking
-(`provider_contents` in the above example). For example, a JUnit test method
-would be named `testFoo`.
+For consistency, follow the recommended naming convention: Let `foo` stand for the part of the test name that describes what the test is checking (`provider_contents` in the above example). For example, a JUnit test method would be named `testFoo`.
 
 Then:
 
-*   the macro which generates the test and target under test should should be
-    named `_test_foo` (`_test_provider_contents`)
+- the macro which generates the test and target under test should should be named `_test_foo` (`_test_provider_contents`)
 
-*   its test rule type should be named `foo_test` (`provider_contents_test`)
+- its test rule type should be named `foo_test` (`provider_contents_test`)
 
-*   the label of the target of this rule type should be `foo_test`
-    (`provider_contents_test`)
+- the label of the target of this rule type should be `foo_test` (`provider_contents_test`)
 
-*   the implementation function for the testing rule should be named
-    `_foo_test_impl` (`_provider_contents_test_impl`)
+- the implementation function for the testing rule should be named `_foo_test_impl` (`_provider_contents_test_impl`)
 
-*   the labels of the targets of the rules under test and their dependencies
-    should be prefixed with `foo_` (`provider_contents_`)
+- the labels of the targets of the rules under test and their dependencies should be prefixed with `foo_` (`provider_contents_`)
 
-Note that the labels of all targets can conflict with other labels in the same
-BUILD package, so it's helpful to use a unique name for the test.
+Note that the labels of all targets can conflict with other labels in the same BUILD package, so it's helpful to use a unique name for the test.
 
 ### Failure testing
 
-It may be useful to verify that a rule fails given certain inputs or in certain
-state. This can be done using the analysis test framework:
+It may be useful to verify that a rule fails given certain inputs or in certain state. This can be done using the analysis test framework:
 
 The test rule created with `analysistest.make` should specify `expect_failure`:
 
@@ -190,8 +149,7 @@ failure_testing_test = analysistest.make(
 )
 ```
 
-The test rule implementation should make assertions on the nature of the failure
-that took place (specifically, the failure message):
+The test rule implementation should make assertions on the nature of the failure that took place (specifically, the failure message):
 
 ```python
 def _failure_testing_test_impl(ctx):
@@ -200,11 +158,7 @@ def _failure_testing_test_impl(ctx):
     return analysistest.end(env)
 ```
 
-Also make sure that your target under test is specifically tagged 'manual'.
-Without this, building all targets in your package using `:all` will result in a
-build of the intentionally-failing target and will exhibit a build failure. With
-'manual', your target under test will build only if explicitly specified, or as
-a dependency of a non-manual target (such as your test rule):
+Also make sure that your target under test is specifically tagged 'manual'. Without this, building all targets in your package using `:all` will result in a build of the intentionally-failing target and will exhibit a build failure. With 'manual', your target under test will build only if explicitly specified, or as a dependency of a non-manual target (such as your test rule):
 
 ```python
 def _test_failure():
@@ -219,9 +173,7 @@ def _test_failure():
 
 ### Verifying registered actions
 
-You may want to write tests which make assertions about the actions that your
-rule registers, for example, using `ctx.actions.run()`. This can be done in your
-analysis test rule implementation function. An example:
+You may want to write tests which make assertions about the actions that your rule registers, for example, using `ctx.actions.run()`. This can be done in your analysis test rule implementation function. An example:
 
 ```python
 def _inspect_actions_test_impl(ctx):
@@ -236,14 +188,11 @@ def _inspect_actions_test_impl(ctx):
     return analysistest.end(env)
 ```
 
-Note that `analysistest.target_actions(env)` returns a list of
-[`Action`](lib/Action) objects which represent actions registered by the
-target under test.
+Note that `analysistest.target_actions(env)` returns a list of [`Action`](lib/Action) objects which represent actions registered by the target under test.
 
 ### Verifying rule behavior under different flags
 
-You may want to verify your real rule behaves a certain way given certain build
-flags. For example, your rule may behave differently if a user specifies:
+You may want to verify your real rule behaves a certain way given certain build flags. For example, your rule may behave differently if a user specifies:
 
 ```shell
 bazel build //mypkg:real_target -c opt
@@ -255,20 +204,15 @@ versus
 bazel build //mypkg:real_target -c dbg
 ```
 
-At first glance, this could be done by testing the target under test using the
-desired build flags:
+At first glance, this could be done by testing the target under test using the desired build flags:
 
 ```shell
 bazel test //mypkg:myrules_test -c opt
 ```
 
-But then it becomes impossible for your test suite to simultaneously contain a
-test which verifies the rule behavior under `-c opt` and another test which
-verifies the rule behavior under `-c dbg`. Both tests would not be able to run
-in the same build!
+But then it becomes impossible for your test suite to simultaneously contain a test which verifies the rule behavior under `-c opt` and another test which verifies the rule behavior under `-c dbg`. Both tests would not be able to run in the same build!
 
-This can be solved by specifying the desired build flags when defining the test
-rule:
+This can be solved by specifying the desired build flags when defining the test rule:
 
 ```python
 myrule_c_opt_test = analysistest.make(
@@ -279,33 +223,21 @@ myrule_c_opt_test = analysistest.make(
 )
 ```
 
-Normally, a target under test is analyzed given the current build flags.
-Specifying `config_settings` overrides the values of the specified command line
-options. (Any unspecified options will retain their values from the actual
-command line).
+Normally, a target under test is analyzed given the current build flags. Specifying `config_settings` overrides the values of the specified command line options. (Any unspecified options will retain their values from the actual command line).
 
-In the specified `config_settings` dictionary, command line flags must be
-prefixed with a special placeholder value `//command_line_option:`, as is shown
-above.
-
+In the specified `config_settings` dictionary, command line flags must be prefixed with a special placeholder value `//command_line_option:`, as is shown above.
 
 ## Validating artifacts
 
 The main ways to check that your generated files are correct are:
 
-*   You can write a test script in shell, Python, or another language, and
-    create a target of the appropriate `*_test` rule type.
+- You can write a test script in shell, Python, or another language, and create a target of the appropriate `*_test` rule type.
 
-*   You can use a specialized rule for the kind of test you want to perform.
+- You can use a specialized rule for the kind of test you want to perform.
 
 ### Using a test target
 
-The most straightforward way to validate an artifact is to write a script and
-add a `*_test` target to your BUILD file. The specific artifacts you want to
-check should be data dependencies of this target. If your validation logic is
-reusable for multiple tests, it should be a script that takes command line
-arguments that are controlled by the test target's `args` attribute. Here's an
-example that validates that the output of `myrule` from above is `"abc"`.
+The most straightforward way to validate an artifact is to write a script and add a `*_test` target to your BUILD file. The specific artifacts you want to check should be data dependencies of this target. If your validation logic is reusable for multiple tests, it should be a script that takes command line arguments that are controlled by the test target's `args` attribute. Here's an example that validates that the output of `myrule` from above is `"abc"`.
 
 `//mypkg/myrule_validator.sh`:
 
@@ -341,12 +273,7 @@ sh_test(
 
 ### Using a custom rule
 
-A more complicated alternative is to write the shell script as a template that
-gets instantiated by a new rule. This involves more indirection and Starlark
-logic, but leads to cleaner BUILD files. As a side-benefit, any argument
-preprocessing can be done in Starlark instead of the script, and the script is
-slightly more self-documenting since it uses symbolic placeholders (for
-substitutions) instead of numeric ones (for arguments).
+A more complicated alternative is to write the shell script as a template that gets instantiated by a new rule. This involves more indirection and Starlark logic, but leads to cleaner BUILD files. As a side-benefit, any argument preprocessing can be done in Starlark instead of the script, and the script is slightly more self-documenting since it uses symbolic placeholders (for substitutions) instead of numeric ones (for arguments).
 
 `//mypkg/myrule_validator.sh.template`:
 
@@ -417,18 +344,11 @@ myrule_validation_test(
 )
 ```
 
-Alternatively, instead of using a template expansion action, you could have
-inlined the template into the .bzl file as a string and expanded it during the
-analysis phase using the `str.format` method or `%`-formatting.
+Alternatively, instead of using a template expansion action, you could have inlined the template into the .bzl file as a string and expanded it during the analysis phase using the `str.format` method or `%`-formatting.
 
 ## Testing Starlark utilities
 
-[Skylib](https://github.com/bazelbuild/bazel-skylib)'s
-[`unittest.bzl`](https://github.com/bazelbuild/bazel-skylib/blob/main/lib/unittest.bzl)
-framework can be used to test utility functions (that is, functions that are
-neither macros nor rule implementations). Instead of using `unittest.bzl`'s
-`analysistest` library, `unittest` may be used. For such test suites, the
-convenience function `unittest.suite()` can be used to reduce boilerplate.
+[Skylib](https://github.com/bazelbuild/bazel-skylib)'s [`unittest.bzl`](https://github.com/bazelbuild/bazel-skylib/blob/main/lib/unittest.bzl) framework can be used to test utility functions (that is, functions that are neither macros nor rule implementations). Instead of using `unittest.bzl`'s `analysistest` library, `unittest` may be used. For such test suites, the convenience function `unittest.suite()` can be used to reduce boilerplate.
 
 `//mypkg/myhelpers.bzl`:
 
@@ -438,7 +358,6 @@ def myhelper():
 ```
 
 `//mypkg/myhelpers_test.bzl`:
-
 
 ```python
 load("@bazel_skylib//lib:unittest.bzl", "asserts", "unittest")
