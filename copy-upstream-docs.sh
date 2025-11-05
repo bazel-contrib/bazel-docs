@@ -83,15 +83,14 @@ transform_docs() {
 
         mkdir -p "$target_dir"
 
-    # Check if this file is in the BROKEN_FILES list
+    # Highlight files that previously needed manual fixes
         if echo "$BROKEN_FILES" | grep -q "^$target_file$"; then
-            echo "Skipping broken file: $target_file"
-            continue
+            echo "Processing previously broken file: $target_file"
         fi
 
     # Transform and copy the file
     echo "Transforming and copying $source_file to $DEST_DIR/$target_file"
-    awk -f transform-docs.awk "$source_file" > "$DEST_DIR/$target_file"
+    node tools/mdx-transform/transform.mjs "$source_file" "$DEST_DIR/$target_file"
     done
 }
 
@@ -99,9 +98,13 @@ transform_docs() {
 transform_docs "$UPSTREAM_SITE"
 transform_docs "$REFERENCE_DOCS"
 
-echo "Converting community YAML files to MDX..."
-./convert-community-to-mdx.sh "$DEST_DIR/community/experts"
-./convert-community-to-mdx.sh "$DEST_DIR/community/partners"
+if command -v yq >/dev/null 2>&1; then
+    echo "Converting community YAML files to MDX..."
+    ./convert-community-to-mdx.sh "$DEST_DIR/community/experts"
+    ./convert-community-to-mdx.sh "$DEST_DIR/community/partners"
+else
+    echo "Skipping community YAML conversion because 'yq' was not found in PATH."
+fi
 
 echo "Copying community images..."
 mkdir -p "$DEST_DIR/community/images"

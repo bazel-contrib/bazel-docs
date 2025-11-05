@@ -2,21 +2,13 @@
 title: 'Common C++ Build Use Cases'
 ---
 
+Here you will find some of the most common use cases for building C++ projects with Bazel. If you have not done so already, get started with building C++ projects with Bazel by completing the tutorial [Introduction to Bazel: Build a C++ Project](/start/cpp).
 
-
-Here you will find some of the most common use cases for building C++ projects
-with Bazel. If you have not done so already, get started with building C++
-projects with Bazel by completing the tutorial
-[Introduction to Bazel: Build a C++ Project](/start/cpp).
-
-For information on cc_library and hdrs header files, see
-<a href="/reference/be/c-cpp#cc_library">cc_library</a>.
+For information on cc\_library and hdrs header files, see [cc\_library](/reference/be/c-cpp#cc_library).
 
 ## Including multiple files in a target
 
-You can include multiple files in a single target with
-<a href="/reference/be/functions#glob">glob</a>.
-For example:
+You can include multiple files in a single target with [glob](/reference/be/functions#glob). For example:
 
 ```python
 cc_library(
@@ -26,19 +18,11 @@ cc_library(
 )
 ```
 
-With this target, Bazel will build all the `.cc` and `.h` files it finds in the
-same directory as the `BUILD` file that contains this target (excluding
-subdirectories).
+With this target, Bazel will build all the `.cc` and `.h` files it finds in the same directory as the `BUILD` file that contains this target (excluding subdirectories).
 
 ## Using transitive includes
 
-If a file includes a header, then any rule with that file as a source (that is,
-having that file in the `srcs`, `hdrs`, or `textual_hdrs` attribute) should
-depend on the included header's library rule. Conversely, only direct
-dependencies need to be specified as dependencies. For example, suppose
-`sandwich.h` includes `bread.h` and `bread.h` includes `flour.h`. `sandwich.h`
-doesn't include `flour.h` (who wants flour in their sandwich?), so the `BUILD`
-file would look like this:
+If a file includes a header, then any rule with that file as a source (that is, having that file in the `srcs`, `hdrs`, or `textual_hdrs` attribute) should depend on the included header's library rule. Conversely, only direct dependencies need to be specified as dependencies. For example, suppose `sandwich.h` includes `bread.h` and `bread.h` includes `flour.h`. `sandwich.h` doesn't include `flour.h` (who wants flour in their sandwich?), so the `BUILD` file would look like this:
 
 ```python
 cc_library(
@@ -62,15 +46,11 @@ cc_library(
 )
 ```
 
-Here, the `sandwich` library depends on the `bread` library, which depends
-on the `flour` library.
+Here, the `sandwich` library depends on the `bread` library, which depends on the `flour` library.
 
 ## Adding include paths
 
-Sometimes you cannot (or do not want to) root include paths at the workspace
-root. Existing libraries might already have an include directory that doesn't
-match its path in your workspace. For example, suppose you have the following
-directory structure:
+Sometimes you cannot (or do not want to) root include paths at the workspace root. Existing libraries might already have an include directory that doesn't match its path in your workspace. For example, suppose you have the following directory structure:
 
 ```
 └── my-project
@@ -83,11 +63,7 @@ directory structure:
     └── MODULE.bazel
 ```
 
-Bazel will expect `some_lib.h` to be included as
-`legacy/some_lib/include/some_lib.h`, but suppose `some_lib.cc` includes
-`"some_lib.h"`. To make that include path valid,
-`legacy/some_lib/BUILD` will need to specify that the `some_lib/include`
-directory is an include directory:
+Bazel will expect `some_lib.h` to be included as `legacy/some_lib/include/some_lib.h`, but suppose `some_lib.cc` includes `"some_lib.h"`. To make that include path valid, `legacy/some_lib/BUILD` will need to specify that the `some_lib/include` directory is an include directory:
 
 ```python
 cc_library(
@@ -98,15 +74,11 @@ cc_library(
 )
 ```
 
-This is especially useful for external dependencies, as their header files
-must otherwise be included with a `/` prefix.
+This is especially useful for external dependencies, as their header files must otherwise be included with a `/` prefix.
 
 ## Include external libraries
 
-Suppose you are using [Google Test](https://github.com/google/googletest)
-.
-You can add a dependency on it in the `MODULE.bazel` file to
-download Google Test and make it available in your repository:
+Suppose you are using [Google Test](https://github.com/google/googletest). You can add a dependency on it in the `MODULE.bazel` file to download Google Test and make it available in your repository:
 
 ```python
 bazel_dep(name = "googletest", version = "1.15.2")
@@ -142,8 +114,7 @@ cc_test(
 )
 ```
 
-To make `hello-greet` visible to `hello-test`, you must add
-`"//test:__pkg__",` to the `visibility` attribute in `./main/BUILD`.
+To make `hello-greet` visible to `hello-test`, you must add `"//test:__pkg__",` to the `visibility` attribute in `./main/BUILD`.
 
 Now you can use `bazel test` to run the test.
 
@@ -163,11 +134,9 @@ INFO: Elapsed time: 4.497s, Critical Path: 2.53s
 Executed 1 out of 1 tests: 1 test passes.
 ```
 
-
 ## Adding dependencies on precompiled libraries
 
-If you want to use a library of which you only have a compiled version (for
-example, headers and a `.so` file) wrap it in a `cc_library` rule:
+If you want to use a library of which you only have a compiled version (for example, headers and a `.so` file) wrap it in a `cc_library` rule:
 
 ```python
 cc_library(

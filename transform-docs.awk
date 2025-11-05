@@ -2,17 +2,161 @@
 # Transform script for converting Bazel docs to Mintlify MDX format
 # Usage: awk -f transform-docs.awk input.md > output.mdx
 
+# Trim leading/trailing whitespace
+function trim(str,    s) {
+    s = str
+    gsub(/^[ \t\r\n]+/, "", s)
+    gsub(/[ \t\r\n]+$/, "", s)
+    return s
+}
+
+# Decode common HTML entities
+function html_decode(text,    t) {
+    t = text
+    gsub(/&amp;/, "&", t)
+    gsub(/&lt;/, "<", t)
+    gsub(/&gt;/, ">", t)
+    gsub(/&quot;/, "\"", t)
+    gsub(/&#39;/, "'", t)
+    gsub(/&nbsp;/, " ", t)
+    return t
+}
+
+# Convert inline HTML tags to Markdown/MDX-friendly syntax
+function inline_to_md(text,    tmp) {
+    tmp = text
+    gsub(/<code>/, "`", tmp)
+    gsub(/<\/code>/, "`", tmp)
+    gsub(/<strong>/, "**", tmp)
+    gsub(/<\/strong>/, "**", tmp)
+    gsub(/<em>/, "*", tmp)
+    gsub(/<\/em>/, "*", tmp)
+    gsub(/<p>/, "", tmp)
+    gsub(/<\/p>/, "", tmp)
+    tmp = html_decode(tmp)
+    return trim(tmp)
+}
+
+# Map PrettyPrint language labels to code fence languages
+function map_lang(lang) {
+    lang = tolower(lang)
+    if (lang == "py" || lang == "python") return "python"
+    if (lang == "shell" || lang == "sh" || lang == "bash") return "bash"
+    if (lang == "java" || lang == "lang-java") return "java"
+    if (lang == "lang") return ""
+    return lang
+}
+
+# Emit a Mintlify Callout component
+function emit_callout(type, title, body) {
+    print "<Callout type=\"" type "\" title=\"" title "\">"
+    print body
+    print "</Callout>"
+    print ""
+}
+
+# Convert navigation tables into simple Markdown links
+function emit_navigation(text,    sanitized, count, hrefs, labels, match_str, href_val, label, prev_label, next_label, output_line, i) {
+    sanitized = text
+    gsub(/\n/, " ", sanitized)
+    gsub(/<span[^>]*>[^<]*<\/span>/, "", sanitized)
+    gsub(/<\/?(tr|td|table)>/, "", sanitized)
+    gsub(/class="[^"]*"/, "", sanitized)
+
+    count = 0
+    while (match(sanitized, /<a[^>]*href="[^"]*"[^>]*>[^<]*<\/a>/)) {
+        match_str = substr(sanitized, RSTART, RLENGTH)
+        sanitized = substr(sanitized, RSTART + RLENGTH)
+
+        href_val = ""
+        if (match(match_str, /href="[^"]*"/)) {
+            href_val = substr(match_str, RSTART + 6, RLENGTH - 7)
+        }
+
+        label = match_str
+        sub(/^[^>]*>/, "", label)
+        sub(/<\/a>.*$/, "", label)
+        gsub(/[[:space:]]+/, " ", label)
+        label = trim(label)
+        gsub(/arrow_forward/, "", label)
+        gsub(/arrow_back/, "", label)
+
+        count++
+        hrefs[count] = href_val
+        labels[count] = label
+    }
+
+    if (count == 0) {
+        return
+    }
+
+    prev_label = trim(labels[1])
+    if (prev_label !~ /←/) {
+        prev_label = "← " prev_label
+    }
+
+    output_line = "[" prev_label "](" hrefs[1] ")"
+
+    if (count > 1 && hrefs[2] != "") {
+        next_label = trim(labels[2])
+        if (next_label !~ /→/) {
+            next_label = next_label " →"
+        }
+        output_line = output_line " · [" next_label "](" hrefs[2] ")"
+    }
+
+    print ""
+    print output_line
+    print ""
+
+    for (i in hrefs) { delete hrefs[i] }
+    for (i in labels) { delete labels[i] }
+}
+# Convert compare paragraphs into Mintlify Callouts
+function handle_compare(text,    type, title_segment, title, body_segment, content) {
+    type = (index(text, "compare-better") > 0) ? "success" : "warning"
+
+    title_segment = text
+    sub(/^<p><span class="compare-[^"]*">/, "", title_segment)
+    sub(/<\/span>.*/, "", title_segment)
+    title = inline_to_md(title_segment)
+
+    body_segment = text
+    sub(/^<p><span class="compare-[^"]*">[^<]*<\/span>/, "", body_segment)
+    sub(/<\/p>[[:space:]]*$/, "", body_segment)
+    gsub(/\n[ \t]*/, " ", body_segment)
+    sub(/^[[:space:]]*(—|--|-)?[[:space:]]*/, "", body_segment)
+    content = inline_to_md(body_segment)
+
+    emit_callout(type, title, content)
+}
+
 BEGIN {
     in_frontmatter = 0
     first_h1_found = 0
     frontmatter_printed = 0
     before_first_h1 = 1
     in_code_block = 0
+    in_pre_block = 0
+    meta_index = 0
+    capture_compare = 0
+    compare_buffer = ""
+    capture_nav_table = 0
+    nav_buffer = ""
 }
 
 # Skip Jekyll front-matter lines
 /^Project: \/_project\.yaml$/ { next }
 /^Book: \/_book\.yaml$/ { next }
+
+# Skip Starlark lint directives embedded as comments
+/^\{#.*#\}$/ { next }
+
+# Stash metadata lines before the first H1 so we can emit them as frontmatter
+before_first_h1 && /^[A-Za-z0-9_-]+: / {
+    meta_lines[meta_index++] = $0
+    next
+}
 
 # Remove lines that contain only '{% include "_buttons.html" %}'
 /^{% include "_buttons\.html" %}$/ { next }
@@ -22,6 +166,51 @@ BEGIN {
 
 # Remove any lines that start with '{%'
 /^{%/ { next }
+
+# Convert <pre> blocks (with optional classes) into fenced code blocks
+/^[ \t]*<pre/ {
+    line = $0
+    lang = ""
+    if (match(line, /lang-[A-Za-z0-9_-]+/)) {
+        lang_token = substr(line, RSTART, RLENGTH)
+        lang = map_lang(substr(lang_token, 6))
+    } else if (match(line, /language-[A-Za-z0-9_-]+/)) {
+        lang_token = substr(line, RSTART, RLENGTH)
+        lang = map_lang(substr(lang_token, 10))
+    }
+    if (line ~ /<pre[^>]*>.*<\/pre>/) {
+        content = line
+        sub(/^[ \t]*<pre[^>]*>/, "", content)
+        sub(/<\/pre>[ \t]*$/, "", content)
+        gsub(/<\/?span[^>]*>/, "", content)
+        gsub(/<\/?div[^>]*>/, "", content)
+        gsub(/<\/?code[^>]*>/, "", content)
+        content = html_decode(content)
+        print "```" lang
+        print content
+        print "```"
+        next
+    }
+    print "```" lang
+    in_pre_block = 1
+    next
+}
+
+in_pre_block && /<\/pre>/ {
+    print "```"
+    in_pre_block = 0
+    next
+}
+
+in_pre_block {
+    line = $0
+    gsub(/<\/?span[^>]*>/, "", line)
+    gsub(/<\/?div[^>]*>/, "", line)
+    gsub(/<\/?code[^>]*>/, "", line)
+    line = html_decode(line)
+    print line
+    next
+}
 
 # Track code blocks to avoid processing their content
 /^```/ {
@@ -60,32 +249,132 @@ in_code_block {
     next
 }
 
-# Convert <pre> tags to markdown code blocks
-/^<pre>/ {
-    gsub(/^<pre>/, "```")
-    gsub(/<\/pre>$/, "```")
-    print
+# Convert navigation tables into inline Markdown
+capture_nav_table == 1 {
+    nav_buffer = nav_buffer "\n" $0
+    if ($0 ~ /<\/table>/) {
+        emit_navigation(nav_buffer)
+        nav_buffer = ""
+        capture_nav_table = 0
+    }
     next
 }
 
-# Fix <pre> tags that don't close properly
-/<pre[^>]*>/ {
-    # If it has content after the tag and ends with ```, it's malformed
-    if (/<pre[^>]*>[^<]*```$/) {
-        # Replace <pre...>content``` with just content (already has ```)
-        gsub(/<pre[^>]*>/, "", $0)
-        print
-        next
-    }
-    # If it has content after the tag, it's likely malformed
-    if (/<pre[^>]*>[^<]*$/) {
-        gsub(/<pre[^>]*>/, "```", $0)
-    }
+/^<table class="columns">/ {
+    capture_nav_table = 1
+    nav_buffer = $0
+    next
 }
 
-# Remove </pre> tags that appear at the end of lines
-{
-    gsub(/<\/pre>$/, "```", $0)
+# Convert compare callouts (Wrong/Correct) to Mintlify Callout components
+capture_compare == 1 {
+    compare_buffer = compare_buffer "\n" $0
+    if ($0 ~ /<\/p>/) {
+        handle_compare(compare_buffer)
+        compare_buffer = ""
+        capture_compare = 0
+    }
+    next
+}
+
+/^<p><span class="compare-(better|worse)">/ {
+    compare_buffer = $0
+    if ($0 ~ /<\/p>/) {
+        handle_compare(compare_buffer)
+        compare_buffer = ""
+    } else {
+        capture_compare = 1
+    }
+    next
+}
+
+# Handle inline compare badges inside lists
+/^[ \t]*[-*][ \t]*<span class="compare-(better|worse)">/ {
+    line = $0
+    icon = (index(line, "compare-better") > 0) ? "✅" : "⚠️"
+    label_segment = line
+    sub(/^[ \t]*[-*][ \t]*<span class="compare-[^"]*">/, "", label_segment)
+    sub(/<\/span>.*/, "", label_segment)
+    label = inline_to_md(label_segment)
+    rest_segment = line
+    sub(/^.*<\/span>:[[:space:]]*/, "", rest_segment)
+    rest = inline_to_md(rest_segment)
+    print "- " icon " **" label "**: " rest
+    next
+}
+
+# Promote **Note:** style callouts to Mintlify Callout components
+/^\*\*Note\*\*:/ {
+    line = $0
+    sub(/^\*\*Note\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("info", "Note", body)
+    next
+}
+
+/^[ \t]*<div style=/ { next }
+/^[ \t]*<\/div>[ \t]*$/ { next }
+
+# Convert styled horizontal rules to Markdown
+/^<hr/ {
+    print "---"
+    next
+}
+
+/^\*\*WARNING\*\*:/ {
+    line = $0
+    sub(/^\*\*WARNING\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("warning", "Warning", body)
+    next
+}
+
+/^\*\*Warning\*\*:/ {
+    line = $0
+    sub(/^\*\*Warning\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("warning", "Warning", body)
+    next
+}
+
+/^\*\*Important\*\*:/ {
+    line = $0
+    sub(/^\*\*Important\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("info", "Important", body)
+    next
+}
+
+/^\*\*IMPORTANT\*\*:/ {
+    line = $0
+    sub(/^\*\*IMPORTANT\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("warning", "Important", body)
+    next
+}
+
+/^\*\*Tip\*\*:/ {
+    line = $0
+    sub(/^\*\*Tip\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("success", "Tip", body)
+    next
+}
+
+/^\*\*TIP\*\*:/ {
+    line = $0
+    sub(/^\*\*TIP\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("success", "Tip", body)
+    next
+}
+
+/^\*\*Caution\*\*:/ {
+    line = $0
+    sub(/^\*\*Caution\*\*:[ \t]*/, "", line)
+    body = inline_to_md(line)
+    emit_callout("warning", "Caution", body)
+    next
 }
 
 # Remove anchor parts from headings (e.g., ## Title {:#anchor})
@@ -216,7 +505,7 @@ in_code_block {
 }
 
 # Fix unclosed <td> and <th> tags at end of lines (common in tables)
-/<td[^>]*>[^<]*$/ {
+/<td[^>]*>[[:space:]]*[^<[:space:]]+[[:space:]]*$/ {
     # Only add closing tag if there isn't already one
     if ($0 !~ /<\/td>$/) {
         $0 = $0 "</td>"
@@ -224,7 +513,7 @@ in_code_block {
 }
 
 # Be more careful with <th> - don't match <thead>
-/^[^<]*<th[^e]/ && /<th[^>]*>[^<]*$/ {
+/^[^<]*<th[^e]/ && /<th[^>]*>[[:space:]]*[^<[:space:]]+[[:space:]]*$/ {
     if ($0 !~ /<\/th>$/) {
         $0 = $0 "</th>"
     }
@@ -281,6 +570,9 @@ in_code_block {
     gsub(/'/, "''", title)
     print "---"
     print "title: '" title "'"
+    for (i = 0; i < meta_index; i++) {
+        print meta_lines[i]
+    }
     print "---"
     print ""
     first_h1_found = 1
@@ -288,7 +580,26 @@ in_code_block {
     next
 }
 
-# Print all other lines
 {
+    gsub(/ class="/, " className=\"", $0)
+    gsub(/ style="[^"]*"/, "", $0)
+    gsub(/<([A-Za-z0-9]+)  /, "<\\1 ", $0)
+    gsub(/  (href|target|rel|aria|data)/, " \\1", $0)
+    gsub(/[ \t]+>/, ">", $0)
+}
+
+{
+    gsub(/<span className="material-icons"[^>]*>arrow_back<\/span>/, "←", $0)
+    gsub(/<span className="material-icons"[^>]*>arrow_forward<\/span>/, "→", $0)
+    gsub(/<span className="material-icons"[^>]*>arrow_forward_ios<\/span>/, "→", $0)
+}
+
+{
+    gsub(/ className="[^"]*"/, "", $0)
+    gsub(/<\/?span[^>]*>/, "", $0)
+}
+
+{
+    $0 = html_decode($0)
     print
 }
