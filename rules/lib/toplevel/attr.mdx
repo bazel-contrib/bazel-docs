@@ -17,6 +17,7 @@ and [using](https://bazel.build/extending/rules#implementation_function) attribu
 - [label](#label)
 - [label\_keyed\_string\_dict](#label_keyed_string_dict)
 - [label\_list](#label_list)
+- [label\_list\_dict](#label_list_dict)
 - [output](#output)
 - [output\_list](#output_list)
 - [string](#string)
@@ -347,6 +348,87 @@ For an attribute of a rule or aspect, `configurable` must be left unbound. Most 
 **Experimental**. This parameter is experimental and may change at any time. Please do not depend on it. It may be enabled on an experimental basis by setting `--experimental_dormant_deps`
 
 If set, the attribute materializes dormant dependencies from the transitive closure. The value of this parameter must be a functon that gets access to the values of the attributes of the rule that either are not dependencies or are marked as available for dependency resolution. It must return either a dormant dependency or a list of them depending on the type of the attribute
+ `doc`[string](../core/string.html); or `None`;
+ default is `None`
+
+ A description of the attribute that can be extracted by documentation generating tools.
+ `allow_files`[bool](../core/bool.html); or [sequence](../core/list.html) of [string](../core/string.html) s; or `None`;
+ default is `None`
+
+ Whether `File` targets are allowed. Can be `True`, `False` (default), or a list of file extensions that are allowed (for example, `[".cc", ".cpp"]`).
+ `allow_rules`[sequence](../core/list.html) of [string](../core/string.html) s; or `None`;
+ default is `None`
+
+ Which rule targets (name of the classes) are allowed. This is deprecated (kept only for compatibility), use providers instead.
+ `providers`[sequence](../core/list.html);
+ default is `[]`
+
+ The providers that must be given by any dependency appearing in this attribute.
+
+The format of this argument is a list of lists of providers -- `*Info` objects returned by [`provider()`](../globals/bzl.html#provider) (or in the case of a legacy provider, its string name). The dependency must return ALL providers mentioned in at least ONE of the inner lists. As a convenience, this argument may also be a single-level list of providers, in which case it is wrapped in an outer list with one element (i.e. `[A, B]` means `[[A, B]]`). It is NOT required that the rule of the dependency advertises those providers in its `provides` parameter, however, it is considered best practice.
+
+
+`for_dependency_resolution`
+ default is `unbound`
+
+ If this is set, the attribute is available for materializers. Only rules marked with the flag of the same name are allowed to be referenced through such attributes.
+ `flags`[sequence](../core/list.html) of [string](../core/string.html) s;
+ default is `[]`
+
+ Deprecated, will be removed.
+ `mandatory`[bool](../core/bool.html);
+ default is `False`
+
+ If true, the value must be specified explicitly (even if it has a `default`).
+ `skip_validations`[bool](../core/bool.html);
+ default is `False`
+
+ If true, validation actions of transitive dependencies from this attribute will not run. This is a temporary mitigation and WILL be removed in the future.
+ `cfg`
+ default is `None`
+
+[Configuration](https://bazel.build/extending/rules#configurations) of the attribute. It can be either `"exec"`, which indicates that the dependency is built for the `execution platform`, or `"target"`, which indicates that the dependency is build for the `target platform`. A typical example of the difference is when building mobile apps, where the `target platform` is `Android` or `iOS` while the `execution platform` is `Linux`, `macOS`, or `Windows`.
+ `aspects`[sequence](../core/list.html) of [Aspect](../builtins/Aspect.html) s;
+ default is `[]`
+
+ Aspects that should be applied to the dependency or dependencies specified by this attribute.
+
+
+## label\_list\_dict
+
+```
+Attribute attr.label_list_dict(allow_empty=True, *, configurable=unbound, default={}, doc=None, allow_files=None, allow_rules=None, providers=[], for_dependency_resolution=unbound, flags=[], mandatory=False, skip_validations=False, cfg=None, aspects=[])
+```
+
+Creates a schema for an attribute holding a dictionary, where the keys are strings and the values are list of labels. This is a dependency attribute.
+
+This attribute contains unique [`Label`](../builtins/Label.html) values. If a string is supplied in place of a `Label`, it will be converted using the [label constructor](../builtins/Label.html#Label). The relative parts of the label path, including the (possibly renamed) repository, are resolved with respect to the instantiated target's package.
+
+At analysis time (within the rule's implementation function), when retrieving the attribute value from `ctx.attr`, labels are replaced by the corresponding [`Target`](../builtins/Target.html) s. This allows you to access the providers of the current target's dependencies.
+
+
+### Parameters
+
+ParameterDescription`allow_empty`[bool](../core/bool.html);
+ default is `True`
+
+ True if the attribute can be empty.
+ `configurable`[bool](../core/bool.html); or unbound;
+ default is `unbound`
+
+ This argument can only be specified for an attribute of a symbolic macro.
+
+If `configurable` is explicitly set to `False`, the symbolic macro attribute is non-configurable - in other words, it cannot take a `select()` value. If the `configurable` is either unbound or explicitly set to `True`, the attribute is configurable and can take a `select()` value.
+
+For an attribute of a rule or aspect, `configurable` must be left unbound. Most Starlark rule attributes are always configurable, with the exception of `attr.output()`, `attr.output_list()`, and `attr.license()` rule attributes, which are always non-configurable.
+
+
+`default`[dict](../core/dict.html);
+ default is `{}`
+
+ A default value to use if no value for this attribute is given when instantiating the rule.Use strings or the [`Label`](../builtins/Label.html#Label) function to specify default values, for example,
+`attr.label_list_dict(default = {"key1": ["//a:b", "//a:c"], "key2":
+[Label("@my_repo//d:e")]})`.
  `doc`[string](../core/string.html); or `None`;
  default is `None`
 
