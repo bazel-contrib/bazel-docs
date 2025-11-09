@@ -181,10 +181,7 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "query/guide",
-                      "query/language",
-                      "query/cquery",
-                      "query/aquery"
+                      "query/language"
                     ]
                   },
                   {
@@ -455,9 +452,7 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.4.2/query/language",
-                      "8.4.2/query/cquery",
-                      "8.4.2/query/aquery"
+                      "8.4.2/query/language"
                     ]
                   },
                   {
@@ -728,9 +723,7 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.3.1/query/language",
-                      "8.3.1/query/cquery",
-                      "8.3.1/query/aquery"
+                      "8.3.1/query/language"
                     ]
                   },
                   {
@@ -1001,9 +994,7 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.2.1/query/language",
-                      "8.2.1/query/cquery",
-                      "8.2.1/query/aquery"
+                      "8.2.1/query/language"
                     ]
                   },
                   {
@@ -1274,9 +1265,7 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.1.1/query/language",
-                      "8.1.1/query/cquery",
-                      "8.1.1/query/aquery"
+                      "8.1.1/query/language"
                     ]
                   },
                   {
@@ -1547,9 +1536,7 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.0.1/query/language",
-                      "8.0.1/query/cquery",
-                      "8.0.1/query/aquery"
+                      "8.0.1/query/language"
                     ]
                   },
                   {
@@ -2091,9 +2078,7 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "6.5.0/query/language",
-                      "6.5.0/query/cquery",
-                      "6.5.0/query/aquery"
+                      "6.5.0/query/language"
                     ]
                   },
                   {
