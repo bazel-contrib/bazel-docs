@@ -3,8 +3,8 @@ on:
     # Since PRs to Bazel repo may come from a fork, and those cannot see GHA Secrets,
     # we fall back to polling the Bazel repo for new PRs.
     schedule:
-        # Every 10 minutes
-        - cron: '*/10 * * * *'
+        # Every 5 minutes
+        - cron: '*/5 * * * *'
     # Also allow manual triggering in the GH UI.
     # Press the green button on
     # https://github.com/bazel-contrib/bazel-docs/actions/workflows/preview-bazel-docs-pr.yml
