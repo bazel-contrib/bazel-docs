@@ -35,13 +35,65 @@ jobs:
         working-directory: upstream
         run: git checkout '${{ inputs.bazelCommitHash }}'
 
+      - name: Determine upstream commit range
+        id: upstream-commit-range
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          head_sha=$(git rev-parse HEAD)
+          base_sha=""
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            base_sha=$(git rev-parse HEAD^)
+          fi
+          echo "head_sha=$head_sha" >> "$GITHUB_OUTPUT"
+          echo "base_sha=$base_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Detect upstream docs changes
+        id: docs-filter
+        if: ${{ steps.upstream-commit-range.outputs.base_sha != '' }}
+        uses: dorny/paths-filter@v3
+        with:
+          base: ${{ steps.upstream-commit-range.outputs.base_sha }}
+          head: ${{ steps.upstream-commit-range.outputs.head_sha }}
+          working-directory: upstream
+          filters: |
+            docs:
+              - 'docs/**'
+              - 'site/en/docs/**'
+
+      - name: Resolve docs change result
+        id: docs-changed
+        env:
+          BASE_SHA: ${{ steps.upstream-commit-range.outputs.base_sha }}
+          DOCS_FILTER: ${{ steps.docs-filter.outputs.docs }}
+        run: |
+          if [ -z "$BASE_SHA" ]; then
+            echo "docs_changed=true" >> "$GITHUB_OUTPUT"
+          elif [ "$DOCS_FILTER" = "true" ]; then
+            echo "docs_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "docs_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Report docs change status
+        run: |
+          if [ "${DOCS_CHANGED}" = "true" ]; then
+            echo "Upstream docs changed; continuing pipeline."
+          else
+            echo "No upstream docs changes detected; skipping regeneration steps."
+          fi
+        env:
+          DOCS_CHANGED: ${{ steps.docs-changed.outputs.docs_changed }}
+
       - name: Setup Bazel
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         uses: bazel-contrib/setup-bazel@0.15.0
         with:
           bazelisk-cache: true
           repository-cache: true
        
       - name: Build reference documentation
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         working-directory: upstream
         run: >
           bazel build
@@ -55,7 +107,7 @@ jobs:
           //src/main/java/com/google/devtools/build/lib:gen_reference_docs
 
       - name: Upload reference docs artifact
-        if: ${{ github.ref != 'refs/heads/main' }}
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' && github.ref != 'refs/heads/main' }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: reference-docs
@@ -63,25 +115,30 @@ jobs:
           retention-days: 7
 
       - name: Clean up mdx files
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: ./cleanup-mdx.sh
 
       - name: Set up Go
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         uses: actions/setup-go@v6
         with:
           go-version: '1.25.2'
 
       - name: Initialize Go module for converter
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: |
           cd html2md_converter
           go mod init html-to-md-converter
           go get github.com/JohannesKaufmann/html-to-markdown
 
       - name: Build HTML to Markdown converter
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: |
           cd html2md_converter
           go build -o html-to-md main.go
             
       - name: Convert reference documentation HTML to Markdown
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: |
           # Extract and convert HTML reference docs to Markdown
           ./html2md_converter/html-to-md \
@@ -89,20 +146,25 @@ jobs:
             -output reference-docs-temp
 
       - name: Transform upstream docs to mdx
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: ./copy-upstream-docs.sh
 
       - name: Create versioned navigation
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: ./docs.json.update.sh
     
       - name: Clean up temporary files
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: rm -rf reference-docs-temp
 
       - name: Configure Git
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
+        if: ${{ steps.docs-changed.outputs.docs_changed == 'true' }}
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
