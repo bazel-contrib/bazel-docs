@@ -1,0 +1,47 @@
+<SYSTEM>This is the compressed Bazel quick-reference. Prioritize actionable answers over prose. If more context is required, escalate to llms-medium.txt.</SYSTEM>
+
+# Bazel quick-reference (compressed)
+- Default to Bazel 8 semantics unless the prompt specifies otherwise.
+- Keep answers scoped to the referenced docs; link back to the canonical URL.
+
+## About Bazel
+> Bazel is an open-source build and test tool similar to Make, Maven, and Gradle. It uses a human-readable, high-level build language. Bazel supports projects in multiple languages and builds outputs…
+
+- **Intro to Bazel** — Bazel is an open-source build and test tool similar to Make, Maven, and Gradle. It uses a human-readable, high-level build language. Bazel supports projects in multiple languages and builds outputs for multiple… (https://bazel.build/about/intro)
+- **Why Bazel?** — Bazel is a fast, correct, and extensible build tool with integrated testing that supports multiple languages, repositories, and platforms in an industry-leading ecosystem. (https://bazel.build/about/why)
+- **Bazel Vision** — Any software developer can efficiently build, test, and package any project, of any size or complexity, with tooling that's easy to adopt and extend. (https://bazel.build/about/vision)
+
+## Getting started
+> This page describes the various platforms supported by Bazel and links to the packages for more details.
+
+- **Installing Bazel** — This page describes the various platforms supported by Bazel and links to the packages for more details. (https://bazel.build/install)
+- **Installing / Updating Bazel using Bazelisk** — ## Installing Bazel (https://bazel.build/install/bazelisk)
+- **Installing Bazel on macOS** — This page describes how to install Bazel on macOS and set up your environment. (https://bazel.build/install/os-x)
+
+## User guide
+> As announced in the original blog post, Bazel 4.0 and higher versions provides support for two release tracks: rolling releases and long term support (LTS) releases. This page covers the latest…
+
+- **Release Model** — As announced in the original blog post, Bazel 4.0 and higher versions provides support for two release tracks: rolling releases and long term support (LTS) releases. This page covers the latest information about Bazel's… (https://bazel.build/release)
+- **Rolling Releases** — This page contains an overview of all rolling releases, as per our release policy. Bazelisk is the best way to use these releases. (https://bazel.build/release/rolling)
+- **Backward Compatibility** — This page provides information about how to handle backward compatibility, including migrating from one release to another and how to communicate incompatible changes. (https://bazel.build/release/backward-compatibility)
+
+## Reference
+> ## Concepts and terminology
+
+- **Bazel BUILD Encyclopedia of Functions** — ## Concepts and terminology (https://bazel.build/reference/be/overview)
+- **Common definitions** — This section defines various terms and concepts that are common to many functions or build rules. (https://bazel.build/reference/be/common-definitions)
+- **Make Variables** — - Use - Predefined variables - Predefined genrule variables - Predefined source/output path variables - Custom variables (https://bazel.build/reference/be/make-variables)
+
+## Extending
+> {/ [TOC] /}
+
+- **Extension Overview** — {/ [TOC] /} (https://bazel.build/extending/concepts)
+- **Rules Tutorial** — {/ [TOC] /} (https://bazel.build/rules/rules-tutorial)
+- **Creating a Symbolic Macro** — IMPORTANT: This tutorial is for symbolic macros – the new macro system introduced in Bazel 8. If you need to support older Bazel versions, you will want to write a legacy macro instead; take a look at Creating a Legacy… (https://bazel.build/rules/macro-tutorial)
+
+## Community
+> There are many ways to help the Bazel project and ecosystem.
+
+- **Contributing to Bazel** — There are many ways to help the Bazel project and ecosystem. (https://bazel.build/contribute)
+- **Policy** — translation: human pagetype: lcat --- title: 'Contribution policy' --- (https://bazel.build/contribute/policy)
+- **Patch Acceptance Process** — This page outlines how contributors can propose and make changes to the Bazel code base. (https://bazel.build/contribute/patch-acceptance)

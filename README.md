@@ -30,15 +30,22 @@ Send a PR to get a hosted preview of the changes.
 
 ## LLM-friendly snapshots
 
-The repository ships two machine-readable indices at the site root:
+The repository now ships a family of machine-readable files at the site root:
 
-- `llms.txt` – a curated navigation guide so LLMs can understand the docs layout quickly.
-- `llms-full.txt` – the entire Markdown/MDX corpus flattened into a single file for ingestion.
+- `llms.txt` – curated index linking out to every other variant.
+- `llms-medium.txt` – abridged narrative with limited excerpts.
+- `llms-small.txt` – compressed quick-reference for low-token contexts.
+- `llms-full.txt` – the entire Markdown/MDX corpus in one file.
+- `llms-section-<slug>.txt` – section-scoped corpora (for example `llms-section-user-guide.txt`).
 
-Regenerate both files after editing docs with:
+Regenerate all variants after editing docs:
 
 ```bash
 python3 scripts/generate_llms.py
 ```
 
-Set `LLMS_BASE_URL` if you need to point to a preview domain. The script reads `docs.json` so it stays aligned with the Mintlify navigation model.
+Hints:
+
+- Set `LLMS_BASE_URL` if you need to point to a preview/staging domain.
+- Use `--sections-only about-bazel user-guide` to regenerate just the per-section files you touched.
+- Run `mint dev` and visit `http://localhost:3000/llms.txt` (or `/llms-medium.txt`, etc.) to preview locally.

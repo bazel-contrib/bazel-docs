@@ -1,256 +1,31 @@
-# Bazel Documentation – llms.txt
-> High-signal navigation cues for the Bazel build system docs. Use this before fetching the full corpus to understand layout and priority content.
+# Bazel documentation for LLMs
+> Bazel is a fast, hermetic build system. Use this file to choose the right documentation snapshot for your LLM session.
 
+## Documentation sets
+- [Abridged documentation](llms-medium.txt): High-signal narrative with short excerpts for every major section.
+- [Compressed documentation](llms-small.txt): Strictly limited summaries for low-token contexts.
+- [Complete documentation](llms-full.txt): Entire Markdown corpus mirrors all MDX sources.
+
+## Section snapshots
+- [About Bazel](llms-section-about-bazel.txt) — 12 pages. Bazel is an open-source build and test tool similar to Make, Maven, and Gradle. It uses a human-readable, high-level build language. Bazel supports projects in multiple languages and builds outputs…
+- [Getting started](llms-section-getting-started.txt) — 17 pages. This page describes the various platforms supported by Bazel and links to the packages for more details.
+- [User guide](llms-section-user-guide.txt) — 38 pages. As announced in the original blog post, Bazel 4.0 and higher versions provides support for two release tracks: rolling releases and long term support (LTS) releases. This page covers the latest…
+- [Reference](llms-section-reference.txt) — 4 pages. ## Concepts and terminology
+- [Extending](llms-section-extending.txt) — 13 pages. {/ [TOC] /}
+- [Community](llms-section-community.txt) — 17 pages. There are many ways to help the Bazel project and ecosystem.
+
+## Archived versions
+- Bazel 8.4.2: https://bazel.build/8.4.2/ (snapshot only)
+- Bazel 8.3.1: https://bazel.build/8.3.1/ (snapshot only)
+- Bazel 8.2.1: https://bazel.build/8.2.1/ (snapshot only)
+- Bazel 8.1.1: https://bazel.build/8.1.1/ (snapshot only)
+- Bazel 8.0.1: https://bazel.build/8.0.1/ (snapshot only)
+- Bazel 7.6.1: https://bazel.build/7.6.1/ (snapshot only)
+- Bazel 6.5.0: https://bazel.build/6.5.0/ (snapshot only)
+
+## Notes
 - Canonical domain: https://bazel.build/
 - Docs snapshot: HEAD
-- Generated: 2025-11-12 16:41:01 UTC
-- Full corpus: /llms-full.txt
+- Generated: 2025-11-12 17:06:48 UTC
 - Source repo: https://github.com/bazel-contrib/bazel-docs
-
-## Navigation highlights
-### About Bazel
-- **Why Bazel?** (5 pages)
-  - [Intro to Bazel](https://bazel.build/about/intro) — Bazel is an open-source build and test tool similar to Make, Maven, and Gradle.
-It uses a human-readable, high-level build language. Bazel supports projects in
-multiple languages and builds outputs for multiple…
-  - [Why Bazel?](https://bazel.build/about/why) — Bazel is a fast, correct, and extensible
-build tool with integrated testing that supports multiple
-languages, repositories, and
-platforms in an industry-leading ecosystem.
-  - [Bazel Vision](https://bazel.build/about/vision) — Any software developer can efficiently build, test, and package
-any project, of any size or complexity, with tooling that's easy to adopt and
-extend.
-  - [Bazel roadmap](https://bazel.build/about/roadmap) — As Bazel continues to evolve in response to your needs, we want to share our
-2025 roadmap update.
-  - [FAQ](https://bazel.build/about/faq) — If you have questions or need support, see Getting Help.
-- **Build system basics** (7 pages)
-  - [Build Basics](https://bazel.build/basics) — A build system is one of the most important parts of an engineering organization
-because each developer interacts with it potentially dozens or hundreds of times
-per day. A fully featured build system is necessary to…
-  - [Why a Build System?](https://bazel.build/basics/build-systems) — This page discusses what build systems are, what they do, why you should use a
-build system, and why compilers and build scripts aren't the best choice as your
-organization starts to scale. It's intended for developers…
-  - [Task-Based Build Systems](https://bazel.build/basics/task-based-builds) — This page covers task-based build systems, how they work and some of the
-complications that can occur with task-based systems. After shell scripts,
-task-based build systems are the next logical evolution of building.
-  - [Artifact-Based Build Systems](https://bazel.build/basics/artifact-based-builds) — This page covers artifact-based build systems and the philosophy behind their
-creation. Bazel is an artifact-based build system. While task-based build
-systems are good step above build scripts, they give too much power…
-  - [Distributed Builds](https://bazel.build/basics/distributed-builds) — When you have a large codebase, chains of dependencies can become very deep.
-Even simple binaries can often depend on tens of thousands of build targets. At
-this scale, it’s simply impossible to complete a build in a…
-  - [Dependency Management](https://bazel.build/basics/dependencies) — In looking through the previous pages, one theme repeats over and over: managing
-your own code is fairly straightforward, but managing its dependencies is much
-more difficult. There are all sorts of dependencies…
-  - … 1 more pages in this group
-
-### Getting started
-- **Install** (10 pages)
-  - [Installing Bazel](https://bazel.build/install) — This page describes the various platforms supported by Bazel and links
-to the packages for more details.
-  - [Installing / Updating Bazel using Bazelisk](https://bazel.build/install/bazelisk) — ## Installing Bazel
-  - [Installing Bazel on macOS](https://bazel.build/install/os-x) — This page describes how to install Bazel on macOS and set up your environment.
-  - [Installing Bazel on Windows](https://bazel.build/install/windows) — This page describes the requirements and steps to install Bazel on Windows.
-It also includes troubleshooting and other ways to install Bazel, such as
-using Chocolatey or Scoop.
-  - [Installing Bazel on Ubuntu](https://bazel.build/install/ubuntu) — This page describes the options for installing Bazel on Ubuntu.
-It also provides links to the Bazel completion scripts and the binary installer,
-if needed as a backup option (for example, if you don't have admin access).
-  - [Installing Bazel on openSUSE Tumbleweed & Leap](https://bazel.build/install/suse) — This page describes how to install Bazel on openSUSE Tumbleweed and Leap.
-  - … 4 more pages in this group
-- **First build tutorials** (4 pages)
-  - [Bazel Tutorial: Build a C++ Project](https://bazel.build/start/cpp) — ## Introduction
-  - [Bazel Tutorial: Build a Java Project](https://bazel.build/start/java) — This tutorial covers the basics of building Java applications with
-Bazel. You will set up your workspace and build a simple Java project that
-illustrates key Bazel concepts, such as targets and BUILD files.
-  - [Bazel Tutorial: Build an Android App](https://bazel.build/start/android-app) — Note: There are known limitations on using Bazel for building Android apps.
-Visit the rulesandroid issues page
-to see the list of known issues. While the Bazel team and Open Source Software
-(OSS) contributors work…
-  - [Bazel Tutorial: Build an iOS App](https://bazel.build/start/ios-app) — This tutorial has been moved into the bazelbuild/rulesapple repository.
-- **Concepts** (3 pages)
-  - [Repositories, workspaces, packages, and targets](https://bazel.build/concepts/build-ref) — Bazel builds software from source code organized in directory trees called
-repositories. A defined set of repositories comprises the workspace. Source
-files in repositories are organized in a nested hierarchy of…
-  - [Visibility](https://bazel.build/concepts/visibility) — This page covers Bazel's two visibility systems:
-target visibility and load visibility.
-  - [Migrating to Platforms](https://bazel.build/concepts/platforms) — Bazel has sophisticated support for modeling
-[platforms][Platforms] and [toolchains][Toolchains] for multi-architecture and
-cross-compiled builds.
-
-### User guide
-- **Releases** (4 pages)
-  - [Release Model](https://bazel.build/release) — As announced in the original blog
-post, Bazel
-4.0 and higher versions provides support for two release tracks: rolling
-releases and long term support (LTS) releases. This page covers the latest
-information about Bazel's…
-  - [Rolling Releases](https://bazel.build/release/rolling) — This page contains an overview of all rolling releases, as per our
-release policy.
-Bazelisk is the best way to use
-these releases.
-  - [Backward Compatibility](https://bazel.build/release/backward-compatibility) — This page provides information about how to handle backward compatibility,
-including migrating from one release to another and how to communicate
-incompatible changes.
-  - [Rule Compatibility](https://bazel.build/release/rule-compatibility) — Bazel Starlark rules can break compatibility with Bazel LTS releases in the
-following two scenarios:
-- **Basics** (3 pages)
-  - [BUILD Style Guide](https://bazel.build/build/style-guide) — ## Prefer DAMP BUILD files over DRY
-  - [Sharing Variables](https://bazel.build/build/share-variables) — BUILD files are intended to be simple and declarative. They will typically
-consist of a series of target declarations. As your code base and your BUILD
-files get larger, you will probably notice some duplication, such…
-  - [Recommended Rules](https://bazel.build/community/recommended-rules) — In the documentation, we provide a list of
-recommended rules.
-- **Advanced** (9 pages)
-  - [Configurable Build Attributes](https://bazel.build/configure/attributes) — Configurable attributes, commonly known as select(), is a Bazel feature that lets users toggle the values
-of build rule attributes at the command line.
-  - [Code coverage with Bazel](https://bazel.build/configure/coverage) — Bazel features a coverage sub-command to produce code coverage
-reports on repositories that can be tested with bazel coverage. Due
-to the idiosyncrasies of the various language ecosystems, it is not
-always trivial to…
-  - [Best Practices](https://bazel.build/configure/best-practices) — This page assumes you are familiar with Bazel and provides guidelines and
-advice on structuring your projects to take full advantage of Bazel's features.
-  - [Using Bazel on Windows](https://bazel.build/configure/windows) — This page covers Best Practices for using Bazel on Windows. For installation
-instructions, see Install Bazel on Windows.
-  - [Extracting build performance metrics](https://bazel.build/advanced/performance/build-performance-metrics) — Probably every Bazel user has experienced builds that were slow or slower than
-anticipated. Improving the performance of individual builds has particular value
-for targets with significant impact, such as:
-  - [Breaking down build performance](https://bazel.build/advanced/performance/build-performance-breakdown) — Bazel is complex and does a lot of different things over the course of a build,
-some of which can have an impact on build performance. This page attempts to map
-some of these Bazel concepts to their implications on…
-  - … 3 more pages in this group
-- **Remote Execution** (15 pages)
-  - [Remote Execution Overview](https://bazel.build/remote/rbe) — This page covers the benefits, requirements, and options for running Bazel
-with remote execution.
-  - [Adapting Bazel Rules for Remote Execution](https://bazel.build/remote/rules) — This page is intended for Bazel users writing custom build and test rules
-who want to understand the requirements for Bazel rules in the context of
-remote execution.
-  - [Configuring Bazel CI to Test Rules for Remote Execution](https://bazel.build/remote/ci) — This page is for owners and maintainers of Bazel rule repositories. It
-describes how to configure the Bazel Continuous Integration (CI) system for
-your repository to test your rules for compatibility against a remote…
-  - [Remote Caching](https://bazel.build/remote/caching) — This page covers remote caching, setting up a server to host the cache, and
-running builds using the remote cache.
-  - [Troubleshooting Bazel Remote Execution with Docker Sandbox](https://bazel.build/remote/sandbox) — Bazel builds that succeed locally may fail when executed remotely due to
-restrictions and requirements that do not affect local builds. The most common
-causes of such failures are described in Adapting Bazel Rules for…
-  - [Finding Non-Hermetic Behavior in WORKSPACE Rules](https://bazel.build/remote/workspace) — In the following, a host machine is the machine where Bazel runs.
-  - … 9 more pages in this group
-- **Tutorials** (4 pages)
-  - [Common C++ Build Use Cases](https://bazel.build/tutorials/cpp-use-cases) — Here you will find some of the most common use cases for building C++ projects
-with Bazel. If you have not done so already, get started with building C++
-projects with Bazel by completing the tutorial
-Introduction to…
-  - [Bazel Tutorial: Configure C++ Toolchains](https://bazel.build/tutorials/ccp-toolchain-config) — This tutorial uses an example scenario to describe how to configure C++
-toolchains for a project.
-  - [Review the dependency graph](https://bazel.build/tutorials/cpp-dependency) — A successful build has all of its dependencies explicitly stated in the BUILD
-file. Bazel uses those statements to create the project's dependency graph,
-which enables accurate incremental builds.
-  - [Use labels to reference targets](https://bazel.build/tutorials/cpp-labels) — In BUILD files and at the command line, Bazel uses labels to reference
-targets - for example, //main:hello-world or //lib:hello-time. Their syntax
-is:
-- **Migrate** (3 pages)
-  - [Migrating to Bazel](https://bazel.build/migrate) — This page links to migration guides for Bazel.
-  - [Migrating from Maven to Bazel](https://bazel.build/migrate/maven) — This page describes how to migrate from Maven to Bazel, including the
-prerequisites and installation steps. It describes the differences between Maven
-and Bazel, and provides a migration example using the Guava project.
-  - [Migrating from Xcode to Bazel](https://bazel.build/migrate/xcode) — This page describes how to build or test an Xcode project with Bazel. It
-describes the differences between Xcode and Bazel, and provides the steps for
-converting an Xcode project to a Bazel project. It also provides…
-
-### Reference
-- **Build encyclopedia** (3 pages)
-  - [Bazel BUILD Encyclopedia of Functions](https://bazel.build/reference/be/overview) — ## Concepts and terminology
-  - [Common definitions](https://bazel.build/reference/be/common-definitions) — This section defines various terms and concepts that are common to
-many functions or build rules.
-  - [Make Variables](https://bazel.build/reference/be/make-variables) — - Use
-- Predefined variables
-- Predefined genrule variables
-- Predefined source/output path variables
-- Custom variables
-- **Glossary** (1 pages)
-  - [Bazel Glossary](https://bazel.build/reference/glossary) — ### Action
-
-### Extending
-- **Concepts** (1 pages)
-  - [Extension Overview](https://bazel.build/extending/concepts) — {/ [TOC] /}
-- **Writing rules** (7 pages)
-  - [Rules Tutorial](https://bazel.build/rules/rules-tutorial) — {/ [TOC] /}
-  - [Creating a Symbolic Macro](https://bazel.build/rules/macro-tutorial) — IMPORTANT: This tutorial is for symbolic macros – the new
-macro system introduced in Bazel 8. If you need to support older Bazel versions,
-you will want to write a legacy macro instead; take
-a look at Creating a Legacy…
-  - [Creating a Legacy Macro](https://bazel.build/rules/legacy-macro-tutorial) — IMPORTANT: This tutorial is for legacy macros. If
-you only need to support Bazel 8 or newer, we recommend using symbolic
-macros instead; take a look at Creating a Symbolic
-Macro.
-  - [Using Macros to Create Custom Verbs](https://bazel.build/rules/verbs-tutorial) — Day-to-day interaction with Bazel happens primarily through a few commands:
-build, test, and run. At times, though, these can feel limited: you may
-want to push packages to a repository, publish documentation for…
-  - [Starlark Language](https://bazel.build/rules/language) — {/ [TOC] /}
-  - [.bzl style guide](https://bazel.build/rules/bzl-style) — This page covers basic style guidelines for Starlark and also includes
-information on macros and rules.
-  - … 1 more pages in this group
-- **Distributing rules** (3 pages)
-  - [Testing](https://bazel.build/rules/testing) — There are several different approaches to testing Starlark code in Bazel. This
-page gathers the current best practices and frameworks by use case.
-  - [Optimizing Performance](https://bazel.build/rules/performance) — When writing rules, the most common performance pitfall is to traverse or copy
-data that is accumulated from dependencies. When aggregated over the whole
-build, these operations can easily take O(N^2) time or space. To…
-  - [Deploying Rules](https://bazel.build/rules/deploying) — This page is for rule writers who are planning to make their rules available
-to others.
-- **APIs** (2 pages)
-  - [One-Page Overview](https://bazel.build/rules/lib/overview) — ## Global functions
-  - [Global functions](https://bazel.build/rules/lib/globals) — This section lists the global functions available in Starlark. The list of available functions differs depending on the file type (whether a BUILD file, or a .bzl file, etc).
-
-### Community
-- **Contributing** (9 pages)
-  - [Contributing to Bazel](https://bazel.build/contribute) — There are many ways to help the Bazel project and ecosystem.
-  - [Policy](https://bazel.build/contribute/policy) — translation: human
-pagetype: lcat
----
-title: 'Contribution policy'
----
-  - [Patch Acceptance Process](https://bazel.build/contribute/patch-acceptance) — This page outlines how contributors can propose and make changes to the Bazel
-code base.
-  - [Guide for Bazel Maintainers](https://bazel.build/contribute/maintainers-guide) — This is a guide for the maintainers of the Bazel open source project.
-  - [The Bazel codebase](https://bazel.build/contribute/codebase) — This document is a description of the codebase and how Bazel is structured. It
-is intended for people willing to contribute to Bazel, not for end-users.
-  - [A Guide to Skyframe `StateMachine`s](https://bazel.build/contribute/statemachine-guide) — ## Overview
-  - … 3 more pages in this group
-- **Programs** (6 pages)
-  - [Bazel Special Interest Groups](https://bazel.build/community/sig) — Bazel hosts Special Interest Groups (SIGs) to focus collaboration on particular
-areas and to support communication and coordination between Bazel owners,
-maintainers, and contributors. This policy
-applies to bazelbuild.
-  - [Bazel Community Experts](https://bazel.build/community/experts) — Companies who have contributed significantly to the Bazel community and can help with your project
-  - [Bazel Product Partners](https://bazel.build/community/partners) — We categorize Bazel product partners as organizations that build open source or paid tooling that interfaces with Bazel. These tools aim to improve Bazel end user experience and accelerate developer…
-  - [Who''s Using Bazel](https://bazel.build/community/users) — Note: Using Bazel? You can add your company on
-StackShare. To add yourself to this page,
-contact product@bazel.build.
-  - [Recommended Rules](https://bazel.build/community/recommended-rules) — In the documentation, we provide a list of
-recommended rules.
-  - [Remote Execution Services](https://bazel.build/community/remote-execution-services) — Use the following services to run Bazel with remote execution:
-- **Getting help** (2 pages)
-  - [Getting Help](https://bazel.build/help) — This page lists Bazel resources beyond the documentation and covers how to get
-support from the Bazel team and community.
-  - [Policy](https://bazel.build/contribute/policy) — translation: human
-pagetype: lcat
----
-title: 'Contribution policy'
----
-
-## Versioned archives
-- Bazel 8.4.2 docs: https://bazel.build/8.4.2/ (snapshot content)
-- Bazel 8.3.1 docs: https://bazel.build/8.3.1/ (snapshot content)
-- Bazel 8.2.1 docs: https://bazel.build/8.2.1/ (snapshot content)
-- Bazel 8.1.1 docs: https://bazel.build/8.1.1/ (snapshot content)
-- Bazel 8.0.1 docs: https://bazel.build/8.0.1/ (snapshot content)
-- Bazel 7.6.1 docs: https://bazel.build/7.6.1/ (snapshot content)
-- Bazel 6.5.0 docs: https://bazel.build/6.5.0/ (snapshot content)
-
-## Machine-readable artifacts
-- Curated summary: /llms.txt (this document)
-- Full corpus: /llms-full.txt
-- Generator: scripts/generate_llms.py
-
-> Tip: Fetch llms-full.txt only after skimming this curated file; the corpus is large (~many MB) and mirrors all MDX sources.
+- Preview locally: run `mint dev` then open http://localhost:3000/llms.txt

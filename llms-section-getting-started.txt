@@ -1,0 +1,3768 @@
+<SYSTEM>This is the Bazel 'Getting started' documentation subset. Use it when you only need this portion of the corpus.</SYSTEM>
+
+# Getting started
+- Docs snapshot: HEAD
+- Generated: 2025-11-12 17:06:48 UTC
+
+## Install
+
+### Installing Bazel
+- URL: https://bazel.build/install
+- Source: install/index.mdx
+
+This page describes the various platforms supported by Bazel and links
+to the packages for more details.
+
+[Bazelisk](/install/bazelisk) is the recommended way to install Bazel on [Ubuntu Linux](/install/ubuntu), [macOS](/install/os-x), and [Windows](/install/windows).
+
+You can find available Bazel releases on our [release page](/release).
+
+## Community-supported packages
+
+Bazel community members maintain these packages. The Bazel team doesn't
+officially support them. Contact the package maintainers for support.
+
+*   [Alpine Linux](https://pkgs.alpinelinux.org/packages?name=bazel*&branch=edge&repo=&arch=&origin=&flagged=&maintainer=)
+*   [Arch Linux][arch]
+*   [Debian](https://qa.debian.org/developer.php?email=team%2Bbazel%40tracker.debian.org)
+*   [Fedora](https://copr.fedorainfracloud.org/coprs/lihaohong/bazel)
+*   [FreeBSD](https://www.freshports.org/devel/bazel)
+*   [Homebrew](https://formulae.brew.sh/formula/bazel)
+*   [Nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/build-managers/bazel)
+*   [openSUSE](/install/suse)
+*   [Scoop](https://github.com/scoopinstaller/scoop-main/blob/master/bucket/bazel.json)
+*   [Raspberry Pi](https://github.com/koenvervloesem/bazel-on-arm/blob/master/README.md)
+
+## Community-supported architectures
+
+*   [ppc64el](https://ftp2.osuosl.org/pub/ppc64el/bazel/)
+
+For other platforms, you can try to [compile from source](/install/compile-source).
+
+[arch]: https://archlinux.org/packages/extra/x86_64/bazel/
+
+### Installing / Updating Bazel using Bazelisk
+- URL: https://bazel.build/install/bazelisk
+- Source: install/bazelisk.mdx
+
+## Installing Bazel
+
+[Bazelisk](https://github.com/bazelbuild/bazelisk) is the
+recommended way to install Bazel on Ubuntu, Windows, and macOS. It automatically
+downloads and installs the appropriate version of Bazel. Use Bazelisk if you
+need to switch between different versions of Bazel depending on the current
+working directory, or to always keep Bazel updated to the latest release.
+
+For more details, see
+[the official README](https://github.com/bazelbuild/bazelisk/blob/master/README.md).
+
+## Updating Bazel
+
+Bazel has a [backward compatibility policy](/release/backward-compatibility)
+(see [guidance for rolling out incompatible
+changes](/contribute/breaking-changes) if you
+are the author of one). That page summarizes best practices on how to test and
+migrate your project with upcoming incompatible changes and how to provide
+feedback to the incompatible change authors.
+
+### Managing Bazel versions with Bazelisk
+
+[Bazelisk](https://github.com/bazelbuild/bazelisk) helps you manage
+Bazel versions.
+
+Bazelisk can:
+
+*   Auto-update Bazel to the latest LTS or rolling release.
+*   Build the project with a Bazel version specified in the .bazelversion
+    file. Check in that file into your version control to ensure reproducibility
+    of your builds.
+*   Help migrate your project for incompatible changes (see above)
+*   Easily try release candidates
+
+### Recommended migration process
+
+Within minor updates to any LTS release, any
+project can be prepared for the next release without breaking
+compatibility with the current release. However, there may be
+backward-incompatible changes between major LTS versions.
+
+Follow this process to migrate from one major version to another:
+
+1. Read the release notes to get advice on how to migrate to the next version.
+1. Major incompatible changes should have an associated `--incompatible_*` flag
+   and a corresponding GitHub issue:
+    *   Migration guidance is available in the associated GitHub issue.
+    *   Tooling is available for some of incompatible changes migration. For
+        example, [buildifier](https://github.com/bazelbuild/buildtools/releases).
+    *   Report migration problems by commenting on the associated GitHub issue.
+
+After migration, you can continue to build your projects without worrying about
+backward-compatibility until the next major release.
+
+### Installing Bazel on macOS
+- URL: https://bazel.build/install/os-x
+- Source: install/os-x.mdx
+
+This page describes how to install Bazel on macOS and set up your environment.
+
+You can install Bazel on macOS using one of the following methods:
+
+*   *Recommended*: [Use Bazelisk](/install/bazelisk)
+*   [Use Homebrew](#install-on-mac-os-x-homebrew)
+*   [Use the binary installer](#install-with-installer-mac-os-x)
+*   [Compile Bazel from source](/install/compile-source)
+
+Bazel comes with two completion scripts. After installing Bazel, you can:
+
+*   Access the [bash completion script](/install/completion#bash)
+*   Install the [zsh completion script](/install/completion#zsh)
+
+<h2 id="install-on-mac-os-x-homebrew">Installing using Homebrew</h2>
+
+### Step 1: Install Homebrew on macOS
+
+Install [Homebrew](https://brew.sh/) (a one-time step):
+
+```posix-terminal
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### Step 2: Install Bazel via Homebrew
+
+Install the Bazel package via Homebrew as follows:
+
+```posix-terminal
+brew install bazel
+```
+
+All set! You can confirm Bazel is installed successfully by running the
+following command:
+
+```posix-terminal
+bazel --version
+```
+
+Once installed, you can upgrade to a newer version of Bazel using the
+following command:
+
+```posix-terminal
+brew upgrade bazel
+```
+
+<h2 id="install-with-installer-mac-os-x">Installing using the binary installer</h2>
+
+The binary installers are on Bazel's
+[GitHub releases page](https://github.com/bazelbuild/bazel/releases).
+
+The installer contains the Bazel binary. Some additional libraries
+must also be installed for Bazel to work.
+
+### Step 1: Install Xcode command line tools
+
+If you don't intend to use `ios_*` rules, it is sufficient to install the Xcode
+command line tools package by using `xcode-select`:
+
+```posix-terminal
+xcode-select --install
+```
+
+Otherwise, for `ios_*` rule support, you must have Xcode 6.1 or later with iOS
+SDK 8.1 installed on your system.
+
+Download Xcode from the
+[App Store](https://apps.apple.com/us/app/xcode/id497799835) or the
+[Apple Developer site](https://developer.apple.com/download/more/?=xcode).
+
+Once Xcode is installed, accept the license agreement for all users with the
+following command:
+
+```posix-terminal
+sudo xcodebuild -license accept
+```
+
+### Step 2: Download the Bazel installer
+
+Next, download the Bazel binary installer named
+`bazel-<version>-installer-darwin-x86_64.sh` from the
+[Bazel releases page on GitHub](https://github.com/bazelbuild/bazel/releases).
+
+**On macOS Catalina or newer (macOS >= 11)**, due to Apple's new app signing requirements,
+you need to download the installer from the terminal using `curl`, replacing
+the version variable with the Bazel version you want to download:
+
+```posix-terminal
+export BAZEL_VERSION=5.2.0
+
+curl -fLO "https://github.com/bazelbuild/bazel/releases/download/{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}/bazel-{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}-installer-darwin-x86_64.sh"
+```
+
+This is a temporary workaround until the macOS release flow supports
+signing ([#9304](https://github.com/bazelbuild/bazel/issues/9304)).
+
+### Step 3: Run the installer
+
+Run the Bazel installer as follows:
+
+```posix-terminal
+chmod +x "bazel-{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}-installer-darwin-x86_64.sh"
+
+./bazel-{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}-installer-darwin-x86_64.sh --user
+```
+
+The `--user` flag installs Bazel to the `$HOME/bin` directory on your system and
+sets the `.bazelrc` path to `$HOME/.bazelrc`. Use the `--help` command to see
+additional installation options.
+
+If you are **on macOS Catalina or newer (macOS >= 11)** and get an error that _**“bazel-real” cannot be
+opened because the developer cannot be verified**_, you need to re-download
+the installer from the terminal using `curl` as a workaround; see Step 2 above.
+
+### Step 4: Set up your environment
+
+If you ran the Bazel installer with the `--user` flag as above, the Bazel
+executable is installed in your `<var>HOME</var>/bin` directory.
+It's a good idea to add this directory to your default paths, as follows:
+
+```posix-terminal
+export PATH="{{ '<var>' }}PATH{{ '</var>' }}:{{ '<var>' }}HOME{{ '</var>' }}/bin"
+```
+
+You can also add this command to your `~/.bashrc`, `~/.zshrc`, or `~/.profile`
+file.
+
+All set! You can confirm Bazel is installed successfully by running the
+following command:
+
+```posix-terminal
+bazel --version
+```
+To update to a newer release of Bazel, download and install the desired version.
+
+### Installing Bazel on Windows
+- URL: https://bazel.build/install/windows
+- Source: install/windows.mdx
+
+This page describes the requirements and steps to install Bazel on Windows.
+It also includes troubleshooting and other ways to install Bazel, such as
+using Chocolatey or Scoop.
+
+## Installing Bazel
+
+This section covers the prerequisites, environment setup, and detailed
+steps during installation on Windows.
+
+### Check your system
+
+Recommended: 64 bit Windows 10, version 1703 (Creators Update) or newer
+
+To check your Windows version:
+
+* Click the Start button.
+* Type `winver` in the search box and press Enter.
+* You should see the About Windows box with your Windows version information.
+
+### Install the prerequisites
+
+*   [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
+
+### Download Bazel
+
+*Recommended*: [Use Bazelisk](/install/bazelisk)
+
+
+Alternatively you can:
+
+*   [Download the Bazel binary (`bazel-<var>version</var>-windows-x86_64.exe`) from
+ GitHub](https://github.com/bazelbuild/bazel/releases).
+*   [Install Bazel from Chocolatey](#chocolately)
+*   [Install Bazel from Scoop](#scoop)
+*   [Build Bazel from source](/install/compile-source)
+
+### Set up your environment
+
+To make Bazel easily accessible from command prompts or PowerShell by default, you can rename the Bazel binary to `bazel.exe` and add it to your default paths.
+
+```posix-terminal
+set PATH=%PATH%;{{ '<var>' }}path to the Bazel binary{{ '</var>' }}
+```
+
+You can also change your system `PATH` environment variable to make it permanent. Check out how to [set environment variables](/configure/windows#set-environment-variables).
+
+### Done
+
+"Success: You've installed Bazel."
+
+To check the installation is correct, try to run:
+
+```posix-terminal
+bazel {{ '<var>' }}version{{ '</var>' }}
+```
+
+Next, you can check out more tips and guidance here:
+
+*   [Installing compilers and language runtimes](#install-compilers)
+*   [Troubleshooting](#troubleshooting)
+*   [Best practices on Windows](/configure/windows#best-practices)
+*   [Tutorials](/start/#tutorials)
+
+## Installing compilers and language runtimes
+
+Depending on which languages you want to build, you will need:
+
+*   [MSYS2 x86_64](https://www.msys2.org/)
+
+    MSYS2 is a software distro and building platform for Windows. It contains Bash and common Unix
+    tools (like `grep`, `tar`, `git`).
+
+    You will need MSYS2 to build, test, or run targets that depend on Bash. Typically these are
+    `genrule`, `sh_binary`, `sh_test`, but there may be more (such as Starlark rules). Bazel shows an
+    error if a build target needs Bash but Bazel could not locate it.
+
+*   Common MSYS2 packages
+
+    You will likely need these to build and run targets that depend on Bash. MSYS2 does not install
+    these tools by default, so you need to install them manually. Projects that depend on Bash tools in `PATH` need this step (for example TensorFlow).
+
+    Open the MSYS2 terminal and run this command:
+
+    ```posix-terminal
+    pacman -S zip unzip patch diffutils git
+    ```
+
+    Optional: If you want to use Bazel from CMD or Powershell and still be able
+    to use Bash tools, make sure to add
+    `<var>MSYS2_INSTALL_PATH</var>/usr/bin` to your
+    `PATH` environment variable.
+
+*   [Build Tools for Visual Studio 2019](https://aka.ms/buildtools)
+
+    You will need this to build C++ code on Windows.
+
+    Also supported:
+
+    *   Visual C++ Build Tools 2017 (or newer) and Windows 10 SDK
+
+*   [Java SE Development Kit 11 (JDK) for Windows x64](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+
+    You will need this to build Java code on Windows.
+
+    Also supported: Java 8, 9, and 10
+
+*   [Python 3.6 for Windows x86-64](https://www.python.org/downloads/windows/)
+
+    You will need this to build Python code on Windows.
+
+    Also supported: Python 2.7 or newer for Windows x86-64
+
+## Troubleshooting
+
+### Bazel does not find Bash or bash.exe
+
+**Possible reasons**:
+
+*   you installed MSYS2 not under the default install path
+
+*   you installed MSYS2 i686 instead of MSYS2 x86\_64
+
+*   you installed MSYS instead of MSYS2
+
+**Solution**:
+
+Ensure you installed MSYS2 x86\_64.
+
+If that doesn't help:
+
+1.  Go to Start Menu &gt; Settings.
+
+2.  Find the setting "Edit environment variables for your account"
+
+3.  Look at the list on the top ("User variables for &lt;username&gt;"), and click the "New..."
+    button below it.
+
+4.  For "Variable name", enter `BAZEL_SH`
+
+5.  Click "Browse File..."
+
+6.  Navigate to the MSYS2 directory, then to `usr\bin` below it.
+
+    For example, this might be `C:\msys64\usr\bin` on your system.
+
+7.  Select the `bash.exe` or `bash` file and click OK
+
+8.  The "Variable value" field now has the path to `bash.exe`. Click OK to close the window.
+
+9.  Done.
+
+    If you open a new cmd.exe or PowerShell terminal and run Bazel now, it will find Bash.
+
+### Bazel does not find Visual Studio or Visual C++
+
+**Possible reasons**:
+
+*   you installed multiple versions of Visual Studio
+
+*   you installed and removed various versions of Visual Studio
+
+*   you installed various versions of the Windows SDK
+
+*   you installed Visual Studio not under the default install path
+
+**Solution**:
+
+1.  Go to Start Menu &gt; Settings.
+
+2.  Find the setting "Edit environment variables for your account"
+
+3.  Look at the list on the top ("User variables for &lt;username&gt;"), and click the "New..."
+    button below it.
+
+4.  For "Variable name", enter `BAZEL_VC`
+
+5.  Click "Browse Directory..."
+
+6.  Navigate to the `VC` directory of Visual Studio.
+
+    For example, this might be `C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC`
+    on your system.
+
+7.  Select the `VC` folder and click OK
+
+8.  The "Variable value" field now has the path to `VC`. Click OK to close the window.
+
+9.  Done.
+
+    If you open a new cmd.exe or PowerShell terminal and run Bazel now, it will find Visual C++.
+
+## Other ways to install Bazel
+
+### Using Chocolatey
+
+1.  Install the [Chocolatey](https://chocolatey.org) package manager
+
+2.  Install the Bazel package:
+
+    ```posix-terminal
+    choco install bazel
+    ```
+
+    This command will install the latest available version of Bazel and
+    its dependencies, such as the MSYS2 shell. This will not install Visual C++
+    though.
+
+See [Chocolatey installation and package maintenance
+guide](/contribute/windows-chocolatey-maintenance) for more
+information about the Chocolatey package.
+
+### Using Scoop
+
+1.  Install the [Scoop](https://scoop.sh/) package manager using the following PowerShell command:
+
+    ```posix-terminal
+    iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+    ```
+
+2.  Install the Bazel package:
+
+    ```posix-terminal
+    scoop install bazel
+    ```
+
+See [Scoop installation and package maintenance
+guide](/contribute/windows-scoop-maintenance) for more
+information about the Scoop package.
+
+### Build from source
+
+To build Bazel from scratch instead of installing, see [Compiling from source](/install/compile-source).
+
+### Installing Bazel on Ubuntu
+- URL: https://bazel.build/install/ubuntu
+- Source: install/ubuntu.mdx
+
+This page describes the options for installing Bazel on Ubuntu.
+It also provides links to the Bazel completion scripts and the binary installer,
+if needed as a backup option (for example, if you don't have admin access).
+
+Supported Ubuntu Linux platforms:
+
+*   22.04 (LTS)
+*   20.04 (LTS)
+*   18.04 (LTS)
+
+Bazel should be compatible with other Ubuntu releases and Debian
+"stretch" and above, but is untested and not guaranteed to work.
+
+Install Bazel on Ubuntu using one of the following methods:
+
+*   *Recommended*: [Use Bazelisk](/install/bazelisk)
+*   [Use our custom APT repository](#install-on-ubuntu)
+*   [Use the binary installer](#binary-installer)
+*   [Use the Bazel Docker container](#docker-container)
+*   [Compile Bazel from source](/install/compile-source)
+
+**Note:** For Arm-based systems, the APT repository does not contain an `arm64`
+release, and there is no binary installer available. Either use Bazelisk or
+compile from source.
+
+Bazel comes with two completion scripts. After installing Bazel, you can:
+
+*   Access the [bash completion script](/install/completion#bash)
+*   Install the [zsh completion script](/install/completion#zsh)
+
+## Using Bazel's apt repository
+
+### Step 1: Add Bazel distribution URI as a package source
+
+**Note:** This is a one-time setup step.
+
+```posix-terminal
+sudo apt install apt-transport-https curl gnupg -y
+
+curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+
+sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+```
+
+The component name "jdk1.8" is kept only for legacy reasons and doesn't relate
+to supported or included JDK versions. Bazel releases are Java-version agnostic.
+Changing the "jdk1.8" component name would break existing users of the repo.
+
+### Step 2: Install and update Bazel
+
+```posix-terminal
+sudo apt update && sudo apt install bazel
+```
+
+Once installed, you can upgrade to a newer version of Bazel as part of your normal system updates:
+
+```posix-terminal
+sudo apt update && sudo apt full-upgrade
+```
+
+The `bazel` package always installs the latest stable version of Bazel. You
+can install specific, older versions of Bazel in addition to the latest one,
+such as this:
+
+```posix-terminal
+sudo apt install bazel-1.0.0
+```
+
+This installs Bazel 1.0.0 as `/usr/bin/bazel-1.0.0` on your system. This
+can be useful if you need a specific version of Bazel to build a project, for
+example because it uses a `.bazelversion` file to explicitly state with which
+Bazel version it should be built.
+
+Optionally, you can set `bazel` to a specific version by creating a symlink:
+
+```posix-terminal
+sudo ln -s /usr/bin/bazel-1.0.0 /usr/bin/bazel
+
+bazel --version  # 1.0.0
+```
+
+### Step 3: Install a JDK (optional)
+
+Bazel includes a private, bundled JRE as its runtime and doesn't require you to
+install any specific version of Java.
+
+However, if you want to build Java code using Bazel, you have to install a JDK.
+
+```posix-terminal
+sudo apt install default-jdk
+```
+
+## Using the binary installer
+
+Generally, you should use the apt repository, but the binary installer
+can be useful if you don't have admin permissions on your machine or
+can't add custom repositories.
+
+The binary installers can be downloaded from Bazel's [GitHub releases page](https://github.com/bazelbuild/bazel/releases).
+
+The installer contains the Bazel binary and extracts it into your `$HOME/bin`
+folder. Some additional libraries must be installed manually for Bazel to work.
+
+### Step 1: Install required packages
+
+Bazel needs a C++ compiler and unzip / zip in order to work:
+
+```posix-terminal
+sudo apt install g++ unzip zip
+```
+
+If you want to build Java code using Bazel, install a JDK:
+
+```posix-terminal
+sudo apt-get install default-jdk
+```
+
+### Step 2: Run the installer
+
+Next, download the Bazel binary installer named `bazel-<var>version</var>-installer-linux-x86_64.sh`
+from the [Bazel releases page on GitHub](https://github.com/bazelbuild/bazel/releases).
+
+Run it as follows:
+
+```posix-terminal
+chmod +x bazel-{{ '<var>' }}version{{ '</var>' }}-installer-linux-x86_64.sh
+
+./bazel-{{ '<var>' }}version{{ '</var>' }}-installer-linux-x86_64.sh --user
+```
+
+The `--user` flag installs Bazel to the `$HOME/bin` directory on your system and
+sets the `.bazelrc` path to `$HOME/.bazelrc`. Use the `--help` command to see
+additional installation options.
+
+### Step 3: Set up your environment
+
+If you ran the Bazel installer with the `--user` flag as above, the Bazel
+executable is installed in your `$HOME/bin` directory.
+It's a good idea to add this directory to your default paths, as follows:
+
+```posix-terminal
+export PATH="$PATH:$HOME/bin"
+```
+
+You can also add this command to your `~/.bashrc` or `~/.zshrc` file to make it
+permanent.
+
+## Using the Bazel Docker container
+
+We publish Docker container with Bazel installed for each Bazel version at `gcr.io/bazel-public/bazel`.
+You can use the Docker container as follows:
+
+```
+$ docker pull gcr.io/bazel-public/bazel:<bazel version>
+```
+
+The Docker container is built by [these steps](https://github.com/bazelbuild/continuous-integration/tree/master/bazel/oci).
+
+### Installing Bazel on openSUSE Tumbleweed & Leap
+- URL: https://bazel.build/install/suse
+- Source: install/suse.mdx
+
+This page describes how to install Bazel on openSUSE Tumbleweed and Leap.
+
+`NOTE:` The Bazel team does not officially maintain openSUSE support. For issues
+using Bazel on openSUSE please file a ticket at [bugzilla.opensuse.org](https://bugzilla.opensuse.org/).
+
+Packages are provided for openSUSE Tumbleweed and Leap. You can find all
+available Bazel versions via openSUSE's [software search](https://software.opensuse.org/search?utf8=%E2%9C%93&baseproject=ALL&q=bazel).
+
+The commands below must be run either via `sudo` or while logged in as `root`.
+
+## Installing Bazel on openSUSE
+
+Run the following commands to install the package. If you need a specific
+version, you can install it via the specific `bazelXXX` package, otherwise,
+just `bazel` is enough:
+
+To install the latest version of Bazel, run:
+
+```posix-terminal
+zypper install bazel
+```
+
+You can also install a specific version of Bazel by specifying the package
+version with `bazel<var>version</var>`. For example, to install
+Bazel 4.2, run:
+
+```posix-terminal
+zypper install bazel4.2
+```
+
+### Getting Started with Bazel Docker Container
+- URL: https://bazel.build/install/docker-container
+- Source: install/docker-container.mdx
+
+This page provides details on the contents of the Bazel container, how to build
+the [abseil-cpp](https://github.com/abseil/abseil-cpp) project using Bazel
+inside the Bazel container, and how to build this project directly
+from the host machine using the Bazel container with directory mounting.
+
+## Build Abseil project from your host machine with directory mounting
+
+The instructions in this section allow you to build using the Bazel container
+with the sources checked out in your host environment. A container is started up
+for each build command you execute. Build results are cached in your host
+environment so they can be reused across builds.
+
+Clone the project to a directory in your host machine.
+
+```posix-terminal
+git clone --depth 1 --branch 20220623.1 https://github.com/abseil/abseil-cpp.git /src/workspace
+```
+
+Create a folder that will have cached results to be shared across builds.
+
+```posix-terminal
+mkdir -p /tmp/build_output/
+```
+
+Use the Bazel container to build the project and make the build
+outputs available in the output folder in your host machine.
+
+```posix-terminal
+docker run \
+  -e USER="$(id -u)" \
+  -u="$(id -u)" \
+  -v /src/workspace:/src/workspace \
+  -v /tmp/build_output:/tmp/build_output \
+  -w /src/workspace \
+  gcr.io/bazel-public/bazel:latest \
+  --output_user_root=/tmp/build_output \
+  build //absl/...
+```
+
+Build the project with sanitizers by adding the `--config=<var>asan</var>|<var>tsan</var>|<var>msan</var>` build
+flag to select AddressSanitizer (asan), ThreadSanitizer (tsan) or
+MemorySanitizer (msan) accordingly.
+
+```posix-terminal
+docker run \
+  -e USER="$(id -u)" \
+  -u="$(id -u)" \
+  -v /src/workspace:/src/workspace \
+  -v /tmp/build_output:/tmp/build_output \
+  -w /src/workspace \
+  gcr.io/bazel-public/bazel:latest \
+  --output_user_root=/tmp/build_output \
+  build --config={asan | tsan | msan} -- //absl/... -//absl/types:variant_test
+```
+
+## Build Abseil project from inside the container
+
+The instructions in this section allow you to build using the Bazel container
+with the sources inside the container. By starting a container at the beginning
+of your development workflow and doing changes in the worskpace within the
+container, build results will be cached.
+
+Start a shell in the Bazel container:
+
+```posix-terminal
+docker run --interactive --entrypoint=/bin/bash gcr.io/bazel-public/bazel:latest
+```
+
+Each container id is unique. In the instructions below, the container was 5a99103747c6.
+
+Clone the project.
+
+```posix-terminal
+ubuntu@5a99103747c6:~$ git clone --depth 1 --branch 20220623.1 https://github.com/abseil/abseil-cpp.git && cd abseil-cpp/
+```
+
+Do a regular build.
+
+```posix-terminal
+ubuntu@5a99103747c6:~/abseil-cpp$ bazel build //absl/...
+```
+
+Build the project with sanitizers by adding the `--config=<var>asan</var>|<var>tsan</var>|<var>msan</var>`
+build flag to select AddressSanitizer (asan), ThreadSanitizer (tsan) or
+MemorySanitizer (msan) accordingly.
+
+```posix-terminal
+ubuntu@5a99103747c6:~/abseil-cpp$ bazel build --config={asan | tsan | msan} -- //absl/... -//absl/types:variant_test
+```
+
+## Explore the Bazel container
+
+If you haven't already, start an interactive shell inside the Bazel container.
+
+```posix-terminal
+docker run -it --entrypoint=/bin/bash gcr.io/bazel-public/bazel:latest
+ubuntu@5a99103747c6:~$
+```
+
+Explore the container contents.
+
+```posix-terminal
+ubuntu@5a99103747c6:~$ gcc --version
+gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+ubuntu@5a99103747c6:~$ java -version
+openjdk version "1.8.0_362"
+OpenJDK Runtime Environment (build 1.8.0_362-8u372-ga~us1-0ubuntu1~20.04-b09)
+OpenJDK 64-Bit Server VM (build 25.362-b09, mixed mode)
+
+ubuntu@5a99103747c6:~$ python -V
+Python 3.8.10
+
+ubuntu@5a99103747c6:~$ bazel version
+WARNING: Invoking Bazel in batch mode since it is not invoked from within a workspace (below a directory having a WORKSPACE file).
+Extracting Bazel installation...
+Build label: 6.2.1
+Build target: bazel-out/k8-opt/bin/src/main/java/com/google/devtools/build/lib/bazel/BazelServer_deploy.jar
+Build time: Fri Jun 2 16:59:58 2023 (1685725198)
+Build timestamp: 1685725198
+Build timestamp as int: 1685725198
+```
+
+## Explore the Bazel Dockerfile
+
+If you want to check how the Bazel Docker image is built, you can find its Dockerfile at [bazelbuild/continuous-integration/bazel/oci](https://github.com/bazelbuild/continuous-integration/tree/master/bazel/oci).
+
+### Compiling Bazel from Source
+- URL: https://bazel.build/install/compile-source
+- Source: install/compile-source.mdx
+
+This page describes how to install Bazel from source and provides
+troubleshooting tips for common issues.
+
+To build Bazel from source, you can do one of the following:
+
+*   Build it [using an existing Bazel binary](#build-bazel-using-bazel)
+
+*   Build it [without an existing Bazel binary](#bootstrap-bazel) which is known
+    as _bootstrapping_.
+
+## Build Bazel using Bazel
+
+### Summary
+
+1.  Get the latest Bazel release from the
+    [GitHub release page](https://github.com/bazelbuild/bazel/releases) or with
+    [Bazelisk](https://github.com/bazelbuild/bazelisk).
+
+2.  [Download Bazel's sources from GitHub](https://github.com/bazelbuild/bazel/archive/master.zip)
+    and extract somewhere.
+    Alternatively you can git clone the source tree from https://github.com/bazelbuild/bazel
+
+3.  Install the same prerequisites as for bootstrapping (see
+    [for Unix-like systems](#bootstrap-unix-prereq) or
+    [for Windows](#bootstrap-windows-prereq))
+
+4.  Build a development build of Bazel using Bazel:
+    `bazel build //src:bazel-dev` (or `bazel build //src:bazel-dev.exe` on
+    Windows)
+
+5.  The resulting binary is at `bazel-bin/src/bazel-dev`
+    (or `bazel-bin\src\bazel-dev.exe` on Windows). You can copy it wherever you
+    like and use immediately without further installation.
+
+Detailed instructions follow below.
+
+### Step 1: Get the latest Bazel release
+
+**Goal**: Install or download a release version of Bazel. Make sure you can run
+it by typing `bazel` in a terminal.
+
+**Reason**: To build Bazel from a GitHub source tree, you need a pre-existing
+Bazel binary. You can install one from a package manager or download one from
+GitHub. See [Installing Bazel](/install). (Or you can [build from
+scratch (bootstrap)](#bootstrap-bazel).)
+
+**Troubleshooting**:
+
+*   If you cannot run Bazel by typing `bazel` in a terminal:
+
+    *   Maybe your Bazel binary's directory is not on the PATH.
+
+        This is not a big problem. Instead of typing `bazel`, you will need to
+        type the full path.
+
+    *   Maybe the Bazel binary itself is not called `bazel` (on Unixes) or
+        `bazel.exe` (on Windows).
+
+        This is not a big problem. You can either rename the binary, or type the
+        binary's name instead of `bazel`.
+
+    *   Maybe the binary is not executable (on Unixes).
+
+        You must make the binary executable by running `chmod +x /path/to/bazel`.
+
+### Step 2: Download Bazel's sources from GitHub
+
+If you are familiar with Git, then just git clone https://github.com/bazelbuild/bazel
+
+Otherwise:
+
+1.  Download the
+    [latest sources as a zip file](https://github.com/bazelbuild/bazel/archive/master.zip).
+
+2.  Extract the contents somewhere.
+
+    For example create a `bazel-src` directory under your home directory and
+    extract there.
+
+### Step 3: Install prerequisites
+
+Install the same prerequisites as for bootstrapping (see below) -- JDK, C++
+compiler, MSYS2 (if you are building on Windows), etc.
+
+### Step 4a: Build Bazel on Ubuntu Linux, macOS, and other Unix-like systems
+
+For instructions for Windows, see [Build Bazel on Windows](#build-bazel-on-windows).
+
+**Goal**: Run Bazel to build a custom Bazel binary (`bazel-bin/src/bazel-dev`).
+
+**Instructions**:
+
+1.  Start a Bash terminal
+
+2.  `cd` into the directory where you extracted (or cloned) Bazel's sources.
+
+    For example if you extracted the sources under your home directory, run:
+
+        cd ~/bazel-src
+
+3.  Build Bazel from source:
+
+        bazel build //src:bazel-dev
+
+    Alternatively you can run `bazel build //src:bazel --compilation_mode=opt`
+    to yield a smaller binary but it's slower to build.
+
+    You can build with `--stamp --embed_label=X.Y.Z` flag to embed a Bazel
+    version for the binary so that `bazel --version` outputs the given version.
+
+4.  The output will be at `bazel-bin/src/bazel-dev` (or `bazel-bin/src/bazel`).
+
+### Step 4b: Build Bazel on Windows
+
+For instructions for Unix-like systems, see
+[Ubuntu Linux, macOS, and other Unix-like systems](#build-bazel-on-unixes).
+
+**Goal**: Run Bazel to build a custom Bazel binary
+(`bazel-bin\src\bazel-dev.exe`).
+
+**Instructions**:
+
+1.  Start Command Prompt (Start Menu &gt; Run &gt; "cmd.exe")
+
+2.  `cd` into the directory where you extracted (or cloned) Bazel's sources.
+
+    For example if you extracted the sources under your home directory, run:
+
+        cd %USERPROFILE%\bazel-src
+
+3.  Build Bazel from source:
+
+    bazel build //src:bazel-dev.exe
+
+    Alternatively you can run `bazel build //src:bazel.exe
+    --compilation_mode=opt` to yield a smaller binary but it's slower to build.
+
+    You can build with `--stamp --embed_label=X.Y.Z` flag to embed a Bazel
+    version for the binary so that `bazel --version` outputs the given version.
+
+4.  The output will be at `bazel-bin\src\bazel-dev.exe` (or
+    `bazel-bin\src\bazel.exe`).
+
+### Step 5: Install the built binary
+
+Actually, there's nothing to install.
+
+The output of the previous step is a self-contained Bazel binary. You can copy
+it to any directory and use immediately. (It's useful if that directory is on
+your PATH so that you can run "bazel" everywhere.)
+
+---
+
+## Build Bazel from scratch (bootstrapping)
+
+You can also build Bazel from scratch, without using an existing Bazel binary.
+
+### Step 1: Download Bazel's sources (distribution archive)
+
+(This step is the same for all platforms.)
+
+1.  Download `bazel-<version>-dist.zip` from
+    [GitHub](https://github.com/bazelbuild/bazel/releases), for example
+    `bazel-0.28.1-dist.zip`.
+
+    **Attention**:
+
+    -   There is a **single, architecture-independent** distribution archive.
+        There are no architecture-specific or OS-specific distribution archives.
+    -   These sources are **not the same as the GitHub source tree**. You
+        have to use the distribution archive to bootstrap Bazel. You cannot
+        use a source tree cloned from GitHub. (The distribution archive contains
+        generated source files that are required for bootstrapping and are not part
+        of the normal Git source tree.)
+
+2.  Unpack the distribution archive somewhere on disk.
+
+    You should verify the signature made by Bazel's
+    [release key](https://bazel.build/bazel-release.pub.gpg) 3D5919B448457EE0.
+
+### Step 2a: Bootstrap Bazel on Ubuntu Linux, macOS, and other Unix-like systems
+
+For instructions for Windows, see [Bootstrap Bazel on Windows](#bootstrap-windows).
+
+#### 2.1. Install the prerequisites
+
+*   **Bash**
+
+*   **zip, unzip**
+
+*   **C++ build toolchain**
+
+*   **JDK.** Version 21 is required.
+
+*   **Python**. Version 3 is required.
+
+For example on Ubuntu Linux you can install these requirements using the
+following command:
+
+```sh
+sudo apt-get install build-essential openjdk-21-jdk python3 zip unzip
+```
+
+#### 2.2. Bootstrap Bazel on Unix
+
+1.  Open a shell or Terminal window.
+
+3.  `cd` to the directory where you unpacked the distribution archive.
+
+3.  Run the compilation script: `env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" bash ./compile.sh`.
+
+The compiled output is placed into `output/bazel`. This is a self-contained
+Bazel binary, without an embedded JDK. You can copy it anywhere or use it
+in-place. For convenience, copy this binary to a directory that's on your
+`PATH` (such as `/usr/local/bin` on Linux).
+
+To build the `bazel` binary in a reproducible way, also set
+[`SOURCE_DATE_EPOCH`](https://reproducible-builds.org/specs/source-date-epoch/)
+in the "Run the compilation script" step.
+
+### Step 2b: Bootstrap Bazel on Windows
+
+For instructions for Unix-like systems, see
+[Bootstrap Bazel on Ubuntu Linux, macOS, and other Unix-like systems](#bootstrap-unix).
+
+#### 2.1. Install the prerequisites
+
+*   [MSYS2 shell](https://msys2.github.io/)
+
+*   **The MSYS2 packages for zip and unzip.** Run the following command in the MSYS2 shell:
+
+    ```
+    pacman -S zip unzip patch
+    ```
+
+*   **The Visual C++ compiler.** Install the Visual C++ compiler either as part
+    of Visual Studio 2015 or newer, or by installing the latest [Build Tools
+    for Visual Studio 2017](https://aka.ms/BuildTools).
+
+*   **JDK.** Version 21 is required.
+
+*   **Python**. Versions 2 and 3 are supported, installing one of them is
+    enough. You need the Windows-native version (downloadable from
+    [https://www.python.org](https://www.python.org)). Versions installed via
+    pacman in MSYS2 will not work.
+
+#### 2.2. Bootstrap Bazel on Windows
+
+1.  Open the MSYS2 shell.
+
+2.  Set the following environment variables:
+    *   Either `BAZEL_VS` or `BAZEL_VC` (they are *not* the same): Set to the
+        path to the Visual Studio directory (BAZEL\_V<b>S</b>) or to the Visual
+        C++ directory (BAZEL\_V<b>C</b>). Setting one of them is enough.
+    *   `BAZEL_SH`: Path of the MSYS2 `bash.exe`. See the command in the
+        examples below.
+
+        Do not set this to `C:\Windows\System32\bash.exe`. (You have that file
+        if you installed Windows Subsystem for Linux.) Bazel does not support
+        this version of `bash.exe`.
+    *   `PATH`: Add the Python directory.
+    *   `JAVA_HOME`: Set to the JDK directory.
+
+    **Example** (using BAZEL\_V<b>S</b>):
+
+        export BAZEL_VS="C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools"
+        export BAZEL_SH="$(cygpath -m $(realpath $(which bash)))"
+        export PATH="/c/python27:$PATH"
+        export JAVA_HOME="C:/Program Files/Java/jdk-21"
+
+    or (using BAZEL\_V<b>C</b>):
+
+        export BAZEL_VC="C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC"
+        export BAZEL_SH="$(cygpath -m $(realpath $(which bash)))"
+        export PATH="/c/python27:$PATH"
+        export JAVA_HOME="C:/Program Files/Java/jdk-21"
+
+3.  `cd` to the directory where you unpacked the distribution archive.
+
+4.  Run the compilation script: `env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" ./compile.sh`
+
+The compiled output is placed into `output/bazel.exe`. This is a self-contained
+Bazel binary, without an embedded JDK. You can copy it anywhere or use it
+in-place. For convenience, copy this binary to a directory that's on
+your `PATH`.
+
+To build the `bazel.exe` binary in a reproducible way, also set
+[`SOURCE_DATE_EPOCH`](https://reproducible-builds.org/specs/source-date-epoch/)
+in the "Run the compilation script" step.
+
+You don't need to run Bazel from the MSYS2 shell. You can run Bazel from the
+Command Prompt (`cmd.exe`) or PowerShell.
+
+### Command-Line Completion
+- URL: https://bazel.build/install/completion
+- Source: install/completion.mdx
+
+You can enable command-line completion (also known as tab-completion) in Bash
+and Zsh. This lets you tab-complete command names, flags names and flag values,
+and target names.
+
+## Bash
+
+Bazel comes with a Bash completion script.
+
+If you installed Bazel:
+
+*   From the APT repository, then you're done -- the Bash completion script is
+    already installed in `/etc/bash_completion.d`.
+
+*   From Homebrew, then you're done -- the Bash completion script is
+    already installed in `$(brew --prefix)/etc/bash_completion.d`.
+
+*   From the installer downloaded from GitHub, then:
+    1.  Locate the absolute path of the completion file. The installer copied it
+        to the `bin` directory.
+
+        Example: if you ran the installer with `--user`, this will be
+        `$HOME/.bazel/bin`. If you ran the installer as root, this will be
+        `/usr/local/lib/bazel/bin`.
+    2.  Do one of the following:
+        *   Either copy this file to your completion directory (if you have
+            one).
+
+            Example: on Ubuntu this is the `/etc/bash_completion.d` directory.
+        *   Or source the completion file from Bash's RC file.
+
+            Add a line similar to the one below to your `~/.bashrc` (on Ubuntu)
+            or `~/.bash_profile` (on macOS), using the path to your completion
+            file's absolute path:
+
+            ```
+            source /path/to/bazel-complete.bash
+            ```
+
+*   Via [bootstrapping](/install/compile-source), then:
+    1.  Emit the completion script into a file:
+
+        ```
+        bazel help completion bash > bazel-complete.bash
+        ```
+    2.  Do one of the following:
+        *   Copy this file to your completion directory, if you have
+            one.
+
+            Example: on Ubuntu this is the `/etc/bash_completion.d` directory
+        *   Copy it somewhere on your local disk, such as to `$HOME`, and
+            source the completion file from Bash's RC file.
+
+            Add a line similar to the one below to your `~/.bashrc` (on Ubuntu)
+            or `~/.bash_profile` (on macOS), using the path to your completion
+            file's absolute path:
+
+            ```
+            source /path/to/bazel-complete.bash
+            ```
+
+## Zsh
+
+Bazel comes with a Zsh completion script.
+
+If you installed Bazel:
+
+*   From the APT repository, then you're done -- the Zsh completion script is
+    already installed in `/usr/share/zsh/vendor-completions`.
+
+    > If you have a heavily customized `.zshrc` and the autocomplete
+    > does not function, try one of the following solutions:
+    >
+    > Add the following to your `.zshrc`:
+    >
+    >    ```
+    >     zstyle :compinstall filename '/home/tradical/.zshrc'
+    >
+    >     autoload -Uz compinit
+    >     compinit
+    >    ```
+    >
+    > or
+    >
+    > Follow the instructions
+    > [here](https://stackoverflow.com/questions/58331977/bazel-tab-auto-complete-in-zsh-not-working)
+    >
+    > If you are using `oh-my-zsh`, you may want to install and enable
+    > the `zsh-autocomplete` plugin. If you'd prefer not to, use one of the
+    > solutions described above.
+
+*   From Homebrew, then you're done -- the Zsh completion script is
+    already installed in `$(brew --prefix)/share/zsh/site-functions`.
+
+*   From the installer downloaded from GitHub, then:
+    1.  Locate the absolute path of the completion file. The installer copied it
+        to the `bin` directory.
+
+        Example: if you ran the installer with `--user`, this will be
+        `$HOME/.bazel/bin`. If you ran the installer as root, this will be
+        `/usr/local/lib/bazel/bin`.
+
+    2.  Add this script to a directory on your `$fpath`:
+
+        ```
+        fpath[1,0]=~/.zsh/completion/
+        mkdir -p ~/.zsh/completion/
+        cp /path/from/above/step/_bazel ~/.zsh/completion
+        ```
+
+        You may have to call `rm -f ~/.zcompdump; compinit`
+        the first time to make it work.
+
+    3.  Optionally, add the following to your .zshrc.
+
+        ```
+        # This way the completion script does not have to parse Bazel's options
+        # repeatedly.  The directory in cache-path must be created manually.
+        zstyle ':completion:*' use-cache on
+        zstyle ':completion:*' cache-path ~/.zsh/cache
+        ```
+
+### Integrating Bazel with IDEs
+- URL: https://bazel.build/install/ide
+- Source: install/ide.mdx
+
+This page covers how to integrate Bazel with IDEs, such as IntelliJ, Android
+Studio, and CLion (or build your own IDE plugin). It also includes links to
+installation and plugin details.
+
+IDEs integrate with Bazel in a variety of ways, from features that allow Bazel
+executions from within the IDE, to awareness of Bazel structures such as syntax
+highlighting of the `BUILD` files.
+
+If you are interested in developing an editor or IDE plugin for Bazel, please
+join the `#ide` channel on the [Bazel Slack](https://slack.bazel.build) or start
+a discussion on [GitHub](https://github.com/bazelbuild/bazel/discussions).
+
+## IDEs and editors
+
+### IntelliJ, Android Studio, and CLion
+
+[Official plugin](http://ij.bazel.build) for IntelliJ, Android Studio, and
+CLion. The plugin is [open source](https://github.com/bazelbuild/intellij).
+
+This is the open source version of the plugin used internally at Google.
+
+Features:
+
+* Interop with language-specific plugins. Supported languages include Java,
+  Scala, and Python.
+* Import `BUILD` files into the IDE with semantic awareness of Bazel targets.
+* Make your IDE aware of Starlark, the language used for Bazel's `BUILD` and
+  `.bzl`files
+* Build, test, and execute binaries directly from the IDE
+* Create configurations for debugging and running binaries.
+
+To install, go to the IDE's plugin browser and search for `Bazel`.
+
+To manually install older versions, download the zip files from JetBrains'
+Plugin Repository and install the zip file from the IDE's plugin browser:
+
+*  [Android Studio
+   plugin](https://plugins.jetbrains.com/plugin/9185-android-studio-with-bazel)
+*  [IntelliJ
+   plugin](https://plugins.jetbrains.com/plugin/8609-intellij-with-bazel)
+*  [CLion plugin](https://plugins.jetbrains.com/plugin/9554-clion-with-bazel)
+
+### Xcode
+
+[rules_xcodeproj](https://github.com/buildbuddy-io/rules_xcodeproj),
+[Tulsi](https://tulsi.bazel.build), and
+[XCHammer](https://github.com/pinterest/xchammer) generate Xcode
+projects from Bazel `BUILD` files.
+
+### Visual Studio Code
+
+Official plugin for VS Code.
+
+Features:
+
+* Bazel Build Targets tree
+* Starlark debugger for `.bzl` files during a build (set breakpoints, step
+  through code, inspect variables, and so on)
+
+Find [the plugin on the Visual Studio
+marketplace](https://marketplace.visualstudio.com/items?itemName=BazelBuild.vscode-bazel)
+or the [OpenVSX marketplace](https://open-vsx.org/extension/BazelBuild/vscode-bazel).
+The plugin is [open source](https://github.com/bazelbuild/vscode-bazel).
+
+See also: [Autocomplete for Source Code](#autocomplete-for-source-code)
+
+### Atom
+
+Find the [`language-bazel` package](https://atom.io/packages/language-bazel)
+on the Atom package manager.
+
+See also: [Autocomplete for Source Code](#autocomplete-for-source-code)
+
+### Vim
+
+See [`bazelbuild/vim-bazel` on GitHub](https://github.com/bazelbuild/vim-bazel)
+
+See also: [Autocomplete for Source Code](#autocomplete-for-source-code)
+
+### Emacs
+
+See [`bazelbuild/bazel-emacs-mode` on
+GitHub](https://github.com/bazelbuild/emacs-bazel-mode)
+
+See also: [Autocomplete for Source Code](#autocomplete-for-source-code)
+
+### Visual Studio
+
+[Lavender](https://github.com/tmandry/lavender) is an experimental project for
+generating Visual Studio projects that use Bazel for building.
+
+### Eclipse
+
+[Bazel Eclipse Feature](https://github.com/salesforce/bazel-eclipse)
+is a set of plugins for importing Bazel packages into an Eclipse workspace as
+Eclipse projects.
+
+## Autocomplete for Source Code
+
+### C Language Family (C++, C, Objective-C, Objective-C++, and CUDA)
+
+[`kiron1/bazel-compile-commands`](https://github.com/kiron1/bazel-compile-commands)
+run `bazel-compile-commands //...` in a Bazel workspace to generate a `compile_commands.json` file.
+The `compile_commands.json` file enables tools like `clang-tidy`, `clangd` (LSP) and other IDEs to
+provide autocomplete, smart navigation, quick fixes, and more. The tool is written in C++ and
+consumes the Protobuf output of Bazel to extract the compile commands.
+
+[`hedronvision/bazel-compile-commands-extractor`](https://github.com/hedronvision/bazel-compile-commands-extractor) enables autocomplete, smart navigation, quick fixes, and more in a wide variety of extensible editors, including VSCode, Vim, Emacs, Atom, and Sublime. It lets language servers, like clangd and ccls, and other types of tooling, draw upon Bazel's understanding of how `cc` and `objc` code will be compiled, including how it configures cross-compilation for other platforms.
+
+### Java
+
+[`georgewfraser/java-language-server`](https://github.com/georgewfraser/java-language-server) - Java Language Server (LSP) with support for Bazel-built projects
+
+## Automatically run build and test on file change
+
+[Bazel watcher](https://github.com/bazelbuild/bazel-watcher) is a
+tool for building Bazel targets when source files change.
+
+## Building your own IDE plugin
+
+Read the [**IDE support** blog
+post](https://blog.bazel.build/2016/06/10/ide-support.html) to learn more about
+the Bazel APIs to use when building an IDE plugin.
+
+
+## First build tutorials
+
+### Bazel Tutorial: Build a C++ Project
+- URL: https://bazel.build/start/cpp
+- Source: start/cpp.mdx
+
+## Introduction
+
+New to Bazel? You're in the right place. Follow this First Build tutorial for a
+simplified introduction to using Bazel. This tutorial defines key terms as they
+are used in Bazel's context and walks you through the basics of the Bazel
+workflow. Starting with the tools you need, you will build and run three
+projects with increasing complexity and learn how and why they get more complex.
+
+While Bazel is a [build system](https://bazel.build/basics/build-systems) that
+supports multi-language builds, this tutorial uses a C++ project as an example
+and provides the general guidelines and flow that apply to most languages.
+
+Estimated completion time: 30 minutes.
+
+### Prerequisites
+
+Start by [installing Bazel](https://bazel.build/install), if you haven't
+already. This tutorial uses Git for source control, so for best results [install
+Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) as well.
+
+Next, retrieve the sample project from Bazel's GitHub repository by running the
+following in your command-line tool of choice:
+
+```posix-terminal
+git clone https://github.com/bazelbuild/examples
+```
+
+The sample project for this tutorial is in the `examples/cpp-tutorial`
+directory.
+
+Take a look at how it's structured:
+
+```none
+examples
+└── cpp-tutorial
+    ├──stage1
+    │  ├── main
+    │  │   ├── BUILD
+    │  │   └── hello-world.cc
+    │  └── MODULE.bazel
+    ├──stage2
+    │  ├── main
+    │  │   ├── BUILD
+    │  │   ├── hello-world.cc
+    │  │   ├── hello-greet.cc
+    │  │   └── hello-greet.h
+    │  └── MODULE.bazel
+    └──stage3
+       ├── main
+       │   ├── BUILD
+       │   ├── hello-world.cc
+       │   ├── hello-greet.cc
+       │   └── hello-greet.h
+       ├── lib
+       │   ├── BUILD
+       │   ├── hello-time.cc
+       │   └── hello-time.h
+       └── MODULE.bazel
+```
+
+There are three sets of files, each set representing a stage in this tutorial.
+In the first stage, you will build a single [target]
+(https://bazel.build/reference/glossary#target) residing in a single [package]
+(https://bazel.build/reference/glossary#package). In the second stage, you will
+build both a binary and a library from a single package. In the third and final
+stage, you will build a project with multiple packages and build it with
+multiple targets.
+
+### Summary: Introduction
+
+By installing Bazel (and Git) and cloning the repository for this tutorial, you
+have laid the foundation for your first build with Bazel. Continue to the next
+section to define some terms and set up your
+[workspace](https://bazel.build/reference/glossary#workspace).
+
+## Getting started
+
+Before you can build a project, you need to set up its workspace. A workspace
+is a directory that holds your project's source files and Bazel's build outputs.
+It also contains these significant files:
+
+*   The `MODULE.bazel` file, which identifies the directory and its contents as
+    a Bazel workspace and lives at the root of the project's directory
+    structure. It's also where you specify your external dependencies.
+*   One or more [`BUILD`
+    files](https://bazel.build/reference/glossary#build-file), which tell Bazel
+    how to build different parts of the project. A directory within the
+    workspace that contains a `BUILD` file is a
+    [package](https://bazel.build/reference/glossary#package). (More on packages
+    later in this tutorial.)
+
+In future projects, to designate a directory as a Bazel workspace, create an
+empty file named `MODULE.bazel` in that directory. For the purposes of this
+tutorial, a `MODULE.bazel` file is already present in each stage.
+
+### Understand the BUILD file
+
+A `BUILD` file contains several different types of instructions for Bazel. Each
+`BUILD` file requires at least one
+[rule](https://bazel.build/reference/glossary#rule) as a set of instructions,
+which tells Bazel how to build the outputs you want, such as executable binaries
+or libraries. Each instance of a build rule in the `BUILD` file is called a
+[target](https://bazel.build/reference/glossary#target) and points to a specific
+set of source files and
+[dependencies](https://bazel.build/reference/glossary#dependency). A target can
+also point to other targets.
+
+Take a look at the `BUILD` file in the `cpp-tutorial/stage1/main` directory:
+
+```bazel
+cc_binary(
+    name = "hello-world",
+    srcs = ["hello-world.cc"],
+)
+```
+
+In our example, the `hello-world` target instantiates Bazel's built-in
+[`cc_binary` rule](https://bazel.build/reference/be/c-cpp#cc_binary). The rule
+tells Bazel to build a self-contained executable binary from the
+`hello-world.cc`> source file with no dependencies.
+
+### Summary: getting started
+
+Now you are familiar with some key terms, and what they mean in the context of
+this project and Bazel in general. In the next section, you will build and test
+Stage 1 of the project.
+
+## Stage 1: single target, single package
+
+It's time to build the first part of the project. For a visual reference, the
+structure of the Stage 1 section of the project is:
+
+```none
+examples
+└── cpp-tutorial
+    └──stage1
+       ├── main
+       │   ├── BUILD
+       │   └── hello-world.cc
+       └── MODULE.bazel
+```
+
+Run the following to move to the `cpp-tutorial/stage1` directory:
+
+```posix-terminal
+cd cpp-tutorial/stage1
+```
+
+Next, run:
+
+```posix-terminal
+bazel build //main:hello-world
+```
+
+In the target label, the `//main:` part is the location of the `BUILD` file
+relative to the root of the workspace, and `hello-world` is the target name in
+the `BUILD` file.
+
+Bazel produces something that looks like this:
+
+```none
+INFO: Found 1 target...
+Target //main:hello-world up-to-date:
+  bazel-bin/main/hello-world
+INFO: Elapsed time: 2.267s, Critical Path: 0.25s
+```
+
+You just built your first Bazel target. Bazel places build outputs in the
+`bazel-bin` directory at the root of the workspace.
+
+Now test your freshly built binary, which is:
+
+```posix-terminal
+bazel-bin/main/hello-world
+```
+
+This results in a printed "`Hello world`" message.
+
+Here's the dependency graph of Stage 1:
+
+![Dependency graph for hello-world displays a single target with a single source
+file.](/docs/images/cpp-tutorial-stage1.png "Dependency graph for hello-world
+displays a single target with a single source file.")
+
+### Summary: stage 1
+
+Now that you have completed your first build, you have a basic idea of how a
+build is structured. In the next stage, you will add complexity by adding
+another target.
+
+## Stage 2: multiple build targets
+
+While a single target is sufficient for small projects, you may want to split
+larger projects into multiple targets and packages. This allows for fast
+incremental builds – that is, Bazel only rebuilds what's changed – and speeds up
+your builds by building multiple parts of a project at once. This stage of the
+tutorial adds a target, and the next adds a package.
+
+This is the directory you are working with for Stage 2:
+
+```none
+    ├──stage2
+    │  ├── main
+    │  │   ├── BUILD
+    │  │   ├── hello-world.cc
+    │  │   ├── hello-greet.cc
+    │  │   └── hello-greet.h
+    │  └── MODULE.bazel
+```
+
+Take a look at the `BUILD` file in the `cpp-tutorial/stage2/main` directory:
+
+```bazel
+cc_library(
+    name = "hello-greet",
+    srcs = ["hello-greet.cc"],
+    hdrs = ["hello-greet.h"],
+)
+
+cc_binary(
+    name = "hello-world",
+    srcs = ["hello-world.cc"],
+    deps = [
+        ":hello-greet",
+    ],
+)
+```
+
+With this `BUILD` file, Bazel first builds the `hello-greet` library (using
+Bazel's built-in [`cc_library`
+rule](https://bazel.build/reference/be/c-cpp#cc_library)), then the
+`hello-world` binary. The `deps` attribute in the `hello-world` target tells
+Bazel that the `hello-greet` library is required to build the `hello-world`
+binary.
+
+Before you can build this new version of the project, you need to change
+directories, switching to the `cpp-tutorial/stage2` directory by running:
+
+```posix-terminal
+cd ../stage2
+```
+
+Now you can build the new binary using the following familiar command:
+
+```posix-terminal
+bazel build //main:hello-world
+```
+
+Once again, Bazel produces something that looks like this:
+
+```none
+INFO: Found 1 target...
+Target //main:hello-world up-to-date:
+  bazel-bin/main/hello-world
+INFO: Elapsed time: 2.399s, Critical Path: 0.30s
+```
+
+Now you can test your freshly built binary, which returns another "`Hello
+world`":
+
+```posix-terminal
+bazel-bin/main/hello-world
+```
+
+If you now modify `hello-greet.cc` and rebuild the project, Bazel only
+recompiles that file.
+
+Looking at the dependency graph, you can see that `hello-world` depends on an
+extra input named `hello-greet`:
+
+![Dependency graph for `hello-world` displays dependency changes after
+modification to the file.](/docs/images/cpp-tutorial-stage2.png "Dependency
+graph for `hello-world` displays dependency changes after modification to the
+file.")
+
+### Summary: stage 2
+
+You've now built the project with two targets. The `hello-world` target builds
+one source file and depends on one other target (`//main:hello-greet`), which
+builds two additional source files. In the next section, take it a step further
+and add another package.
+
+## Stage 3: multiple packages
+
+This next stage adds another layer of complication and builds a project with
+multiple packages. Take a look at the structure and contents of the
+`cpp-tutorial/stage3` directory:
+
+```none
+└──stage3
+   ├── main
+   │   ├── BUILD
+   │   ├── hello-world.cc
+   │   ├── hello-greet.cc
+   │   └── hello-greet.h
+   ├── lib
+   │   ├── BUILD
+   │   ├── hello-time.cc
+   │   └── hello-time.h
+   └── MODULE.bazel
+```
+
+You can see that now there are two sub-directories, and each contains a `BUILD`
+file. Therefore, to Bazel, the workspace now contains two packages: `lib` and
+`main`.
+
+Take a look at the `lib/BUILD` file:
+
+```bazel
+cc_library(
+    name = "hello-time",
+    srcs = ["hello-time.cc"],
+    hdrs = ["hello-time.h"],
+    visibility = ["//main:__pkg__"],
+)
+```
+
+And at the `main/BUILD` file:
+
+```bazel
+cc_library(
+    name = "hello-greet",
+    srcs = ["hello-greet.cc"],
+    hdrs = ["hello-greet.h"],
+)
+
+cc_binary(
+    name = "hello-world",
+    srcs = ["hello-world.cc"],
+    deps = [
+        ":hello-greet",
+        "//lib:hello-time",
+    ],
+)
+```
+
+The `hello-world` target in the main package depends on the` hello-time` target
+in the `lib` package (hence the target label `//lib:hello-time`) - Bazel knows
+this through the `deps` attribute. You can see this reflected in the dependency
+graph:
+
+![Dependency graph for `hello-world` displays how the target in the main package
+depends on the target in the `lib`
+package.](/docs/images/cpp-tutorial-stage3.png "Dependency graph for
+`hello-world` displays how the target in the main package depends on the target
+in the `lib` package.")
+
+For the build to succeed, you make the `//lib:hello-time` target in `lib/BUILD`
+explicitly visible to targets in `main/BUILD` using the visibility attribute.
+This is because by default targets are only visible to other targets in the same
+`BUILD` file. Bazel uses target visibility to prevent issues such as libraries
+containing implementation details leaking into public APIs.
+
+Now build this final version of the project. Switch to the `cpp-tutorial/stage3`
+directory by running:
+
+```posix-terminal
+cd  ../stage3
+```
+
+Once again, run the following command:
+
+```posix-terminal
+bazel build //main:hello-world
+```
+
+Bazel produces something that looks like this:
+
+```none
+INFO: Found 1 target...
+Target //main:hello-world up-to-date:
+  bazel-bin/main/hello-world
+INFO: Elapsed time: 0.167s, Critical Path: 0.00s
+```
+
+Now test the last binary of this tutorial for a final `Hello world` message:
+
+```posix-terminal
+bazel-bin/main/hello-world
+```
+
+### Summary: stage 3
+
+You've now built the project as two packages with three targets and understand
+the dependencies between them, which equips you to go forth and build future
+projects with Bazel. In the next section, take a look at how to continue your
+Bazel journey.
+
+## Next steps
+
+You've now completed your first basic build with Bazel, but this is just the
+start. Here are some more resources to continue learning with Bazel:
+
+*   To keep focusing on C++, read about common [C++ build use
+    cases](https://bazel.build/tutorials/cpp-use-cases).
+*   To get started with building other applications with Bazel, see the
+    tutorials for [Java](https://bazel.build/start/java), [Android
+    application](https://bazel.build/start/android-app), or [iOS
+    application](https://bazel.build/start/ios-app).
+*   To learn more about working with local and remote repositories, read about
+    [external dependencies](https://bazel.build/docs/external).
+*   To learn more about Bazel's other rules, see this [reference
+    guide](https://bazel.build/rules).
+
+Happy building!
+
+### Bazel Tutorial: Build a Java Project
+- URL: https://bazel.build/start/java
+- Source: start/java.mdx
+
+This tutorial covers the basics of building Java applications with
+Bazel. You will set up your workspace and build a simple Java project that
+illustrates key Bazel concepts, such as targets and `BUILD` files.
+
+Estimated completion time: 30 minutes.
+
+## What you'll learn
+
+In this tutorial you learn how to:
+
+*  Build a target
+*  Visualize the project's dependencies
+*  Split the project into multiple targets and packages
+*  Control target visibility across packages
+*  Reference targets through labels
+*  Deploy a target
+
+## Before you begin
+
+### Install Bazel
+
+To prepare for the tutorial, first [Install Bazel](/install) if
+you don't have it installed already.
+
+### Install the JDK
+
+1.  Install Java JDK (preferred version is 11, however versions between 8 and 15 are supported).
+
+2.  Set the JAVA\_HOME environment variable to point to the JDK.
+    *   On Linux/macOS:
+
+            export JAVA_HOME="$(dirname $(dirname $(realpath $(which javac))))"
+    *   On Windows:
+        1.  Open Control Panel.
+        2.  Go to "System&nbsp;and&nbsp;Security" &gt; "System" &gt; "Advanced&nbsp;System&nbsp;Settings" &gt; "Advanced"&nbsp;tab &gt; "Environment&nbsp;Variables..." .
+        3.  Under the "User&nbsp;variables" list (the one on the top), click "New...".
+        4.  In the "Variable&nbsp;name" field, enter `JAVA_HOME`.
+        5.  Click "Browse&nbsp;Directory...".
+        6.  Navigate to the JDK directory (for example `C:\Program Files\Java\jdk1.8.0_152`).
+        7.  Click "OK" on all dialog windows.
+
+### Get the sample project
+
+Retrieve the sample project from Bazel's GitHub repository:
+
+```posix-terminal
+git clone https://github.com/bazelbuild/examples
+```
+
+The sample project for this tutorial is in the `examples/java-tutorial`
+directory and is structured as follows:
+
+```
+java-tutorial
+├── BUILD
+├── src
+│   └── main
+│       └── java
+│           └── com
+│               └── example
+│                   ├── cmdline
+│                   │   ├── BUILD
+│                   │   └── Runner.java
+│                   ├── Greeting.java
+│                   └── ProjectRunner.java
+└── MODULE.bazel
+```
+
+## Build with Bazel
+
+### Set up the workspace
+
+Before you can build a project, you need to set up its workspace. A workspace is
+a directory that holds your project's source files and Bazel's build outputs. It
+also contains files that Bazel recognizes as special:
+
+*  The `MODULE.bazel` file, which identifies the directory and its contents as a
+   Bazel workspace and lives at the root of the project's directory structure,
+
+*  One or more `BUILD` files, which tell Bazel how to build different parts of
+   the project. (A directory within the workspace that contains a `BUILD` file
+   is a *package*. You will learn about packages later in this tutorial.)
+
+To designate a directory as a Bazel workspace, create an empty file named
+`MODULE.bazel` in that directory.
+
+When Bazel builds the project, all inputs and dependencies must be in the same
+workspace. Files residing in different workspaces are independent of one
+another unless linked, which is beyond the scope of this tutorial.
+
+### Understand the BUILD file
+
+A `BUILD` file contains several different types of instructions for Bazel.
+The most important type is the *build rule*, which tells Bazel how to build the
+desired outputs, such as executable binaries or libraries. Each instance
+of a build rule in the `BUILD` file is called a *target* and points to a
+specific set of source files and dependencies. A target can also point to other
+targets.
+
+Take a look at the `java-tutorial/BUILD` file:
+
+```python
+java_binary(
+    name = "ProjectRunner",
+    srcs = glob(["src/main/java/com/example/*.java"]),
+)
+```
+
+In our example, the `ProjectRunner` target instantiates Bazel's built-in
+[`java_binary` rule](/reference/be/java#java_binary). The rule tells Bazel to
+build a `.jar` file and a wrapper shell script (both named after the target).
+
+The attributes in the target explicitly state its dependencies and options.
+While the `name` attribute is mandatory, many are optional. For example, in the
+`ProjectRunner` rule target, `name` is the name of the target, `srcs` specifies
+the source files that Bazel uses to build the target, and `main_class` specifies
+the class that contains the main method. (You may have noticed that our example
+uses [glob](/reference/be/functions#glob) to pass a set of source files to Bazel
+instead of listing them one by one.)
+
+### Build the project
+
+To build your sample project, navigate to the `java-tutorial` directory
+and run:
+
+```posix-terminal
+bazel build //:ProjectRunner
+```
+In the target label, the `//` part is the location of the `BUILD` file
+relative to the root of the workspace (in this case, the root itself),
+and `ProjectRunner` is the target name in the `BUILD` file. (You will
+learn about target labels in more detail at the end of this tutorial.)
+
+Bazel produces output similar to the following:
+
+```bash
+   INFO: Found 1 target...
+   Target //:ProjectRunner up-to-date:
+      bazel-bin/ProjectRunner.jar
+      bazel-bin/ProjectRunner
+   INFO: Elapsed time: 1.021s, Critical Path: 0.83s
+```
+
+Congratulations, you just built your first Bazel target! Bazel places build
+outputs in the `bazel-bin` directory at the root of the workspace. Browse
+through its contents to get an idea for Bazel's output structure.
+
+Now test your freshly built binary:
+
+```posix-terminal
+bazel-bin/ProjectRunner
+```
+
+### Review the dependency graph
+
+Bazel requires build dependencies to be explicitly declared in BUILD files.
+Bazel uses those statements to create the project's dependency graph, which
+enables accurate incremental builds.
+
+To visualize the sample project's dependencies, you can generate a text
+representation of the dependency graph by running this command at the
+workspace root:
+
+```posix-terminal
+bazel query  --notool_deps --noimplicit_deps "deps(//:ProjectRunner)" --output graph
+```
+
+The above command tells Bazel to look for all dependencies for the target
+`//:ProjectRunner` (excluding host and implicit dependencies) and format the
+output as a graph.
+
+Then, paste the text into [GraphViz](http://www.webgraphviz.com/).
+
+As you can see, the project has a single target that build two source files with
+no additional dependencies:
+
+![Dependency graph of the target 'ProjectRunner'](/docs/images/tutorial_java_01.svg)
+
+After you set up your workspace, build your project, and examine its
+dependencies, then you can add some complexity.
+
+## Refine your Bazel build
+
+While a single target is sufficient for small projects, you may want to split
+larger projects into multiple targets and packages to allow for fast incremental
+builds (that is, only rebuild what's changed) and to speed up your builds by
+building multiple parts of a project at once.
+
+### Specify multiple build targets
+
+You can split the sample project build into two targets. Replace the contents of
+the `java-tutorial/BUILD` file with the following:
+
+```python
+java_binary(
+    name = "ProjectRunner",
+    srcs = ["src/main/java/com/example/ProjectRunner.java"],
+    main_class = "com.example.ProjectRunner",
+    deps = [":greeter"],
+)
+
+java_library(
+    name = "greeter",
+    srcs = ["src/main/java/com/example/Greeting.java"],
+)
+```
+
+With this configuration, Bazel first builds the `greeter` library, then the
+`ProjectRunner` binary. The `deps` attribute in `java_binary` tells Bazel that
+the `greeter` library is required to build the `ProjectRunner` binary.
+
+To build this new version of the project, run the following command:
+
+```posix-terminal
+bazel build //:ProjectRunner
+```
+
+Bazel produces output similar to the following:
+
+```
+INFO: Found 1 target...
+Target //:ProjectRunner up-to-date:
+  bazel-bin/ProjectRunner.jar
+  bazel-bin/ProjectRunner
+INFO: Elapsed time: 2.454s, Critical Path: 1.58s
+```
+
+Now test your freshly built binary:
+
+```posix-terminal
+bazel-bin/ProjectRunner
+```
+
+If you now modify `ProjectRunner.java` and rebuild the project, Bazel only
+recompiles that file.
+
+Looking at the dependency graph, you can see that `ProjectRunner` depends on the
+same inputs as it did before, but the structure of the build is different:
+
+![Dependency graph of the target 'ProjectRunner' after adding a dependency](
+/docs/images/tutorial_java_02.svg)
+
+You've now built the project with two targets. The `ProjectRunner` target builds
+one source files and depends on one other target (`:greeter`), which builds
+one additional source file.
+
+### Use multiple packages
+
+Let’s now split the project into multiple packages. If you take a look at the
+`src/main/java/com/example/cmdline` directory, you can see that it also contains
+a `BUILD` file, plus some source files. Therefore, to Bazel, the workspace now
+contains two packages, `//src/main/java/com/example/cmdline` and `//` (since
+there is a `BUILD` file at the root of the workspace).
+
+Take a look at the `src/main/java/com/example/cmdline/BUILD` file:
+
+```python
+java_binary(
+    name = "runner",
+    srcs = ["Runner.java"],
+    main_class = "com.example.cmdline.Runner",
+    deps = ["//:greeter"],
+)
+```
+
+The `runner` target depends on the `greeter` target in the `//` package (hence
+the target label `//:greeter`) - Bazel knows this through the `deps` attribute.
+Take a look at the dependency graph:
+
+![Dependency graph of the target 'runner'](/docs/images/tutorial_java_03.svg)
+
+However, for the build to succeed, you must explicitly give the `runner` target
+in `//src/main/java/com/example/cmdline/BUILD` visibility to targets in
+`//BUILD` using the `visibility` attribute. This is because by default targets
+are only visible to other targets in the same `BUILD` file. (Bazel uses target
+visibility to prevent issues such as libraries containing implementation details
+leaking into public APIs.)
+
+To do this, add the `visibility` attribute to the `greeter` target in
+`java-tutorial/BUILD` as shown below:
+
+```python
+java_library(
+    name = "greeter",
+    srcs = ["src/main/java/com/example/Greeting.java"],
+    visibility = ["//src/main/java/com/example/cmdline:__pkg__"],
+)
+```
+
+Now you can build the new package by running the following command at the root
+of the workspace:
+
+```posix-terminal
+bazel build //src/main/java/com/example/cmdline:runner
+```
+
+Bazel produces output similar to the following:
+
+```
+INFO: Found 1 target...
+Target //src/main/java/com/example/cmdline:runner up-to-date:
+  bazel-bin/src/main/java/com/example/cmdline/runner.jar
+  bazel-bin/src/main/java/com/example/cmdline/runner
+  INFO: Elapsed time: 1.576s, Critical Path: 0.81s
+```
+
+Now test your freshly built binary:
+
+```posix-terminal
+./bazel-bin/src/main/java/com/example/cmdline/runner
+```
+
+You've now modified the project to build as two packages, each containing one
+target, and understand the dependencies between them.
+
+
+## Use labels to reference targets
+
+In `BUILD` files and at the command line, Bazel uses target labels to reference
+targets - for example, `//:ProjectRunner` or
+`//src/main/java/com/example/cmdline:runner`. Their syntax is as follows:
+
+```
+//path/to/package:target-name
+```
+
+If the target is a rule target, then `path/to/package` is the path to the
+directory containing the `BUILD` file, and `target-name` is what you named the
+target in the `BUILD` file (the `name` attribute). If the target is a file
+target, then `path/to/package` is the path to the root of the package, and
+`target-name` is the name of the target file, including its full path.
+
+When referencing targets at the repository root, the package path is empty,
+just use `//:target-name`. When referencing targets within the same `BUILD`
+file, you can even skip the `//` workspace root identifier and just use
+`:target-name`.
+
+For example, for targets in the `java-tutorial/BUILD` file, you did not have to
+specify a package path, since the workspace root is itself a package (`//`), and
+your two target labels were simply `//:ProjectRunner` and `//:greeter`.
+
+However, for targets in the `//src/main/java/com/example/cmdline/BUILD` file you
+had to specify the full package path of `//src/main/java/com/example/cmdline`
+and your target label was `//src/main/java/com/example/cmdline:runner`.
+
+## Package a Java target for deployment
+
+Let’s now package a Java target for deployment by building the binary with all
+of its runtime dependencies. This lets you run the binary outside of your
+development environment.
+
+As you remember, the [java_binary](/reference/be/java#java_binary) build rule
+produces a `.jar` and a wrapper shell script. Take a look at the contents of
+`runner.jar` using this command:
+
+```posix-terminal
+jar tf bazel-bin/src/main/java/com/example/cmdline/runner.jar
+```
+
+The contents are:
+
+```
+META-INF/
+META-INF/MANIFEST.MF
+com/
+com/example/
+com/example/cmdline/
+com/example/cmdline/Runner.class
+```
+As you can see, `runner.jar` contains `Runner.class`, but not its dependency,
+`Greeting.class`. The `runner` script that Bazel generates adds `greeter.jar`
+to the classpath, so if you leave it like this, it will run locally, but it
+won't run standalone on another machine. Fortunately, the `java_binary` rule
+allows you to build a self-contained, deployable binary. To build it, append
+`_deploy.jar` to the target name:
+
+```posix-terminal
+bazel build //src/main/java/com/example/cmdline:runner_deploy.jar
+```
+
+Bazel produces output similar to the following:
+
+```
+INFO: Found 1 target...
+Target //src/main/java/com/example/cmdline:runner_deploy.jar up-to-date:
+  bazel-bin/src/main/java/com/example/cmdline/runner_deploy.jar
+INFO: Elapsed time: 1.700s, Critical Path: 0.23s
+```
+You have just built `runner_deploy.jar`, which you can run standalone away from
+your development environment since it contains the required runtime
+dependencies. Take a look at the contents of this standalone JAR using the
+same command as before:
+
+```posix-terminal
+jar tf bazel-bin/src/main/java/com/example/cmdline/runner_deploy.jar
+```
+
+The contents include all of the necessary classes to run:
+
+```
+META-INF/
+META-INF/MANIFEST.MF
+build-data.properties
+com/
+com/example/
+com/example/cmdline/
+com/example/cmdline/Runner.class
+com/example/Greeting.class
+```
+
+## Further reading
+
+For more details, see:
+
+*  [rules_jvm_external](https://github.com/bazelbuild/rules_jvm_external) for
+   rules to manage transitive Maven dependencies.
+
+*  [External Dependencies](/docs/external) to learn more about working with
+   local and remote repositories.
+
+*  The [other rules](/rules) to learn more about Bazel.
+
+*  The [C++ build tutorial](/start/cpp) to get started with building
+   C++ projects with Bazel.
+
+*  The [Android application tutorial](/start/android-app ) and
+   [iOS application tutorial](/start/ios-app)) to get started with
+   building mobile applications for Android and iOS with Bazel.
+
+Happy building!
+
+### Bazel Tutorial: Build an Android App
+- URL: https://bazel.build/start/android-app
+- Source: start/android-app.mdx
+
+**Note:** There are known limitations on using Bazel for building Android apps.
+Visit the [rules_android issues page](https://github.com/bazelbuild/rules_android/issues)
+to see the list of known issues. While the Bazel team and Open Source Software
+(OSS) contributors work actively to address known issues, users should be aware
+that Android Studio does not officially support Bazel projects.
+
+This tutorial covers how to build a simple Android app using Bazel.
+
+Bazel supports building Android apps using the
+[Android rules](/reference/be/android).
+
+This tutorial is intended for Windows, macOS and Linux users and does not
+require experience with Bazel or Android app development. You do not need to
+write any Android code in this tutorial.
+
+## What you'll learn
+
+In this tutorial you learn how to:
+
+*   Set up your environment by installing Bazel and Android Studio, and
+    downloading the sample project.
+*   Set up a Bazel workspace that contains the source code
+    for the app and a `MODULE.bazel` file that identifies the top level of the
+    workspace directory.
+*   Update the `MODULE.bazel` file to contain references to the required
+    external dependencies, like the Android SDK.
+*   Create a `BUILD` file.
+*   Build the app with Bazel.
+*   Deploy and run the app on an Android emulator or physical device.
+
+## Before you begin
+
+### Install Bazel
+
+Before you begin the tutorial, install the following software:
+
+* **Bazel.** To install, follow the [installation instructions](/install).
+* **Android Studio.** To install, follow the steps to [download Android
+  Studio](https://developer.android.com/sdk/index.html).
+  Execute the setup wizard to download the SDK and configure your environment.
+* (Optional) **Git.** Use `git` to download the Android app project.
+
+### Get the sample project
+
+For the sample project, use the tutorial Android app project in
+[Bazel's examples repository](https://github.com/bazelbuild/examples/tree/main/android/tutorial).
+
+This app has a single button that prints a greeting when clicked:
+
+![Button greeting](/docs/images/android_tutorial_app.png "Tutorial app button greeting")
+
+**Figure 1.** Android app button greeting.
+
+Clone the repository with `git` (or [download the ZIP file
+directly](https://github.com/bazelbuild/examples/archive/master.zip)):
+
+```posix-terminal
+git clone https://github.com/bazelbuild/examples
+```
+
+The sample project for this tutorial is in `examples/android/tutorial`. For
+the rest of the tutorial, you will be executing commands in this directory.
+
+### Review the source files
+
+Take a look at the source files for the app.
+
+```
+.
+├── README.md
+└── src
+    └── main
+        ├── AndroidManifest.xml
+        └── java
+            └── com
+                └── example
+                    └── bazel
+                        ├── AndroidManifest.xml
+                        ├── Greeter.java
+                        ├── MainActivity.java
+                        └── res
+                            ├── layout
+                            │   └── activity_main.xml
+                            └── values
+                                ├── colors.xml
+                                └── strings.xml
+```
+
+The key files and directories are:
+
+| Name                    | Location                                                                                 |
+| ----------------------- | ---------------------------------------------------------------------------------------- |
+| Android manifest files  | `src/main/AndroidManifest.xml` and `src/main/java/com/example/bazel/AndroidManifest.xml` |
+| Android source files    | `src/main/java/com/example/bazel/MainActivity.java` and `Greeter.java`                   |
+| Resource file directory | `src/main/java/com/example/bazel/res/`                                                   |
+
+
+## Build with Bazel
+
+### Set up the workspace
+
+A [workspace](/concepts/build-ref#workspace) is a directory that contains the
+source files for one or more software projects, and has a `MODULE.bazel` file at
+its root.
+
+The `MODULE.bazel` file may be empty or may contain references to [external
+dependencies](/external/overview) required to build your project.
+
+First, run the following command to create an empty `MODULE.bazel` file:
+
+|          OS              |              Command                |
+| ------------------------ | ----------------------------------- |
+| Linux, macOS             | `touch MODULE.bazel`                   |
+| Windows (Command Prompt) | `type nul > MODULE.bazel`              |
+| Windows (PowerShell)     | `New-Item MODULE.bazel -ItemType file` |
+
+### Running Bazel
+
+You can now check if Bazel is running correctly with the command:
+
+```posix-terminal
+bazel info workspace
+```
+
+If Bazel prints the path of the current directory, you're good to go! If the
+`MODULE.bazel` file does not exist, you may see an error message like:
+
+```
+ERROR: The 'info' command is only supported from within a workspace.
+```
+
+### Integrate with the Android SDK
+
+Bazel needs to run the Android SDK
+[build tools](https://developer.android.com/tools/revisions/build-tools.html)
+to build the app. This means that you need to add some information to your
+`MODULE.bazel` file so that Bazel knows where to find them.
+
+Add the following line to your `MODULE.bazel` file:
+
+```python
+bazel_dep(name = "rules_android", version = "0.6.6")
+
+remote_android_extensions = use_extension(
+    "@rules_android//bzlmod_extensions:android_extensions.bzl",
+    "remote_android_tools_extensions")
+use_repo(remote_android_extensions, "android_tools")
+
+android_sdk_repository_extension = use_extension("@rules_android//rules/android_sdk_repository:rule.bzl", "android_sdk_repository_extension")
+use_repo(android_sdk_repository_extension, "androidsdk")
+```
+
+This will use the Android SDK at the path referenced by the `ANDROID_HOME`
+environment variable, and automatically detect the highest API level and the
+latest version of build tools installed within that location.
+
+You can set the `ANDROID_HOME` variable to the location of the Android SDK. Find
+the path to the installed SDK using Android Studio's [SDK
+Manager](https://developer.android.com/studio/intro/update#sdk-manager).
+Assuming the SDK is installed to default locations, you can use the following
+commands to set the `ANDROID_HOME` variable:
+
+|          OS              |               Command                               |
+| ------------------------ | --------------------------------------------------- |
+| Linux                    | `export ANDROID_HOME=$HOME/Android/Sdk/`            |
+| macOS                    | `export ANDROID_HOME=$HOME/Library/Android/sdk`     |
+| Windows (Command Prompt) | `set ANDROID_HOME=%LOCALAPPDATA%\Android\Sdk`       |
+| Windows (PowerShell)     | `$env:ANDROID_HOME="$env:LOCALAPPDATA\Android\Sdk"` |
+
+The above commands set the variable only for the current shell session. To make
+them permanent, run the following commands:
+
+|          OS              |               Command                               |
+| ------------------------ | --------------------------------------------------- |
+| Linux                    | `echo "export ANDROID_HOME=$HOME/Android/Sdk/" >> ~/.bashrc`                                                                              |
+| macOS                    | `echo "export ANDROID_HOME=$HOME/Library/Android/Sdk/" >> ~/.bashrc`                                                                              |
+| Windows (Command Prompt) | `setx ANDROID_HOME "%LOCALAPPDATA%\Android\Sdk"`                                                                                          |
+| Windows (PowerShell)     | `[System.Environment]::SetEnvironmentVariable('ANDROID_HOME', "$env:LOCALAPPDATA\Android\Sdk", [System.EnvironmentVariableTarget]::User)` |
+
+
+**Optional:** If you want to compile native code into your Android app, you
+also need to download the [Android
+NDK](https://developer.android.com/ndk/downloads/index.html)
+and use `rules_android_ndk` by adding the following line to your `MODULE.bazel` file:
+
+```python
+bazel_dep(name = "rules_android_ndk", version = "0.1.3")
+```
+
+
+For more information, read [Using the Android Native Development Kit with
+Bazel](/docs/android-ndk).
+
+It's not necessary to set the API levels to the same value for the SDK and NDK.
+[This page](https://developer.android.com/ndk/guides/stable_apis.html)
+contains a map from Android releases to NDK-supported API levels.
+
+### Create a BUILD file
+
+A [`BUILD` file](/concepts/build-files) describes the relationship
+between a set of build outputs, like compiled Android resources from `aapt` or
+class files from `javac`, and their dependencies. These dependencies may be
+source files (Java, C++) in your workspace or other build outputs. `BUILD` files
+are written in a language called **Starlark**.
+
+`BUILD` files are part of a concept in Bazel known as the *package hierarchy*.
+The package hierarchy is a logical structure that overlays the directory
+structure in your workspace. Each [package](/concepts/build-ref#packages) is a
+directory (and its subdirectories) that contains a related set of source files
+and a `BUILD` file. The package also includes any subdirectories, excluding
+those that contain their own `BUILD` file. The *package name* is the path to the
+`BUILD` file relative to the `MODULE.bazel` file.
+
+Note that Bazel's package hierarchy is conceptually different from the Java
+package hierarchy of your Android App directory where the `BUILD` file is
+located, although the directories may be organized identically.
+
+For the simple Android app in this tutorial, the source files in `src/main/`
+comprise a single Bazel package. A more complex project may have many nested
+packages.
+
+#### Add an android_library rule
+
+A `BUILD` file contains several different types of declarations for Bazel. The
+most important type is the
+[build rule](/concepts/build-files#types-of-build-rules), which tells
+Bazel how to build an intermediate or final software output from a set of source
+files or other dependencies. Bazel provides two build rules,
+[`android_library`](/reference/be/android#android_library) and
+[`android_binary`](/reference/be/android#android_binary), that you can use to
+build an Android app.
+
+For this tutorial, you'll first use the
+`android_library` rule to tell Bazel to build an [Android library
+module](http://developer.android.com/tools/projects/index.html#LibraryProjects)
+from the app source code and resource files. You'll then use the
+`android_binary` rule to tell Bazel how to build the Android application package.
+
+Create a new `BUILD` file in the `src/main/java/com/example/bazel` directory,
+and declare a new `android_library` target:
+
+`src/main/java/com/example/bazel/BUILD`:
+
+```python
+load("@rules_android//rules:rules.bzl", "android_library")
+
+package(
+    default_visibility = ["//src:__subpackages__"],
+)
+
+android_library(
+    name = "greeter_activity",
+    srcs = [
+        "Greeter.java",
+        "MainActivity.java",
+    ],
+    manifest = "AndroidManifest.xml",
+    resource_files = glob(["res/**"]),
+)
+```
+
+The `android_library` build rule contains a set of attributes that specify the
+information that Bazel needs to build a library module from the source files.
+Note also that the name of the rule is `greeter_activity`. You'll reference the
+rule using this name as a dependency in the `android_binary` rule.
+
+#### Add an android_binary rule
+
+The [`android_binary`](/reference/be/android#android_binary) rule builds
+the Android application package (`.apk` file) for your app.
+
+Create a new `BUILD` file in the `src/main/` directory,
+and declare a new `android_binary` target:
+
+`src/main/BUILD`:
+
+```python
+load("@rules_android//rules:rules.bzl", "android_binary")
+
+android_binary(
+    name = "app",
+    manifest = "//src/main/java/com/example/bazel:AndroidManifest.xml",
+    deps = ["//src/main/java/com/example/bazel:greeter_activity"],
+)
+```
+
+Here, the `deps` attribute references the output of the `greeter_activity` rule
+you added to the `BUILD` file above. This means that when Bazel builds the
+output of this rule it checks first to see if the output of the
+`greeter_activity` library rule has been built and is up-to-date. If not, Bazel
+builds it and then uses that output to build the application package file.
+
+Now, save and close the file.
+
+### Build the app
+
+Try building the app! Run the following command to build the
+`android_binary` target:
+
+```posix-terminal
+bazel build //src/main:app
+```
+
+The [`build`](/docs/user-manual#build) subcommand instructs Bazel to build the
+target that follows. The target is specified as the name of a build rule inside
+a `BUILD` file, with along with the package path relative to your workspace
+directory. For this example, the target is `app` and the package path is
+`//src/main/`.
+
+Note that you can sometimes omit the package path or target name, depending on
+your current working directory at the command line and the name of the target.
+For more details about target labels and paths, see [Labels](/concepts/labels).
+
+Bazel will start to build the sample app. During the build process, its output
+will appear similar to the following:
+
+```bash
+INFO: Analysed target //src/main:app (0 packages loaded, 0 targets configured).
+INFO: Found 1 target...
+Target //src/main:app up-to-date:
+  bazel-bin/src/main/app_deploy.jar
+  bazel-bin/src/main/app_unsigned.apk
+  bazel-bin/src/main/app.apk
+```
+
+#### Locate the build outputs
+
+Bazel puts the outputs of both intermediate and final build operations in a set
+of per-user, per-workspace output directories. These directories are symlinked
+from the following locations at the top-level of the project directory, where
+the `MODULE.bazel` file is:
+
+* `bazel-bin` stores binary executables and other runnable build outputs
+* `bazel-genfiles` stores intermediary source files that are generated by
+   Bazel rules
+* `bazel-out` stores other types of build outputs
+
+Bazel stores the Android `.apk` file generated using the `android_binary` rule
+in the `bazel-bin/src/main` directory, where the subdirectory name `src/main` is
+derived from the name of the Bazel package.
+
+At a command prompt, list the contents of this directory and find the `app.apk`
+file:
+
+|          OS              |          Command         |
+| ------------------------ | ------------------------ |
+| Linux, macOS             | `ls bazel-bin/src/main`  |
+| Windows (Command Prompt) | `dir bazel-bin\src\main` |
+| Windows (PowerShell)     | `ls bazel-bin\src\main`  |
+
+
+### Run the app
+
+You can now deploy the app to a connected Android device or emulator from the
+command line using `bazel mobile-install`.
+This command uses the Android Debug Bridge (`adb`) to communicate with the
+device. You must set up your device to use `adb` following the instructions in
+[Android Debug Bridge](http://developer.android.com/tools/help/adb.html)
+before deployment. You can also choose to install the app on the Android emulator
+included in Android Studio. Make sure the emulator is running before executing
+the command below.
+
+Enter the following:
+
+```posix-terminal
+bazel mobile-install //src/main:app \
+  --mode=skylark \
+  --mobile_install_aspect=@rules_android//mobile_install:mi.bzl \
+  --mobile_install_supported_rules=android_binary \
+  --java_runtime_version=17 \
+  --java_language_version=17 \
+  --tool_java_runtime_version=17 \
+  --tool_java_language_version=17
+```
+
+Note that the extra flags required for mobile-install can be added to your
+project's [bazelrc file](/run/bazelrc). The mobile-install-specific flags
+(`--mode`, `--mobile_install*`) will no longer be required starting from
+Bazel 8.4.0 and onwards. The various Java flags for language and runtime version
+may be required depending on your workspace's Java configuration.
+_Mobile-install sub-tools require a language and runtime level of 17 or higher._
+
+Now the "Bazel Tutorial App" should install and launch automatically:
+
+![Bazel tutorial app](/docs/images/android_tutorial_before.png "Bazel tutorial app")
+
+**Figure 2.** Bazel tutorial app.
+
+**Congratulations! You have just installed your first Bazel-built Android app.**
+
+## Further reading
+
+For more details, see these pages:
+
+* Open issues on [rules_android GitHub](https://github.com/bazelbuild/rules_android/issues)
+* More information on [mobile-install](/docs/mobile-install)
+* Integrate external dependencies like AppCompat, Guava and JUnit from Maven
+  repositories using [rules_jvm_external](https://github.com/bazelbuild/rules_jvm_external)
+* Run Robolectric tests with the [robolectric-bazel](https://github.com/robolectric/robolectric-bazel)
+  integration.
+* Integrating C and C++ code into your Android app with the [NDK](/docs/android-ndk)
+* See more Bazel example projects of:
+  * [a Kotlin app](https://github.com/bazelbuild/rules_jvm_external/tree/master/examples/android_kotlin_app)
+  * [Robolectric testing](https://github.com/bazelbuild/rules_jvm_external/tree/master/examples/android_local_test)
+  * [Espresso testing](https://github.com/bazelbuild/rules_jvm_external/tree/master/examples/android_instrumentation_test)
+
+Happy building!
+
+### Bazel Tutorial: Build an iOS App
+- URL: https://bazel.build/start/ios-app
+- Source: start/ios-app.mdx
+
+This tutorial has been moved into the [bazelbuild/rules_apple](https://github.com/bazelbuild/rules_apple/blob/master/doc/tutorials/ios-app.md) repository.
+
+
+## Concepts
+
+### Repositories, workspaces, packages, and targets
+- URL: https://bazel.build/concepts/build-ref
+- Source: concepts/build-ref.mdx
+
+Bazel builds software from source code organized in directory trees called
+repositories. A defined set of repositories comprises the workspace. Source
+files in repositories are organized in a nested hierarchy of packages, where
+each package is a directory that contains a set of related source files and one
+`BUILD` file. The `BUILD` file specifies what software outputs can be built from
+the source.
+
+### Repositories
+
+Source files used in a Bazel build are organized in _repositories_ (often
+shortened to _repos_). A repo is a directory tree with a boundary marker file at
+its root; such a boundary marker file could be `MODULE.bazel`, `REPO.bazel`, or
+in legacy contexts, `WORKSPACE` or `WORKSPACE.bazel`.
+
+The repo in which the current Bazel command is being run is called the _main
+repo_. Other, (external) repos are defined by _repo rules_; see [external
+dependencies overview](/external/overview) for more information.
+
+## Workspace
+
+A _workspace_ is the environment shared by all Bazel commands run from the same
+main repo. It encompasses the main repo and the set of all defined external
+repos.
+
+Note that historically the concepts of "repository" and "workspace" have been
+conflated; the term "workspace" has often been used to refer to the main
+repository, and sometimes even used as a synonym of "repository".
+
+## Packages
+
+The primary unit of code organization in a repository is the _package_. A
+package is a collection of related files and a specification of how they can be
+used to produce output artifacts.
+
+A package is defined as a directory containing a
+[`BUILD` file](/concepts/build-files) named either `BUILD` or `BUILD.bazel`. A
+package includes all files in its directory, plus all subdirectories beneath it,
+except those which themselves contain a `BUILD` file. From this definition, no
+file or directory may be a part of two different packages.
+
+For example, in the following directory tree there are two packages, `my/app`,
+and the subpackage `my/app/tests`. Note that `my/app/data` is not a package, but
+a directory belonging to package `my/app`.
+
+```
+src/my/app/BUILD
+src/my/app/app.cc
+src/my/app/data/input.txt
+src/my/app/tests/BUILD
+src/my/app/tests/test.cc
+```
+
+## Targets
+
+A package is a container of _targets_, which are defined in the package's
+`BUILD` file. Most targets are one of two principal kinds, _files_ and _rules_.
+
+Files are further divided into two kinds. _Source files_ are usually written by
+the efforts of people, and checked in to the repository. _Generated files_,
+sometimes called derived files or output files, are not checked in, but are
+generated from source files.
+
+The second kind of target is declared with a _rule_. Each rule instance
+specifies the relationship between a set of input and a set of output files. The
+inputs to a rule may be source files, but they also may be the outputs of other
+rules.
+
+Whether the input to a rule is a source file or a generated file is in most
+cases immaterial; what matters is only the contents of that file. This fact
+makes it easy to replace a complex source file with a generated file produced by
+a rule, such as happens when the burden of manually maintaining a highly
+structured file becomes too tiresome, and someone writes a program to derive it.
+No change is required to the consumers of that file. Conversely, a generated
+file may easily be replaced by a source file with only local changes.
+
+The inputs to a rule may also include _other rules_. The precise meaning of such
+relationships is often quite complex and language- or rule-dependent, but
+intuitively it is simple: a C++ library rule A might have another C++ library
+rule B for an input. The effect of this dependency is that B's header files are
+available to A during compilation, B's symbols are available to A during
+linking, and B's runtime data is available to A during execution.
+
+An invariant of all rules is that the files generated by a rule always belong to
+the same package as the rule itself; it is not possible to generate files into
+another package. It is not uncommon for a rule's inputs to come from another
+package, though.
+
+Package groups are sets of packages whose purpose is to limit accessibility of
+certain rules. Package groups are defined by the `package_group` function. They
+have three properties: the list of packages they contain, their name, and other
+package groups they include. The only allowed ways to refer to them are from the
+`visibility` attribute of rules or from the `default_visibility` attribute of
+the `package` function; they do not generate or consume files. For more
+information, refer to the [`package_group`
+documentation](/reference/be/functions#package_group).
+
+<a class="button button-with-icon button-primary" href="/concepts/labels">
+  Labels<span class="material-icons icon-after" aria-hidden="true">arrow_forward</span>
+</a>
+
+### Visibility
+- URL: https://bazel.build/concepts/visibility
+- Source: concepts/visibility.mdx
+
+This page covers Bazel's two visibility systems:
+[target visibility](#target-visibility) and [load visibility](#load-visibility).
+
+Both types of visibility help other developers distinguish between your
+library's public API and its implementation details, and help enforce structure
+as your workspace grows. You can also use visibility when deprecating a public
+API to allow current users while denying new ones.
+
+## Target visibility
+
+**Target visibility** controls who may depend on your target — that is, who may
+use your target's label inside an attribute such as `deps`. A target will fail
+to build during the [analysis](/reference/glossary#analysis-phase) phase if it
+violates the visibility of one of its dependencies.
+
+Generally, a target `A` is visible to a target `B` if they are in the same
+location, or if `A` grants visibility to `B`'s location. In the absence of
+[symbolic macros](/extending/macros), the term "location" can be simplified
+to just "package"; see [below](#symbolic-macros) for more on symbolic macros.
+
+Visibility is specified by listing allowed packages. Allowing a package does not
+necessarily mean that its subpackages are also allowed. For more details on
+packages and subpackages, see [Concepts and terminology](/concepts/build-ref).
+
+For prototyping, you can disable target visibility enforcement by setting the
+flag `--check_visibility=false`. This shouldn't be done for production usage in
+submitted code.
+
+The primary way to control visibility is with a rule's
+[`visibility`](/reference/be/common-definitions#common.visibility) attribute.
+The following subsections describe the attribute's format, how to apply it to
+various kinds of targets, and the interaction between the visibility system and
+symbolic macros.
+
+### Visibility specifications
+
+All rule targets have a `visibility` attribute that takes a list of labels. Each
+label has one of the following forms. With the exception of the last form, these
+are just syntactic placeholders that don't correspond to any actual target.
+
+*   `"//visibility:public"`: Grants access to all packages.
+
+*   `"//visibility:private"`: Does not grant any additional access; only targets
+    in this location's package can use this target.
+
+*   `"//foo/bar:__pkg__"`: Grants access to `//foo/bar` (but not its
+    subpackages).
+
+*   `"//foo/bar:__subpackages__"`: Grants access to `//foo/bar` and all of its
+    direct and indirect subpackages.
+
+*   `"//some_pkg:my_package_group"`: Grants access to all of the packages that
+    are part of the given [`package_group`](/reference/be/functions#package_group).
+
+    *   Package groups use a
+        [different syntax](/reference/be/functions#package_group.packages) for
+        specifying packages. Within a package group, the forms
+        `"//foo/bar:__pkg__"` and `"//foo/bar:__subpackages__"` are respectively
+        replaced by `"//foo/bar"` and `"//foo/bar/..."`. Likewise,
+        `"//visibility:public"` and `"//visibility:private"` are just `"public"`
+        and `"private"`.
+
+For example, if `//some/package:mytarget` has its `visibility` set to
+`[":__subpackages__", "//tests:__pkg__"]`, then it could be used by any target
+that is part of the `//some/package/...` source tree, as well as targets
+declared in `//tests/BUILD`, but not by targets defined in
+`//tests/integration/BUILD`.
+
+**Best practice:** To make several targets visible to the same set
+of packages, use a `package_group` instead of repeating the list in each
+target's `visibility` attribute. This increases readability and prevents the
+lists from getting out of sync.
+
+**Best practice:** When granting visibility to another team's project, prefer
+`__subpackages__` over `__pkg__` to avoid needless visibility churn as that
+project evolves and adds new subpackages.
+
+Note: The `visibility` attribute may not specify non-`package_group` targets.
+Doing so triggers a "Label does not refer to a package group" or "Cycle in
+dependency graph" error.
+
+### Rule target visibility
+
+A rule target's visibility is determined by taking its `visibility` attribute
+-- or a suitable default if not given -- and appending the location where the
+target was declared. For targets not declared in a symbolic macro, if the
+package specifies a [`default_visibility`](/reference/be/functions#package.default_visibility),
+this default is used; for all other packages and for targets declared in a
+symbolic macro, the default is just `["//visibility:private"]`.
+
+```starlark
+# //mypkg/BUILD
+
+package(default_visibility = ["//friend:__pkg__"])
+
+cc_library(
+    name = "t1",
+    ...
+    # No visibility explicitly specified.
+    # Effective visibility is ["//friend:__pkg__", "//mypkg:__pkg__"].
+    # If no default_visibility were given in package(...), the visibility would
+    # instead default to ["//visibility:private"], and the effective visibility
+    # would be ["//mypkg:__pkg__"].
+)
+
+cc_library(
+    name = "t2",
+    ...
+    visibility = [":clients"],
+    # Effective visibility is ["//mypkg:clients, "//mypkg:__pkg__"], which will
+    # expand to ["//another_friend:__subpackages__", "//mypkg:__pkg__"].
+)
+
+cc_library(
+    name = "t3",
+    ...
+    visibility = ["//visibility:private"],
+    # Effective visibility is ["//mypkg:__pkg__"]
+)
+
+package_group(
+    name = "clients",
+    packages = ["//another_friend/..."],
+)
+```
+
+**Best practice:** Avoid setting `default_visibility` to public. It may be
+convenient for prototyping or in small codebases, but the risk of inadvertently
+creating public targets increases as the codebase grows. It's better to be
+explicit about which targets are part of a package's public interface.
+
+### Generated file target visibility
+
+A generated file target has the same visibility as the rule target that
+generates it.
+
+```starlark
+# //mypkg/BUILD
+
+java_binary(
+    name = "foo",
+    ...
+    visibility = ["//friend:__pkg__"],
+)
+```
+
+```starlark
+# //friend/BUILD
+
+some_rule(
+    name = "bar",
+    deps = [
+        # Allowed directly by visibility of foo.
+        "//mypkg:foo",
+        # Also allowed. The java_binary's "_deploy.jar" implicit output file
+        # target the same visibility as the rule target itself.
+        "//mypkg:foo_deploy.jar",
+    ]
+    ...
+)
+```
+
+### Source file target visibility
+
+Source file targets can either be explicitly declared using
+[`exports_files`](/reference/be/functions#exports_files), or implicitly created
+by referring to their filename in a label attribute of a rule (outside of a
+symbolic macro). As with rule targets, the location of the call to
+`exports_files`, or the BUILD file that referred to the input file, is always
+automatically appended to the file's visibility.
+
+Files declared by `exports_files` can have their visibility set by the
+`visibility` parameter to that function. If this parameter is not given, the visibility is public.
+
+Note: `exports_files` may not be used to override the visibility of a generated
+file.
+
+For files that do not appear in a call to `exports_files`, the visibility
+depends on the value of the flag
+[`--incompatible_no_implicit_file_export`](https://github.com/bazelbuild/bazel/issues/10225):
+
+*   If the flag is true, the visibility is private.
+
+*   Else, the legacy behavior applies: The visibility is the same as the
+    `BUILD` file's `default_visibility`, or private if a default visibility is
+    not specified.
+
+Avoid relying on the legacy behavior. Always write an `exports_files`
+declaration whenever a source file target needs non-private visibility.
+
+**Best practice:** When possible, prefer to expose a rule target rather than a
+source file. For example, instead of calling `exports_files` on a `.java` file,
+wrap the file in a non-private `java_library` target. Generally, rule targets
+should only directly reference source files that live in the same package.
+
+#### Example
+
+File `//frobber/data/BUILD`:
+
+```starlark
+exports_files(["readme.txt"])
+```
+
+File `//frobber/bin/BUILD`:
+
+```starlark
+cc_binary(
+  name = "my-program",
+  data = ["//frobber/data:readme.txt"],
+)
+```
+
+### Config setting visibility
+
+Historically, Bazel has not enforced visibility for
+[`config_setting`](/reference/be/general#config_setting) targets that are
+referenced in the keys of a [`select()`](/reference/be/functions#select). There
+are two flags to remove this legacy behavior:
+
+*   [`--incompatible_enforce_config_setting_visibility`](https://github.com/bazelbuild/bazel/issues/12932)
+    enables visibility checking for these targets. To assist with migration, it
+    also causes any `config_setting` that does not specify a `visibility` to be
+    considered public (regardless of package-level `default_visibility`).
+
+*   [`--incompatible_config_setting_private_default_visibility`](https://github.com/bazelbuild/bazel/issues/12933)
+    causes `config_setting`s that do not specify a `visibility` to respect the
+    package's `default_visibility` and to fallback on private visibility, just
+    like any other rule target. It is a no-op if
+    `--incompatible_enforce_config_setting_visibility` is not set.
+
+Avoid relying on the legacy behavior. Any `config_setting` that is intended to
+be used outside the current package should have an explicit `visibility`, if the
+package does not already specify a suitable `default_visibility`.
+
+### Package group target visibility
+
+`package_group` targets do not have a `visibility` attribute. They are always
+publicly visible.
+
+### Visibility of implicit dependencies
+
+Some rules have [implicit dependencies](/extending/rules#private_attributes_and_implicit_dependencies) —
+dependencies that are not spelled out in a `BUILD` file but are inherent to
+every instance of that rule. For example, a `cc_library` rule might create an
+implicit dependency from each of its rule targets to an executable target
+representing a C++ compiler.
+
+The visibility of such an implicit dependency is checked with respect to the
+package containing the `.bzl` file in which the rule (or aspect) is defined. In
+our example, the C++ compiler could be private so long as it lives in the same
+package as the definition of the `cc_library` rule. As a fallback, if the
+implicit dependency is not visible from the definition, it is checked with
+respect to the `cc_library` target.
+
+If you want to restrict the usage of a rule to certain packages, use
+[load visibility](#load-visibility) instead.
+
+### Visibility and symbolic macros
+
+This section describes how the visibility system interacts with
+[symbolic macros](/extending/macros).
+
+#### Locations within symbolic macros
+
+A key detail of the visibility system is how we determine the location of a
+declaration. For targets that are not declared in a symbolic macro, the location
+is just the package where the target lives -- the package of the `BUILD` file.
+But for targets created in a symbolic macro, the location is the package
+containing the `.bzl` file where the macro's definition (the
+`my_macro = macro(...)` statement) appears. When a target is created inside
+multiple nested targets, it is always the innermost symbolic macro's definition
+that is used.
+
+The same system is used to determine what location to check against a given
+dependency's visibility. If the consuming target was created inside a macro, we
+look at the innermost macro's definition rather than the package the consuming
+target lives in.
+
+This means that all macros whose code is defined in the same package are
+automatically "friends" with one another. Any target directly created by a macro
+defined in `//lib:defs.bzl` can be seen from any other macro defined in `//lib`,
+regardless of what packages the macros are actually instantiated in. Likewise,
+they can see, and can be seen by, targets declared directly in `//lib/BUILD` and
+its legacy macros. Conversely, targets that live in the same package cannot
+necessarily see one another if at least one of them is created by a symbolic
+macro.
+
+Within a symbolic macro's implementation function, the `visibility` parameter
+has the effective value of the macro's `visibility` attribute after appending
+the location where the macro was called. The standard way for a macro to export
+one of its targets to its caller is to forward this value along to the target's
+declaration, as in `some_rule(..., visibility = visibility)`. Targets that omit
+this attribute won't be visible to the caller of the macro unless the caller
+happens to be in the same package as the macro definition. This behavior
+composes, in the sense that a chain of nested calls to submacros may each pass
+`visibility = visibility`, re-exporting the inner macro's exported targets to
+the caller at each level, without exposing any of the macros' implementation
+details.
+
+#### Delegating privileges to a submacro
+
+The visibility model has a special feature to allow a macro to delegate its
+permissions to a submacro. This is important for factoring and composing macros.
+
+Suppose you have a macro `my_macro` that creates a dependency edge using a rule
+`some_library` from another package:
+
+```starlark
+# //macro/defs.bzl
+load("//lib:defs.bzl", "some_library")
+
+def _impl(name, visibility, ...):
+    ...
+    native.genrule(
+        name = name + "_dependency"
+        ...
+    )
+    some_library(
+        name = name + "_consumer",
+        deps = [name + "_dependency"],
+        ...
+    )
+
+my_macro = macro(implementation = _impl, ...)
+```
+
+```starlark
+# //pkg/BUILD
+
+load("//macro:defs.bzl", "my_macro")
+
+my_macro(name = "foo", ...)
+```
+
+The `//pkg:foo_dependency` target has no `visibility` specified, so it is only
+visible within `//macro`, which works fine for the consuming target. Now, what
+happens if the author of `//lib` refactors `some_library` to instead be
+implemented using a macro?
+
+```starlark
+# //lib:defs.bzl
+
+def _impl(name, visibility, deps, ...):
+    some_rule(
+        # Main target, exported.
+        name = name,
+        visibility = visibility,
+        deps = deps,
+        ...)
+
+some_library = macro(implementation = _impl, ...)
+```
+
+With this change, `//pkg:foo_consumer`'s location is now `//lib` rather than
+`//macro`, so its usage of `//pkg:foo_dependency` violates the dependency's
+visibility. The author of `my_macro` can't be expected to pass
+`visibility = ["//lib"]` to the declaration of the dependency just to work
+around this implementation detail.
+
+For this reason, when a dependency of a target is also an attribute value of the
+macro that declared the target, we check the dependency's visibility against the
+location of the macro instead of the location of the consuming target.
+
+In this example, to validate whether `//pkg:foo_consumer` can see
+`//pkg:foo_dependency`, we see that `//pkg:foo_dependency` was also passed as an
+input to the call to `some_library` inside of `my_macro`, and instead check the
+dependency's visibility against the location of this call, `//macro`.
+
+This process can repeat recursively, as long as a target or macro declaration is
+inside of another symbolic macro taking the dependency's label in one of its
+label-typed attributes.
+
+Note: Visibility delegation does not work for labels that were not passed into
+the macro, such as labels derived by string manipulation.
+
+#### Finalizers
+
+Targets declared in a rule finalizer (a symbolic macro with `finalizer = True`),
+in addition to seeing targets following the usual symbolic macro visibility
+rules, can *also* see all targets which are visible to the finalizer target's
+package.
+
+In other words, if you migrate a `native.existing_rules()`-based legacy macro to
+a finalizer, the targets declared by the finalizer will still be able to see
+their old dependencies.
+
+It is possible to define targets that a finalizer can introspect using
+`native.existing_rules()`, but which it cannot use as dependencies under the
+visibility system. For example, if a macro-defined target is not visible to its
+own package or to the finalizer macro's definition, and is not delegated to the
+finalizer, the finalizer cannot see such a target. Note, however, that a
+`native.existing_rules()`-based legacy macro will also be unable to see such a
+target.
+
+## Load visibility
+
+**Load visibility** controls whether a `.bzl` file may be loaded from other
+`BUILD` or `.bzl` files outside the current package.
+
+In the same way that target visibility protects source code that is encapsulated
+by targets, load visibility protects build logic that is encapsulated by `.bzl`
+files. For instance, a `BUILD` file author might wish to factor some repetitive
+target declarations into a macro in a `.bzl` file. Without the protection of
+load visibility, they might find their macro reused by other collaborators in
+the same workspace, so that modifying the macro breaks other teams' builds.
+
+Note that a `.bzl` file may or may not have a corresponding source file target.
+If it does, there is no guarantee that the load visibility and the target
+visibility coincide. That is, the same `BUILD` file might be able to load the
+`.bzl` file but not list it in the `srcs` of a [`filegroup`](/reference/be/general#filegroup),
+or vice versa. This can sometimes cause problems for rules that wish to consume
+`.bzl` files as source code, such as for documentation generation or testing.
+
+For prototyping, you may disable load visibility enforcement by setting
+`--check_bzl_visibility=false`. As with `--check_visibility=false`, this should
+not be done for submitted code.
+
+Load visibility is available as of Bazel 6.0.
+
+### Declaring load visibility
+
+To set the load visibility of a `.bzl` file, call the
+[`visibility()`](/rules/lib/globals/bzl#visibility) function from within the file.
+The argument to `visibility()` is a list of package specifications, just like
+the [`packages`](/reference/be/functions#package_group.packages) attribute of
+`package_group`. However, `visibility()` does not accept negative package
+specifications.
+
+The call to `visibility()` must only occur once per file, at the top level (not
+inside a function), and ideally immediately following the `load()` statements.
+
+Unlike target visibility, the default load visibility is always public. Files
+that do not call `visibility()` are always loadable from anywhere in the
+workspace. It is a good idea to add `visibility("private")` to the top of any
+new `.bzl` file that is not specifically intended for use outside the package.
+
+### Example
+
+```starlark
+# //mylib/internal_defs.bzl
+
+# Available to subpackages and to mylib's tests.
+visibility(["//mylib/...", "//tests/mylib/..."])
+
+def helper(...):
+    ...
+```
+
+```starlark
+# //mylib/rules.bzl
+
+load(":internal_defs.bzl", "helper")
+# Set visibility explicitly, even though public is the default.
+# Note the [] can be omitted when there's only one entry.
+visibility("public")
+
+myrule = rule(
+    ...
+)
+```
+
+```starlark
+# //someclient/BUILD
+
+load("//mylib:rules.bzl", "myrule")          # ok
+load("//mylib:internal_defs.bzl", "helper")  # error
+
+...
+```
+
+### Load visibility practices
+
+This section describes tips for managing load visibility declarations.
+
+#### Factoring visibilities
+
+When multiple `.bzl` files should have the same visibility, it can be helpful to
+factor their package specifications into a common list. For example:
+
+```starlark
+# //mylib/internal_defs.bzl
+
+visibility("private")
+
+clients = [
+    "//foo",
+    "//bar/baz/...",
+    ...
+]
+```
+
+```starlark
+# //mylib/feature_A.bzl
+
+load(":internal_defs.bzl", "clients")
+visibility(clients)
+
+...
+```
+
+```starlark
+# //mylib/feature_B.bzl
+
+load(":internal_defs.bzl", "clients")
+visibility(clients)
+
+...
+```
+
+This helps prevent accidental skew between the various `.bzl` files'
+visibilities. It also is more readable when the `clients` list is large.
+
+#### Composing visibilities
+
+Sometimes a `.bzl` file might need to be visible to an allowlist that is
+composed of multiple smaller allowlists. This is analogous to how a
+`package_group` can incorporate other `package_group`s via its
+[`includes`](/reference/be/functions#package_group.includes) attribute.
+
+Suppose you are deprecating a widely used macro. You want it to be visible only
+to existing users and to the packages owned by your own team. You might write:
+
+```starlark
+# //mylib/macros.bzl
+
+load(":internal_defs.bzl", "our_packages")
+load("//some_big_client:defs.bzl", "their_remaining_uses")
+
+# List concatenation. Duplicates are fine.
+visibility(our_packages + their_remaining_uses)
+```
+
+#### Deduplicating with package groups
+
+Unlike target visibility, you cannot define a load visibility in terms of a
+`package_group`. If you want to reuse the same allowlist for both target
+visibility and load visibility, it's best to move the list of package
+specifications into a .bzl file, where both kinds of declarations may refer to
+it. Building off the example in [Factoring visibilities](#factoring-visibilities)
+above, you might write:
+
+```starlark
+# //mylib/BUILD
+
+load(":internal_defs", "clients")
+
+package_group(
+    name = "my_pkg_grp",
+    packages = clients,
+)
+```
+
+This only works if the list does not contain any negative package
+specifications.
+
+#### Protecting individual symbols
+
+Any Starlark symbol whose name begins with an underscore cannot be loaded from
+another file. This makes it easy to create private symbols, but does not allow
+you to share these symbols with a limited set of trusted files. On the other
+hand, load visibility gives you control over what other packages may see your
+`.bzl file`, but does not allow you to prevent any non-underscored symbol from
+being loaded.
+
+Luckily, you can combine these two features to get fine-grained control.
+
+```starlark
+# //mylib/internal_defs.bzl
+
+# Can't be public, because internal_helper shouldn't be exposed to the world.
+visibility("private")
+
+# Can't be underscore-prefixed, because this is
+# needed by other .bzl files in mylib.
+def internal_helper(...):
+    ...
+
+def public_util(...):
+    ...
+```
+
+```starlark
+# //mylib/defs.bzl
+
+load(":internal_defs", "internal_helper", _public_util="public_util")
+visibility("public")
+
+# internal_helper, as a loaded symbol, is available for use in this file but
+# can't be imported by clients who load this file.
+...
+
+# Re-export public_util from this file by assigning it to a global variable.
+# We needed to import it under a different name ("_public_util") in order for
+# this assignment to be legal.
+public_util = _public_util
+```
+
+#### bzl-visibility Buildifier lint
+
+There is a [Buildifier lint](https://github.com/bazelbuild/buildtools/blob/master/WARNINGS.md#bzl-visibility)
+that provides a warning if users load a file from a directory named `internal`
+or `private`, when the user's file is not itself underneath the parent of that
+directory. This lint predates the load visibility feature and is unnecessary in
+workspaces where `.bzl` files declare visibilities.
+
+### Migrating to Platforms
+- URL: https://bazel.build/concepts/platforms
+- Source: concepts/platforms.mdx
+
+Bazel has sophisticated [support](#background) for modeling
+[platforms][Platforms] and [toolchains][Toolchains] for multi-architecture and
+cross-compiled builds.
+
+This page summarizes the state of this support.
+
+Key Point: Bazel's platform and toolchain APIs are available today. Not all
+languages support them. Use these APIs with your project if you can. Bazel is
+migrating all major languages so eventually all builds will be platform-based.
+
+See also:
+
+* [Platforms][Platforms]
+* [Toolchains][Toolchains]
+* [Background][Background]
+
+## Status
+
+### C++
+
+C++ rules use platforms to select toolchains when
+`--incompatible_enable_cc_toolchain_resolution` is set.
+
+This means you can configure a C++ project with:
+
+```posix-terminal
+bazel build //:my_cpp_project --platforms=//:myplatform
+```
+
+instead of the legacy:
+
+```posix-terminal
+bazel build //:my_cpp_project` --cpu=... --crosstool_top=...  --compiler=...
+```
+
+This will be enabled by default in Bazel 7.0 ([#7260](https://github.com/bazelbuild/bazel/issues/7260)).
+
+To test your C++ project with platforms, see
+[Migrating Your Project](#migrating-your-project) and
+[Configuring C++ toolchains].
+
+### Java
+
+Java rules use platforms to select toolchains.
+
+This replaces legacy flags `--java_toolchain`, `--host_java_toolchain`,
+`--javabase`, and `--host_javabase`.
+
+See [Java and Bazel](/docs/bazel-and-java) for details.
+
+### Android
+
+Android rules use platforms to select toolchains when
+`--incompatible_enable_android_toolchain_resolution` is set.
+
+This means you can configure an Android project with:
+
+```posix-terminal
+bazel build //:my_android_project --android_platforms=//:my_android_platform
+```
+
+instead of with legacy flags like  `--android_crosstool_top`, `--android_cpu`,
+and `--fat_apk_cpu`.
+
+This will be enabled by default in Bazel 7.0 ([#16285](https://github.com/bazelbuild/bazel/issues/16285)).
+
+To test your Android project with platforms, see
+[Migrating Your Project](#migrating-your-project).
+
+### Apple
+
+[Apple rules] do not support platforms and are not yet scheduled
+for support.
+
+You can still use platform APIs with Apple builds (for example, when building
+with a mixture of Apple rules and pure C++) with [platform
+mappings](#platform-mappings).
+
+### Other languages
+
+* [Go rules] fully support platforms
+* [Rust rules] fully support platforms.
+
+If you own a language rule set, see [Migrating your rule set] for adding
+support.
+
+## Background
+
+*Platforms* and *toolchains* were introduced to standardize how software
+projects target different architectures and cross-compile.
+
+This was
+[inspired][Inspiration]
+by the observation that language maintainers were already doing this in ad
+hoc, incompatible ways. For example, C++ rules used `--cpu` and
+ `--crosstool_top` to declare a target CPU and toolchain. Neither of these
+correctly models a "platform". This produced awkward and incorrect builds.
+
+Java, Android, and other languages evolved their own flags for similar purposes,
+none of which interoperated with each other. This made cross-language builds
+confusing and complicated.
+
+Bazel is intended for large, multi-language, multi-platform projects. This
+demands more principled support for these concepts, including a clear
+standard API.
+
+### Need for migration
+
+Upgrading to the new API requires two efforts: releasing the API and upgrading
+rule logic to use it.
+
+The first is done but the second is ongoing. This consists of ensuring
+language-specific platforms and toolchains are defined, language logic reads
+toolchains through the new API instead of old flags like `--crosstool_top`, and
+`config_setting`s select on the new API instead of old flags.
+
+This work is straightforward but requires a distinct effort for each language,
+plus fair warning for project owners to test against upcoming changes.
+
+This is why this is an ongoing migration.
+
+### Goal
+
+This migration is complete when all projects build with the form:
+
+```posix-terminal
+bazel build //:myproject --platforms=//:myplatform
+```
+
+This implies:
+
+1. Your project's rules choose the right toolchains for `//:myplatform`.
+1. Your project's dependencies choose the right toolchains for `//:myplatform`.
+1. `//:myplatform` references
+[common declarations][Common Platform Declarations]
+of `CPU`, `OS`, and other generic, language-independent properties
+1. All relevant [`select()`s][select()] properly match `//:myplatform`.
+1. `//:myplatform` is defined in a clear, accessible place: in your project's
+repo if the platform is unique to your project, or some common place all
+consuming projects can find it
+
+Old flags like `--cpu`, `--crosstool_top`, and `--fat_apk_cpu` will be
+deprecated and removed as soon as it's safe to do so.
+
+Ultimately, this will be the *sole* way to configure architectures.
+
+
+## Migrating your project
+
+If you build with languages that support platforms, your build should already
+work with an invocation like:
+
+```posix-terminal
+bazel build //:myproject --platforms=//:myplatform
+```
+
+See [Status](#status) and your language's documentation for precise details.
+
+If a language requires a flag to enable platform support, you also need to set
+that flag. See [Status](#status) for details.
+
+For your project to build, you need to check the following:
+
+1. `//:myplatform` must exist. It's generally the project owner's responsibility
+   to define platforms because different projects target different machines.
+   See [Default platforms](#default-platforms).
+
+1. The toolchains you want to use must exist. If using stock toolchains, the
+   language owners should include instructions for how to register them. If
+   writing your own custom toolchains, you need to [register](https://bazel.build/extending/toolchains#registering-building-toolchains) them in your
+   `MODULE.bazel` file or with [`--extra_toolchains`](https://bazel.build/reference/command-line-reference#flag--extra_toolchains).
+
+1. `select()`s and [configuration transitions][Starlark transitions] must
+  resolve properly. See [select()](#select) and [Transitions](#transitions).
+
+1. If your build mixes languages that do and don't support platforms, you may
+   need platform mappings to help the legacy languages work with the new API.
+   See [Platform mappings](#platform-mappings) for details.
+
+If you still have problems, [reach out](#questions) for support.
+
+### Default platforms
+
+Project owners should define explicit
+[platforms][Defining Constraints and Platforms] to describe the architectures
+they want to build for. These are then triggered with `--platforms`.
+
+When `--platforms` isn't set, Bazel defaults to a `platform` representing the
+local build machine. This is auto-generated at `@platforms//host` (aliased as
+`@bazel_tools//tools:host_platform`)
+so there's no need to explicitly define it. It maps the local machine's `OS`
+and `CPU` with `constraint_value`s declared in
+[`@platforms`](https://github.com/bazelbuild/platforms).
+
+### `select()`
+
+Projects can [`select()`][select()] on
+[`constraint_value` targets][constraint_value Rule] but not complete
+platforms. This is intentional so `select()` supports as wide a variety of
+machines as possible. A library with `ARM`-specific sources should support *all*
+`ARM`-powered machines unless there's reason to be more specific.
+
+To select on one or more `constraint_value`s, use:
+
+```python
+config_setting(
+    name = "is_arm",
+    constraint_values = [
+        "@platforms//cpu:arm",
+    ],
+)
+```
+
+This is equivalent to traditionally selecting on `--cpu`:
+
+```python
+config_setting(
+    name = "is_arm",
+    values = {
+        "cpu": "arm",
+    },
+)
+```
+
+More details [here][select() Platforms].
+
+`select`s on `--cpu`, `--crosstool_top`, etc. don't understand `--platforms`.
+When migrating your project to platforms, you must either convert them to
+`constraint_values` or use [platform mappings](#platform-mappings) to support
+both styles during migration.
+
+### Transitions
+
+[Starlark transitions][Starlark transitions] change
+flags down parts of your build graph. If your project uses a transition that
+sets `--cpu`, `--crossstool_top`, or other legacy flags, rules that read
+`--platforms` won't see these changes.
+
+When migrating your project to platforms, you must either convert changes like
+`return { "//command_line_option:cpu": "arm" }` to `return {
+"//command_line_option:platforms": "//:my_arm_platform" }` or use [platform
+mappings](#platform-mappings) to support both styles during migration.
+window.
+
+## Migrating your rule set
+
+If you own a rule set and want to support platforms, you need to:
+
+1. Have rule logic resolve toolchains with the toolchain API. See
+   [toolchain API][Toolchains] (`ctx.toolchains`).
+
+1. Optional: define an `--incompatible_enable_platforms_for_my_language` flag so
+   rule logic alternately resolves toolchains through the new API or old flags
+   like `--crosstool_top` during migration testing.
+
+1. Define the relevant properties that make up platform components. See
+   [Common platform properties](#common-platform-properties)
+
+1. Define standard toolchains and make them accessible to users through your
+   rule's registration instructions ([details](https://bazel.build/extending/toolchains#registering-building-toolchains))
+
+1. Ensure [`select()`s](#select) and
+   [configuration transitions](#transitions) support platforms. This is the
+   biggest challenge. It's particularly challenging for multi-language projects
+   (which may fail if *all* languages can't read `--platforms`).
+
+If you need to mix with rules that don't support platforms, you may need
+[platform mappings](#platform-mappings) to bridge the gap.
+
+### Common platform properties
+
+Common, cross-language platform properties like `OS` and `CPU` should be
+declared in [`@platforms`](https://github.com/bazelbuild/platforms).
+This encourages sharing, standardization, and cross-language compatibility.
+
+Properties unique to your rules should be declared in your rule's repo. This
+lets you maintain clear ownership over the specific concepts your rules are
+responsible for.
+
+If your rules use custom-purpose OSes or CPUs, these should be declared in your
+rule's repo vs.
+[`@platforms`](https://github.com/bazelbuild/platforms).
+
+## Platform mappings
+
+*Platform mappings* is a temporary API that lets platform-aware logic mix with
+legacy logic in the same build. This is a blunt tool that's only intended to
+smooth incompatibilities with different migration timeframes.
+
+Caution: Only use this if necessary, and expect to eventually  eliminate it.
+
+A platform mapping is a map of either a `platform()` to a
+corresponding set of legacy flags or the reverse. For example:
+
+```python
+platforms:
+  # Maps "--platforms=//platforms:ios" to "--ios_multi_cpus=x86_64 --apple_platform_type=ios".
+  //platforms:ios
+    --ios_multi_cpus=x86_64
+    --apple_platform_type=ios
+
+flags:
+  # Maps "--ios_multi_cpus=x86_64 --apple_platform_type=ios" to "--platforms=//platforms:ios".
+  --ios_multi_cpus=x86_64
+  --apple_platform_type=ios
+    //platforms:ios
+
+  # Maps "--cpu=darwin_x86_64 --apple_platform_type=macos" to "//platform:macos".
+  --cpu=darwin_x86_64
+  --apple_platform_type=macos
+    //platforms:macos
+```
+
+Bazel uses this to guarantee all settings, both platform-based and
+legacy, are consistently applied throughout the build, including through
+[transitions](#transitions).
+
+By default Bazel reads mappings from the `platform_mappings` file in your
+workspace root. You can also set
+`--platform_mappings=//:my_custom_mapping`.
+
+See the [platform mappings design] for details.
+
+## API review
+
+A [`platform`][platform Rule] is a collection of
+[`constraint_value` targets][constraint_value Rule]:
+
+```python
+platform(
+    name = "myplatform",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:arm",
+    ],
+)
+```
+
+A [`constraint_value`][constraint_value Rule] is a machine
+property. Values of the same "kind" are grouped under a common
+[`constraint_setting`][constraint_setting Rule]:
+
+```python
+constraint_setting(name = "os")
+constraint_value(
+    name = "linux",
+    constraint_setting = ":os",
+)
+constraint_value(
+    name = "mac",
+    constraint_setting = ":os",
+)
+```
+
+A [`toolchain`][Toolchains] is a [Starlark rule][Starlark rule]. Its
+attributes declare a language's tools (like `compiler =
+"//mytoolchain:custom_gcc"`). Its [providers][Starlark Provider] pass
+this information to rules that need to build with these tools.
+
+Toolchains declare the `constraint_value`s of machines they can
+[target][target_compatible_with Attribute]
+(`target_compatible_with = ["@platforms//os:linux"]`) and machines their tools can
+[run on][exec_compatible_with Attribute]
+(`exec_compatible_with = ["@platforms//os:mac"]`).
+
+When building `$ bazel build //:myproject --platforms=//:myplatform`, Bazel
+automatically selects a toolchain that can run on the build machine and
+build binaries for `//:myplatform`. This is known as *toolchain resolution*.
+
+The set of available toolchains can be registered in the `MODULE.bazel` file
+with [`register_toolchains`][register_toolchains Function] or at the
+command line with [`--extra_toolchains`][extra_toolchains Flag].
+
+For more information see [here][Toolchains].
+
+## Questions
+
+For general support and questions about the migration timeline, contact
+[bazel-discuss] or the owners of the appropriate rules.
+
+For discussions on the design and evolution of the platform/toolchain APIs,
+contact [bazel-dev].
+
+## See also
+
+* [Configurable Builds - Part 1]
+* [Platforms]
+* [Toolchains]
+* [Bazel Platforms Cookbook]
+* [Platforms examples]
+* [Example C++ toolchain]
+
+[Android Rules]: /docs/bazel-and-android
+[Apple Rules]: https://github.com/bazelbuild/rules_apple
+[Background]: #background
+[Bazel platforms Cookbook]: https://docs.google.com/document/d/1UZaVcL08wePB41ATZHcxQV4Pu1YfA1RvvWm8FbZHuW8/
+[bazel-dev]: https://groups.google.com/forum/#!forum/bazel-dev
+[bazel-discuss]: https://groups.google.com/forum/#!forum/bazel-discuss
+[Common Platform Declarations]: https://github.com/bazelbuild/platforms
+[constraint_setting Rule]: /reference/be/platforms-and-toolchains#constraint_setting
+[constraint_value Rule]: /reference/be/platforms-and-toolchains#constraint_value
+[Configurable Builds - Part 1]: https://blog.bazel.build/2019/02/11/configurable-builds-part-1.html
+[Configuring C++ toolchains]: /tutorials/ccp-toolchain-config
+[Defining Constraints and Platforms]: /extending/platforms#constraints-platforms
+[Example C++ toolchain]: https://github.com/gregestren/snippets/tree/master/custom_cc_toolchain_with_platforms
+[exec_compatible_with Attribute]: /reference/be/platforms-and-toolchains#toolchain.exec_compatible_with
+[extra_toolchains Flag]: /reference/command-line-reference#flag--extra_toolchains
+[Go Rules]: https://github.com/bazelbuild/rules_go
+[Inspiration]: https://blog.bazel.build/2019/02/11/configurable-builds-part-1.html
+[Migrating your rule set]: #migrating-your-rule-set
+[Platforms]: /extending/platforms
+[Platforms examples]: https://github.com/hlopko/bazel_platforms_examples
+[platform mappings design]: https://docs.google.com/document/d/1Vg_tPgiZbSrvXcJ403vZVAGlsWhH9BUDrAxMOYnO0Ls/edit
+[platform Rule]: /reference/be/platforms-and-toolchains#platform
+[register_toolchains Function]: /rules/lib/globals/module#register_toolchains
+[Rust rules]: https://github.com/bazelbuild/rules_rust
+[select()]: /docs/configurable-attributes
+[select() Platforms]: /docs/configurable-attributes#platforms
+[Starlark provider]: /extending/rules#providers
+[Starlark rule]: /extending/rules
+[Starlark transitions]: /extending/config#user-defined-transitions
+[target_compatible_with Attribute]: /reference/be/platforms-and-toolchains#toolchain.target_compatible_with
+[Toolchains]: /extending/toolchains

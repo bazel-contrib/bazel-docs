@@ -3,7 +3,7 @@
 
 - Canonical domain: https://bazel.build/
 - Docs snapshot: HEAD
-- Generated: 2025-11-12 16:41:01 UTC
+- Generated: 2025-11-12 17:06:48 UTC
 - Source repo: https://github.com/bazel-contrib/bazel-docs
 
 ---
