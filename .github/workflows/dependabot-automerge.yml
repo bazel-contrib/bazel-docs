@@ -45,6 +45,16 @@ jobs:
     uses: ./.github/workflows/pull-from-bazel-build.yml
     secrets: inherit
 
+  approve-pr:
+    needs: [check-dependabot, generate-docs]
+    if: needs.check-dependabot.outputs.should_process == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve pull request
+        run: gh pr review --approve "${{ github.event.pull_request.html_url }}"
+        env:
+          GH_TOKEN: ${{ secrets.GH_AUTOMERGE_PAT }}
+
   # Auto-merge after docs are generated
   enable-automerge:
     needs: [check-dependabot, generate-docs]

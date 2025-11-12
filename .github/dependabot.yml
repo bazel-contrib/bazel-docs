@@ -8,3 +8,11 @@ updates:
       timezone: "America/Los_Angeles"
     open-pull-requests-limit: 3
     rebase-strategy: auto
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Check for updates to GitHub Actions every day
+      interval: "daily"
+    open-pull-requests-limit: 3
+    rebase-strategy: auto
