@@ -4,7 +4,7 @@ on:
     types: [on-bazel-trigger]
 jobs:
   deploy:
-    uses: ./.github/workflows/run-codegen.yml
+    uses: ./.github/workflows/pull-from-bazel-build.yml
     with:
       bazelCommitHash: ${{ github.event.client_payload.commitHash }}
       secrets: inherit
