@@ -27,3 +27,18 @@ Install the Mintlify dev tool: `npm install -g mint`
 Then run `mint dev` to get a locally-running site.
 
 Send a PR to get a hosted preview of the changes.
+
+## LLM-friendly snapshots
+
+The repository ships two machine-readable indices at the site root:
+
+- `llms.txt` – a curated navigation guide so LLMs can understand the docs layout quickly.
+- `llms-full.txt` – the entire Markdown/MDX corpus flattened into a single file for ingestion.
+
+Regenerate both files after editing docs with:
+
+```bash
+python3 scripts/generate_llms.py
+```
+
+Set `LLMS_BASE_URL` if you need to point to a preview domain. The script reads `docs.json` so it stays aligned with the Mintlify navigation model.
