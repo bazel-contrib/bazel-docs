@@ -1,0 +1,34 @@
+name: Preview Bazel docs PRs
+on:
+    # Since PRs to Bazel repo may come from a fork, and those cannot see GHA Secrets,
+    # we fall back to polling the Bazel repo for new PRs.
+    schedule:
+        # Every 5 minutes
+        - cron: '*/5 * * * *'
+    # Also allow manual triggering in the GH UI.
+    # Press the green button on
+    # https://github.com/bazel-contrib/bazel-docs/actions/workflows/preview-bazel-docs-pr.yml
+    workflow_dispatch:
+
+jobs:
+    trigger:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v5
+        - uses: actions/github-script@v8
+          with:
+            script: |
+              const prs = await github.rest.pulls.list({
+                owner: 'bazelbuild',
+                repo: 'bazel',
+                since: new Date(Date.now() - 20 * 60 * 1000).toISOString(),
+              });
+              
+              
+              core.setOutput("pull_requests", JSON.stringify(prs.map(pr => ({
+                number: pr.number,
+                head_sha: pr.head.sha,
+              }))));
+        # TODO: run another step for each output.
+        # it just calls the gh command to make a new branch on our repo that points the upstream git submodule to the PR's HEAD commit
+        # and then triggers the run-codegen workflow on that new branch to generate the docs.

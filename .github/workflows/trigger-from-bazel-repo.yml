@@ -1,3 +1,4 @@
+name: Update docs from Bazel repo main branch
 on:
   repository_dispatch:
     types: [on-bazel-trigger]
