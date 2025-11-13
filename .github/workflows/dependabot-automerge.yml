@@ -46,7 +46,8 @@ jobs:
     secrets: inherit
 
   approve-pr:
-    needs: generate-docs
+    needs: [generate-docs, check-dependabot]
+    if: needs.check-dependabot.outputs.should_process == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Approve pull request
