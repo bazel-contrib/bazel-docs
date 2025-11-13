@@ -1,0 +1,10 @@
+{
+    
+  "type": "module",
+  "dependencies": {
+    "@buf/bazel_bazel.bufbuild_es": "^2.10.1-20251112223041-697bc75dbe09.1"
+  },
+  "scripts": {
+    "convert": "node convert.js"
+  }
+}
