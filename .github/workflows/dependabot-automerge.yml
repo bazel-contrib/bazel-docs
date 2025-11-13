@@ -46,7 +46,7 @@ jobs:
     secrets: inherit
 
   approve-pr:
-    needs: [generate-docs, check-dependabot]
+    needs: [check-dependabot, generate-docs]
     if: needs.check-dependabot.outputs.should_process == 'true'
     runs-on: ubuntu-latest
     steps:
