@@ -31,8 +31,8 @@ jobs:
       - name: Check if upstream submodule
         id: check
         run: |
-          if [[ "${{ steps.meta.outputs.package-ecosystem }}" == "submodules" ]] && \
-             [[ "${{ steps.meta.outputs.dependency-names }}" == *"upstream"* ]]; then
+          if [[ "${{ steps.meta.outputs.package-ecosystem }}" == "submodules" ]] || \
+             [[ "${{ steps.meta.outputs.package-ecosystem }}" == "github_actions" ]]; then
             echo "should_process=true" >> $GITHUB_OUTPUT
           else
             echo "should_process=false" >> $GITHUB_OUTPUT
@@ -46,8 +46,7 @@ jobs:
     secrets: inherit
 
   approve-pr:
-    needs: [check-dependabot, generate-docs]
-    if: needs.check-dependabot.outputs.should_process == 'true'
+    needs: generate-docs
     runs-on: ubuntu-latest
     steps:
       - name: Approve pull request
