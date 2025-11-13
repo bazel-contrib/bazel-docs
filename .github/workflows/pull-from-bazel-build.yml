@@ -17,6 +17,12 @@ jobs:
       pull-requests: write
     
     steps:
+      - uses: actions/create-github-app-token@v2
+        id: generate-token
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
@@ -24,8 +30,8 @@ jobs:
           submodules: false
           # This token is necessary so that the action can push into the repo
           # and trigger the required check (this workflow). Otherwise, the 
-          # default GITHUB_TOKEN cannot be considered a 'synchronize' event
-          token: ${{ secrets.GH_AUTOMERGE_PAT }}
+          # default GITHUB_TOKEN cannot be considered during a 'synchronize' event
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Checkout submodules
         run: git submodule update --init -- upstream
