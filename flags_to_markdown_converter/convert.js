@@ -6,7 +6,9 @@ function escapeHtml(str) {
     return str
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+      .replace(/>/g, "&gt;")
+      .replace(/{/g, "&lbrace;")
+      .replace(/}/g, "&rbrace;");
   }
 
 // Read stdin as a stream
@@ -72,7 +74,7 @@ for (const category of flagsByCategory.keys()) {
             writeLine('effect: ' + flag.effectTags)
             writeLine('allowsMultiple: ' + flag.allowsMultiple)
             writeLine('requiresValue: ' + flag.requiresValue)
-            writeLine('defaultValue: ' + flag.defaultValue)
+            writeLine(`defaultValue: ${escapeHtml(flag.defaultValue)}`);
 
             // TODO: add history - what version of Bazel introduced this flag?
             // TODO: link to GitHub issue where the flag is being managed (i.e. graduate from experimental)

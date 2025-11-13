@@ -270,7 +270,7 @@ Specify how an output group's files will be represented in TargetComplete/Aspect
 
 _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clean, config, coverage, cquery, dump, fetch, help, info, license, mobile-install, mod, print_action, query, run, shutdown, sync, test, vendor, version_
 
-### standard
+### stable
 
 #### --show_make_env
 effect: AFFECTS_OUTPUTS,TERMINAL_OUTPUT
@@ -1267,7 +1267,7 @@ If enabled, targets that have unknown attributes set to None fail.
 
 _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clean, config, coverage, cquery, dump, fetch, help, info, license, mobile-install, mod, print_action, query, run, shutdown, sync, test, vendor, version_
 
-### standard
+### stable
 
 #### --enable_workspace
 effect: LOADING_AND_ANALYSIS
@@ -1498,7 +1498,7 @@ _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clea
 
 ## bazel_client_options
 
-### standard
+### stable
 
 #### --autodetect_server_javabase
 effect: AFFECTS_OUTPUTS,LOSES_INCREMENTAL_STATE
@@ -1568,7 +1568,7 @@ effect: AFFECTS_OUTPUTS,LOSES_INCREMENTAL_STATE
 allowsMultiple: false
 requiresValue: true
 defaultValue: 
-If set, specifies the output location to which all build output will be written. Otherwise, the location will be ${OUTPUT_ROOT}/_blaze_${USER}/${MD5_OF_WORKSPACE_ROOT}. Note: If you specify a different option from one to the next Bazel invocation for this value, you'll likely start up a new, additional Bazel server. Bazel starts exactly one server per specified output base. Typically there is one output base per workspace - however, with this option you may have multiple output bases per workspace and thereby run multiple builds for the same client on the same machine concurrently. See 'bazel help shutdown' on how to shutdown a Bazel server.
+If set, specifies the output location to which all build output will be written. Otherwise, the location will be $&lbrace;OUTPUT_ROOT&rbrace;/_blaze_$&lbrace;USER&rbrace;/$&lbrace;MD5_OF_WORKSPACE_ROOT&rbrace;. Note: If you specify a different option from one to the next Bazel invocation for this value, you'll likely start up a new, additional Bazel server. Bazel starts exactly one server per specified output base. Typically there is one output base per workspace - however, with this option you may have multiple output bases per workspace and thereby run multiple builds for the same client on the same machine concurrently. See 'bazel help shutdown' on how to shutdown a Bazel server.
 
 _May apply to commands: startup_
 
@@ -1586,7 +1586,7 @@ effect: BAZEL_INTERNAL_CONFIGURATION
 allowsMultiple: false
 requiresValue: false
 defaultValue: false
-If set, downloading using ctx.download{,_and_extract} is not allowed during repository fetching. Note that network access is not completely disabled; ctx.execute could still run an arbitrary executable that accesses the Internet.
+If set, downloading using ctx.download&lbrace;,_and_extract&rbrace; is not allowed during repository fetching. Note that network access is not completely disabled; ctx.execute could still run an arbitrary executable that accesses the Internet.
 
 _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clean, config, coverage, cquery, dump, fetch, help, info, license, mobile-install, mod, print_action, query, run, shutdown, sync, test, vendor, version_
 
@@ -1715,7 +1715,7 @@ effect: AFFECTS_OUTPUTS,LOSES_INCREMENTAL_STATE
 allowsMultiple: false
 requiresValue: true
 defaultValue: 
-If set, specifies a location to write a failure_detail protobuf message if the server experiences a failure and cannot report it via gRPC, as normal. Otherwise, the location will be ${OUTPUT_BASE}/failure_detail.rawproto.
+If set, specifies a location to write a failure_detail protobuf message if the server experiences a failure and cannot report it via gRPC, as normal. Otherwise, the location will be $&lbrace;OUTPUT_BASE&rbrace;/failure_detail.rawproto.
 
 _May apply to commands: startup_
 
@@ -1930,7 +1930,7 @@ _May apply to commands: startup, analyze-profile, aquery, build, canonicalize-fl
 
 ## output_parameters
 
-### standard
+### stable
 
 #### --host_conlyopt
 effect: ACTION_COMMAND_LINES,AFFECTS_OUTPUTS
@@ -2439,7 +2439,7 @@ effect: AFFECTS_OUTPUTS
 allowsMultiple: false
 requiresValue: true
 defaultValue: 
-Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain {hash} and {size_bytes} that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
+Instead of downloading remote build outputs to the local machine, create symbolic links. The target of the symbolic links can be specified in the form of a template string. This template string may contain &lbrace;hash&rbrace; and &lbrace;size_bytes&rbrace; that expand to the hash of the object and the size in bytes, respectively. These symbolic links may, for example, point to a FUSE file system that loads objects from the CAS on demand.
 
 _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clean, config, coverage, cquery, dump, fetch, help, info, license, mobile-install, mod, print_action, query, run, shutdown, sync, test, vendor, version_
 
@@ -2522,7 +2522,7 @@ effect: AFFECTS_OUTPUTS,EXECUTION
 allowsMultiple: false
 requiresValue: true
 defaultValue: 
-If set, write a shell script to the given file which invokes the target. If this option is set, the target is not run from Bazel. Use '%{product} run --script_path=foo //foo &amp;&amp; ./foo' to invoke target '//foo' This differs from '%{product} run //foo' in that the %{product} lock is released and the executable is connected to the terminal's stdin.
+If set, write a shell script to the given file which invokes the target. If this option is set, the target is not run from Bazel. Use '%&lbrace;product&rbrace; run --script_path=foo //foo &amp;&amp; ./foo' to invoke target '//foo' This differs from '%&lbrace;product&rbrace; run //foo' in that the %&lbrace;product&rbrace; lock is released and the executable is connected to the terminal's stdin.
 
 _May apply to commands: run_
 
@@ -2930,7 +2930,7 @@ _May apply to commands: aquery, build, canonicalize-flags, clean, config, covera
 
 ## remote
 
-### standard
+### stable
 
 #### --remote_build_event_upload
 enum values: ALL,MINIMAL
@@ -3096,7 +3096,7 @@ effect: UNKNOWN
 allowsMultiple: false
 requiresValue: true
 defaultValue: 
-The hostname and instance name to be used in bytestream:// URIs that are written into build event streams. This option can be set when builds are performed using a proxy, which causes the values of --remote_executor and --remote_instance_name to no longer correspond to the canonical name of the remote execution service. When not set, it will default to "${hostname}/${instance_name}".
+The hostname and instance name to be used in bytestream:// URIs that are written into build event streams. This option can be set when builds are performed using a proxy, which causes the values of --remote_executor and --remote_instance_name to no longer correspond to the canonical name of the remote execution service. When not set, it will default to "$&lbrace;hostname&rbrace;/$&lbrace;instance_name&rbrace;".
 
 _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clean, config, coverage, cquery, dump, fetch, help, info, license, mobile-install, mod, print_action, query, run, shutdown, sync, test, vendor, version_
 
@@ -3414,7 +3414,7 @@ _May apply to commands: aquery, build, canonicalize-flags, clean, config, covera
 
 ## signing
 
-### standard
+### stable
 
 #### --device_debug_entitlements
 effect: CHANGES_INPUTS
@@ -3446,7 +3446,7 @@ _May apply to commands: aquery, build, canonicalize-flags, clean, config, covera
 
 ## query
 
-### standard
+### stable
 
 #### --aspect_deps
 enum values: OFF,CONSERVATIVE,PRECISE
@@ -3454,7 +3454,7 @@ effect: BUILD_FILE_SEMANTICS
 allowsMultiple: false
 requiresValue: true
 defaultValue: conservative
-How to resolve aspect dependencies when the output format is one of {xml,proto,record}. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
+How to resolve aspect dependencies when the output format is one of &lbrace;xml,proto,record&rbrace;. 'off' means no aspect dependencies are resolved, 'conservative' (the default) means all declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies, 'precise' means that only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'.
 
 _May apply to commands: aquery, cquery, query_
 
@@ -4206,7 +4206,7 @@ If set to true, additionally use semaphore to limit number of concurrent jobs.
 
 _May apply to commands: aquery, build, canonicalize-flags, clean, config, coverage, cquery, fetch, info, mobile-install, print_action, run, test, vendor_
 
-### standard
+### stable
 
 #### --worker_multiplex
 effect: EXECUTION,HOST_MACHINE_RESOURCE_OPTIMIZATIONS
@@ -4577,13 +4577,13 @@ _May apply to commands: mobile-install_
 
 ## mod_command
 
-### standard
+### stable
 
 #### --base_module
 effect: TERMINAL_OUTPUT
 allowsMultiple: false
 requiresValue: true
-defaultValue: <root>
+defaultValue: &lt;root&gt;
 Specify a module relative to which the specified target repos will be interpreted.
 
 _May apply to commands: mod_
@@ -4677,7 +4677,7 @@ _May apply to commands: mod_
 effect: TERMINAL_OUTPUT
 allowsMultiple: false
 requiresValue: true
-defaultValue: <root>
+defaultValue: &lt;root&gt;
 The module(s) starting from which the dependency graph query will be displayed. Check each query’s description for the exact semantics. Defaults to &lt;root&gt;.
 
 
@@ -4685,7 +4685,7 @@ _May apply to commands: mod_
 
 ## output_selection
 
-### standard
+### stable
 
 #### --packages
 effect: BAZEL_MONITORING
@@ -4810,7 +4810,7 @@ effect: HOST_MACHINE_RESOURCE_OPTIMIZATIONS
 allowsMultiple: false
 requiresValue: false
 defaultValue: false
-If true, clean removes the entire working tree for this Bazel instance, which includes all %{product}-created temporary and build output files, and stops the %{product} server if it is running.
+If true, clean removes the entire working tree for this Bazel instance, which includes all %&lbrace;product&rbrace;-created temporary and build output files, and stops the %&lbrace;product&rbrace; server if it is running.
 
 _May apply to commands: clean_
 
@@ -4820,7 +4820,7 @@ effect: HOST_MACHINE_RESOURCE_OPTIMIZATIONS
 allowsMultiple: false
 requiresValue: false
 defaultValue: 
-If specified, clean asynchronously removes the entire working tree for this Bazel instance, which includes all %{product}-created temporary and build output files, and stops the %{product} server if it is running. When this command completes, it will be safe to execute new commands in the same client, even though the deletion may continue in the background.
+If specified, clean asynchronously removes the entire working tree for this Bazel instance, which includes all %&lbrace;product&rbrace;-created temporary and build output files, and stops the %&lbrace;product&rbrace; server if it is running. When this command completes, it will be safe to execute new commands in the same client, even though the deletion may continue in the background.
 
 _May apply to commands: clean_
 
@@ -4937,7 +4937,7 @@ effect: LOADING_AND_ANALYSIS,ACTION_COMMAND_LINES,AFFECTS_OUTPUTS
 allowsMultiple: false
 requiresValue: true
 defaultValue: no
-Specifies which compilation modes use fission for C++ compilations and links.  May be any combination of {'fastbuild', 'dbg', 'opt'} or the special values 'yes'  to enable all modes and 'no' to disable all modes.
+Specifies which compilation modes use fission for C++ compilations and links.  May be any combination of &lbrace;'fastbuild', 'dbg', 'opt'&rbrace; or the special values 'yes'  to enable all modes and 'no' to disable all modes.
 
 _May apply to commands: aquery, build, canonicalize-flags, clean, config, coverage, cquery, fetch, info, mobile-install, print_action, run, test, vendor_
 
@@ -5019,7 +5019,7 @@ _May apply to commands: canonicalize-flags_
 
 ## bzlmod
 
-### standard
+### stable
 
 #### --lockfile_mode
 enum values: OFF,UPDATE,REFRESH,ERROR
@@ -5064,7 +5064,7 @@ effect: CHANGES_INPUTS
 allowsMultiple: true
 requiresValue: true
 defaultValue: 
-Only fetches the specified repository, which can be either {@apparent_repo_name} or {@@canonical_repo_name}. Only works when --enable_bzlmod is on.
+Only fetches the specified repository, which can be either &lbrace;@apparent_repo_name&rbrace; or &lbrace;@@canonical_repo_name&rbrace;. Only works when --enable_bzlmod is on.
 
 _May apply to commands: fetch, vendor_
 
@@ -5139,7 +5139,7 @@ _May apply to commands: fetch_
 
 ## uncategorized
 
-### standard
+### stable
 
 #### --show_timestamps
 effect: UNKNOWN
@@ -6184,7 +6184,7 @@ _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clea
 
 ## build_time_optimization
 
-### standard
+### stable
 
 #### --gc_thrashing_limits
 effect: HOST_MACHINE_RESOURCE_OPTIMIZATIONS
@@ -6282,7 +6282,7 @@ effect: HOST_MACHINE_RESOURCE_OPTIMIZATIONS
 allowsMultiple: true
 requiresValue: true
 defaultValue: 
-Set the number of resources available to Bazel. Takes in an assignment to a float or HOST_RAM/HOST_CPUS, optionally followed by [-|*]&lt;float&gt; (eg. memory=HOST_RAM*.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:&lt;resource name&gt;:&lt;amount&gt;" format. Overrides resources specified by --local_{cpu|ram|extra}_resources.
+Set the number of resources available to Bazel. Takes in an assignment to a float or HOST_RAM/HOST_CPUS, optionally followed by [-|*]&lt;float&gt; (eg. memory=HOST_RAM*.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:&lt;resource name&gt;:&lt;amount&gt;" format. Overrides resources specified by --local_&lbrace;cpu|ram|extra&rbrace;_resources.
 
 _May apply to commands: aquery, build, canonicalize-flags, clean, config, coverage, cquery, fetch, info, mobile-install, print_action, run, test, vendor_
 
@@ -6438,7 +6438,7 @@ _May apply to commands: analyze-profile, aquery, build, canonicalize-flags, clea
 
 ## testing
 
-### standard
+### stable
 
 #### --test_env
 effect: TEST_RUNNER
@@ -6701,7 +6701,7 @@ If enabled, check testonly for prerequisite targets that are output files by loo
 
 _May apply to commands: aquery, build, canonicalize-flags, clean, config, coverage, cquery, fetch, info, mobile-install, mod, print_action, query, run, sync, test, vendor_
 
-### standard
+### stable
 
 #### --check_bzl_visibility
 effect: BUILD_FILE_SEMANTICS
@@ -6925,7 +6925,7 @@ _May apply to commands: aquery, build, canonicalize-flags, clean, config, covera
 
 ## toolchain
 
-### standard
+### stable
 
 #### --android_manifest_merger
 enum values: LEGACY,ANDROID,FORCE_ANDROID
@@ -7279,7 +7279,7 @@ effect: LOSES_INCREMENTAL_STATE,LOADING_AND_ANALYSIS,EXECUTION
 allowsMultiple: false
 requiresValue: false
 defaultValue: false
-If set, add a "requires-xcode:{version}" execution requirement to every Xcode action.  If the Xcode version has a hyphenated label,  also add a "requires-xcode-label:{version_label}" execution requirement.
+If set, add a "requires-xcode:&lbrace;version&rbrace;" execution requirement to every Xcode action.  If the Xcode version has a hyphenated label,  also add a "requires-xcode-label:&lbrace;version_label&rbrace;" execution requirement.
 
 _May apply to commands: aquery, build, canonicalize-flags, clean, config, coverage, cquery, fetch, info, mobile-install, print_action, run, test, vendor_
 
@@ -7305,7 +7305,7 @@ _May apply to commands: aquery, build, canonicalize-flags, clean, config, covera
 
 ## generic_inputs
 
-### standard
+### stable
 
 #### --flag_alias
 effect: CHANGES_INPUTS
