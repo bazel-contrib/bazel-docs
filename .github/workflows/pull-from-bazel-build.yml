@@ -56,7 +56,7 @@ jobs:
 
       - name: Upload reference docs artifact
         if: ${{ github.ref != 'refs/heads/main' }}
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v5.0.0
         with:
           name: reference-docs
           path: upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip
