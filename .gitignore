@@ -8,3 +8,6 @@ node_modules
 html2md_converter/go.sum
 html2md_converter/go.mod
 html2md_converter/html-to-md
+
+# Context folder
+.context/

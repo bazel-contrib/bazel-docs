@@ -14,7 +14,8 @@ concurrency:
 
 jobs:
   generate-docs:
-    # Skip Dependabot PRs (handled by auto-merge workflow)
     if: github.event.pull_request.user.login != 'dependabot[bot]'
     uses: ./.github/workflows/pull-from-bazel-build.yml
     secrets: inherit
+    with:
+      is_internal_pr: ${{ github.event.pull_request.head.repo.full_name == github.repository }}

@@ -53,6 +53,8 @@ jobs:
     if: needs.check-dependabot.outputs.should_process == 'true'
     uses: ./.github/workflows/pull-from-bazel-build.yml
     secrets: inherit
+    with:
+      is_internal_pr: true 
 
   approve-and-merge:
     needs: [check-dependabot, generate-docs]
