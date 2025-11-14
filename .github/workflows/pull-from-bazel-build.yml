@@ -127,11 +127,13 @@ jobs:
         run: rm -rf reference-docs-temp
 
       - name: Configure Git
+        if: ${{ inputs.is_internal_pr }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
+        if: ${{ inputs.is_internal_pr }}
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
