@@ -96,17 +96,20 @@ jobs:
           go-version: '1.25.2'
 
       - name: Initialize Go module for converter
+        if: ${{ inputs.is_internal_pr }}
         run: |
           cd html2md_converter
           go mod init html-to-md-converter
           go get github.com/JohannesKaufmann/html-to-markdown
 
       - name: Build HTML to Markdown converter
+        if: ${{ inputs.is_internal_pr }}
         run: |
           cd html2md_converter
           go build -o html-to-md main.go
             
       - name: Convert reference documentation HTML to Markdown
+        if: ${{ inputs.is_internal_pr }}
         run: |
           # Extract and convert HTML reference docs to Markdown
           ./html2md_converter/html-to-md \
@@ -120,6 +123,7 @@ jobs:
         run: ./docs.json.update.sh
     
       - name: Clean up temporary files
+        if: ${{ inputs.is_internal_pr }}
         run: rm -rf reference-docs-temp
 
       - name: Configure Git
