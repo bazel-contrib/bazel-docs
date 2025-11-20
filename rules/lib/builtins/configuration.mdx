@@ -57,21 +57,10 @@ Use this to distinguish different configurations for the same target in a way th
 - The value may differ across Bazel versions, including patch releases.
 - The value encodes the value of **every** flag, including those that aren't otherwise relevant for the current target and may thus invalidate caches more frequently.
 
+## test\_env
 
+```
+dict configuration.test_env
+```
 
-
-  ## test\_env
-
-
-
-
-
-  ```
-  dict configuration.test_env
-  ```
-
-
-
-
-
-   A dictionary containing user-specified test environment variables and their values, as set by the --test\_env options. DO NOT USE! This is not the complete environment!
+ A dictionary containing user-specified test environment variables and their values, as set by the `--test_env` options. DO NOT USE! This is not the complete environment!
