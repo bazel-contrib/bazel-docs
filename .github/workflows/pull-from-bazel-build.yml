@@ -32,14 +32,14 @@ jobs:
 
       - name: Checkout repository (internal PR)
         if: ${{ inputs.is_internal_pr }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: false
           token: ${{ steps.generate-token.outputs.token }}
 
       - name: Checkout repository (fork)
         if: ${{ !inputs.is_internal_pr }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: false
           # No token is provided, so the action will use the default GITHUB_TOKEN
