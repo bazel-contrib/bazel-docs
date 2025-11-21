@@ -182,7 +182,7 @@ ParameterDescription`list`
 ## fail
 
 ```
-None fail(*args, msg=None, attr=None, sep=" ")
+None fail(*args, msg=None, attr=None, sep=" ", stack_trace=True)
 ```
 
  Causes execution to fail with an error.
@@ -202,6 +202,10 @@ ParameterDescription`msg`
  default is `" "`
 
  The separator string between the objects, default is space (" ").
+ `stack_trace`[bool](../core/bool.html);
+ default is `True`
+
+ If False stack trace is elided from failure for friendlier user messages
  `args`
  required
 
