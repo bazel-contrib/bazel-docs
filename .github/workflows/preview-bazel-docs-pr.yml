@@ -3,32 +3,36 @@ on:
     # Since PRs to Bazel repo may come from a fork, and those cannot see GHA Secrets,
     # we fall back to polling the Bazel repo for new PRs.
     schedule:
-        # Every 5 minutes
-        - cron: '*/5 * * * *'
+        # Runs rvery 30 minutes
+        - cron: '*/30 * * * *'
     # Also allow manual triggering in the GH UI.
     # Press the green button on
     # https://github.com/bazel-contrib/bazel-docs/actions/workflows/preview-bazel-docs-pr.yml
     workflow_dispatch:
-
 jobs:
     trigger:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v6
-        - uses: actions/github-script@v8
-          with:
-            script: |
-              const prs = await github.rest.pulls.list({
-                owner: 'bazelbuild',
-                repo: 'bazel',
-                since: new Date(Date.now() - 20 * 60 * 1000).toISOString(),
-              });
-              
-              
-              core.setOutput("pull_requests", JSON.stringify(prs.map(pr => ({
-                number: pr.number,
-                head_sha: pr.head.sha,
-              }))));
+        
+        - name: Fetch recent PRs
+          id: fetch_prs
+          env:
+            GH_TOKEN: ${{ github.token }}
+          run: |
+            # Calculate timestamp for 20 minutes ago
+            SINCE=$(date -u -d '20 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')
+            
+            # Fetch PRs updated since that time
+            prs=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/repos/bazelbuild/bazel/pulls?state=open&sort=updated&direction=desc" \
+              --jq "[.[] | select(.updated_at >= \"$SINCE\") | {number: .number, head_sha: .head.sha}]")
+            
+            # Output the PR list
+            echo "pull_requests=$prs" >> $GITHUB_OUTPUT
+            
         # TODO: run another step for each output.
         # it just calls the gh command to make a new branch on our repo that points the upstream git submodule to the PR's HEAD commit
         # and then triggers the run-codegen workflow on that new branch to generate the docs.
