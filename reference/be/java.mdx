@@ -207,7 +207,7 @@ This corresponds to the javac and JVM --add-opens= flags.
 
 List of [labels](/concepts/labels); default is `[]`
 
- _DO NOT USE THIS OPTION UNLESS THERE IS NO OTHER WAY)_
+ _DO NOT USE THIS OPTION UNLESS THERE IS NO OTHER WAY_
 
 A list of resources that must be located at the root of the java tree. This attribute's
 only purpose is to support third-party libraries that require that their resources be
@@ -912,7 +912,7 @@ This corresponds to the javac and JVM --add-opens= flags.
 
 List of [labels](/concepts/labels); default is `[]`
 
- _DO NOT USE THIS OPTION UNLESS THERE IS NO OTHER WAY)_
+ _DO NOT USE THIS OPTION UNLESS THERE IS NO OTHER WAY_
 
 A list of resources that must be located at the root of the java tree. This attribute's
 only purpose is to support third-party libraries that require that their resources be
@@ -1533,7 +1533,7 @@ Integer; default is `0`
 [View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_java/blob/master/java/java_single_jar.bzl)
 
 ```
-java_single_jar(name, deps, aspect_hints, compatible_with, compress, deploy_env, deploy_manifest_lines, deprecation, exclude_build_data, exec_compatible_with, exec_group_compatible_with, exec_properties, features, multi_release, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
+java_single_jar(name, deps, aspect_hints, compatible_with, compress, deploy_env, deploy_manifest_lines, deprecation, exclude_build_data, exclude_pattern, exec_compatible_with, exec_group_compatible_with, exec_properties, features, multi_release, output, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
  Collects Java dependencies and jar files into a single jar
@@ -1606,12 +1606,19 @@ Boolean; default is `True`
 
  Whether to omit the build-data.properties file generated
 by default.
+ `exclude_pattern`
+
+String; default is `""`
+
+ A regex pattern of files to exclude from the jar.
  `multi_release`
 
 Boolean; default is `True`
 
  Whether to enable Multi-Release output jars.
+ `output`
 
+[Filename](/concepts/build-ref#filename); [nonconfigurable](common-definitions.html#configurable-attributes); default is `None`
 
 ## java\_toolchain
 
