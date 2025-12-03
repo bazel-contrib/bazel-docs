@@ -16,7 +16,7 @@ title: 'Python Rules'
 [View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_binary_rule.bzl)
 
 ```
-py_binary(name, deps, srcs, data, args, aspect_hints, compatible_with, deprecation, distribs, env, exec_compatible_with, exec_group_compatible_with, exec_properties, features, imports, interpreter_args, legacy_create_init, licenses, main, main_module, output_licenses, package_metadata, precompile, precompile_invalidation_mode, precompile_optimize_level, precompile_source_retention, pyc_collection, pyi_deps, pyi_srcs, python_version, restricted_to, srcs_version, stamp, tags, target_compatible_with, testonly, toolchains, visibility)
+py_binary(name, deps, srcs, data, args, aspect_hints, compatible_with, config_settings, deprecation, distribs, env, exec_compatible_with, exec_group_compatible_with, exec_properties, features, imports, interpreter_args, legacy_create_init, licenses, main, main_module, output_licenses, package_metadata, precompile, precompile_invalidation_mode, precompile_optimize_level, precompile_source_retention, pyc_collection, pyi_deps, pyi_srcs, python_version, restricted_to, srcs_version, stamp, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
 ### Arguments
@@ -67,6 +67,38 @@ the \[\`data\` attribute typically defined by rules\](https://bazel.build/refere
 
 There is no \`py\_embed\_data\` like there is \`cc\_embed\_data\` and \`go\_embed\_data\`.
 This is because Python has a concept of runtime resources.
+ `config_settings`
+
+Dictionary: [label](/concepts/labels) -\> String; default is `{}`
+
+ Config settings to change for this target.
+
+The keys are labels for settings, and the values are strings for the new value
+to use. Pass \`Label\` objects or canonical label strings for the keys to ensure
+they resolve as expected (canonical labels start with \`@@\` and can be
+obtained by calling \`str(Label(...))\`).
+
+Most \`@rules\_python//python/config\_setting\` settings can be used here, which
+allows, for example, making only a certain \`py\_binary\` use
+{obj}\`--boostrap\_impl=script\`.
+
+Additional or custom config settings can be registered using the
+{obj}\`add\_transition\_setting\` API. This allows, for example, forcing a
+particular CPU, or defining a custom setting that \`select()\` uses elsewhere
+to pick between \`pip.parse\` hubs. See the \[How to guide on multiple
+versions of a library\] for a more concrete example.
+
+:::{note}
+These values are transitioned on, so will affect the analysis graph and the
+associated memory overhead. The more unique configurations in your overall
+build, the more memory and (often unnecessary) re-analysis and re-building
+can occur. See
+https://bazel.build/extending/config#memory-performance-considerations for
+more information about risks and considerations.
+:::
+
+:::{versionadded} 1.7.0
+:::
  `distribs`
 
 List of strings; default is `[]`
@@ -139,6 +171,9 @@ information about running modules as the main program.
 This is mutually exclusive with {obj}\`main\`.
 
 :::{versionadded} 1.3.0
+:::
+:::{versionchanged} 1.7.0
+Support added for {obj}\`--bootstrap\_impl=system\_python\`.
 :::
  `precompile`
 
@@ -508,7 +543,7 @@ String; default is `""`
 [View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_test_rule.bzl)
 
 ```
-py_test(name, deps, srcs, data, args, aspect_hints, compatible_with, deprecation, distribs, env, env_inherit, exec_compatible_with, exec_group_compatible_with, exec_properties, features, flaky, imports, interpreter_args, legacy_create_init, licenses, local, main, main_module, package_metadata, precompile, precompile_invalidation_mode, precompile_optimize_level, precompile_source_retention, pyc_collection, pyi_deps, pyi_srcs, python_version, restricted_to, shard_count, size, srcs_version, stamp, tags, target_compatible_with, testonly, timeout, toolchains, visibility)
+py_test(name, deps, srcs, data, args, aspect_hints, compatible_with, config_settings, deprecation, distribs, env, env_inherit, exec_compatible_with, exec_group_compatible_with, exec_properties, features, flaky, imports, interpreter_args, legacy_create_init, licenses, local, main, main_module, package_metadata, precompile, precompile_invalidation_mode, precompile_optimize_level, precompile_source_retention, pyc_collection, pyi_deps, pyi_srcs, python_version, restricted_to, shard_count, size, srcs_version, stamp, tags, target_compatible_with, testonly, timeout, toolchains, visibility)
 ```
 
 ### Arguments
@@ -559,6 +594,38 @@ the \[\`data\` attribute typically defined by rules\](https://bazel.build/refere
 
 There is no \`py\_embed\_data\` like there is \`cc\_embed\_data\` and \`go\_embed\_data\`.
 This is because Python has a concept of runtime resources.
+ `config_settings`
+
+Dictionary: [label](/concepts/labels) -\> String; default is `{}`
+
+ Config settings to change for this target.
+
+The keys are labels for settings, and the values are strings for the new value
+to use. Pass \`Label\` objects or canonical label strings for the keys to ensure
+they resolve as expected (canonical labels start with \`@@\` and can be
+obtained by calling \`str(Label(...))\`).
+
+Most \`@rules\_python//python/config\_setting\` settings can be used here, which
+allows, for example, making only a certain \`py\_binary\` use
+{obj}\`--boostrap\_impl=script\`.
+
+Additional or custom config settings can be registered using the
+{obj}\`add\_transition\_setting\` API. This allows, for example, forcing a
+particular CPU, or defining a custom setting that \`select()\` uses elsewhere
+to pick between \`pip.parse\` hubs. See the \[How to guide on multiple
+versions of a library\] for a more concrete example.
+
+:::{note}
+These values are transitioned on, so will affect the analysis graph and the
+associated memory overhead. The more unique configurations in your overall
+build, the more memory and (often unnecessary) re-analysis and re-building
+can occur. See
+https://bazel.build/extending/config#memory-performance-considerations for
+more information about risks and considerations.
+:::
+
+:::{versionadded} 1.7.0
+:::
  `distribs`
 
 List of strings; default is `[]`
@@ -631,6 +698,9 @@ information about running modules as the main program.
 This is mutually exclusive with {obj}\`main\`.
 
 :::{versionadded} 1.3.0
+:::
+:::{versionchanged} 1.7.0
+Support added for {obj}\`--bootstrap\_impl=system\_python\`.
 :::
  `precompile`
 
