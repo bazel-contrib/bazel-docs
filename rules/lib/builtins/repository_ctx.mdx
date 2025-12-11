@@ -145,8 +145,7 @@ ParameterDescription`url`[string](../core/string.html); or Iterable of [string](
  `type`[string](../core/string.html);
  default is `''`
 
- The archive type of the downloaded file. By default, the archive type is determined from the file extension of the URL. If the file has no extension, you can explicitly specify either "zip", "jar", "war", "aar", "nupkg", "whl", "tar", "tar.gz", "tgz", "gz", "tar.xz", "txz", "xz", "tar.zst", "tzst", "zst", "tar.bz2", "tbz", "bz2", "ar", "deb", or "7z" here.
-
+ The archive type of the downloaded file. By default, the archive type is determined from the file extension of the URL. If the file has no extension, you can explicitly specify either "zip", "jar", "war", "aar", "nupkg", "whl", "tar", "tar.gz", "tgz", "gz", "tar.xz", "txz", "xz", "tar.zst", "tzst", "zst", "tar.bz2", "tbz", "bz2", "ar", "deb" or "7z" here.
  `strip_prefix`[string](../core/string.html);
  default is `''`
 
@@ -232,7 +231,7 @@ The default is the repository root.
 ## extract
 
 ```
-None repository_ctx.extract(archive, output='', strip_prefix='', *, rename_files={}, watch_archive='auto')
+None repository_ctx.extract(archive, output='', strip_prefix='', *, rename_files={}, watch_archive='auto', type='')
 ```
 
  Extract an archive to the repository directory.
@@ -269,6 +268,10 @@ For compatibility, this parameter may also be used under the deprecated name
  default is `'auto'`
 
  whether to [watch](#watch) the archive file. Can be the string 'yes', 'no', or 'auto'. Passing 'yes' is equivalent to immediately invoking the [`watch()`](#watch) method; passing 'no' does not attempt to watch the file; passing 'auto' will only attempt to watch the file when it is legal to do so (see `watch()` docs for more information.
+ `type`[string](../core/string.html);
+ default is `''`
+
+ The archive type of the downloaded file. By default, the archive type is determined from the file extension of the URL. If the file has no extension, you can explicitly specify either "zip", "jar", "war", "aar", "nupkg", "whl", "tar", "tar.gz", "tgz", "gz", "tar.xz", "txz", "xz", "tar.zst", "tzst", "zst", "tar.bz2", "tbz", "bz2", "ar", "deb" or "7z" here.
 
 
 ## file
