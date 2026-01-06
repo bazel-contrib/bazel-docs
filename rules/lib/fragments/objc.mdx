@@ -15,7 +15,6 @@ A configuration fragment for Objective-C.
 - [ios\_simulator\_device](#ios_simulator_device)
 - [ios\_simulator\_version](#ios_simulator_version)
 - [run\_memleaks](#run_memleaks)
-- [signing\_certificate\_name](#signing_certificate_name)
 - [strip\_executable\_safely](#strip_executable_safely)
 - [uses\_device\_debug\_entitlements](#uses_device_debug_entitlements)
 
@@ -88,17 +87,6 @@ bool objc.run_memleaks
 ```
 
  Returns a boolean indicating whether memleaks should be run during tests or not.
-
-
-
-## signing\_certificate\_name
-
-```
-string objc.signing_certificate_name
-```
-
- Returns the flag-supplied certificate name to be used in signing, or None if no such certificate was specified.
- May return `None`.
 
 
 
