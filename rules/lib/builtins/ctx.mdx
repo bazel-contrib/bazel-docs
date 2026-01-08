@@ -34,6 +34,7 @@ Context objects essentially live for the duration of the call to the implementat
 - [info\_file](#info_file)
 - [label](#label)
 - [outputs](#outputs)
+- [package\_relative\_label](#package_relative_label)
 - [resolve\_command](#resolve_command)
 - [resolve\_tools](#resolve_tools)
 - [rule](#rule)
@@ -336,6 +337,28 @@ The fields of this object are defined as follows. It is an error if two outputs 
 - For every attribute of type [`attr.output`](../toplevel/attr.html#output) that the rule declares, there is a field whose name is the attribute's name. If the target specified a label for that attribute, then the field value is the corresponding `File`; otherwise the field value is `None`.
 - For every attribute of type [`attr.output_list`](../toplevel/attr.html#output_list) that the rule declares, there is a field whose name is the attribute's name. The field value is a list of `File` objects corresponding to the labels given for that attribute in the target, or an empty list if the attribute was not specified in the target.
 - **(Deprecated)** If the rule is marked [`executable`](../globals/bzl.html#rule.executable) or [`test`](../globals/bzl.html#rule.test), there is a field named `"executable"`, which is the default executable. It is recommended that instead of using this, you pass another file (either predeclared or not) to the `executable` arg of [`DefaultInfo`](../providers/DefaultInfo.html).
+
+## package\_relative\_label
+
+```
+Label ctx.package_relative_label(input)
+```
+
+ Converts the input string into a [Label](../builtins/Label.html) object, in the context of the package of the target currently being analyzed. If the input is already a `Label`, it is returned unchanged.
+
+The result of this function is the same `Label` value as would be produced by passing the given string to a label-valued attribute of the rule and accessing the corresponding [Label()](../builtins/Target.html#label><code>label</code></a> field.
+<p><i>Usage note:</i> The difference between this function and <a href=) is that `Label()` uses the context of the package of the `.bzl` file that called it, not the package of the target currently being analyzed. This function has the same behavior as [`native.package_relative_label()`](../toplevel/native.html#package_relative_label), which cannot be used in a rule or
+aspect implementation function.
+
+
+
+### Parameters
+
+ParameterDescription`input`[string](../core/string.html); or [Label](../builtins/Label.html);
+ required
+
+ The input label string or Label object. If a Label object is passed, it's returned as is.
+
 
 ## resolve\_command
 
