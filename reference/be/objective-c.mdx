@@ -11,7 +11,7 @@ title: 'Objective-C Rules'
 
 ## objc\_import
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/objc/objc_import.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/objc_import.bzl)
 
 ```
 objc_import(name, deps, hdrs, alwayslink, archives, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, includes, package_metadata, restricted_to, sdk_dylibs, sdk_frameworks, sdk_includes, tags, target_compatible_with, testonly, textual_hdrs, toolchains, visibility, weak_sdk_frameworks)
@@ -138,7 +138,7 @@ are not present at runtime.
 
 ## objc\_library
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/objc/objc_library.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/objc_library.bzl)
 
 ```
 objc_library(name, deps, srcs, data, hdrs, alwayslink, aspect_hints, compatible_with, conlyopts, copts, cxxopts, defines, deprecation, enable_modules, exec_compatible_with, exec_group_compatible_with, exec_properties, features, implementation_deps, includes, linkopts, module_map, module_name, non_arc_srcs, package_metadata, pch, restricted_to, sdk_dylibs, sdk_frameworks, sdk_includes, stamp, tags, target_compatible_with, testonly, textual_hdrs, toolchains, visibility, weak_sdk_frameworks)
@@ -318,7 +318,7 @@ all special symbols replaced by \_, e.g. //foo/baz:bar can be imported as foo\_b
 List of [labels](/concepts/labels); default is `[]`
 
  The list of Objective-C files that are processed to create the
-library target that DO NOT use ARC.
+library target that DO NOT use Automatic Reference Counting (ARC).
 The files in this attribute are treated very similar to those in the
 srcs attribute, but are compiled without ARC enabled.
  `pch`

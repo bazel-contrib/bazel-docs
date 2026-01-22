@@ -20,10 +20,10 @@ title: 'C / C++ Rules'
 
 ## cc\_binary
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/cc_binary.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/cc_binary.bzl)
 
 ```
-cc_binary(name, deps, srcs, data, additional_linker_inputs, args, aspect_hints, compatible_with, conlyopts, copts, cxxopts, defines, deprecation, distribs, dynamic_deps, env, exec_compatible_with, exec_group_compatible_with, exec_properties, features, hdrs_check, includes, licenses, link_extra_lib, linkopts, linkshared, linkstatic, local_defines, malloc, module_interfaces, nocopts, output_licenses, package_metadata, reexport_deps, restricted_to, stamp, tags, target_compatible_with, testonly, toolchains, visibility, win_def_file)
+cc_binary(name, deps, srcs, data, additional_compiler_inputs, additional_linker_inputs, args, aspect_hints, compatible_with, conlyopts, copts, cxxopts, defines, deprecation, dynamic_deps, env, exec_compatible_with, exec_group_compatible_with, exec_properties, features, hdrs_check, includes, licenses, link_extra_lib, linkopts, linkshared, linkstatic, local_defines, malloc, module_interfaces, nocopts, output_licenses, package_metadata, reexport_deps, restricted_to, stamp, tags, target_compatible_with, testonly, toolchains, visibility, win_def_file)
 ```
 
 It produces an executable binary.
@@ -63,7 +63,10 @@ targets.
 
 It is also allowed to
 put linker scripts (.lds) into deps, and reference them in
-[linkopts](#cc_binary.linkopts).
+[`linkopts`](#cc_binary.linkopts),
+but please consider
+[`additional_linker_inputs`](#cc_binary.additional_linker_inputs)
+for that use case.
  `srcs`
 
 List of [labels](/concepts/labels); default is `[]`
@@ -149,11 +152,23 @@ Your C++ code can access these data files like so:
 
 ```
 
-`additional_linker_inputs`
+`additional_compiler_inputs`
 
 List of [labels](/concepts/labels); default is `[]`
 
- Pass these files to the C++ linker command.
+ Any additional files you might want to pass to the compiler command line, such as sanitizer
+ignorelists, for example. Files specified here can then be used in copts with the
+$(location) function.
+ `additional_linker_inputs`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ Dependencies that are only made available to the C++ linker command.
+
+Unlike `deps`, which is conceptually made for both compilation and
+linking dependencies, `additional_linker_inputs` is specifically
+made for only the latter, and signals a dependency that is required only for
+linking (for example, files that are referenced in `linkopts`).
 
 For example, compiled Windows .res files can be provided here to be embedded in
 the binary target.
@@ -193,19 +208,16 @@ Subject to ["Make variable"](/reference/be/make-variables) substitution and
 
 List of strings; default is `[]`
 
- List of defines to add to the compile line.
+ List of defines to add to the compile line of this and all dependent targets.
 Subject to ["Make" variable](/reference/be/make-variables) substitution and
 [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization).
 Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line to this target,
 as well as to every rule that depends on it. Be very careful, since this may have
-far-reaching effects. When in doubt, add define values to
+far-reaching effects -- the defines are added to every target that depends on
+this target. When in doubt, add define values to
 [`local_defines`](#cc_binary.local_defines) instead.
- `distribs`
-
-List of strings; default is `[]`
-
-`dynamic_deps`
+ `dynamic_deps`
 
 List of [labels](/concepts/labels); default is `[]`
 
@@ -249,8 +261,8 @@ files in the source tree.
 
  Control linking of extra libraries.
 
-By default, C++ binaries are linked against `//tools/cpp:link_extra_lib`,
-which by default depends on the label flag `//tools/cpp:link_extra_libs`.
+By default, C++ binaries are linked against `@bazel_tools//tools/cpp:link_extra_lib`,
+which by default depends on the label flag `@bazel_tools//tools/cpp:link_extra_libs`.
 Without setting the flag, this library is empty by default. Setting the label flag
 allows linking optional dependencies, such as overrides for weak symbols, interceptors
 for shared library functions, or special runtime libraries (for malloc replacements,
@@ -358,7 +370,8 @@ Subject to ["Make" variable](/reference/be/make-variables) substitution and
 [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization).
 Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line for this target,
-but not to its dependents.
+but not to its dependents. Unlike `defines`, the defines are only added to the
+compile command line for this target.
  `malloc`
 
 [Label](/concepts/labels); default is `"@bazel_tools//tools/cpp:malloc"`
@@ -434,10 +447,10 @@ It can be used to [export symbols](https://msdn.microsoft.com/en-us/library/d91k
 
 ## cc\_import
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/cc_import.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/cc_import.bzl)
 
 ```
-cc_import(name, deps, data, hdrs, alwayslink, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, includes, interface_library, linkopts, objects, package_metadata, pic_objects, pic_static_library, restricted_to, shared_library, static_library, strip_include_prefix, system_provided, tags, target_compatible_with, testonly, toolchains, visibility)
+cc_import(name, deps, data, hdrs, alwayslink, aspect_hints, compatible_with, defines, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, includes, interface_library, linkopts, objects, package_metadata, pic_objects, pic_static_library, restricted_to, shared_library, static_library, strip_include_prefix, system_provided, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
 `cc_import` rules allows users to import precompiled C/C++ libraries.
@@ -454,7 +467,7 @@ cc_import(
   static_library = "libmylib.a",
   # If alwayslink is turned on,
   # libmylib.a will be forcely linked into any binary that depends on it.
-  # alwayslink = 1,
+  # alwayslink = True,
 )
 
 ```
@@ -515,7 +528,7 @@ cc_import(
   interface_library = "libmylib.ifso", # Or we can also use libmylib.so as its own interface library
   # libmylib.so is provided by system environment, for example it can be found in LD_LIBRARY_PATH.
   # This indicates that Bazel is not responsible for making libmylib.so available.
-  system_provided = 1,
+  system_provided = True,
 )
 
 ```
@@ -531,7 +544,7 @@ cc_import(
   interface_library = "mylib.lib",
   # mylib.dll is provided by system environment, for example it can be found in PATH.
   # This indicates that Bazel is not responsible for making mylib.dll available.
-  system_provided = 1,
+  system_provided = True,
 )
 
 ```
@@ -574,7 +587,7 @@ cc_binary(
   name = "first",
   srcs = ["first.cc"],
   deps = [":mylib"],
-  linkstatic = 1, # default value
+  linkstatic = True, # default value
 )
 
 # second will link to libmylib.so (or libmylib.lib)
@@ -582,7 +595,7 @@ cc_binary(
   name = "second",
   srcs = ["second.cc"],
   deps = [":mylib"],
-  linkstatic = 0,
+  linkstatic = False,
 )
 
 ```
@@ -626,18 +639,30 @@ this precompiled library to be directly included by sources in dependent rules.
 
 Boolean; default is `False`
 
- If 1, any binary that depends (directly or indirectly) on this C++
+ If enabled, any binary that depends (directly or indirectly) on this C++
 precompiled library will link in all the object files archived in the static library,
 even if some contain no symbols referenced by the binary.
 This is useful if your code isn't explicitly called by code in
 the binary, e.g., if your code registers to receive some callback
 provided by some service.
 
-If alwayslink doesn't work with VS 2017 on Windows, that is due to a
+If `alwayslink` doesn't work with VS 2017 on Windows, that is due to a
 [known issue](https://github.com/bazelbuild/bazel/issues/3949),
 please upgrade your VS 2017 to the latest version.
 
-`includes`
+`defines`
+
+List of strings; default is `[]`
+
+ List of defines to add to the compile line of this and all dependent targets.
+Subject to ["Make" variable](/reference/be/make-variables) substitution and
+[Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization).
+Each string, which must consist of a single Bourne shell token,
+is prepended with `-D` and added to the compile command line to this target,
+as well as to every rule that depends on it. Be very careful, since this may have
+far-reaching effects -- the defines are added to every target that depends on
+this target.
+ `includes`
 
 List of strings; default is `[]`
 
@@ -709,8 +734,8 @@ binary that depends on it during runtime.
 
 Permitted file types:
 `.so`,
-`.dll`
-or `.dylib`
+`.dll` `.dylib`,
+or `.pyd`
 
 `static_library`
 
@@ -745,14 +770,14 @@ This attribute is only legal under `third_party`.
 
 Boolean; default is `False`
 
- If 1, it indicates the shared library required at runtime is provided by the system. In
+ If enabled, it indicates the shared library required at runtime is provided by the system. In
 this case, `interface_library` should be specified and
 `shared_library` should be empty.
 
 
 ## cc\_library
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/cc_library.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/cc_library.bzl)
 
 ```
 cc_library(name, deps, srcs, data, hdrs, additional_compiler_inputs, additional_linker_inputs, alwayslink, aspect_hints, compatible_with, conlyopts, copts, cxxopts, defines, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, hdrs_check, implementation_deps, include_prefix, includes, licenses, linkopts, linkstamp, linkstatic, local_defines, module_interfaces, package_metadata, restricted_to, strip_include_prefix, tags, target_compatible_with, testonly, textual_hdrs, toolchains, visibility, win_def_file)
@@ -873,7 +898,7 @@ cc_library(
     deps = ["//third_party/llvm/llvm/tools/clang:frontend"],
     # alwayslink as we want to be able to call things in this library at
     # debug time, even if they aren't used anywhere in the code.
-    alwayslink = 1,
+    alwayslink = True,
 )
 
 ```
@@ -1098,7 +1123,12 @@ $(location) function.
 
 List of [labels](/concepts/labels); default is `[]`
 
- Pass these files to the C++ linker command.
+ Dependencies that are only made available to the C++ linker command.
+
+Unlike `deps`, which is conceptually made for both compilation and
+linking dependencies, `additional_linker_inputs` is specifically
+made for only the latter, and signals a dependency that is required only for
+linking (for example, files that are referenced in `linkopts`).
 
 For example, compiled Windows .res files can be provided here to be embedded in
 the binary target.
@@ -1153,13 +1183,14 @@ Subject to ["Make variable"](/reference/be/make-variables) substitution and
 
 List of strings; default is `[]`
 
- List of defines to add to the compile line.
+ List of defines to add to the compile line of this and all dependent targets.
 Subject to ["Make" variable](/reference/be/make-variables) substitution and
 [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization).
 Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line to this target,
 as well as to every rule that depends on it. Be very careful, since this may have
-far-reaching effects. When in doubt, add define values to
+far-reaching effects -- the defines are added to every target that depends on
+this target. When in doubt, add define values to
 [`local_defines`](#cc_binary.local_defines) instead.
  `hdrs_check`
 
@@ -1317,7 +1348,8 @@ Subject to ["Make" variable](/reference/be/make-variables) substitution and
 [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization).
 Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line for this target,
-but not to its dependents.
+but not to its dependents. Unlike `defines`, the defines are only added to the
+compile command line for this target.
  `module_interfaces`
 
 List of [labels](/concepts/labels); default is `[]`
@@ -1373,10 +1405,10 @@ It can be used to [export symbols](https://msdn.microsoft.com/en-us/library/d91k
 
 ## cc\_shared\_library
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/cc_shared_library.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/cc_shared_library.bzl)
 
 ```
-cc_shared_library(name, deps, additional_linker_inputs, aspect_hints, compatible_with, deprecation, dynamic_deps, exec_compatible_with, exec_group_compatible_with, exec_properties, experimental_disable_topo_sort_do_not_use_remove_before_7_0, exports_filter, features, package_metadata, restricted_to, roots, shared_lib_name, static_deps, tags, target_compatible_with, testonly, toolchains, user_link_flags, visibility, win_def_file)
+cc_shared_library(name, deps, additional_linker_inputs, aspect_hints, compatible_with, deprecation, dynamic_deps, exec_compatible_with, exec_group_compatible_with, exec_properties, exports_filter, features, package_metadata, restricted_to, roots, shared_lib_name, static_deps, tags, target_compatible_with, testonly, toolchains, user_link_flags, visibility, win_def_file)
 ```
 
 It produces a shared library.
@@ -1553,10 +1585,6 @@ current target's `dynamic_deps`) to decide which `cc_libraries` in
 the transitive `deps` should not be linked in because they are already provided
 by a different `cc_shared_library`.
 
-`experimental_disable_topo_sort_do_not_use_remove_before_7_0`
-
-Boolean; default is `False`
-
 `exports_filter`
 
 List of strings; default is `[]`
@@ -1640,7 +1668,7 @@ It can be used to [export symbols](https://msdn.microsoft.com/en-us/library/d91k
 
 ## cc\_static\_library
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/cc_static_library.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/cc_static_library.bzl)
 
 ```
 cc_static_library(name, deps, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
@@ -1710,10 +1738,10 @@ library, but their labels are collected in the file provided by the
 
 ## cc\_test
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/cc_test.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/cc_test.bzl)
 
 ```
-cc_test(name, deps, srcs, data, additional_linker_inputs, args, aspect_hints, compatible_with, conlyopts, copts, cxxopts, defines, deprecation, distribs, dynamic_deps, env, env_inherit, exec_compatible_with, exec_group_compatible_with, exec_properties, features, flaky, hdrs_check, includes, licenses, link_extra_lib, linkopts, linkshared, linkstatic, local, local_defines, malloc, module_interfaces, nocopts, package_metadata, reexport_deps, restricted_to, shard_count, size, stamp, tags, target_compatible_with, testonly, timeout, toolchains, visibility, win_def_file)
+cc_test(name, deps, srcs, data, additional_compiler_inputs, additional_linker_inputs, args, aspect_hints, compatible_with, conlyopts, copts, cxxopts, defines, deprecation, dynamic_deps, env, env_inherit, exec_compatible_with, exec_group_compatible_with, exec_properties, features, flaky, hdrs_check, includes, licenses, link_extra_lib, linkopts, linkshared, linkstatic, local, local_defines, malloc, module_interfaces, nocopts, package_metadata, reexport_deps, restricted_to, shard_count, size, stamp, tags, target_compatible_with, testonly, timeout, toolchains, visibility, win_def_file)
 ```
 
 A `cc_test()` rule compiles a test. Here, a test
@@ -1760,7 +1788,10 @@ targets.
 
 It is also allowed to
 put linker scripts (.lds) into deps, and reference them in
-[linkopts](#cc_binary.linkopts).
+[`linkopts`](#cc_binary.linkopts),
+but please consider
+[`additional_linker_inputs`](#cc_binary.additional_linker_inputs)
+for that use case.
  `srcs`
 
 List of [labels](/concepts/labels); default is `[]`
@@ -1846,11 +1877,23 @@ Your C++ code can access these data files like so:
 
 ```
 
-`additional_linker_inputs`
+`additional_compiler_inputs`
 
 List of [labels](/concepts/labels); default is `[]`
 
- Pass these files to the C++ linker command.
+ Any additional files you might want to pass to the compiler command line, such as sanitizer
+ignorelists, for example. Files specified here can then be used in copts with the
+$(location) function.
+ `additional_linker_inputs`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ Dependencies that are only made available to the C++ linker command.
+
+Unlike `deps`, which is conceptually made for both compilation and
+linking dependencies, `additional_linker_inputs` is specifically
+made for only the latter, and signals a dependency that is required only for
+linking (for example, files that are referenced in `linkopts`).
 
 For example, compiled Windows .res files can be provided here to be embedded in
 the binary target.
@@ -1890,19 +1933,16 @@ Subject to ["Make variable"](/reference/be/make-variables) substitution and
 
 List of strings; default is `[]`
 
- List of defines to add to the compile line.
+ List of defines to add to the compile line of this and all dependent targets.
 Subject to ["Make" variable](/reference/be/make-variables) substitution and
 [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization).
 Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line to this target,
 as well as to every rule that depends on it. Be very careful, since this may have
-far-reaching effects. When in doubt, add define values to
+far-reaching effects -- the defines are added to every target that depends on
+this target. When in doubt, add define values to
 [`local_defines`](#cc_binary.local_defines) instead.
- `distribs`
-
-List of strings; default is `[]`
-
-`dynamic_deps`
+ `dynamic_deps`
 
 List of [labels](/concepts/labels); default is `[]`
 
@@ -1946,8 +1986,8 @@ files in the source tree.
 
  Control linking of extra libraries.
 
-By default, C++ binaries are linked against `//tools/cpp:link_extra_lib`,
-which by default depends on the label flag `//tools/cpp:link_extra_libs`.
+By default, C++ binaries are linked against `@bazel_tools//tools/cpp:link_extra_lib`,
+which by default depends on the label flag `@bazel_tools//tools/cpp:link_extra_libs`.
 Without setting the flag, this library is empty by default. Setting the label flag
 allows linking optional dependencies, such as overrides for weak symbols, interceptors
 for shared library functions, or special runtime libraries (for malloc replacements,
@@ -2055,7 +2095,8 @@ Subject to ["Make" variable](/reference/be/make-variables) substitution and
 [Bourne shell tokenization](/reference/be/common-definitions#sh-tokenization).
 Each string, which must consist of a single Bourne shell token,
 is prepended with `-D` and added to the compile command line for this target,
-but not to its dependents.
+but not to its dependents. Unlike `defines`, the defines are only added to the
+compile command line for this target.
  `malloc`
 
 [Label](/concepts/labels); default is `"@bazel_tools//tools/cpp:malloc"`
@@ -2131,7 +2172,7 @@ It can be used to [export symbols](https://msdn.microsoft.com/en-us/library/d91k
 
 ## cc\_toolchain
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/cc_toolchain.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/cc_toolchain.bzl)
 
 ```
 cc_toolchain(name, all_files, ar_files, as_files, aspect_hints, compatible_with, compiler_files, compiler_files_without_includes, coverage_files, deprecation, dwp_files, dynamic_runtime_lib, exec_compatible_with, exec_group_compatible_with, exec_properties, exec_transition_for_inputs, features, libc_top, licenses, linker_files, module_map, objcopy_files, output_licenses, package_metadata, restricted_to, static_runtime_lib, strip_files, supports_header_parsing, supports_param_files, tags, target_compatible_with, testonly, toolchain_config, toolchain_identifier, toolchains, visibility)
@@ -2293,7 +2334,7 @@ attribute ( [#5380](https://github.com/bazelbuild/bazel/issues/5380)).
 
 ## fdo\_prefetch\_hints
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/fdo/fdo_prefetch_hints.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/fdo/fdo_prefetch_hints.bzl)
 
 ```
 fdo_prefetch_hints(name, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, package_metadata, profile, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
@@ -2329,7 +2370,7 @@ The label can also point to an fdo\_absolute\_path\_profile rule.
 
 ## fdo\_profile
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/fdo/fdo_profile.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/fdo/fdo_profile.bzl)
 
 ```
 fdo_profile(name, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, memprof_profile, package_metadata, profile, proto_profile, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
@@ -2380,7 +2421,7 @@ XBinary profile. The label can also point to an fdo\_absolute\_path\_profile rul
 
 ## memprof\_profile
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/fdo/memprof_profile.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/fdo/memprof_profile.bzl)
 
 ```
 memprof_profile(name, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, package_metadata, profile, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
@@ -2419,7 +2460,7 @@ The label can also point to an fdo\_absolute\_path\_profile rule.
 
 ## propeller\_optimize
 
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/starlark/builtins_bzl/common/cc/fdo/propeller_optimize.bzl)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/fdo/propeller_optimize.bzl)
 
 ```
 propeller_optimize(name, aspect_hints, cc_profile, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, ld_profile, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
