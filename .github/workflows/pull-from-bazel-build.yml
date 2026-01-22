@@ -58,6 +58,15 @@ jobs:
         with:
           bazelisk-cache: true
           repository-cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install mdx transformer dependencies
+        working-directory: tools/mdx-transform
+        run: npm ci
        
       - name: Build reference documentation (if not a fork)
         if: ${{ inputs.is_internal_pr }}
