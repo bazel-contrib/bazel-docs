@@ -545,7 +545,7 @@ TemplateDict actions.template_dict()
 ## write
 
 ```
-None actions.write(output, content, is_executable=False, *, mnemonic=None)
+None actions.write(output, content, is_executable=False, *, mnemonic=None, execution_requirements=None)
 ```
 
  Creates a file write action. When the action is executed, it will write the given content to a file. This is used to generate files using information available in the analysis phase. If the file is large and with a lot of static content, consider using [`expand_template`](#expand_template).
@@ -569,3 +569,7 @@ ParameterDescription`output`[File](../builtins/File.html);
  default is `None`
 
  A one-word description of the action, for example, CppCompile or GoLink.
+ `execution_requirements`[dict](../core/dict.html); or `None`;
+ default is `None`
+
+ Information for scheduling the action. See [tags](/reference/be/common-definitions#common.tags) for useful keys.
