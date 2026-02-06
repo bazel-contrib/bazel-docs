@@ -24,11 +24,7 @@ LOCAL_FILES="
 # This output pasted from a CI job - we should burn it down to zero
 BROKEN_FILES="
 community/roadmaps-configurability.mdx
-concepts/build-files.mdx
-concepts/dependencies.mdx
-concepts/labels.mdx
 configure/integrate-cpp.mdx
-contribute/docs-style-guide.mdx
 contribute/search.mdx
 docs/cc-toolchain-config-reference.mdx
 docs/user-manual.mdx
