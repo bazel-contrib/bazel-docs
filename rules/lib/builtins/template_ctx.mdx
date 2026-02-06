@@ -10,6 +10,7 @@ A context object that is passed to the action template expansion function.
 
 - [args](#args)
 - [declare\_file](#declare_file)
+- [declare\_subdirectory](#declare_subdirectory)
 - [run](#run)
 
 ## args
@@ -43,6 +44,29 @@ ParameterDescription`filename`[string](../core/string.html);
  required
 
  The directory in which the file should be created.
+
+
+## declare\_subdirectory
+
+```
+File template_ctx.declare_subdirectory(subdirectory, *, directory)
+```
+
+ Declares that implementation creates a subdirectory with the given name within the specified directory.
+
+Remember that in addition to declaring a subdirectory, you must separately create an action that emits the subdirectory. Creating that action will require passing the returned `File` object to the action's construction function.
+
+
+### Parameters
+
+ParameterDescription`subdirectory`[string](../core/string.html);
+ required
+
+ The relative path of the subdirectory within the directory.
+ `directory`[File](../builtins/File.html);
+ required
+
+ The directory in which the subdirectory should be created.
 
 
 ## run
