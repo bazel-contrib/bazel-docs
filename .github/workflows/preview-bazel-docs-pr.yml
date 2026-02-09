@@ -36,3 +36,4 @@ jobs:
         # TODO: run another step for each output.
         # it just calls the gh command to make a new branch on our repo that points the upstream git submodule to the PR's HEAD commit
         # and then triggers the run-codegen workflow on that new branch to generate the docs.
+        - run: echo ${{ steps.find-new-prs.outputs.pull_requests }}
