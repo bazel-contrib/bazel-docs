@@ -162,6 +162,15 @@ jobs:
           # Copy all MDX files from the upstream docs directory to the root
           rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
           
+      - name: Unzip reference documentation
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
+        run: |
+          mkdir -p reference-docs-temp
+          unzip -o upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip -d reference-docs-temp
+          # Sync unzipped reference docs to the root
+          rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' reference-docs-temp/ .
+          rm -rf reference-docs-temp
+
       - name: Create versioned navigation
         if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: ./docs.json.update.sh
