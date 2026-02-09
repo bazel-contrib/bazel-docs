@@ -8,11 +8,31 @@ on:
         required: false
         type: string
         default: ''
+      bazelPullRequestNumber:
+        description: 'Bazel PR number (optional, used to fetch PR refs)'
+        required: false
+        type: string
+        default: ''
       is_internal_pr:
         description: 'Whether this is an internal PR (not from a fork)'
         required: false
         type: boolean
-        default: true 
+        default: true
+      bazelBaseCommitHash:
+        description: 'Base Bazel commit hash for change detection (optional)'
+        required: false
+        type: string
+        default: ''
+      target_branch:
+        description: 'Branch to commit docs updates to (optional)'
+        required: false
+        type: string
+        default: ''
+      detect_upstream_docs_changes:
+        description: 'Skip the conversion pipeline when upstream docs or reference-doc inputs are unchanged'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   pull-fresh-upstream:
@@ -51,16 +71,116 @@ jobs:
       - name: Checkout commit of Bazel Build submodule
         if: ${{ inputs.bazelCommitHash != '' }}
         working-directory: upstream
-        run: git checkout '${{ inputs.bazelCommitHash }}'
+        env:
+          BAZEL_COMMIT_HASH: ${{ inputs.bazelCommitHash }}
+          BAZEL_PR_NUMBER: ${{ inputs.bazelPullRequestNumber }}
+        run: |
+          set -euo pipefail
+          if ! git cat-file -e "${BAZEL_COMMIT_HASH}" 2>/dev/null; then
+            if [[ -n "${BAZEL_PR_NUMBER}" ]]; then
+              git fetch --no-tags origin "pull/${BAZEL_PR_NUMBER}/head"
+            else
+              git fetch --no-tags origin "${BAZEL_COMMIT_HASH}"
+            fi
+          fi
+          git checkout "${BAZEL_COMMIT_HASH}"
+
+      - name: Detect upstream docs or reference input changes
+        id: docs-changes
+        env:
+          BAZEL_COMMIT_HASH: ${{ inputs.bazelCommitHash }}
+          BAZEL_BASE_COMMIT_HASH: ${{ inputs.bazelBaseCommitHash }}
+          DETECT_CHANGES: ${{ inputs.detect_upstream_docs_changes }}
+          BASE_REF: ${{ github.base_ref }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${DETECT_CHANGES}" != "true" ]]; then
+            echo "Change detection disabled; running full pipeline."
+            echo "should_run=true" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          head_sha="$(git -C upstream rev-parse HEAD)"
+          base_sha=""
+
+          if [[ -n "${BAZEL_BASE_COMMIT_HASH}" ]]; then
+            base_sha="${BAZEL_BASE_COMMIT_HASH}"
+          elif [[ -n "${BAZEL_COMMIT_HASH}" ]]; then
+            if git -C upstream cat-file -e "${BAZEL_COMMIT_HASH}^" 2>/dev/null; then
+              base_sha="$(git -C upstream rev-parse "${BAZEL_COMMIT_HASH}^")"
+            fi
+          elif [[ -n "${BASE_REF}" ]]; then
+            git fetch --no-tags origin "${BASE_REF}" --depth=1
+            base_tree="$(git rev-parse "origin/${BASE_REF}")"
+            base_sha="$(git ls-tree "${base_tree}" upstream | awk '{print $3}')"
+          else
+            if git rev-parse HEAD^ >/dev/null 2>&1; then
+              base_tree="$(git rev-parse HEAD^)"
+              base_sha="$(git ls-tree "${base_tree}" upstream | awk '{print $3}')"
+            else
+              git fetch --no-tags --deepen=1 origin "${REF_NAME}" || true
+              if git rev-parse HEAD^ >/dev/null 2>&1; then
+                base_tree="$(git rev-parse HEAD^)"
+                base_sha="$(git ls-tree "${base_tree}" upstream | awk '{print $3}')"
+              fi
+            fi
+          fi
+
+          if [[ -z "${base_sha}" ]]; then
+            echo "Base commit not found; running full pipeline."
+            echo "should_run=true" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          if ! git -C upstream cat-file -e "${base_sha}" 2>/dev/null; then
+            git -C upstream fetch --no-tags origin "${base_sha}"
+          fi
+
+          paths=(
+            "docs/"
+            "src/main/java/com/google/devtools/build/lib/"
+            "src/main/java/com/google/devtools/build/docgen/"
+            "src/main/starlark/docgen/"
+            "tools/build_defs/repo/"
+            "site/command-line-reference-prefix.html"
+            "site/command-line-reference-suffix.html"
+            "site/BUILD"
+            "site/BUILD.bazel"
+          )
+
+          changes="$(git -C upstream diff --name-only "${base_sha}" "${head_sha}" -- "${paths[@]}")"
+          if [[ -n "${changes}" ]]; then
+            echo "Detected upstream docs/reference input changes:"
+            echo "${changes}"
+            echo "should_run=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "No upstream docs/reference input changes detected. Skipping pipeline."
+            echo "should_run=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Ensure target branch exists for previews
+        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' }}
+        env:
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin "${TARGET_BRANCH}" >/dev/null; then
+            echo "Preview branch ${TARGET_BRANCH} already exists."
+            exit 0
+          fi
+          git push origin "HEAD:${TARGET_BRANCH}"
 
       - name: Setup Bazel
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         uses: bazel-contrib/setup-bazel@0.16.0
         with:
           bazelisk-cache: true
           repository-cache: true
        
       - name: Build reference documentation (if not a fork)
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         working-directory: upstream
         run: >
           bazel build
@@ -74,7 +194,7 @@ jobs:
           //src/main/java/com/google/devtools/build/lib:gen_reference_docs
       
       - name: Upload reference docs artifact
-        if: ${{ github.ref != 'refs/heads/main' }}
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' && github.ref != 'refs/heads/main' }}
         uses: actions/upload-artifact@v6
         with:
           name: reference-docs
@@ -82,34 +202,36 @@ jobs:
           retention-days: 7
 
       - name: Create dummy reference docs for forks
-        if: ${{ !inputs.is_internal_pr }}
+        if: ${{ !inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
           mkdir -p upstream/bazel-bin/src/main/java/com/google/devtools/build/lib
           touch upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip
 
       - name: Clean up mdx files
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: ./cleanup-mdx.sh
 
       - name: Set up Go
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         uses: actions/setup-go@v6
         with:
           go-version: '1.25.2'
 
       - name: Initialize Go module for converter
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
           cd html2md_converter
           go mod init html-to-md-converter
           go get github.com/JohannesKaufmann/html-to-markdown
 
       - name: Build HTML to Markdown converter
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
           cd html2md_converter
           go build -o html-to-md main.go
             
       - name: Convert reference documentation HTML to Markdown
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
           # Extract and convert HTML reference docs to Markdown
           ./html2md_converter/html-to-md \
@@ -117,35 +239,47 @@ jobs:
             -output reference-docs-temp
 
       - name: Transform upstream docs to mdx
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: ./copy-upstream-docs.sh
 
       - name: Create versioned navigation
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: ./docs.json.update.sh
     
       - name: Clean up temporary files
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: rm -rf reference-docs-temp
 
       - name: Configure Git
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         env:
-          BRANCH: ${{ github.head_ref || github.ref_name }}
+          BRANCH_OVERRIDE: ${{ inputs.target_branch }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
-          
+
+          BRANCH="${BRANCH_OVERRIDE:-${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}}"
+          DEFAULT_BRANCH="${DEFAULT_BRANCH:-main}"
+
           # Ensure local branch points at origin/BRANCH and is checked out
-          git fetch origin "$BRANCH"
-          git switch -C "$BRANCH" "origin/$BRANCH"
-          git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
-          
-          # Rebase onto latest remote before creating a new commit
-          git pull
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
+            git fetch origin "$BRANCH"
+            git switch -C "$BRANCH" "origin/$BRANCH"
+            git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+
+            # Rebase onto latest remote before creating a new commit
+            git pull
+          else
+            git fetch origin "$DEFAULT_BRANCH"
+            git switch -C "$BRANCH" "origin/$DEFAULT_BRANCH"
+            git branch --set-upstream-to="origin/$DEFAULT_BRANCH" "$BRANCH"
+          fi
           
           # Clean up any modified content in submodules (keep pointer changes)
           # This handles the "modified content" issue while preserving submodule commit updates

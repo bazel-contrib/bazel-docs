@@ -7,4 +7,6 @@ jobs:
     uses: ./.github/workflows/pull-from-bazel-build.yml
     with:
       bazelCommitHash: ${{ github.event.client_payload.commitHash }}
+      detect_upstream_docs_changes: true
+      is_internal_pr: true
       secrets: inherit
