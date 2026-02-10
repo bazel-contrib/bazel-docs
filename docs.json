@@ -79,8 +79,7 @@
                       "concepts/dependencies",
                       "concepts/visibility",
                       "concepts/platforms",
-                      "concepts/hermeticity",
-		      "concepts/runfiles"
+                      "concepts/hermeticity"
                     ]
                   }
                 ]
