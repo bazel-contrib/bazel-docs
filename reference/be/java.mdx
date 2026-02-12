@@ -13,7 +13,6 @@ title: 'Java Rules'
 - [java\_package\_configuration](#java_package_configuration)
 - [java\_plugin](#java_plugin)
 - [java\_runtime](#java_runtime)
-- [java\_single\_jar](#java_single_jar)
 - [java\_toolchain](#java_toolchain)
 
 ## java\_binary
@@ -1528,98 +1527,6 @@ Integer; default is `0`
 `Runtime.version().feature()`.
 
 
-## java\_single\_jar
-
-[View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_java/blob/master/java/java_single_jar.bzl)
-
-```
-java_single_jar(name, deps, aspect_hints, compatible_with, compress, deploy_env, deploy_manifest_lines, deprecation, exclude_build_data, exclude_pattern, exec_compatible_with, exec_group_compatible_with, exec_properties, features, multi_release, output, package_metadata, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
-```
-
- Collects Java dependencies and jar files into a single jar
-
-\`java\_single\_jar\` collects Java dependencies and jar files into a single jar.
-This is similar to java\_binary with everything related to executables disabled,
-and provides an alternative to the java\_binary "deploy jar hack".
-
-\## Example
-
-\`\`\`skylark
-load("//tools/build\_defs/java\_single\_jar:java\_single\_jar.bzl", "java\_single\_jar")
-
-java\_single\_jar(
- name = "my\_single\_jar",
- deps = \[
- "//java/com/google/foo",
- "//java/com/google/bar",
- \],
-)
-\`\`\`
-
-Outputs:
- {name}.jar: A single jar containing all of the inputs.
-
-
-
-### Arguments
-
-Attributes`name`
-
-[Name](/concepts/labels#target-names); required
-
-A unique name for this target.
-
-`deps`
-
-List of [labels](/concepts/labels); default is `[]`
-
- The Java targets (including java\_import and java\_library) to collect
-transitive dependencies from. Runtime dependencies are collected via
-deps, exports, and runtime\_deps. Resources are also collected.
-Native cc\_library or java\_wrap\_cc dependencies are not.
- `compress`
-
-String; default is `"preserve"`
-
- Whether to always deflate ("yes"), always store ("no"), or pass
-through unmodified ("preserve"). The default is "preserve", and is the
-most efficient option -- no extra work is done to inflate or deflate.
- `deploy_env`
-
-List of [labels](/concepts/labels); default is `[]`
-
- A list of \`java\_binary\` or \`java\_single\_jar\` targets which represent
-the deployment environment for this binary.
-
-Set this attribute when building a plugin which will be loaded by another
-\`java\_binary\`.
-
-\`deploy\_env\` dependencies are excluded from the jar built by this rule.
- `deploy_manifest_lines`
-
-List of strings; default is `[]`
-
- A list of lines to add to the `META-INF/manifest.mf` file.
- `exclude_build_data`
-
-Boolean; default is `True`
-
- Whether to omit the build-data.properties file generated
-by default.
- `exclude_pattern`
-
-String; default is `""`
-
- A regex pattern of files to exclude from the jar.
- `multi_release`
-
-Boolean; default is `True`
-
- Whether to enable Multi-Release output jars.
- `output`
-
-[Filename](/concepts/build-ref#filename); [nonconfigurable](common-definitions.html#configurable-attributes); default is `None`
-
 ## java\_toolchain
 
 [View rule sourceopen\_in\_new](https://github.com/bazelbuild/rules_java/blob/master/java/common/rules/java_toolchain.bzl)
@@ -1866,7 +1773,7 @@ List of strings; default is `[]`
 
 [Label](/concepts/labels); default is `None`
 
- Label of the SingleJar deploy jar.
+ Label of the SingleJar executable.
  `source_version`
 
 String; default is `""`
