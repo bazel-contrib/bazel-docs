@@ -5,9 +5,8 @@ title: 'Visibility'
 
 
 This page covers Bazel's three visibility systems:
-[target visibility](#target-visibility),
-[transitive visibility](#transitive-visibility) and
-[load visibility](#load-visibility).
+[target visibility](#target-visibility),[transitive visibility](#transitive-visibility)
+and [load visibility](#load-visibility).
 
 These types of visibility help other developers distinguish between your
 library's public API and its implementation details, and help enforce structure
@@ -400,7 +399,7 @@ finalizer, the finalizer cannot see such a target. Note, however, that a
 `native.existing_rules()`-based legacy macro will also be unable to see such a
 target.
 
-## Transitive visibility
+## Transitive visibility {#transitive-visibility}
 
 **Transitive visibility** is a way of restricting who may depend on a target,
 including when the dependency is only indirect. It applies separately from the
