@@ -34,13 +34,12 @@ jobs:
           matrix="$(echo "$prs" | jq -c --arg since "$since" '
             [
               .[] | select(.updated_at >= $since) |
-              (.head.ref | ascii_downcase | gsub(\"[^a-z0-9]+\"; \"-\") | gsub(\"^-+|-+$\"; \"\")) as $slug |
               {
                 number: .number,
                 head_sha: .head.sha,
                 base_sha: .base.sha,
                 head_ref: .head.ref,
-                preview_branch: (if $slug == \"\" then (\"pr-\" + (.number|tostring)) else $slug end)
+                preview_branch: ("pr-" + (.number|tostring))
               }
             ]
           ')"
@@ -65,100 +64,64 @@ jobs:
       is_internal_pr: true
       target_branch: ${{ matrix.preview_branch }}
 
-    comment:
+  comment:
+    needs: [list-prs, build-previews]
+    if: ${{ always() && needs.list-prs.outputs.matrix != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.list-prs.outputs.matrix) }}
+    steps:
+      - name: Post or update preview comment
+        env:
+          GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
+          PREVIEW_URL: https://bazel-${{ matrix.preview_branch }}.mintlify.app/
+          PR_NUMBER: ${{ matrix.number }}
+          HEAD_SHA: ${{ matrix.head_sha }}
+          BUILD_RESULT: ${{ needs.build-previews.result }}
+          PREVIEW_BRANCH: ${{ matrix.preview_branch }}
+        run: |
+          set -euo pipefail
 
-      needs: [list-prs, build-previews]
+          marker="<!-- bazel-docs-preview -->"
 
-      if: ${{ always() && needs.list-prs.outputs.matrix != '[]' }}
+          # If the preview branch doesn't exist in bazel-contrib/bazel-docs,
+          # this PR has no doc-related changes — skip posting a comment.
+          if ! gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --silent 2>/dev/null; then
+            echo "No preview branch for PR #${PR_NUMBER} (no doc changes detected). Skipping comment."
+            exit 0
+          fi
 
-      runs-on: ubuntu-latest
+          if [[ "${BUILD_RESULT}" == "success" ]]; then
+            body=$(cat <<EOF
+          ${marker}
 
-      strategy:
+          :white_check_mark: Bazel docs preview is ready!
 
-        fail-fast: false
+          **Preview URL:** ${PREVIEW_URL}
 
-        matrix:
+          *Updated for \`${HEAD_SHA}\`*
+          EOF
+          )
+          else
+            body=$(cat <<EOF
+          ${marker}
 
-          include: ${{ fromJson(needs.list-prs.outputs.matrix) }}
+          :x: Bazel docs preview build failed.
 
-      steps:
+          Please check the [GitHub Actions logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
 
-        - name: Post or update preview comment
+          *Updated for \`${HEAD_SHA}\`*
+          EOF
+          )
+          fi
 
-          env:
+          existing_id="$(gh api "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" \
+            --jq "map(select(.body | contains(\"${marker}\")))[0].id // empty")"
 
-            GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
-
-            PREVIEW_URL: https://bazel-${{ matrix.preview_branch }}.mintlify.app/
-
-            PR_NUMBER: ${{ matrix.number }}
-
-            HEAD_SHA: ${{ matrix.head_sha }}
-
-            BUILD_RESULT: ${{ needs.build-previews.result }}
-
-          run: |
-
-            set -euo pipefail
-
-            marker="<!-- bazel-docs-preview -->"
-
-            
-
-            if [[ "${BUILD_RESULT}" == "success" ]]; then
-
-              body=$(cat <<EOF
-
-            ${marker}
-
-            :white_check_mark: Bazel docs preview is ready!
-
-            
-
-            **Preview URL:** ${PREVIEW_URL}
-
-            *Updated for \`${HEAD_SHA}\`*
-
-            EOF
-
-            )
-
-            else
-
-              body=$(cat <<EOF
-
-            ${marker}
-
-            :x: Bazel docs preview build failed.
-
-            
-
-            Please check the [GitHub Actions logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
-
-            *Updated for \`${HEAD_SHA}\`*
-
-            EOF
-
-            )
-
-            fi
-
-  
-
-            existing_id="$(gh api "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" \
-
-              --jq "map(select(.body | contains(\"${marker}\")))[0].id // empty")"
-
-  
-
-            if [[ -n "${existing_id}" ]]; then
-
-              gh api -X PATCH "/repos/bazelbuild/bazel/issues/comments/${existing_id}" -f body="${body}"
-
-            else
-
-              gh api -X POST "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" -f body="${body}"
-
-            fi
-
-  
+          if [[ -n "${existing_id}" ]]; then
+            gh api -X PATCH "/repos/bazelbuild/bazel/issues/comments/${existing_id}" -f body="${body}"
+          else
+            gh api -X POST "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" -f body="${body}"
+          fi

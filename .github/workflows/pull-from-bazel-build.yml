@@ -116,7 +116,7 @@ jobs:
           fi
 
       - name: Ensure target branch exists for previews
-        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' }}
+        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' && steps.docs-changes.outputs.should_run == 'true' }}
         env:
           TARGET_BRANCH: ${{ inputs.target_branch }}
         run: |
