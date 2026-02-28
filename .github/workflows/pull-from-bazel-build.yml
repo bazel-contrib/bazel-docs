@@ -162,14 +162,38 @@ jobs:
           # Copy all MDX files from the upstream docs directory to the root
           rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
           
-      - name: Unzip reference documentation
+      - name: Setup Go for reference doc conversion
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'html2md_converter/go.mod'
+          cache: true
+          cache-dependency-path: 'html2md_converter/go.sum'
+
+      - name: Convert reference documentation HTML to MDX
+        # TODO: consolidate into a single HTML→MDX step inside the Go converter
+        # See https://github.com/bazel-contrib/bazel-docs/issues/226
         if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
-          mkdir -p reference-docs-temp
-          unzip -o upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip -d reference-docs-temp
-          # Sync unzipped reference docs to the root
-          rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' reference-docs-temp/ .
-          rm -rf reference-docs-temp
+          # Build the Go converter
+          cd html2md_converter
+          go build -o ../html-to-md .
+          cd ..
+
+          # Convert HTML reference docs to intermediate .md files
+          ./html-to-md \
+            -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
+            -output reference-docs-temp
+
+          # Transform .md → .mdx with MDX fixups
+          find reference-docs-temp -name "*.md" -type f | while read -r source_file; do
+            relative_path="${source_file#reference-docs-temp/}"
+            target_file="${relative_path%.md}.mdx"
+            mkdir -p "$(dirname "$target_file")"
+            awk -f transform-docs.awk "$source_file" > "$target_file"
+          done
+
+          rm -rf reference-docs-temp html-to-md
 
       - name: Create versioned navigation
         if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
