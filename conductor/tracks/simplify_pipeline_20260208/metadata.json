@@ -1,8 +1,0 @@
-{
-  "track_id": "simplify_pipeline_20260208",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-02-08T00:00:00Z",
-  "updated_at": "2026-02-08T00:00:00Z",
-  "description": "Simplify the pipeline by removing obsolete transformation logic and updating workflows to sync pre-converted MDX files."
-}
