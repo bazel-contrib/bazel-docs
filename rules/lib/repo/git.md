@@ -19,11 +19,12 @@ Rules for cloning external git repositories.
 <pre>
 load("@bazel//tools/build_defs/repo:git.bzl", "git_repository")
 
-git_repository(<a href="#git_repository-name">name</a>, <a href="#git_repository-branch">branch</a>, <a href="#git_repository-build_file">build_file</a>, <a href="#git_repository-build_file_content">build_file_content</a>, <a href="#git_repository-commit">commit</a>, <a href="#git_repository-init_submodules">init_submodules</a>, <a href="#git_repository-patch_args">patch_args</a>,
-               <a href="#git_repository-patch_cmds">patch_cmds</a>, <a href="#git_repository-patch_cmds_win">patch_cmds_win</a>, <a href="#git_repository-patch_strip">patch_strip</a>, <a href="#git_repository-patch_tool">patch_tool</a>, <a href="#git_repository-patches">patches</a>,
+git_repository(<a href="#git_repository-name">name</a>, <a href="#git_repository-branch">branch</a>, <a href="#git_repository-build_file">build_file</a>, <a href="#git_repository-build_file_content">build_file_content</a>, <a href="#git_repository-canonical_id">canonical_id</a>, <a href="#git_repository-commit">commit</a>, <a href="#git_repository-init_submodules">init_submodules</a>,
+               <a href="#git_repository-patch_args">patch_args</a>, <a href="#git_repository-patch_cmds">patch_cmds</a>, <a href="#git_repository-patch_cmds_win">patch_cmds_win</a>, <a href="#git_repository-patch_strip">patch_strip</a>, <a href="#git_repository-patch_tool">patch_tool</a>, <a href="#git_repository-patches">patches</a>,
                <a href="#git_repository-recursive_init_submodules">recursive_init_submodules</a>, <a href="#git_repository-remote">remote</a>, <a href="#git_repository-remote_module_file_integrity">remote_module_file_integrity</a>,
-               <a href="#git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#git_repository-shallow_since">shallow_since</a>, <a href="#git_repository-sparse_checkout_file">sparse_checkout_file</a>, <a href="#git_repository-sparse_checkout_patterns">sparse_checkout_patterns</a>,
-               <a href="#git_repository-strip_prefix">strip_prefix</a>, <a href="#git_repository-tag">tag</a>, <a href="#git_repository-verbose">verbose</a>, <a href="#git_repository-workspace_file">workspace_file</a>, <a href="#git_repository-workspace_file_content">workspace_file_content</a>)
+               <a href="#git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#git_repository-remote_patch_strip">remote_patch_strip</a>, <a href="#git_repository-remote_patches">remote_patches</a>, <a href="#git_repository-shallow_since">shallow_since</a>,
+               <a href="#git_repository-sparse_checkout_file">sparse_checkout_file</a>, <a href="#git_repository-sparse_checkout_patterns">sparse_checkout_patterns</a>, <a href="#git_repository-strip_prefix">strip_prefix</a>, <a href="#git_repository-tag">tag</a>, <a href="#git_repository-verbose">verbose</a>,
+               <a href="#git_repository-workspace_file">workspace_file</a>, <a href="#git_repository-workspace_file_content">workspace_file_content</a>)
 </pre>
 
 Clone an external git repository.
@@ -106,6 +107,28 @@ String; optional
 <p>
 
 The content for the BUILD file for this repository.
+
+</p>
+</td>
+</tr>
+<tr id="git_repository-canonical_id">
+<td><code>canonical_id</code></td>
+<td>
+
+String; optional
+
+<p>
+
+A canonical ID of the file downloaded.
+
+If specified and non-empty, Bazel will not take the file from cache, unless it
+was added to the cache by a request with the same canonical ID.
+
+If unspecified or empty, Bazel by default uses the URLs of the file as the
+canonical ID. This helps catch the common mistake of updating the URLs without
+also updating the hash, resulting in builds that succeed locally but fail on
+machines without the file in the cache. This behavior can be disabled with
+--repo_env=BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID=0.
 
 </p>
 </td>
@@ -266,6 +289,32 @@ For internal use only.
 </p>
 </td>
 </tr>
+<tr id="git_repository-remote_patch_strip">
+<td><code>remote_patch_strip</code></td>
+<td>
+
+Integer; optional
+
+<p>
+
+The number of leading slashes to be stripped from the file name in the remote patches.
+
+</p>
+</td>
+</tr>
+<tr id="git_repository-remote_patches">
+<td><code>remote_patches</code></td>
+<td>
+
+<a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
+
+<p>
+
+A map of patch file URL to its integrity value, they are applied after cloning the repository and before applying patch files from the `patches` attribute. It uses the Bazel-native patch implementation, you can specify the patch strip number with `remote_patch_strip`
+
+</p>
+</td>
+</tr>
 <tr id="git_repository-shallow_since">
 <td><code>shallow_since</code></td>
 <td>
@@ -368,6 +417,12 @@ No-op attribute; do not use.
 </tbody>
 </table>
 
+**ENVIRONMENT VARIABLES**
+
+This repository rule depends on the following environment variables:
+
+* `BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID`
+
 
 <a id="new_git_repository"></a>
 
@@ -376,12 +431,12 @@ No-op attribute; do not use.
 <pre>
 load("@bazel//tools/build_defs/repo:git.bzl", "new_git_repository")
 
-new_git_repository(<a href="#new_git_repository-name">name</a>, <a href="#new_git_repository-branch">branch</a>, <a href="#new_git_repository-build_file">build_file</a>, <a href="#new_git_repository-build_file_content">build_file_content</a>, <a href="#new_git_repository-commit">commit</a>, <a href="#new_git_repository-init_submodules">init_submodules</a>,
-                   <a href="#new_git_repository-patch_args">patch_args</a>, <a href="#new_git_repository-patch_cmds">patch_cmds</a>, <a href="#new_git_repository-patch_cmds_win">patch_cmds_win</a>, <a href="#new_git_repository-patch_strip">patch_strip</a>, <a href="#new_git_repository-patch_tool">patch_tool</a>, <a href="#new_git_repository-patches">patches</a>,
-                   <a href="#new_git_repository-recursive_init_submodules">recursive_init_submodules</a>, <a href="#new_git_repository-remote">remote</a>, <a href="#new_git_repository-remote_module_file_integrity">remote_module_file_integrity</a>,
-                   <a href="#new_git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#new_git_repository-shallow_since">shallow_since</a>, <a href="#new_git_repository-sparse_checkout_file">sparse_checkout_file</a>,
-                   <a href="#new_git_repository-sparse_checkout_patterns">sparse_checkout_patterns</a>, <a href="#new_git_repository-strip_prefix">strip_prefix</a>, <a href="#new_git_repository-tag">tag</a>, <a href="#new_git_repository-verbose">verbose</a>, <a href="#new_git_repository-workspace_file">workspace_file</a>,
-                   <a href="#new_git_repository-workspace_file_content">workspace_file_content</a>)
+new_git_repository(<a href="#new_git_repository-name">name</a>, <a href="#new_git_repository-branch">branch</a>, <a href="#new_git_repository-build_file">build_file</a>, <a href="#new_git_repository-build_file_content">build_file_content</a>, <a href="#new_git_repository-canonical_id">canonical_id</a>, <a href="#new_git_repository-commit">commit</a>,
+                   <a href="#new_git_repository-init_submodules">init_submodules</a>, <a href="#new_git_repository-patch_args">patch_args</a>, <a href="#new_git_repository-patch_cmds">patch_cmds</a>, <a href="#new_git_repository-patch_cmds_win">patch_cmds_win</a>, <a href="#new_git_repository-patch_strip">patch_strip</a>, <a href="#new_git_repository-patch_tool">patch_tool</a>,
+                   <a href="#new_git_repository-patches">patches</a>, <a href="#new_git_repository-recursive_init_submodules">recursive_init_submodules</a>, <a href="#new_git_repository-remote">remote</a>, <a href="#new_git_repository-remote_module_file_integrity">remote_module_file_integrity</a>,
+                   <a href="#new_git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#new_git_repository-remote_patch_strip">remote_patch_strip</a>, <a href="#new_git_repository-remote_patches">remote_patches</a>, <a href="#new_git_repository-shallow_since">shallow_since</a>,
+                   <a href="#new_git_repository-sparse_checkout_file">sparse_checkout_file</a>, <a href="#new_git_repository-sparse_checkout_patterns">sparse_checkout_patterns</a>, <a href="#new_git_repository-strip_prefix">strip_prefix</a>, <a href="#new_git_repository-tag">tag</a>, <a href="#new_git_repository-verbose">verbose</a>,
+                   <a href="#new_git_repository-workspace_file">workspace_file</a>, <a href="#new_git_repository-workspace_file_content">workspace_file_content</a>)
 </pre>
 
 Clone an external git repository.
@@ -464,6 +519,28 @@ String; optional
 <p>
 
 The content for the BUILD file for this repository.
+
+</p>
+</td>
+</tr>
+<tr id="new_git_repository-canonical_id">
+<td><code>canonical_id</code></td>
+<td>
+
+String; optional
+
+<p>
+
+A canonical ID of the file downloaded.
+
+If specified and non-empty, Bazel will not take the file from cache, unless it
+was added to the cache by a request with the same canonical ID.
+
+If unspecified or empty, Bazel by default uses the URLs of the file as the
+canonical ID. This helps catch the common mistake of updating the URLs without
+also updating the hash, resulting in builds that succeed locally but fail on
+machines without the file in the cache. This behavior can be disabled with
+--repo_env=BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID=0.
 
 </p>
 </td>
@@ -624,6 +701,32 @@ For internal use only.
 </p>
 </td>
 </tr>
+<tr id="new_git_repository-remote_patch_strip">
+<td><code>remote_patch_strip</code></td>
+<td>
+
+Integer; optional
+
+<p>
+
+The number of leading slashes to be stripped from the file name in the remote patches.
+
+</p>
+</td>
+</tr>
+<tr id="new_git_repository-remote_patches">
+<td><code>remote_patches</code></td>
+<td>
+
+<a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
+
+<p>
+
+A map of patch file URL to its integrity value, they are applied after cloning the repository and before applying patch files from the `patches` attribute. It uses the Bazel-native patch implementation, you can specify the patch strip number with `remote_patch_strip`
+
+</p>
+</td>
+</tr>
 <tr id="new_git_repository-shallow_since">
 <td><code>shallow_since</code></td>
 <td>
@@ -725,5 +828,11 @@ No-op attribute; do not use.
 </tr>
 </tbody>
 </table>
+
+**ENVIRONMENT VARIABLES**
+
+This repository rule depends on the following environment variables:
+
+* `BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID`
 
 
