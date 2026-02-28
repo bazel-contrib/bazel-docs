@@ -215,7 +215,7 @@ jobs:
           if [[ -n "$(git status --porcelain)" ]]; then
             echo "Changes detected, committing and pushing..."
             git add -A
-            git commit -m $'chore: update documentation from upstream Bazel repo\n\nSynchronized pre-converted MDX files from upstream Bazel repository.'
+            git commit -m $'chore: update documentation from upstream Bazel repo [skip ci]\n\nSynchronized pre-converted MDX files from upstream Bazel repository.'
           
             # Push back to the same branch
             git push origin "HEAD:$BRANCH"
