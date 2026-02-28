@@ -27,7 +27,6 @@ community/roadmaps-configurability.mdx
 concepts/build-files.mdx
 concepts/dependencies.mdx
 concepts/labels.mdx
-configure/integrate-cpp.mdx
 contribute/docs-style-guide.mdx
 contribute/search.mdx
 docs/cc-toolchain-config-reference.mdx
@@ -37,7 +36,6 @@ external/mod-command.mdx
 external/registry.mdx
 external/migration_tool.mdx
 query/language.mdx
-query/quickstart.mdx
 reference/be/functions.mdx
 reference/be/platforms-and-toolchains.mdx
 reference/command-line-reference.mdx
@@ -51,7 +49,6 @@ rules/lib/repo/http.mdx
 rules/lib/repo/local.mdx
 rules/lib/repo/utils.mdx
 rules/lib/globals/module.mdx
-rules/windows.mdx
 run/build.mdx
 "
 
@@ -83,7 +80,7 @@ transform_docs() {
 
         mkdir -p "$target_dir"
 
-    # Check if this file is in the BROKEN_FILES list
+        # Check if this file is in the BROKEN_FILES list
         if echo "$BROKEN_FILES" | grep -q "^$target_file$"; then
             echo "Skipping broken file: $target_file"
             continue
