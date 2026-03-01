@@ -171,7 +171,9 @@
                   },
                   {
                     "group": "Query Language",
-                    "pages": []
+                    "pages": [
+                      "query/quickstart"
+                    ]
                   },
                   {
                     "group": "Glossary",
@@ -436,7 +438,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.4.2/query/language"
+                      "8.4.2/query/language",
+                      "8.4.2/query/quickstart"
                     ]
                   },
                   {
@@ -707,7 +710,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.3.1/query/language"
+                      "8.3.1/query/language",
+                      "8.3.1/query/quickstart"
                     ]
                   },
                   {
@@ -978,7 +982,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.2.1/query/language"
+                      "8.2.1/query/language",
+                      "8.2.1/query/quickstart"
                     ]
                   },
                   {
@@ -1249,7 +1254,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.1.1/query/language"
+                      "8.1.1/query/language",
+                      "8.1.1/query/quickstart"
                     ]
                   },
                   {
@@ -1520,7 +1526,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "8.0.1/query/language"
+                      "8.0.1/query/language",
+                      "8.0.1/query/quickstart"
                     ]
                   },
                   {
@@ -1791,7 +1798,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "7.6.2/query/language"
+                      "7.6.2/query/language",
+                      "7.6.2/query/quickstart"
                     ]
                   },
                   {
@@ -2062,7 +2070,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "6.5.0/query/language"
+                      "6.5.0/query/language",
+                      "6.5.0/query/quickstart"
                     ]
                   },
                   {
@@ -2333,7 +2342,8 @@
                   {
                     "group": "Query Language",
                     "pages": [
-                      "5.4.1/query/language"
+                      "5.4.1/query/language",
+                      "5.4.1/query/quickstart"
                     ]
                   },
                   {
