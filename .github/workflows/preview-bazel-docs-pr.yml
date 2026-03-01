@@ -134,6 +134,23 @@ jobs:
             if [[ "$status" == "completed" ]]; then
               echo "Mintlify deployment completed: $conclusion"
               echo "conclusion=$conclusion" >> "$GITHUB_OUTPUT"
+
+              # Extract parse errors only for files changed in the upstream PR
+              all_parse_errors=$(echo "$check" | jq -r '.output.text // ""' | grep "^Failed to parse" || true)
+              changed_docs=$(gh api "/repos/bazelbuild/bazel/pulls/${PR_NUMBER}/files" \
+                --jq '[.[] | .filename | select(startswith("docs/")) | ltrimstr("docs/")] | .[]' 2>/dev/null || true)
+              relevant_errors=""
+              while IFS= read -r file; do
+                [[ -z "$file" ]] && continue
+                match=$(echo "$all_parse_errors" | grep "path ${file}:" || true)
+                [[ -n "$match" ]] && relevant_errors="${relevant_errors}${match}"$'\n'
+              done <<< "$changed_docs"
+              {
+                echo "parse_errors<<PARSE_EOF"
+                printf '%s' "$relevant_errors"
+                echo "PARSE_EOF"
+              } >> "$GITHUB_OUTPUT"
+
               exit 0
             fi
 
@@ -154,6 +171,7 @@ jobs:
           PR_NUMBER: ${{ matrix.number }}
           HEAD_SHA: ${{ matrix.head_sha }}
           MINTLIFY_RESULT: ${{ steps.mintlify.outputs.conclusion }}
+          PARSE_ERRORS: ${{ steps.mintlify.outputs.parse_errors }}
         run: |
           set -euo pipefail
 
@@ -164,6 +182,24 @@ jobs:
             exit 0
           fi
 
+          # Build optional parse-error section
+          if [[ -n "${PARSE_ERRORS}" ]]; then
+            parse_section=$(cat <<EOF
+
+          <details>
+          <summary>⚠️ Some changed doc pages have MDX parse errors and will not render</summary>
+
+          \`\`\`
+          ${PARSE_ERRORS}
+          \`\`\`
+
+          </details>
+          EOF
+          )
+          else
+            parse_section=""
+          fi
+
           if [[ "${MINTLIFY_RESULT}" == "success" ]]; then
             body=$(cat <<EOF
           ${marker}
@@ -171,7 +207,7 @@ jobs:
           :white_check_mark: Bazel docs preview is ready!
 
           **Preview URL:** ${PREVIEW_URL}
-
+          ${parse_section}
           *Updated for \`${HEAD_SHA}\`*
           EOF
           )
@@ -182,7 +218,7 @@ jobs:
           :x: Bazel docs preview deployment failed (Mintlify result: ${MINTLIFY_RESULT}).
 
           Please check the [GitHub Actions logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
-
+          ${parse_section}
           *Updated for \`${HEAD_SHA}\`*
           EOF
           )
