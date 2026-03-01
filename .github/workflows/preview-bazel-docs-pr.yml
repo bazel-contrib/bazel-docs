@@ -7,6 +7,12 @@ on:
     - cron: '*/30 * * * *'
   # Also allow manual triggering in the GH UI.
   workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Specific bazelbuild/bazel PR number to preview (skips polling, useful for testing)'
+        required: false
+        type: string
+        default: ''
 
 jobs:
   list-prs:
@@ -20,29 +26,43 @@ jobs:
         id: fetch-prs
         env:
           GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
+          PR_NUMBER_OVERRIDE: ${{ inputs.pr_number }}
         run: |
           set -euo pipefail
 
-          # Poll for PRs updated in the last 45 minutes to ensure overlap with 30m cron
-          since="$(date -u -d '45 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')"
-
-          prs="$(gh api \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "/repos/bazelbuild/bazel/pulls?state=open&sort=updated&direction=desc&per_page=100")"
-
-          matrix="$(echo "$prs" | jq -c --arg since "$since" '
-            [
-              .[] | select(.updated_at >= $since) |
-              {
-                number: .number,
-                head_sha: .head.sha,
-                base_sha: .base.sha,
-                head_ref: .head.ref,
-                preview_branch: ("pr-" + (.number|tostring))
-              }
-            ]
-          ')"
+          if [[ -n "${PR_NUMBER_OVERRIDE}" ]]; then
+            # Manual dispatch with a specific PR number — fetch just that PR
+            pr="$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/repos/bazelbuild/bazel/pulls/${PR_NUMBER_OVERRIDE}")"
+            matrix="$(echo "$pr" | jq -c '[{
+              number: .number,
+              head_sha: .head.sha,
+              base_sha: .base.sha,
+              head_ref: .head.ref,
+              preview_branch: ("pr-" + (.number|tostring))
+            }]')"
+          else
+            # Scheduled run — poll for PRs updated in the last 45 minutes
+            since="$(date -u -d '45 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')"
+            prs="$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/repos/bazelbuild/bazel/pulls?state=open&sort=updated&direction=desc&per_page=100")"
+            matrix="$(echo "$prs" | jq -c --arg since "$since" '
+              [
+                .[] | select(.updated_at >= $since) |
+                {
+                  number: .number,
+                  head_sha: .head.sha,
+                  base_sha: .base.sha,
+                  head_ref: .head.ref,
+                  preview_branch: ("pr-" + (.number|tostring))
+                }
+              ]
+            ')"
+          fi
 
           echo "Matrix entries: $(echo "$matrix" | jq -r 'length')"
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
