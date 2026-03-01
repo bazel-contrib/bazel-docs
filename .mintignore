@@ -1,4 +1,25 @@
-test-broken.mdx
+# Files with MDX syntax that Mintlify cannot parse.
+# See https://github.com/bazel-contrib/bazel-docs/issues/226
+
+# All repo rule docs — generated from HTML with complex table structures
+rules/lib/repo/*.mdx
+
+# Specific globals files with unresolvable MDX syntax
+rules/lib/globals/bzl.mdx
+rules/lib/globals/module.mdx
+
+# Reference docs with complex HTML or template syntax
+reference/be/functions.mdx
+reference/be/platforms-and-toolchains.mdx
+reference/command-line-reference.mdx
+reference/flag-cheatsheet.mdx
+reference/test-encyclopedia.mdx
+
+# Query docs with {{ '<var>' }} template patterns
+query/language.mdx
+query/quickstart.mdx
+
+# Misc files with unresolvable MDX syntax
 community/roadmaps-configurability.mdx
 concepts/build-files.mdx
 concepts/dependencies.mdx
@@ -12,20 +33,6 @@ extending/config.mdx
 external/mod-command.mdx
 external/migration_tool.mdx
 external/registry.mdx
-query/language.mdx
-query/quickstart.mdx
-reference/be/functions.mdx
-reference/be/platforms-and-toolchains.mdx
-reference/command-line-reference.mdx
-reference/flag-cheatsheet.mdx
-reference/test-encyclopedia.mdx
 remote/dynamic.mdx
-rules/lib/globals/bzl.mdx
-rules/lib/globals/module.mdx
-rules/lib/repo/cache.mdx
-rules/lib/repo/git.mdx
-rules/lib/repo/http.mdx
-rules/lib/repo/local.mdx
-rules/lib/repo/utils.mdx
 rules/windows.mdx
 run/build.mdx

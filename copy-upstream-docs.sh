@@ -20,8 +20,6 @@ LOCAL_FILES="
     index.mdx
 "
 
-# Files that are not valid MDX syntax — single source of truth is broken-mdx-files.txt
-
 # Verify that at least one source exists
 if [ ! -d "$UPSTREAM_SITE" ] && [ ! -d "$REFERENCE_DOCS" ]; then
     echo "Error: neither source directory exists: '$UPSTREAM_SITE' or '$REFERENCE_DOCS'"
@@ -50,11 +48,6 @@ transform_docs() {
 
         mkdir -p "$target_dir"
 
-    # Check if this file is in the broken files list
-        if grep -qF "$target_file" broken-mdx-files.txt; then
-            echo "Skipping broken file: $target_file"
-            continue
-        fi
 
     # Transform and copy the file
     echo "Transforming and copying $source_file to $DEST_DIR/$target_file"
