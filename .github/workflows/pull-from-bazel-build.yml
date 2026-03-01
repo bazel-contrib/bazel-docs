@@ -274,3 +274,27 @@ jobs:
           else
             echo "No changes detected, skipping commit"
           fi
+
+      - name: Ensure draft PR exists for Mintlify preview
+        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' && steps.docs-changes.outputs.should_run == 'true' }}
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          PREVIEW_BRANCH: ${{ inputs.target_branch }}
+          PR_NUMBER: ${{ inputs.bazelPullRequestNumber }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch || 'main' }}
+        run: |
+          set -euo pipefail
+          existing=$(gh pr list --repo "${{ github.repository }}" --head "${PREVIEW_BRANCH}" \
+            --json number --jq '.[0].number // empty')
+          if [[ -z "${existing}" ]]; then
+            gh pr create \
+              --repo "${{ github.repository }}" \
+              --head "${PREVIEW_BRANCH}" \
+              --base "${DEFAULT_BRANCH}" \
+              --title "docs preview: bazelbuild/bazel#${PR_NUMBER}" \
+              --body "Auto-generated Mintlify preview for [bazelbuild/bazel#${PR_NUMBER}](https://github.com/bazelbuild/bazel/pull/${PR_NUMBER})." \
+              --draft
+            echo "Draft PR created for ${PREVIEW_BRANCH}"
+          else
+            echo "Draft PR #${existing} already exists for ${PREVIEW_BRANCH}"
+          fi

@@ -161,3 +161,51 @@ jobs:
           else
             gh api -X POST "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" -f body="${body}"
           fi
+
+  cleanup:
+    needs: [list-prs, build-previews, comment]
+    # Only run on scheduled cron — not on manual workflow_dispatch triggers.
+    # Runs after build-previews and comment so it never races with an in-progress preview build.
+    if: ${{ always() && github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Close draft PRs and delete branches for merged/closed upstream PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BAZELBUILD_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT || github.token }}
+        run: |
+          set -euo pipefail
+
+          # List all pr-* branches in this repo
+          branches=$(gh api "repos/${{ github.repository }}/branches?per_page=100" --paginate \
+            --jq '[.[].name | select(startswith("pr-"))]')
+
+          echo "Found $(echo "$branches" | jq -r 'length') preview branch(es)"
+
+          for pr_number in $(echo "$branches" | jq -r '.[] | ltrimstr("pr-")'); do
+            branch="pr-${pr_number}"
+
+            # Check if the upstream bazelbuild/bazel PR is still open
+            state=$(GH_TOKEN="${BAZELBUILD_TOKEN}" gh api "repos/bazelbuild/bazel/pulls/${pr_number}" \
+              --jq '.state' 2>/dev/null || echo "not_found")
+
+            if [[ "$state" == "open" ]]; then
+              continue
+            fi
+
+            echo "Upstream PR #${pr_number} is '${state}'. Cleaning up ${branch}..."
+
+            # Close the draft PR in this repo if one exists
+            pr_id=$(gh pr list --repo "${{ github.repository }}" --head "${branch}" \
+              --json number --jq '.[0].number // empty')
+            if [[ -n "${pr_id}" ]]; then
+              gh pr close "${pr_id}" --repo "${{ github.repository }}"
+              echo "Closed draft PR #${pr_id}"
+            fi
+
+            # Delete the preview branch
+            gh api -X DELETE "repos/${{ github.repository }}/git/refs/heads/${branch}" 2>/dev/null \
+              && echo "Deleted branch ${branch}" \
+              || echo "Branch ${branch} already deleted or not found"
+          done
