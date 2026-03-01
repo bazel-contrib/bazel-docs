@@ -8,15 +8,36 @@ on:
         required: false
         type: string
         default: ''
+      bazelPullRequestNumber:
+        description: 'Bazel PR number (optional, used to fetch PR refs)'
+        required: false
+        type: string
+        default: ''
       is_internal_pr:
         description: 'Whether this is an internal PR (not from a fork)'
         required: false
         type: boolean
-        default: true 
+        default: true
+      bazelBaseCommitHash:
+        description: 'Base Bazel commit hash for change detection (optional)'
+        required: false
+        type: string
+        default: ''
+      target_branch:
+        description: 'Branch to commit docs updates to (optional)'
+        required: false
+        type: string
+        default: ''
+      detect_upstream_docs_changes:
+        description: 'Skip the conversion pipeline when upstream docs or reference-doc inputs are unchanged'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   pull-fresh-upstream:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
       pull-requests: write
@@ -51,16 +72,71 @@ jobs:
       - name: Checkout commit of Bazel Build submodule
         if: ${{ inputs.bazelCommitHash != '' }}
         working-directory: upstream
-        run: git checkout '${{ inputs.bazelCommitHash }}'
+        env:
+          BAZEL_COMMIT_HASH: ${{ inputs.bazelCommitHash }}
+          BAZEL_PR_NUMBER: ${{ inputs.bazelPullRequestNumber }}
+        run: |
+          set -euo pipefail
+          if ! git cat-file -e "${BAZEL_COMMIT_HASH}" 2>/dev/null; then
+            if [[ -n "${BAZEL_PR_NUMBER}" ]]; then
+              git fetch --no-tags origin "pull/${BAZEL_PR_NUMBER}/head"
+            else
+              git fetch --no-tags origin "${BAZEL_COMMIT_HASH}"
+            fi
+          fi
+          git checkout "${BAZEL_COMMIT_HASH}"
+
+      - name: Get changed files in upstream
+        id: changed-files
+        if: ${{ inputs.detect_upstream_docs_changes }}
+        uses: tj-actions/changed-files@v47.0.1
+        with:
+          path: upstream
+          base_sha: ${{ inputs.bazelBaseCommitHash }}
+          sha: ${{ inputs.bazelCommitHash }}
+          files: |
+            docs/**
+            src/main/java/com/google/devtools/build/lib/**
+            src/main/java/com/google/devtools/build/docgen/**
+            src/main/starlark/docgen/**
+            tools/build_defs/repo/**
+            site/command-line-reference-prefix.html
+            site/command-line-reference-suffix.html
+            site/BUILD
+            site/BUILD.bazel
+
+      - name: Determine if pipeline should run
+        id: docs-changes
+        run: |
+          if [[ "${{ inputs.detect_upstream_docs_changes }}" != "true" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ensure target branch exists for previews
+        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' && steps.docs-changes.outputs.should_run == 'true' }}
+        env:
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin "${TARGET_BRANCH}" >/dev/null; then
+            echo "Preview branch ${TARGET_BRANCH} already exists."
+            exit 0
+          fi
+          git push origin "HEAD:${TARGET_BRANCH}"
 
       - name: Setup Bazel
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         uses: bazel-contrib/setup-bazel@0.18.0
         with:
           bazelisk-cache: true
           repository-cache: true
        
       - name: Build reference documentation (if not a fork)
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         working-directory: upstream
         run: >
           bazel build
@@ -74,94 +150,151 @@ jobs:
           //src/main/java/com/google/devtools/build/lib:gen_reference_docs
       
       - name: Upload reference docs artifact
-        if: ${{ github.ref != 'refs/heads/main' }}
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' && github.ref != 'refs/heads/main' }}
         uses: actions/upload-artifact@v7
         with:
           name: reference-docs
           path: upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip
           retention-days: 7
 
-      - name: Create dummy reference docs for forks
-        if: ${{ !inputs.is_internal_pr }}
+      - name: Sync pre-converted MDX docs from upstream
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: |
-          mkdir -p upstream/bazel-bin/src/main/java/com/google/devtools/build/lib
-          touch upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip
-
-      - name: Clean up mdx files
-        run: ./cleanup-mdx.sh
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
+          # Copy all MDX files from the upstream docs directory to the root.
+          # TODO: remove --exclude='versions/' once versioned docs are properly integrated.
+          # See https://github.com/bazel-contrib/bazel-docs/issues/228
+          rsync -av --exclude='versions/' --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
+          
+      - name: Setup Go for reference doc conversion
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.25.2'
+          go-version-file: 'html2md_converter/go.mod'
+          cache: true
+          cache-dependency-path: 'html2md_converter/go.sum'
 
-      - name: Initialize Go module for converter
-        if: ${{ inputs.is_internal_pr }}
+      - name: Convert reference documentation HTML to MDX
+        # TODO: consolidate into a single HTML→MDX step inside the Go converter
+        # See https://github.com/bazel-contrib/bazel-docs/issues/226
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
+          # Build the Go converter
           cd html2md_converter
-          go mod init html-to-md-converter
-          go get github.com/JohannesKaufmann/html-to-markdown
+          go build -o ../html-to-md .
+          cd ..
 
-      - name: Build HTML to Markdown converter
-        if: ${{ inputs.is_internal_pr }}
-        run: |
-          cd html2md_converter
-          go build -o html-to-md main.go
-            
-      - name: Convert reference documentation HTML to Markdown
-        if: ${{ inputs.is_internal_pr }}
-        run: |
-          # Extract and convert HTML reference docs to Markdown
-          ./html2md_converter/html-to-md \
+          # Convert HTML reference docs to intermediate .md files
+          ./html-to-md \
             -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
             -output reference-docs-temp
 
-      - name: Transform upstream docs to mdx
-        run: ./copy-upstream-docs.sh
+          # Transform .md → .mdx with MDX fixups (no skip list — testing .mintignore)
+          find reference-docs-temp -name "*.md" -type f | while read -r source_file; do
+            relative_path="${source_file#reference-docs-temp/}"
+            target_file="${relative_path%.md}.mdx"
+            mkdir -p "$(dirname "$target_file")"
+            awk -f transform-docs.awk "$source_file" > "$target_file"
+          done
+
+          rm -rf reference-docs-temp html-to-md
 
       - name: Create versioned navigation
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: ./docs.json.update.sh
-    
-      - name: Clean up temporary files
-        if: ${{ inputs.is_internal_pr }}
-        run: rm -rf reference-docs-temp
+
+      - name: Remove .mintignore entries from docs.json navigation
+        # TODO: versioned nav entries (e.g. 8.4.2/query/language) are not cleaned up here
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
+        run: |
+          while IFS= read -r pattern; do
+            # Skip comments and blank lines
+            [[ "$pattern" =~ ^[[:space:]]*# || -z "${pattern// }" ]] && continue
+            # Expand glob patterns against actual files, strip .mdx for the page ref
+            for file in $pattern; do
+              [[ -f "$file" ]] || continue
+              page="${file%.mdx}"
+              tmp=$(jq --arg p "$page" 'walk(if type == "array" then map(select(. != $p)) else . end)' docs.json)
+              echo "$tmp" > docs.json
+            done
+          done < .mintignore
 
       - name: Configure Git
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
-        if: ${{ inputs.is_internal_pr }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         env:
-          BRANCH: ${{ github.head_ref || github.ref_name }}
+          BRANCH_OVERRIDE: ${{ inputs.target_branch }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
-          
-          # Ensure local branch points at origin/BRANCH and is checked out
-          git fetch origin "$BRANCH"
-          git switch -C "$BRANCH" "origin/$BRANCH"
-          git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
-          
-          # Rebase onto latest remote before creating a new commit
-          git pull
-          
+
+          BRANCH="${BRANCH_OVERRIDE:-${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}}"
+          DEFAULT_BRANCH="${DEFAULT_BRANCH:-main}"
+
           # Clean up any modified content in submodules (keep pointer changes)
-          # This handles the "modified content" issue while preserving submodule commit updates
           cd upstream
           git reset --hard
           git clean -fd
           cd ..
+
+          if [[ -n "${BRANCH_OVERRIDE}" ]]; then
+            # Preview branch: commit on current HEAD and force-push to target.
+            # Avoids branch-switching conflicts with rsync'd working tree files.
+            git checkout -b "${BRANCH}" 2>/dev/null || git checkout "${BRANCH}"
+          else
+            # Main sync: rebase onto origin/BRANCH before committing to preserve history.
+            if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
+              git fetch origin "$BRANCH"
+              git switch -C "$BRANCH" "origin/$BRANCH"
+              git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+              git pull
+            else
+              git fetch origin "$DEFAULT_BRANCH"
+              git switch -C "$BRANCH" "origin/$DEFAULT_BRANCH"
+              git branch --set-upstream-to="origin/$DEFAULT_BRANCH" "$BRANCH"
+            fi
+          fi
           
           if [[ -n "$(git status --porcelain)" ]]; then
             echo "Changes detected, committing and pushing..."
             git add -A
-            git commit -m $'chore: update documentation from upstream Bazel repo\n\nGenerated by GitHub Actions workflow from upstream Bazel repository.\nThis commit includes transformed documentation files ready for Mintlify deployment.'
+            git commit -m $'chore: update documentation from upstream Bazel repo [skip ci]\n\nSynchronized pre-converted MDX files from upstream Bazel repository.'
           
-            # Push back to the same branch
-            git push origin "HEAD:$BRANCH"
+            # Force-push for preview branches (ephemeral); normal push for main sync.
+            if [[ -n "${BRANCH_OVERRIDE}" ]]; then
+              git push origin "HEAD:$BRANCH" --force
+            else
+              git push origin "HEAD:$BRANCH"
+            fi
             echo "Changes committed and pushed successfully"
           else
             echo "No changes detected, skipping commit"
+          fi
+
+      - name: Ensure draft PR exists for Mintlify preview
+        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' && steps.docs-changes.outputs.should_run == 'true' }}
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          PREVIEW_BRANCH: ${{ inputs.target_branch }}
+          PR_NUMBER: ${{ inputs.bazelPullRequestNumber }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch || 'main' }}
+        run: |
+          set -euo pipefail
+          existing=$(gh pr list --repo "${{ github.repository }}" --head "${PREVIEW_BRANCH}" \
+            --json number --jq '.[0].number // empty')
+          if [[ -z "${existing}" ]]; then
+            gh pr create \
+              --repo "${{ github.repository }}" \
+              --head "${PREVIEW_BRANCH}" \
+              --base "${DEFAULT_BRANCH}" \
+              --title "docs preview: bazelbuild/bazel#${PR_NUMBER}" \
+              --body "Auto-generated Mintlify preview for [bazelbuild/bazel#${PR_NUMBER}](https://github.com/bazelbuild/bazel/pull/${PR_NUMBER})." \
+              --draft
+            echo "Draft PR created for ${PREVIEW_BRANCH}"
+          else
+            echo "Draft PR #${existing} already exists for ${PREVIEW_BRANCH}"
           fi
