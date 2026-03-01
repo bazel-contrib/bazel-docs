@@ -262,14 +262,7 @@ jobs:
           if [[ -n "$(git status --porcelain)" ]]; then
             echo "Changes detected, committing and pushing..."
             git add -A
-            # Use [skip ci] on the main sync to prevent re-trigger loops.
-            # Omit it on preview branches so Mintlify deploys the preview.
-            if [[ -z "${BRANCH_OVERRIDE}" ]]; then
-              COMMIT_MSG=$'chore: update documentation from upstream Bazel repo [skip ci]\n\nSynchronized pre-converted MDX files from upstream Bazel repository.'
-            else
-              COMMIT_MSG="chore: update documentation from upstream Bazel repo"
-            fi
-            git commit -m "${COMMIT_MSG}"
+            git commit -m $'chore: update documentation from upstream Bazel repo [skip ci]\n\nSynchronized pre-converted MDX files from upstream Bazel repository.'
           
             # Force-push for preview branches (ephemeral); normal push for main sync.
             if [[ -n "${BRANCH_OVERRIDE}" ]]; then
