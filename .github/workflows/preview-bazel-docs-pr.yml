@@ -93,43 +93,78 @@ jobs:
     needs: [list-prs, build-previews]
     if: ${{ always() && needs.list-prs.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
         include: ${{ fromJson(needs.list-prs.outputs.matrix || '[]') }}
     steps:
+      - name: Wait for Mintlify deployment
+        id: mintlify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREVIEW_BRANCH: ${{ matrix.preview_branch }}
+          PR_NUMBER: ${{ matrix.number }}
+        run: |
+          set -euo pipefail
+
+          # If the preview branch doesn't exist, this PR has no doc changes — skip.
+          if ! gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --silent 2>/dev/null; then
+            echo "No preview branch for PR #${PR_NUMBER} (no doc changes detected). Skipping comment."
+            echo "conclusion=skipped" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          sha=$(gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --jq '.commit.sha')
+          echo "Waiting for Mintlify deployment on ${PREVIEW_BRANCH} @ ${sha}..."
+
+          for i in $(seq 1 30); do
+            check=$(gh api "/repos/${{ github.repository }}/commits/${sha}/check-runs" \
+              --jq '[.check_runs[] | select(.name == "Mintlify Deployment")] | .[0] // empty')
+
+            if [[ -z "$check" ]]; then
+              echo "Attempt $i: Mintlify check not yet registered, waiting 20s..."
+              sleep 20
+              continue
+            fi
+
+            status=$(echo "$check" | jq -r '.status')
+            conclusion=$(echo "$check" | jq -r '.conclusion // ""')
+
+            if [[ "$status" == "completed" ]]; then
+              echo "Mintlify deployment completed: $conclusion"
+              echo "conclusion=$conclusion" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            echo "Attempt $i: Mintlify status=$status, waiting 20s..."
+            sleep 20
+          done
+
+          echo "Timed out waiting for Mintlify deployment"
+          echo "conclusion=timed_out" >> "$GITHUB_OUTPUT"
+
       - name: Post or update preview comment
+        if: ${{ steps.mintlify.outputs.conclusion != 'skipped' }}
         env:
           # BAZELBUILD_BAZEL_PAT is required to post comments on bazelbuild/bazel PRs.
           # github.token is used as a fallback for read-only access to this repo.
           GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
-          GITHUB_TOKEN_FALLBACK: ${{ github.token }}
           PREVIEW_URL: https://bazel-${{ matrix.preview_branch }}.mintlify.app/
           PR_NUMBER: ${{ matrix.number }}
           HEAD_SHA: ${{ matrix.head_sha }}
-          BUILD_RESULT: ${{ needs.build-previews.result }}
-          PREVIEW_BRANCH: ${{ matrix.preview_branch }}
+          MINTLIFY_RESULT: ${{ steps.mintlify.outputs.conclusion }}
         run: |
           set -euo pipefail
 
           marker="<!-- bazel-docs-preview -->"
-
-          # If the preview branch doesn't exist in bazel-contrib/bazel-docs,
-          # this PR has no doc-related changes — skip posting a comment.
-          # Use github.token for this read-only check since BAZELBUILD_BAZEL_PAT
-          # is only needed for writing to bazelbuild/bazel.
-          if ! GH_TOKEN="${GITHUB_TOKEN_FALLBACK}" gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --silent 2>/dev/null; then
-            echo "No preview branch for PR #${PR_NUMBER} (no doc changes detected). Skipping comment."
-            exit 0
-          fi
 
           if [[ -z "${GH_TOKEN}" ]]; then
             echo "BAZELBUILD_BAZEL_PAT secret is not configured — skipping comment on upstream PR. Preview URL that would have been posted: ${PREVIEW_URL}"
             exit 0
           fi
 
-          if [[ "${BUILD_RESULT}" == "success" ]]; then
+          if [[ "${MINTLIFY_RESULT}" == "success" ]]; then
             body=$(cat <<EOF
           ${marker}
 
@@ -144,7 +179,7 @@ jobs:
             body=$(cat <<EOF
           ${marker}
 
-          :x: Bazel docs preview build failed.
+          :x: Bazel docs preview deployment failed (Mintlify result: ${MINTLIFY_RESULT}).
 
           Please check the [GitHub Actions logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
 
