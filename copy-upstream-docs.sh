@@ -20,41 +20,6 @@ LOCAL_FILES="
     index.mdx
 "
 
-# Files that are not valid MDX syntax
-# This output pasted from a CI job - we should burn it down to zero
-BROKEN_FILES="
-community/roadmaps-configurability.mdx
-concepts/build-files.mdx
-concepts/dependencies.mdx
-concepts/labels.mdx
-configure/integrate-cpp.mdx
-contribute/docs-style-guide.mdx
-contribute/search.mdx
-docs/cc-toolchain-config-reference.mdx
-docs/user-manual.mdx
-extending/config.mdx
-external/mod-command.mdx
-external/registry.mdx
-external/migration_tool.mdx
-query/language.mdx
-query/quickstart.mdx
-reference/be/functions.mdx
-reference/be/platforms-and-toolchains.mdx
-reference/command-line-reference.mdx
-reference/flag-cheatsheet.mdx
-reference/test-encyclopedia.mdx
-remote/dynamic.mdx
-rules/lib/globals/bzl.mdx
-rules/lib/repo/cache.mdx
-rules/lib/repo/git.mdx
-rules/lib/repo/http.mdx
-rules/lib/repo/local.mdx
-rules/lib/repo/utils.mdx
-rules/lib/globals/module.mdx
-rules/windows.mdx
-run/build.mdx
-"
-
 # Verify that at least one source exists
 if [ ! -d "$UPSTREAM_SITE" ] && [ ! -d "$REFERENCE_DOCS" ]; then
     echo "Error: neither source directory exists: '$UPSTREAM_SITE' or '$REFERENCE_DOCS'"
@@ -83,11 +48,6 @@ transform_docs() {
 
         mkdir -p "$target_dir"
 
-    # Check if this file is in the BROKEN_FILES list
-        if echo "$BROKEN_FILES" | grep -q "^$target_file$"; then
-            echo "Skipping broken file: $target_file"
-            continue
-        fi
 
     # Transform and copy the file
     echo "Transforming and copying $source_file to $DEST_DIR/$target_file"
