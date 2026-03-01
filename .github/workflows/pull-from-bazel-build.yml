@@ -235,25 +235,29 @@ jobs:
           BRANCH="${BRANCH_OVERRIDE:-${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}}"
           DEFAULT_BRANCH="${DEFAULT_BRANCH:-main}"
 
-          # Ensure local branch points at origin/BRANCH and is checked out
-          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
-            git fetch origin "$BRANCH"
-            git switch -C "$BRANCH" "origin/$BRANCH"
-            git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
-
-            # Rebase onto latest remote before creating a new commit
-            git pull
-          else
-            git fetch origin "$DEFAULT_BRANCH"
-            git switch -C "$BRANCH" "origin/$DEFAULT_BRANCH"
-            git branch --set-upstream-to="origin/$DEFAULT_BRANCH" "$BRANCH"
-          fi
-          
           # Clean up any modified content in submodules (keep pointer changes)
           cd upstream
           git reset --hard
           git clean -fd
           cd ..
+
+          if [[ -n "${BRANCH_OVERRIDE}" ]]; then
+            # Preview branch: commit on current HEAD and force-push to target.
+            # Avoids branch-switching conflicts with rsync'd working tree files.
+            git checkout -b "${BRANCH}" 2>/dev/null || git checkout "${BRANCH}"
+          else
+            # Main sync: rebase onto origin/BRANCH before committing to preserve history.
+            if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
+              git fetch origin "$BRANCH"
+              git switch -C "$BRANCH" "origin/$BRANCH"
+              git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+              git pull
+            else
+              git fetch origin "$DEFAULT_BRANCH"
+              git switch -C "$BRANCH" "origin/$DEFAULT_BRANCH"
+              git branch --set-upstream-to="origin/$DEFAULT_BRANCH" "$BRANCH"
+            fi
+          fi
           
           if [[ -n "$(git status --porcelain)" ]]; then
             echo "Changes detected, committing and pushing..."
@@ -267,8 +271,12 @@ jobs:
             fi
             git commit -m "${COMMIT_MSG}"
           
-            # Push back to the same branch
-            git push origin "HEAD:$BRANCH"
+            # Force-push for preview branches (ephemeral); normal push for main sync.
+            if [[ -n "${BRANCH_OVERRIDE}" ]]; then
+              git push origin "HEAD:$BRANCH" --force
+            else
+              git push origin "HEAD:$BRANCH"
+            fi
             echo "Changes committed and pushed successfully"
           else
             echo "No changes detected, skipping commit"
