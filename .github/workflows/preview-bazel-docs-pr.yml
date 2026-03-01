@@ -178,7 +178,12 @@ jobs:
           marker="<!-- bazel-docs-preview -->"
 
           if [[ -z "${GH_TOKEN}" ]]; then
-            echo "BAZELBUILD_BAZEL_PAT secret is not configured — skipping comment on upstream PR. Preview URL that would have been posted: ${PREVIEW_URL}"
+            echo "BAZELBUILD_BAZEL_PAT secret is not configured — skipping comment on upstream PR."
+            echo "Preview URL that would have been posted: ${PREVIEW_URL}"
+            if [[ -n "${PARSE_ERRORS}" ]]; then
+              echo "Parse errors in changed files that would have been reported:"
+              echo "${PARSE_ERRORS}"
+            fi
             exit 0
           fi
 
