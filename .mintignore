@@ -17,7 +17,7 @@ reference/test-encyclopedia.mdx
 
 # Query docs with {{ '<var>' }} template patterns
 query/language.mdx
-query/quickstart.mdx
+# query/quickstart.mdx
 
 # Misc files with unresolvable MDX syntax
 community/roadmaps-configurability.mdx
