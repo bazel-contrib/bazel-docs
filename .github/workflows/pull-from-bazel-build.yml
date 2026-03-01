@@ -199,6 +199,21 @@ jobs:
         if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: ./docs.json.update.sh
 
+      - name: Remove .mintignore entries from docs.json navigation
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
+        run: |
+          while IFS= read -r pattern; do
+            # Skip comments and blank lines
+            [[ "$pattern" =~ ^[[:space:]]*# || -z "${pattern// }" ]] && continue
+            # Expand glob patterns against actual files, strip .mdx for the page ref
+            for file in $pattern; do
+              [[ -f "$file" ]] || continue
+              page="${file%.mdx}"
+              tmp=$(jq --arg p "$page" 'walk(if type == "array" then map(select(. != $p)) else . end)' docs.json)
+              echo "$tmp" > docs.json
+            done
+          done < .mintignore
+
       - name: Configure Git
         if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
