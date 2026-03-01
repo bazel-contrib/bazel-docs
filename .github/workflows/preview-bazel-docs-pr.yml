@@ -29,7 +29,7 @@ jobs:
       - name: Fetch recent PRs
         id: fetch-prs
         env:
-          GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
+          GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT || github.token }}
           PR_NUMBER_OVERRIDE: ${{ inputs.pr_number || '' }}
         run: |
           set -euo pipefail
@@ -95,7 +95,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJson(needs.list-prs.outputs.matrix) }}
+        include: ${{ fromJson(needs.list-prs.outputs.matrix || '[]') }}
     steps:
       - name: Post or update preview comment
         env:
