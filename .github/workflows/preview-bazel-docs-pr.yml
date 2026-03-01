@@ -21,6 +21,7 @@ permissions:
 jobs:
   list-prs:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       matrix: ${{ steps.fetch-prs.outputs.matrix }}
     steps:
@@ -92,6 +93,7 @@ jobs:
     needs: [list-prs, build-previews]
     if: ${{ always() && needs.list-prs.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
@@ -99,7 +101,10 @@ jobs:
     steps:
       - name: Post or update preview comment
         env:
+          # BAZELBUILD_BAZEL_PAT is required to post comments on bazelbuild/bazel PRs.
+          # github.token is used as a fallback for read-only access to this repo.
           GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
+          GITHUB_TOKEN_FALLBACK: ${{ github.token }}
           PREVIEW_URL: https://bazel-${{ matrix.preview_branch }}.mintlify.app/
           PR_NUMBER: ${{ matrix.number }}
           HEAD_SHA: ${{ matrix.head_sha }}
@@ -112,8 +117,15 @@ jobs:
 
           # If the preview branch doesn't exist in bazel-contrib/bazel-docs,
           # this PR has no doc-related changes — skip posting a comment.
-          if ! gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --silent 2>/dev/null; then
+          # Use github.token for this read-only check since BAZELBUILD_BAZEL_PAT
+          # is only needed for writing to bazelbuild/bazel.
+          if ! GH_TOKEN="${GITHUB_TOKEN_FALLBACK}" gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --silent 2>/dev/null; then
             echo "No preview branch for PR #${PR_NUMBER} (no doc changes detected). Skipping comment."
+            exit 0
+          fi
+
+          if [[ -z "${GH_TOKEN}" ]]; then
+            echo "BAZELBUILD_BAZEL_PAT secret is not configured — skipping comment on upstream PR."
             exit 0
           fi
 
