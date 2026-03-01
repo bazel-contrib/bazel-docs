@@ -1,38 +1,287 @@
 name: Preview Bazel docs PRs
 on:
-    # Since PRs to Bazel repo may come from a fork, and those cannot see GHA Secrets,
-    # we fall back to polling the Bazel repo for new PRs.
-    schedule:
-        # Runs rvery 30 minutes
-        - cron: '*/30 * * * *'
-    # Also allow manual triggering in the GH UI.
-    # Press the green button on
-    # https://github.com/bazel-contrib/bazel-docs/actions/workflows/preview-bazel-docs-pr.yml
-    workflow_dispatch:
+  # Since PRs to Bazel repo may come from a fork, and those cannot see GHA Secrets,
+  # we fall back to polling the Bazel repo for new PRs.
+  schedule:
+    # Runs every 30 minutes.
+    - cron: '*/30 * * * *'
+  # Also allow manual triggering in the GH UI.
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Specific bazelbuild/bazel PR number to preview (skips polling, useful for testing)'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-    trigger:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v6
-        
-        - name: Fetch recent PRs
-          id: fetch_prs
-          env:
-            GH_TOKEN: ${{ github.token }}
-          run: |
-            # Calculate timestamp for 20 minutes ago
-            SINCE=$(date -u -d '20 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')
-            
-            # Fetch PRs updated since that time
-            prs=$(gh api \
+  list-prs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.fetch-prs.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Fetch recent PRs
+        id: fetch-prs
+        env:
+          GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT || github.token }}
+          PR_NUMBER_OVERRIDE: ${{ inputs.pr_number || '' }}
+        run: |
+          set -euo pipefail
+
+          if [[ -n "${PR_NUMBER_OVERRIDE}" ]]; then
+            # Manual dispatch with a specific PR number — fetch just that PR
+            pr="$(gh api \
               -H "Accept: application/vnd.github+json" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
-              "/repos/bazelbuild/bazel/pulls?state=open&sort=updated&direction=desc" \
-              --jq "[.[] | select(.updated_at >= \"$SINCE\") | {number: .number, head_sha: .head.sha}]")
-            
-            # Output the PR list
-            echo "pull_requests=$prs" >> $GITHUB_OUTPUT
-            
-        # TODO: run another step for each output.
-        # it just calls the gh command to make a new branch on our repo that points the upstream git submodule to the PR's HEAD commit
-        # and then triggers the run-codegen workflow on that new branch to generate the docs.
+              "/repos/bazelbuild/bazel/pulls/${PR_NUMBER_OVERRIDE}")"
+            matrix="$(echo "$pr" | jq -c '[{
+              number: .number,
+              head_sha: .head.sha,
+              base_sha: .base.sha,
+              head_ref: .head.ref,
+              preview_branch: ("pr-" + (.number|tostring))
+            }]')"
+          else
+            # Scheduled run — poll for PRs updated in the last 45 minutes
+            since="$(date -u -d '45 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')"
+            prs="$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/repos/bazelbuild/bazel/pulls?state=open&sort=updated&direction=desc&per_page=100")"
+            matrix="$(echo "$prs" | jq -c --arg since "$since" '
+              [
+                .[] | select(.updated_at >= $since) |
+                {
+                  number: .number,
+                  head_sha: .head.sha,
+                  base_sha: .base.sha,
+                  head_ref: .head.ref,
+                  preview_branch: ("pr-" + (.number|tostring))
+                }
+              ]
+            ')"
+          fi
+
+          echo "Matrix entries: $(echo "$matrix" | jq -r 'length')"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  build-previews:
+    needs: list-prs
+    if: ${{ needs.list-prs.outputs.matrix != '[]' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.list-prs.outputs.matrix) }}
+    uses: ./.github/workflows/pull-from-bazel-build.yml
+    secrets: inherit
+    with:
+      bazelCommitHash: ${{ matrix.head_sha }}
+      bazelBaseCommitHash: ${{ matrix.base_sha }}
+      bazelPullRequestNumber: ${{ matrix.number }}
+      detect_upstream_docs_changes: true
+      is_internal_pr: true
+      target_branch: ${{ matrix.preview_branch }}
+
+  comment:
+    needs: [list-prs, build-previews]
+    if: ${{ always() && needs.list-prs.outputs.matrix != '[]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.list-prs.outputs.matrix || '[]') }}
+    steps:
+      - name: Wait for Mintlify deployment
+        id: mintlify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREVIEW_BRANCH: ${{ matrix.preview_branch }}
+          PR_NUMBER: ${{ matrix.number }}
+        run: |
+          set -euo pipefail
+
+          # If the preview branch doesn't exist, this PR has no doc changes — skip.
+          if ! gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --silent 2>/dev/null; then
+            echo "No preview branch for PR #${PR_NUMBER} (no doc changes detected). Skipping comment."
+            echo "conclusion=skipped" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          sha=$(gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --jq '.commit.sha')
+          echo "Waiting for Mintlify deployment on ${PREVIEW_BRANCH} @ ${sha}..."
+
+          for i in $(seq 1 30); do
+            check=$(gh api "/repos/${{ github.repository }}/commits/${sha}/check-runs" \
+              --jq '[.check_runs[] | select(.name == "Mintlify Deployment")] | .[0] // empty')
+
+            if [[ -z "$check" ]]; then
+              echo "Attempt $i: Mintlify check not yet registered, waiting 20s..."
+              sleep 20
+              continue
+            fi
+
+            status=$(echo "$check" | jq -r '.status')
+            conclusion=$(echo "$check" | jq -r '.conclusion // ""')
+
+            if [[ "$status" == "completed" ]]; then
+              echo "Mintlify deployment completed: $conclusion"
+              echo "conclusion=$conclusion" >> "$GITHUB_OUTPUT"
+
+              # Extract parse errors only for files changed in the upstream PR
+              all_parse_errors=$(echo "$check" | jq -r '.output.text // ""' | grep "^Failed to parse" || true)
+              changed_docs=$(gh api "/repos/bazelbuild/bazel/pulls/${PR_NUMBER}/files" \
+                --jq '[.[] | .filename | select(startswith("docs/")) | ltrimstr("docs/")] | .[]' 2>/dev/null || true)
+              relevant_errors=""
+              while IFS= read -r file; do
+                [[ -z "$file" ]] && continue
+                match=$(echo "$all_parse_errors" | grep "path ${file}:" || true)
+                [[ -n "$match" ]] && relevant_errors="${relevant_errors}${match}"$'\n'
+              done <<< "$changed_docs"
+              {
+                echo "parse_errors<<PARSE_EOF"
+                printf '%s' "$relevant_errors"
+                echo "PARSE_EOF"
+              } >> "$GITHUB_OUTPUT"
+
+              exit 0
+            fi
+
+            echo "Attempt $i: Mintlify status=$status, waiting 20s..."
+            sleep 20
+          done
+
+          echo "Timed out waiting for Mintlify deployment"
+          echo "conclusion=timed_out" >> "$GITHUB_OUTPUT"
+
+      - name: Post or update preview comment
+        if: ${{ steps.mintlify.outputs.conclusion != 'skipped' }}
+        env:
+          # BAZELBUILD_BAZEL_PAT is required to post comments on bazelbuild/bazel PRs.
+          # github.token is used as a fallback for read-only access to this repo.
+          GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
+          PREVIEW_URL: https://bazel-${{ matrix.preview_branch }}.mintlify.app/
+          PR_NUMBER: ${{ matrix.number }}
+          HEAD_SHA: ${{ matrix.head_sha }}
+          MINTLIFY_RESULT: ${{ steps.mintlify.outputs.conclusion }}
+          PARSE_ERRORS: ${{ steps.mintlify.outputs.parse_errors }}
+        run: |
+          set -euo pipefail
+
+          marker="<!-- bazel-docs-preview -->"
+
+          if [[ -z "${GH_TOKEN}" ]]; then
+            echo "BAZELBUILD_BAZEL_PAT secret is not configured — skipping comment on upstream PR."
+            echo "Preview URL that would have been posted: ${PREVIEW_URL}"
+            if [[ -n "${PARSE_ERRORS}" ]]; then
+              echo "Parse errors in changed files that would have been reported:"
+              echo "${PARSE_ERRORS}"
+            fi
+            exit 0
+          fi
+
+          # Build optional parse-error section
+          if [[ -n "${PARSE_ERRORS}" ]]; then
+            parse_section=$(cat <<EOF
+
+          <details>
+          <summary>⚠️ Some changed doc pages have MDX parse errors and will not render</summary>
+
+          \`\`\`
+          ${PARSE_ERRORS}
+          \`\`\`
+
+          </details>
+          EOF
+          )
+          else
+            parse_section=""
+          fi
+
+          if [[ "${MINTLIFY_RESULT}" == "success" ]]; then
+            body=$(cat <<EOF
+          ${marker}
+
+          :white_check_mark: Bazel docs preview is ready!
+
+          **Preview URL:** ${PREVIEW_URL}
+          ${parse_section}
+          *Updated for \`${HEAD_SHA}\`*
+          EOF
+          )
+          else
+            body=$(cat <<EOF
+          ${marker}
+
+          :x: Bazel docs preview deployment failed (Mintlify result: ${MINTLIFY_RESULT}).
+
+          Please check the [GitHub Actions logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+          ${parse_section}
+          *Updated for \`${HEAD_SHA}\`*
+          EOF
+          )
+          fi
+
+          existing_id="$(gh api "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" \
+            --jq "map(select(.body | contains(\"${marker}\")))[0].id // empty")"
+
+          if [[ -n "${existing_id}" ]]; then
+            gh api -X PATCH "/repos/bazelbuild/bazel/issues/comments/${existing_id}" -f body="${body}"
+          else
+            gh api -X POST "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" -f body="${body}"
+          fi
+
+  cleanup:
+    needs: [list-prs, build-previews, comment]
+    # Only run on scheduled cron — not on manual workflow_dispatch triggers.
+    # Runs after build-previews and comment so it never races with an in-progress preview build.
+    if: ${{ always() && github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Close draft PRs and delete branches for merged/closed upstream PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BAZELBUILD_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT || github.token }}
+        run: |
+          set -euo pipefail
+
+          # List all pr-* branches in this repo
+          branches=$(gh api "repos/${{ github.repository }}/branches?per_page=100" --paginate \
+            --jq '[.[].name | select(startswith("pr-"))]')
+
+          echo "Found $(echo "$branches" | jq -r 'length') preview branch(es)"
+
+          for pr_number in $(echo "$branches" | jq -r '.[] | ltrimstr("pr-")'); do
+            branch="pr-${pr_number}"
+
+            # Check if the upstream bazelbuild/bazel PR is still open
+            state=$(GH_TOKEN="${BAZELBUILD_TOKEN}" gh api "repos/bazelbuild/bazel/pulls/${pr_number}" \
+              --jq '.state' 2>/dev/null || echo "not_found")
+
+            if [[ "$state" == "open" ]]; then
+              continue
+            fi
+
+            echo "Upstream PR #${pr_number} is '${state}'. Cleaning up ${branch}..."
+
+            # Close the draft PR in this repo if one exists
+            pr_id=$(gh pr list --repo "${{ github.repository }}" --head "${branch}" \
+              --json number --jq '.[0].number // empty')
+            if [[ -n "${pr_id}" ]]; then
+              gh pr close "${pr_id}" --repo "${{ github.repository }}"
+              echo "Closed draft PR #${pr_id}"
+            fi
+
+            # Delete the preview branch
+            gh api -X DELETE "repos/${{ github.repository }}/git/refs/heads/${branch}" 2>/dev/null \
+              && echo "Deleted branch ${branch}" \
+              || echo "Branch ${branch} already deleted or not found"
+          done
