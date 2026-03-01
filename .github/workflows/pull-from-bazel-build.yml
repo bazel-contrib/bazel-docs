@@ -200,6 +200,7 @@ jobs:
         run: ./docs.json.update.sh
 
       - name: Remove .mintignore entries from docs.json navigation
+        # TODO: versioned nav entries (e.g. 8.4.2/query/language) are not cleaned up here
         if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: |
           while IFS= read -r pattern; do
