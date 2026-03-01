@@ -185,15 +185,10 @@ jobs:
             -zip upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip \
             -output reference-docs-temp
 
-          # Transform .md → .mdx with MDX fixups, skipping known-broken files
-          # (broken-mdx-files.txt is the single source of truth for the skip list)
+          # Transform .md → .mdx with MDX fixups (no skip list — testing .mintignore)
           find reference-docs-temp -name "*.md" -type f | while read -r source_file; do
             relative_path="${source_file#reference-docs-temp/}"
             target_file="${relative_path%.md}.mdx"
-            if grep -qF "$target_file" broken-mdx-files.txt; then
-              echo "Skipping broken file: $target_file"
-              continue
-            fi
             mkdir -p "$(dirname "$target_file")"
             awk -f transform-docs.awk "$source_file" > "$target_file"
           done
