@@ -159,8 +159,10 @@ jobs:
       - name: Sync pre-converted MDX docs from upstream
         if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
         run: |
-          # Copy all MDX files from the upstream docs directory to the root
-          rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
+          # Copy all MDX files from the upstream docs directory to the root.
+          # TODO: remove --exclude='versions/' once versioned docs are properly integrated.
+          # See https://github.com/bazel-contrib/bazel-docs/issues/228
+          rsync -av --exclude='versions/' --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
           
       - name: Setup Go for reference doc conversion
         if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
