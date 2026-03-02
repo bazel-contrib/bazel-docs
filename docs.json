@@ -74,7 +74,6 @@
                     "group": "Concepts",
                     "pages": [
                       "concepts/build-ref",
-                      "concepts/visibility",
                       "concepts/platforms",
                       "concepts/hermeticity"
                     ]
@@ -148,9 +147,7 @@
                   {
                     "group": "Migrate",
                     "pages": [
-                      "migrate",
-                      "migrate/maven",
-                      "migrate/xcode"
+                      "migrate"
                     ]
                   }
                 ]
@@ -164,15 +161,12 @@
                       "reference/be/overview",
                       "reference/be/common-definitions",
                       "reference/be/make-variables",
-                      "reference/be/functions",
                       "reference/be/platforms-and-toolchains"
                     ]
                   },
                   {
                     "group": "Command line reference",
-                    "pages": [
-                      "reference/command-line-reference"
-                    ]
+                    "pages": []
                   },
                   {
                     "group": "Query Language",
@@ -180,9 +174,7 @@
                   },
                   {
                     "group": "Glossary",
-                    "pages": [
-                      "reference/glossary"
-                    ]
+                    "pages": []
                   },
                   {
                     "group": "Flag cheatsheet",
@@ -224,21 +216,12 @@
                     "group": "APIs",
                     "pages": [
                       "rules/lib/overview",
-                      "rules/lib/globals",
-                      "rules/lib/globals/bzl",
-                      "rules/lib/globals/module"
+                      "rules/lib/globals"
                     ]
                   },
                   {
                     "group": "Repo rules",
-                    "pages": [
-                      "rules/lib/repo/index",
-                      "rules/lib/repo/cache",
-                      "rules/lib/repo/git",
-                      "rules/lib/repo/http",
-                      "rules/lib/repo/local",
-                      "rules/lib/repo/utils"
-                    ]
+                    "pages": []
                   }
                 ]
               },
@@ -266,7 +249,6 @@
                       "community/sig",
                       "community/experts",
                       "community/partners",
-                      "community/users",
                       "community/recommended-rules",
                       "community/remote-execution-services"
                     ]
