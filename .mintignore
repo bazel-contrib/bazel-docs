@@ -51,11 +51,7 @@ query/quickstart.mdx
 # "Could not parse expression with acorn" — bare {..} in prose
 community/roadmaps-configurability.mdx
 community/users.mdx
-concepts/build-files.mdx
-concepts/dependencies.mdx
-concepts/labels.mdx
 concepts/visibility.mdx
-contribute/docs-style-guide.mdx
 contribute/search.mdx
 docs/cc-toolchain-config-reference.mdx
 docs/user-manual.mdx
