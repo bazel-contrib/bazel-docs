@@ -172,9 +172,7 @@
                   },
                   {
                     "group": "Query Language",
-                    "pages": [
-                      "query/quickstart"
-                    ]
+                    "pages": []
                   },
                   {
                     "group": "Glossary",
