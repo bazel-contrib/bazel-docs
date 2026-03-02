@@ -17,6 +17,8 @@ reference/test-encyclopedia.mdx
 
 # Query docs with {{ '<var>' }} template patterns
 query/language.mdx
+# Multi-line <p> inside <Accordion> causes: "Expected closing tag for `<p>` before end of paragraph"
+query/quickstart.mdx
 
 # Misc files with unresolvable MDX syntax
 community/roadmaps-configurability.mdx
