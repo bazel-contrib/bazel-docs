@@ -16,6 +16,15 @@
 reference/flag-cheatsheet.mdx
 # test-encyclopedia: Devsite heading anchors {:#anchor} not valid MDX
 reference/test-encyclopedia.mdx
+# protocol-buffer: <https://...> autolinks not valid MDX
+reference/be/protocol-buffer.mdx
+
+# docs2mdx.py output with remaining MDX issues
+rules/lib/builtins/BuildSetting.mdx
+rules/lib/builtins/CompilationContext.mdx
+rules/lib/builtins/ctx.mdx
+rules/lib/providers/DebugPackageInfo.mdx
+rules/lib/toplevel/cc_common.mdx
 
 # Query docs with {{ '<var>' }} template patterns
 query/language.mdx
