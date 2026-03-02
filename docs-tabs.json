@@ -164,7 +164,8 @@
       {
         "group": "Query Language",
         "pages": [
-          "query/language"
+          "query/language",
+          "query/quickstart"
         ]
       },
       {
