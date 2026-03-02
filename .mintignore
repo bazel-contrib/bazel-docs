@@ -1,39 +1,69 @@
 # Files with MDX syntax that Mintlify cannot parse.
 # See https://github.com/bazel-contrib/bazel-docs/issues/226
 
-# The following were broken under the old HTML→Go→awk pipeline but should now be
-# fixed thanks to gen_mdx_reference_docs (docs2mdx.py) producing clean MDX directly.
-# Commented out to re-enable them in the nav.
-# rules/lib/repo/*.mdx
-# rules/lib/globals/bzl.mdx
-# rules/lib/globals/module.mdx
-# reference/be/functions.mdx
-# reference/be/platforms-and-toolchains.mdx
-# reference/command-line-reference.mdx
-
-# Reference docs with complex HTML or template syntax
-# flag-cheatsheet: raw <html devsite> wrapper, not converted to MDX
+# Reference docs — docs2mdx.py output with remaining MDX issues
+# "Could not parse expression with acorn" — bare {..} dict literals in prose
+reference/be/functions.mdx
+reference/command-line-reference.mdx
+# "<https://...> autolinks" — not valid MDX (use [text](url) instead)
+reference/be/protocol-buffer.mdx
+# Raw <html devsite> wrapper, not converted to MDX
 reference/flag-cheatsheet.mdx
-# test-encyclopedia: Devsite heading anchors {:#anchor} not valid MDX
+# "Unexpected character `!` before name" — HTML comments <!-- --> not valid MDX
+reference/glossary.mdx
+# Devsite heading anchors {:#anchor} not valid MDX
 reference/test-encyclopedia.mdx
 
-# Query docs with {{ '<var>' }} template patterns
+# Starlark API docs — docs2mdx.py output with remaining MDX issues
+# "Unexpected character `)` before attribute value" — malformed JSX in prose
+rules/lib/globals/bzl.mdx
+# "Unexpected character `=` before name" — malformed JSX in prose
+rules/lib/globals/module.mdx
+# "Unexpected character `!` before name" (mdx) / "Could not parse expression with acorn" (md)
+rules/lib/repo/*
+# "Could not parse expression with acorn" — bare {..} in prose
+rules/lib/builtins/BuildSetting.mdx
+# "Unexpected character `b` after self-closing slash"
+rules/lib/builtins/CompilationContext.mdx
+# "Unexpected character `)` before attribute value"
+rules/lib/builtins/ctx.mdx
+# "{@url ...}" Javadoc-style annotation not valid MDX
+rules/lib/providers/DebugPackageInfo.mdx
+# "Unexpected character `b` after self-closing slash"
+rules/lib/toplevel/cc_common.mdx
+
+# Query docs
+# "{{ '<var>' }}" template patterns
 query/language.mdx
-# Multi-line <p> inside <Accordion> causes: "Expected closing tag for `<p>` before end of paragraph"
+# Multi-line <p> inside <Accordion>; upstream fix: bazelbuild/bazel#28848
 query/quickstart.mdx
 
-# Misc files with unresolvable MDX syntax
+# Upstream docs (from upstream/docs/ rsync) with MDX issues
+# "Could not parse expression with acorn" — bare {..} in prose
 community/roadmaps-configurability.mdx
+community/users.mdx
 concepts/build-files.mdx
 concepts/dependencies.mdx
 concepts/labels.mdx
+concepts/visibility.mdx
 contribute/docs-style-guide.mdx
 contribute/search.mdx
 docs/cc-toolchain-config-reference.mdx
 docs/user-manual.mdx
 extending/config.mdx
+extending/platforms.mdx
+external/advanced.mdx
 external/mod-command.mdx
 external/migration_tool.mdx
 external/registry.mdx
+migrate/maven.mdx
+migrate/xcode.mdx
 remote/dynamic.mdx
 run/build.mdx
+
+# Versioned copies with the same issues (versioned nav cleanup is a known TODO)
+# "Could not parse expression with acorn"
+*/community/roadmaps-build-api.mdx
+*/external/advanced.mdx
+# "Unexpected closing slash in tag"
+*/query/cquery.mdx
