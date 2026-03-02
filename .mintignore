@@ -13,6 +13,15 @@ reference/flag-cheatsheet.mdx
 reference/glossary.mdx
 # Devsite heading anchors {:#anchor} not valid MDX
 reference/test-encyclopedia.mdx
+# protocol-buffer: <https://...> autolinks not valid MDX
+reference/be/protocol-buffer.mdx
+
+# docs2mdx.py output with remaining MDX issues
+rules/lib/builtins/BuildSetting.mdx
+rules/lib/builtins/CompilationContext.mdx
+rules/lib/builtins/ctx.mdx
+rules/lib/providers/DebugPackageInfo.mdx
+rules/lib/toplevel/cc_common.mdx
 
 # Starlark API docs — docs2mdx.py output with remaining MDX issues
 # "Unexpected character `)` before attribute value" — malformed JSX in prose
