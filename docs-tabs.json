@@ -152,7 +152,8 @@
           "reference/be/overview",
           "reference/be/common-definitions",
           "reference/be/make-variables",
-          "reference/be/functions"
+          "reference/be/functions",
+          "reference/be/platforms-and-toolchains"
         ]
       },
       {
@@ -216,7 +217,20 @@
         "group": "APIs",
         "pages": [
           "rules/lib/overview",
-          "rules/lib/globals"
+          "rules/lib/globals",
+          "rules/lib/globals/bzl",
+          "rules/lib/globals/module"
+        ]
+      },
+      {
+        "group": "Repo rules",
+        "pages": [
+          "rules/lib/repo/index",
+          "rules/lib/repo/cache",
+          "rules/lib/repo/git",
+          "rules/lib/repo/http",
+          "rules/lib/repo/local",
+          "rules/lib/repo/utils"
         ]
       }
     ]

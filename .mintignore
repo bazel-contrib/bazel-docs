@@ -1,18 +1,20 @@
 # Files with MDX syntax that Mintlify cannot parse.
 # See https://github.com/bazel-contrib/bazel-docs/issues/226
 
-# All repo rule docs — generated from HTML with complex table structures
-rules/lib/repo/*.mdx
-
-# Specific globals files with unresolvable MDX syntax
-rules/lib/globals/bzl.mdx
-rules/lib/globals/module.mdx
+# The following were broken under the old HTML→Go→awk pipeline but should now be
+# fixed thanks to gen_mdx_reference_docs (docs2mdx.py) producing clean MDX directly.
+# Commented out to re-enable them in the nav.
+# rules/lib/repo/*.mdx
+# rules/lib/globals/bzl.mdx
+# rules/lib/globals/module.mdx
+# reference/be/functions.mdx
+# reference/be/platforms-and-toolchains.mdx
+# reference/command-line-reference.mdx
 
 # Reference docs with complex HTML or template syntax
-reference/be/functions.mdx
-reference/be/platforms-and-toolchains.mdx
-reference/command-line-reference.mdx
+# flag-cheatsheet: raw <html devsite> wrapper, not converted to MDX
 reference/flag-cheatsheet.mdx
+# test-encyclopedia: Devsite heading anchors {:#anchor} not valid MDX
 reference/test-encyclopedia.mdx
 
 # Query docs with {{ '<var>' }} template patterns
