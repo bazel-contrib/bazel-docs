@@ -21,11 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: Check if upstream submodule pointer changed
         id: check
         run: |
-          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q '^upstream$'; then
+          if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -q '^upstream$'; then
             echo "upstream_changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "upstream_changed=false" >> "$GITHUB_OUTPUT"
