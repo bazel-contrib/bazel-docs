@@ -12,7 +12,7 @@ https://preview.bazel.build
 2. On every push to `bazelbuild/bazel`'s main branch, a `repository_dispatch` event triggers this repo to sync the latest docs.
 3. The sync workflow (`pull-from-bazel-build.yml`):
    - Copies pre-converted MDX files from `upstream/docs/` directly into this repo.
-   - Builds reference documentation (Starlark/Java API docs) via `bazel build`, converts the HTML output to MDX using `html2md_converter` + `transform-docs.awk`, and commits the result.
+   - Builds reference documentation (Starlark/Java API docs) via `bazel build //...gen_mdx_reference_docs`, which produces clean MDX directly via `docs2mdx.py`, and commits the result.
    - Commits the result and pushes to the appropriate branch.
 4. Mintlify picks up the changes and deploys the updated docs site.
    - Files listed in `.mintignore` are excluded from Mintlify rendering. These are files with MDX syntax that cannot yet be auto-fixed (see [#226](https://github.com/bazel-contrib/bazel-docs/issues/226)).

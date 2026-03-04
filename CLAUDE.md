@@ -11,8 +11,7 @@ Pipeline that syncs pre-converted MDX docs from `bazelbuild/bazel` and deploys t
 - **MDX** — doc format, sourced directly from `upstream/docs/`
 - **Mintlify** — renders and hosts the docs; each branch deploys to `https://bazel-<branch>.mintlify.app`
 - **Git submodule** (`upstream/`) — tracks `bazelbuild/bazel`
-- **Go** (`html2md_converter/`) — converts HTML reference docs from `reference-docs.zip` to intermediate `.md`
-- **AWK** (`transform-docs.awk`) — post-processes `.md` → valid MDX (strips Devsite tags, fixes JSX syntax)
+- **Python** (`docs2mdx.py` in `bazelbuild/bazel`) — converts Starlark/Java API docs to MDX via `gen_mdx_reference_docs` Bazel target
 
 ## Key files
 
@@ -23,8 +22,7 @@ Pipeline that syncs pre-converted MDX docs from `bazelbuild/bazel` and deploys t
 | `.github/workflows/trigger-from-bazel-repo.yml` | Syncs on upstream main-branch push |
 | `.github/workflows/generate-docs.yml` | Syncs on PRs to this repo |
 | `docs.json.update.sh` | Regenerates versioned Mintlify nav (`docs.json`) |
-| `html2md_converter/main.go` | Go tool: HTML zip → `.md` files |
-| `transform-docs.awk` | AWK: `.md` → MDX-safe `.mdx` (fixes Devsite/JSX issues) |
+| `docs-versions.update.sh` | Updates `docs-versions.json` with available Bazel release versions |
 | `.mintignore` | Files excluded from Mintlify rendering (broken MDX syntax) |
 
 ## Sync pipeline (pull-from-bazel-build.yml)
@@ -32,12 +30,16 @@ Pipeline that syncs pre-converted MDX docs from `bazelbuild/bazel` and deploys t
 1. Checkout repo + `upstream` submodule
 2. Optionally checkout specific Bazel commit
 3. Detect upstream doc changes (if `detect_upstream_docs_changes` is set)
-4. `bazel build //src/main/java/com/google/devtools/build/lib:gen_reference_docs` → `reference-docs.zip`
+4. `bazel build //src/main/java/com/google/devtools/build/lib:gen_mdx_reference_docs` → `mdx-reference-docs.zip`
 5. `rsync upstream/docs/ .` — copies pre-converted MDX files
-6. Go converter + awk: `reference-docs.zip` → `.mdx` reference docs
+6. Unzip `mdx-reference-docs.zip` — extracts Starlark/Java API reference docs as MDX
 7. `docs.json.update.sh` — regenerates nav
 8. Strip `.mintignore` entries from `docs.json` navigation
 9. Commit + push with `[skip ci]` to prevent re-trigger loop
+
+## generate-docs.yml (PRs to this repo)
+
+Only runs the sync pipeline when the PR bumps the `upstream` submodule pointer (e.g. Dependabot). PRs that only touch pipeline files (workflows, `.mintignore`, etc.) skip the sync to keep the PR diff clean.
 
 ## Broken MDX files
 
