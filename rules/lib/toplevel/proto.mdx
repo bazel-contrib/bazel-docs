@@ -2,13 +2,11 @@
 title: 'proto'
 ---
 
-
-
 A module for protocol message processing.
 
 ## Members
 
-- [encode\_text](#encode_text)
+* [encode\_text](#encode_text)
 
 ## encode\_text
 
@@ -16,7 +14,7 @@ A module for protocol message processing.
 string proto.encode_text(x)
 ```
 
- Returns the struct argument's encoding as a text-format protocol message.
+Returns the struct argument's encoding as a text-format protocol message.
 The data structure must be recursively composed of strings, ints, floats, or bools, or structs, sequences, and dicts of these types.
 
 A struct is converted to a message. Fields are emitted in name order.
@@ -74,11 +72,10 @@ proto.encode_text(struct(foo={4: 3, 2: 1}))
 #   key: 2
 #   value: 1
 # }
-
 ```
 
 ### Parameters
 
-ParameterDescription`x`
- structure; or StarlarkEncodable;
- required
+| Parameter | Description |
+| --- | --- |
+| `x` | structure; or StarlarkEncodable; required |
