@@ -2,11 +2,13 @@
 title: 'Shell Rules'
 ---
 
+
+
 ## Rules
 
-* [sh\_binary](#sh_binary)
-* [sh\_library](#sh_library)
-* [sh\_test](#sh_test)
+- [sh\_binary](#sh_binary)
+- [sh\_library](#sh_library)
+- [sh\_test](#sh_test)
 
 ## sh\_binary
 
@@ -17,7 +19,7 @@ sh_binary(name, deps, srcs, data, args, aspect_hints, compatible_with, deprecati
 ```
 
 The `sh_binary` rule is used to declare executable shell scripts.
-(`sh_binary` is a misnomer: its outputs aren't necessarily binaries.) This rule ensures
+( `sh_binary` is a misnomer: its outputs aren't necessarily binaries.) This rule ensures
 that all dependencies are built, and appear in the `runfiles` area at execution time.
 We recommend that you name your `sh_binary()` rules after the name of the script minus
 the extension (e.g. `.sh`); the rule name and the file name must be distinct.
@@ -34,17 +36,51 @@ sh_binary(
     srcs = ["foo.sh"],
     data = glob(["datafiles/*.txt"]),
 )
+
 ```
 
 ### Arguments
 
-| Attributes | |
-| --- | --- |
-| `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
-| `deps` | List of [labels](/concepts/labels); default is `[]` The list of "library" targets to be aggregated into this target. See general comments about `deps` at [Typical attributes defined by most build rules](/reference/be/common-definitions#typical.deps). This attribute should be used to list other `sh_library` rules that provide interpreted program source code depended on by the code in `srcs`. The files provided by these rules will be present among the `runfiles` of this target. |
-| `srcs` | List of [labels](/concepts/labels); default is `[]` The file containing the shell script. This attribute must be a singleton list, whose element is the shell script. This script must be executable, and may be a source file or a generated file. All other files required at runtime (whether scripts or data) belong in the `data` attribute. |
-| `env_inherit` | List of strings; default is `[]` |
-| `use_bash_launcher` | Boolean; default is `False` Use a bash launcher initializing the runfiles library |
+Attributes`name`
+
+[Name](/concepts/labels#target-names); required
+
+A unique name for this target.
+
+`deps`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ The list of "library" targets to be aggregated into this target.
+See general comments about `deps`
+at [Typical attributes defined by\
+most build rules](/reference/be/common-definitions#typical.deps).
+
+This attribute should be used to list other `sh_library` rules that provide
+interpreted program source code depended on by the code in `srcs`. The files
+provided by these rules will be present among the `runfiles` of this target.
+
+`srcs`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ The file containing the shell script.
+
+This attribute must be a singleton list, whose element is the shell script.
+This script must be executable, and may be a source file or a generated file.
+All other files required at runtime (whether scripts or data) belong in the
+`data` attribute.
+
+`env_inherit`
+
+List of strings; default is `[]`
+
+`use_bash_launcher`
+
+Boolean; default is `False`
+
+ Use a bash launcher initializing the runfiles library
+
 
 ## sh\_library
 
@@ -62,7 +98,7 @@ run-time. Such "libraries" can then be used from
 the `data` attribute of one or
 more `sh_binary` rules.
 
-You can use the [`filegroup`](/reference/be/general#filegroup) rule to aggregate data
+You can use the [`filegroup`](/reference/be/general.html#filegroup) rule to aggregate data
 files.
 
 In interpreted programming languages, there's not always a clear
@@ -84,15 +120,39 @@ sh_library(
         ":deploy_foo",  # another sh_binary with srcs
     ],
 )
+
 ```
 
 ### Arguments
 
-| Attributes | |
-| --- | --- |
-| `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
-| `deps` | List of [labels](/concepts/labels); default is `[]` The list of "library" targets to be aggregated into this target. See general comments about `deps` at [Typical attributes defined by most build rules](/reference/be/common-definitions#typical.deps). This attribute should be used to list other `sh_library` rules that provide interpreted program source code depended on by the code in `srcs`. The files provided by these rules will be present among the `runfiles` of this target. |
-| `srcs` | List of [labels](/concepts/labels); default is `[]` The list of input files. This attribute should be used to list shell script source files that belong to this library. Scripts can load other scripts using the shell's `source` or `.` command. |
+Attributes`name`
+
+[Name](/concepts/labels#target-names); required
+
+A unique name for this target.
+
+`deps`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ The list of "library" targets to be aggregated into this target.
+See general comments about `deps`
+at [Typical attributes defined by\
+most build rules](/reference/be/common-definitions#typical.deps).
+
+This attribute should be used to list other `sh_library` rules that provide
+interpreted program source code depended on by the code in `srcs`. The files
+provided by these rules will be present among the `runfiles` of this target.
+
+`srcs`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ The list of input files.
+
+This attribute should be used to list shell script source files that belong to
+this library. Scripts can load other scripts using the shell's `source`
+or `.` command.
 
 ## sh\_test
 
@@ -116,13 +176,43 @@ sh_test(
     deps = [":foo_sh_lib"],
     data = glob(["testdata/*.txt"]),
 )
+
 ```
 
 ### Arguments
 
-| Attributes | |
-| --- | --- |
-| `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
-| `deps` | List of [labels](/concepts/labels); default is `[]` The list of "library" targets to be aggregated into this target. See general comments about `deps` at [Typical attributes defined by most build rules](/reference/be/common-definitions#typical.deps). This attribute should be used to list other `sh_library` rules that provide interpreted program source code depended on by the code in `srcs`. The files provided by these rules will be present among the `runfiles` of this target. |
-| `srcs` | List of [labels](/concepts/labels); default is `[]` The file containing the shell script. This attribute must be a singleton list, whose element is the shell script. This script must be executable, and may be a source file or a generated file. All other files required at runtime (whether scripts or data) belong in the `data` attribute. |
-| `use_bash_launcher` | Boolean; default is `False` Use a bash launcher initializing the runfiles library |
+Attributes`name`
+
+[Name](/concepts/labels#target-names); required
+
+A unique name for this target.
+
+`deps`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ The list of "library" targets to be aggregated into this target.
+See general comments about `deps`
+at [Typical attributes defined by\
+most build rules](/reference/be/common-definitions#typical.deps).
+
+This attribute should be used to list other `sh_library` rules that provide
+interpreted program source code depended on by the code in `srcs`. The files
+provided by these rules will be present among the `runfiles` of this target.
+
+`srcs`
+
+List of [labels](/concepts/labels); default is `[]`
+
+ The file containing the shell script.
+
+This attribute must be a singleton list, whose element is the shell script.
+This script must be executable, and may be a source file or a generated file.
+All other files required at runtime (whether scripts or data) belong in the
+`data` attribute.
+
+`use_bash_launcher`
+
+Boolean; default is `False`
+
+ Use a bash launcher initializing the runfiles library

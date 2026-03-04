@@ -2,11 +2,13 @@
 title: 'coverage'
 ---
 
+
+
 A configuration fragment representing the coverage configuration.
 
 ## Members
 
-* [output\_generator](#output_generator)
+- [output\_generator](#output_generator)
 
 ## output\_generator
 
@@ -14,7 +16,7 @@ A configuration fragment representing the coverage configuration.
 Label coverage.output_generator
 ```
 
-Returns the label pointed to by the [`--coverage_output_generator`](https://bazel.build/reference/command-line-reference#flag--coverage_output_generator) option if coverage collection is enabled, otherwise returns `None`. Can be accessed with [`configuration_field`](../globals/bzl#configuration_field):
+ Returns the label pointed to by the [`--coverage_output_generator`](https://bazel.build/reference/command-line-reference#flag--coverage_output_generator) option if coverage collection is enabled, otherwise returns `None`. Can be accessed with [`configuration_field`](../globals/bzl.html#configuration_field):
 
 ```
 attr.label(
@@ -25,4 +27,4 @@ attr.label(
 )
 ```
 
-May return `None`.
+ May return `None`.
