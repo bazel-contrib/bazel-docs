@@ -2,8 +2,6 @@
 title: 'string'
 ---
 
-
-
 A language built-in type to support strings. Examples of string literals:
 
 ```
@@ -18,7 +16,6 @@ z = "hello"[:4]  # "hell"
 # Slice steps can be used, too:
 s = "hello"[::2] # "hlo"
 t = "hello"[3:0:-1] # "lle"
-
 ```
 
 Strings are not directly iterable, use the `.elems()` method to iterate over their characters. Examples:
@@ -32,38 +29,38 @@ Implicit concatenation of strings is not allowed; use the `+` operator instead. 
 
 ## Members
 
-- [capitalize](#capitalize)
-- [count](#count)
-- [elems](#elems)
-- [endswith](#endswith)
-- [find](#find)
-- [format](#format)
-- [index](#index)
-- [isalnum](#isalnum)
-- [isalpha](#isalpha)
-- [isdigit](#isdigit)
-- [islower](#islower)
-- [isspace](#isspace)
-- [istitle](#istitle)
-- [isupper](#isupper)
-- [join](#join)
-- [lower](#lower)
-- [lstrip](#lstrip)
-- [partition](#partition)
-- [removeprefix](#removeprefix)
-- [removesuffix](#removesuffix)
-- [replace](#replace)
-- [rfind](#rfind)
-- [rindex](#rindex)
-- [rpartition](#rpartition)
-- [rsplit](#rsplit)
-- [rstrip](#rstrip)
-- [split](#split)
-- [splitlines](#splitlines)
-- [startswith](#startswith)
-- [strip](#strip)
-- [title](#title)
-- [upper](#upper)
+* [capitalize](#capitalize)
+* [count](#count)
+* [elems](#elems)
+* [endswith](#endswith)
+* [find](#find)
+* [format](#format)
+* [index](#index)
+* [isalnum](#isalnum)
+* [isalpha](#isalpha)
+* [isdigit](#isdigit)
+* [islower](#islower)
+* [isspace](#isspace)
+* [istitle](#istitle)
+* [isupper](#isupper)
+* [join](#join)
+* [lower](#lower)
+* [lstrip](#lstrip)
+* [partition](#partition)
+* [removeprefix](#removeprefix)
+* [removesuffix](#removesuffix)
+* [replace](#replace)
+* [rfind](#rfind)
+* [rindex](#rindex)
+* [rpartition](#rpartition)
+* [rsplit](#rsplit)
+* [rstrip](#rstrip)
+* [split](#split)
+* [splitlines](#splitlines)
+* [startswith](#startswith)
+* [strip](#strip)
+* [title](#title)
+* [upper](#upper)
 
 ## capitalize
 
@@ -71,9 +68,7 @@ Implicit concatenation of strings is not allowed; use the `+` operator instead. 
 string string.capitalize()
 ```
 
- Returns a copy of the string with its first character (if any) capitalized and the rest lowercased. This method does not support non-ascii characters.
-
-
+Returns a copy of the string with its first character (if any) capitalized and the rest lowercased. This method does not support non-ascii characters.
 
 ## count
 
@@ -81,24 +76,15 @@ string string.capitalize()
 int string.count(sub, start=0, end=None)
 ```
 
- Returns the number of (non-overlapping) occurrences of substring `sub` in string, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
-
+Returns the number of (non-overlapping) occurrences of substring `sub` in string, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
 
 ### Parameters
 
-ParameterDescription`sub`[string](../core/string.html);
- required
-
- The substring to count.
- `start`[int](../core/int.html); or `None`;
- default is `0`
-
- Restrict to search from this position.
- `end`[int](../core/int.html); or `None`;
- default is `None`
-
- optional position before which to restrict to search.
-
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string); required |
+| `start` | [int](../core/int); or `None`; default is `0` |
+| `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## elems
 
@@ -106,9 +92,7 @@ ParameterDescription`sub`[string](../core/string.html);
 sequence string.elems()
 ```
 
- Returns an iterable value containing successive 1-element substrings of the string. Equivalent to `[s[i] for i in range(len(s))]`, except that the returned value might not be a list.
-
-
+Returns an iterable value containing successive 1-element substrings of the string. Equivalent to `[s[i] for i in range(len(s))]`, except that the returned value might not be a list.
 
 ## endswith
 
@@ -116,24 +100,15 @@ sequence string.elems()
 bool string.endswith(sub, start=0, end=None)
 ```
 
- Returns True if the string ends with `sub`, otherwise False, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
-
+Returns True if the string ends with `sub`, otherwise False, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
 
 ### Parameters
 
-ParameterDescription`sub`[string](../core/string.html); or [tuple](../core/tuple.html) of [string](../core/string.html) s;
- required
-
- The suffix (or tuple of alternative suffixes) to match.
- `start`[int](../core/int.html); or `None`;
- default is `0`
-
- Test beginning at this position.
- `end`[int](../core/int.html); or `None`;
- default is `None`
-
- optional position at which to stop comparing.
-
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string); or [tuple](../core/tuple) of [string](../core/string)s; required  The suffix (or tuple of alternative suffixes) to match. |
+| `start` | [int](../core/int); or `None`; default is `0`  Test beginning at this position. |
+| `end` | [int](../core/int); or `None`; default is `None`  optional position at which to stop comparing. |
 
 ## find
 
@@ -141,24 +116,15 @@ ParameterDescription`sub`[string](../core/string.html); or [tuple](../core/tuple
 int string.find(sub, start=0, end=None)
 ```
 
- Returns the first index where `sub` is found, or -1 if no such index exists, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
-
+Returns the first index where `sub` is found, or -1 if no such index exists, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
 
 ### Parameters
 
-ParameterDescription`sub`[string](../core/string.html);
- required
-
- The substring to find.
- `start`[int](../core/int.html); or `None`;
- default is `0`
-
- Restrict to search from this position.
- `end`[int](../core/int.html); or `None`;
- default is `None`
-
- optional position before which to restrict to search.
-
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string); required  The substring to find. |
+| `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## format
 
@@ -166,7 +132,7 @@ ParameterDescription`sub`[string](../core/string.html);
 string string.format(*args, **kwargs)
 ```
 
- Perform string interpolation. Format strings contain replacement fields surrounded by curly braces `{}`. Anything that is not contained in braces is considered literal text, which is copied unchanged to the output.If you need to include a brace character in the literal text, it can be escaped by doubling: `{{` and `}}` A replacement field can be either a name, a number, or empty. Values are converted to strings using the [str](../globals/all.html#str) function.
+Perform string interpolation. Format strings contain replacement fields surrounded by curly braces `{}`. Anything that is not contained in braces is considered literal text, which is copied unchanged to the output.If you need to include a brace character in the literal text, it can be escaped by doubling: `{{` and `}}`A replacement field can be either a name, a number, or empty. Values are converted to strings using the [str](../globals/all#str) function.
 
 ```
 # Access in order:
@@ -179,15 +145,10 @@ string string.format(*args, **kwargs)
 
 ### Parameters
 
-ParameterDescription`args`
- default is `()`
-
- List of arguments.
- `kwargs`
- default is `{}`
-
- Dictionary of arguments.
-
+| Parameter | Description |
+| --- | --- |
+| `args` | default is `()`  List of arguments. |
+| `kwargs` | default is `{}`  Dictionary of arguments. |
 
 ## index
 
@@ -195,24 +156,15 @@ ParameterDescription`args`
 int string.index(sub, start=0, end=None)
 ```
 
- Returns the first index where `sub` is found, or raises an error if no such index exists, optionally restricting to `[start:end]` `start` being inclusive and `end` being exclusive.
-
+Returns the first index where `sub` is found, or raises an error if no such index exists, optionally restricting to `[start:end]``start` being inclusive and `end` being exclusive.
 
 ### Parameters
 
-ParameterDescription`sub`[string](../core/string.html);
- required
-
- The substring to find.
- `start`[int](../core/int.html); or `None`;
- default is `0`
-
- Restrict to search from this position.
- `end`[int](../core/int.html); or `None`;
- default is `None`
-
- optional position before which to restrict to search.
-
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string); required  The substring to find. |
+| `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## isalnum
 
@@ -220,9 +172,7 @@ ParameterDescription`sub`[string](../core/string.html);
 bool string.isalnum()
 ```
 
- Returns True if all characters in the string are alphanumeric (\[a-zA-Z0-9\]) and there is at least one character.
-
-
+Returns True if all characters in the string are alphanumeric ([a-zA-Z0-9]) and there is at least one character.
 
 ## isalpha
 
@@ -230,9 +180,7 @@ bool string.isalnum()
 bool string.isalpha()
 ```
 
- Returns True if all characters in the string are alphabetic (\[a-zA-Z\]) and there is at least one character.
-
-
+Returns True if all characters in the string are alphabetic ([a-zA-Z]) and there is at least one character.
 
 ## isdigit
 
@@ -240,9 +188,7 @@ bool string.isalpha()
 bool string.isdigit()
 ```
 
- Returns True if all characters in the string are digits (\[0-9\]) and there is at least one character.
-
-
+Returns True if all characters in the string are digits ([0-9]) and there is at least one character.
 
 ## islower
 
@@ -250,9 +196,7 @@ bool string.isdigit()
 bool string.islower()
 ```
 
- Returns True if all cased characters in the string are lowercase and there is at least one character.
-
-
+Returns True if all cased characters in the string are lowercase and there is at least one character.
 
 ## isspace
 
@@ -260,9 +204,7 @@ bool string.islower()
 bool string.isspace()
 ```
 
- Returns True if all characters are white space characters and the string contains at least one character.
-
-
+Returns True if all characters are white space characters and the string contains at least one character.
 
 ## istitle
 
@@ -270,9 +212,7 @@ bool string.isspace()
 bool string.istitle()
 ```
 
- Returns True if the string is in title case and it contains at least one character. This means that every uppercase character must follow an uncased one (e.g. whitespace) and every lowercase character must follow a cased one (e.g. uppercase or lowercase).
-
-
+Returns True if the string is in title case and it contains at least one character. This means that every uppercase character must follow an uncased one (e.g. whitespace) and every lowercase character must follow a cased one (e.g. uppercase or lowercase).
 
 ## isupper
 
@@ -280,9 +220,7 @@ bool string.istitle()
 bool string.isupper()
 ```
 
- Returns True if all cased characters in the string are uppercase and there is at least one character.
-
-
+Returns True if all cased characters in the string are uppercase and there is at least one character.
 
 ## join
 
@@ -290,7 +228,7 @@ bool string.isupper()
 string string.join(elements)
 ```
 
- Returns a string in which the string elements of the argument have been joined by this string as a separator. Example:
+Returns a string in which the string elements of the argument have been joined by this string as a separator. Example:
 
 ```
 "|".join(["a", "b", "c"]) == "a|b|c"
@@ -298,12 +236,9 @@ string string.join(elements)
 
 ### Parameters
 
-ParameterDescription`elements`
- iterable of [string](../core/string.html) s;
- required
-
- The objects to join.
-
+| Parameter | Description |
+| --- | --- |
+| `elements` | iterable of [string](../core/string)s; required |
 
 ## lower
 
@@ -311,9 +246,7 @@ ParameterDescription`elements`
 string string.lower()
 ```
 
- Returns the lower case version of this string.
-
-
+Returns the lower case version of this string.
 
 ## lstrip
 
@@ -321,7 +254,7 @@ string string.lower()
 string string.lstrip(chars=None)
 ```
 
- Returns a copy of the string where leading characters that appear in `chars` are removed. Note that `chars` is not a prefix: all combinations of its value are removed:
+Returns a copy of the string where leading characters that appear in `chars` are removed. Note that `chars` is not a prefix: all combinations of its value are removed:
 
 ```
 "abcba".lstrip("ba") == "cba"
@@ -329,11 +262,9 @@ string string.lstrip(chars=None)
 
 ### Parameters
 
-ParameterDescription`chars`[string](../core/string.html); or `None`;
- default is `None`
-
- The characters to remove, or all whitespace if None.
-
+| Parameter | Description |
+| --- | --- |
+| `chars` | [string](../core/string); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
 ## partition
 
@@ -341,16 +272,13 @@ ParameterDescription`chars`[string](../core/string.html); or `None`;
 tuple string.partition(sep)
 ```
 
- Splits the input string at the first occurrence of the separator `sep` and returns the resulting partition as a three-element tuple of the form (before, separator, after). If the input string does not contain the separator, partition returns (self, '', '').
-
+Splits the input string at the first occurrence of the separator `sep` and returns the resulting partition as a three-element tuple of the form (before, separator, after). If the input string does not contain the separator, partition returns (self, '', '').
 
 ### Parameters
 
-ParameterDescription`sep`[string](../core/string.html);
- required
-
- The string to split on.
-
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string); required  The string to split on. |
 
 ## removeprefix
 
@@ -358,16 +286,13 @@ ParameterDescription`sep`[string](../core/string.html);
 string string.removeprefix(prefix)
 ```
 
- If the string starts with `prefix`, returns a new string with the prefix removed. Otherwise, returns the string.
-
+If the string starts with `prefix`, returns a new string with the prefix removed. Otherwise, returns the string.
 
 ### Parameters
 
-ParameterDescription`prefix`[string](../core/string.html);
- required
-
- The prefix to remove if present.
-
+| Parameter | Description |
+| --- | --- |
+| `prefix` | [string](../core/string); required  The prefix to remove if present. |
 
 ## removesuffix
 
@@ -375,16 +300,13 @@ ParameterDescription`prefix`[string](../core/string.html);
 string string.removesuffix(suffix)
 ```
 
- If the string ends with `suffix`, returns a new string with the suffix removed. Otherwise, returns the string.
-
+If the string ends with `suffix`, returns a new string with the suffix removed. Otherwise, returns the string.
 
 ### Parameters
 
-ParameterDescription`suffix`[string](../core/string.html);
- required
-
- The suffix to remove if present.
-
+| Parameter | Description |
+| --- | --- |
+| `suffix` | [string](../core/string); required  The suffix to remove if present. |
 
 ## replace
 
@@ -392,24 +314,15 @@ ParameterDescription`suffix`[string](../core/string.html);
 string string.replace(old, new, count=-1)
 ```
 
- Returns a copy of the string in which the occurrences of `old` have been replaced with `new`, optionally restricting the number of replacements to `count`.
-
+Returns a copy of the string in which the occurrences of `old` have been replaced with `new`, optionally restricting the number of replacements to `count`.
 
 ### Parameters
 
-ParameterDescription`old`[string](../core/string.html);
- required
-
- The string to be replaced.
- `new`[string](../core/string.html);
- required
-
- The string to replace with.
- `count`[int](../core/int.html);
- default is `-1`
-
- The maximum number of replacements. If omitted, or if the value is negative, there is no limit.
-
+| Parameter | Description |
+| --- | --- |
+| `old` | [string](../core/string); required  The string to be replaced. |
+| `new` | [string](../core/string); required  The string to replace with. |
+| `count` | [int](../core/int); default is `-1`  The maximum number of replacements. If omitted, or if the value is negative, there is no limit. |
 
 ## rfind
 
@@ -417,24 +330,15 @@ ParameterDescription`old`[string](../core/string.html);
 int string.rfind(sub, start=0, end=None)
 ```
 
- Returns the last index where `sub` is found, or -1 if no such index exists, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
-
+Returns the last index where `sub` is found, or -1 if no such index exists, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
 
 ### Parameters
 
-ParameterDescription`sub`[string](../core/string.html);
- required
-
- The substring to find.
- `start`[int](../core/int.html); or `None`;
- default is `0`
-
- Restrict to search from this position.
- `end`[int](../core/int.html); or `None`;
- default is `None`
-
- optional position before which to restrict to search.
-
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string); required  The substring to find. |
+| `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## rindex
 
@@ -442,24 +346,15 @@ ParameterDescription`sub`[string](../core/string.html);
 int string.rindex(sub, start=0, end=None)
 ```
 
- Returns the last index where `sub` is found, or raises an error if no such index exists, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
-
+Returns the last index where `sub` is found, or raises an error if no such index exists, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
 
 ### Parameters
 
-ParameterDescription`sub`[string](../core/string.html);
- required
-
- The substring to find.
- `start`[int](../core/int.html); or `None`;
- default is `0`
-
- Restrict to search from this position.
- `end`[int](../core/int.html); or `None`;
- default is `None`
-
- optional position before which to restrict to search.
-
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string); required  The substring to find. |
+| `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
+| `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
 ## rpartition
 
@@ -467,16 +362,13 @@ ParameterDescription`sub`[string](../core/string.html);
 tuple string.rpartition(sep)
 ```
 
- Splits the input string at the last occurrence of the separator `sep` and returns the resulting partition as a three-element tuple of the form (before, separator, after). If the input string does not contain the separator, rpartition returns ('', '', self).
-
+Splits the input string at the last occurrence of the separator `sep` and returns the resulting partition as a three-element tuple of the form (before, separator, after). If the input string does not contain the separator, rpartition returns ('', '', self).
 
 ### Parameters
 
-ParameterDescription`sep`[string](../core/string.html);
- required
-
- The string to split on.
-
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string); required  The string to split on. |
 
 ## rsplit
 
@@ -484,20 +376,14 @@ ParameterDescription`sep`[string](../core/string.html);
 list string.rsplit(sep, maxsplit=unbound)
 ```
 
- Returns a list of all the words in the string, using `sep` as the separator, optionally limiting the number of splits to `maxsplit`. Except for splitting from the right, this method behaves like split().
-
+Returns a list of all the words in the string, using `sep` as the separator, optionally limiting the number of splits to `maxsplit`. Except for splitting from the right, this method behaves like split().
 
 ### Parameters
 
-ParameterDescription`sep`[string](../core/string.html);
- required
-
- The string to split on.
- `maxsplit`[int](../core/int.html);
- default is `unbound`
-
- The maximum number of splits.
-
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string); required  The string to split on. |
+| `maxsplit` | [int](../core/int); default is `unbound`  The maximum number of splits. |
 
 ## rstrip
 
@@ -505,7 +391,7 @@ ParameterDescription`sep`[string](../core/string.html);
 string string.rstrip(chars=None)
 ```
 
- Returns a copy of the string where trailing characters that appear in `chars` are removed. Note that `chars` is not a suffix: all combinations of its value are removed:
+Returns a copy of the string where trailing characters that appear in `chars` are removed. Note that `chars` is not a suffix: all combinations of its value are removed:
 
 ```
 "abcbaa".rstrip("ab") == "abc"
@@ -513,11 +399,9 @@ string string.rstrip(chars=None)
 
 ### Parameters
 
-ParameterDescription`chars`[string](../core/string.html); or `None`;
- default is `None`
-
- The characters to remove, or all whitespace if None.
-
+| Parameter | Description |
+| --- | --- |
+| `chars` | [string](../core/string); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
 ## split
 
@@ -525,20 +409,14 @@ ParameterDescription`chars`[string](../core/string.html); or `None`;
 list string.split(sep, maxsplit=unbound)
 ```
 
- Returns a list of all the words in the string, using `sep` as the separator, optionally limiting the number of splits to `maxsplit`.
-
+Returns a list of all the words in the string, using `sep` as the separator, optionally limiting the number of splits to `maxsplit`.
 
 ### Parameters
 
-ParameterDescription`sep`[string](../core/string.html);
- required
-
- The string to split on.
- `maxsplit`[int](../core/int.html);
- default is `unbound`
-
- The maximum number of splits.
-
+| Parameter | Description |
+| --- | --- |
+| `sep` | [string](../core/string); required  The string to split on. |
+| `maxsplit` | [int](../core/int); default is `unbound`  The maximum number of splits. |
 
 ## splitlines
 
@@ -546,16 +424,13 @@ ParameterDescription`sep`[string](../core/string.html);
 sequence string.splitlines(keepends=False)
 ```
 
- Splits the string at line boundaries ('\\n', '\\r\\n', '\\r') and returns the result as a new mutable list.
-
+Splits the string at line boundaries ('\n', '\r\n', '\r') and returns the result as a new mutable list.
 
 ### Parameters
 
-ParameterDescription`keepends`[bool](../core/bool.html);
- default is `False`
-
- Whether the line breaks should be included in the resulting list.
-
+| Parameter | Description |
+| --- | --- |
+| `keepends` | [bool](../core/bool); default is `False`  Whether the line breaks should be included in the resulting list. |
 
 ## startswith
 
@@ -563,24 +438,15 @@ ParameterDescription`keepends`[bool](../core/bool.html);
 bool string.startswith(sub, start=0, end=None)
 ```
 
- Returns True if the string starts with `sub`, otherwise False, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
-
+Returns True if the string starts with `sub`, otherwise False, optionally restricting to `[start:end]`, `start` being inclusive and `end` being exclusive.
 
 ### Parameters
 
-ParameterDescription`sub`[string](../core/string.html); or [tuple](../core/tuple.html) of [string](../core/string.html) s;
- required
-
- The prefix (or tuple of alternative prefixes) to match.
- `start`[int](../core/int.html); or `None`;
- default is `0`
-
- Test beginning at this position.
- `end`[int](../core/int.html); or `None`;
- default is `None`
-
- Stop comparing at this position.
-
+| Parameter | Description |
+| --- | --- |
+| `sub` | [string](../core/string); or [tuple](../core/tuple) of [string](../core/string)s; required  The prefix (or tuple of alternative prefixes) to match. |
+| `start` | [int](../core/int); or `None`; default is `0`  Test beginning at this position. |
+| `end` | [int](../core/int); or `None`; default is `None`  Stop comparing at this position. |
 
 ## strip
 
@@ -588,7 +454,7 @@ ParameterDescription`sub`[string](../core/string.html); or [tuple](../core/tuple
 string string.strip(chars=None)
 ```
 
- Returns a copy of the string where leading or trailing characters that appear in `chars` are removed. Note that `chars` is neither a prefix nor a suffix: all combinations of its value are removed:
+Returns a copy of the string where leading or trailing characters that appear in `chars` are removed. Note that `chars` is neither a prefix nor a suffix: all combinations of its value are removed:
 
 ```
 "aabcbcbaa".strip("ab") == "cbc"
@@ -596,11 +462,9 @@ string string.strip(chars=None)
 
 ### Parameters
 
-ParameterDescription`chars`[string](../core/string.html); or `None`;
- default is `None`
-
- The characters to remove, or all whitespace if None.
-
+| Parameter | Description |
+| --- | --- |
+| `chars` | [string](../core/string); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
 ## title
 
@@ -608,9 +472,7 @@ ParameterDescription`chars`[string](../core/string.html); or `None`;
 string string.title()
 ```
 
- Converts the input string into title case, i.e. every word starts with an uppercase letter while the remaining letters are lowercase. In this context, a word means strictly a sequence of letters. This method does not support supplementary Unicode characters.
-
-
+Converts the input string into title case, i.e. every word starts with an uppercase letter while the remaining letters are lowercase. In this context, a word means strictly a sequence of letters. This method does not support supplementary Unicode characters.
 
 ## upper
 
@@ -618,4 +480,4 @@ string string.title()
 string string.upper()
 ```
 
- Returns the upper case version of this string.
+Returns the upper case version of this string.

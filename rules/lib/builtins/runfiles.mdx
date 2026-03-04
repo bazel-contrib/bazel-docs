@@ -2,20 +2,18 @@
 title: 'runfiles'
 ---
 
-
-
-A container of information regarding a set of files required at runtime by an executable. This object should be passed via [`DefaultInfo`](../providers/DefaultInfo.html) in order to tell the build system about the runfiles needed by the outputs produced by the rule.
+A container of information regarding a set of files required at runtime by an executable. This object should be passed via [`DefaultInfo`](../providers/DefaultInfo) in order to tell the build system about the runfiles needed by the outputs produced by the rule.
 
 See [runfiles guide](https://bazel.build/extending/rules#runfiles) for details.
 
 ## Members
 
-- [empty\_filenames](#empty_filenames)
-- [files](#files)
-- [merge](#merge)
-- [merge\_all](#merge_all)
-- [root\_symlinks](#root_symlinks)
-- [symlinks](#symlinks)
+* [empty\_filenames](#empty_filenames)
+* [files](#files)
+* [merge](#merge)
+* [merge\_all](#merge_all)
+* [root\_symlinks](#root_symlinks)
+* [symlinks](#symlinks)
 
 ## empty\_filenames
 
@@ -23,9 +21,7 @@ See [runfiles guide](https://bazel.build/extending/rules#runfiles) for details.
 depset runfiles.empty_filenames
 ```
 
- Returns names of empty files to create.
-
-
+Returns names of empty files to create.
 
 ## files
 
@@ -33,9 +29,7 @@ depset runfiles.empty_filenames
 depset runfiles.files
 ```
 
- Returns the set of runfiles as files.
-
-
+Returns the set of runfiles as files.
 
 ## merge
 
@@ -43,17 +37,15 @@ depset runfiles.files
 runfiles runfiles.merge(other)
 ```
 
- Returns a new runfiles object that includes all the contents of this one and the argument.
+Returns a new runfiles object that includes all the contents of this one and the argument.
 
-_Note:_ When you have many runfiles objects to merge, use [`merge_all()`](#merge_all) rather than calling `merge` in a loop. This avoids constructing deep depset structures which can cause build failures.
+*Note:* When you have many runfiles objects to merge, use [`merge_all()`](#merge_all) rather than calling `merge` in a loop. This avoids constructing deep depset structures which can cause build failures.
 
 ### Parameters
 
-ParameterDescription`other`[runfiles](../builtins/runfiles.html);
- required
-
- The runfiles object to merge into this.
-
+| Parameter | Description |
+| --- | --- |
+| `other` | [runfiles](../builtins/runfiles); required  The runfiles object to merge into this. |
 
 ## merge\_all
 
@@ -61,17 +53,13 @@ ParameterDescription`other`[runfiles](../builtins/runfiles.html);
 runfiles runfiles.merge_all(other)
 ```
 
- Returns a new runfiles object that includes all the contents of this one and of the runfiles objects in the argument.
-
-
+Returns a new runfiles object that includes all the contents of this one and of the runfiles objects in the argument.
 
 ### Parameters
 
-ParameterDescription`other`[sequence](../core/list.html) of [runfiles](../builtins/runfiles.html) s;
- required
-
- The sequence of runfiles objects to merge into this.
-
+| Parameter | Description |
+| --- | --- |
+| `other` | [sequence](../core/list) of [runfiles](../builtins/runfiles)s; required  The sequence of runfiles objects to merge into this. |
 
 ## root\_symlinks
 
@@ -79,9 +67,7 @@ ParameterDescription`other`[sequence](../core/list.html) of [runfiles](../builti
 depset runfiles.root_symlinks
 ```
 
- Returns the set of root symlinks.
-
-
+Returns the set of root symlinks.
 
 ## symlinks
 
@@ -89,4 +75,4 @@ depset runfiles.root_symlinks
 depset runfiles.symlinks
 ```
 
- Returns the set of symlinks.
+Returns the set of symlinks.

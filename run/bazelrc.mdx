@@ -92,7 +92,7 @@ relative to the workspace root, write `import %workspace%/path/to/bazelrc`.
 
 The difference between the various import statements is as follows:
 
-*   `import` - Bazel will fail if the `imported`'ed file is missing (or can't be
+*   `import` - Bazel will fail if the `import`'ed file is missing (or can't be
     read)
 *   `try-import` - An attempt to import the file will be made, but unlike
     `import`, Bazel will NOT fail if the file is missing (or can't be read).
@@ -266,8 +266,7 @@ Platform specific configs in the `.bazelrc` can be automatically enabled using
 the `build` command is run, the `build:linux` configuration will be
 automatically enabled. Supported OS identifiers are `linux`, `macos`, `windows`,
 `freebsd`, and `openbsd`. Enabling this flag is equivalent to using
-`--config=linux` on Linux, `--config=windows` on Windows, `--config=macos` on
-macOS, `--config=freebsd` on FreeBSD, and `--config=openbsd` on OpenBSD.
+`--config=linux` on Linux, `--config=windows` on Windows, and so on.
 
 See [--enable_platform_specific_config](/reference/command-line-reference#flag--enable_platform_specific_config).
 
