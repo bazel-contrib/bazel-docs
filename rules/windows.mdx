@@ -2,8 +2,6 @@
 title: 'Writing Rules on Windows'
 ---
 
-
-
 This page focuses on writing Windows-compatible rules, common problems of
 writing portable rules, and some solutions.
 
@@ -54,7 +52,7 @@ Solutions:
 
 - **Use a short output root.**
 
-  Use the `--output_user_root=<path>` flag to specify a short path for Bazel outputs. A good idea</p>
+  Use the `--output_user_root=<path>` flag to specify a short path for Bazel outputs. A good idea
   is to have a drive (or virtual drive) just for Bazel outputs (such as `D:\`), and adding this line
   to your `.bazelrc` file:
 
@@ -251,20 +249,3 @@ Solutions:
 
   In Java, use `try-with-resources`. In Python, use `with open(...) as f:`. In principle, try
   closing handles as soon as possible.
-
-<!--
-TODO:
-- runfiles, runfiles libraries, -nolegacy_external_runfiles
-- runfiles envvars, runfiles manifest structure
-- avoid using runfiles for things that could be inputs
-- whether to use runfiles manifest on non-windows
-- how to patch tools that expect to read from the filesystem to do a lookup through the manifest file instead (including helpers in many languages)
-- how this applies in tests as well that rely on $TEST_SRCDIR
-- unzip is slow
-- cmd.exe has 8k command length limit
-- put paths in envvars instead of args
-- put cmd.exe commands in .bat files
-- use ctx.resolve_tools instead of ctx.resolve_command (Bash dep)
-- how to run cmd.exe actions (maybe I should write a genrule-like rule for these)
-
-*/}
