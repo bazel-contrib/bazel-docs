@@ -35,8 +35,6 @@ rules/lib/toplevel/cc_common.mdx
 # Query docs
 # "{{ '<var>' }}" template patterns
 query/language.mdx
-# Multi-line <p> inside <Accordion>; upstream fix: bazelbuild/bazel#28848
-query/quickstart.mdx
 
 # Upstream docs (from upstream/docs/ rsync) with MDX issues
 # "Could not parse expression with acorn" — bare {..} in prose
