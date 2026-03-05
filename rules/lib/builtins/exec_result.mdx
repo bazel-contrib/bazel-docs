@@ -2,15 +2,13 @@
 title: 'exec\_result'
 ---
 
-
-
 A structure storing result of repository\_ctx.execute() method. It contains the standard output stream content, the standard error stream content and the execution return code.
 
 ## Members
 
-- [return\_code](#return_code)
-- [stderr](#stderr)
-- [stdout](#stdout)
+* [return\_code](#return_code)
+* [stderr](#stderr)
+* [stdout](#stdout)
 
 ## return\_code
 
@@ -18,9 +16,7 @@ A structure storing result of repository\_ctx.execute() method. It contains the 
 int exec_result.return_code
 ```
 
- The return code returned after the execution of the program. 256 if the process was terminated by a time out; values larger than 128 indicate termination by a signal.
-
-
+The return code returned after the execution of the program. 256 if the process was terminated by a time out; values larger than 128 indicate termination by a signal.
 
 ## stderr
 
@@ -28,9 +24,7 @@ int exec_result.return_code
 string exec_result.stderr
 ```
 
- The content of the standard error output returned by the execution.
-
-
+The content of the standard error output returned by the execution.
 
 ## stdout
 
@@ -38,4 +32,4 @@ string exec_result.stderr
 string exec_result.stdout
 ```
 
- The content of the standard output returned by the execution.
+The content of the standard output returned by the execution.

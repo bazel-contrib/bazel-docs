@@ -2,8 +2,6 @@
 title: 'Query quickstart'
 ---
 
-
-
 This tutorial covers how to work with Bazel to trace dependencies in your code using a premade Bazel project.
 
 For language and `--output` flag details, see the [Bazel query reference](/query/language) and [Bazel cquery reference](/query/cquery) manuals. Get help in your IDE by typing `bazel help query` or `bazel help cquery` on the command line.
@@ -11,7 +9,6 @@ For language and `--output` flag details, see the [Bazel query reference](/query
 ## Objective
 
 This guide runs you through a set of basic queries you can use to learn more about your project's file dependencies. It is intended for new Bazel developers with a basic knowledge of how Bazel and `BUILD` files work.
-
 
 ## Prerequisites
 
@@ -259,13 +256,9 @@ This query returns all of the targets in the 'customers' package that have a tag
 
 Use this query to learn what Jenny wants to order.
 
-<div>
-  <devsite-expandable>
-  <h4 class="showalways">Answer</h4>
-  <p>Mac and Cheese</p>
-  </devsite-expandable>
-</div>
-
+<Accordion title="Answer">
+  Mac and Cheese
+</Accordion>
 
 ## Adding a new dependency
 
@@ -305,7 +298,6 @@ public class Smoothie {
     public static final String DESCRIPTION = "Yummy and Refreshing";
 }
 ```
-
 
 Lastly, add these files as rules in the appropriate `BUILD` files. Create a new java library for each new ingredient, including its name, public visibility, and its newly created 'src' file. You should wind up with this updated `BUILD` file:
 
@@ -421,7 +413,6 @@ Build `cafe` again to confirm that there are no errors. If it builds successfull
 
 Now, visualize the new dependency graph with the addition of the `Smoothie` to compare with the previous one. For clarity, name the graph input as `graph2.in` and `graph2.png`.
 
-
 ```posix-terminal
 bazel query --noimplicit_deps 'deps(:runner)' --output graph > graph2.in
 ```
@@ -492,24 +483,17 @@ bazel-bin/src/main/java/com/example/reviews/review
 
 Going off Bazel queries only, try to find out who wrote the review, and what dish they were describing.
 
-<div>
-  <devsite-expandable>
-  <h4 class="showalways">Hint</h4>
-  <p>Check the tags and dependencies for useful information.</p>
-  </devsite-expandable>
-</div>
+<Accordion title="Hint">
+  Check the tags and dependencies for useful information.
+</Accordion>
 
-<div>
-  <devsite-expandable>
-  <h4 class="showalways">Answer</h4>
-  <p>This review was describing the Pizza and Amir was the reviewer. If you look at what dependencies that this rule had using</p>
-  <code>bazel query --noimplicit_deps 'deps(//src/main/java/com/example/reviews:review)'</code>
+<Accordion title="Answer">
+  This review was describing the Pizza and Amir was the reviewer. If you look at what dependencies that this rule had using
+  <code>bazel query --noimplicit\_deps 'deps(//src/main/java/com/example/reviews:review)'</code>
   The result of this command reveals that Amir is the reviewer!
   Next, since you know the reviewer is Amir, you can use the query function to seek which tag Amir has in the `BUILD` file to see what dish is there.
   The command <code>bazel query 'attr(tags, "pizza", //src/main/java/com/example/customers/...)'</code> output that Amir is the only customer that ordered a pizza and is the reviewer which gives us the answer.
-  </p>
-  </devsite-expandable>
-</div>
+</Accordion>
 
 ## Wrapping up
 

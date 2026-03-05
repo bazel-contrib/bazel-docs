@@ -2,8 +2,6 @@
 title: 'list'
 ---
 
-
-
 The built-in list type. Example list expressions:
 
 ```
@@ -36,13 +34,13 @@ Lists are mutable, as in Python.
 
 ## Members
 
-- [append](#append)
-- [clear](#clear)
-- [extend](#extend)
-- [index](#index)
-- [insert](#insert)
-- [pop](#pop)
-- [remove](#remove)
+* [append](#append)
+* [clear](#clear)
+* [extend](#extend)
+* [index](#index)
+* [insert](#insert)
+* [pop](#pop)
+* [remove](#remove)
 
 ## append
 
@@ -50,16 +48,13 @@ Lists are mutable, as in Python.
 None list.append(item)
 ```
 
- Adds an item to the end of the list.
-
+Adds an item to the end of the list.
 
 ### Parameters
 
-ParameterDescription`item`
- required
-
- Item to add at the end.
-
+| Parameter | Description |
+| --- | --- |
+| `item` | required |
 
 ## clear
 
@@ -67,9 +62,7 @@ ParameterDescription`item`
 None list.clear()
 ```
 
- Removes all the elements of the list.
-
-
+Removes all the elements of the list.
 
 ## extend
 
@@ -77,17 +70,13 @@ None list.clear()
 None list.extend(items)
 ```
 
- Adds all items to the end of the list.
-
+Adds all items to the end of the list.
 
 ### Parameters
 
-ParameterDescription`items`
- iterable;
- required
-
- Items to add at the end.
-
+| Parameter | Description |
+| --- | --- |
+| `items` | iterable; required |
 
 ## index
 
@@ -95,24 +84,15 @@ ParameterDescription`items`
 int list.index(x, start=unbound, end=unbound)
 ```
 
- Returns the index in the list of the first item whose value is x. It is an error if there is no such item. If `start` and `end` are given, they restrict the range searched in the same manner as slicing.
-
+Returns the index in the list of the first item whose value is x. It is an error if there is no such item. If `start` and `end` are given, they restrict the range searched in the same manner as slicing.
 
 ### Parameters
 
-ParameterDescription`x`
- required
-
- The object to search.
- `start`[int](../core/int.html);
- default is `unbound`
-
- The start index of the list portion to inspect.
- `end`[int](../core/int.html);
- default is `unbound`
-
- The end index of the list portion to inspect.
-
+| Parameter | Description |
+| --- | --- |
+| `x` | required |
+| `start` | [int](../core/int); default is `unbound`  The start index of the list portion to inspect. |
+| `end` | [int](../core/int); default is `unbound`  The end index of the list portion to inspect. |
 
 ## insert
 
@@ -120,20 +100,14 @@ ParameterDescription`x`
 None list.insert(index, item)
 ```
 
- Inserts an item at a given position.
-
+Inserts an item at a given position.
 
 ### Parameters
 
-ParameterDescription`index`[int](../core/int.html);
- required
-
- The index the item will be at after insertion. If the index is out of range, it's transformed into an effective index in the range from 0 to the list's previous length, inclusive, in the same manner as for the start index of a slice operator.
- `item`
- required
-
- The item.
-
+| Parameter | Description |
+| --- | --- |
+| `index` | [int](../core/int); required  The index the item will be at after insertion. If the index is out of range, it's transformed into an effective index in the range from 0 to the list's previous length, inclusive, in the same manner as for the start index of a slice operator. |
+| `item` | required  The item. |
 
 ## pop
 
@@ -141,16 +115,13 @@ ParameterDescription`index`[int](../core/int.html);
 unknown list.pop(i=-1)
 ```
 
- Removes the item at the given position in the list, and returns it. If no `index` is specified, it removes and returns the last item in the list.
-
+Removes the item at the given position in the list, and returns it. If no `index` is specified, it removes and returns the last item in the list.
 
 ### Parameters
 
-ParameterDescription`i`[int](../core/int.html);
- default is `-1`
-
- The index of the item.
-
+| Parameter | Description |
+| --- | --- |
+| `i` | [int](../core/int); default is `-1`  The index of the item. |
 
 ## remove
 
@@ -158,12 +129,10 @@ ParameterDescription`i`[int](../core/int.html);
 None list.remove(x)
 ```
 
- Removes the first item from the list whose value is x. It is an error if there is no such item.
-
+Removes the first item from the list whose value is x. It is an error if there is no such item.
 
 ### Parameters
 
-ParameterDescription`x`
- required
-
- The object to remove.
+| Parameter | Description |
+| --- | --- |
+| `x` | required  The object to remove. |
