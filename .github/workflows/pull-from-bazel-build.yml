@@ -96,7 +96,6 @@ jobs:
           sha: ${{ inputs.bazelCommitHash }}
           files: |
             docs/**
-            src/main/java/com/google/devtools/build/lib/**
             src/main/java/com/google/devtools/build/docgen/**
             src/main/starlark/docgen/**
             tools/build_defs/repo/**
