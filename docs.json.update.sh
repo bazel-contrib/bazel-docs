@@ -32,7 +32,8 @@ for v in $ALL_VERSIONS; do
     FILTERED="$FILTERED"$'\n'"$v"
   fi
 done
-VERSIONS=$(echo "HEAD"; echo "$FILTERED" | grep -v '^$')
+# HEAD first, then versioned list newest-first (sort -Vr)
+VERSIONS=$(echo "HEAD"; echo "$FILTERED" | grep -v '^$' | sort -Vr)
 
 TABS_FILE="docs-tabs.json"
 OUTPUT_FILE="docs.json"
