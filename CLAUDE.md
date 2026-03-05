@@ -47,7 +47,7 @@ Files with MDX syntax errors that Mintlify cannot parse are listed in `.mintigno
 
 - Wildcard patterns supported: e.g. `rules/lib/repo/*.mdx`
 - The nav step also removes these from `docs.json` so they don't appear as broken nav links
-- Versioned nav entries (e.g. `8.4.2/query/language`) are NOT cleaned up — left as a known TODO
+- Versioned nav entries (e.g. `versions/8.4.2/query/language`) are NOT cleaned up — left as a known TODO
 
 ## Required secrets
 

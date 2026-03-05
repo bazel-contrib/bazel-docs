@@ -63,7 +63,7 @@ run/build.mdx
 
 # Versioned copies with the same issues (versioned nav cleanup is a known TODO)
 # "Could not parse expression with acorn"
-*/community/roadmaps-build-api.mdx
-*/external/advanced.mdx
+versions/*/community/roadmaps-build-api.mdx
+versions/*/external/advanced.mdx
 # "Unexpected closing slash in tag"
-*/query/cquery.mdx
+versions/*/query/cquery.mdx

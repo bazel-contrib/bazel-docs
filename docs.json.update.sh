@@ -35,9 +35,9 @@ for version in $VERSIONS; do
         VERSIONS_JSON="$VERSIONS_JSON,"
     fi
     
-    # For other versions, add version prefix to paths and strip patch version
+    # For other versions, add versions/VERSION prefix to paths and strip patch version
     TABS_JSON=$(jq -c --arg version "$version" '
-        map(.groups = (.groups | map(.pages = (.pages | map($version + "/" + .)))))
+        map(.groups = (.groups | map(.pages = (.pages | map("versions/" + $version + "/" + .)))))
     ' "$TABS_FILE")
     DISPLAY_VERSION=$(echo "$version" | sed 's/\.[0-9]*$//')
     
