@@ -74,10 +74,6 @@
                     "group": "Concepts",
                     "pages": [
                       "concepts/build-ref",
-                      "concepts/labels",
-                      "concepts/build-files",
-                      "concepts/dependencies",
-                      "concepts/visibility",
                       "concepts/platforms",
                       "concepts/hermeticity"
                     ]
@@ -101,8 +97,7 @@
                     "pages": [
                       "build/style-guide",
                       "build/share-variables",
-                      "community/recommended-rules",
-                      "run/build"
+                      "community/recommended-rules"
                     ]
                   },
                   {
@@ -126,7 +121,6 @@
                       "remote/rbe",
                       "remote/rules",
                       "remote/ci",
-                      "remote/dynamic",
                       "remote/caching",
                       "remote/sandbox",
                       "remote/workspace",
@@ -153,9 +147,7 @@
                   {
                     "group": "Migrate",
                     "pages": [
-                      "migrate",
-                      "migrate/maven",
-                      "migrate/xcode"
+                      "migrate"
                     ]
                   }
                 ]
@@ -169,34 +161,26 @@
                       "reference/be/overview",
                       "reference/be/common-definitions",
                       "reference/be/make-variables",
-                      "reference/be/functions",
                       "reference/be/platforms-and-toolchains"
                     ]
                   },
                   {
                     "group": "Command line reference",
-                    "pages": [
-                      "reference/command-line-reference"
-                    ]
+                    "pages": []
                   },
                   {
                     "group": "Query Language",
                     "pages": [
-                      "query/language",
                       "query/quickstart"
                     ]
                   },
                   {
                     "group": "Glossary",
-                    "pages": [
-                      "reference/glossary"
-                    ]
+                    "pages": []
                   },
                   {
                     "group": "Flag cheatsheet",
-                    "pages": [
-                      "reference/flag-cheatsheet"
-                    ]
+                    "pages": []
                   }
                 ]
               },
@@ -234,21 +218,12 @@
                     "group": "APIs",
                     "pages": [
                       "rules/lib/overview",
-                      "rules/lib/globals",
-                      "rules/lib/globals/bzl",
-                      "rules/lib/globals/module"
+                      "rules/lib/globals"
                     ]
                   },
                   {
                     "group": "Repo rules",
-                    "pages": [
-                      "rules/lib/repo/index",
-                      "rules/lib/repo/cache",
-                      "rules/lib/repo/git",
-                      "rules/lib/repo/http",
-                      "rules/lib/repo/local",
-                      "rules/lib/repo/utils"
-                    ]
+                    "pages": []
                   }
                 ]
               },
@@ -263,7 +238,6 @@
                       "contribute/patch-acceptance",
                       "contribute/maintainers-guide",
                       "contribute/codebase",
-                      "contribute/search",
                       "contribute/statemachine-guide",
                       "contribute/docs",
                       "contribute/docs-style-guide",
@@ -278,7 +252,6 @@
                       "community/sig",
                       "community/experts",
                       "community/partners",
-                      "community/users",
                       "community/recommended-rules",
                       "community/remote-execution-services"
                     ]

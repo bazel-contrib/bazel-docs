@@ -1,0 +1,74 @@
+<html devsite>
+<head>
+  <meta name="project_path" value="/_project.yaml">
+  <meta name="book_path" value="/_book.yaml">
+</head>
+<body>
+
+<h1 class="page-title" id="modules.Facts">Facts</h1>
+
+{% dynamic setvar source_file "src/main/java/com/google/devtools/build/lib/bazel/bzlmod/Facts.java" %}
+{% include "_buttons.html" %}
+<!-- {% raw %} -->
+
+User-provided data attached to a module extension that is persisted across reevaluations of
+the extension.
+
+This type supports dict-like access (e.g. `facts["key"]` and `facts.get("key")`) as well as
+membership tests (e.g. `"key" in facts`). It does not support iteration or methods like
+`keys()`, `items()`, or `len()`.
+
+
+<h2>Members</h2>
+<ul>
+    <li>
+    <a href="#get">get</a>
+  </li>
+  </ul>
+
+      <h2 id="get">get</h2>
+        <p><pre class="rule-signature">unknown Facts.get(key, default=None)</pre></p>
+
+    Returns the value for <code>key</code> if it exists, or <code>default</code>.
+                  <!-- hide-from-toc is a class used by DevSite for the public Bazel site
+      (https://developers.google.com/devsite/reference/styles/headings#hide_headings_from_the_toc) -->
+      <h3 class="hide-from-toc">Parameters</h3>
+      <table class="table table-bordered table-condensed table-params">
+        <colgroup>
+          <col class="col-param">
+          <col class="param-description">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+                  <tr>
+            <td id="get.key">
+              <code>key</code>
+            </td>
+            <td>
+                          <a class="anchor" href="../core/string.html">string</a>;
+                                     required<br/>
+                          The key to look up.
+            </td>
+          </tr>
+                  <tr>
+            <td id="get.default">
+              <code>default</code>
+            </td>
+            <td>
+                                     default is <code>None</code><br/>
+                          The value to return if <code>key</code> is not present.
+            </td>
+          </tr>
+                </tbody>
+      </table>
+
+
+</body>
+</html>
+
+<!-- {% endraw %} -->

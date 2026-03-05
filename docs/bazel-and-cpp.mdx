@@ -2,13 +2,11 @@
 title: 'C++ and Bazel'
 ---
 
-
-
 This page contains resources that help you use Bazel with C++ projects. It links
 to a tutorial, build rules, and other information specific to building C++
 projects with Bazel.
 
-## Working with Bazel
+## Working with Bazel {:#working-with-bazel}
 
 The following resources will help you work with Bazel on C++ projects:
 
@@ -16,19 +14,19 @@ The following resources will help you work with Bazel on C++ projects:
 *  [C++ common use cases](/tutorials/cpp-use-cases)
 *  [C/C++ rules](/reference/be/c-cpp)
 *  Essential Libraries
-   -  [Abseil](https://abseil.io/docs/cpp/quickstart)
-   -  [Boost](https://github.com/nelhage/rules_boost)
-   -  [HTTPS Requests: CPR and libcurl](https://github.com/hedronvision/bazel-make-cc-https-easy)
+   -  [Abseil](https://abseil.io/docs/cpp/quickstart){: .external}
+   -  [Boost](https://github.com/nelhage/rules_boost){: .external}
+   -  [HTTPS Requests: CPR and libcurl](https://github.com/hedronvision/bazel-make-cc-https-easy){: .external}
 *  [C++ toolchain configuration](/docs/cc-toolchain-config-reference)
 *  [Tutorial: Configuring C++ toolchains](/tutorials/ccp-toolchain-config)
 *  [Integrating with C++ rules](/configure/integrate-cpp)
 
-## Best practices
+## Best practices {:#best-practices}
 
 In addition to [general Bazel best practices](/configure/best-practices), below are
 best practices specific to C++ projects.
 
-### BUILD files
+### BUILD files {:#build-files}
 
 Follow the guidelines below when creating your BUILD files:
 
@@ -64,14 +62,14 @@ Follow the guidelines below when creating your BUILD files:
    )
    ```
 
-### Include paths
+### Include paths {:#include-paths}
 
 Follow these guidelines for include paths:
 
 *  Make all include paths relative to the workspace directory.
 
 *  Use quoted includes (`#include "foo/bar/baz.h"`) for non-system headers, not
-   angle-brackets (`#include &lt;foo/bar/baz.h&gt;`).
+   angle-brackets (`#include <foo/bar/baz.h>`).
 
 *  Avoid using UNIX directory shortcuts, such as `.` (current directory) or `..`
    (parent directory).
@@ -82,7 +80,7 @@ Follow these guidelines for include paths:
    [`strip_include_prefix`](/reference/be/c-cpp#cc_library.strip_include_prefix)
    arguments on the `cc_library` rule target.
 
-### Toolchain features
+### Toolchain features {:#toolchain-features}
 
 The following optional [features](/docs/cc-toolchain-config-reference#features)
 can improve the hygiene of a C++ project. They can be enabled using the

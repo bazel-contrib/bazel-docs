@@ -1,37 +1,35 @@
 ---
-title: 'Platforms'
+title: "Platforms"
 ---
-
-
 
 ## Intro
 
 Bazel can build and test code on a variety of hardware, operating systems, and
 system configurations. This can involve different versions of build tools like
 linkers and compilers. To help manage this complexity, Bazel has the concepts
-of *constraints* and *platforms*.
+of _constraints_ and _platforms_.
 
-A *constraint* is a distinguishing property of a build or production machine.
+A _constraint_ is a distinguishing property of a build or production machine.
 Common constraints are CPU architecture, presence or absence of a GPU, or
-version of a locally installed compiler. But constraints can be *anything* that
+version of a locally installed compiler. But constraints can be _anything_ that
 meaningfully distinguishes machines when orchestrating build work.
 
-A *platform* is a collection of constraints that specifies a complete machine.
+A _platform_ is a collection of constraints that specifies a complete machine.
 Bazel uses this concept to let developers choose which machines they want to
 build for, which machines should run compile and test actions, and which
 [toolchains](/extending/toolchains) build actions should compile with.
 
 Developers can also use constraints to [select](/docs/configurable-attributes)
-custom properties or dependencies on their build rules. For example: "*use
-`src_arm.cc` when the build targets an Arm machine*".
+custom properties or dependencies on their build rules. For example: "_use
+`src_arm.cc` when the build targets an Arm machine_".
 
 ## Platform types
 
 Bazel recognizes three roles a platform may play:
 
-*  **Host** - The platform on which Bazel itself runs.
-*  **Execution** - A platform which runs compile actions to produce build outputs.
-*  **Target** - A platform the code being built should run on.
+- **Host** - The platform on which Bazel itself runs.
+- **Execution** - A platform which runs compile actions to produce build outputs.
+- **Target** - A platform the code being built should run on.
 
 Note: Builds only have one host platform, but often have multiple execution and
 target platforms. For example, both remote Linux CI machines and developer Macs
@@ -40,17 +38,17 @@ hardware extensions.
 
 Builds generally have three kinds of relationships to platforms:
 
-*  **Single-platform builds** - Host, execution, and target platforms are the
-   same. For example, building on a developer machine without remote execution,
-   then running the built binary on the same machine.
+- **Single-platform builds** - Host, execution, and target platforms are the
+  same. For example, building on a developer machine without remote execution,
+  then running the built binary on the same machine.
 
-*  **Cross-compilation builds** - Host and execution platforms are the same,
-   but the target platform is different. For example, building an iOS app on a
-   Macbook Pro without remote execution.
+- **Cross-compilation builds** - Host and execution platforms are the same,
+  but the target platform is different. For example, building an iOS app on a
+  Macbook Pro without remote execution.
 
-*  **Multi-platform builds** - Host, execution, and target platforms are all
-   different. For example, building an iOS app on a Macbook Pro and using remote
-   Linux machines to compile C++ actions that don't need Xcode.
+- **Multi-platform builds** - Host, execution, and target platforms are all
+  different. For example, building an iOS app on a Macbook Pro and using remote
+  Linux machines to compile C++ actions that don't need Xcode.
 
 ## Specifying platforms
 
@@ -160,7 +158,7 @@ cc_library(
 )
 ```
 
-`:win_driver_lib` is *only* compatible for building with 64-bit Windows and
+`:win_driver_lib` is _only_ compatible for building with 64-bit Windows and
 incompatible with all else. Incompatibility is transitive. Any targets
 that transitively depend on an incompatible target are themselves considered
 incompatible.
@@ -271,7 +269,6 @@ def format(target):
   if "IncompatiblePlatformProvider" not in providers(target):
     return target.label
   return ""
-
 
 $ bazel cquery //... --output=starlark --starlark:file=example.cquery
 ```

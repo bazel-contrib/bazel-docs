@@ -2,8 +2,6 @@
 title: 'Code coverage with Bazel'
 ---
 
-
-
 Bazel features a `coverage` sub-command to produce code coverage
 reports on repositories that can be tested with `bazel coverage`. Due
 to the idiosyncrasies of the various language ecosystems, it is not
@@ -21,7 +19,7 @@ While a lot of customization is possible, this document focuses on
 producing and consuming [`lcov`][lcov] reports, which is currently the
 most well-supported route.
 
-## Creating a coverage report
+## Creating a coverage report {:#creating-a-coverage-report}
 
 ### Preparation
 
@@ -85,7 +83,7 @@ To view the result, simply open the `index.html` file produced in the
 For further help and information around the `genhtml` tool, or the
 `lcov` coverage format, see [the lcov project][lcov].
 
-## Remote execution
+## Remote execution {:#remote-execution}
 
 Running with remote test execution currently has a few caveats:
 
@@ -112,24 +110,6 @@ Running with remote test execution currently has a few caveats:
     details.
 
 ## Language-specific configuration
-
-### C++
-
-#### Linux
-
-C++ coverage should work out-of-the-box with the default configuration.
-
-#### MacOS
-
-The default value of `GCOV_PREFIX_STRIP` is almost certainly incorrect and needs
-adjusting manually because the correct value depends on your setup.
-
-When the value is incorrect, no coverage data will be found.
-
-Example to set `GCOV_PREFIX_STRIP=10`
-```
-bazel coverage //foo:foo_test --test_env=GCOV_PREFIX_STRIP=10`
-```
 
 ### Java
 

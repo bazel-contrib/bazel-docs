@@ -2,8 +2,6 @@
 title: 'JSON Trace Profile'
 ---
 
-
-
 The JSON trace profile can be very useful to quickly understand what Bazel spent
 time on during the invocation.
 
@@ -53,10 +51,10 @@ You can use these keyboard controls to navigate:
 ### Bazel Invocation Analyzer
 
 The open-source
-[Bazel Invocation Analyzer](https://github.com/EngFlow/bazel_invocation_analyzer)
+[Bazel Invocation Analyzer](https://github.com/EngFlow/bazel_invocation_analyzer){: .external}
 consumes a profile format and prints suggestions on how to improve
 the build’s performance. This analysis can be performed using its CLI or on
-[https://analyzer.engflow.com](https://analyzer.engflow.com).
+[https://analyzer.engflow.com](https://analyzer.engflow.com){: .external}.
 
 ### `jq`
 
@@ -76,7 +74,7 @@ $ zcat $(../bazel-6.0.0rc1-linux-x86_64 info output_base)/command.profile.gz | j
 [...]
 ```
 
-## Profile information
+## Profile information {:#profile-information}
 
 The profile contains multiple rows. Usually the bulk of rows represent Bazel
 threads and their corresponding events, but some special rows are also included.
@@ -99,7 +97,7 @@ Figure 1 shows a profile created with Bazel v5.3.1 and includes these rows:
 *   `Garbage Collector`: Displays minor and major Garbage Collection (GC)
     pauses.
 
-## Common performance issues
+## Common performance issues {:#common-performance-issues}
 
 When analyzing performance profiles, look for:
 
@@ -117,7 +115,7 @@ When analyzing performance profiles, look for:
     or Bazel itself to introduce more parallelism. This can also happen when
     there is an unusual amount of GC.
 
-## Profile file format
+## Profile file format {:#profile-file-format}
 
 The top-level object contains metadata (`otherData`) and the actual tracing data
 (`traceEvents`). The metadata contains extra info, for example the invocation ID
@@ -156,4 +154,4 @@ each other; pass
 if you would like to prevent event merging.
 
 See also the
-[Chrome Trace Event Format Specification](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview).
+[Chrome Trace Event Format Specification](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview){: .external}.
