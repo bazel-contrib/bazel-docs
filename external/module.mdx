@@ -1,5 +1,5 @@
 ---
-title: 'Bazel modules'
+title: "Bazel modules"
 ---
 
 
@@ -10,7 +10,7 @@ analogous to familiar concepts in other dependency management systems, such as a
 Maven *artifact*, an npm *package*, a Go *module*, or a Cargo *crate*.
 
 A module must have a `MODULE.bazel` file at its repo root. This file is the
-module's manifest, declaring its name, version, list of direct dependencies, and
+module"s manifest, declaring its name, version, list of direct dependencies, and
 other information. For a basic example:
 
 ```python
@@ -50,10 +50,11 @@ differences include:
     In Bazel, this is loosened to allow letters too, and the comparison
     semantics match the "identifiers" in the "prerelease" part.
 *   Additionally, the semantics of major, minor, and patch version increases are
-    not enforced.
+    not enforced. However, see [compatibility level](#compatibility_level) for
+    details on how we denote backwards compatibility.
 
 Any valid SemVer version is a valid Bazel module version. Additionally, two
-SemVer versions `a` and `b` compare `a < b` if and only if the same holds when
+SemVer versions `a` and `b` compare `a &lt; b` if and only if the same holds when
 they're compared as Bazel module versions.
 
 Finally, to learn more about module versioning, [see the `MODULE.bazel`
@@ -90,6 +91,26 @@ non-yanked version, or use the
 [`--allow_yanked_versions`](/reference/command-line-reference#flag--allow_yanked_versions)
 flag to explicitly allow the yanked version.
 
+## Compatibility level
+
+In Go, MVS's assumption about backwards compatibility works because it treats
+backwards incompatible versions of a module as a separate module. In terms of
+SemVer, that means `A 1.x` and `A 2.x` are considered distinct modules, and can
+coexist in the resolved dependency graph. This is, in turn, made possible by
+encoding the major version in the package path in Go, so there aren't any
+compile-time or linking-time conflicts. Bazel, however, cannot provide such
+guarantees because it follows [a relaxed version of SemVer](#version-format).
+
+Thus, Bazel needs the equivalent of the SemVer major version number to detect
+backwards incompatible ("breaking") versions. This number is called the
+*compatibility level*, and is specified by each module version in its
+[`module()`](/rule/lib/globals/module#module) directive. With this information,
+Bazel can throw an error if it detects that versions of the _same module_ with
+_different compatibility levels_ exist in the resolved dependency graph.
+
+Finally, incrementing the compatibility level can be disruptive to the users.
+To learn more about when and how to increment it, [check the `MODULE.bazel`
+FAQ](faq#incrementing-compatibility-level).
 
 ## Overrides
 
@@ -124,15 +145,23 @@ A [`multiple_version_override`](/rules/lib/globals/module#multiple_version_overr
 can be specified to allow multiple versions of the same module to coexist in the
 resolved dependency graph.
 
-If there are multiple versions of the same module remaining in the dependency
-graph, Bazel will pick the nearest higher allowed version for each dependent.
+You can specify an explicit list of allowed versions for the module, which must
+all be present in the dependency graph before resolution — there must exist
+*some* transitive dependency depending on each allowed version. After
+resolution, only the allowed versions of the module remain, while Bazel upgrades
+other versions of the module to the nearest higher allowed version at the same
+compatibility level. If no higher allowed version at the same compatibility
+level exists, Bazel throws an error.
 
 For example, if versions `1.1`, `1.3`, `1.5`, `1.7`, and `2.0` exist in the
-dependency graph before resolution:
+dependency graph before resolution and the major version is the compatibility
+level:
 
 *   A multiple-version override allowing `1.3`, `1.7`, and `2.0` results in
     `1.1` being upgraded to `1.3`, `1.5` being upgraded to `1.7`, and other
     versions remaining the same.
+*   A multiple-version override allowing `1.5` and `2.0` results in an error, as
+    `1.7` has no higher version at the same compatibility level to upgrade to.
 *   A multiple-version override allowing `1.9` and `2.0` results in an error, as
     `1.9` is not present in the dependency graph before resolution.
 
@@ -181,9 +210,7 @@ dependencies. This helps prevent accidental breakages due to changes in
 transitive dependencies.
 
 The [canonical name](/external/overview#canonical-repo-name) of a repo backing a
-module is either `<var>module_name</var>+<var>version{{
-"</var>" }}` (for example, `bazel_skylib+1.0.3`) or `<var>module_name{{
-"</var>" }}+` (for example, `bazel_features+`), depending on whether there are
+module is either `&lt;var&gt;module_name</var>+<var>version</var>` (for example, `bazel_skylib+1.0.3`) or `<var>module_name</var>+` (for example, `bazel_features+`), depending on whether there are
 multiple versions of the module in the entire dependency graph (see
 [`multiple_version_override`](/rules/lib/globals/module#multiple_version_override)).
 Note that **the canonical name format** is not an API you should depend on and
@@ -197,7 +224,7 @@ use a supported way to get it directly from Bazel:
 *    When looking up runfiles, use
      [`$(rlocationpath ...)`](https://bazel.build/reference/be/make-variables#predefined_label_variables)
      or one of the runfiles libraries in
-     `@bazel_tools//tools/{bash,cpp,java}/runfiles` or, for a ruleset `rules_foo`,
+     `@bazel_tools//tools/{}bash,cpp,java}/runfiles` or, for a ruleset `rules_foo`,
      in `@rules_foo//foo/runfiles`.
 *    When interacting with Bazel from an external tool such as an IDE or language
      server, use the `bazel mod dump_repo_mapping` command to get the mapping from

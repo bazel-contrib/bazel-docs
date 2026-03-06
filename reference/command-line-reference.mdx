@@ -2,6 +2,7 @@
 title: 'Command-Line Reference'
 ---
 
+
 ```
 bazel [<startup options>] <command> [<args>]
 ```
@@ -734,7 +735,7 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_no_implicit_file_export` default: "true"
+`--[no]incompatible_no_implicit_file_export` default: "false"
 :   If set, (used) source files are package private unless exported explicitly. See https://github.com/bazelbuild/proposals/blob/master/designs/2019-10-24-file-visibility.md
 
     Tags:
@@ -754,12 +755,6 @@ This option affects semantics of the Starlark language or the build API accessib
 
 `--[no]incompatible_package_group_has_public_syntax` default: "true"
 :   In package\_group's `packages` attribute, allows writing "public" or "private" to refer to all packages or no packages respectively.
-
-    Tags:
-    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_require_mnemonic_for_run_actions` default: "false"
-:   If set to true, ctx.actions.run and ctx.actions.run\_shell will require an explicit mnemonic
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -1580,16 +1575,10 @@ Miscellaneous options, not otherwise categorized.:
 `--config=<a string>` multiple uses are accumulated
 :   Selects additional config sections from the rc files; for every <command>, it also pulls in the options from <command>:<config> if such a section exists; if this section doesn't exist in any .rc file, Blaze fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
 
-`--credential_helper=<Path to a credential helper.>` multiple uses are accumulated
+`--credential_helper=<Path to a credential helper. It may be absolute, relative to the PATH environment variable, or %workspace%-relative. The path be optionally prefixed by a scope followed by an '='. The scope is a domain name, optionally with a single leading '*' wildcard component. A helper applies to URIs matching its scope, with more specific scopes preferred. If a helper has no scope, it applies to every URI.>` multiple uses are accumulated
 :   Configures a credential helper conforming to the [Credential Helper Specification](https://github.com/EngFlow/credential-helper-spec)
     to use for retrieving authorization credentials for repository
     fetching, remote caching and execution, and the build event service.
-
-    The path to the credential helper may be absolute, relative to the PATH environment variable,
-    or %workspace%-relative. The path may be optionally prefixed by a scope followed by an '='.
-    The scope is a domain name, optionally with a single leading '\*' wildcard component. A helper
-    applies to URIs matching its scope, with more specific scopes preferred. If a helper has no
-    scope, it applies to every URI.
 
     Credentials supplied by a helper take precedence over credentials supplied by
     `--google_default_credentials`, `--google_credentials`, a `.netrc` file, or the
@@ -2634,6 +2623,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -3158,6 +3153,12 @@ Options that govern the behavior of the test environment or test runner:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
     `{resource}={value}`. If a single positive number is specified as `{value}`
@@ -3315,7 +3316,7 @@ Options that affect the verbosity, format or location of logging:
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 
-`--flag_alias=<a 'name=label' flag alias>` multiple uses are accumulated
+`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
 :   Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form
     `{key}={value}` as an argument.
 
@@ -4166,6 +4167,7 @@ Options that affect the verbosity, format or location of logging:
     [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 
 `--[no]debug_spawn_scheduler` default: "false"
+
 
 `--[no]experimental_bep_target_summary` default: "false"
 :   Whether to publish `TargetSummary` events.
@@ -5342,6 +5344,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -5866,6 +5874,12 @@ Options that govern the behavior of the test environment or test runner:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
     `{resource}={value}`. If a single positive number is specified as `{value}`
@@ -6023,7 +6037,7 @@ Options that affect the verbosity, format or location of logging:
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 
-`--flag_alias=<a 'name=label' flag alias>` multiple uses are accumulated
+`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
 :   Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form
     `{key}={value}` as an argument.
 
@@ -7204,6 +7218,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -7728,6 +7748,12 @@ Options that govern the behavior of the test environment or test runner:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
     `{resource}={value}`. If a single positive number is specified as `{value}`
@@ -7885,7 +7911,7 @@ Options that affect the verbosity, format or location of logging:
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 
-`--flag_alias=<a 'name=label' flag alias>` multiple uses are accumulated
+`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
 :   Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form
     `{key}={value}` as an argument.
 
@@ -8893,6 +8919,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -9417,6 +9449,12 @@ Options that govern the behavior of the test environment or test runner:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
     `{resource}={value}`. If a single positive number is specified as `{value}`
@@ -9574,7 +9612,7 @@ Options that affect the verbosity, format or location of logging:
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 
-`--flag_alias=<a 'name=label' flag alias>` multiple uses are accumulated
+`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
 :   Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form
     `{key}={value}` as an argument.
 
@@ -10434,7 +10472,7 @@ Options that affect the verbosity, format or location of logging:
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 
-`--flag_alias=<a 'name=label' flag alias>` multiple uses are accumulated
+`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
 :   Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form
     `{key}={value}` as an argument.
 
@@ -11113,7 +11151,7 @@ Options that affect the verbosity, format or location of logging:
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 
-`--flag_alias=<a 'name=label' flag alias>` multiple uses are accumulated
+`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
 :   Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form
     `{key}={value}` as an argument.
 
@@ -11928,6 +11966,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -12452,6 +12496,12 @@ Options that govern the behavior of the test environment or test runner:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
     `{resource}={value}`. If a single positive number is specified as `{value}`
@@ -12609,7 +12659,7 @@ Options that affect the verbosity, format or location of logging:
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.:
 
-`--flag_alias=<a 'name=label' flag alias>` multiple uses are accumulated
+`--flag_alias=<a 'name=value' flag alias>` multiple uses are accumulated
 :   Sets a shorthand name for a Starlark flag. It takes a single key-value pair in the form
     `{key}={value}` as an argument.
 
