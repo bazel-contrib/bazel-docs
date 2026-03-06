@@ -1,6 +1,9 @@
 # Files with MDX syntax that Mintlify cannot parse.
 # See https://github.com/bazel-contrib/bazel-docs/issues/226
 
+# Exclude upstream git submodule (Bazel source, not deployed docs)
+upstream/**
+
 # Reference docs — docs2mdx.py output with remaining MDX issues
 # "Could not parse expression with acorn" — bare {..} dict literals in prose
 reference/be/functions.mdx
@@ -37,22 +40,7 @@ rules/lib/toplevel/cc_common.mdx
 query/language.mdx
 
 # Upstream docs (from upstream/docs/ rsync) with MDX issues
-# "Could not parse expression with acorn" — bare {..} in prose
-community/roadmaps-configurability.mdx
-community/users.mdx
-# "Could not parse expression with acorn" — bare {..} in prose
-concepts/build-files.mdx
-# "Could not parse import/exports with acorn" — bare {..} in prose
-concepts/dependencies.mdx
-# "Could not parse expression with acorn" — bare {..} in prose
-concepts/labels.mdx
-concepts/visibility.mdx
-contribute/search.mdx
-docs/cc-toolchain-config-reference.mdx
-docs/user-manual.mdx
-extending/config.mdx
-extending/platforms.mdx
-external/advanced.mdx
+# fwe@ is handling these:
 external/mod-command.mdx
 external/migration_tool.mdx
 external/registry.mdx

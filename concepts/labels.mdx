@@ -145,7 +145,7 @@ current-directory references (`./`) are forbidden.
 <p><span class="compare-worse">Wrong</span> — Do not use <code>..</code> to refer to files in other packages</p>
 
 <p><span class="compare-better">Correct</span> — Use
-  <code>//{{ "<var>" }}package-name{{ "</var>" }}:{{ "<var>" }}filename{{ "</var>" }}</code></p>
+  `//package-name:filename`</p>
 
 While it is common to use `/` in the name of a file target, avoid the use of
 `/` in the names of rules. Especially when the shorthand form of a label is
@@ -241,16 +241,3 @@ the build.
 This directed acyclic graph over targets is called the _target graph_ or
 _build dependency graph_, and is the domain over which the
 [Bazel Query tool](/query/guide) operates.
-
-<table class="columns">
-  <tr>
-    <td><a class="button button-with-icon button-primary"
-           href="/concepts/build-ref">
-        <span class="material-icons" aria-hidden="true">arrow_back</span>Targets</a>
-    </td>
-    <td><a class="button button-with-icon button-primary"
-           href="/concepts/build-files">
-        BUILD files<span class="material-icons icon-after" aria-hidden="true">arrow_forward</span></a>
-    </td>
-  </tr>
-</table>
