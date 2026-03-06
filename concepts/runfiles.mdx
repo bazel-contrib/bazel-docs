@@ -1,5 +1,5 @@
 ---
-title: 'Runfiles'
+title: "Runfiles"
 ---
 
 [Runfiles are a set of files used by a target at runtime (as opposed to build time)](/extending/rules#runfiles).
@@ -19,11 +19,11 @@ Many Bazel rules support [Make Variables](/reference/be/make-variables#predefine
 
 Examples:
 
-<Tabs>
+`&lt;Tabs&gt;`
 
-<Tab title="C++">
+&lt;Tab title="C++"&gt;
 
-```python
+```starlark
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 
 cc_binary(
@@ -32,13 +32,13 @@ cc_binary(
     data = ["//examples:runfile.txt"],
     deps = ["@rules_cc//cc/runfiles"],
 )
-    ```
+```
 
 ```cpp
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <string>
+#include `&lt;filesystem&gt;`
+#include `&lt;fstream&gt;`
+#include `&lt;iostream&gt;`
+#include `&lt;string&gt;`
 
 #include "rules_cc/cc/runfiles/runfiles.h"
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
   std::string error;
   const auto runfiles = Runfiles::Create(argv[0], BAZEL_CURRENT_REPOSITORY, &error);
   if (runfiles == nullptr) {
-    std::cerr << "Failed to create Runfiles object" << error << "\n";
+    std::cerr <&lt; "Failed to create Runfiles object" &lt;&lt; error &lt;&lt; "\n";
     return 1;
   }
 
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
   if (root == "") {
     root = "_main";
   }
-  const std::string realPathToSomeFile = runfiles->Rlocation(std::filesystem::path(root) / someFile);
+  const std::string realPathToSomeFile = runfiles-&gt;Rlocation(std::filesystem::path(root) / someFile);
 
   std::cout << "The content of the runfile is:\n";
   std::ifstream fin(realPathToSomeFile);
@@ -70,10 +70,11 @@ int main(int argc, char **argv) {
   return 0;
 }
 ```
-</Tab>
-<Tab title="Golang">
 
-```python
+&lt;/Tab&gt;
+&lt;Tab title="Golang"&gt;
+
+```starlark
 load("@rules_go//go:def.bzl", "go_binary")
 
 go_binary(
@@ -82,9 +83,9 @@ go_binary(
     data = ["//examples:runfile.txt"],
     deps = ["@rules_go//go/runfiles:go_default_library"],
 )
-    ```
+```
 
-    ```go
+```golang
 package main
 
 import (
@@ -123,11 +124,12 @@ func main() {
 	}
 	fmt.Print(string(data))
 }
-    ```
- </Tab>
-<Tab title="Python">
+```
 
-     ```python
+&lt;/Tab&gt;
+&lt;Tab title="Python"&gt;
+
+```starlark
 load("@rules_python//python:defs.bzl", "py_binary")
 
 py_binary(
@@ -143,7 +145,7 @@ import pathlib
 
 from python.runfiles import runfiles
 
-SOME_FILE = pathlib.Path('examples/runfile.txt')
+SOME_FILE = pathlib.Path("examples/runfile.txt')
 
 r = runfiles.Create()
 root = r.CurrentRepository()
@@ -154,11 +156,12 @@ realPathToSomeFile = r.Rlocation(str(root / SOME_FILE))
 print("The content of the runfile is:")
 with open(realPathToSomeFile, 'r') as f:
     print(f.read())
-    ```
-</Tab>
-<Tab title="Shell">
+```
 
-```python
+&lt;/Tab&gt;
+&lt;Tab title="Shell"&gt;
+
+```starlark
 load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 
 sh_binary(
@@ -167,7 +170,7 @@ sh_binary(
     data = ["//examples:runfile.txt"],
     use_bash_launcher = True,
 )
- ```
+```
 
 ```bash
 #!/bin/bash
@@ -182,7 +185,8 @@ real_path_to_some_file="$(rlocation "${root}/${SOME_FILE}")"
 
 echo "The content of the runfile is:"
 cat "${real_path_to_some_file}"
-   ```
-</Tab>
+```
 
-</Tabs>
+&lt;/Tab&gt;
+
+&lt;/Tabs&gt;
