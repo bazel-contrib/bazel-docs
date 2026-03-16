@@ -22,7 +22,7 @@ jobs:
     outputs:
       should_process: ${{ steps.check.outputs.should_process }}
     steps:
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@v3
         id: generate-token
         with:
           app-id: ${{ secrets.GH_APP_ID }}
@@ -61,7 +61,7 @@ jobs:
     if: needs.check-dependabot.outputs.should_process == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@v3
         id: generate-token
         with:
           app-id: ${{ secrets.GH_APP_ID }}
