@@ -2634,6 +2634,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -3066,7 +3072,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--[no]incompatible_check_testonly_for_output_files` default: "true"
+`--[no]incompatible_check_testonly_for_output_files` default: "false"
 :   If enabled, check testonly for prerequisite targets that are output files by looking up the testonly of the generating rule. This matches visibility checking.
 
     Tags:
@@ -3157,6 +3163,12 @@ Options that govern the behavior of the test environment or test runner:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
@@ -5342,6 +5354,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -5774,7 +5792,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--[no]incompatible_check_testonly_for_output_files` default: "true"
+`--[no]incompatible_check_testonly_for_output_files` default: "false"
 :   If enabled, check testonly for prerequisite targets that are output files by looking up the testonly of the generating rule. This matches visibility checking.
 
     Tags:
@@ -5865,6 +5883,12 @@ Options that govern the behavior of the test environment or test runner:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
@@ -7204,6 +7228,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -7636,7 +7666,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--[no]incompatible_check_testonly_for_output_files` default: "true"
+`--[no]incompatible_check_testonly_for_output_files` default: "false"
 :   If enabled, check testonly for prerequisite targets that are output files by looking up the testonly of the generating rule. This matches visibility checking.
 
     Tags:
@@ -7727,6 +7757,12 @@ Options that govern the behavior of the test environment or test runner:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
@@ -8893,6 +8929,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -9325,7 +9367,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--[no]incompatible_check_testonly_for_output_files` default: "true"
+`--[no]incompatible_check_testonly_for_output_files` default: "false"
 :   If enabled, check testonly for prerequisite targets that are output files by looking up the testonly of the generating rule. This matches visibility checking.
 
     Tags:
@@ -9416,6 +9458,12 @@ Options that govern the behavior of the test environment or test runner:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
@@ -10275,7 +10323,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
-`--[no]incompatible_check_testonly_for_output_files` default: "true"
+`--[no]incompatible_check_testonly_for_output_files` default: "false"
 :   If enabled, check testonly for prerequisite targets that are output files by looking up the testonly of the generating rule. This matches visibility checking.
 
     Tags:
@@ -10817,7 +10865,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
-`--[no]incompatible_check_testonly_for_output_files` default: "true"
+`--[no]incompatible_check_testonly_for_output_files` default: "false"
 :   If enabled, check testonly for prerequisite targets that are output files by looking up the testonly of the generating rule. This matches visibility checking.
 
     Tags:
@@ -11928,6 +11976,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_rewrite_dexes_with_rex` default: "false"
+:   use rex tool to rewrite dex files
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_collect_code_coverage_for_generated_files` default: "false"
 :   If specified, Bazel will also generate collect coverage information for generated files.
 
@@ -12360,7 +12414,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 
-`--[no]incompatible_check_testonly_for_output_files` default: "true"
+`--[no]incompatible_check_testonly_for_output_files` default: "false"
 :   If enabled, check testonly for prerequisite targets that are output files by looking up the testonly of the generating rule. This matches visibility checking.
 
     Tags:
@@ -12451,6 +12505,12 @@ Options that govern the behavior of the test environment or test runner:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]break_build_on_parallel_dex2oat_failure` default: "false"
+:   If true dex2oat action failures will cause the build to break instead of executing dex2oat during test runtime.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--default_test_resources=<a resource name followed by equal and 1 float or 4 float, e.g memory=10,30,60,100>` multiple uses are accumulated
 :   Override the default resources amount for tests. The expected format is
