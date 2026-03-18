@@ -1398,12 +1398,6 @@ Remote caching and execution options:
     Tags:
     [`execution`](#effect_tag_EXECUTION)
 
-`--[no]experimental_remote_cache_chunking` default: "false"
-:   If enabled, large blobs are split into content-defined chunks using FastCDC 2020 and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and FastCDC 2020 parameters in its capabilities.
-
-    Tags:
-    [`experimental`](#metadata_tag_EXPERIMENTAL)
-
 `--experimental_remote_cache_compression_threshold=<an integer>` default: "100"
 :   The minimum blob size required to compress/decompress with zstd. Ineffectual unless --remote\_cache\_compression is set.
 
@@ -4403,12 +4397,6 @@ Remote caching and execution options:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
-
-`--[no]experimental_remote_cache_chunking` default: "false"
-:   If enabled, large blobs are split into content-defined chunks using FastCDC 2020 and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and FastCDC 2020 parameters in its capabilities.
-
-    Tags:
-    [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--experimental_remote_cache_compression_threshold=<an integer>` default: "100"
 :   The minimum blob size required to compress/decompress with zstd. Ineffectual unless --remote\_cache\_compression is set.
