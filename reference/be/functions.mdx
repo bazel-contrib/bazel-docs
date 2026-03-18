@@ -2,6 +2,7 @@
 title: 'Functions'
 ---
 
+
 ## Contents
 
 * [package](#package)
@@ -170,7 +171,9 @@ packages may use it, for example, in the `data` attribute
 of tests.
 
 ```
-# from //test_data/BUILD
+---
+title: 'from //test_data/BUILD'
+---
 
 exports_files(["golden.txt"])
 ```
@@ -379,7 +382,9 @@ Create an individual genrule for \*\_test.cc in the current directory
 that counts the number of lines in the file.
 
 ```
-# Conveniently, the build language supports list comprehensions.
+---
+title: 'Conveniently, the build language supports list comprehensions.'
+---
 [genrule(
     name = "count_lines_" + f[:-3],  # strip ".cc"
     srcs = [f],
