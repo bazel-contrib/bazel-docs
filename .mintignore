@@ -9,8 +9,6 @@ reference/command-line-reference.mdx
 reference/be/protocol-buffer.mdx
 # Raw <html devsite> wrapper, not converted to MDX
 reference/flag-cheatsheet.mdx
-# "Unexpected character `!` before name" — HTML comments <!-- --> not valid MDX
-reference/glossary.mdx
 # Devsite heading anchors {:#anchor} not valid MDX
 reference/test-encyclopedia.mdx
 
