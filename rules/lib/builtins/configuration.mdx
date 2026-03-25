@@ -9,6 +9,7 @@ This object holds information about the environment in which the build is runnin
 * [coverage\_enabled](#coverage_enabled)
 * [default\_shell\_env](#default_shell_env)
 * [host\_path\_separator](#host_path_separator)
+* [is\_tool\_configuration](#is_tool_configuration)
 * [short\_id](#short_id)
 * [test\_env](#test_env)
 
@@ -35,6 +36,14 @@ string configuration.host_path_separator
 ```
 
 Returns the separator for PATH environment variable, which is ':' on Unix.
+
+## is\_tool\_configuration
+
+```
+bool configuration.is_tool_configuration()
+```
+
+Returns true when building in the tool (exec) configuration.
 
 ## short\_id
 
