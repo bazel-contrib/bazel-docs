@@ -1,6 +1,4 @@
----
-title: 'set'
----
+# set
 
 The built-in set type. A set is a mutable collection of unique values – the set's
 *elements*. The [type name](../globals/all#type) of a set is `"set"`.
@@ -51,7 +49,7 @@ Sets may be compared for equality or inequality using `==` and `!=`. A set
 `s` is equal to `t` if and only if `t` is a set containing the same
 elements; iteration order is not significant. In particular, a set is *not* equal to the list
 of its elements. Sets are not ordered with respect to other sets, and an attempt to compare two sets
-using `<`, `<=`, `>`, `>=`, or to sort a
+using `&lt;`, `&lt;=`, `&gt;`, `&gt;=`, or to sort a
 sequence of sets, will fail.
 
 ```
@@ -115,17 +113,17 @@ operations that attempt to update it will fail.
 * [add](#add)
 * [clear](#clear)
 * [difference](#difference)
-* [difference\_update](#difference_update)
+* [difference_update](#difference_update)
 * [discard](#discard)
 * [intersection](#intersection)
-* [intersection\_update](#intersection_update)
+* [intersection_update](#intersection_update)
 * [isdisjoint](#isdisjoint)
 * [issubset](#issubset)
 * [issuperset](#issuperset)
 * [pop](#pop)
 * [remove](#remove)
-* [symmetric\_difference](#symmetric_difference)
-* [symmetric\_difference\_update](#symmetric_difference_update)
+* [symmetric_difference](#symmetric_difference)
+* [symmetric_difference_update](#symmetric_difference_update)
 * [union](#union)
 * [update](#update)
 
@@ -185,7 +183,7 @@ set([1, 2, 3]).difference([0, 1], [3, 4])  # set([2])
 | --- | --- |
 | `others` | required  Collections of hashable elements. |
 
-## difference\_update
+## difference_update
 
 ```
 None set.difference_update(*others)
@@ -270,7 +268,7 @@ set([1, 2, 3]).intersection([0, 1], [1, 2])  # set([1])
 | --- | --- |
 | `others` | required  Collections of hashable elements. |
 
-## intersection\_update
+## intersection_update
 
 ```
 None set.intersection_update(*others)
@@ -411,7 +409,7 @@ assignment operation.
 | --- | --- |
 | `element` | required  Element to remove. Must be an element of the set (and hashable). |
 
-## symmetric\_difference
+## symmetric_difference
 
 ```
 set set.symmetric_difference(other)
@@ -437,7 +435,7 @@ set([1, 2]).symmetric_difference([2, 3])  # set([1, 3])
 | --- | --- |
 | `other` | required  A collection of hashable elements. |
 
-## symmetric\_difference\_update
+## symmetric_difference_update
 
 ```
 None set.symmetric_difference_update(other)
