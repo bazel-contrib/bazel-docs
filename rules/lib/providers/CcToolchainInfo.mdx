@@ -1,32 +1,30 @@
----
-title: 'CcToolchainInfo'
----
+# CcToolchainInfo
 
 Information about the C++ compiler being used.
 
 ## Members
 
-* [all\_files](#all_files)
-* [ar\_executable](#ar_executable)
-* [built\_in\_include\_directories](#built_in_include_directories)
+* [all_files](#all_files)
+* [ar_executable](#ar_executable)
+* [built_in_include_directories](#built_in_include_directories)
 * [compiler](#compiler)
-* [compiler\_executable](#compiler_executable)
+* [compiler_executable](#compiler_executable)
 * [cpu](#cpu)
-* [dynamic\_runtime\_lib](#dynamic_runtime_lib)
-* [gcov\_executable](#gcov_executable)
-* [ld\_executable](#ld_executable)
+* [dynamic_runtime_lib](#dynamic_runtime_lib)
+* [gcov_executable](#gcov_executable)
+* [ld_executable](#ld_executable)
 * [libc](#libc)
-* [needs\_pic\_for\_dynamic\_libraries](#needs_pic_for_dynamic_libraries)
-* [nm\_executable](#nm_executable)
-* [objcopy\_executable](#objcopy_executable)
-* [objdump\_executable](#objdump_executable)
-* [preprocessor\_executable](#preprocessor_executable)
-* [static\_runtime\_lib](#static_runtime_lib)
-* [strip\_executable](#strip_executable)
+* [needs_pic_for_dynamic_libraries](#needs_pic_for_dynamic_libraries)
+* [nm_executable](#nm_executable)
+* [objcopy_executable](#objcopy_executable)
+* [objdump_executable](#objdump_executable)
+* [preprocessor_executable](#preprocessor_executable)
+* [static_runtime_lib](#static_runtime_lib)
+* [strip_executable](#strip_executable)
 * [sysroot](#sysroot)
-* [target\_gnu\_system\_name](#target_gnu_system_name)
+* [target_gnu_system_name](#target_gnu_system_name)
 
-## all\_files
+## all_files
 
 ```
 None CcToolchainInfo.all_files
@@ -34,7 +32,7 @@ None CcToolchainInfo.all_files
 
 Returns all toolchain files (so they can be passed to actions using this toolchain as inputs).
 
-## ar\_executable
+## ar_executable
 
 ```
 None CcToolchainInfo.ar_executable
@@ -42,7 +40,7 @@ None CcToolchainInfo.ar_executable
 
 The path to the ar binary.
 
-## built\_in\_include\_directories
+## built_in_include_directories
 
 ```
 None CcToolchainInfo.built_in_include_directories
@@ -58,7 +56,7 @@ None CcToolchainInfo.compiler
 
 C++ compiler.
 
-## compiler\_executable
+## compiler_executable
 
 ```
 None CcToolchainInfo.compiler_executable
@@ -74,13 +72,13 @@ None CcToolchainInfo.cpu
 
 Target CPU of the C++ toolchain.
 
-## dynamic\_runtime\_lib
+## dynamic_runtime_lib
 
 ```
 None CcToolchainInfo.dynamic_runtime_lib(*, feature_configuration)
 ```
 
-Returns the files from `dynamic\_runtime\_lib` attribute (so they can be passed to actions using this toolchain as inputs). The caller can check whether the feature\_configuration enables `static\_link\_cpp\_runtimes` feature (if not, neither `static\_runtime\_lib` nor `dynamic\_runtime\_lib` have to be used), and use `static\_runtime\_lib` if static linking mode is active.
+Returns the files from `dynamic_runtime_lib` attribute (so they can be passed to actions using this toolchain as inputs). The caller can check whether the feature_configuration enables `static_link_cpp_runtimes` feature (if not, neither `static_runtime_lib` nor `dynamic_runtime_lib` have to be used), and use `static_runtime_lib` if static linking mode is active.
 
 ### Parameters
 
@@ -88,7 +86,7 @@ Returns the files from `dynamic\_runtime\_lib` attribute (so they can be passed 
 | --- | --- |
 | `feature_configuration` | required  Feature configuration to be queried. |
 
-## gcov\_executable
+## gcov_executable
 
 ```
 None CcToolchainInfo.gcov_executable
@@ -96,7 +94,7 @@ None CcToolchainInfo.gcov_executable
 
 The path to the gcov binary.
 
-## ld\_executable
+## ld_executable
 
 ```
 None CcToolchainInfo.ld_executable
@@ -112,13 +110,13 @@ None CcToolchainInfo.libc
 
 libc version string.
 
-## needs\_pic\_for\_dynamic\_libraries
+## needs_pic_for_dynamic_libraries
 
 ```
 None CcToolchainInfo.needs_pic_for_dynamic_libraries(*, feature_configuration)
 ```
 
-Returns true if this rule's compilations should apply -fPIC, false otherwise. Determines if we should apply -fPIC for this rule's C++ compilations depending on the C++ toolchain and presence of `--force\_pic` Bazel option.
+Returns true if this rule's compilations should apply -fPIC, false otherwise. Determines if we should apply -fPIC for this rule's C++ compilations depending on the C++ toolchain and presence of `--force_pic` Bazel option.
 
 ### Parameters
 
@@ -126,7 +124,7 @@ Returns true if this rule's compilations should apply -fPIC, false otherwise. De
 | --- | --- |
 | `feature_configuration` | required  Feature configuration to be queried. |
 
-## nm\_executable
+## nm_executable
 
 ```
 None CcToolchainInfo.nm_executable
@@ -134,7 +132,7 @@ None CcToolchainInfo.nm_executable
 
 The path to the nm binary.
 
-## objcopy\_executable
+## objcopy_executable
 
 ```
 None CcToolchainInfo.objcopy_executable
@@ -142,7 +140,7 @@ None CcToolchainInfo.objcopy_executable
 
 The path to the objcopy binary.
 
-## objdump\_executable
+## objdump_executable
 
 ```
 None CcToolchainInfo.objdump_executable
@@ -150,7 +148,7 @@ None CcToolchainInfo.objdump_executable
 
 The path to the objdump binary.
 
-## preprocessor\_executable
+## preprocessor_executable
 
 ```
 None CcToolchainInfo.preprocessor_executable
@@ -158,13 +156,13 @@ None CcToolchainInfo.preprocessor_executable
 
 The path to the preprocessor binary.
 
-## static\_runtime\_lib
+## static_runtime_lib
 
 ```
 None CcToolchainInfo.static_runtime_lib(*, feature_configuration)
 ```
 
-Returns the files from `static\_runtime\_lib` attribute (so they can be passed to actions using this toolchain as inputs). The caller should check whether the feature\_configuration enables `static\_link\_cpp\_runtimes` feature (if not, neither `static\_runtime\_lib` nor `dynamic\_runtime\_lib` should be used), and use `dynamic\_runtime\_lib` if dynamic linking mode is active.
+Returns the files from `static_runtime_lib` attribute (so they can be passed to actions using this toolchain as inputs). The caller should check whether the feature_configuration enables `static_link_cpp_runtimes` feature (if not, neither `static_runtime_lib` nor `dynamic_runtime_lib` should be used), and use `dynamic_runtime_lib` if dynamic linking mode is active.
 
 ### Parameters
 
@@ -172,7 +170,7 @@ Returns the files from `static\_runtime\_lib` attribute (so they can be passed t
 | --- | --- |
 | `feature_configuration` | required  Feature configuration to be queried. |
 
-## strip\_executable
+## strip_executable
 
 ```
 None CcToolchainInfo.strip_executable
@@ -188,7 +186,7 @@ None CcToolchainInfo.sysroot
 
 Returns the sysroot to be used. If the toolchain compiler does not support different sysroots, or the sysroot is the same as the default sysroot, then this method returns `None`.
 
-## target\_gnu\_system\_name
+## target_gnu_system_name
 
 ```
 None CcToolchainInfo.target_gnu_system_name
