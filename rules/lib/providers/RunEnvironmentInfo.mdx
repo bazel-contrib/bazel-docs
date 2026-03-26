@@ -1,13 +1,11 @@
----
-title: 'RunEnvironmentInfo'
----
+# RunEnvironmentInfo
 
 A provider that can be returned from executable rules to control the environment in which their executable is executed.
 
 ## Members
 
 * [environment](#environment)
-* [inherited\_environment](#inherited_environment)
+* [inherited_environment](#inherited_environment)
 
 ## environment
 
@@ -17,7 +15,7 @@ dict RunEnvironmentInfo.environment
 
 A map of string keys and values that represent environment variables and their values. These will be made available when the target that returns this provider is executed, either as a test or via the run command.
 
-## inherited\_environment
+## inherited_environment
 
 ```
 List RunEnvironmentInfo.inherited_environment
