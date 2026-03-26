@@ -1,14 +1,12 @@
----
-title: 'CcInfo'
----
+# CcInfo
 
 A provider for compilation and linking of C++. This is also a marking provider telling C++ rules that they can depend on the rule with this provider. If it is not intended for the rule to be depended on by C++, the rule should wrap the CcInfo in some other provider.
 
 ## Members
 
 * [CcInfo](#CcInfo)
-* [compilation\_context](#compilation_context)
-* [linking\_context](#linking_context)
+* [compilation_context](#compilation_context)
+* [linking_context](#linking_context)
 
 ## CcInfo
 
@@ -26,7 +24,7 @@ The `CcInfo` constructor.
 | `linking_context` | [struct](../builtins/struct); or `None`; default is `None`  The `LinkingContext`. |
 | `debug_context` | [struct](../builtins/struct); or `None`; default is `None`  The `DebugContext`. |
 
-## compilation\_context
+## compilation_context
 
 ```
 CompilationContext CcInfo.compilation_context
@@ -34,7 +32,7 @@ CompilationContext CcInfo.compilation_context
 
 Returns the `CompilationContext`
 
-## linking\_context
+## linking_context
 
 ```
 struct CcInfo.linking_context
