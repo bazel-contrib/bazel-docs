@@ -1,6 +1,4 @@
----
-title: 'dict'
----
+# dict
 
 dict is a built-in type representing an associative mapping or *dictionary*. A dictionary supports indexing using `d[k]` and key membership testing using `k in d`; both operations take constant time. Unfrozen dictionaries are mutable, and may be updated by assigning to `d[k]` or by calling certain methods. Dictionaries are iterable; iteration yields the sequence of keys in insertion order. Iteration order is unaffected by updating the value associated with an existing key, but is affected by removing then reinserting a key.
 
@@ -15,7 +13,7 @@ d[0], d[2] = "a", "b"
 
 There are four ways to construct a dictionary:
 
-1. A dictionary expression `{k: v, ...}` yields a new dictionary with the specified key/value entries, inserted in the order they appear in the expression. Evaluation fails if any two key expressions yield the same value.- A dictionary comprehension `{k: v for vars in seq}` yields a new dictionary into which each key/value pair is inserted in loop iteration order. Duplicates are permitted: the first insertion of a given key determines its position in the sequence, and the last determines its associated value.
+1. A dictionary expression `&lcub;k: v, ...&rcub;` yields a new dictionary with the specified key/value entries, inserted in the order they appear in the expression. Evaluation fails if any two key expressions yield the same value.- A dictionary comprehension `&lcub;k: v for vars in seq&rcub;` yields a new dictionary into which each key/value pair is inserted in loop iteration order. Duplicates are permitted: the first insertion of a given key determines its position in the sequence, and the last determines its associated value.
 
      ```
      {k: v for k, v in (("a", 0), ("b", 1), ("a", 2))}  # {"a": 2, "b": 1}
@@ -26,7 +24,9 @@ There are four ways to construct a dictionary:
 
          ```
          d = {"foo": "FOO", "bar": "BAR"} | {"foo": "FOO2", "baz": "BAZ"}
-         # d == {"foo": "FOO2", "bar": "BAR", "baz": "BAZ"}
+         ---
+         title: 'd == {"foo": "FOO2", "bar": "BAR", "baz": "BAZ"}'
+         ---
          d = {"a": 1, "b": 2}
          d |= {"b": 3, "c": 4}
          # d == {"a": 1, "b": 3, "c": 4}
