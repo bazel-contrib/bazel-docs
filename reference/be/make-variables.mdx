@@ -1,6 +1,4 @@
----
-title: 'Make Variables'
----
+# Make Variables
 
 * [Use](#use)
 * [Predefined variables](#predefined_variables)
@@ -100,8 +98,8 @@ generally important for making that attribute work.
 * `SRCS`: The `genrule`'s `srcs` list (or more
   precisely: the path names of the files corresponding to labels in the
   `srcs` list).
-  If you have only one source file, you can also use `$<`.
-* `<`: `SRCS`, if it is a single file. Else triggers
+  If you have only one source file, you can also use `$&lt;`.
+* `&lt;`: `SRCS`, if it is a single file. Else triggers
   a build error.
 * `@`: `OUTS`, if it is a single file. Else triggers a
   build error.
@@ -134,18 +132,18 @@ filenames contain spaces, `'`, or other special characters (or your
 genrule is part of a Starlark macro which downstream users may invoke on such
 files), then `$(SRCS)` and `$(OUTS)` are not suitable
 for interpolation into a command line, as they do not have the semantics that
-`"${@}"` would in Bash.
+`"$&lcub;@&rcub;"` would in Bash.
 
 One workaround is to convert to a Bash array, with
 
 ```
-mapfile SRCS <<< "$$(sed -e 's/ /\\n/g' <<'genrule_srcs_expansion'
+mapfile SRCS &lt;&lt;&lt; "$$(sed -e 's/ /\\n/g' &lt;&lt;'genrule_srcs_expansion'
 $(SRC)
 genrule_srcs_expansion
 )
 ```
 
-and then use `"$$\{SRCS[@]}"` in subsequent command lines in place
+and then use `"$$\&lcub;SRCS[@]&rcub;"` in subsequent command lines in place
 of `$(SRCS)`. A more robust option is to write a Starlark rule
 instead.
 

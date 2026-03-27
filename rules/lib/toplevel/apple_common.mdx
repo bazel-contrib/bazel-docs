@@ -1,21 +1,19 @@
----
-title: 'apple\_common'
----
+# apple_common
 
 Functions for Starlark to access internals of the apple rule implementations.
 
 ## Members
 
-* [apple\_host\_system\_env](#apple_host_system_env)
-* [apple\_toolchain](#apple_toolchain)
-* [dotted\_version](#dotted_version)
+* [apple_host_system_env](#apple_host_system_env)
+* [apple_toolchain](#apple_toolchain)
+* [dotted_version](#dotted_version)
 * [platform](#platform)
-* [platform\_type](#platform_type)
-* [target\_apple\_env](#target_apple_env)
+* [platform_type](#platform_type)
+* [target_apple_env](#target_apple_env)
 * [XcodeProperties](#XcodeProperties)
 * [XcodeVersionConfig](#XcodeVersionConfig)
 
-## apple\_host\_system\_env
+## apple_host_system_env
 
 ```
 dict apple_common.apple_host_system_env(xcode_config)
@@ -29,7 +27,7 @@ Returns a [dict](../core/dict) of environment variables that should be set for a
 | --- | --- |
 | `xcode_config` | required  A provider containing information about the Xcode configuration. |
 
-## apple\_toolchain
+## apple_toolchain
 
 ```
 unknown apple_common.apple_toolchain()
@@ -37,7 +35,7 @@ unknown apple_common.apple_toolchain()
 
 Utilities for resolving items from the apple toolchain.
 
-## dotted\_version
+## dotted_version
 
 ```
 DottedVersion apple_common.dotted_version(version)
@@ -69,9 +67,9 @@ An enum-like struct that contains the following fields corresponding to Apple pl
 * `watchos_device`
 * `watchos_simulator`
 
-These values can be passed to methods that expect a platform, like [XcodeVersionConfig.sdk\_version\_for\_platform](../providers/XcodeVersionConfig#sdk_version_for_platform).
+These values can be passed to methods that expect a platform, like [XcodeVersionConfig.sdk_version_for_platform](../providers/XcodeVersionConfig#sdk_version_for_platform).
 
-## platform\_type
+## platform_type
 
 ```
 struct apple_common.platform_type
@@ -87,7 +85,7 @@ An enum-like struct that contains the following fields corresponding to Apple pl
 
 These values can be passed to methods that expect a platform type.
 
-## target\_apple\_env
+## target_apple_env
 
 ```
 dict apple_common.target_apple_env(xcode_config, platform)
