@@ -1,0 +1,281 @@
+{
+  "language": "en",
+  "tabs": [
+    {
+      "tab": "About Bazel",
+      "groups": [
+        {
+          "group": "Why Bazel?",
+          "pages": [
+            "versions/6.5.0/about/intro",
+            "versions/6.5.0/about/why",
+            "versions/6.5.0/about/vision",
+            "versions/6.5.0/about/roadmap",
+            "versions/6.5.0/about/faq"
+          ]
+        },
+        {
+          "group": "Build system basics",
+          "pages": [
+            "versions/6.5.0/basics",
+            "versions/6.5.0/basics/build-systems",
+            "versions/6.5.0/basics/task-based-builds",
+            "versions/6.5.0/basics/artifact-based-builds",
+            "versions/6.5.0/basics/distributed-builds",
+            "versions/6.5.0/basics/dependencies",
+            "versions/6.5.0/basics/hermeticity"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Getting started",
+      "groups": [
+        {
+          "group": "Install",
+          "pages": [
+            "versions/6.5.0/install",
+            "versions/6.5.0/install/bazelisk",
+            "versions/6.5.0/install/os-x",
+            "versions/6.5.0/install/windows",
+            "versions/6.5.0/install/ubuntu",
+            "versions/6.5.0/install/suse",
+            "versions/6.5.0/install/docker-container",
+            "versions/6.5.0/install/compile-source",
+            "versions/6.5.0/install/completion",
+            "versions/6.5.0/install/ide"
+          ]
+        },
+        {
+          "group": "First build tutorials",
+          "pages": [
+            "versions/6.5.0/start/cpp",
+            "versions/6.5.0/start/java",
+            "versions/6.5.0/start/android-app",
+            "versions/6.5.0/start/ios-app"
+          ]
+        },
+        {
+          "group": "Concepts",
+          "pages": [
+            "versions/6.5.0/concepts/build-ref",
+            "versions/6.5.0/concepts/labels",
+            "versions/6.5.0/concepts/build-files",
+            "versions/6.5.0/concepts/dependencies",
+            "versions/6.5.0/concepts/visibility",
+            "versions/6.5.0/concepts/platforms",
+            "versions/6.5.0/concepts/hermeticity"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "User guide",
+      "groups": [
+        {
+          "group": "Releases",
+          "pages": [
+            "versions/6.5.0/release",
+            "versions/6.5.0/release/rolling",
+            "versions/6.5.0/release/backward-compatibility",
+            "versions/6.5.0/release/rule-compatibility"
+          ]
+        },
+        {
+          "group": "Basics",
+          "pages": [
+            "versions/6.5.0/build/style-guide",
+            "versions/6.5.0/build/share-variables",
+            "versions/6.5.0/community/recommended-rules",
+            "versions/6.5.0/run/build"
+          ]
+        },
+        {
+          "group": "Advanced",
+          "pages": [
+            "versions/6.5.0/configure/attributes",
+            "versions/6.5.0/configure/integrate-cpp",
+            "versions/6.5.0/configure/coverage",
+            "versions/6.5.0/configure/best-practices",
+            "versions/6.5.0/configure/windows",
+            "versions/6.5.0/advanced/performance/build-performance-metrics",
+            "versions/6.5.0/advanced/performance/build-performance-breakdown",
+            "versions/6.5.0/advanced/performance/json-trace-profile",
+            "versions/6.5.0/advanced/performance/memory",
+            "versions/6.5.0/advanced/performance/iteration-speed"
+          ]
+        },
+        {
+          "group": "Remote Execution",
+          "pages": [
+            "versions/6.5.0/remote/rbe",
+            "versions/6.5.0/remote/rules",
+            "versions/6.5.0/remote/ci",
+            "versions/6.5.0/remote/dynamic",
+            "versions/6.5.0/remote/caching",
+            "versions/6.5.0/remote/sandbox",
+            "versions/6.5.0/remote/workspace",
+            "versions/6.5.0/remote/cache-remote",
+            "versions/6.5.0/remote/cache-local",
+            "versions/6.5.0/remote/output-directories",
+            "versions/6.5.0/remote/persistent",
+            "versions/6.5.0/remote/multiplex",
+            "versions/6.5.0/remote/creating",
+            "versions/6.5.0/remote/bep",
+            "versions/6.5.0/remote/bep-examples",
+            "versions/6.5.0/remote/bep-glossary"
+          ]
+        },
+        {
+          "group": "Tutorials",
+          "pages": [
+            "versions/6.5.0/tutorials/cpp-use-cases",
+            "versions/6.5.0/tutorials/ccp-toolchain-config",
+            "versions/6.5.0/tutorials/cpp-dependency",
+            "versions/6.5.0/tutorials/cpp-labels"
+          ]
+        },
+        {
+          "group": "Migrate",
+          "pages": [
+            "versions/6.5.0/migrate",
+            "versions/6.5.0/migrate/maven",
+            "versions/6.5.0/migrate/xcode"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Reference",
+      "groups": [
+        {
+          "group": "Build encyclopedia",
+          "pages": [
+            "versions/6.5.0/reference/be/overview",
+            "versions/6.5.0/reference/be/common-definitions",
+            "versions/6.5.0/reference/be/make-variables",
+            "versions/6.5.0/reference/be/functions",
+            "versions/6.5.0/reference/be/platforms-and-toolchains"
+          ]
+        },
+        {
+          "group": "Command line reference",
+          "pages": [
+            "versions/6.5.0/reference/command-line-reference"
+          ]
+        },
+        {
+          "group": "Query Language",
+          "pages": [
+            "versions/6.5.0/query/language",
+            "versions/6.5.0/query/quickstart"
+          ]
+        },
+        {
+          "group": "Glossary",
+          "pages": [
+            "versions/6.5.0/reference/glossary"
+          ]
+        },
+        {
+          "group": "Flag cheatsheet",
+          "pages": [
+            "versions/6.5.0/reference/flag-cheatsheet"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Extending",
+      "groups": [
+        {
+          "group": "Concepts",
+          "pages": [
+            "versions/6.5.0/extending/concepts"
+          ]
+        },
+        {
+          "group": "Writing rules",
+          "pages": [
+            "versions/6.5.0/rules/rules-tutorial",
+            "versions/6.5.0/rules/macro-tutorial",
+            "versions/6.5.0/rules/legacy-macro-tutorial",
+            "versions/6.5.0/rules/verbs-tutorial",
+            "versions/6.5.0/rules/language",
+            "versions/6.5.0/rules/bzl-style",
+            "versions/6.5.0/rules/challenges",
+            "versions/6.5.0/rules/windows"
+          ]
+        },
+        {
+          "group": "Distributing rules",
+          "pages": [
+            "versions/6.5.0/rules/testing",
+            "versions/6.5.0/rules/performance",
+            "versions/6.5.0/rules/deploying"
+          ]
+        },
+        {
+          "group": "APIs",
+          "pages": [
+            "versions/6.5.0/rules/lib/overview",
+            "versions/6.5.0/rules/lib/globals",
+            "versions/6.5.0/rules/lib/globals/bzl",
+            "versions/6.5.0/rules/lib/globals/module"
+          ]
+        },
+        {
+          "group": "Repo rules",
+          "pages": [
+            "versions/6.5.0/rules/lib/repo/index",
+            "versions/6.5.0/rules/lib/repo/cache",
+            "versions/6.5.0/rules/lib/repo/git",
+            "versions/6.5.0/rules/lib/repo/http",
+            "versions/6.5.0/rules/lib/repo/local",
+            "versions/6.5.0/rules/lib/repo/utils"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Community",
+      "groups": [
+        {
+          "group": "Contributing",
+          "pages": [
+            "versions/6.5.0/contribute",
+            "versions/6.5.0/contribute/policy",
+            "versions/6.5.0/contribute/patch-acceptance",
+            "versions/6.5.0/contribute/maintainers-guide",
+            "versions/6.5.0/contribute/codebase",
+            "versions/6.5.0/contribute/search",
+            "versions/6.5.0/contribute/statemachine-guide",
+            "versions/6.5.0/contribute/docs",
+            "versions/6.5.0/contribute/docs-style-guide",
+            "versions/6.5.0/contribute/design-documents",
+            "versions/6.5.0/contribute/release-notes"
+          ]
+        },
+        {
+          "group": "Programs",
+          "pages": [
+            "versions/6.5.0/community/update",
+            "versions/6.5.0/community/sig",
+            "versions/6.5.0/community/experts",
+            "versions/6.5.0/community/partners",
+            "versions/6.5.0/community/users",
+            "versions/6.5.0/community/recommended-rules",
+            "versions/6.5.0/community/remote-execution-services"
+          ]
+        },
+        {
+          "group": "Getting help",
+          "pages": [
+            "versions/6.5.0/help",
+            "versions/6.5.0/contribute/policy"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -63,7 +63,7 @@ run ./run-in-go-docker.sh "$REFERENCE_ZIP"
   
 
 run ./copy-upstream-docs.sh
-run ./docs.json.update.sh
+run ./navigation.update.sh
 
 rm -rf "reference-docs-temp"
 echo "Workflow reproduction completed successfully."

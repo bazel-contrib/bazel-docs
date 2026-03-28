@@ -1,0 +1,84 @@
+{
+  "versions": [
+    {
+      "version": "HEAD",
+      "languages": [
+        {
+          "$ref": "./navigation/HEAD.en.json"
+        }
+      ]
+    },
+    {
+      "version": "9.0",
+      "languages": [
+        {
+          "$ref": "./navigation/9.0.en.json"
+        }
+      ]
+    },
+    {
+      "version": "8.5",
+      "languages": [
+        {
+          "$ref": "./navigation/8.5.en.json"
+        }
+      ]
+    },
+    {
+      "version": "8.4",
+      "languages": [
+        {
+          "$ref": "./navigation/8.4.en.json"
+        }
+      ]
+    },
+    {
+      "version": "8.3",
+      "languages": [
+        {
+          "$ref": "./navigation/8.3.en.json"
+        }
+      ]
+    },
+    {
+      "version": "8.2",
+      "languages": [
+        {
+          "$ref": "./navigation/8.2.en.json"
+        }
+      ]
+    },
+    {
+      "version": "8.1",
+      "languages": [
+        {
+          "$ref": "./navigation/8.1.en.json"
+        }
+      ]
+    },
+    {
+      "version": "8.0",
+      "languages": [
+        {
+          "$ref": "./navigation/8.0.en.json"
+        }
+      ]
+    },
+    {
+      "version": "7.7",
+      "languages": [
+        {
+          "$ref": "./navigation/7.7.en.json"
+        }
+      ]
+    },
+    {
+      "version": "6.5",
+      "languages": [
+        {
+          "$ref": "./navigation/6.5.en.json"
+        }
+      ]
+    }
+  ]
+}

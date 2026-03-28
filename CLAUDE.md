@@ -21,7 +21,7 @@ Pipeline that syncs pre-converted MDX docs from `bazelbuild/bazel` and deploys t
 | `.github/workflows/preview-bazel-docs-pr.yml` | Cron: polls upstream PRs, builds previews, posts comments |
 | `.github/workflows/trigger-from-bazel-repo.yml` | Syncs on upstream main-branch push |
 | `.github/workflows/generate-docs.yml` | Syncs on PRs to this repo |
-| `docs.json.update.sh` | Regenerates versioned Mintlify nav (`docs.json`); version list from `upstream/docs/versions/` |
+| `navigation.update.sh` | Regenerates versioned Mintlify nav (`navigation.json` + `navigation/*.en.json`); version list from `upstream/docs/versions/` |
 | `.mintignore` | Files excluded from Mintlify rendering (broken MDX syntax) |
 
 ## Sync pipeline (pull-from-bazel-build.yml)
@@ -32,7 +32,7 @@ Pipeline that syncs pre-converted MDX docs from `bazelbuild/bazel` and deploys t
 4. `bazel build //src/main/java/com/google/devtools/build/lib:gen_reference_docs` → `reference-docs.zip`
 5. `rsync upstream/docs/ .` — copies pre-converted MDX files (including `versions/` from `upstream/docs/versions/`)
 6. Unzip `reference-docs.zip` — extracts Starlark/Java API reference docs
-7. `docs.json.update.sh` — regenerates nav (version list from `upstream/docs/versions/` subdirs)
+7. `navigation.update.sh` — regenerates nav (`navigation.json` + `navigation/*.en.json`; version list from `upstream/docs/versions/` subdirs)
 8. Strip `.mintignore` entries from `docs.json` navigation
 9. Commit + push with `[skip ci]` to prevent re-trigger loop
 
