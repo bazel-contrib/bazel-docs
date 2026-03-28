@@ -184,7 +184,7 @@ jobs:
             for file in $pattern; do
               [[ -f "$file" ]] || continue
               page="${file%.mdx}"
-              for nav_file in navigation/*.en.json; do
+              for nav_file in navigation/*.json; do
                 tmp=$(jq --arg p "$page" 'walk(if type == "array" then map(select(. != $p)) else . end)' "$nav_file")
                 echo "$tmp" > "$nav_file"
               done
