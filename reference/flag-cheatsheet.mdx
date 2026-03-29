@@ -7,10 +7,10 @@ This page focuses on the most crucial flags you'll need to know.
 
 
 
-<aside class="tip">
-  <b>Tip:</b> Select the flag name in table to navigate to its entry in the
+<Tip>
+Select the flag name in table to navigate to its entry in the
   command line reference.
-</aside>
+</Tip>
 
 ## Useful general options {#useful-command}
 
@@ -24,7 +24,7 @@ The following flags are meant to be set explicitly on the command line.
 
   <tr>
     <td>
-      <h3 id="flag-config" data-text="config"><code><a href="https://bazel.build/reference/command-line-reference#flag--config">--config</a></code></h3>
+      ### `<a href="https://bazel.build/reference/command-line-reference#flag--config">--config</a>` {#flag-config}
     </td>
     <td>
 
@@ -38,7 +38,7 @@ be selected with <code>--config=<strong>&lt;group&gt;</strong></code>.
 
   <tr>
     <td>
-      <h3 id="flag-keep-going" data-text="keep_going"><code><a href="https://bazel.build/reference/command-line-reference#flag--keep_going">--keep_going</a></code></h3>
+      ### `<a href="https://bazel.build/reference/command-line-reference#flag--keep_going">--keep_going</a>` {#flag-keep-going}
     </td>
     <td>
 
@@ -50,7 +50,7 @@ By default, Bazel fails eagerly.
 
   <tr>
     <td>
-      <h3 id="flag-remote-download-outputs" data-text="remote_download_outputs"><code><a href="https://bazel.build/reference/command-line-reference#flag--remote_download_outputs">--remote_download_outputs</a></code></h3>
+      ### `<a href="https://bazel.build/reference/command-line-reference#flag--remote_download_outputs">--remote_download_outputs</a>` {#flag-remote-download-outputs}
     </td>
     <td>
 
@@ -58,9 +58,9 @@ When using remote execution or caching (both disk and remote), you can signal to
 Bazel that you
 want to download <strong>all</strong> (intermediate) build artifacts as follows:
 
-<pre class="prettyprint lang-sh">
+```sh
 --remote_download_outputs=<strong>all</strong>
-</pre>
+```
 
 By default, Bazel only downloads top-level artifacts, such as the final binary,
 and intermediate artifacts that are necessary for local actions.
@@ -71,16 +71,16 @@ and intermediate artifacts that are necessary for local actions.
 
   <tr>
     <td>
-      <h3 id="flag-stamp" data-text="stamp"><code><a href="https://bazel.build/reference/command-line-reference#flag--stamp">--stamp</a></code></h3>
+      ### `<a href="https://bazel.build/reference/command-line-reference#flag--stamp">--stamp</a>` {#flag-stamp}
     </td>
     <td>
 
 Adds build info (user, timestamp) to binaries.
 
-<aside class="note">
-  <b>Note:</b> Because this increases build time, it's only intended for release
+<Note>
+Because this increases build time, it's only intended for release
   builds.
-</aside>
+</Note>
 
 </td>
 </tr>
@@ -98,7 +98,7 @@ The following flags can help you better understand Bazel build or test errors.
 
   <tr>
     <td>
-       <h3 id="flag-announce-rc" data-text="announce_rc"><code><a href="https://bazel.build/reference/command-line-reference#flag--announce_rc">--announce_rc</a></code></h3>
+       ### `<a href="https://bazel.build/reference/command-line-reference#flag--announce_rc">--announce_rc</a>` {#flag-announce-rc}
     </td>
     <td>
 
@@ -111,7 +111,7 @@ machine-defined, or project-defined <strong>.bazelrc</strong> files.
 
   <tr>
     <td>
-      <h3 id="flag-auto-output-filter" data-text="auto_output_filter"><code><a href="https://bazel.build/reference/command-line-reference#flag--auto_output_filter">--auto_output_filter</a></code></h3>
+      ### `<a href="https://bazel.build/reference/command-line-reference#flag--auto_output_filter">--auto_output_filter</a>` {#flag-auto-output-filter}
     </td>
     <td>
 
@@ -126,7 +126,7 @@ command line. To disable all filtering, set
 
   <tr>
     <td>
-      <h3 id="flag-sandbox-debug" data-text="sandbox_debug"><code><a href="https://bazel.build/reference/command-line-reference#flag--sandbox_debug">--sandbox_debug</a></code></h3>
+      ### `<a href="https://bazel.build/reference/command-line-reference#flag--sandbox_debug">--sandbox_debug</a>` {#flag-sandbox-debug}
     </td>
     <td>
 
@@ -134,14 +134,13 @@ Lets you drill into sandboxing errors. For details on why Bazel sandboxes
 builds by default and what gets sandboxed, see our
 <a href="https://bazel.build/docs/sandboxing">sandboxing documentation</a>.
 
-<aside class="tip">
-  <b>Tip:</b> If you think the error might be caused by sandboxing,
+<Tip>
+If you think the error might be caused by sandboxing,
   try turning sandboxing off temporarily.
 
   <p>To do this, add <code>--spawn_strategy=<strong>local</strong></code>
   to your command.</p>
-
-</aside>
+</Tip>
 
 </td>
 
@@ -149,7 +148,7 @@ builds by default and what gets sandboxed, see our
 
   <tr>
     <td>
-      <h3 id="flag-subcommands" data-text="subcommands"><code><a href="https://bazel.build/reference/command-line-reference#flag--subcommands">--subcommands (-s)</a></code></h3>
+      ### `<a href="https://bazel.build/reference/command-line-reference#flag--subcommands">--subcommands (-s)</a>` {#flag-subcommands}
     </td>
     <td>
 
@@ -173,7 +172,7 @@ a server restart. Toggle these flags with caution.
 
   <tr>
     <td>
-       <h3 id="flag-bazelrc" data-text="bazelrc"><code><a href="https://bazel.build/reference/command-line-reference#flag--bazelrc">--bazelrc</a></code></h3>
+       ### `<a href="https://bazel.build/reference/command-line-reference#flag--bazelrc">--bazelrc</a>` {#flag-bazelrc}
     </td>
     <td>
 
@@ -182,21 +181,20 @@ multiple <strong>.bazelrc</strong> files exist, you can select which
 <strong>.bazelrc</strong> file is used by adding <code>--bazelrc=<strong>&lt;path to
 the .bazelrc file&gt;</strong></code>.
 
-<aside class="tip">
-  <b>Tip:</b> <code>--bazelrc=<strong>dev/null</strong></code> disables the
+<Tip>
+<code>--bazelrc=<strong>dev/null</strong></code> disables the
   search for <strong>.bazelrc</strong> files.
 
   <p>This is ideal for scenarios where you want to ensure a clean build
   environment, such as release builds, and prevent any unintended configuration
   changes from <strong>.bazelrc</strong> files</p>
-
-</aside>
+</Tip>
 </td>
 </tr>
 
   <tr>
     <td>
-    <h3 id="flag-host-jvm-args" data-text="host_jvm_args"><code><a href="https://bazel.build/docs/user-manual#host-jvm-args">--host_jvm_args</a></code></h3>
+    ### `<a href="https://bazel.build/docs/user-manual#host-jvm-args">--host_jvm_args</a>` {#flag-host-jvm-args}
     </td>
     <td>
 
@@ -204,12 +202,12 @@ Limits the amount of RAM the Bazel server uses.
 
 For example, the following limits the Bazel heap size to <strong>3</strong>GB:
 
-<pre class="prettyprint lang-sh">
+```sh
 --host_jvm_args=<strong>-Xmx3g</strong>
-</pre>
+```
 
-<aside class="note">
-  <b>Note:</b> <code>-Xmx</code> is used to set the maximum heap size for the
+<Note>
+<code>-Xmx</code> is used to set the maximum heap size for the
   Java Virtual Machine (JVM). The heap is the area of memory where objects are
   allocated. The correct format for this option is <code>-Xmx&lt;size&gt;</code>
   , where <code>&lt;size&gt;</code> is the maximum heap size, specified with a
@@ -220,8 +218,7 @@ For example, the following limits the Bazel heap size to <strong>3</strong>GB:
   <li>g for gigabytes</li>
   <li>k for kilobytes</li>
 </ul>
-
-</aside>
+</Note>
 
 </td>
 
@@ -229,7 +226,7 @@ For example, the following limits the Bazel heap size to <strong>3</strong>GB:
 
   <tr>
     <td>
-    <h3 id="flag-output-base" data-text="output_base"><code><a href="https://bazel.build/reference/command-line-reference#flag--output_base">--output_base</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--output_base">--output_base</a>` {#flag-output-base}
     </td>
     <td>
 
@@ -237,12 +234,12 @@ Controls Bazel's output tree. Bazel doesn't store build outputs, including logs,
 within the source tree itself. Instead, it uses a distinct output tree for this
 purpose.
 
-<aside class="tip">
-  <b>Tip:</b> Using multiple output bases in one Bazel workspace lets you run
+<Tip>
+Using multiple output bases in one Bazel workspace lets you run
 multiple Bazel servers concurrently. This can be useful when trying to avoid
 analysis thrashing. For more information,
 see <a href="https://bazel.build/run/scripts#output-base-option">Choosing the output base</a>.
-</aside>
+</Tip>
 
 </td>
 
@@ -261,7 +258,7 @@ The following flags are related to Bazel test
 
   <tr>
     <td>
-       <h3 id="flag-java-debug" data-text="java_debug"><code><a href="https://bazel.build/reference/command-line-reference#flag--java_debug">--java_debug</a></code></h3>
+       ### `<a href="https://bazel.build/reference/command-line-reference#flag--java_debug">--java_debug</a>` {#flag-java-debug}
     </td>
     <td>
 
@@ -273,7 +270,7 @@ Causes Java tests to wait for a debugger connection before being executed.
 
   <tr>
     <td>
-    <h3 id="flag-runs-per-test" data-text="runs_per_test"><code><a href="https://bazel.build/reference/command-line-reference#flag--runs_per_test">--runs_per_test</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--runs_per_test">--runs_per_test</a>` {#flag-runs-per-test}
     </td>
     <td>
 
@@ -287,7 +284,7 @@ flaky tests and see whether a fix causes a test to pass consistently.
 
   <tr>
     <td>
-    <h3 id="flag-test-filter" data-text="test_filter"><code><a href="https://bazel.build/reference/command-line-reference#flag--test_filter">--test_filter</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--test_filter">--test_filter</a>` {#flag-test-filter}
     </td>
     <td>
 
@@ -304,7 +301,7 @@ debugging. This flag is often used in conjunction with
 
   <tr>
     <td>
-    <h3 id="flag-test-output" data-text="test_output"><code><a href="https://bazel.build/reference/command-line-reference#flag--test_output">--test_output</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--test_output">--test_output</a>` {#flag-test-output}
     </td>
     <td>
 
@@ -330,7 +327,7 @@ The following flags are related to Bazel run.
 
   <tr>
     <td>
-        <h3 id="flag-run-under" data-text="run_under"><code><a href="https://bazel.build/reference/command-line-reference#flag--run_under">--run_under</a></code></h3>
+        ### `<a href="https://bazel.build/reference/command-line-reference#flag--run_under">--run_under</a>` {#flag-run-under}
     </td>
     <td>
 
@@ -356,7 +353,7 @@ options.
 
   <tr>
     <td>
-       <h3 id="flag-disk-cache" data-text="disk_cache"><code><a href="https://bazel.build/reference/command-line-reference#flag--disk_cache">--disk_cache</a></code></h3>
+       ### `<a href="https://bazel.build/reference/command-line-reference#flag--disk_cache">--disk_cache</a>` {#flag-disk-cache}
     </td>
     <td>
 
@@ -373,7 +370,7 @@ up Bazel builds by adding
 
   <tr>
     <td>
-    <h3 id="flag-jobs" data-text="jobs"><code><a href="https://bazel.build/reference/command-line-reference#flag--jobs">--jobs</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--jobs">--jobs</a>` {#flag-jobs}
     </td>
     <td>
 
@@ -388,16 +385,16 @@ cluster executes more jobs than you have cores locally.
 
   <tr>
     <td>
-    <h3 id="flag-local-resources" data-text="local_resources"><code><a href="https://bazel.build/reference/command-line-reference#flag--local_resources">--local_resources</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--local_resources">--local_resources</a>` {#flag-local-resources}
     </td>
     <td>
 
 Limits how much CPU or RAM is consumed by locally running actions.
 
-<aside class="note">
-  <b>Note:</b> This has no impact on the amount of CPU or RAM that the Bazel
+<Note>
+This has no impact on the amount of CPU or RAM that the Bazel
   server itself consumes for tasks like analysis and build orchestration.
-</aside>
+</Note>
 
 </td>
 
@@ -405,7 +402,7 @@ Limits how much CPU or RAM is consumed by locally running actions.
 
   <tr>
     <td>
-    <h3 id="flag-sandbox-base" data-text="sandbox_base"><code><a href="https://bazel.build/reference/command-line-reference#flag--sandbox_base">--sandbox_base</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--sandbox_base">--sandbox_base</a>` {#flag-sandbox-base}
     </td>
     <td>
 
@@ -413,11 +410,11 @@ Lets the sandbox create its sandbox directories underneath this path. By
 default, Bazel executes local actions sandboxed which adds some overhead to the
 build.
 
-<aside class="tip">
-  <b>Tip:</b> Specify a path on tmpfs, for example <code>/run/shm</code>, to
+<Tip>
+Specify a path on tmpfs, for example <code>/run/shm</code>, to
   possibly improve performance a lot when your build or tests have many input
   files.
-</aside>
+</Tip>
 
 </td>
   </tr>
@@ -436,7 +433,7 @@ options.
 
   <tr>
     <td>
-       <h3 id="flag-flaky-test-attempts" data-text="flaky_test_attempts"><code><a href="https://bazel.build/reference/command-line-reference#flag--flaky_test_attempts">--flaky_test_attempts</a></code></h3>
+       ### `<a href="https://bazel.build/reference/command-line-reference#flag--flaky_test_attempts">--flaky_test_attempts</a>` {#flag-flaky-test-attempts}
     </td>
     <td>
 
@@ -451,7 +448,7 @@ the test summary.
 
   <tr>
     <td>
-    <h3 id="flag-remote-cache" data-text="remote_cache"><code><a href="https://bazel.build/reference/command-line-reference#flag--remote_cache">--remote_cache</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--remote_cache">--remote_cache</a>` {#flag-remote-cache}
     </td>
     <td>
 
@@ -464,7 +461,7 @@ speed up Bazel builds. It can be combined with a local disk cache.
 
   <tr>
     <td>
-    <h3 id="flag-remote-download-regex" data-text="remote_download_regex"><code><a href="https://bazel.build/reference/command-line-reference#flag--remote_download_regex">--remote_download_regex</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--remote_download_regex">--remote_download_regex</a>` {#flag-remote-download-regex}
     </td>
     <td>
 
@@ -478,7 +475,7 @@ patterns may be specified by repeating this flag.
 
   <tr>
     <td>
-     <h3 id="flag-remote-executor" data-text="remote_executor"><code><a href="https://bazel.build/reference/command-line-reference#flag--remote_executor">--remote_executor</a></code></h3>
+     ### `<a href="https://bazel.build/reference/command-line-reference#flag--remote_executor">--remote_executor</a>` {#flag-remote-executor}
     </td>
     <td>
 
@@ -492,7 +489,7 @@ a remote execution service. You'll often need to Add
 
   <tr>
     <td>
-     <h3 id="flag-remote-instance-name" data-text="remote_instance_name"><code><a href="https://bazel.build/reference/command-line-reference#flag--remote_instance_name">--remote_instance_name</a></code></h3>
+     ### `<a href="https://bazel.build/reference/command-line-reference#flag--remote_instance_name">--remote_instance_name</a>` {#flag-remote-instance-name}
     </td>
     <td>
 
@@ -504,7 +501,7 @@ The value to pass as <code>instance_name</code> in the remote execution API.
 
   <tr>
     <td>
-    <h3 id="flag-show-timestamps" data-text="show-timestamps"><code><a href="https://bazel.build/docs/user-manual#show-timestamps">--show_timestamps</a></code></h3>
+    ### `<a href="https://bazel.build/docs/user-manual#show-timestamps">--show_timestamps</a>` {#flag-show-timestamps}
     </td>
     <td>
 
@@ -518,7 +515,7 @@ quickly understand what step took how long.
 
   <tr>
     <td>
-    <h3 id="flag-spawn-strategy" data-text="spawn_strategy"><code><a href="https://bazel.build/reference/command-line-reference#flag--spawn_strategy">--spawn_strategy</a></code></h3>
+    ### `<a href="https://bazel.build/reference/command-line-reference#flag--spawn_strategy">--spawn_strategy</a>` {#flag-spawn-strategy}
     </td>
     <td>
 
@@ -526,11 +523,11 @@ Even with remote execution, running some build actions locally might be faster.
 This depends on factors like your build cluster's capacity, network speed, and
 network delays.
 
-<aside class="tip">
-  <b>Tip:</b> To run actions both locally and remotely and accept
+<Tip>
+To run actions both locally and remotely and accept
 the faster result add <code>--spawn_strategy=<strong>dynamic</strong></code>
 to your build command.
-</aside>
+</Tip>
 
 </td>
 
