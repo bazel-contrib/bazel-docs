@@ -1,4 +1,6 @@
-# config
+---
+title: 'config'
+---
 
 This is a top-level module for creating configuration transitions and build setting descriptors which describe what kind of build setting (if any) a rule is.
 
@@ -19,8 +21,8 @@ ex: the following rule is marked as a build setting by setting the `build_settin
 * [int](#int)
 * [none](#none)
 * [string](#string)
-* [string_list](#string_list)
-* [string_set](#string_set)
+* [string\_list](#string_list)
+* [string\_set](#string_set)
 * [target](#target)
 
 ## bool
@@ -88,7 +90,7 @@ A string-typed build setting
 | `flag` | [bool](../core/bool); default is `False`  Whether or not this build setting is callable on the command line. |
 | `allow_multiple` | [bool](../core/bool); default is `False`  Deprecated, use a `string_list` setting with `repeatable = True` instead. If set, this flag is allowed to be set multiple times on the command line. The Value of the flag as accessed in transitions and build setting implementation function will be a list of strings. Insertion order and repeated values are both maintained. This list can be post-processed in the build setting implementation function if different behavior is desired. |
 
-## string_list
+## string\_list
 
 ```
 BuildSetting config.string_list(*, flag=False, repeatable=False)
@@ -103,7 +105,7 @@ A string list-typed build setting. On the command line pass a list using comma-s
 | `flag` | [bool](../core/bool); default is `False`  Whether or not this build setting is callable on the command line. |
 | `repeatable` | [bool](../core/bool); default is `False`  If set, instead of expecting a comma-separated value, this flag is allowed to be set multiple times on the command line with each individual value treated as a single string to add to the list value. Insertion order and repeated values are both maintained. This list can be post-processed in the build setting implementation function if different behavior is desired. |
 
-## string_set
+## string\_set
 
 ```
 BuildSetting config.string_set(*, flag=False, repeatable=False)

@@ -1,12 +1,14 @@
-# proto
+---
+title: 'proto'
+---
 
 A module for protocol message processing.
 
 ## Members
 
-* [encode_text](#encode_text)
+* [encode\_text](#encode_text)
 
-## encode_text
+## encode\_text
 
 ```
 string proto.encode_text(x)
@@ -28,9 +30,7 @@ Examples:
 
 ```
 proto.encode_text(struct(field=123))
----
-title: 'field: 123'
----
+# field: 123
 
 proto.encode_text(struct(field=True))
 # field: true

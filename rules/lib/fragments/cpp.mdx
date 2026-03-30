@@ -1,20 +1,22 @@
-# cpp
+---
+title: 'cpp'
+---
 
 A configuration fragment for C++.
 
 ## Members
 
-* [apple_generate_dsym](#apple_generate_dsym)
+* [apple\_generate\_dsym](#apple_generate_dsym)
 * [conlyopts](#conlyopts)
 * [copts](#copts)
-* [custom_malloc](#custom_malloc)
+* [custom\_malloc](#custom_malloc)
 * [cxxopts](#cxxopts)
 * [linkopts](#linkopts)
-* [objc_generate_linkmap](#objc_generate_linkmap)
-* [objc_should_strip_binary](#objc_should_strip_binary)
+* [objc\_generate\_linkmap](#objc_generate_linkmap)
+* [objc\_should\_strip\_binary](#objc_should_strip_binary)
 * [objccopts](#objccopts)
 
-## apple_generate_dsym
+## apple\_generate\_dsym
 
 ```
 bool cpp.apple_generate_dsym
@@ -38,7 +40,7 @@ list cpp.copts
 
 The flags passed to Bazel by [`--copt`](/docs/user-manual#flag--copt) option.
 
-## custom_malloc
+## custom\_malloc
 
 ```
 Label cpp.custom_malloc
@@ -73,7 +75,7 @@ list cpp.linkopts
 
 The flags passed to Bazel by [`--linkopt`](/docs/user-manual#flag--linkopt) option.
 
-## objc_generate_linkmap
+## objc\_generate\_linkmap
 
 ```
 bool cpp.objc_generate_linkmap
@@ -81,7 +83,7 @@ bool cpp.objc_generate_linkmap
 
 (Apple-only) Whether to generate linkmap artifacts.
 
-## objc_should_strip_binary
+## objc\_should\_strip\_binary
 
 ```
 bool cpp.objc_should_strip_binary

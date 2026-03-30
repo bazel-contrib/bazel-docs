@@ -1,4 +1,6 @@
-# json
+---
+title: 'json'
+---
 
 Module json is a Starlark module of JSON-related functions.
 
@@ -6,7 +8,7 @@ Module json is a Starlark module of JSON-related functions.
 
 * [decode](#decode)
 * [encode](#encode)
-* [encode_indent](#encode_indent)
+* [encode\_indent](#encode_indent)
 * [indent](#indent)
 
 ## decode
@@ -49,13 +51,13 @@ Encoding any other value yields an error.
 | --- | --- |
 | `x` | required |
 
-## encode_indent
+## encode\_indent
 
 ```
 string json.encode_indent(x, *, prefix='', indent='\t')
 ```
 
-The encode_indent function is equivalent to `json.indent(json.encode(x), ...)`. See `indent` for description of formatting parameters.
+The encode\_indent function is equivalent to `json.indent(json.encode(x), ...)`. See `indent` for description of formatting parameters.
 
 ### Parameters
 

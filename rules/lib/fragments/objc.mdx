@@ -1,27 +1,29 @@
-# objc
+---
+title: 'objc'
+---
 
 A configuration fragment for Objective-C.
 
 ## Members
 
-* [alwayslink_by_default](#alwayslink_by_default)
-* [builtin_objc_strip_action](#builtin_objc_strip_action)
-* [copts_for_current_compilation_mode](#copts_for_current_compilation_mode)
-* [disallow_sdk_frameworks_attributes](#disallow_sdk_frameworks_attributes)
-* [ios_simulator_device](#ios_simulator_device)
-* [ios_simulator_version](#ios_simulator_version)
-* [strip_executable_safely](#strip_executable_safely)
-* [uses_device_debug_entitlements](#uses_device_debug_entitlements)
+* [alwayslink\_by\_default](#alwayslink_by_default)
+* [builtin\_objc\_strip\_action](#builtin_objc_strip_action)
+* [copts\_for\_current\_compilation\_mode](#copts_for_current_compilation_mode)
+* [disallow\_sdk\_frameworks\_attributes](#disallow_sdk_frameworks_attributes)
+* [ios\_simulator\_device](#ios_simulator_device)
+* [ios\_simulator\_version](#ios_simulator_version)
+* [strip\_executable\_safely](#strip_executable_safely)
+* [uses\_device\_debug\_entitlements](#uses_device_debug_entitlements)
 
-## alwayslink_by_default
+## alwayslink\_by\_default
 
 ```
 bool objc.alwayslink_by_default
 ```
 
-Returns whether objc_library and objc_import should default to alwayslink=True.
+Returns whether objc\_library and objc\_import should default to alwayslink=True.
 
-## builtin_objc_strip_action
+## builtin\_objc\_strip\_action
 
 ```
 bool objc.builtin_objc_strip_action
@@ -29,7 +31,7 @@ bool objc.builtin_objc_strip_action
 
 Returns whether to emit a strip action as part of objc linking.
 
-## copts_for_current_compilation_mode
+## copts\_for\_current\_compilation\_mode
 
 ```
 list objc.copts_for_current_compilation_mode
@@ -37,15 +39,15 @@ list objc.copts_for_current_compilation_mode
 
 Returns a list of default options to use for compiling Objective-C in the current mode.
 
-## disallow_sdk_frameworks_attributes
+## disallow\_sdk\_frameworks\_attributes
 
 ```
 bool objc.disallow_sdk_frameworks_attributes
 ```
 
-Returns whether sdk_frameworks and weak_sdk_frameworks are disallowed attributes.
+Returns whether sdk\_frameworks and weak\_sdk\_frameworks are disallowed attributes.
 
-## ios_simulator_device
+## ios\_simulator\_device
 
 ```
 string objc.ios_simulator_device
@@ -54,7 +56,7 @@ string objc.ios_simulator_device
 The type of device (e.g. 'iPhone 6') to use when running on the simulator.
 May return `None`.
 
-## ios_simulator_version
+## ios\_simulator\_version
 
 ```
 DottedVersion objc.ios_simulator_version
@@ -63,7 +65,7 @@ DottedVersion objc.ios_simulator_version
 The SDK version of the iOS simulator to use when running on the simulator.
 May return `None`.
 
-## strip_executable_safely
+## strip\_executable\_safely
 
 ```
 bool objc.strip_executable_safely
@@ -71,7 +73,7 @@ bool objc.strip_executable_safely
 
 Returns whether executable strip action should use flag -x, which does not break dynamic symbol resolution.
 
-## uses_device_debug_entitlements
+## uses\_device\_debug\_entitlements
 
 ```
 bool objc.uses_device_debug_entitlements
