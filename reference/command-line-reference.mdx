@@ -1615,8 +1615,8 @@ Miscellaneous options, not otherwise categorized.:
 `--curses=&lt;yes, no or auto&gt;` default: "auto"
 :   Use terminal cursor controls to minimize scrolling output.
 
-`--disk_cache=&lt;a path&gt;` default: see description
-:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created.
+`--[no]disk_cache` default: see description
+:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created. Use --disk_cache with no value (or --disk_cache=true) to use a default location under the output user root (&lt;outputUserRoot&gt;/cache/disk). Use --nodisk_cache or --disk_cache=false to disable.
 
 `--[no]enable_platform_specific_config` default: "false"
 :   If true, Bazel picks up host-OS-specific config lines from bazelrc files. For example, if the host OS is Linux and you run bazel build, Bazel picks up lines starting with build:linux. Supported OS identifiers are linux, macos, windows, freebsd, and openbsd. Enabling this flag is equivalent to using --config=linux on Linux, --config=windows on Windows, etc.
@@ -4605,8 +4605,8 @@ Miscellaneous options, not otherwise categorized.:
 `--[no]discard_analysis_cache` default: "false"
 :   Discard the analysis cache immediately after the analysis phase completes. Reduces memory usage by ~10%, but makes further incremental builds slower.
 
-`--disk_cache=&lt;a path&gt;` default: see description
-:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created.
+`--[no]disk_cache` default: see description
+:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created. Use --disk_cache with no value (or --disk_cache=true) to use a default location under the output user root (&lt;outputUserRoot&gt;/cache/disk). Use --nodisk_cache or --disk_cache=false to disable.
 
 `--embed_label=&lt;a one-line string&gt;` default: ""
 :   Embed source control revision or release label in binary
