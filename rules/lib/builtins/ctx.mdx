@@ -1,4 +1,6 @@
-# ctx
+---
+title: 'ctx'
+---
 
 A context object that is passed to the implementation function for a rule or aspect. It provides access to the information and methods needed to analyze the current target.
 
@@ -9,39 +11,39 @@ Context objects essentially live for the duration of the call to the implementat
 ## Members
 
 * [actions](#actions)
-* [aspect_ids](#aspect_ids)
+* [aspect\_ids](#aspect_ids)
 * [attr](#attr)
-* [bin_dir](#bin_dir)
-* [build_file_path](#build_file_path)
-* [build_setting_value](#build_setting_value)
+* [bin\_dir](#bin_dir)
+* [build\_file\_path](#build_file_path)
+* [build\_setting\_value](#build_setting_value)
 * [configuration](#configuration)
-* [coverage_instrumented](#coverage_instrumented)
-* [created_actions](#created_actions)
-* [disabled_features](#disabled_features)
-* [exec_groups](#exec_groups)
+* [coverage\_instrumented](#coverage_instrumented)
+* [created\_actions](#created_actions)
+* [disabled\_features](#disabled_features)
+* [exec\_groups](#exec_groups)
 * [executable](#executable)
-* [expand_location](#expand_location)
-* [expand_make_variables](#expand_make_variables)
+* [expand\_location](#expand_location)
+* [expand\_make\_variables](#expand_make_variables)
 * [features](#features)
 * [file](#file)
 * [files](#files)
 * [fragments](#fragments)
-* [genfiles_dir](#genfiles_dir)
-* [info_file](#info_file)
+* [genfiles\_dir](#genfiles_dir)
+* [info\_file](#info_file)
 * [label](#label)
 * [outputs](#outputs)
-* [package_relative_label](#package_relative_label)
-* [resolve_command](#resolve_command)
-* [resolve_tools](#resolve_tools)
+* [package\_relative\_label](#package_relative_label)
+* [resolve\_command](#resolve_command)
+* [resolve\_tools](#resolve_tools)
 * [rule](#rule)
 * [runfiles](#runfiles)
-* [split_attr](#split_attr)
+* [split\_attr](#split_attr)
 * [super](#super)
-* [target_platform_has_constraint](#target_platform_has_constraint)
+* [target\_platform\_has\_constraint](#target_platform_has_constraint)
 * [toolchains](#toolchains)
 * [var](#var)
-* [version_file](#version_file)
-* [workspace_name](#workspace_name)
+* [version\_file](#version_file)
+* [workspace\_name](#workspace_name)
 
 ## actions
 
@@ -51,7 +53,7 @@ actions ctx.actions
 
 Contains methods for declaring output files and the actions that produce them.
 
-## aspect_ids
+## aspect\_ids
 
 ```
 list ctx.aspect_ids
@@ -67,7 +69,7 @@ struct ctx.attr
 
 A struct to access the values of the [attributes](https://bazel.build/extending/rules#attributes). The values are provided by the user (if not, a default value is used). The attributes of the struct and the types of their values correspond to the keys and values of the [`attrs` dict](../globals/bzl#rule.attrs) provided to the [`rule` function](../globals/bzl#rule). [See example of use](https://github.com/bazelbuild/examples/blob/main/rules/attributes/printer.bzl).
 
-## bin_dir
+## bin\_dir
 
 ```
 root ctx.bin_dir
@@ -75,7 +77,7 @@ root ctx.bin_dir
 
 The root corresponding to bin directory.
 
-## build_file_path
+## build\_file\_path
 
 ```
 string ctx.build_file_path
@@ -83,7 +85,7 @@ string ctx.build_file_path
 
 Deprecated: Use `ctx.label.package + '/BUILD'`. The path to the BUILD file for this rule, relative to the source root.
 
-## build_setting_value
+## build\_setting\_value
 
 ```
 unknown ctx.build_setting_value
@@ -99,13 +101,13 @@ configuration ctx.configuration
 
 The current target's build configuration. See the [Starlark configuration type](../builtins/configuration) and [configuration documentation](/extending/rules#configurations) for more details.
 
-## coverage_instrumented
+## coverage\_instrumented
 
 ```
 bool ctx.coverage_instrumented(target=None)
 ```
 
-Returns whether code coverage instrumentation should be generated when performing compilation actions for this rule or, if `target` is provided, the rule specified by that Target. (If a non-rule or a Starlark rule Target is provided, this returns False.) Checks if the sources of the current rule (if no Target is provided) or the sources of Target should be instrumented based on the --instrumentation_filter and --instrument_test_targets config settings. This differs from `coverage_enabled` in the [configuration](../builtins/configuration), which notes whether coverage data collection is enabled for the entire run, but not whether a specific target should be instrumented.
+Returns whether code coverage instrumentation should be generated when performing compilation actions for this rule or, if `target` is provided, the rule specified by that Target. (If a non-rule or a Starlark rule Target is provided, this returns False.) Checks if the sources of the current rule (if no Target is provided) or the sources of Target should be instrumented based on the --instrumentation\_filter and --instrument\_test\_targets config settings. This differs from `coverage_enabled` in the [configuration](../builtins/configuration), which notes whether coverage data collection is enabled for the entire run, but not whether a specific target should be instrumented.
 
 ### Parameters
 
@@ -113,17 +115,17 @@ Returns whether code coverage instrumentation should be generated when performin
 | --- | --- |
 | `target` | [Target](../builtins/Target); or `None`; default is `None`  A Target specifying a rule. If not provided, defaults to the current rule. |
 
-## created_actions
+## created\_actions
 
 ```
 StarlarkValue ctx.created_actions()
 ```
 
-For rules with [\_skylark_testable](../globals/bzl#rule._skylark_testable) set to `True`, this returns an `Actions` provider representing all actions created so far for the current rule. For all other rules, returns `None`. Note that the provider is not updated when subsequent actions are created, so you will have to call this function again if you wish to inspect them.
+For rules with [\_skylark\_testable](../globals/bzl#rule._skylark_testable) set to `True`, this returns an `Actions` provider representing all actions created so far for the current rule. For all other rules, returns `None`. Note that the provider is not updated when subsequent actions are created, so you will have to call this function again if you wish to inspect them.
 
 This is intended to help write tests for rule-implementation helper functions, which may take in a `ctx` object and create actions on it.
 
-## disabled_features
+## disabled\_features
 
 ```
 list ctx.disabled_features
@@ -131,7 +133,7 @@ list ctx.disabled_features
 
 The set of features that are explicitly disabled by the user for this rule.
 
-## exec_groups
+## exec\_groups
 
 ```
 ExecGroupCollection ctx.exec_groups
@@ -147,7 +149,7 @@ struct ctx.executable
 
 A `struct` containing executable files defined in [label type attributes](../toplevel/attr#label) marked as [`executable=True`](../toplevel/attr#label.executable). The struct fields correspond to the attribute names. Each value in the struct is either a [`File`](../builtins/File) or `None`. If an optional attribute is not specified in the rule then the corresponding struct value is `None`. If a label type is not marked as `executable=True`, no corresponding struct field is generated. [See example of use](https://github.com/bazelbuild/examples/blob/main/rules/actions_run/execute.bzl).
 
-## expand_location
+## expand\_location
 
 ```
 string ctx.expand_location(input, targets=[])
@@ -168,7 +170,7 @@ This function is useful to let the user specify a command in a BUILD file (like 
 
 May return `None`.
 
-## expand_make_variables
+## expand\_make\_variables
 
 ```
 string ctx.expand_make_variables(attribute_name, command, additional_substitutions)
@@ -236,7 +238,7 @@ fragments ctx.fragments
 
 Allows access to configuration fragments in target configuration.
 
-## genfiles_dir
+## genfiles\_dir
 
 ```
 root ctx.genfiles_dir
@@ -244,13 +246,13 @@ root ctx.genfiles_dir
 
 The root corresponding to genfiles directory.
 
-## info_file
+## info\_file
 
 ```
 File ctx.info_file
 ```
 
-The file that is used to hold the non-volatile workspace status for the current build request. See documentation for --workspace_status_command for more information.
+The file that is used to hold the non-volatile workspace status for the current build request. See documentation for --workspace\_status\_command for more information.
 
 ## label
 
@@ -274,7 +276,7 @@ The fields of this object are defined as follows. It is an error if two outputs 
 
 * If the rule declares an [`outputs`](../globals/bzl#rule.outputs) dict, then for every entry in the dict, there is a field whose name is the key and whose value is the corresponding `File`.* For every attribute of type [`attr.output`](../toplevel/attr#output) that the rule declares, there is a field whose name is the attribute's name. If the target specified a label for that attribute, then the field value is the corresponding `File`; otherwise the field value is `None`.* For every attribute of type [`attr.output_list`](../toplevel/attr#output_list) that the rule declares, there is a field whose name is the attribute's name. The field value is a list of `File` objects corresponding to the labels given for that attribute in the target, or an empty list if the attribute was not specified in the target.* **(Deprecated)** If the rule is marked [`executable`](../globals/bzl#rule.executable) or [`test`](../globals/bzl#rule.test), there is a field named `"executable"`, which is the default executable. It is recommended that instead of using this, you pass another file (either predeclared or not) to the `executable` arg of [`DefaultInfo`](../providers/DefaultInfo).
 
-## package_relative_label
+## package\_relative\_label
 
 ```
 Label ctx.package_relative_label(input)
@@ -282,9 +284,8 @@ Label ctx.package_relative_label(input)
 
 Converts the input string into a [Label](../builtins/Label) object, in the context of the package of the target currently being analyzed. If the input is already a `Label`, it is returned unchanged.
 
-The result of this function is the same `Label` value as would be produced by passing the given string to a label-valued attribute of the rule and accessing the corresponding [`label`](../builtins/Target#label) field.
-
-*Usage note:* The difference between this function and [Label()](../builtins/Label#Label) is that `Label()` uses the context of the package of the `.bzl` file that called it, not the package of the target currently being analyzed. This function has the same behavior as [`native.package_relative_label()`](../toplevel/native#package_relative_label), which cannot be used in a rule or
+The result of this function is the same `Label` value as would be produced by passing the given string to a label-valued attribute of the rule and accessing the corresponding [Label()](../builtins/Target#label><code>label</code></a> field.
+<p><i>Usage note:</i> The difference between this function and <a href=) is that `Label()` uses the context of the package of the `.bzl` file that called it, not the package of the target currently being analyzed. This function has the same behavior as [`native.package_relative_label()`](../toplevel/native#package_relative_label), which cannot be used in a rule or
 aspect implementation function.
 
 ### Parameters
@@ -293,7 +294,7 @@ aspect implementation function.
 | --- | --- |
 | `input` | [string](../core/string); or [Label](../builtins/Label); required  The input label string or Label object. If a Label object is passed, it's returned as is. |
 
-## resolve_command
+## resolve\_command
 
 ```
 tuple ctx.resolve_command(*, command='', attribute=None, expand_locations=False, make_variables=None, tools=[], label_dict={}, execution_requirements={})
@@ -308,13 +309,13 @@ tuple ctx.resolve_command(*, command='', attribute=None, expand_locations=False,
 | --- | --- |
 | `command` | [string](../core/string); default is `''`  Command to resolve. |
 | `attribute` | [string](../core/string); or `None`; default is `None`  Name of the associated attribute for which to issue an error, or None. |
-| `expand_locations` | [bool](../core/bool); default is `False`  Shall we expand $(location) variables? See [ctx.expand_location()](#expand_location) for more details. |
+| `expand_locations` | [bool](../core/bool); default is `False`  Shall we expand $(location) variables? See [ctx.expand\_location()](#expand_location) for more details. |
 | `make_variables` | [dict](../core/dict); or `None`; default is `None`  Make variables to expand, or None. |
 | `tools` | [sequence](../core/list) of [Target](../builtins/Target)s; default is `[]`  List of tools (list of targets). |
-| `label_dict` | [dict](../core/dict); default is `&lcub;&rcub;`  Dictionary of resolved labels and the corresponding list of Files (a dict of Label : list of Files). |
-| `execution_requirements` | [dict](../core/dict); default is `&lcub;&rcub;`  Information for scheduling the action to resolve this command. See [tags](/reference/be/common-definitions#common.tags) for useful keys. |
+| `label_dict` | [dict](../core/dict); default is `{}`  Dictionary of resolved labels and the corresponding list of Files (a dict of Label : list of Files). |
+| `execution_requirements` | [dict](../core/dict); default is `{}`  Information for scheduling the action to resolve this command. See [tags](/reference/be/common-definitions#common.tags) for useful keys. |
 
-## resolve_tools
+## resolve\_tools
 
 ```
 tuple ctx.resolve_tools(*, tools=[])
@@ -354,16 +355,16 @@ Creates a runfiles object.
 | `transitive_files` | [depset](../builtins/depset) of [File](../builtins/File)s; or `None`; default is `None`  The (transitive) set of files to be added to the runfiles. The depset should use the `default` order (which, as the name implies, is the default). |
 | `collect_data` | [bool](../core/bool); default is `False`  **Use of this parameter is not recommended. See [runfiles guide](https://bazel.build/extending/rules#runfiles)**. Whether to collect the data runfiles from the dependencies in srcs, data and deps attributes. |
 | `collect_default` | [bool](../core/bool); default is `False`  **Use of this parameter is not recommended. See [runfiles guide](https://bazel.build/extending/rules#runfiles)**. Whether to collect the default runfiles from the dependencies in srcs, data and deps attributes. |
-| `symlinks` | [dict](../core/dict); or [depset](../builtins/depset) of [SymlinkEntry](../builtins/SymlinkEntry)s; default is `&lcub;&rcub;`  Either a SymlinkEntry depset or the map of symlinks to be added to the runfiles. Symlinks are always added under the main workspace's runfiles directory (e.g. `&lt;runfiles_root&gt;/_main/&lt;symlink_path&gt;`, **not** the directory corresponding to the current target's repository. See [Runfiles symlinks](https://bazel.build/extending/rules#runfiles_symlinks) in the rules guide. |
-| `root_symlinks` | [dict](../core/dict); or [depset](../builtins/depset) of [SymlinkEntry](../builtins/SymlinkEntry)s; default is `&lcub;&rcub;`  Either a SymlinkEntry depset or a map of symlinks to be added to the runfiles. See [Runfiles symlinks](https://bazel.build/extending/rules#runfiles_symlinks) in the rules guide. |
+| `symlinks` | [dict](../core/dict); or [depset](../builtins/depset) of [SymlinkEntry](../builtins/SymlinkEntry)s; default is `{}`  Either a SymlinkEntry depset or the map of symlinks to be added to the runfiles. Symlinks are always added under the main workspace's runfiles directory (e.g. `<runfiles_root>/_main/<symlink_path>`, **not** the directory corresponding to the current target's repository. See [Runfiles symlinks](https://bazel.build/extending/rules#runfiles_symlinks) in the rules guide. |
+| `root_symlinks` | [dict](../core/dict); or [depset](../builtins/depset) of [SymlinkEntry](../builtins/SymlinkEntry)s; default is `{}`  Either a SymlinkEntry depset or a map of symlinks to be added to the runfiles. See [Runfiles symlinks](https://bazel.build/extending/rules#runfiles_symlinks) in the rules guide. |
 
-## split_attr
+## split\_attr
 
 ```
 struct ctx.split_attr
 ```
 
-A struct to access the values of attributes with split configurations. If the attribute is a label list, the value of split_attr is a dict of the keys of the split (as strings) to lists of the ConfiguredTargets in that branch of the split. If the attribute is a label, then the value of split_attr is a dict of the keys of the split (as strings) to single ConfiguredTargets. Attributes with split configurations still appear in the attr struct, but their values will be single lists with all the branches of the split merged together.
+A struct to access the values of attributes with split configurations. If the attribute is a label list, the value of split\_attr is a dict of the keys of the split (as strings) to lists of the ConfiguredTargets in that branch of the split. If the attribute is a label, then the value of split\_attr is a dict of the keys of the split (as strings) to single ConfiguredTargets. Attributes with split configurations still appear in the attr struct, but their values will be single lists with all the branches of the split merged together.
 
 ## super
 
@@ -373,7 +374,7 @@ unknown ctx.super()
 
 Experimental: Calls parent's implementation function and returns its providers
 
-## target_platform_has_constraint
+## target\_platform\_has\_constraint
 
 ```
 bool ctx.target_platform_has_constraint(constraintValue)
@@ -403,15 +404,15 @@ dict ctx.var
 
 Dictionary (String to String) of configuration variables.
 
-## version_file
+## version\_file
 
 ```
 File ctx.version_file
 ```
 
-The file that is used to hold the volatile workspace status for the current build request. See documentation for --workspace_status_command for more information.
+The file that is used to hold the volatile workspace status for the current build request. See documentation for --workspace\_status\_command for more information.
 
-## workspace_name
+## workspace\_name
 
 ```
 string ctx.workspace_name

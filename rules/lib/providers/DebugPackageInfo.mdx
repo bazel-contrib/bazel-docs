@@ -1,14 +1,16 @@
-# DebugPackageInfo
+---
+title: 'DebugPackageInfo'
+---
 
-A provider for the binary file and its associated .dwp files, if fission is enabled.If Fission (&lcub;@url https://gcc.gnu.org/wiki/DebugFission&rcub;) is not enabled, the dwp file will be null.
+A provider for the binary file and its associated .dwp files, if fission is enabled.If Fission ({@url https://gcc.gnu.org/wiki/DebugFission}) is not enabled, the dwp file will be null.
 
 ## Members
 
 * [DebugPackageInfo](#DebugPackageInfo)
-* [dwp_file](#dwp_file)
-* [stripped_file](#stripped_file)
-* [target_label](#target_label)
-* [unstripped_file](#unstripped_file)
+* [dwp\_file](#dwp_file)
+* [stripped\_file](#stripped_file)
+* [target\_label](#target_label)
+* [unstripped\_file](#unstripped_file)
 
 ## DebugPackageInfo
 
@@ -27,7 +29,7 @@ The `DebugPackageInfo` constructor.
 | `unstripped_file` | [File](../builtins/File); required  The unstripped file (the default executable target). |
 | `dwp_file` | [File](../builtins/File); or `None`; default is `None`  The .dwp file (for fission builds) or null if --fission=no. |
 
-## dwp_file
+## dwp\_file
 
 ```
 File DebugPackageInfo.dwp_file
@@ -36,7 +38,7 @@ File DebugPackageInfo.dwp_file
 Returns the .dwp file (for fission builds) or null if --fission=no.
 May return `None`.
 
-## stripped_file
+## stripped\_file
 
 ```
 File DebugPackageInfo.stripped_file
@@ -45,7 +47,7 @@ File DebugPackageInfo.stripped_file
 Returns the stripped file (the explicit ".stripped" target).
 May return `None`.
 
-## target_label
+## target\_label
 
 ```
 Label DebugPackageInfo.target_label
@@ -53,7 +55,7 @@ Label DebugPackageInfo.target_label
 
 Returns the label for the \*\_binary target
 
-## unstripped_file
+## unstripped\_file
 
 ```
 File DebugPackageInfo.unstripped_file

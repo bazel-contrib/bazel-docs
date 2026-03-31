@@ -1,4 +1,6 @@
-# Action
+---
+title: 'Action'
+---
 
 An action created during rule analysis.
 
@@ -34,7 +36,7 @@ May return `None`.
 sequence Action.argv
 ```
 
-For actions created by [ctx.actions.run()](../builtins/actions#run) or [ctx.actions.run_shell()](../builtins/actions#run_shell) an immutable list of the arguments for the command line to be executed. Note that for shell actions the first two arguments will be the shell path and `"-c"`.
+For actions created by [ctx.actions.run()](../builtins/actions#run) or [ctx.actions.run\_shell()](../builtins/actions#run_shell) an immutable list of the arguments for the command line to be executed. Note that for shell actions the first two arguments will be the shell path and `"-c"`.
 May return `None`.
 
 ## content
@@ -43,7 +45,7 @@ May return `None`.
 string Action.content
 ```
 
-For actions created by [ctx.actions.write()](../builtins/actions#write) or [ctx.actions.expand_template()](../builtins/actions#expand_template), the contents of the file to be written, if those contents can be computed during the analysis phase. The value is `None` if the contents cannot be determined until the execution phase, such as when a directory in an [Args](../builtins/Args) object needs to be expanded.
+For actions created by [ctx.actions.write()](../builtins/actions#write) or [ctx.actions.expand\_template()](../builtins/actions#expand_template), the contents of the file to be written, if those contents can be computed during the analysis phase. The value is `None` if the contents cannot be determined until the execution phase, such as when a directory in an [Args](../builtins/Args) object needs to be expanded.
 May return `None`.
 
 ## env
@@ -84,5 +86,5 @@ A set of the output files of this action.
 dict Action.substitutions
 ```
 
-For actions created by [ctx.actions.expand_template()](../builtins/actions#expand_template), an immutable dict holding the substitution mapping.
+For actions created by [ctx.actions.expand\_template()](../builtins/actions#expand_template), an immutable dict holding the substitution mapping.
 May return `None`.
