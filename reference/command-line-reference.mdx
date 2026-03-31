@@ -1615,8 +1615,8 @@ Miscellaneous options, not otherwise categorized.:
 `--curses=&lt;yes, no or auto&gt;` default: "auto"
 :   Use terminal cursor controls to minimize scrolling output.
 
-`--disk_cache=&lt;a path&gt;` default: see description
-:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created.
+`--[no]disk_cache` default: see description
+:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created. Use --disk_cache with no value (or --disk_cache=true) to use a default location under the output user root (&lt;outputUserRoot&gt;/cache/disk). Use --nodisk_cache or --disk_cache=false to disable.
 
 `--[no]enable_platform_specific_config` default: "false"
 :   If true, Bazel picks up host-OS-specific config lines from bazelrc files. For example, if the host OS is Linux and you run bazel build, Bazel picks up lines starting with build:linux. Supported OS identifiers are linux, macos, windows, freebsd, and openbsd. Enabling this flag is equivalent to using --config=linux on Linux, --config=windows on Windows, etc.
@@ -3829,7 +3829,7 @@ Options that control build execution:
     [`execution`](#effect_tag_EXECUTION)
 
 `--strategy_regexp=&lt;a '&lt;RegexFilter&gt;=value[,value]' assignment&gt;` multiple uses are accumulated
-:   Override which spawn strategy should be used to execute spawn actions that have descriptions matching a certain regex_filter. See --per_file_copt for details onregex_filter matching. The last regex_filter that matches the description is used. This option overrides other flags for specifying strategy. Example: --strategy_regexp=//foo.*.cc,-//foo/bar=local means to run actions using local strategy if their descriptions match //foo.*.cc but not //foo/bar. Example: --strategy_regexp='Compiling.\*/bar=local --strategy_regexp=Compiling=sandboxed will run 'Compiling //foo/bar/baz' with the 'local' strategy, but reversing the order would run it with 'sandboxed'.
+:   Override which spawn strategy should be used to execute spawn actions that have descriptions matching a certain regex_filter. See --per_file_copt for details on regex_filter matching. The last regex_filter that matches the description is used. This option overrides other flags for specifying strategy. Example: --strategy_regexp=//foo.*.cc,-//foo/bar=local means to run actions using local strategy if their descriptions match //foo.*.cc but not //foo/bar. Example: --strategy_regexp='Compiling.\*/bar=local --strategy_regexp=Compiling=sandboxed will run 'Compiling //foo/bar/baz' with the 'local' strategy, but reversing the order would run it with 'sandboxed'.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -4126,7 +4126,7 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]experimental_cpu_load_scheduling` default: "false"
-:   Enables the experimental local execution scheduling based on CPU load, not estimation of actions one by one. Experimental scheduling have showed the large benefit on a large local builds on a powerful machines with the large number of cores. Reccommended to use with --local_resources=cpu=HOST_CPUS
+:   Enables the experimental local execution scheduling based on CPU load, not estimation of actions one by one. Experimental scheduling have showed the large benefit on a large local builds on a powerful machines with the large number of cores. Recommended to use with --local_resources=cpu=HOST_CPUS
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -4605,8 +4605,8 @@ Miscellaneous options, not otherwise categorized.:
 `--[no]discard_analysis_cache` default: "false"
 :   Discard the analysis cache immediately after the analysis phase completes. Reduces memory usage by ~10%, but makes further incremental builds slower.
 
-`--disk_cache=&lt;a path&gt;` default: see description
-:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created.
+`--[no]disk_cache` default: see description
+:   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created. Use --disk_cache with no value (or --disk_cache=true) to use a default location under the output user root (&lt;outputUserRoot&gt;/cache/disk). Use --nodisk_cache or --disk_cache=false to disable.
 
 `--embed_label=&lt;a one-line string&gt;` default: ""
 :   Embed source control revision or release label in binary
