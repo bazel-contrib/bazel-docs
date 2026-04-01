@@ -12,6 +12,7 @@ The context of the repository rule containing helper functions and information a
 * [extract](#extract)
 * [file](#file)
 * [getenv](#getenv)
+* [integrity_hash](#integrity_hash)
 * [name](#name)
 * [original_name](#original_name)
 * [os](#os)
@@ -169,6 +170,22 @@ When building incrementally, any change to the value of the variable named by `n
 | `default` | [string](../core/string); or `None`; default is `None`  Default value to return if `name` is not found. |
 
 May return `None`.
+
+## integrity_hash
+
+```
+string repository_ctx.integrity_hash(algorithm='', path='', *, watch='auto')
+```
+
+Calculates the subresource integrity hash for the given file.
+
+### Parameters
+
+| Parameter | Description |
+| --- | --- |
+| `algorithm` | [string](../core/string); default is `''`  The hash algorithm to use. Supported algorithms are: 'sha256', 'sha384', 'sha512' |
+| `path` | [string](../core/string); or [Label](../builtins/Label); or [path](../builtins/path); default is `''`  Path of the file to calculate a subresource integrity hash. |
+| `watch` | [string](../core/string); default is `'auto'`  Whether to [watch](#watch) the file. Can be the string 'yes', 'no', or 'auto'. Passing 'yes' is equivalent to immediately invoking the [`watch()`](#watch) method; passing 'no' does not attempt to watch the file; passing 'auto' will only attempt to watch the file when it is legal to do so (see `watch()` docs for more information. |
 
 ## name
 

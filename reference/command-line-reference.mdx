@@ -3829,7 +3829,7 @@ Options that control build execution:
     [`execution`](#effect_tag_EXECUTION)
 
 `--strategy_regexp=&lt;a '&lt;RegexFilter&gt;=value[,value]' assignment&gt;` multiple uses are accumulated
-:   Override which spawn strategy should be used to execute spawn actions that have descriptions matching a certain regex_filter. See --per_file_copt for details on regex_filter matching. The last regex_filter that matches the description is used. This option overrides other flags for specifying strategy. Example: --strategy_regexp=//foo.*.cc,-//foo/bar=local means to run actions using local strategy if their descriptions match //foo.*.cc but not //foo/bar. Example: --strategy_regexp='Compiling.\*/bar=local --strategy_regexp=Compiling=sandboxed will run 'Compiling //foo/bar/baz' with the 'local' strategy, but reversing the order would run it with 'sandboxed'.
+:   Override which spawn strategy should be used to execute spawn actions that have descriptions matching a certain regex_filter. See --per_file_copt for details onregex_filter matching. The last regex_filter that matches the description is used. This option overrides other flags for specifying strategy. Example: --strategy_regexp=//foo.*.cc,-//foo/bar=local means to run actions using local strategy if their descriptions match //foo.*.cc but not //foo/bar. Example: --strategy_regexp='Compiling.\*/bar=local --strategy_regexp=Compiling=sandboxed will run 'Compiling //foo/bar/baz' with the 'local' strategy, but reversing the order would run it with 'sandboxed'.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -4126,7 +4126,7 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]experimental_cpu_load_scheduling` default: "false"
-:   Enables the experimental local execution scheduling based on CPU load, not estimation of actions one by one. Experimental scheduling have showed the large benefit on a large local builds on a powerful machines with the large number of cores. Recommended to use with --local_resources=cpu=HOST_CPUS
+:   Enables the experimental local execution scheduling based on CPU load, not estimation of actions one by one. Experimental scheduling have showed the large benefit on a large local builds on a powerful machines with the large number of cores. Reccommended to use with --local_resources=cpu=HOST_CPUS
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
