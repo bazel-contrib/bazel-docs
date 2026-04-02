@@ -1,4 +1,6 @@
-# dict
+---
+title: 'dict'
+---
 
 dict is a built-in type representing an associative mapping or *dictionary*. A dictionary supports indexing using `d[k]` and key membership testing using `k in d`; both operations take constant time. Unfrozen dictionaries are mutable, and may be updated by assigning to `d[k]` or by calling certain methods. Dictionaries are iterable; iteration yields the sequence of keys in insertion order. Iteration order is unaffected by updating the value associated with an existing key, but is affected by removing then reinserting a key.
 
@@ -24,9 +26,7 @@ There are four ways to construct a dictionary:
 
          ```
          d = {"foo": "FOO", "bar": "BAR"} | {"foo": "FOO2", "baz": "BAZ"}
-         ---
-         title: 'd == {"foo": "FOO2", "bar": "BAR", "baz": "BAZ"}'
-         ---
+         # d == {"foo": "FOO2", "bar": "BAR", "baz": "BAZ"}
          d = {"a": 1, "b": 2}
          d |= {"b": 3, "c": 4}
          # d == {"a": 1, "b": 3, "c": 4}

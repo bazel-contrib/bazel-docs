@@ -1,4 +1,6 @@
-# Command-Line Reference
+---
+title: 'Command-Line Reference'
+---
 
 ```
 bazel [<startup options>] <command> [<args>]
@@ -3161,12 +3163,6 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
-`--[no]experimental_android_use_parallel_dex2oat` default: "false"
-:   Use dex2oat in parallel to possibly speed up android_test.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
 `--ios_simulator_device=&lt;a string&gt;` default: see description
 :   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
 
@@ -3233,12 +3229,6 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
-:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
-
-    Tags:
-    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -5863,12 +5853,6 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
-`--[no]experimental_android_use_parallel_dex2oat` default: "false"
-:   Use dex2oat in parallel to possibly speed up android_test.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
 `--ios_simulator_device=&lt;a string&gt;` default: see description
 :   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
 
@@ -5935,12 +5919,6 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
-:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
-
-    Tags:
-    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -7713,12 +7691,6 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
-`--[no]experimental_android_use_parallel_dex2oat` default: "false"
-:   Use dex2oat in parallel to possibly speed up android_test.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
 `--ios_simulator_device=&lt;a string&gt;` default: see description
 :   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
 
@@ -7785,12 +7757,6 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
-:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
-
-    Tags:
-    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -9390,12 +9356,6 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
-`--[no]experimental_android_use_parallel_dex2oat` default: "false"
-:   Use dex2oat in parallel to possibly speed up android_test.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
 `--ios_simulator_device=&lt;a string&gt;` default: see description
 :   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
 
@@ -9462,12 +9422,6 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
-:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
-
-    Tags:
-    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -10949,6 +10903,12 @@ Options relating to query output and semantics:
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
+`--[no]output:display_full_kind` default: "False"
+:   When displaying rule kind, whether to display the short rule name, or the full name for Starlark rules.
+
+    Tags:
+    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+
 `--output_file=&lt;a string&gt;` default: ""
 :   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than &lt;code&gt;bazel query &gt; file&lt;/code&gt;.
 
@@ -12413,12 +12373,6 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
-`--[no]experimental_android_use_parallel_dex2oat` default: "false"
-:   Use dex2oat in parallel to possibly speed up android_test.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
 `--ios_simulator_device=&lt;a string&gt;` default: see description
 :   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
 
@@ -12485,12 +12439,6 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
-:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
-
-    Tags:
-    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
