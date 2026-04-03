@@ -8,3 +8,6 @@ jobs:
     with:
       bazelCommitHash: ${{ github.event.client_payload.commitHash }}
       secrets: inherit
+    permissions:
+      contents: write
+      pull-requests: write
