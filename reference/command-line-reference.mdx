@@ -1537,9 +1537,6 @@ Remote caching and execution options:
 `--remote_local_fallback_strategy=&lt;a string&gt;` default: "local"
 :   Deprecated. See https://github.com/bazelbuild/bazel/issues/7480 for details.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--remote_max_concurrency_per_connection=&lt;an integer&gt;` default: "100"
 :   Limit the max number of concurrent requests per gRPC connection. By default the value is 100.
 
@@ -2853,6 +2850,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -3068,12 +3071,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -3487,9 +3484,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -4519,9 +4513,6 @@ Remote caching and execution options:
 `--remote_local_fallback_strategy=&lt;a string&gt;` default: "local"
 :   Deprecated. See https://github.com/bazelbuild/bazel/issues/7480 for details.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--remote_max_concurrency_per_connection=&lt;an integer&gt;` default: "100"
 :   Limit the max number of concurrent requests per gRPC connection. By default the value is 100.
 
@@ -4639,9 +4630,6 @@ Miscellaneous options, not otherwise categorized.:
       `--internal_spawn_scheduler`
 
       `--spawn_strategy=dynamic`
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]fetch` default: "true"
 :   Allows the command to fetch external dependencies. If set to false, the command will utilize any cached version of the dependency, and if none exists, the command will result in failure.
@@ -5540,6 +5528,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -5755,12 +5749,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -6174,9 +6162,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -7369,6 +7354,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -7584,12 +7575,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -8003,9 +7988,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -9025,6 +9007,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -9240,12 +9228,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -9660,9 +9642,6 @@ Miscellaneous options, not otherwise categorized.:
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -9746,7 +9725,7 @@ Options that control build execution:
 :   Deprecated no-effect flag. Only skylark mode is still supported.
 
     Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 Options that configure the toolchain used for action execution:
 
@@ -12033,6 +12012,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -12248,12 +12233,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -12667,9 +12646,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
