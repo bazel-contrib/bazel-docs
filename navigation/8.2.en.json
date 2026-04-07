@@ -17,7 +17,7 @@
         {
           "group": "Build system basics",
           "pages": [
-            "versions/8.2.1/basics",
+            "versions/8.2.1/basics/index",
             "versions/8.2.1/basics/build-systems",
             "versions/8.2.1/basics/task-based-builds",
             "versions/8.2.1/basics/artifact-based-builds",
@@ -34,7 +34,7 @@
         {
           "group": "Install",
           "pages": [
-            "versions/8.2.1/install",
+            "versions/8.2.1/install/index",
             "versions/8.2.1/install/bazelisk",
             "versions/8.2.1/install/os-x",
             "versions/8.2.1/install/windows",
@@ -63,8 +63,7 @@
             "versions/8.2.1/concepts/build-files",
             "versions/8.2.1/concepts/dependencies",
             "versions/8.2.1/concepts/visibility",
-            "versions/8.2.1/concepts/platforms",
-            "versions/8.2.1/concepts/hermeticity"
+            "versions/8.2.1/concepts/platforms"
           ]
         }
       ]
@@ -75,7 +74,7 @@
         {
           "group": "Releases",
           "pages": [
-            "versions/8.2.1/release",
+            "versions/8.2.1/release/index",
             "versions/8.2.1/release/rolling",
             "versions/8.2.1/release/backward-compatibility",
             "versions/8.2.1/release/rule-compatibility"
@@ -138,7 +137,7 @@
         {
           "group": "Migrate",
           "pages": [
-            "versions/8.2.1/migrate",
+            "versions/8.2.1/migrate/index",
             "versions/8.2.1/migrate/maven",
             "versions/8.2.1/migrate/xcode"
           ]
@@ -243,7 +242,7 @@
         {
           "group": "Contributing",
           "pages": [
-            "versions/8.2.1/contribute",
+            "versions/8.2.1/contribute/index",
             "versions/8.2.1/contribute/policy",
             "versions/8.2.1/contribute/patch-acceptance",
             "versions/8.2.1/contribute/maintainers-guide",
@@ -261,8 +260,6 @@
           "pages": [
             "versions/8.2.1/community/update",
             "versions/8.2.1/community/sig",
-            "versions/8.2.1/community/experts",
-            "versions/8.2.1/community/partners",
             "versions/8.2.1/community/users",
             "versions/8.2.1/community/recommended-rules",
             "versions/8.2.1/community/remote-execution-services"

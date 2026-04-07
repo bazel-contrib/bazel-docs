@@ -8,7 +8,6 @@
           "group": "Why Bazel?",
           "pages": [
             "versions/7.7.1/about/intro",
-            "versions/7.7.1/about/why",
             "versions/7.7.1/about/vision",
             "versions/7.7.1/about/roadmap",
             "versions/7.7.1/about/faq"
@@ -17,7 +16,7 @@
         {
           "group": "Build system basics",
           "pages": [
-            "versions/7.7.1/basics",
+            "versions/7.7.1/basics/index",
             "versions/7.7.1/basics/build-systems",
             "versions/7.7.1/basics/task-based-builds",
             "versions/7.7.1/basics/artifact-based-builds",
@@ -34,7 +33,7 @@
         {
           "group": "Install",
           "pages": [
-            "versions/7.7.1/install",
+            "versions/7.7.1/install/index",
             "versions/7.7.1/install/bazelisk",
             "versions/7.7.1/install/os-x",
             "versions/7.7.1/install/windows",
@@ -63,8 +62,7 @@
             "versions/7.7.1/concepts/build-files",
             "versions/7.7.1/concepts/dependencies",
             "versions/7.7.1/concepts/visibility",
-            "versions/7.7.1/concepts/platforms",
-            "versions/7.7.1/concepts/hermeticity"
+            "versions/7.7.1/concepts/platforms"
           ]
         }
       ]
@@ -75,8 +73,7 @@
         {
           "group": "Releases",
           "pages": [
-            "versions/7.7.1/release",
-            "versions/7.7.1/release/rolling",
+            "versions/7.7.1/release/index",
             "versions/7.7.1/release/backward-compatibility",
             "versions/7.7.1/release/rule-compatibility"
           ]
@@ -138,7 +135,7 @@
         {
           "group": "Migrate",
           "pages": [
-            "versions/7.7.1/migrate",
+            "versions/7.7.1/migrate/index",
             "versions/7.7.1/migrate/maven",
             "versions/7.7.1/migrate/xcode"
           ]
@@ -179,9 +176,7 @@
         },
         {
           "group": "Flag cheatsheet",
-          "pages": [
-            "versions/7.7.1/reference/flag-cheatsheet"
-          ]
+          "pages": []
         }
       ]
     },
@@ -199,7 +194,6 @@
           "pages": [
             "versions/7.7.1/rules/rules-tutorial",
             "versions/7.7.1/rules/macro-tutorial",
-            "versions/7.7.1/rules/legacy-macro-tutorial",
             "versions/7.7.1/rules/verbs-tutorial",
             "versions/7.7.1/rules/language",
             "versions/7.7.1/rules/bzl-style",
@@ -243,7 +237,7 @@
         {
           "group": "Contributing",
           "pages": [
-            "versions/7.7.1/contribute",
+            "versions/7.7.1/contribute/index",
             "versions/7.7.1/contribute/policy",
             "versions/7.7.1/contribute/patch-acceptance",
             "versions/7.7.1/contribute/maintainers-guide",
@@ -261,8 +255,6 @@
           "pages": [
             "versions/7.7.1/community/update",
             "versions/7.7.1/community/sig",
-            "versions/7.7.1/community/experts",
-            "versions/7.7.1/community/partners",
             "versions/7.7.1/community/users",
             "versions/7.7.1/community/recommended-rules",
             "versions/7.7.1/community/remote-execution-services"

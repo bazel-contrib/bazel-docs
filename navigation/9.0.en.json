@@ -17,7 +17,7 @@
         {
           "group": "Build system basics",
           "pages": [
-            "versions/9.0.0/basics",
+            "versions/9.0.0/basics/index",
             "versions/9.0.0/basics/build-systems",
             "versions/9.0.0/basics/task-based-builds",
             "versions/9.0.0/basics/artifact-based-builds",
@@ -34,7 +34,7 @@
         {
           "group": "Install",
           "pages": [
-            "versions/9.0.0/install",
+            "versions/9.0.0/install/index",
             "versions/9.0.0/install/bazelisk",
             "versions/9.0.0/install/os-x",
             "versions/9.0.0/install/windows",
@@ -63,8 +63,7 @@
             "versions/9.0.0/concepts/build-files",
             "versions/9.0.0/concepts/dependencies",
             "versions/9.0.0/concepts/visibility",
-            "versions/9.0.0/concepts/platforms",
-            "versions/9.0.0/concepts/hermeticity"
+            "versions/9.0.0/concepts/platforms"
           ]
         }
       ]
@@ -75,7 +74,7 @@
         {
           "group": "Releases",
           "pages": [
-            "versions/9.0.0/release",
+            "versions/9.0.0/release/index",
             "versions/9.0.0/release/rolling",
             "versions/9.0.0/release/backward-compatibility",
             "versions/9.0.0/release/rule-compatibility"
@@ -138,7 +137,7 @@
         {
           "group": "Migrate",
           "pages": [
-            "versions/9.0.0/migrate",
+            "versions/9.0.0/migrate/index",
             "versions/9.0.0/migrate/maven",
             "versions/9.0.0/migrate/xcode"
           ]
@@ -243,7 +242,7 @@
         {
           "group": "Contributing",
           "pages": [
-            "versions/9.0.0/contribute",
+            "versions/9.0.0/contribute/index",
             "versions/9.0.0/contribute/policy",
             "versions/9.0.0/contribute/patch-acceptance",
             "versions/9.0.0/contribute/maintainers-guide",
@@ -259,10 +258,7 @@
         {
           "group": "Programs",
           "pages": [
-            "versions/9.0.0/community/update",
             "versions/9.0.0/community/sig",
-            "versions/9.0.0/community/experts",
-            "versions/9.0.0/community/partners",
             "versions/9.0.0/community/users",
             "versions/9.0.0/community/recommended-rules",
             "versions/9.0.0/community/remote-execution-services"

@@ -10,14 +10,13 @@
             "about/intro",
             "about/why",
             "about/vision",
-            "about/roadmap",
             "about/faq"
           ]
         },
         {
           "group": "Build system basics",
           "pages": [
-            "basics",
+            "basics/index",
             "basics/build-systems",
             "basics/task-based-builds",
             "basics/artifact-based-builds",
@@ -34,7 +33,7 @@
         {
           "group": "Install",
           "pages": [
-            "install",
+            "install/index",
             "install/bazelisk",
             "install/os-x",
             "install/windows",
@@ -63,8 +62,7 @@
             "concepts/build-files",
             "concepts/dependencies",
             "concepts/visibility",
-            "concepts/platforms",
-            "concepts/hermeticity"
+            "concepts/platforms"
           ]
         }
       ]
@@ -75,7 +73,7 @@
         {
           "group": "Releases",
           "pages": [
-            "release",
+            "release/index",
             "release/rolling",
             "release/backward-compatibility",
             "release/rule-compatibility"
@@ -138,7 +136,7 @@
         {
           "group": "Migrate",
           "pages": [
-            "migrate",
+            "migrate/index",
             "migrate/maven",
             "migrate/xcode"
           ]
@@ -243,7 +241,7 @@
         {
           "group": "Contributing",
           "pages": [
-            "contribute",
+            "contribute/index",
             "contribute/policy",
             "contribute/patch-acceptance",
             "contribute/maintainers-guide",
@@ -259,7 +257,6 @@
         {
           "group": "Programs",
           "pages": [
-            "community/update",
             "community/sig",
             "community/experts",
             "community/partners",
