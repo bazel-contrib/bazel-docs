@@ -1,6 +1,4 @@
----
-title: 'Command-Line Reference'
----
+# Command-Line Reference
 
 ```
 bazel [<startup options>] <command> [<args>]
@@ -1537,9 +1535,6 @@ Remote caching and execution options:
 `--remote_local_fallback_strategy=&lt;a string&gt;` default: "local"
 :   Deprecated. See https://github.com/bazelbuild/bazel/issues/7480 for details.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--remote_max_concurrency_per_connection=&lt;an integer&gt;` default: "100"
 :   Limit the max number of concurrent requests per gRPC connection. By default the value is 100.
 
@@ -2853,6 +2848,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -3069,12 +3070,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -3166,6 +3161,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -3220,6 +3233,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -3487,9 +3506,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -4519,9 +4535,6 @@ Remote caching and execution options:
 `--remote_local_fallback_strategy=&lt;a string&gt;` default: "local"
 :   Deprecated. See https://github.com/bazelbuild/bazel/issues/7480 for details.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--remote_max_concurrency_per_connection=&lt;an integer&gt;` default: "100"
 :   Limit the max number of concurrent requests per gRPC connection. By default the value is 100.
 
@@ -4639,9 +4652,6 @@ Miscellaneous options, not otherwise categorized.:
       `--internal_spawn_scheduler`
 
       `--spawn_strategy=dynamic`
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]fetch` default: "true"
 :   Allows the command to fetch external dependencies. If set to false, the command will utilize any cached version of the dependency, and if none exists, the command will result in failure.
@@ -5540,6 +5550,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -5756,12 +5772,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -5853,6 +5863,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -5907,6 +5935,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -6174,9 +6208,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -7369,6 +7400,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -7585,12 +7622,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -7682,6 +7713,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -7736,6 +7785,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -8003,9 +8058,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -9025,6 +9077,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -9241,12 +9299,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -9338,6 +9390,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -9392,6 +9462,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -9660,9 +9736,6 @@ Miscellaneous options, not otherwise categorized.:
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -9746,7 +9819,7 @@ Options that control build execution:
 :   Deprecated no-effect flag. Only skylark mode is still supported.
 
     Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 Options that configure the toolchain used for action execution:
 
@@ -10872,12 +10945,6 @@ Options relating to query output and semantics:
 
 `--output=&lt;a string&gt;` default: "label"
 :   The format in which the query results should be printed. Allowed values for query are: build, graph, streamed_jsonproto, label, label_kind, location, maxrank, minrank, package, proto, streamed_proto, xml.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-
-`--[no]output:display_full_kind` default: "False"
-:   When displaying rule kind, whether to display the short rule name, or the full name for Starlark rules.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -12033,6 +12100,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -12249,12 +12322,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -12346,6 +12413,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -12400,6 +12485,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
@@ -12667,9 +12758,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
