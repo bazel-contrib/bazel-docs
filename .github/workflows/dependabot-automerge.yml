@@ -32,7 +32,7 @@ jobs:
 
       - name: Fetch Dependabot metadata
         id: meta
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
         with:
           # Using the App Token generated above
           github-token: ${{ steps.generate-token.outputs.token }}
