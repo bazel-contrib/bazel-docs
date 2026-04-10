@@ -800,12 +800,6 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_use_cc_configure_from_rules_cc` default: "false"
-:   When true, Bazel will no longer allow using cc_configure from @bazel_tools. Please see https://github.com/bazelbuild/bazel/issues/10134 for details and migration instructions.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--max_computation_steps=&lt;a long integer&gt;` default: "0"
 :   The maximum number of Starlark computation steps that may be executed by a BUILD file (zero means no limit).
 
