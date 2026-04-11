@@ -38,12 +38,6 @@
 # "Could not parse expression with acorn" — bare {..} in prose
 **/community/roadmaps-configurability.mdx
 **/community/users.mdx
-# "Could not parse expression with acorn" — bare {..} in prose
-**/concepts/build-files.mdx
-# "Could not parse import/exports with acorn" — bare {..} in prose
-**/concepts/dependencies.mdx
-# "Could not parse expression with acorn" — bare {..} in prose
-**/concepts/labels.mdx
 **/concepts/visibility.mdx
 **/contribute/search.mdx
 **/docs/cc-toolchain-config-reference.mdx
