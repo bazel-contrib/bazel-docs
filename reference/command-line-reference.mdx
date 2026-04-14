@@ -448,7 +448,7 @@ Options that let the user configure the intended output, affecting its value, as
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]incompatible_repo_env_ignores_action_env` default: "true"
-:   If true, `--action_env=NAME=VALUE` will no longer affect repository rule and module extension environments.
+:   If true, &lt;code&gt;--action_env=NAME=VALUE&lt;/code&gt; will no longer affect repository rule and module extension environments.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -496,7 +496,7 @@ Options that let the user configure the intended output, affecting its value, as
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 `--repo_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable&gt;` multiple uses are accumulated
-:   Specifies additional environment variables to be available only for repository rules. Note that repository rules see the full environment anyway, but in this way variables can be set via command-line flags and `.bazelrc` entries. The special syntax `=NAME` can be used to explicitly unset a variable. The string `%bazel_workspace%` in a value will be replaced with the absolute path of the workspace as printed by `bazel info workspace`.
+:   Specifies additional environment variables to be available only for repository rules. Note that repository rules see the full environment anyway, but in this way variables can be set via command-line flags and &lt;code&gt;.bazelrc&lt;/code&gt; entries. The special syntax &lt;code&gt;=NAME&lt;/code&gt; can be used to explicitly unset a variable. The string &lt;code&gt;%bazel_workspace%&lt;/code&gt; in a value will be replaced with the absolute path of the workspace as printed by &lt;code&gt;bazel info workspace&lt;/code&gt;.
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
@@ -578,7 +578,7 @@ This option affects semantics of the Starlark language or the build API accessib
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_isolated_extension_usages` default: "false"
-:   If true, enables the `isolate` parameter in the [`use_extension`](https://bazel.build/rules/lib/globals/module#use_extension) function.
+:   If true, enables the &lt;code&gt;isolate&lt;/code&gt; parameter in the &lt;a href="https://bazel.build/rules/lib/globals/module#use_extension"&gt;&lt;code&gt;use_extension&lt;/code&gt;&lt;/a&gt; function.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
@@ -723,7 +723,7 @@ This option affects semantics of the Starlark language or the build API accessib
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_locations_prefers_executable` default: "true"
-:   Whether a target that provides an executable expands to the executable rather than the files in `DefaultInfo.files` under $(locations ...) expansion if the number of files is not 1.
+:   Whether a target that provides an executable expands to the executable rather than the files in &lt;code&gt;DefaultInfo.files&lt;/code&gt; under $(locations ...) expansion if the number of files is not 1.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -741,7 +741,7 @@ This option affects semantics of the Starlark language or the build API accessib
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_no_implicit_watch_label` default: "true"
-:   If true, then methods on `repository_ctx` that are passed a Label will no longer automatically watch the file under that label for changes even if `watch = "no"`, and `repository_ctx.path` no longer causes the returned path to be watched. Use `repository_ctx.watch` instead.
+:   If true, then methods on &lt;code&gt;repository_ctx&lt;/code&gt; that are passed a Label will no longer automatically watch the file under that label for changes even if &lt;code&gt;watch = "no"&lt;/code&gt;, and &lt;code&gt;repository_ctx.path&lt;/code&gt; no longer causes the returned path to be watched. Use &lt;code&gt;repository_ctx.watch&lt;/code&gt; instead.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -1269,7 +1269,7 @@ Options that affect the verbosity, format or location of logging:
 :   Controls the output of BEP ActionSummary and BuildGraphMetrics, limiting the number of mnemonics in ActionData and number of entries reported in BuildGraphMetrics.AspectCount/RuleClassCount. By default the number of types is limited to the top 20, by number of executed actions for ActionData, and instances for RuleClass and Asepcts. Setting this option will write statistics for all mnemonics, rule classes and aspects.
 
 `--[no]experimental_record_skyframe_metrics` default: "false"
-:   Controls the output of BEP BuildGraphMetrics, including expensive to compute skyframe metrics about Skykeys, RuleClasses and Aspects. With this flag set to false BuildGraphMetrics.rule_count and aspect fields will not be populated in the BEP.
+:   Controls the output of BEP BuildGraphMetrics, including expensiveto compute skyframe metrics about Skykeys, RuleClasses and Aspects.With this flag set to false BuildGraphMetrics.rule_count and aspectfields will not be populated in the BEP.
 
 `--[no]experimental_run_bep_event_include_residue` default: "false"
 :   Whether to include the command-line residue in run build events which could contain the residue. By default, the residue is not included in run command build events that could contain the residue.
@@ -1787,7 +1787,7 @@ Options relating to query output and semantics:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
 `--[no]consistent_labels` default: "false"
-:   If enabled, every query command emits labels as if by the Starlark `str` function applied to a `Label` instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
+:   If enabled, every query command emits labels as if by the Starlark &lt;code&gt;str&lt;/code&gt; function applied to a &lt;code&gt;Label&lt;/code&gt; instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -1883,7 +1883,7 @@ Options relating to query output and semantics:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--output_file=&lt;a string&gt;` default: ""
-:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than `bazel query &gt; file`.
+:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than &lt;code&gt;bazel query &gt; file&lt;/code&gt;.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -2624,6 +2624,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -5309,6 +5315,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
 
@@ -6300,7 +6312,7 @@ Options relating to query output and semantics:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
 `--[no]consistent_labels` default: "false"
-:   If enabled, every query command emits labels as if by the Starlark `str` function applied to a `Label` instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
+:   If enabled, every query command emits labels as if by the Starlark &lt;code&gt;str&lt;/code&gt; function applied to a &lt;code&gt;Label&lt;/code&gt; instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -6366,7 +6378,7 @@ Options relating to query output and semantics:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--output_file=&lt;a string&gt;` default: ""
-:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than `bazel query &gt; file`.
+:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than &lt;code&gt;bazel query &gt; file&lt;/code&gt;.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -7131,6 +7143,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -8781,6 +8799,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -10742,7 +10766,7 @@ Options relating to query output and semantics:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
 `--[no]consistent_labels` default: "false"
-:   If enabled, every query command emits labels as if by the Starlark `str` function applied to a `Label` instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
+:   If enabled, every query command emits labels as if by the Starlark &lt;code&gt;str&lt;/code&gt; function applied to a &lt;code&gt;Label&lt;/code&gt; instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -10862,7 +10886,7 @@ Options relating to query output and semantics:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--output_file=&lt;a string&gt;` default: ""
-:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than `bazel query &gt; file`.
+:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than &lt;code&gt;bazel query &gt; file&lt;/code&gt;.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -11783,6 +11807,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
