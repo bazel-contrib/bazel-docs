@@ -242,7 +242,7 @@ cc_library(
 | Attributes | |
 | --- | --- |
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
-| `srcs` | List of [labels](/concepts/labels); default is `[]` The list of targets that are members of the file group. It is common to use the result of a [glob](/reference/be/functions#glob) expression for the value of the `srcs` attribute. |
+| `srcs` | List of [labels](/concepts/labels); default is `[]` The list of targets that are members of the file group. Targets named in the `srcs` attribute will be added to the `runfiles` of this `filegroup` rule.  It is common to use the result of a [glob](/reference/be/functions#glob) expression for the value of the `srcs` attribute. |
 | `data` | List of [labels](/concepts/labels); default is `[]` The list of files needed by this rule at runtime. Targets named in the `data` attribute will be added to the `runfiles` of this `filegroup` rule. When the `filegroup` is referenced in the `data` attribute of another rule its `runfiles` will be added to the `runfiles` of the depending rule. See the [data dependencies](/concepts/dependencies#data-dependencies) section and [general documentation of `data`](/reference/be/common-definitions#common.data) for more information about how to depend on and use data files. |
 | `output_group` | String; default is `""` The output group from which to gather artifacts from sources. If this attribute is specified, artifacts from the specified output group of the dependencies will be exported instead of the default output group. An "output group" is a category of output artifacts of a target, specified in that rule's implementation. |
 
