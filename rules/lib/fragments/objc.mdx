@@ -1,6 +1,4 @@
----
-title: 'objc'
----
+# objc
 
 A configuration fragment for Objective-C.
 
@@ -10,6 +8,8 @@ A configuration fragment for Objective-C.
 * [builtin_objc_strip_action](#builtin_objc_strip_action)
 * [copts_for_current_compilation_mode](#copts_for_current_compilation_mode)
 * [disallow_sdk_frameworks_attributes](#disallow_sdk_frameworks_attributes)
+* [ios_simulator_device](#ios_simulator_device)
+* [ios_simulator_version](#ios_simulator_version)
 * [strip_executable_safely](#strip_executable_safely)
 * [uses_device_debug_entitlements](#uses_device_debug_entitlements)
 
@@ -44,6 +44,24 @@ bool objc.disallow_sdk_frameworks_attributes
 ```
 
 Returns whether sdk_frameworks and weak_sdk_frameworks are disallowed attributes.
+
+## ios_simulator_device
+
+```
+string objc.ios_simulator_device
+```
+
+The type of device (e.g. 'iPhone 6') to use when running on the simulator.
+May return `None`.
+
+## ios_simulator_version
+
+```
+DottedVersion objc.ios_simulator_version
+```
+
+The SDK version of the iOS simulator to use when running on the simulator.
+May return `None`.
 
 ## strip_executable_safely
 

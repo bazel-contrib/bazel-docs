@@ -1,6 +1,4 @@
----
-title: 'Args'
----
+# Args
 
 An object that encapsulates, in a memory-efficient way, the data needed to build part or all of a command line.
 
@@ -29,7 +27,9 @@ Example: Suppose we wanted to generate the command line:
 We could use the following `Args` object:
 
 ```
-# foo_deps and bar_deps are depsets containing
+---
+title: 'foo_deps and bar_deps are depsets containing'
+---
 # File objects for the foo and bar .txt files.
 args = ctx.actions.args()
 args.add_all("--foo", foo_deps)
