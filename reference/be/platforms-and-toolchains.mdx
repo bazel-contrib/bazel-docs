@@ -8,22 +8,22 @@ The user should be familiar with the concepts explained [here](/extending/platfo
 
 ## Rules
 
-* [constraint_setting](#constraint_setting)
-* [constraint_value](#constraint_value)
+* [constraint\_setting](#constraint_setting)
+* [constraint\_value](#constraint_value)
 * [platform](#platform)
 * [toolchain](#toolchain)
-* [toolchain_type](#toolchain_type)
+* [toolchain\_type](#toolchain_type)
 
-## constraint_setting
+## constraint\_setting
 
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintSettingRule.java)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintSettingRule.java)
 
 ```
 constraint_setting(name, aspect_hints, default_constraint_value, deprecation, features, licenses, tags, testonly, visibility)
 ```
 
 This rule is used to introduce a new constraint type for which a platform may specify a value.
-For instance, you might define a `constraint_setting` named "glibc_version" to represent
+For instance, you might define a `constraint_setting` named "glibc\_version" to represent
 the capability for platforms to have different versions of the glibc library installed.
 For more details, see the
 [Platforms](https://bazel.build/docs/platforms) page.
@@ -41,9 +41,9 @@ define a platform targeting an obscure cpu architecture.
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
 | `default_constraint_value` | [Name](/concepts/labels#target-names); [nonconfigurable](common-definitions#configurable-attributes); default is `None` The label of the default value for this setting, to be used if no value is given. If this attribute is present, the `constraint_value` it points to must be defined in the same package as this `constraint_setting`. If a constraint setting has a default value, then whenever a platform does not include any constraint value for that setting, it is the same as if the platform had specified the default value. Otherwise, if there is no default value, the constraint setting is considered to be unspecified by that platform. In that case, the platform would not match against any constraint list (such as for a `config_setting`) that requires a particular value for that setting. |
 
-## constraint_value
+## constraint\_value
 
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintValueRule.java)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintValueRule.java)
 
 ```
 constraint_value(name, aspect_hints, constraint_setting, deprecation, features, licenses, tags, testonly, visibility)
@@ -77,7 +77,7 @@ Platforms can then declare that they have the `mips` architecture as an alternat
 
 ## platform
 
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/PlatformRule.java)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/PlatformRule.java)
 
 ```
 platform(name, aspect_hints, constraint_values, deprecation, exec_properties, features, flags, licenses, missing_toolchain_error, parents, required_settings, tags, testonly, visibility)
@@ -241,16 +241,16 @@ platform(
 
 In this example, the child platforms have the following properties:
 
-* `child_a` inherits the "exec_properties" of the parent and does not set its own.
+* `child_a` inherits the "exec\_properties" of the parent and does not set its own.
 * `child_b` inherits the parent's `exec_properties` and overrides the
   value of `k1`. Its `exec_properties` will be:
-  `&lcub; "k1": "child", "k2": "v2" &rcub;`.
+  `{ "k1": "child", "k2": "v2" }`.
 * `child_c` inherits the parent's `exec_properties` and unsets
   `k1`. Its `exec_properties` will be:
-  `&lcub; "k2": "v2" &rcub;`.
+  `{ "k2": "v2" }`.
 * `child_d` inherits the parent's `exec_properties` and adds a new
   property. Its `exec_properties` will be:
-  `&lcub; "k1": "v1", "k2": "v2", "k3": "v3" &rcub;`.
+  `{ "k1": "v1", "k2": "v2", "k3": "v3" }`.
 
 ### Arguments
 
@@ -258,15 +258,15 @@ In this example, the child platforms have the following properties:
 | --- | --- |
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
 | `constraint_values` | List of [labels](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); default is `[]` The combination of constraint choices that this platform comprises. In order for a platform to apply to a given environment, the environment must have at least the values in this list. Each `constraint_value` in this list must be for a different `constraint_setting`. For example, you cannot define a platform that requires the cpu architecture to be both `@platforms//cpu:x86_64` and `@platforms//cpu:arm`. |
-| `exec_properties` | Dictionary: String -&gt; String; [nonconfigurable](common-definitions#configurable-attributes); default is `&lcub;&rcub;` A map of strings that affect the way actions are executed remotely. Bazel makes no attempt to interpret this, it is treated as opaque data that's forwarded via the Platform field of the [remote execution protocol](https://github.com/bazelbuild/remote-apis). This includes any data from the parent platform's `exec_properties` attributes. If the child and parent platform define the same keys, the child's values are kept. Any keys associated with a value that is an empty string are removed from the dictionary. |
+| `exec_properties` | Dictionary: String -> String; [nonconfigurable](common-definitions#configurable-attributes); default is `{}` A map of strings that affect the way actions are executed remotely. Bazel makes no attempt to interpret this, it is treated as opaque data that's forwarded via the Platform field of the [remote execution protocol](https://github.com/bazelbuild/remote-apis). This includes any data from the parent platform's `exec_properties` attributes. If the child and parent platform define the same keys, the child's values are kept. Any keys associated with a value that is an empty string are removed from the dictionary. |
 | `flags` | List of strings; [nonconfigurable](common-definitions#configurable-attributes); default is `[]` A list of flags that will be enabled when this platform is used as the target platform in a configuration. Only flags that are part of the configuration can be set, such as those that can be used in transitions, or the `--define` flag. |
 | `missing_toolchain_error` | String; [nonconfigurable](common-definitions#configurable-attributes); default is `"For more information on platforms or toolchains see https://bazel.build/concepts/platforms-intro."` A custom error message that is displayed when a mandatory toolchain requirement cannot be satisfied for this target platform. Intended to point to relevant documentation users can read to understand why their toolchains are misconfigured. Not inherited from parent platforms. |
-| `parents` | List of [labels](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); default is `[]` The label of a `platform` target that this platform should inherit from. Although the attribute takes a list, there should be no more than one platform present. Any constraint_settings not set directly on this platform will be found in the parent platform. See the section on [Platform Inheritance](#platform_inheritance) for details. |
+| `parents` | List of [labels](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); default is `[]` The label of a `platform` target that this platform should inherit from. Although the attribute takes a list, there should be no more than one platform present. Any constraint\_settings not set directly on this platform will be found in the parent platform. See the section on [Platform Inheritance](#platform_inheritance) for details. |
 | `required_settings` | List of [labels](/concepts/labels); default is `[]` A list of `config_setting`s that must be satisfied by the target configuration in order for this platform to be used as an execution platform during toolchain resolution. Required settings are not inherited from parent platforms. |
 
 ## toolchain
 
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ToolchainRule.java)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ToolchainRule.java)
 
 ```
 toolchain(name, aspect_hints, deprecation, exec_compatible_with, features, licenses, package_metadata, tags, target_compatible_with, target_settings, testonly, toolchain, toolchain_type, use_target_platform_constraints, visibility)
@@ -289,9 +289,9 @@ details.
 | `toolchain_type` | [Label](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); required The label of a `toolchain_type` target that represents the role that this toolchain serves. |
 | `use_target_platform_constraints` | Boolean; [nonconfigurable](common-definitions#configurable-attributes); default is `False` If `True`, this toolchain behaves as if its `exec_compatible_with` and `target_compatible_with` constraints are set to those of the current target platform. `exec_compatible_with` and `target_compatible_with` must not be set in that case. |
 
-## toolchain_type
+## toolchain\_type
 
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/ToolchainType.java)
+[View rule sourceopen\_in\_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/ToolchainType.java)
 
 ```
 toolchain_type(name, aspect_hints, compatible_with, deprecation, features, no_match_error, package_metadata, restricted_to, tags, target_compatible_with, testonly, visibility)
