@@ -258,8 +258,6 @@
           "group": "Programs",
           "pages": [
             "versions/9.0.0/community/sig",
-            "versions/9.0.0/community/experts",
-            "versions/9.0.0/community/partners",
             "versions/9.0.0/community/users",
             "versions/9.0.0/community/recommended-rules",
             "versions/9.0.0/community/remote-execution-services"
