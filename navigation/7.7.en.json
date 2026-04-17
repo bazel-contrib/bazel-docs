@@ -8,7 +8,6 @@
           "group": "Why Bazel?",
           "pages": [
             "versions/7.7.1/about/intro",
-            "versions/7.7.1/about/why",
             "versions/7.7.1/about/vision",
             "versions/7.7.1/about/faq"
           ]
@@ -74,7 +73,6 @@
           "group": "Releases",
           "pages": [
             "versions/7.7.1/release/index",
-            "versions/7.7.1/release/rolling",
             "versions/7.7.1/release/backward-compatibility",
             "versions/7.7.1/release/rule-compatibility"
           ]
@@ -177,9 +175,7 @@
         },
         {
           "group": "Flag cheatsheet",
-          "pages": [
-            "versions/7.7.1/reference/flag-cheatsheet"
-          ]
+          "pages": []
         }
       ]
     },
@@ -197,7 +193,6 @@
           "pages": [
             "versions/7.7.1/rules/rules-tutorial",
             "versions/7.7.1/rules/macro-tutorial",
-            "versions/7.7.1/rules/legacy-macro-tutorial",
             "versions/7.7.1/rules/verbs-tutorial",
             "versions/7.7.1/rules/language",
             "versions/7.7.1/rules/bzl-style",
@@ -258,8 +253,6 @@
           "group": "Programs",
           "pages": [
             "versions/7.7.1/community/sig",
-            "versions/7.7.1/community/experts",
-            "versions/7.7.1/community/partners",
             "versions/7.7.1/community/users",
             "versions/7.7.1/community/recommended-rules",
             "versions/7.7.1/community/remote-execution-services"
