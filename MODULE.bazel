@@ -1,0 +1,1 @@
+module(name = "bazel-docs", version = "1.0")
