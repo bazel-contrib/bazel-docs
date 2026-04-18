@@ -86,6 +86,17 @@ def _impl(repository_ctx):
 local_repository = repository_rule(
     implementation=_impl,
     ...)
+
+
+
+## Extraction Attributes
+
+When extracting archives using `http_archive`, `repository_ctx.extract()`, or `repository_ctx.download_and_extract()`, you can control how file paths are handled during extraction using the `strip_prefix` and `strip_components` attributes.
+
+*   **`strip_prefix`**: A string prefix to strip from extracted file paths. For example, if an archive contains `foo-1.2.3/bar/baz.txt` and `strip_prefix = "foo-1.2.3/"`, then `bar/baz.txt` will be extracted.
+*   **`strip_components`**: An integer specifying the number of leading path components to strip from extracted file paths. For example, if an archive contains `foo-1.2.3/bar/baz.txt` and `strip_components = 1`, then `bar/baz.txt` will be extracted.
+
+Only one of `strip_prefix` or `strip_components` can be set at a time. If both are provided, an error will occur. `strip_components` must be a non-negative integer.
 ```
 
 ## When is the implementation function executed?
