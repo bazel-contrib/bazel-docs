@@ -33,8 +33,9 @@ run when the repo needs to be fetched.
 
 Attributes are arguments passed to the repo rule invocation. The schema of
 attributes accepted by a repo rule is specified using the `attrs` argument when
-the repo rule is defined with a call to `repository_rule`. An example defining
-`url` and `sha256` attributes as strings:
+the repo rule is defined with a call to `repository_rule`.
+
+For example, the `http_archive` rule defines `url`, `sha256`, `strip_prefix`, and `strip_components` attributes:
 
 ```python
 http_archive = repository_rule(
@@ -42,9 +43,19 @@ http_archive = repository_rule(
     attrs={
         "url": attr.string(mandatory=True),
         "sha256": attr.string(mandatory=True),
+        "strip_prefix": attr.string(),
+        "strip_components": attr.int(),
     }
 )
 ```
+
+*   `strip_prefix`: A directory prefix to strip from extracted files. For
+    compatibility, this parameter may also be used under the deprecated name
+    `stripPrefix`. Only one of `strip_prefix` or `strip_components` can be used.
+*   `strip_components`: Strip the given number of leading components from file
+    paths on extraction. Only one of `strip_components` or `strip_prefix` can be
+    used.
+
 
 To access an attribute within the implementation function, use
 `repository_ctx.attr.<attribute_name>`:
