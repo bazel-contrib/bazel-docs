@@ -7,7 +7,7 @@ jobs:
     uses: ./.github/workflows/pull-from-bazel-build.yml
     with:
       bazelCommitHash: ${{ github.event.client_payload.commitHash }}
-      secrets: inherit
+    secrets: inherit
     permissions:
       contents: write
       pull-requests: write
