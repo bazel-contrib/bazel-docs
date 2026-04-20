@@ -89,7 +89,7 @@ jobs:
       - name: Get changed files in upstream
         id: changed-files
         if: ${{ inputs.detect_upstream_docs_changes }}
-        uses: tj-actions/changed-files@v47.0.5
+        uses: tj-actions/changed-files@v47.0.6
         with:
           path: upstream
           base_sha: ${{ inputs.bazelBaseCommitHash }}
