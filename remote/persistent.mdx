@@ -2,8 +2,6 @@
 title: 'Persistent Workers'
 ---
 
-
-
 This page covers how to use persistent workers, the benefits, requirements, and
 how workers affect sandboxing.
 
@@ -26,14 +24,14 @@ achieves these improvements by sending multiple requests to a long-running
 process.
 
 Persistent workers are implemented for multiple languages, including Java,
-[Scala](https://github.com/bazelbuild/rules_scala),
-[Kotlin](https://github.com/bazelbuild/rules_kotlin), and more.
+[Scala](https://github.com/bazelbuild/rules_scala){: .external},
+[Kotlin](https://github.com/bazelbuild/rules_kotlin){: .external}, and more.
 
 Programs using a NodeJS runtime can use the
 [@bazel/worker](https://www.npmjs.com/package/@bazel/worker) helper library to
 implement the worker protocol.
 
-## Using persistent workers {#usage}
+## Using persistent workers {:#usage}
 
 [Bazel 0.27 and higher](https://blog.bazel.build/2019/06/19/list-strategy.html)
 uses persistent workers by default when executing builds, though remote
@@ -45,7 +43,7 @@ mnemonics. As a best practice, this example includes specifying `local` as a
 fallback to the `worker` strategy:
 
 ```posix-terminal
-bazel build //<var>my:target</var> --strategy=Javac=worker,local
+bazel build //{{ '<var>' }}my:target{{ '</var>' }} --strategy=Javac=worker,local
 ```
 
 Using the workers strategy instead of the local strategy can boost compilation
@@ -56,7 +54,7 @@ about 2.5 times as fast with workers. For more details, see the
 
 If you also have a remote build environment that matches your local build
 environment, you can use the experimental
-[*dynamic* strategy](https://blog.bazel.build/2019/02/01/dynamic-spawn-scheduler.html),
+[*dynamic* strategy](https://blog.bazel.build/2019/02/01/dynamic-spawn-scheduler.html){: .external},
 which races a remote execution and a worker execution. To enable the dynamic
 strategy, pass the
 [--experimental_spawn_scheduler](/reference/command-line-reference#flag--experimental_spawn_scheduler)
@@ -64,7 +62,7 @@ flag. This strategy automatically enables workers, so there is no need to
 specify the `worker` strategy, but you can still use `local` or `sandboxed` as
 fallbacks.
 
-## Choosing number of workers {#number-of-workers}
+## Choosing number of workers {:#number-of-workers}
 
 The default number of worker instances per mnemonic is 4, but can be adjusted
 with the
@@ -74,7 +72,7 @@ amount of JIT compilation and cache hits you get. With more workers, more
 targets will pay start-up costs of running non-JITted code and hitting cold
 caches. If you have a small number of targets to build, a single worker may give
 the best trade-off between compilation speed and resource usage (for example,
-see [issue #8586](https://github.com/bazelbuild/bazel/issues/8586).
+see [issue #8586](https://github.com/bazelbuild/bazel/issues/8586){: .external}.
 The `worker_max_instances` flag sets the maximum number of worker instances per
 mnemonic and flag set (see below), so in a mixed system you could end up using
 quite a lot of memory if you keep the default value. For incremental builds the
@@ -101,7 +99,7 @@ packaging actions to it that can overshadow the incremental compile time.
 Recompiling the Java sources only
 (`//src/main/java/com/google/devtools/build/lib/bazel:BazelServer_deploy.jar`)
 after changing an internal string constant in
-[AbstractContainerizingSandboxedSpawn.java](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/sandbox/AbstractContainerizingSandboxedSpawn.java)
+[AbstractContainerizingSandboxedSpawn.java](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/sandbox/AbstractContainerizingSandboxedSpawn.java){: .external}
 gives a 3x speed-up (average of 20 incremental builds with one warmup build
 discarded):
 
@@ -112,7 +110,7 @@ discarded):
 The speed-up depends on the change being made. A speed-up of a factor 6 is
 measured in the above situation when a commonly used constant is changed.
 
-## Modifying persistent workers {#options}
+## Modifying persistent workers {:#options}
 
 You can pass the
 [`--worker_extra_flag`](/reference/command-line-reference#flag--worker_extra_flag)
@@ -150,7 +148,7 @@ log files for a given mnemonic.
 For Android builds, see details at the
 [Android Build Performance page](/docs/android-build-performance).
 
-## Implementing persistent workers {#implementation}
+## Implementing persistent workers {:#implementation}
 
 See the [creating persistent workers](/remote/creating) page for more
 information on how to make a worker.
@@ -207,11 +205,8 @@ JSON, `requires-worker-protocol` would be set to `proto`, like this:
   }
 ```
 
-Setting `requires-worker-protocol` also ensures that the selected protocol is
-forwarded to any remote execution server via the `persistentWorkerProtocol`
-platform property. If you do not include `requires-worker-protocol` in the
-execution requirements, Bazel will default the worker communication to use
-protobuf.
+If you do not include `requires-worker-protocol` in the execution requirements,
+Bazel will default the worker communication to use protobuf.
 
 Bazel derives the `WorkerKey` from the mnemonic and the shared flags, so if this
 configuration allowed changing the `max_mem` parameter, a separate worker would
@@ -224,15 +219,15 @@ threads, if the underlying tool is multithreaded and the wrapper is set up to
 understand this.
 
 In
-[this GitHub repo](https://github.com/Ubehebe/bazel-worker-examples),
+[this GitHub repo](https://github.com/Ubehebe/bazel-worker-examples){: .external},
 you can see example worker wrappers written in Java as well as in Python. If you
 are working in JavaScript or TypeScript, the
-[@bazel/worker package](https://www.npmjs.com/package/@bazel/worker)
+[@bazel/worker package](https://www.npmjs.com/package/@bazel/worker){: .external}
 and
-[nodejs worker example](https://github.com/bazelbuild/rules_nodejs/tree/stable/examples/worker)
+[nodejs worker example](https://github.com/bazelbuild/rules_nodejs/tree/stable/examples/worker){: .external}
 might be helpful.
 
-## How do workers affect sandboxing? {#sandboxing}
+## How do workers affect sandboxing? {:#sandboxing}
 
 Using the `worker` strategy by default does not run the action in a
 [sandbox](/docs/sandboxing), similar to the `local` strategy. You can set the
@@ -240,7 +235,7 @@ Using the `worker` strategy by default does not run the action in a
 execution of the tool only sees the input files it's supposed to have. The tool
 may still leak information between requests internally, for instance through a
 cache. Using `dynamic` strategy
-[requires workers to be sandboxed](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/exec/SpawnStrategyRegistry.java).
+[requires workers to be sandboxed](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/exec/SpawnStrategyRegistry.java){: .external}.
 
 To allow correct use of compiler caches with workers, a digest is passed along
 with each input file. Thus the compiler or the wrapper can check if the input is
@@ -255,14 +250,14 @@ and this sandboxing must be separately enabled with the
 `--experimental_worker_multiplex_sandboxing` flag. See more details in
 [the design doc](https://docs.google.com/document/d/1ncLW0hz6uDhNvci1dpzfEoifwTiNTqiBEm1vi-bIIRM/edit)).
 
-## Further reading {#further-reading}
+## Further reading {:#further-reading}
 
 For more information on persistent workers, see:
 
 *   [Original persistent workers blog post](https://blog.bazel.build/2015/12/10/java-workers.html)
-*   [Haskell implementation description](https://www.tweag.io/blog/2019-09-25-bazel-ghc-persistent-worker-internship/)
-*   [Blog post by Mike Morearty](https://medium.com/@mmorearty/how-to-create-a-persistent-worker-for-bazel-7738bba2cabb)
+*   [Haskell implementation description](https://www.tweag.io/blog/2019-09-25-bazel-ghc-persistent-worker-internship/){: .external}
+*   [Blog post by Mike Morearty](https://medium.com/@mmorearty/how-to-create-a-persistent-worker-for-bazel-7738bba2cabb){: .external}
 *   [Front End Development with Bazel: Angular/TypeScript and Persistent Workers
-    w/ Asana](https://www.youtube.com/watch?v=0pgERydGyqo)
-*   [Bazel strategies explained](https://jmmv.dev/2019/12/bazel-strategies.html)
-*   [Informative worker strategy discussion on the bazel-discuss mailing list](https://groups.google.com/forum/#!msg/bazel-discuss/oAEnuhYOPm8/ol7hf4KWJgAJ)
+    w/ Asana](https://www.youtube.com/watch?v=0pgERydGyqo){: .external}
+*   [Bazel strategies explained](https://jmmv.dev/2019/12/bazel-strategies.html){: .external}
+*   [Informative worker strategy discussion on the bazel-discuss mailing list](https://groups.google.com/forum/#!msg/bazel-discuss/oAEnuhYOPm8/ol7hf4KWJgAJ){: .external}

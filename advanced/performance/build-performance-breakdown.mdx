@@ -2,8 +2,6 @@
 title: 'Breaking down build performance'
 ---
 
-
-
 Bazel is complex and does a lot of different things over the course of a build,
 some of which can have an impact on build performance. This page attempts to map
 some of these Bazel concepts to their implications on build performance. While
@@ -90,7 +88,6 @@ metrics as proxy metrics for work done at each phase:
    - If the number of actions executed did not increase, then it is likely that
      a rule implementation was changed.
 
-
 These metrics are all affected by the state of the local cache, hence you will
 want to ensure that the builds you extract these metrics from are
 **clean builds**.
@@ -149,7 +146,6 @@ adjusting
 and [`--local_ram_resources`](/reference/command-line-reference#flag--local_ram_resources),
 especially in container environments (at least until
 [#16512](https://github.com/bazelbuild/bazel/pull/16512) is merged).
-
 
 #### Monitoring Bazel memory usage
 

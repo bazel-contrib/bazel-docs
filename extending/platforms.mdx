@@ -1,37 +1,35 @@
 ---
-title: 'Platforms'
+title: "Platforms"
 ---
-
-
 
 ## Intro
 
 Bazel can build and test code on a variety of hardware, operating systems, and
 system configurations. This can involve different versions of build tools like
 linkers and compilers. To help manage this complexity, Bazel has the concepts
-of *constraints* and *platforms*.
+of _constraints_ and _platforms_.
 
-A *constraint* is a distinguishing property of a build or production machine.
+A _constraint_ is a distinguishing property of a build or production machine.
 Common constraints are CPU architecture, presence or absence of a GPU, or
-version of a locally installed compiler. But constraints can be *anything* that
+version of a locally installed compiler. But constraints can be _anything_ that
 meaningfully distinguishes machines when orchestrating build work.
 
-A *platform* is a collection of constraints that specifies a complete machine.
+A _platform_ is a collection of constraints that specifies a complete machine.
 Bazel uses this concept to let developers choose which machines they want to
 build for, which machines should run compile and test actions, and which
 [toolchains](/extending/toolchains) build actions should compile with.
 
 Developers can also use constraints to [select](/docs/configurable-attributes)
-custom properties or dependencies on their build rules. For example: "*use
-`src_arm.cc` when the build targets an Arm machine*".
+custom properties or dependencies on their build rules. For example: "_use
+`src_arm.cc` when the build targets an Arm machine_".
 
 ## Platform types
 
 Bazel recognizes three roles a platform may play:
 
-*  **Host** - The platform on which Bazel itself runs.
-*  **Execution** - A platform which runs compile actions to produce build outputs.
-*  **Target** - A platform the code being built should run on.
+- **Host** - The platform on which Bazel itself runs.
+- **Execution** - A platform which runs compile actions to produce build outputs.
+- **Target** - A platform the code being built should run on.
 
 Note: Builds only have one host platform, but often have multiple execution and
 target platforms. For example, both remote Linux CI machines and developer Macs
@@ -40,17 +38,17 @@ hardware extensions.
 
 Builds generally have three kinds of relationships to platforms:
 
-*  **Single-platform builds** - Host, execution, and target platforms are the
-   same. For example, building on a developer machine without remote execution,
-   then running the built binary on the same machine.
+- **Single-platform builds** - Host, execution, and target platforms are the
+  same. For example, building on a developer machine without remote execution,
+  then running the built binary on the same machine.
 
-*  **Cross-compilation builds** - Host and execution platforms are the same,
-   but the target platform is different. For example, building an iOS app on a
-   Macbook Pro without remote execution.
+- **Cross-compilation builds** - Host and execution platforms are the same,
+  but the target platform is different. For example, building an iOS app on a
+  Macbook Pro without remote execution.
 
-*  **Multi-platform builds** - Host, execution, and target platforms are all
-   different. For example, building an iOS app on a Macbook Pro and using remote
-   Linux machines to compile C++ actions that don't need Xcode.
+- **Multi-platform builds** - Host, execution, and target platforms are all
+  different. For example, building an iOS app on a Macbook Pro and using remote
+  Linux machines to compile C++ actions that don't need Xcode.
 
 ## Specifying platforms
 
@@ -72,18 +70,18 @@ builds target the same machine Bazel runs on. Build rules can
 [@platforms/cpu](https://github.com/bazelbuild/platforms/blob/main/cpu/BUILD)
 constraints.
 
-## Generally useful constraints and platforms {#useful-constraints-platforms}
+## Generally useful constraints and platforms {:#useful-constraints-platforms}
 
 To keep the ecosystem consistent, Bazel team maintains a repository with
 constraint definitions for the most popular CPU architectures and operating
 systems. These are all defined in
-[https://github.com/bazelbuild/platforms](https://github.com/bazelbuild/platforms).
+[https://github.com/bazelbuild/platforms](https://github.com/bazelbuild/platforms){: .external}.
 
 Bazel ships with the following special platform definition:
 `@platforms//host` (aliased as `@bazel_tools//tools:host_platform`). This
 auto-detects the OS and CPU properties of the machine Bazel runs on.
 
-## Defining constraints {#constraints}
+## Defining constraints {:#constraints}
 
 Constraints are modeled with the [`constraint_setting`][constraint_setting] and
 [`constraint_value`][constraint_value] build rules.
@@ -113,7 +111,7 @@ the `x86` constraint as `//cpus:x86`.
 If visibility allows, you can extend an existing `constraint_setting` by
 defining your own value for it.
 
-## Defining platforms {#platforms}
+## Defining platforms {:#platforms}
 
 The [`platform`](/reference/be/platforms-and-toolchains#platform) build rule
 defines a platform as a collection of `constraint_value`s:
@@ -135,7 +133,7 @@ Platforms may only have one `constraint_value` for a given `constraint_setting`.
 This means, for example, a platform can't have two CPUs unless you create another
 `constraint_setting` type to model the second value.
 
-## Skipping incompatible targets {#skipping-incompatible-targets}
+## Skipping incompatible targets {:#skipping-incompatible-targets}
 
 When building for a specific target platform it is often desirable to skip
 targets that will never work on that platform. For example, your Windows device
@@ -160,12 +158,12 @@ cc_library(
 )
 ```
 
-`:win_driver_lib` is *only* compatible for building with 64-bit Windows and
+`:win_driver_lib` is _only_ compatible for building with 64-bit Windows and
 incompatible with all else. Incompatibility is transitive. Any targets
 that transitively depend on an incompatible target are themselves considered
 incompatible.
 
-### When are targets skipped? {#when-targets-skipped}
+### When are targets skipped? {:#when-targets-skipped}
 
 Targets are skipped when they are considered incompatible and included in the
 build as part of a target pattern expansion. For example, the following two
@@ -200,7 +198,7 @@ FAILED: Build did NOT complete successfully
 Incompatible explicit targets are silently skipped if
 `--skip_incompatible_explicit_targets` is enabled.
 
-### More expressive constraints {#expressive-constraints}
+### More expressive constraints {:#expressive-constraints}
 
 For more flexibility in expressing constraints, use the
 `@platforms//:incompatible`
@@ -235,8 +233,8 @@ The above can be interpreted as follows:
    deemed incompatible.
 
 To make your constraints more readable, use
-[skylib](https://github.com/bazelbuild/bazel-skylib)'s
-[`selects.with_or()`](https://github.com/bazelbuild/bazel-skylib/blob/main/docs/selects_doc.md#selectswith_or).
+[skylib](https://github.com/bazelbuild/bazel-skylib){: .external}'s
+[`selects.with_or()`](https://github.com/bazelbuild/bazel-skylib/blob/main/docs/selects_doc.md#selectswith_or){: .external}.
 
 You can express inverse compatibility in a similar way. The following example
 describes a library that is compatible with everything _except_ for ARM.
@@ -252,7 +250,7 @@ cc_library(
 )
 ```
 
-### Detecting incompatible targets using `bazel cquery` {#cquery-incompatible-target-detection}
+### Detecting incompatible targets using `bazel cquery` {:#cquery-incompatible-target-detection}
 
 You can use the
 [`IncompatiblePlatformProvider`](/rules/lib/providers/IncompatiblePlatformProvider)
@@ -271,7 +269,6 @@ def format(target):
   if "IncompatiblePlatformProvider" not in providers(target):
     return target.label
   return ""
-
 
 $ bazel cquery //... --output=starlark --starlark:file=example.cquery
 ```

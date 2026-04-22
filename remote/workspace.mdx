@@ -2,8 +2,6 @@
 title: 'Finding Non-Hermetic Behavior in WORKSPACE Rules'
 ---
 
-
-
 In the following, a host machine is the machine where Bazel runs.
 
 When using remote execution, the actual build and/or test steps are not
@@ -18,10 +16,9 @@ execution](/remote/rules), you need to find such workspace rules
 and fix them. This page describes how to find potentially problematic workspace
 rules using the workspace log.
 
+## Finding non-hermetic rules {:#nonhermetic-rules}
 
-## Finding non-hermetic rules {#nonhermetic-rules}
-
-[Repository rules](/external/repo) allow the developer to add dependencies to
+[Workspace rules](/reference/be/workspace) allow the developer to add dependencies to
 external workspaces, but they are rich enough to allow arbitrary processing to
 happen in the process. All related commands are happening locally and can be a
 potential source of non-hermeticity. Usually non-hermetic behavior is
