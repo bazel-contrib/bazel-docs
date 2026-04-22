@@ -45,10 +45,10 @@ ctx.actions.run(
 ## Members
 
 * [add](#add)
-* [add_all](#add_all)
-* [add_joined](#add_joined)
-* [set_param_file_format](#set_param_file_format)
-* [use_param_file](#use_param_file)
+* [add\_all](#add_all)
+* [add\_joined](#add_joined)
+* [set\_param\_file\_format](#set_param_file_format)
+* [use\_param\_file](#use_param_file)
 
 ## add
 
@@ -66,7 +66,7 @@ Appends an argument to this command line.
 | `value` | default is `unbound`  The object to append. It will be converted to a string using the standard conversion mentioned above. Since there is no `map_each` parameter for this function, `value` should be either a string or a `File`. A list, tuple, depset, or directory `File` must be passed to [`add_all()` or [`add_joined()`](#add_joined) instead of this method.](#add_all) |
 | `format` | [string](../core/string); or `None`; default is `None`  A format string pattern, to be applied to the stringified version of `value`. |
 
-## add_all
+## add\_all
 
 ```
 Args Args.add_all(arg_name_or_values, values=unbound, *, map_each=None, format_each=None, before_each=None, omit_if_empty=True, uniquify=False, expand_directories=True, terminate_with=None, allow_closure=False)
@@ -96,7 +96,7 @@ Note that empty strings are valid arguments that are subject to all these proces
 | `terminate_with` | [string](../core/string); or `None`; default is `None`  An optional argument to append after all other arguments. This argument will not be added if `omit_if_empty` is true (the default) and no other items are appended (as happens if `values` is empty or all of its items are filtered). |
 | `allow_closure` | [bool](../core/bool); default is `False`  If true, allows the use of closures in function parameters like `map_each`. Usually this isn't necessary and it risks retaining large analysis-phase data structures into the execution phase. |
 
-## add_joined
+## add\_joined
 
 ```
 Args Args.add_joined(arg_name_or_values, values=unbound, *, join_with, map_each=None, format_each=None, format_joined=None, omit_if_empty=True, uniquify=False, expand_directories=True, allow_closure=False)
@@ -123,7 +123,7 @@ If after filtering there are no strings to join into an argument, and if `omit_i
 | `expand_directories` | [bool](../core/bool); default is `True`  Same as for [`add_all`](#add_all.expand_directories). |
 | `allow_closure` | [bool](../core/bool); default is `False`  Same as for [`add_all`](#add_all.allow_closure). |
 
-## set_param_file_format
+## set\_param\_file\_format
 
 ```
 Args Args.set_param_file_format(format)
@@ -135,9 +135,9 @@ Sets the format of the param file, if one is used
 
 | Parameter | Description |
 | --- | --- |
-| `format` | [string](../core/string); required  Must be one of:  * "multiline": Each item (argument name or value) is written verbatim to the param file with a newline character following it. * "shell": Same as "multiline", but the items are shell-quoted * "flag_per_line": Same as "multiline", but (1) only flags (beginning with '--') are written to the param file, and (2) the values of the flags, if any, are written on the same line with a '=' separator. This is the format expected by the Abseil flags library.   The format defaults to "shell" if not called. |
+| `format` | [string](../core/string); required  Must be one of:  * "multiline": Each item (argument name or value) is written verbatim to the param file with a newline character following it. * "shell": Same as "multiline", but the items are shell-quoted * "flag\_per\_line": Same as "multiline", but (1) only flags (beginning with '--') are written to the param file, and (2) the values of the flags, if any, are written on the same line with a '=' separator. This is the format expected by the Abseil flags library.   The format defaults to "shell" if not called. |
 
-## use_param_file
+## use\_param\_file
 
 ```
 Args Args.use_param_file(param_file_arg, *, use_always=False)
