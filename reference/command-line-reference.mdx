@@ -1900,6 +1900,12 @@ Options relating to query output and semantics:
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
+`--[no]incompatible_package_group_build_output` default: "false"
+:   If enabled, `blaze query --output=build` will output `package_group` targets.
+
+    Tags:
+    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
 
@@ -3359,6 +3365,9 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
+:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -6026,6 +6035,9 @@ Miscellaneous options, not otherwise categorized.:
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
+:   The number of CPUs to reserve for Turbine.
+
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
 
@@ -6346,6 +6358,12 @@ Options relating to query output and semantics:
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+
+`--[no]incompatible_package_group_build_output` default: "false"
+:   If enabled, `blaze query --output=build` will output `package_group` targets.
+
+    Tags:
+    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
@@ -7830,6 +7848,9 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
+:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -9463,6 +9484,9 @@ Miscellaneous options, not otherwise categorized.:
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
+:   The number of CPUs to reserve for Turbine.
+
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
 
@@ -10764,6 +10788,12 @@ Options relating to query output and semantics:
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+
+`--[no]incompatible_package_group_build_output` default: "false"
+:   If enabled, `blaze query --output=build` will output `package_group` targets.
+
+    Tags:
+    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
@@ -12446,6 +12476,9 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
+:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
