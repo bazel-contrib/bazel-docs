@@ -39,14 +39,14 @@ load("@bazel//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(<a href="#http_archive-name">name</a>, <a href="#http_archive-add_prefix">add_prefix</a>, <a href="#http_archive-auth_patterns">auth_patterns</a>, <a href="#http_archive-build_file">build_file</a>, <a href="#http_archive-build_file_content">build_file_content</a>, <a href="#http_archive-canonical_id">canonical_id</a>, <a href="#http_archive-files">files</a>,
              <a href="#http_archive-integrity">integrity</a>, <a href="#http_archive-netrc">netrc</a>, <a href="#http_archive-patch_args">patch_args</a>, <a href="#http_archive-patch_cmds">patch_cmds</a>, <a href="#http_archive-patch_cmds_win">patch_cmds_win</a>, <a href="#http_archive-patch_strip">patch_strip</a>, <a href="#http_archive-patch_tool">patch_tool</a>,
              <a href="#http_archive-patches">patches</a>, <a href="#http_archive-remote_file_integrity">remote_file_integrity</a>, <a href="#http_archive-remote_file_urls">remote_file_urls</a>, <a href="#http_archive-remote_module_file_integrity">remote_module_file_integrity</a>,
-             <a href="#http_archive-remote_module_file_urls">remote_module_file_urls</a>, <a href="#http_archive-remote_patch_strip">remote_patch_strip</a>, <a href="#http_archive-remote_patches">remote_patches</a>, <a href="#http_archive-sha256">sha256</a>, <a href="#http_archive-strip_components">strip_components</a>,
-             <a href="#http_archive-strip_prefix">strip_prefix</a>, <a href="#http_archive-type">type</a>, <a href="#http_archive-url">url</a>, <a href="#http_archive-urls">urls</a>, <a href="#http_archive-workspace_file">workspace_file</a>, <a href="#http_archive-workspace_file_content">workspace_file_content</a>)
+             <a href="#http_archive-remote_module_file_urls">remote_module_file_urls</a>, <a href="#http_archive-remote_patch_strip">remote_patch_strip</a>, <a href="#http_archive-remote_patches">remote_patches</a>, <a href="#http_archive-sha256">sha256</a>, <a href="#http_archive-strip_prefix">strip_prefix</a>, <a href="#http_archive-type">type</a>,
+             <a href="#http_archive-url">url</a>, <a href="#http_archive-urls">urls</a>, <a href="#http_archive-workspace_file">workspace_file</a>, <a href="#http_archive-workspace_file_content">workspace_file_content</a>)
 </pre>
 
 Downloads a Bazel repository as a compressed archive file, decompresses it,
 and makes its targets available for binding.
 
-It supports the following file extensions: `"zip"`, `"jar"`, `"war"`, `"aar"`, `"nupkg"`, `"whl"`, `"tar"`, `"tar.gz"`, `"tgz"`, `"gz"`, `"tar.xz"`, `"txz"`, `"xz"`, `"tar.zst"`, `"tzst"`, `"zst"`, `"tar.bz2"`, `"tbz"`, `"bz2"`, `"ar"`, `"deb"`, `"7z"`, `"tar.br"` or `"br"`.
+It supports the following file extensions: `"zip"`, `"jar"`, `"war"`, `"aar"`, `"nupkg"`, `"whl"`, `"tar"`, `"tar.gz"`, `"tgz"`, `"gz"`, `"tar.xz"`, `"txz"`, `"xz"`, `"tar.zst"`, `"tzst"`, `"zst"`, `"tar.bz2"`, `"tbz"`, `"bz2"`, `"ar"`, `"deb"` or `"7z"`.
 
 Examples:
   Suppose the current repository contains the source code for a chat program,
@@ -148,24 +148,24 @@ as the value for the <code>Authorization</code> field of the HTTP request.
 
 Example attribute and netrc for a http download to an oauth2 enabled API using a bearer token:
 
-```
-auth_patterns = {
-    "storage.cloudprovider.com": "Bearer <password>"
-}
-```
+<pre>
+auth_patterns = &lcub;
+    "storage.cloudprovider.com": "Bearer &lt;password&gt;"
+&rcub;
+</pre>
 
 netrc:
 
-```
+<pre>
 machine storage.cloudprovider.com
         password RANDOM-TOKEN
-```
+</pre>
 
 The final HTTP request would have the following header:
 
-```
+<pre>
 Authorization: Bearer RANDOM-TOKEN
-```
+</pre>
 
 </p>
 </td>
@@ -338,7 +338,7 @@ The patch(1) utility to use. If this is specified, Bazel will use the specified 
 
 <p>
 
-A list of files that are to be applied as patches after extracting the archive. By default, it uses the Bazel-native patch implementation which doesn't support binary patch, but Bazel will fall back to use patch command line tool if `patch_tool` attribute is specified or there are arguments other than `-p` in `patch_args` attribute.
+A list of files that are to be applied as patches after extracting the archive. By default, it uses the Bazel-native patch implementation which doesn't support fuzz match and binary patch, but Bazel will fall back to use patch command line tool if `patch_tool` attribute is specified or there are arguments other than `-p` in `patch_args` attribute.
 
 </p>
 </td>
@@ -444,22 +444,6 @@ easier but either this attribute or `integrity` should be set before shipping.
 </p>
 </td>
 </tr>
-<tr id="http_archive-strip_components">
-<td><code>strip_components</code></td>
-<td>
-
-Integer; optional
-
-<p>
-
-Strip the given number of leading components from file paths
-on extraction.
-
-Only one of `strip_components` and `strip_prefix` can be set.
-
-</p>
-</td>
-</tr>
 <tr id="http_archive-strip_prefix">
 <td><code>strip_prefix</code></td>
 <td>
@@ -487,8 +471,6 @@ files/directories that start with the prefix but are not in the directory
 (e.g., `foo-lib-1.2.3.release-notes`). If the specified prefix does not
 match a directory in the archive, Bazel will return an error.
 
-Only one of `strip_prefix` and `strip_components` can be set.
-
 </p>
 </td>
 </tr>
@@ -504,7 +486,7 @@ The archive type of the downloaded file.
 
 By default, the archive type is determined from the file extension of the
 URL. If the file has no extension, you can explicitly specify one of the
-following: `"zip"`, `"jar"`, `"war"`, `"aar"`, `"nupkg"`, `"whl"`, `"tar"`, `"tar.gz"`, `"tgz"`, `"gz"`, `"tar.xz"`, `"txz"`, `"xz"`, `"tar.zst"`, `"tzst"`, `"zst"`, `"tar.bz2"`, `"tbz"`, `"bz2"`, `"ar"`, `"deb"`, `"7z"`, `"tar.br"` or `"br"`.
+following: `"zip"`, `"jar"`, `"war"`, `"aar"`, `"nupkg"`, `"whl"`, `"tar"`, `"tar.gz"`, `"tgz"`, `"gz"`, `"tar.xz"`, `"txz"`, `"xz"`, `"tar.zst"`, `"tzst"`, `"zst"`, `"tar.bz2"`, `"tbz"`, `"bz2"`, `"ar"`, `"deb"` or `"7z"`.
 
 </p>
 </td>
@@ -655,24 +637,24 @@ as the value for the <code>Authorization</code> field of the HTTP request.
 
 Example attribute and netrc for a http download to an oauth2 enabled API using a bearer token:
 
-```
-auth_patterns = {
-    "storage.cloudprovider.com": "Bearer <password>"
-}
-```
+<pre>
+auth_patterns = &lcub;
+    "storage.cloudprovider.com": "Bearer &lt;password&gt;"
+&rcub;
+</pre>
 
 netrc:
 
-```
+<pre>
 machine storage.cloudprovider.com
         password RANDOM-TOKEN
-```
+</pre>
 
 The final HTTP request would have the following header:
 
-```
+<pre>
 Authorization: Bearer RANDOM-TOKEN
-```
+</pre>
 
 </p>
 </td>
@@ -903,24 +885,24 @@ as the value for the <code>Authorization</code> field of the HTTP request.
 
 Example attribute and netrc for a http download to an oauth2 enabled API using a bearer token:
 
-```
-auth_patterns = {
-    "storage.cloudprovider.com": "Bearer <password>"
-}
-```
+<pre>
+auth_patterns = &lcub;
+    "storage.cloudprovider.com": "Bearer &lt;password&gt;"
+&rcub;
+</pre>
 
 netrc:
 
-```
+<pre>
 machine storage.cloudprovider.com
         password RANDOM-TOKEN
-```
+</pre>
 
 The final HTTP request would have the following header:
 
-```
+<pre>
 Authorization: Bearer RANDOM-TOKEN
-```
+</pre>
 
 </p>
 </td>

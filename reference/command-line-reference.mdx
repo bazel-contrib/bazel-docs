@@ -1,6 +1,4 @@
----
-title: 'Command-Line Reference'
----
+# Command-Line Reference
 
 ```
 bazel [<startup options>] <command> [<args>]
@@ -448,7 +446,7 @@ Options that let the user configure the intended output, affecting its value, as
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]incompatible_repo_env_ignores_action_env` default: "true"
-:   If true, `--action_env=NAME=VALUE` will no longer affect repository rule and module extension environments.
+:   If true, &lt;code&gt;--action_env=NAME=VALUE&lt;/code&gt; will no longer affect repository rule and module extension environments.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -496,7 +494,7 @@ Options that let the user configure the intended output, affecting its value, as
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 `--repo_env=&lt;a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable&gt;` multiple uses are accumulated
-:   Specifies additional environment variables to be available only for repository rules. Note that repository rules see the full environment anyway, but in this way variables can be set via command-line flags and `.bazelrc` entries. The special syntax `=NAME` can be used to explicitly unset a variable. The string `%bazel_workspace%` in a value will be replaced with the absolute path of the workspace as printed by `bazel info workspace`.
+:   Specifies additional environment variables to be available only for repository rules. Note that repository rules see the full environment anyway, but in this way variables can be set via command-line flags and &lt;code&gt;.bazelrc&lt;/code&gt; entries. The special syntax &lt;code&gt;=NAME&lt;/code&gt; can be used to explicitly unset a variable. The string &lt;code&gt;%bazel_workspace%&lt;/code&gt; in a value will be replaced with the absolute path of the workspace as printed by &lt;code&gt;bazel info workspace&lt;/code&gt;.
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
@@ -578,7 +576,7 @@ This option affects semantics of the Starlark language or the build API accessib
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_isolated_extension_usages` default: "false"
-:   If true, enables the `isolate` parameter in the [`use_extension`](https://bazel.build/rules/lib/globals/module#use_extension) function.
+:   If true, enables the &lt;code&gt;isolate&lt;/code&gt; parameter in the &lt;a href="https://bazel.build/rules/lib/globals/module#use_extension"&gt;&lt;code&gt;use_extension&lt;/code&gt;&lt;/a&gt; function.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
@@ -723,7 +721,7 @@ This option affects semantics of the Starlark language or the build API accessib
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_locations_prefers_executable` default: "true"
-:   Whether a target that provides an executable expands to the executable rather than the files in `DefaultInfo.files` under $(locations ...) expansion if the number of files is not 1.
+:   Whether a target that provides an executable expands to the executable rather than the files in &lt;code&gt;DefaultInfo.files&lt;/code&gt; under $(locations ...) expansion if the number of files is not 1.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -741,7 +739,7 @@ This option affects semantics of the Starlark language or the build API accessib
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_no_implicit_watch_label` default: "true"
-:   If true, then methods on `repository_ctx` that are passed a Label will no longer automatically watch the file under that label for changes even if `watch = "no"`, and `repository_ctx.path` no longer causes the returned path to be watched. Use `repository_ctx.watch` instead.
+:   If true, then methods on &lt;code&gt;repository_ctx&lt;/code&gt; that are passed a Label will no longer automatically watch the file under that label for changes even if &lt;code&gt;watch = "no"&lt;/code&gt;, and &lt;code&gt;repository_ctx.path&lt;/code&gt; no longer causes the returned path to be watched. Use &lt;code&gt;repository_ctx.watch&lt;/code&gt; instead.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -796,6 +794,12 @@ This option affects semantics of the Starlark language or the build API accessib
 
 `--[no]incompatible_unambiguous_label_stringification` default: "true"
 :   When true, Bazel will stringify the label @//foo:bar to @//foo:bar, instead of //foo:bar. This only affects the behavior of str(), the % operator, and so on; the behavior of repr() is unchanged. See https://github.com/bazelbuild/bazel/issues/15916 for more information.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--[no]incompatible_use_cc_configure_from_rules_cc` default: "false"
+:   When true, Bazel will no longer allow using cc_configure from @bazel_tools. Please see https://github.com/bazelbuild/bazel/issues/10134 for details and migration instructions.
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
@@ -1263,7 +1267,7 @@ Options that affect the verbosity, format or location of logging:
 :   Controls the output of BEP ActionSummary and BuildGraphMetrics, limiting the number of mnemonics in ActionData and number of entries reported in BuildGraphMetrics.AspectCount/RuleClassCount. By default the number of types is limited to the top 20, by number of executed actions for ActionData, and instances for RuleClass and Asepcts. Setting this option will write statistics for all mnemonics, rule classes and aspects.
 
 `--[no]experimental_record_skyframe_metrics` default: "false"
-:   Controls the output of BEP BuildGraphMetrics, including expensive to compute skyframe metrics about Skykeys, RuleClasses and Aspects. With this flag set to false BuildGraphMetrics.rule_count and aspect fields will not be populated in the BEP.
+:   Controls the output of BEP BuildGraphMetrics, including expensiveto compute skyframe metrics about Skykeys, RuleClasses and Aspects.With this flag set to false BuildGraphMetrics.rule_count and aspectfields will not be populated in the BEP.
 
 `--[no]experimental_run_bep_event_include_residue` default: "false"
 :   Whether to include the command-line residue in run build events which could contain the residue. By default, the residue is not included in run command build events that could contain the residue.
@@ -1384,61 +1388,7 @@ Options that affect the verbosity, format or location of logging:
 Remote caching and execution options:
 
 `--downloader_config=&lt;a path&gt;` multiple uses are accumulated
-:   Specify a file to configure the remote downloader with.
-
-    This file consists of directives, one per line, that adjust how the
-    Bazel downloader acts. The directives are: `allow`, `block`, `rewrite`,
-    and `all_blocked_message`. The directives are applied in the order
-    `rewrite, allow, block'.
-
-    Comments are allowed and must be on their own line (no trailing comments)
-    and preceded by a `#`. Example: `# evil.com is known to host malicious code`
-
-    The `allow` and `block` directives take a host name as an argument. For
-    example: `block mvnrepository.com.example` or `allow github.com.example`. The given host
-    and all subdomains will be allowed or blocked. Do not include the URL
-    scheme (`http://` or `https://`). You can block all hosts with the `*`
-    wildcard: `block *`.
-
-    The `rewrite` directive takes two regex patterns: the first to match a URL
-    and the second to substitute matched URLs with. For example, `rewrite github.com.example/bazel-contrib/rules_python/releases/download/(.*)/(.*) mycorp.example/rules_python_mirror/$1/$2` will cause the downloader
-    to access `mycorp.example/rules_python_mirror` whenever attempting
-    to download rules_python from example.com. The substitute URL supports
-    back-references starting from `$1`. It is possible for multiple
-    `rewrite` directives for the same matched URL to be provided, and in
-    this case multiple URLs will be returned and tried sequentially. Do not
-    include the URL scheme (`http://` or `https://`) in the patterns.
-
-    The `all_blocked_message` directive allows you to customize the message
-    that is shown when the rewriter is configured to block all URLs for
-    a particular resource. This directive can only be given once, and the
-    message must exist on a single line. Example: `all_blocked_message Hey, I think the downloader config is wrong. Bummer!`.
-
-    Note that it is not possible to directly block a particular path for
-    a given host while still allowing other paths on the host. This can be
-    worked around by rewrite the path to a blocked host:
-
-    ```
-    block dummy_host.invalid
-    rewrite example.com/bar/.* dummy_host.invalid
-    ```
-
-    An example config may look like:
-
-    ```
-    all_blocked_message See example.com/blocked-bazel-fetches for more information.
-    block mvnrepository.com.example
-    block maven-central.storage.googleapis.com.example
-
-    # See internal doc id1234 for why gitblit is blocked
-    block gitblit.github.com.example
-    rewrite repo.maven.apache.org.example/maven2/(.*) artifacts.mycorp.example/libs-release/$1
-
-    # Use our GCS bucket for rules_python
-    rewrite github.com.example/bazel-contrib/rules_python/releases/download/(.*)/(.*) mycorp.example/rules_python_mirror/$1/$2
-    ```
-
-    See also: [Insulating Builds from the Internet](https://bazel.build/external/faq#how-do-i-insulate-my-builds-from-the-internet)
+:   Specify a file to configure the remote downloader with. This file consists of lines, each of which starts with a directive (`allow`, `block` or `rewrite`) followed by either a host name (for `allow` and `block`) or two patterns, one to match against, and one to use as a substitute URL, with back-references starting from `$1`. It is possible for multiple `rewrite` directives for the same URL to be given, and in this case multiple URLs will be returned.
 
 `--experimental_circuit_breaker_strategy=&lt;failure&gt;` default: see description
 :   Specifies the strategy for the circuit breaker to use. Available strategies are "failure". On invalid value for the option the behavior same as the option is not set.
@@ -1584,9 +1534,6 @@ Remote caching and execution options:
 
 `--remote_local_fallback_strategy=&lt;a string&gt;` default: "local"
 :   Deprecated. See https://github.com/bazelbuild/bazel/issues/7480 for details.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--remote_max_concurrency_per_connection=&lt;an integer&gt;` default: "100"
 :   Limit the max number of concurrent requests per gRPC connection. By default the value is 100.
@@ -1835,7 +1782,7 @@ Options relating to query output and semantics:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
 `--[no]consistent_labels` default: "false"
-:   If enabled, every query command emits labels as if by the Starlark `str` function applied to a `Label` instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
+:   If enabled, every query command emits labels as if by the Starlark &lt;code&gt;str&lt;/code&gt; function applied to a &lt;code&gt;Label&lt;/code&gt; instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -1900,12 +1847,6 @@ Options relating to query output and semantics:
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
-`--[no]incompatible_package_group_build_output` default: "false"
-:   If enabled, `blaze query --output=build` will output `package_group` targets.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
 
@@ -1937,7 +1878,7 @@ Options relating to query output and semantics:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--output_file=&lt;a string&gt;` default: ""
-:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than `bazel query &gt; file`.
+:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than &lt;code&gt;bazel query &gt; file&lt;/code&gt;.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -2546,6 +2487,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--[no]android_databinding_use_v3_4_args` default: "true"
+:   Use android databinding v2 with 3.4.0 argument. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--android_dynamic_mode=&lt;off, default or fully&gt;` default: "off"
 :   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
 
@@ -2672,6 +2619,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -2895,6 +2848,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -3081,6 +3040,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -3104,12 +3069,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -3202,6 +3161,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -3257,6 +3234,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
 
@@ -3283,6 +3266,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
@@ -3365,9 +3354,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -3520,9 +3506,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -4552,9 +4535,6 @@ Remote caching and execution options:
 `--remote_local_fallback_strategy=&lt;a string&gt;` default: "local"
 :   Deprecated. See https://github.com/bazelbuild/bazel/issues/7480 for details.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--remote_max_concurrency_per_connection=&lt;an integer&gt;` default: "100"
 :   Limit the max number of concurrent requests per gRPC connection. By default the value is 100.
 
@@ -4631,17 +4611,14 @@ Miscellaneous options, not otherwise categorized.:
 `--embed_label=&lt;a one-line string&gt;` default: ""
 :   Embed source control revision or release label in binary
 
-`--[no]execution_log_binary_file` default: see description
-:   Log the executed spawns into this file as length-delimited SpawnExec protos, according to src/main/protobuf/spawn.proto. Prefer --execution_log_compact_file, which is significantly smaller and cheaper to produce. The flag accepts boolean and string values. If string, it represents a local path. If true, then --experimental_stream_log_file_uploads must be set, whereby it will stream the execution log to remote storage. If false, then logging to the execution log is disabled. Related flags: --execution_log_compact_file (compact format; mutually exclusive), --execution_log_json_file (text JSON format; mutually exclusive), --execution_log_sort (whether to sort the execution log), --subcommands (for displaying subcommands in terminal output).
+`--execution_log_binary_file=&lt;a path&gt;` default: see description
+:   Log the executed spawns into this file as length-delimited SpawnExec protos, according to src/main/protobuf/spawn.proto. Prefer --execution_log_compact_file, which is significantly smaller and cheaper to produce. Related flags: --execution_log_compact_file (compact format; mutually exclusive), --execution_log_json_file (text JSON format; mutually exclusive), --execution_log_sort (whether to sort the execution log), --subcommands (for displaying subcommands in terminal output).
 
-`--[no]execution_log_compact_file` default: see description
-:   Log the executed spawns into this file as length-delimited ExecLogEntry protos, according to src/main/protobuf/spawn.proto. The entire file is zstd compressed. The flag accepts boolean and string values. If string, it represents a local path. If true, then --experimental_stream_log_file_uploads must be set, whereby it will stream the execution log to remote storage. If false, then logging to the execution log is disabled. Related flags: --execution_log_binary_file (binary protobuf format; mutually exclusive), --execution_log_json_file (text JSON format; mutually exclusive), --subcommands (for displaying subcommands in terminal output).
+`--execution_log_compact_file=&lt;a path&gt;` default: see description
+:   Log the executed spawns into this file as length-delimited ExecLogEntry protos, according to src/main/protobuf/spawn.proto. The entire file is zstd compressed. Related flags: --execution_log_binary_file (binary protobuf format; mutually exclusive), --execution_log_json_file (text JSON format; mutually exclusive), --subcommands (for displaying subcommands in terminal output).
 
-`--[no]execution_log_json_file` default: see description
-:   Log the executed spawns into this file as newline-delimited JSON representations of SpawnExec protos, according to src/main/protobuf/spawn.proto. Prefer --execution_log_compact_file, which is significantly smaller and cheaper to produce. The flag accepts boolean and string values. If string, it represents a local path. If true, then --experimental_stream_log_file_uploads must be set, whereby it will stream the execution log to remote storage. If false, then logging to the execution log is disabled. Related flags: --execution_log_compact_file (compact format; mutually exclusive), --execution_log_binary_file (binary protobuf format; mutually exclusive), --execution_log_sort (whether to sort the execution log), --subcommands (for displaying subcommands in terminal output).
-
-`--execution_log_mnemonic_filter=&lt;a comma-separated list of regex expressions with prefix '-' specifying excluded paths&gt;` default: ".\*"
-:   Filter the execution log by mnemonic. Only spawns with a matching mnemonic will be logged. Supports a comma-separated list of regexes, with optional '-' prefix for exclusions. The default is to log every spawn.
+`--execution_log_json_file=&lt;a path&gt;` default: see description
+:   Log the executed spawns into this file as newline-delimited JSON representations of SpawnExec protos, according to src/main/protobuf/spawn.proto. Prefer --execution_log_compact_file, which is significantly smaller and cheaper to produce. Related flags: --execution_log_compact_file (compact format; mutually exclusive), --execution_log_binary_file (binary protobuf format; mutually exclusive), --execution_log_sort (whether to sort the execution log), --subcommands (for displaying subcommands in terminal output).
 
 `--[no]execution_log_sort` default: "true"
 :   Whether to sort the execution log, making it easier to compare logs across invocations. Set to false to avoid potentially significant CPU and memory usage at the end of the invocation, at the cost of producing the log in nondeterministic execution order. Only applies to the binary and JSON formats; the compact format is never sorted.
@@ -4675,9 +4652,6 @@ Miscellaneous options, not otherwise categorized.:
       `--internal_spawn_scheduler`
 
       `--spawn_strategy=dynamic`
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]fetch` default: "true"
 :   Allows the command to fetch external dependencies. If set to false, the command will utilize any cached version of the dependency, and if none exists, the command will result in failure.
@@ -5215,6 +5189,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--[no]android_databinding_use_v3_4_args` default: "true"
+:   Use android databinding v2 with 3.4.0 argument. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--android_dynamic_mode=&lt;off, default or fully&gt;` default: "off"
 :   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
 
@@ -5341,6 +5321,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -5564,6 +5550,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -5750,6 +5742,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -5773,12 +5771,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -5871,6 +5863,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -5926,6 +5936,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
 
@@ -5952,6 +5968,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
@@ -6034,9 +6056,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -6190,9 +6209,6 @@ Miscellaneous options, not otherwise categorized.:
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -6324,7 +6340,7 @@ Options relating to query output and semantics:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
 `--[no]consistent_labels` default: "false"
-:   If enabled, every query command emits labels as if by the Starlark `str` function applied to a `Label` instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
+:   If enabled, every query command emits labels as if by the Starlark &lt;code&gt;str&lt;/code&gt; function applied to a &lt;code&gt;Label&lt;/code&gt; instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -6359,12 +6375,6 @@ Options relating to query output and semantics:
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
-`--[no]incompatible_package_group_build_output` default: "false"
-:   If enabled, `blaze query --output=build` will output `package_group` targets.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
 
@@ -6396,7 +6406,7 @@ Options relating to query output and semantics:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--output_file=&lt;a string&gt;` default: ""
-:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than `bazel query &gt; file`.
+:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than &lt;code&gt;bazel query &gt; file&lt;/code&gt;.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -7029,6 +7039,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--[no]android_databinding_use_v3_4_args` default: "true"
+:   Use android databinding v2 with 3.4.0 argument. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--android_dynamic_mode=&lt;off, default or fully&gt;` default: "off"
 :   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
 
@@ -7155,6 +7171,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -7378,6 +7400,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -7564,6 +7592,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -7587,12 +7621,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -7685,6 +7713,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -7740,6 +7786,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
 
@@ -7766,6 +7818,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
@@ -7848,9 +7906,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -8003,9 +8058,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -8664,6 +8716,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--[no]android_databinding_use_v3_4_args` default: "true"
+:   Use android databinding v2 with 3.4.0 argument. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--android_dynamic_mode=&lt;off, default or fully&gt;` default: "off"
 :   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
 
@@ -8790,6 +8848,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -9013,6 +9077,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -9199,6 +9269,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -9222,12 +9298,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -9320,6 +9390,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -9375,6 +9463,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
 
@@ -9401,6 +9495,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
@@ -9483,9 +9583,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -9639,9 +9736,6 @@ Miscellaneous options, not otherwise categorized.:
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
 
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
-
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -9725,7 +9819,7 @@ Options that control build execution:
 :   Deprecated no-effect flag. Only skylark mode is still supported.
 
     Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 Options that configure the toolchain used for action execution:
 
@@ -10742,7 +10836,7 @@ Options relating to query output and semantics:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
 `--[no]consistent_labels` default: "false"
-:   If enabled, every query command emits labels as if by the Starlark `str` function applied to a `Label` instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
+:   If enabled, every query command emits labels as if by the Starlark &lt;code&gt;str&lt;/code&gt; function applied to a &lt;code&gt;Label&lt;/code&gt; instance. This is useful for tools that need to match the output of different query commands and/or labels emitted by rules. If not enabled, output formatters are free to emit apparent repository names (relative to the main repository) instead to make the output more readable.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -10788,12 +10882,6 @@ Options relating to query output and semantics:
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-
-`--[no]incompatible_package_group_build_output` default: "false"
-:   If enabled, `blaze query --output=build` will output `package_group` targets.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
@@ -10861,14 +10949,8 @@ Options relating to query output and semantics:
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
-`--[no]output:display_full_kind` default: "False"
-:   When displaying rule kind, whether to display the short rule name, or the full name for Starlark rules.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-
 `--output_file=&lt;a string&gt;` default: ""
-:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than `bazel query &gt; file`.
+:   When specified, query results will be written directly to this file, and nothing will be printed to Bazel's standard output stream (stdout). In benchmarks, this is generally faster than &lt;code&gt;bazel query &gt; file&lt;/code&gt;.
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
@@ -11657,6 +11739,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--[no]android_databinding_use_v3_4_args` default: "true"
+:   Use android databinding v2 with 3.4.0 argument. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--android_dynamic_mode=&lt;off, default or fully&gt;` default: "off"
 :   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
 
@@ -11783,6 +11871,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_android_databinding_v2` default: "true"
+:   Use android databinding v2. This flag is a no-op.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_android_resource_shrinking` default: "false"
 :   Enables resource shrinking for android_binary APKs that use ProGuard.
@@ -12006,6 +12100,12 @@ Options that let the user configure the intended output, affecting its value, as
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]legacy_whole_archive` default: "true"
+:   Deprecated, superseded by --incompatible_remove_legacy_whole_archive (see https://github.com/bazelbuild/bazel/issues/7362 for details). When on, use --whole-archive for cc_binary rules that have linkshared=True and either linkstatic=True or '-static' in linkopts. This is for backwards compatibility only. A better alternative is to use alwayslink=1 where required.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--linkopt=&lt;a string&gt;` multiple uses are accumulated
 :   Additional option to pass to gcc when linking.
 
@@ -12192,6 +12292,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -12215,12 +12321,6 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
-:   No-op. Kept here for backwards compatibility.
-
-    Tags:
-    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -12313,6 +12413,24 @@ Options that govern the behavior of the test environment or test runner:
     The default test resources specified by this flag are overridden by explicit
     resources specified in tags.
 
+`--[no]experimental_android_use_parallel_dex2oat` default: "false"
+:   Use dex2oat in parallel to possibly speed up android_test.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--ios_simulator_device=&lt;a string&gt;` default: see description
+:   The device to simulate when running an iOS application in the simulator, e.g. 'iPhone 6'. You can get a list of devices by running 'xcrun simctl list devicetypes' on the machine the simulator will be run on.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
+`--ios_simulator_version=&lt;a dotted version (for example '2.3' or '3.3alpha2.4')&gt;` default: see description
+:   The version of iOS to run on the simulator when running or testing. This is ignored for ios_test rules if a target device is specified in the rule.
+
+    Tags:
+    [`test_runner`](#effect_tag_TEST_RUNNER)
+
 `--runs_per_test=&lt;a positive integer or test_regex@runs. This flag may be passed more than once&gt;` multiple uses are accumulated
 :   Specifies number of times to run each test. If any of those attempts fail for any
     reason, the whole test is considered failed. Normally the value specified is
@@ -12368,6 +12486,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_filter_library_jar_with_program_jar` default: "false"
+:   Filter the ProGuard ProgramJar to remove any classes also present in the LibraryJar.
+
+    Tags:
+    [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_inmemory_dotd_files` default: "true"
 :   If enabled, C++ .d files will be passed through in memory directly from the remote build nodes instead of being written to disk.
 
@@ -12394,6 +12518,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
@@ -12476,9 +12606,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -12631,9 +12758,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_result_expiration=&lt;an integer&gt;` default: "-1"
 :   This option is deprecated and has no effect.
-
-    Tags:
-    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
