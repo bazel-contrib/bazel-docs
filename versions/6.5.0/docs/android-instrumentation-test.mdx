@@ -3,14 +3,13 @@ title: 'Android Instrumentation Tests'
 ---
 
 
-_If you're new to Bazel, start with the [Building Android with
-Bazel](/tutorials/android-app) tutorial._
+_If you're new to Bazel, start with the [Building Android with Bazel](/versions/6.5.0/tutorials/android-app) tutorial._
 
-![Running Android instrumentation tests in parallel](/docs/images/android_test.gif "Android instrumentation test")
+![Running Android instrumentation tests in parallel](/versions/6.5.0/docs/images/android_test.gif "Android instrumentation test")
 
 **Figure 1.** Running parallel Android instrumentation tests.
 
-[`android_instrumentation_test`](/reference/be/android#android_instrumentation_test)
+[`android_instrumentation_test`](/versions/6.5.0/reference/be/android#android_instrumentation_test)
 allows developers to test their apps on Android emulators and devices.
 It utilizes real Android framework APIs and the Android Test Library.
 
@@ -19,9 +18,7 @@ emulators in a sandbox, ensuring that tests always run from a clean state. Each
 test gets an isolated emulator instance, allowing tests to run in parallel
 without passing states between them.
 
-For more information on Android instrumentation tests, check out the [Android
-developer
-documentation](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests.html).
+For more information on Android instrumentation tests, check out the [Android developer documentation](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests.html).
 
 Please file issues in the [GitHub issue tracker](https://github.com/bazelbuild/bazel/issues).
 
@@ -59,8 +56,7 @@ This results in output similar to the following:
 release 4.1.0
 ```
 
-- **KVM**. Bazel requires emulators to have [hardware
-  acceleration](https://developer.android.com/studio/run/emulator-acceleration.html#accel-check)
+- **KVM**. Bazel requires emulators to have [hardware acceleration](https://developer.android.com/studio/run/emulator-acceleration.html#accel-check)
   with KVM on Linux. You can follow these
   [installation instructions](https://help.ubuntu.com/community/KVM/Installation)
   for Ubuntu.
@@ -110,7 +106,7 @@ sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-
 
 Here is a typical target dependency graph of an `android_instrumentation_test`:
 
-![The target dependency graph on an Android instrumentation test](/docs/images/android_instrumentation_test.png "Target dependency graph")
+![The target dependency graph on an Android instrumentation test](/versions/6.5.0/docs/images/android_instrumentation_test.png "Target dependency graph")
 
 **Figure 2.** Target dependency graph of an `android_instrumentation_test`.
 
@@ -175,11 +171,9 @@ The main attributes of the rule `android_instrumentation_test` are:
 
 - `target_device`: An `android_device` target. This target describes the
   specifications of the Android emulator which Bazel uses to create, launch and
-  run the tests. See the [section on choosing an Android
-  device](#android-device-target) for more information.
+  run the tests. See the [section on choosing an Android device](#android-device-target) for more information.
 
-The test app's `AndroidManifest.xml` must include [an `<instrumentation>`
-tag](https://developer.android.com/studio/test/#configure_instrumentation_manifest_settings).
+The test app's `AndroidManifest.xml` must include [an `<instrumentation>` tag](https://developer.android.com/studio/test/#configure_instrumentation_manifest_settings).
 This tag must specify the attributes for the **package of the target app** and
 the **fully qualified class name of the instrumentation test runner**,
 `androidx.test.runner.AndroidJUnitRunner`.
@@ -216,8 +210,7 @@ repositories:
 - `@androidsdk`: The Android SDK. Download this through Android Studio.
 
 - `@android_test_support`: Hosts the test runner, emulator launcher, and
-  `android_device` targets. You can find the [latest release
-  here](https://github.com/android/android-test/releases).
+  `android_device` targets. You can find the [latest release here](https://github.com/android/android-test/releases).
 
 Enable these dependencies by adding the following lines to your `WORKSPACE`
 file:
@@ -242,8 +235,7 @@ android_test_repositories()
 
 ## Maven dependencies {#maven-dependencies}
 
-For managing dependencies on Maven artifacts from repositories, such as [Google
-Maven](https://maven.google.com) or [Maven Central](https://central.maven.org),
+For managing dependencies on Maven artifacts from repositories, such as [Google Maven](https://maven.google.com) or [Maven Central](https://central.maven.org),
 you should use a Maven resolver, such as
 [`rules_jvm_external`](https://github.com/bazelbuild/rules_jvm_external).
 
@@ -372,8 +364,7 @@ the device/emulator listed in `adb devices`.
 
 ## Sample projects {#sample-projects}
 
-If you are looking for canonical project samples, see the [Android testing
-samples](https://github.com/googlesamples/android-testing#experimental-bazel-support)
+If you are looking for canonical project samples, see the [Android testing samples](https://github.com/googlesamples/android-testing#experimental-bazel-support)
 for projects using Espresso and UIAutomator.
 
 ## Espresso setup {#espresso-setup}
@@ -562,8 +553,7 @@ API_LEVELS = [
 
 ## Known issues {#known-issues}
 
-- [Forked adb server processes are not terminated after
-  tests](https://github.com/bazelbuild/bazel/issues/4853)
+- [Forked adb server processes are not terminated after tests](https://github.com/bazelbuild/bazel/issues/4853)
 - While APK building works on all platforms (Linux, macOS, Windows), testing
   only works on Linux.
 - Even with `--config=local_adb`, users still need to specify
