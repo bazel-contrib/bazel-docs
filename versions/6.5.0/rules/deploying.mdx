@@ -87,8 +87,7 @@ At the top level, there should be a `README` that contains (at least) what
 users will need to copy-paste into their `WORKSPACE` file to use your rule.
 In general, this will be a `http_archive` pointing to your GitHub release and
 a macro call that downloads/configures any tools your rule needs. For example,
-for the [Go
-rules](https://github.com/bazelbuild/rules_go#setup), this
+for the [Go rules](https://github.com/bazelbuild/rules_go#setup), this
 looks like:
 
 ```
@@ -127,7 +126,7 @@ For `rules_mockascript` that means there will be a directory named
 ### Constraints
 
 If your rule defines
-[toolchain](/docs/toolchains) rules,
+[toolchain](/versions/6.5.0/docs/toolchains) rules,
 it's possible that you'll need to define custom `constraint_setting`s and/or
 `constraint_value`s. Put these into a `//<LANG>/constraints` package. Your
 directory structure will look like this:
@@ -147,7 +146,7 @@ for best practices, and to see what constraints are already present, and
 consider contributing your constraints there if they are language independent.
 Be mindful of introducing custom constraints, all users of your rules will
 use them to perform platform specific logic in their `BUILD` files (for example,
-using [selects](/reference/be/functions#select)).
+using [selects](/versions/6.5.0/reference/be/functions#select)).
 With custom constraints, you define a language that the whole Bazel ecosystem
 will speak.
 
@@ -232,8 +231,7 @@ of basic ways that the rules can be used.
 
 ## Testing
 
-Set up Travis as described in their [getting started
-docs](https://docs.travis-ci.com/user/getting-started/). Then add a
+Set up Travis as described in their [getting started docs](https://docs.travis-ci.com/user/getting-started/). Then add a
 `.travis.yml` file to your repository with the following content:
 
 ```
