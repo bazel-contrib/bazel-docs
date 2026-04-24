@@ -137,7 +137,7 @@ Creates multiple actions based on the files within one or more input directories
 ## run
 
 ```
-None actions.run(*, outputs, inputs=[], unused_inputs_list=None, executable, tools=unbound, arguments=[], mnemonic=None, progress_message=None, use_default_shell_env=False, env=None, execution_requirements=None, input_manifests=None, exec_group=None, shadowed_action=None, resource_set=None, toolchain=unbound)
+None actions.run(*, outputs, inputs=[], unused_inputs_list=None, executable, tools=unbound, arguments=[], mnemonic=None, progress_message=None, use_default_shell_env=False, env=None, execution_requirements=None, input_manifests=None, exec_group=None, shadowed_action=None, resource_set=None, toolchain=unbound, timeout=None)
 ```
 
 Creates an action that runs an executable. [See example of use](https://github.com/bazelbuild/examples/tree/main/rules/actions_run/execute.bzl).
@@ -162,11 +162,12 @@ Creates an action that runs an executable. [See example of use](https://github.c
 | `shadowed_action` | [Action](../builtins/Action); default is `None`  Runs the action using the given shadowed action's inputs and environment added to the action's inputs list and environment. The action environment can overwrite any of the shadowed action's environment variables. If none, uses only the action's inputs and given environment. |
 | `resource_set` | callable; or `None`; default is `None`  A callback function that returns a resource set dictionary, used to estimate resource usage at execution time if this action is run locally. The function accepts two positional arguments: a string representing an OS name (e.g. "osx"), and an integer representing the number of inputs to the action. The returned dictionary may contain the following entries, each of which may be a float or an int:  * "cpu": number of CPUs; default 1* "memory": in MB; default 250* "local_test": number of local tests; default 1   If this parameter is set to `None` , the default values are used. The callback must be top-level (lambda and nested functions aren't allowed). |
 | `toolchain` | [Label](../builtins/Label); or [string](../core/string); or `None`; default is `unbound`  Toolchain type of the executable or tools used in this action.  If executable and tools are not coming from a toolchain, set this parameter to `None`.  If executable and tools are coming from a toolchain, toolchain type must be set so that the action executes on the correct execution platform.  Note that the rule which creates this action needs to define this toolchain inside its 'rule()' function.  When `toolchain` and `exec_group` parameters are both set, `exec_group` will be used. An error is raised in case the `exec_group` doesn't specify the same toolchain. |
+| `timeout` | [int](../core/int); or `None`; default is `None`  Maximum duration of the action in seconds, or `None` for no timeout. If the action runs longer than this, it is killed and the build fails. Overrides any rule-level `timeout` attribute for this specific action. Must be a non-negative integer; 0 is treated the same as `None`. |
 
 ## run_shell
 
 ```
-None actions.run_shell(*, outputs, inputs=[], tools=unbound, arguments=[], mnemonic=None, command, progress_message=None, use_default_shell_env=False, env=None, execution_requirements=None, input_manifests=None, exec_group=None, shadowed_action=None, resource_set=None, toolchain=unbound)
+None actions.run_shell(*, outputs, inputs=[], tools=unbound, arguments=[], mnemonic=None, command, progress_message=None, use_default_shell_env=False, env=None, execution_requirements=None, input_manifests=None, exec_group=None, shadowed_action=None, resource_set=None, toolchain=unbound, timeout=None)
 ```
 
 Creates an action that runs a shell command. [See example of use](https://github.com/bazelbuild/examples/tree/main/rules/shell_command/rules.bzl).
@@ -190,6 +191,7 @@ Creates an action that runs a shell command. [See example of use](https://github
 | `shadowed_action` | [Action](../builtins/Action); default is `None`  Runs the action using the given shadowed action's discovered inputs added to the action's inputs list. If none, uses only the action's inputs. |
 | `resource_set` | callable; or `None`; default is `None`  A callback function for estimating resource usage if run locally. See[`ctx.actions.run()`](#run.resource_set). |
 | `toolchain` | [Label](../builtins/Label); or [string](../core/string); or `None`; default is `unbound`  Toolchain type of the executable or tools used in this action.  If executable and tools are not coming from a toolchain, set this parameter to `None`.  If executable and tools are coming from a toolchain, toolchain type must be set so that the action executes on the correct execution platform.  Note that the rule which creates this action needs to define this toolchain inside its 'rule()' function.  When `toolchain` and `exec_group` parameters are both set, `exec_group` will be used. An error is raised in case the `exec_group` doesn't specify the same toolchain. |
+| `timeout` | [int](../core/int); or `None`; default is `None`  Maximum duration of the action in seconds, or `None` for no timeout. If the action runs longer than this, it is killed and the build fails. Overrides any rule-level `timeout` attribute for this specific action. Must be a non-negative integer; 0 is treated the same as `None`. |
 
 ## symlink
 
