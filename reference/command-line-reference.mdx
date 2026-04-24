@@ -1900,12 +1900,6 @@ Options relating to query output and semantics:
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
-`--[no]incompatible_package_group_build_output` default: "false"
-:   If enabled, `blaze query --output=build` will output `package_group` targets.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
 
@@ -3081,6 +3075,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -3284,6 +3284,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
 
@@ -3365,9 +3371,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -5750,6 +5753,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -5953,6 +5962,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
 
@@ -6034,9 +6049,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -6358,12 +6370,6 @@ Options relating to query output and semantics:
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-
-`--[no]incompatible_package_group_build_output` default: "false"
-:   If enabled, `blaze query --output=build` will output `package_group` targets.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
@@ -7564,6 +7570,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -7767,6 +7779,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
 
@@ -7848,9 +7866,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -9199,6 +9214,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -9402,6 +9423,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
 
@@ -9483,9 +9510,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
@@ -10788,12 +10812,6 @@ Options relating to query output and semantics:
 
     Tags:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-
-`--[no]incompatible_package_group_build_output` default: "false"
-:   If enabled, `blaze query --output=build` will output `package_group` targets.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_package_group_includes_double_slash` default: "true"
 :   If enabled, when outputting package_group's `packages` attribute, the leading `//` will not be omitted.
@@ -12192,6 +12210,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 
+`--[no]experimental_check_desugar_deps` default: "true"
+:   Whether to double-check correct desugaring at Android binary level.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_enforce_transitive_visibility` default: "false"
 :   If true, enable package()s to set the transitive_visibility attribute to restrict which packages may depend on them.
 
@@ -12395,6 +12419,12 @@ Options that trigger optimizations of the build time:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incremental_dexing` default: "true"
+:   Does most of the work for dexing separately for each Jar file.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--[no]objc_use_dotd_pruning` default: "true"
 :   If set, .d files emitted by clang will be used to prune the set of inputs passed into objc compiles.
 
@@ -12476,9 +12506,6 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_turbine_cpu_reservation=&lt;an integer&gt;` default: "1"
-:   The number of CPUs to reserve for Turbine.
 
 `--[no]explicit_java_test_deps` default: "false"
 :   Explicitly specify a dependency to JUnit or Hamcrest in a java_test instead of accidentally obtaining from the TestRunner's deps. Only works for bazel right now.
