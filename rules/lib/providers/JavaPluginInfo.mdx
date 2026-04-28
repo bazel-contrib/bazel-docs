@@ -1,0 +1,45 @@
+---
+title: 'JavaPluginInfo'
+---
+
+A provider encapsulating information about Java plugins.
+
+At the moment, the only supported kind of plugins are annotation processors.
+
+## Members
+
+* [api_generating_plugins](#api_generating_plugins)
+* [java_outputs](#java_outputs)
+* [plugins](#plugins)
+
+## api_generating_plugins
+
+```
+struct JavaPluginInfo.api_generating_plugins
+```
+
+Returns data about API generating plugins defined or exported by this target.
+
+Those annotation processors are applied to a Java target before producing its header jars (which contain method signatures). When no API plugins are present, header jars are generated from the sources, reducing critical path.
+
+The `api_generating_plugins` is a subset of `plugins`.
+
+## java_outputs
+
+```
+list JavaPluginInfo.java_outputs
+```
+
+Returns information about outputs of this Java/Java-like target.
+
+## plugins
+
+```
+struct JavaPluginInfo.plugins
+```
+
+Returns data about all plugins that a consuming target should apply.
+
+This is typically either a `java_plugin` itself or a `java_library` exporting one or more plugins.
+
+A `java_library` runs annotation processing with all plugins from this field appearing in `deps` and `plugins` attributes.
