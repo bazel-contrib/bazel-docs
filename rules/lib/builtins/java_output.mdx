@@ -1,0 +1,127 @@
+---
+title: 'java_output'
+---
+
+The outputs of Java compilation.
+
+## Members
+
+* [class_jar](#class_jar)
+* [compile_jar](#compile_jar)
+* [compile_jdeps](#compile_jdeps)
+* [generated_class_jar](#generated_class_jar)
+* [generated_source_jar](#generated_source_jar)
+* [header_compilation_jar](#header_compilation_jar)
+* [ijar](#ijar)
+* [jdeps](#jdeps)
+* [manifest_proto](#manifest_proto)
+* [native_headers_jar](#native_headers_jar)
+* [source_jar](#source_jar)
+* [source_jars](#source_jars)
+
+## class_jar
+
+```
+File java_output.class_jar
+```
+
+A classes jar file.
+
+## compile_jar
+
+```
+File java_output.compile_jar
+```
+
+An interface jar file.
+May return `None`.
+
+## compile_jdeps
+
+```
+File java_output.compile_jdeps
+```
+
+Compile time dependencies information (deps.proto file).
+May return `None`.
+
+## generated_class_jar
+
+```
+File java_output.generated_class_jar
+```
+
+A jar file containing class files compiled from sources generated during annotation processing.
+May return `None`.
+
+## generated_source_jar
+
+```
+File java_output.generated_source_jar
+```
+
+The source jar that was created as a result of annotation processing.
+May return `None`.
+
+## header_compilation_jar
+
+```
+File java_output.header_compilation_jar
+```
+
+A header compilation jar file.
+May return `None`.
+
+## ijar
+
+```
+File java_output.ijar
+```
+
+Deprecated: Please use compile_jar.
+May return `None`.
+
+## jdeps
+
+```
+File java_output.jdeps
+```
+
+A manifest proto file. The protobuf file containing the manifest generated from JavaBuilder.
+May return `None`.
+
+## manifest_proto
+
+```
+File java_output.manifest_proto
+```
+
+A manifest proto file. The protobuf file containing the manifest generated from JavaBuilder.
+May return `None`.
+
+## native_headers_jar
+
+```
+File java_output.native_headers_jar
+```
+
+A jar containing CC header files supporting native method implementation.
+May return `None`.
+
+## source_jar
+
+```
+File java_output.source_jar
+```
+
+Deprecated: Please use source_jars instead.
+May return `None`.
+
+## source_jars
+
+```
+depset java_output.source_jars
+```
+
+A depset of sources archive files.
+May return `None`.
