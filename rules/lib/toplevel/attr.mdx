@@ -11,18 +11,18 @@ and [using](https://bazel.build/extending/rules#implementation_function) attribu
 
 * [bool](#bool)
 * [int](#int)
-* [int_list](#int_list)
+* [int\_list](#int_list)
 * [label](#label)
-* [label_keyed_string_dict](#label_keyed_string_dict)
-* [label_list](#label_list)
-* [label_list_dict](#label_list_dict)
+* [label\_keyed\_string\_dict](#label_keyed_string_dict)
+* [label\_list](#label_list)
+* [label\_list\_dict](#label_list_dict)
 * [output](#output)
-* [output_list](#output_list)
+* [output\_list](#output_list)
 * [string](#string)
-* [string_dict](#string_dict)
-* [string_keyed_label_dict](#string_keyed_label_dict)
-* [string_list](#string_list)
-* [string_list_dict](#string_list_dict)
+* [string\_dict](#string_dict)
+* [string\_keyed\_label\_dict](#string_keyed_label_dict)
+* [string\_list](#string_list)
+* [string\_list\_dict](#string_list_dict)
 
 ## bool
 
@@ -59,7 +59,7 @@ Creates a schema for an integer attribute. The value must be in the signed 32-bi
 | `mandatory` | [bool](../core/bool); default is `False`  If true, the value must be specified explicitly (even if it has a `default`). |
 | `values` | [sequence](../core/list) of [int](../core/int)s; default is `[]`  The list of allowed values for the attribute. An error is raised if any other value is given. |
 
-## int_list
+## int\_list
 
 ```
 Attribute attr.int_list(mandatory=False, allow_empty=True, *, configurable=unbound, default=[], doc=None)
@@ -111,7 +111,7 @@ In addition to ordinary source files, this kind of attribute is often used to re
 | `aspects` | [sequence](../core/list) of [Aspect](../builtins/Aspect)s; default is `[]`  Aspects that should be applied to the dependency or dependencies specified by this attribute. |
 | `flags` | [sequence](../core/list) of [string](../core/string)s; default is `[]`  Deprecated, will be removed. |
 
-## label_keyed_string_dict
+## label\_keyed\_string\_dict
 
 ```
 Attribute attr.label_keyed_string_dict(allow_empty=True, *, configurable=unbound, default={}, doc=None, allow_files=None, allow_rules=None, providers=[], for_dependency_resolution=unbound, flags=[], mandatory=False, skip_validations=False, cfg=None, aspects=[])
@@ -141,7 +141,7 @@ At analysis time (within the rule's implementation function), when retrieving th
 | `cfg` | default is `None`  [Configuration](https://bazel.build/extending/rules#configurations) of the attribute. It can be either `"exec"`, which indicates that the dependency is built for the `execution platform`, or `"target"`, which indicates that the dependency is build for the `target platform`. A typical example of the difference is when building mobile apps, where the `target platform` is `Android` or `iOS` while the `execution platform` is `Linux`, `macOS`, or `Windows`. |
 | `aspects` | [sequence](../core/list) of [Aspect](../builtins/Aspect)s; default is `[]`  Aspects that should be applied to the dependency or dependencies specified by this attribute. |
 
-## label_list
+## label\_list
 
 ```
 Attribute attr.label_list(allow_empty=True, *, configurable=unbound, default=[], materializer=None, doc=None, allow_files=None, allow_rules=None, providers=[], for_dependency_resolution=unbound, flags=[], mandatory=False, skip_validations=False, cfg=None, aspects=[])
@@ -172,7 +172,7 @@ At analysis time (within the rule's implementation function), when retrieving th
 | `cfg` | default is `None`  [Configuration](https://bazel.build/extending/rules#configurations) of the attribute. It can be either `"exec"`, which indicates that the dependency is built for the `execution platform`, or `"target"`, which indicates that the dependency is build for the `target platform`. A typical example of the difference is when building mobile apps, where the `target platform` is `Android` or `iOS` while the `execution platform` is `Linux`, `macOS`, or `Windows`. |
 | `aspects` | [sequence](../core/list) of [Aspect](../builtins/Aspect)s; default is `[]`  Aspects that should be applied to the dependency or dependencies specified by this attribute. |
 
-## label_list_dict
+## label\_list\_dict
 
 ```
 Attribute attr.label_list_dict(allow_empty=True, *, configurable=unbound, default={}, doc=None, allow_files=None, allow_rules=None, providers=[], for_dependency_resolution=unbound, flags=[], mandatory=False, skip_validations=False, cfg=None, aspects=[])
@@ -221,7 +221,7 @@ At analysis time, the corresponding [`File`](../builtins/File) can be retrieved 
 | `doc` | [string](../core/string); or `None`; default is `None`  A description of the attribute that can be extracted by documentation generating tools. |
 | `mandatory` | [bool](../core/bool); default is `False`  If true, the value must be specified explicitly (even if it has a `default`). |
 
-## output_list
+## output\_list
 
 ```
 Attribute attr.output_list(allow_empty=True, *, doc=None, mandatory=False)
@@ -259,7 +259,7 @@ Creates a schema for a [string](../core/string#attr) attribute.
 | `mandatory` | [bool](../core/bool); default is `False`  If true, the value must be specified explicitly (even if it has a `default`). |
 | `values` | [sequence](../core/list) of [string](../core/string)s; default is `[]`  The list of allowed values for the attribute. An error is raised if any other value is given. |
 
-## string_dict
+## string\_dict
 
 ```
 Attribute attr.string_dict(allow_empty=True, *, configurable=unbound, default={}, doc=None, mandatory=False)
@@ -277,7 +277,7 @@ Creates a schema for an attribute holding a dictionary, where the keys and value
 | `doc` | [string](../core/string); or `None`; default is `None`  A description of the attribute that can be extracted by documentation generating tools. |
 | `mandatory` | [bool](../core/bool); default is `False`  If true, the value must be specified explicitly (even if it has a `default`). |
 
-## string_keyed_label_dict
+## string\_keyed\_label\_dict
 
 ```
 Attribute attr.string_keyed_label_dict(allow_empty=True, *, configurable=unbound, default={}, doc=None, allow_files=None, allow_rules=None, providers=[], for_dependency_resolution=unbound, flags=[], mandatory=False, cfg=None, aspects=[])
@@ -306,7 +306,7 @@ At analysis time (within the rule's implementation function), when retrieving th
 | `cfg` | default is `None`  [Configuration](https://bazel.build/extending/rules#configurations) of the attribute. It can be either `"exec"`, which indicates that the dependency is built for the `execution platform`, or `"target"`, which indicates that the dependency is build for the `target platform`. A typical example of the difference is when building mobile apps, where the `target platform` is `Android` or `iOS` while the `execution platform` is `Linux`, `macOS`, or `Windows`. |
 | `aspects` | [sequence](../core/list) of [Aspect](../builtins/Aspect)s; default is `[]`  Aspects that should be applied to the dependency or dependencies specified by this attribute. |
 
-## string_list
+## string\_list
 
 ```
 Attribute attr.string_list(mandatory=False, allow_empty=True, *, configurable=unbound, default=[], doc=None)
@@ -324,7 +324,7 @@ Creates a schema for a list-of-strings attribute.
 | `default` | [sequence](../core/list) of [string](../core/string)s; or NativeComputedDefault; default is `[]`  A default value to use if no value for this attribute is given when instantiating the rule. |
 | `doc` | [string](../core/string); or `None`; default is `None`  A description of the attribute that can be extracted by documentation generating tools. |
 
-## string_list_dict
+## string\_list\_dict
 
 ```
 Attribute attr.string_list_dict(allow_empty=True, *, configurable=unbound, default={}, doc=None, mandatory=False)
