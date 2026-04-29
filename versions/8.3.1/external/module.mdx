@@ -30,7 +30,7 @@ By default, Bazel then [selects](#version-selection) one version of each module
 to use. Bazel represents each module with a repo, and consults the registry
 again to learn how to define each of the repos.
 
-## Version format {#version-format}
+## Version format
 
 Bazel has a diverse ecosystem and projects use various versioning schemes. The
 most popular by far is [SemVer](https://semver.org), but there are
@@ -55,7 +55,7 @@ Any valid SemVer version is a valid Bazel module version. Additionally, two
 SemVer versions `a` and `b` compare `a < b` if and only if the same holds when
 they're compared as Bazel module versions.
 
-## Version selection {#version-selection}
+## Version selection
 
 Consider the diamond dependency problem, a staple in the versioned dependency
 management space. Suppose you have the dependency graph:
@@ -122,7 +122,8 @@ serves multiple purposes:
     version, regardless of which versions of the dependency are requested in the
     dependency graph.
 *   With the `registry` attribute, you can force this dependency to come from a
-    specific registry, instead of following the normal [registry selection](/versions/8.3.1/external/registry#selecting_registries) process.
+    specific registry, instead of following the normal [registry
+    selection](/versions/8.3.1/external/registry#selecting_registries) process.
 *   With the `patch*` attributes, you can specify a set of patches to apply to
     the downloaded module.
 
@@ -169,17 +170,19 @@ Bazel supports the following non-registry overrides:
 *   [`git_override`](/versions/8.3.1/rules/lib/globals/module#git_override)
 *   [`local_path_override`](/versions/8.3.1/rules/lib/globals/module#local_path_override)
 
-## Define repos that don't represent Bazel modules {#use_repo_rule}
+## Define repos that don't represent Bazel modules
 
 With `bazel_dep`, you can define repos that represent other Bazel modules.
 Sometimes there is a need to define a repo that does _not_ represent a Bazel
 module; for example, one that contains a plain JSON file to be read as data.
 
-In this case, you could use the [`use_repo_rule` directive](/versions/8.3.1/rules/lib/globals/module#use_repo_rule) to directly define a repo
+In this case, you could use the [`use_repo_rule`
+directive](/versions/8.3.1/rules/lib/globals/module#use_repo_rule) to directly define a repo
 by invoking a repo rule. This repo will only be visible to the module it's
 defined in.
 
-Under the hood, this is implemented using the same mechanism as [module extensions](/versions/8.3.1/external/extension), which lets you define repos with more
+Under the hood, this is implemented using the same mechanism as [module
+extensions](/versions/8.3.1/external/extension), which lets you define repos with more
 flexibility.
 
 ## Repository names and strict deps

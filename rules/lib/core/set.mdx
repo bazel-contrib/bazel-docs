@@ -115,17 +115,17 @@ operations that attempt to update it will fail.
 * [add](#add)
 * [clear](#clear)
 * [difference](#difference)
-* [difference_update](#difference_update)
+* [difference\_update](#difference_update)
 * [discard](#discard)
 * [intersection](#intersection)
-* [intersection_update](#intersection_update)
+* [intersection\_update](#intersection_update)
 * [isdisjoint](#isdisjoint)
 * [issubset](#issubset)
 * [issuperset](#issuperset)
 * [pop](#pop)
 * [remove](#remove)
-* [symmetric_difference](#symmetric_difference)
-* [symmetric_difference_update](#symmetric_difference_update)
+* [symmetric\_difference](#symmetric_difference)
+* [symmetric\_difference\_update](#symmetric_difference_update)
 * [union](#union)
 * [update](#update)
 
@@ -185,7 +185,7 @@ set([1, 2, 3]).difference([0, 1], [3, 4])  # set([2])
 | --- | --- |
 | `others` | required  Collections of hashable elements. |
 
-## difference_update
+## difference\_update
 
 ```
 None set.difference_update(*others)
@@ -270,7 +270,7 @@ set([1, 2, 3]).intersection([0, 1], [1, 2])  # set([1])
 | --- | --- |
 | `others` | required  Collections of hashable elements. |
 
-## intersection_update
+## intersection\_update
 
 ```
 None set.intersection_update(*others)
@@ -411,7 +411,7 @@ assignment operation.
 | --- | --- |
 | `element` | required  Element to remove. Must be an element of the set (and hashable). |
 
-## symmetric_difference
+## symmetric\_difference
 
 ```
 set set.symmetric_difference(other)
@@ -437,7 +437,7 @@ set([1, 2]).symmetric_difference([2, 3])  # set([1, 3])
 | --- | --- |
 | `other` | required  A collection of hashable elements. |
 
-## symmetric_difference_update
+## symmetric\_difference\_update
 
 ```
 None set.symmetric_difference_update(other)
@@ -447,7 +447,7 @@ Returns a new mutable set containing the symmetric difference of this set with a
 hashable elements.
 
 If `s` and `t` are sets, `s.symmetric_difference_update(t)` is
-equivalent to `s ^= t`; however, note that the`^=` augmented assignment requires both
+equivalent to `s ^= t`; however, note that the` ^=` augmented assignment requires both
 sides to be sets, while the `symmetric_difference_update` method also accepts a sequence
 or a dict.
 
