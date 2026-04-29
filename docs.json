@@ -125,5 +125,1807 @@
         ]
       }
     ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/docs/build-ref.html",
+      "destination": "/concepts/labels"
+    },
+    {
+      "source": "/docs/skylark/lib/dict.html",
+      "destination": "/rules/lib/core/dict"
+    },
+    {
+      "source": "/reference/be/",
+      "destination": "/reference/be/overview"
+    },
+    {
+      "source": "/versions/6.0.0/reference/be/",
+      "destination": "/versions/6.0.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/6.1.0/reference/be/",
+      "destination": "/versions/6.1.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/6.2.0/reference/be/",
+      "destination": "/versions/6.2.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/6.3.0/reference/be/",
+      "destination": "/versions/6.3.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/6.4.0/reference/be/",
+      "destination": "/versions/6.4.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/6.5.0/reference/be/",
+      "destination": "/versions/6.5.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/6.6.0/reference/be/",
+      "destination": "/versions/6.6.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.0.0/reference/be/",
+      "destination": "/versions/7.0.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.1.0/reference/be/",
+      "destination": "/versions/7.1.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.2.0/reference/be/",
+      "destination": "/versions/7.2.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.3.0/reference/be/",
+      "destination": "/versions/7.3.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.4.0/reference/be/",
+      "destination": "/versions/7.4.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.5.0/reference/be/",
+      "destination": "/versions/7.5.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.6.0/reference/be/",
+      "destination": "/versions/7.6.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/7.7.0/reference/be/",
+      "destination": "/versions/7.7.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/8.0.0/reference/be/",
+      "destination": "/versions/8.0.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/8.1.0/reference/be/",
+      "destination": "/versions/8.1.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/8.2.0/reference/be/",
+      "destination": "/versions/8.2.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/8.3.0/reference/be/",
+      "destination": "/versions/8.3.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/8.4.0/reference/be/",
+      "destination": "/versions/8.4.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/8.5.0/reference/be/",
+      "destination": "/versions/8.5.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/8.6.0/reference/be/",
+      "destination": "/versions/8.6.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/9.0.0/reference/be/",
+      "destination": "/versions/9.0.0/reference/be/overview"
+    },
+    {
+      "source": "/versions/9.1.0/reference/be/",
+      "destination": "/versions/9.1.0/reference/be/overview"
+    },
+    {
+      "source": "/reference/build-encyclopedia",
+      "destination": "/reference/be/overview"
+    },
+    {
+      "source": "/release/versioning",
+      "destination": "/release#bazel-versioning"
+    },
+    {
+      "source": "/rules/lib/",
+      "destination": "/rules/lib/overview"
+    },
+    {
+      "source": "/rules/lib/attr",
+      "destination": "/rules/lib/toplevel/attr"
+    },
+    {
+      "source": "/rules/lib/ctx",
+      "destination": "/rules/lib/builtins/ctx"
+    },
+    {
+      "source": "/rules/lib/dict",
+      "destination": "/rules/lib/core/dict"
+    },
+    {
+      "source": "/rules/lib/Label",
+      "destination": "/rules/lib/builtins/Label"
+    },
+    {
+      "source": "/rules/lib/starlark-overview",
+      "destination": "/rules/lib/overview"
+    },
+    {
+      "source": "/rules/lib/string",
+      "destination": "/rules/lib/core/string"
+    },
+    {
+      "source": "/versions/6.0.0/rules/lib/",
+      "destination": "/versions/6.0.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/6.1.0/rules/lib/",
+      "destination": "/versions/6.1.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/6.2.0/rules/lib/",
+      "destination": "/versions/6.2.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/6.3.0/rules/lib/",
+      "destination": "/versions/6.3.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/6.4.0/rules/lib/",
+      "destination": "/versions/6.4.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/6.5.0/rules/lib/",
+      "destination": "/versions/6.5.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/",
+      "destination": "/versions/6.6.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/7.0.0/rules/lib/",
+      "destination": "/versions/7.0.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/7.1.0/rules/lib/",
+      "destination": "/versions/7.1.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/7.2.0/rules/lib/",
+      "destination": "/versions/7.2.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/7.3.0/rules/lib/",
+      "destination": "/versions/7.3.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/7.4.0/rules/lib/",
+      "destination": "/versions/7.4.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/7.5.0/rules/lib/",
+      "destination": "/versions/7.5.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/7.6.0/rules/lib/",
+      "destination": "/versions/7.6.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/7.7.0/rules/lib/",
+      "destination": "/versions/7.7.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/8.0.0/rules/lib/",
+      "destination": "/versions/8.0.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/8.1.0/rules/lib/",
+      "destination": "/versions/8.1.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/8.2.0/rules/lib/",
+      "destination": "/versions/8.2.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/8.3.0/rules/lib/",
+      "destination": "/versions/8.3.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/8.4.0/rules/lib/",
+      "destination": "/versions/8.4.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/8.5.0/rules/lib/",
+      "destination": "/versions/8.5.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/8.6.0/rules/lib/",
+      "destination": "/versions/8.6.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/9.0.0/rules/lib/",
+      "destination": "/versions/9.0.0/rules/lib/overview"
+    },
+    {
+      "source": "/versions/9.1.0/rules/lib/",
+      "destination": "/versions/9.1.0/rules/lib/overview"
+    },
+    {
+      "source": "/contributing.html",
+      "destination": "/contribute"
+    },
+    {
+      "source": "/governance.html",
+      "destination": "/contribute/contribution-policy"
+    },
+    {
+      "source": "/recommended-rules.html",
+      "destination": "/contribute/recommended-rules"
+    },
+    {
+      "source": "/support.html",
+      "destination": "/contribute/support"
+    },
+    {
+      "source": "/basics/getting_started.html",
+      "destination": "contribute/getting-started"
+    },
+    {
+      "source": "/basics/patching.html",
+      "destination": "/contribute/patch-acceptance"
+    },
+    {
+      "source": "/designs/index.html",
+      "destination": "/contribute/design-documents"
+    },
+    {
+      "source": "/basics/release-notes.html",
+      "destination": "/contribute/release-notes"
+    },
+    {
+      "source": "/naming.html",
+      "destination": "/contribute/naming"
+    },
+    {
+      "source": "/maintaining/breaking-changes-guide.html",
+      "destination": "/contribute/breaking-changes"
+    },
+    {
+      "source": "/maintaining/maintainers-guide.html",
+      "destination": "/contribute/maintainers-guide"
+    },
+    {
+      "source": "/maintaining/windows-chocolatey-maintenance.html",
+      "destination": "/contribute/windows-chocolatey-maintenance"
+    },
+    {
+      "source": "/maintaining/windows-scoop-maintenance.html",
+      "destination": "/contribute/windows-scoop-maintenance"
+    },
+    {
+      "source": "/designs/skyframe.html",
+      "destination": "/reference/skyframe"
+    },
+    {
+      "source": "/users.html",
+      "destination": "/community/users"
+    },
+    {
+      "source": "/basics/docs-style.html",
+      "destination": "/contribute/docs-style-guide"
+    },
+    {
+      "source": "/browse-and-search-user-guide.html",
+      "destination": "/contribute/searching-codebase"
+    },
+    {
+      "source": "/experts.html",
+      "destination": "/community/experts"
+    },
+    {
+      "source": "/sig.html",
+      "destination": "/contribute/sig"
+    },
+    {
+      "source": "/remote-execution-services.html",
+      "destination": "/community/remote-execution-services"
+    },
+    {
+      "source": "/roadmap.html",
+      "destination": "/community/roadmaps"
+    },
+    {
+      "source": "/roadmaps/configuration.html",
+      "destination": "/community/roadmaps-configurability"
+    },
+    {
+      "source": "/roadmaps/starlark.html",
+      "destination": "/community/roadmaps-starlark"
+    },
+    {
+      "source": "/versions/master/docs/install",
+      "destination": "/install"
+    },
+    {
+      "source": "/docs/install",
+      "destination": "/install"
+    },
+    {
+      "source": "/survey",
+      "destination": "https://forms.gle/cmMSQwL7hF49kAwu8"
+    },
+    {
+      "source": "/start/bazel-intro",
+      "destination": "/about/intro"
+    },
+    {
+      "source": "/start/bazel-vision",
+      "destination": "/about/vision"
+    },
+    {
+      "source": "/community/roadmaps",
+      "destination": "/about/roadmap"
+    },
+    {
+      "source": "/faq/",
+      "destination": "/about/faq"
+    },
+    {
+      "source": "/concepts/hermeticity",
+      "destination": "/basics/hermeticity"
+    },
+    {
+      "source": "/docs/bazel-container",
+      "destination": "/install/docker-container"
+    },
+    {
+      "source": "/tutorials/cpp",
+      "destination": "/start/cpp"
+    },
+    {
+      "source": "/tutorials/java",
+      "destination": "/start/java"
+    },
+    {
+      "source": "/tutorials/android-app",
+      "destination": "/start/android-app"
+    },
+    {
+      "source": "/tutorials/ios-app",
+      "destination": "/start/ios-app"
+    },
+    {
+      "source": "/concepts/platform-intro",
+      "destination": "/concepts/platforms"
+    },
+    {
+      "source": "/concepts/platforms-intro",
+      "destination": "/concepts/platforms"
+    },
+    {
+      "source": "/rules/build-style",
+      "destination": "/build/style-guide"
+    },
+    {
+      "source": "/rules/tutorial-sharing-variables",
+      "destination": "/build/share-variables"
+    },
+    {
+      "source": "/docs/external",
+      "destination": "/external/overview"
+    },
+    {
+      "source": "/build/external",
+      "destination": "/external/overview"
+    },
+    {
+      "source": "/docs/bzlmod",
+      "destination": "/external/overview"
+    },
+    {
+      "source": "/build/bzlmod",
+      "destination": "/external/overview"
+    },
+    {
+      "source": "/external/advanced",
+      "destination": "/external/faq"
+    },
+    {
+      "source": "/rules/",
+      "destination": "/build/rules"
+    },
+    {
+      "source": "/docs/build",
+      "destination": "/run/build"
+    },
+    {
+      "source": "/docs/bazelrc",
+      "destination": "/run/bazelrc"
+    },
+    {
+      "source": "/docs/scripts",
+      "destination": "/run/scripts"
+    },
+    {
+      "source": "/docs/client-server",
+      "destination": "/run/client-server"
+    },
+    {
+      "source": "/docs/query-how-to",
+      "destination": "/query/guide"
+    },
+    {
+      "source": "/reference/query",
+      "destination": "/query/language"
+    },
+    {
+      "source": "/docs/cquery",
+      "destination": "/query/cquery"
+    },
+    {
+      "source": "/docs/aquery",
+      "destination": "/query/aquery"
+    },
+    {
+      "source": "/docs/configurable-attributes",
+      "destination": "/configure/attributes"
+    },
+    {
+      "source": "/docs/integrating-with-rules-cc",
+      "destination": "/configure/integrate-cpp"
+    },
+    {
+      "source": "/docs/coverage",
+      "destination": "/configure/coverage"
+    },
+    {
+      "source": "/docs/best-practices",
+      "destination": "/configure/best-practices"
+    },
+    {
+      "source": "/configure/json-trace-profile",
+      "destination": "/advanced/performance/json-trace-profile"
+    },
+    {
+      "source": "/configure/build-performance-breakdown",
+      "destination": "/advanced/performance/build-performance-breakdown"
+    },
+    {
+      "source": "/configure/build-performance-metrics",
+      "destination": "/advanced/performance/build-performance-metrics"
+    },
+    {
+      "source": "/configure/memory",
+      "destination": "/advanced/performance/memory"
+    },
+    {
+      "source": "/docs/memory-saving-mode",
+      "destination": "/configure/memory"
+    },
+    {
+      "source": "/docs/windows",
+      "destination": "/configure/windows"
+    },
+    {
+      "source": "/docs/remote-execution",
+      "destination": "/remote/rbe/"
+    },
+    {
+      "source": "/docs/remote-execution-rules",
+      "destination": "/remote/rules"
+    },
+    {
+      "source": "/docs/remote-execution-ci",
+      "destination": "/remote/ci"
+    },
+    {
+      "source": "/docs/dynamic-execution",
+      "destination": "/remote/dynamic"
+    },
+    {
+      "source": "/docs/remote-caching",
+      "destination": "/remote/caching"
+    },
+    {
+      "source": "/docs/remote-execution-sandbox",
+      "destination": "/remote/sandbox"
+    },
+    {
+      "source": "/docs/workspace-log",
+      "destination": "/remote/workspace"
+    },
+    {
+      "source": "/docs/remote-execution-caching-debug",
+      "destination": "/remote/cache-remote"
+    },
+    {
+      "source": "/docs/remote-caching-debug",
+      "destination": "/remote/cache-local"
+    },
+    {
+      "source": "/docs/output_directories",
+      "destination": "/remote/output-directories"
+    },
+    {
+      "source": "/docs/persistent-workers",
+      "destination": "/remote/persistent/"
+    },
+    {
+      "source": "/docs/multiplex-worker",
+      "destination": "/remote/multiplex"
+    },
+    {
+      "source": "/docs/creating-workers",
+      "destination": "/remote/creating"
+    },
+    {
+      "source": "/docs/build-event-protocol",
+      "destination": "/remote/bep/"
+    },
+    {
+      "source": "/docs/bep-examples",
+      "destination": "/remote/bep-examples"
+    },
+    {
+      "source": "/docs/bep-glossary",
+      "destination": "/remote/bep-glossary"
+    },
+    {
+      "source": "/extending/repo",
+      "destination": "/external/repo"
+    },
+    {
+      "source": "/tutorials/cc-toolchain-config",
+      "destination": "/tutorials/ccp-toolchain-config"
+    },
+    {
+      "source": "/tutorials/cpp_dependency",
+      "destination": "/tutorials/cpp-dependency"
+    },
+    {
+      "source": "/tutorials/cpp_labels",
+      "destination": "/tutorials/cpp-labels"
+    },
+    {
+      "source": "/rules/concepts",
+      "destination": "/extending/concepts/"
+    },
+    {
+      "source": "/rules/rules",
+      "destination": "/extending/rules"
+    },
+    {
+      "source": "/rules/macros",
+      "destination": "/extending/macros"
+    },
+    {
+      "source": "/rules/depsets",
+      "destination": "/extending/depsets"
+    },
+    {
+      "source": "/rules/aspects",
+      "destination": "/extending/aspects"
+    },
+    {
+      "source": "/rules/repository_rules",
+      "destination": "/external/repo"
+    },
+    {
+      "source": "/rules/config",
+      "destination": "/extending/config"
+    },
+    {
+      "source": "/rules/tutorial-creating-a-macro",
+      "destination": "/rules/macro-tutorial"
+    },
+    {
+      "source": "/rules/tutorial-custom-verbs",
+      "destination": "/rules/verbs-tutorial"
+    },
+    {
+      "source": "/docs/rule-challenges",
+      "destination": "/rules/challenges"
+    },
+    {
+      "source": "/rules/windows_tips",
+      "destination": "/rules/windows"
+    },
+    {
+      "source": "/docs/platforms",
+      "destination": "/extending/platforms"
+    },
+    {
+      "source": "/reference/exec-groups",
+      "destination": "/extending/exec-groups"
+    },
+    {
+      "source": "/reference/auto-exec-groups",
+      "destination": "/extending/auto-exec-groups"
+    },
+    {
+      "source": "/docs/toolchains",
+      "destination": "/extending/toolchains"
+    },
+    {
+      "source": "/contribute/support",
+      "destination": "/release"
+    },
+    {
+      "source": "/contribute/guide",
+      "destination": "/contribute/"
+    },
+    {
+      "source": "/contribute/contribution-policy",
+      "destination": "/contribute/policy"
+    },
+    {
+      "source": "/contribute/searching-codebase",
+      "destination": "/contribute/search"
+    },
+    {
+      "source": "/contribute/sig",
+      "destination": "/community/sig"
+    },
+    {
+      "source": "/contribute/recommended-rules",
+      "destination": "/community/recommended-rules"
+    },
+    {
+      "source": "/docs/getting-started",
+      "destination": "/start/"
+    },
+    {
+      "source": "/start/getting-started",
+      "destination": "/start/"
+    },
+    {
+      "source": "/contribute/getting-started",
+      "destination": "/contribute/"
+    },
+    {
+      "source": "/versions/updating-bazel",
+      "destination": "/install/bazelisk"
+    },
+    {
+      "source": "/community/roadmaps-build-api",
+      "destination": "/about/roadmap"
+    },
+    {
+      "source": "/community/roadmaps-configurability",
+      "destination": "/about/roadmap"
+    },
+    {
+      "source": "/community/roadmaps-starlark",
+      "destination": "/about/roadmap"
+    },
+    {
+      "source": "/rules/lib/Action",
+      "destination": "/rules/lib/builtins/Action"
+    },
+    {
+      "source": "/rules/lib/Args",
+      "destination": "/rules/lib/builtins/Args"
+    },
+    {
+      "source": "/rules/lib/Aspect",
+      "destination": "/rules/lib/builtins/Aspect"
+    },
+    {
+      "source": "/rules/lib/Attribute",
+      "destination": "/rules/lib/builtins/Attribute"
+    },
+    {
+      "source": "/rules/lib/BuildSetting",
+      "destination": "/rules/lib/builtins/BuildSetting"
+    },
+    {
+      "source": "/rules/lib/CcCompilationOutputs",
+      "destination": "/rules/lib/builtins/CcCompilationOutputs"
+    },
+    {
+      "source": "/rules/lib/CcLinkingOutputs",
+      "destination": "/rules/lib/builtins/CcLinkingOutputs"
+    },
+    {
+      "source": "/rules/lib/CompilationContext",
+      "destination": "/rules/lib/builtins/CompilationContext"
+    },
+    {
+      "source": "/rules/lib/DirectoryExpander",
+      "destination": "/rules/lib/builtins/DirectoryExpander"
+    },
+    {
+      "source": "/rules/lib/DottedVersion",
+      "destination": "/rules/lib/builtins/DottedVersion"
+    },
+    {
+      "source": "/rules/lib/ExecGroupCollection",
+      "destination": "/rules/lib/builtins/ExecGroupCollection"
+    },
+    {
+      "source": "/rules/lib/ExecGroupContext",
+      "destination": "/rules/lib/builtins/ExecGroupContext"
+    },
+    {
+      "source": "/rules/lib/ExecTransitionFactory",
+      "destination": "/rules/lib/builtins/ExecTransitionFactory"
+    },
+    {
+      "source": "/rules/lib/FeatureConfiguration",
+      "destination": "/rules/lib/builtins/FeatureConfiguration"
+    },
+    {
+      "source": "/rules/lib/File",
+      "destination": "/rules/lib/builtins/File"
+    },
+    {
+      "source": "/rules/lib/Label",
+      "destination": "/rules/lib/builtins/Label"
+    },
+    {
+      "source": "/rules/lib/LateBoundDefault",
+      "destination": "/rules/lib/builtins/LateBoundDefault"
+    },
+    {
+      "source": "/rules/lib/LibraryToLink",
+      "destination": "/rules/lib/builtins/LibraryToLink"
+    },
+    {
+      "source": "/rules/lib/License",
+      "destination": "/rules/lib/builtins/License"
+    },
+    {
+      "source": "/rules/lib/LinkerInput",
+      "destination": "/rules/lib/builtins/LinkerInput"
+    },
+    {
+      "source": "/rules/lib/LinkingContext",
+      "destination": "/rules/lib/builtins/LinkingContext"
+    },
+    {
+      "source": "/rules/lib/Provider",
+      "destination": "/rules/lib/builtins/Provider"
+    },
+    {
+      "source": "/rules/lib/SymlinkEntry",
+      "destination": "/rules/lib/builtins/SymlinkEntry"
+    },
+    {
+      "source": "/rules/lib/Target",
+      "destination": "/rules/lib/builtins/Target"
+    },
+    {
+      "source": "/rules/lib/TemplateDict",
+      "destination": "/rules/lib/builtins/TemplateDict"
+    },
+    {
+      "source": "/rules/lib/ToolchainContext",
+      "destination": "/rules/lib/builtins/ToolchainContext"
+    },
+    {
+      "source": "/rules/lib/actions",
+      "destination": "/rules/lib/builtins/actions"
+    },
+    {
+      "source": "/rules/lib/apple_bitcode_mode",
+      "destination": "/rules/lib/builtins/apple_bitcode_mode"
+    },
+    {
+      "source": "/rules/lib/apple_platform",
+      "destination": "/rules/lib/builtins/apple_platform"
+    },
+    {
+      "source": "/rules/lib/apple_platform_type",
+      "destination": "/rules/lib/builtins/apple_platform_type"
+    },
+    {
+      "source": "/rules/lib/apple_toolchain",
+      "destination": "/rules/lib/builtins/apple_toolchain"
+    },
+    {
+      "source": "/rules/lib/bazel_module",
+      "destination": "/rules/lib/builtins/bazel_module"
+    },
+    {
+      "source": "/rules/lib/bazel_module_tags",
+      "destination": "/rules/lib/builtins/bazel_module_tags"
+    },
+    {
+      "source": "/rules/lib/configuration",
+      "destination": "/rules/lib/builtins/configuration"
+    },
+    {
+      "source": "/rules/lib/ctx",
+      "destination": "/rules/lib/builtins/ctx"
+    },
+    {
+      "source": "/rules/lib/depset",
+      "destination": "/rules/lib/builtins/depset"
+    },
+    {
+      "source": "/rules/lib/exec_result",
+      "destination": "/rules/lib/builtins/exec_result"
+    },
+    {
+      "source": "/rules/lib/fragments",
+      "destination": "/rules/lib/builtins/fragments"
+    },
+    {
+      "source": "/rules/lib/java_annotation_processing",
+      "destination": "/rules/lib/builtins/java_annotation_processing"
+    },
+    {
+      "source": "/rules/lib/java_output",
+      "destination": "/rules/lib/builtins/java_output"
+    },
+    {
+      "source": "/rules/lib/module_ctx",
+      "destination": "/rules/lib/builtins/module_ctx"
+    },
+    {
+      "source": "/rules/lib/native_rule_transition",
+      "destination": "/rules/lib/builtins/native_rule_transition"
+    },
+    {
+      "source": "/rules/lib/path",
+      "destination": "/rules/lib/builtins/path"
+    },
+    {
+      "source": "/rules/lib/repository_ctx",
+      "destination": "/rules/lib/builtins/repository_ctx"
+    },
+    {
+      "source": "/rules/lib/repository_os",
+      "destination": "/rules/lib/builtins/repository_os"
+    },
+    {
+      "source": "/rules/lib/repository_rule",
+      "destination": "/rules/lib/builtins/repository_rule"
+    },
+    {
+      "source": "/rules/lib/root",
+      "destination": "/rules/lib/builtins/root"
+    },
+    {
+      "source": "/rules/lib/rule",
+      "destination": "/rules/lib/builtins/rule"
+    },
+    {
+      "source": "/rules/lib/rule_attributes",
+      "destination": "/rules/lib/builtins/rule_attributes"
+    },
+    {
+      "source": "/rules/lib/runfiles",
+      "destination": "/rules/lib/builtins/runfiles"
+    },
+    {
+      "source": "/rules/lib/struct",
+      "destination": "/rules/lib/builtins/struct"
+    },
+    {
+      "source": "/rules/lib/tag_class",
+      "destination": "/rules/lib/builtins/tag_class"
+    },
+    {
+      "source": "/rules/lib/toolchain_type",
+      "destination": "/rules/lib/builtins/toolchain_type"
+    },
+    {
+      "source": "/rules/lib/transition",
+      "destination": "/rules/lib/builtins/transition"
+    },
+    {
+      "source": "/rules/lib/bool",
+      "destination": "/rules/lib/core/bool"
+    },
+    {
+      "source": "/rules/lib/builtin_function_or_method",
+      "destination": "/rules/lib/core/builtin_function_or_method"
+    },
+    {
+      "source": "/rules/lib/dict",
+      "destination": "/rules/lib/core/dict"
+    },
+    {
+      "source": "/rules/lib/float",
+      "destination": "/rules/lib/core/float"
+    },
+    {
+      "source": "/rules/lib/function",
+      "destination": "/rules/lib/core/function"
+    },
+    {
+      "source": "/rules/lib/int",
+      "destination": "/rules/lib/core/int"
+    },
+    {
+      "source": "/rules/lib/json",
+      "destination": "/rules/lib/core/json"
+    },
+    {
+      "source": "/rules/lib/list",
+      "destination": "/rules/lib/core/list"
+    },
+    {
+      "source": "/rules/lib/range",
+      "destination": "/rules/lib/core/range"
+    },
+    {
+      "source": "/rules/lib/string",
+      "destination": "/rules/lib/core/string"
+    },
+    {
+      "source": "/rules/lib/tuple",
+      "destination": "/rules/lib/core/tuple"
+    },
+    {
+      "source": "/rules/lib/apple",
+      "destination": "/rules/lib/fragments/apple"
+    },
+    {
+      "source": "/rules/lib/bazel_py",
+      "destination": "/rules/lib/fragments/bazel_py"
+    },
+    {
+      "source": "/rules/lib/coverage",
+      "destination": "/rules/lib/fragments/coverage"
+    },
+    {
+      "source": "/rules/lib/cpp",
+      "destination": "/rules/lib/fragments/cpp"
+    },
+    {
+      "source": "/rules/lib/j2objc",
+      "destination": "/rules/lib/fragments/j2objc"
+    },
+    {
+      "source": "/rules/lib/java",
+      "destination": "/rules/lib/fragments/java"
+    },
+    {
+      "source": "/rules/lib/objc",
+      "destination": "/rules/lib/fragments/objc"
+    },
+    {
+      "source": "/rules/lib/platform",
+      "destination": "/rules/lib/fragments/platform"
+    },
+    {
+      "source": "/rules/lib/proto",
+      "destination": "/rules/lib/fragments/proto"
+    },
+    {
+      "source": "/rules/lib/py",
+      "destination": "/rules/lib/fragments/py"
+    },
+    {
+      "source": "/rules/lib/swift",
+      "destination": "/rules/lib/fragments/swift"
+    },
+    {
+      "source": "/rules/lib/all",
+      "destination": "/rules/lib/globals/all"
+    },
+    {
+      "source": "/rules/lib/build",
+      "destination": "/rules/lib/globals/build"
+    },
+    {
+      "source": "/rules/lib/bzl",
+      "destination": "/rules/lib/globals/bzl"
+    },
+    {
+      "source": "/rules/lib/module",
+      "destination": "/rules/lib/globals/module"
+    },
+    {
+      "source": "/rules/lib/workspace",
+      "destination": "/rules/lib/globals/workspace"
+    },
+    {
+      "source": "/rules/lib/AnalysisTestResultInfo",
+      "destination": "/rules/lib/providers/AnalysisTestResultInfo"
+    },
+    {
+      "source": "/rules/lib/AndroidNeverLinkLibrariesProvider",
+      "destination": "/rules/lib/providers/AndroidNeverLinkLibrariesProvider"
+    },
+    {
+      "source": "/rules/lib/AppleDebugOutputs",
+      "destination": "/rules/lib/providers/AppleDebugOutputs"
+    },
+    {
+      "source": "/rules/lib/AppleDynamicFramework",
+      "destination": "/rules/lib/providers/AppleDynamicFramework"
+    },
+    {
+      "source": "/rules/lib/AppleExecutableBinary",
+      "destination": "/rules/lib/providers/AppleExecutableBinary"
+    },
+    {
+      "source": "/rules/lib/BaselineProfileProvider",
+      "destination": "/rules/lib/providers/BaselineProfileProvider"
+    },
+    {
+      "source": "/rules/lib/CcInfo",
+      "destination": "/rules/lib/providers/CcInfo"
+    },
+    {
+      "source": "/rules/lib/CcToolchainConfigInfo",
+      "destination": "/rules/lib/providers/CcToolchainConfigInfo"
+    },
+    {
+      "source": "/rules/lib/CcToolchainInfo",
+      "destination": "/rules/lib/providers/CcToolchainInfo"
+    },
+    {
+      "source": "/rules/lib/ConstraintCollection",
+      "destination": "/rules/lib/providers/ConstraintCollection"
+    },
+    {
+      "source": "/rules/lib/ConstraintSettingInfo",
+      "destination": "/rules/lib/providers/ConstraintSettingInfo"
+    },
+    {
+      "source": "/rules/lib/ConstraintValueInfo",
+      "destination": "/rules/lib/providers/ConstraintValueInfo"
+    },
+    {
+      "source": "/rules/lib/DebugPackageInfo",
+      "destination": "/rules/lib/providers/DebugPackageInfo"
+    },
+    {
+      "source": "/rules/lib/DefaultInfo",
+      "destination": "/rules/lib/providers/DefaultInfo"
+    },
+    {
+      "source": "/rules/lib/ExecutionInfo",
+      "destination": "/rules/lib/providers/ExecutionInfo"
+    },
+    {
+      "source": "/rules/lib/FeatureFlagInfo",
+      "destination": "/rules/lib/providers/FeatureFlagInfo"
+    },
+    {
+      "source": "/rules/lib/FilesToRunProvider",
+      "destination": "/rules/lib/providers/FilesToRunProvider"
+    },
+    {
+      "source": "/rules/lib/GeneratedExtensionRegistryProvider",
+      "destination": "/rules/lib/providers/GeneratedExtensionRegistryProvider"
+    },
+    {
+      "source": "/rules/lib/IncompatiblePlatformProvider",
+      "destination": "/rules/lib/providers/IncompatiblePlatformProvider"
+    },
+    {
+      "source": "/rules/lib/InstrumentedFilesInfo",
+      "destination": "/rules/lib/providers/InstrumentedFilesInfo"
+    },
+    {
+      "source": "/rules/lib/JavaInfo",
+      "destination": "/rules/lib/providers/JavaInfo"
+    },
+    {
+      "source": "/rules/lib/JavaPluginData",
+      "destination": "/rules/lib/providers/JavaPluginData"
+    },
+    {
+      "source": "/rules/lib/JavaPluginInfo",
+      "destination": "/rules/lib/providers/JavaPluginInfo"
+    },
+    {
+      "source": "/rules/lib/JavaRuntimeInfo",
+      "destination": "/rules/lib/providers/JavaRuntimeInfo"
+    },
+    {
+      "source": "/rules/lib/JavaToolchainInfo",
+      "destination": "/rules/lib/providers/JavaToolchainInfo"
+    },
+    {
+      "source": "/rules/lib/ObjcProvider",
+      "destination": "/rules/lib/providers/ObjcProvider"
+    },
+    {
+      "source": "/rules/lib/OutputGroupInfo",
+      "destination": "/rules/lib/providers/OutputGroupInfo"
+    },
+    {
+      "source": "/rules/lib/PlatformInfo",
+      "destination": "/rules/lib/providers/PlatformInfo"
+    },
+    {
+      "source": "/rules/lib/ProguardSpecProvider",
+      "destination": "/rules/lib/providers/ProguardSpecProvider"
+    },
+    {
+      "source": "/rules/lib/ProtoRegistryProvider",
+      "destination": "/rules/lib/providers/ProtoRegistryProvider"
+    },
+    {
+      "source": "/rules/lib/PyInfo",
+      "destination": "/rules/lib/providers/PyInfo"
+    },
+    {
+      "source": "/rules/lib/PyRuntimeInfo",
+      "destination": "/rules/lib/providers/PyRuntimeInfo"
+    },
+    {
+      "source": "/rules/lib/RunEnvironmentInfo",
+      "destination": "/rules/lib/providers/RunEnvironmentInfo"
+    },
+    {
+      "source": "/rules/lib/TemplateVariableInfo",
+      "destination": "/rules/lib/providers/TemplateVariableInfo"
+    },
+    {
+      "source": "/rules/lib/ToolchainInfo",
+      "destination": "/rules/lib/providers/ToolchainInfo"
+    },
+    {
+      "source": "/rules/lib/ToolchainTypeInfo",
+      "destination": "/rules/lib/providers/ToolchainTypeInfo"
+    },
+    {
+      "source": "/rules/lib/XcodeProperties",
+      "destination": "/rules/lib/providers/XcodeProperties"
+    },
+    {
+      "source": "/rules/lib/XcodeVersionConfig",
+      "destination": "/rules/lib/providers/XcodeVersionConfig"
+    },
+    {
+      "source": "/rules/lib/file_provider",
+      "destination": "/rules/lib/providers/file_provider"
+    },
+    {
+      "source": "/rules/lib/java_compilation_info",
+      "destination": "/rules/lib/providers/java_compilation_info"
+    },
+    {
+      "source": "/rules/lib/java_output_jars",
+      "destination": "/rules/lib/providers/java_output_jars"
+    },
+    {
+      "source": "/rules/lib/apple_common",
+      "destination": "/rules/lib/toplevel/apple_common"
+    },
+    {
+      "source": "/rules/lib/attr",
+      "destination": "/rules/lib/toplevel/attr"
+    },
+    {
+      "source": "/rules/lib/cc_common",
+      "destination": "/rules/lib/toplevel/cc_common"
+    },
+    {
+      "source": "/rules/lib/cc_common_internal_do_not_use",
+      "destination": "/rules/lib/toplevel/cc_common_internal_do_not_use"
+    },
+    {
+      "source": "/rules/lib/cmd_helper",
+      "destination": "/rules/lib/toplevel/cmd_helper"
+    },
+    {
+      "source": "/rules/lib/config",
+      "destination": "/rules/lib/toplevel/config"
+    },
+    {
+      "source": "/rules/lib/config_common",
+      "destination": "/rules/lib/toplevel/config_common"
+    },
+    {
+      "source": "/rules/lib/coverage_common",
+      "destination": "/rules/lib/toplevel/coverage_common"
+    },
+    {
+      "source": "/rules/lib/java_common",
+      "destination": "/rules/lib/toplevel/java_common"
+    },
+    {
+      "source": "/rules/lib/native",
+      "destination": "/rules/lib/toplevel/native"
+    },
+    {
+      "source": "/rules/lib/platform_common",
+      "destination": "/rules/lib/toplevel/platform_common"
+    },
+    {
+      "source": "/rules/lib/proto",
+      "destination": "/rules/lib/toplevel/proto"
+    },
+    {
+      "source": "/rules/lib/proto_common",
+      "destination": "/rules/lib/toplevel/proto_common"
+    },
+    {
+      "source": "/rules/lib/testing",
+      "destination": "/rules/lib/toplevel/testing"
+    },
+    {
+      "source": "/blog/2015/07/23/tree-trimming.html",
+      "destination": "https://blog.bazel.build/2015/07/23/tree-trimming.html"
+    },
+    {
+      "source": "/blog/2015/07/28/docker_build.html",
+      "destination": "https://blog.bazel.build/2015/07/28/docker_build.html"
+    },
+    {
+      "source": "/blog/2017/02/27/protocol-buffers.html",
+      "destination": "https://blog.bazel.build/2017/02/27/protocol-buffers.html"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins",
+      "destination": "/versions/6.6.0/rules/lib/starlark-builtin"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core",
+      "destination": "/versions/6.6.0/rules/lib/starlark-core"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments",
+      "destination": "/versions/6.6.0/rules/lib/starlark-configuration-fragment"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers",
+      "destination": "/versions/6.6.0/rules/lib/starlark-provider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel",
+      "destination": "/versions/6.6.0/rules/lib/starlark-overview"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/Action",
+      "destination": "/versions/6.6.0/rules/lib/Action"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/Args",
+      "destination": "/versions/6.6.0/rules/lib/Args"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/Aspect",
+      "destination": "/versions/6.6.0/rules/lib/Aspect"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/Attribute",
+      "destination": "/versions/6.6.0/rules/lib/Attribute"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/BuildSetting",
+      "destination": "/versions/6.6.0/rules/lib/BuildSetting"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/CcCompilationOutputs",
+      "destination": "/versions/6.6.0/rules/lib/CcCompilationOutputs"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/CcLinkingOutputs",
+      "destination": "/versions/6.6.0/rules/lib/CcLinkingOutputs"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/CompilationContext",
+      "destination": "/versions/6.6.0/rules/lib/CompilationContext"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/DirectoryExpander",
+      "destination": "/versions/6.6.0/rules/lib/DirectoryExpander"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/DottedVersion",
+      "destination": "/versions/6.6.0/rules/lib/DottedVersion"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/ExecGroupCollection",
+      "destination": "/versions/6.6.0/rules/lib/ExecGroupCollection"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/ExecGroupContext",
+      "destination": "/versions/6.6.0/rules/lib/ExecGroupContext"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/ExecTransitionFactory",
+      "destination": "/versions/6.6.0/rules/lib/ExecTransitionFactory"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/FeatureConfiguration",
+      "destination": "/versions/6.6.0/rules/lib/FeatureConfiguration"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/File",
+      "destination": "/versions/6.6.0/rules/lib/File"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/Label",
+      "destination": "/versions/6.6.0/rules/lib/Label"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/LateBoundDefault",
+      "destination": "/versions/6.6.0/rules/lib/LateBoundDefault"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/LibraryToLink",
+      "destination": "/versions/6.6.0/rules/lib/LibraryToLink"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/License",
+      "destination": "/versions/6.6.0/rules/lib/License"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/LinkerInput",
+      "destination": "/versions/6.6.0/rules/lib/LinkerInput"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/LinkingContext",
+      "destination": "/versions/6.6.0/rules/lib/LinkingContext"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/Provider",
+      "destination": "/versions/6.6.0/rules/lib/Provider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/SymlinkEntry",
+      "destination": "/versions/6.6.0/rules/lib/SymlinkEntry"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/Target",
+      "destination": "/versions/6.6.0/rules/lib/Target"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/TemplateDict",
+      "destination": "/versions/6.6.0/rules/lib/TemplateDict"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/ToolchainContext",
+      "destination": "/versions/6.6.0/rules/lib/ToolchainContext"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/actions",
+      "destination": "/versions/6.6.0/rules/lib/actions"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/apple_platform",
+      "destination": "/versions/6.6.0/rules/lib/apple_platform"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/apple_platform_type",
+      "destination": "/versions/6.6.0/rules/lib/apple_platform_type"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/apple_toolchain",
+      "destination": "/versions/6.6.0/rules/lib/apple_toolchain"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/bazel_module",
+      "destination": "/versions/6.6.0/rules/lib/bazel_module"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/bazel_module_tags",
+      "destination": "/versions/6.6.0/rules/lib/bazel_module_tags"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/configuration",
+      "destination": "/versions/6.6.0/rules/lib/configuration"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/ctx",
+      "destination": "/versions/6.6.0/rules/lib/ctx"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/depset",
+      "destination": "/versions/6.6.0/rules/lib/depset"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/exec_result",
+      "destination": "/versions/6.6.0/rules/lib/exec_result"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/extension_metadata",
+      "destination": "/versions/6.6.0/rules/lib/extension_metadata"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/fragments",
+      "destination": "/versions/6.6.0/rules/lib/fragments"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/java_annotation_processing",
+      "destination": "/versions/6.6.0/rules/lib/java_annotation_processing"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/module_ctx",
+      "destination": "/versions/6.6.0/rules/lib/module_ctx"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/native_rule_transition",
+      "destination": "/versions/6.6.0/rules/lib/native_rule_transition"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/path",
+      "destination": "/versions/6.6.0/rules/lib/path"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/repository_ctx",
+      "destination": "/versions/6.6.0/rules/lib/repository_ctx"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/repository_os",
+      "destination": "/versions/6.6.0/rules/lib/repository_os"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/repository_rule",
+      "destination": "/versions/6.6.0/rules/lib/repository_rule"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/root",
+      "destination": "/versions/6.6.0/rules/lib/root"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/rule",
+      "destination": "/versions/6.6.0/rules/lib/rule"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/rule_attributes",
+      "destination": "/versions/6.6.0/rules/lib/rule_attributes"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/runfiles",
+      "destination": "/versions/6.6.0/rules/lib/runfiles"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/struct",
+      "destination": "/versions/6.6.0/rules/lib/struct"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/tag_class",
+      "destination": "/versions/6.6.0/rules/lib/tag_class"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/toolchain_type",
+      "destination": "/versions/6.6.0/rules/lib/toolchain_type"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/builtins/transition",
+      "destination": "/versions/6.6.0/rules/lib/transition"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/bool",
+      "destination": "/versions/6.6.0/rules/lib/bool"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/builtin_function_or_method",
+      "destination": "/versions/6.6.0/rules/lib/builtin_function_or_method"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/dict",
+      "destination": "/versions/6.6.0/rules/lib/dict"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/float",
+      "destination": "/versions/6.6.0/rules/lib/float"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/function",
+      "destination": "/versions/6.6.0/rules/lib/function"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/int",
+      "destination": "/versions/6.6.0/rules/lib/int"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/json",
+      "destination": "/versions/6.6.0/rules/lib/json"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/list",
+      "destination": "/versions/6.6.0/rules/lib/list"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/range",
+      "destination": "/versions/6.6.0/rules/lib/range"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/string",
+      "destination": "/versions/6.6.0/rules/lib/string"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/core/tuple",
+      "destination": "/versions/6.6.0/rules/lib/tuple"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/apple",
+      "destination": "/versions/6.6.0/rules/lib/apple"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/coverage",
+      "destination": "/versions/6.6.0/rules/lib/coverage"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/cpp",
+      "destination": "/versions/6.6.0/rules/lib/cpp"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/j2objc",
+      "destination": "/versions/6.6.0/rules/lib/j2objc"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/java",
+      "destination": "/versions/6.6.0/rules/lib/java"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/objc",
+      "destination": "/versions/6.6.0/rules/lib/objc"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/platform",
+      "destination": "/versions/6.6.0/rules/lib/platform"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/proto",
+      "destination": "/versions/6.6.0/rules/lib/proto"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/py",
+      "destination": "/versions/6.6.0/rules/lib/py"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/fragments/swift",
+      "destination": "/versions/6.6.0/rules/lib/swift"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/AnalysisTestResultInfo",
+      "destination": "/versions/6.6.0/rules/lib/AnalysisTestResultInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/AppleDebugOutputs",
+      "destination": "/versions/6.6.0/rules/lib/AppleDebugOutputs"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/AppleDynamicFramework",
+      "destination": "/versions/6.6.0/rules/lib/AppleDynamicFramework"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/AppleExecutableBinary",
+      "destination": "/versions/6.6.0/rules/lib/AppleExecutableBinary"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/BaselineProfileProvider",
+      "destination": "/versions/6.6.0/rules/lib/BaselineProfileProvider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/CcInfo",
+      "destination": "/versions/6.6.0/rules/lib/CcInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/CcToolchainConfigInfo",
+      "destination": "/versions/6.6.0/rules/lib/CcToolchainConfigInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/CcToolchainInfo",
+      "destination": "/versions/6.6.0/rules/lib/CcToolchainInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ConstraintCollection",
+      "destination": "/versions/6.6.0/rules/lib/ConstraintCollection"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ConstraintSettingInfo",
+      "destination": "/versions/6.6.0/rules/lib/ConstraintSettingInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ConstraintValueInfo",
+      "destination": "/versions/6.6.0/rules/lib/ConstraintValueInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/DebugPackageInfo",
+      "destination": "/versions/6.6.0/rules/lib/DebugPackageInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/DefaultInfo",
+      "destination": "/versions/6.6.0/rules/lib/DefaultInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ExecutionInfo",
+      "destination": "/versions/6.6.0/rules/lib/ExecutionInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/FeatureFlagInfo",
+      "destination": "/versions/6.6.0/rules/lib/FeatureFlagInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/FilesToRunProvider",
+      "destination": "/versions/6.6.0/rules/lib/FilesToRunProvider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/GeneratedExtensionRegistryProvider",
+      "destination": "/versions/6.6.0/rules/lib/GeneratedExtensionRegistryProvider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/IncompatiblePlatformProvider",
+      "destination": "/versions/6.6.0/rules/lib/IncompatiblePlatformProvider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/InstrumentedFilesInfo",
+      "destination": "/versions/6.6.0/rules/lib/InstrumentedFilesInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/JavaRuntimeInfo",
+      "destination": "/versions/6.6.0/rules/lib/JavaRuntimeInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/JavaToolchainInfo",
+      "destination": "/versions/6.6.0/rules/lib/JavaToolchainInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ObjcProvider",
+      "destination": "/versions/6.6.0/rules/lib/ObjcProvider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/OutputGroupInfo",
+      "destination": "/versions/6.6.0/rules/lib/OutputGroupInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/PackageSpecificationInfo",
+      "destination": "/versions/6.6.0/rules/lib/PackageSpecificationInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/PlatformInfo",
+      "destination": "/versions/6.6.0/rules/lib/PlatformInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ProguardSpecProvider",
+      "destination": "/versions/6.6.0/rules/lib/ProguardSpecProvider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ProtoRegistryProvider",
+      "destination": "/versions/6.6.0/rules/lib/ProtoRegistryProvider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/PyInfo",
+      "destination": "/versions/6.6.0/rules/lib/PyInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/PyRuntimeInfo",
+      "destination": "/versions/6.6.0/rules/lib/PyRuntimeInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/RunEnvironmentInfo",
+      "destination": "/versions/6.6.0/rules/lib/RunEnvironmentInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/TemplateVariableInfo",
+      "destination": "/versions/6.6.0/rules/lib/TemplateVariableInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ToolchainInfo",
+      "destination": "/versions/6.6.0/rules/lib/ToolchainInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/ToolchainTypeInfo",
+      "destination": "/versions/6.6.0/rules/lib/ToolchainTypeInfo"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/XcodeProperties",
+      "destination": "/versions/6.6.0/rules/lib/XcodeProperties"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/XcodeVersionConfig",
+      "destination": "/versions/6.6.0/rules/lib/XcodeVersionConfig"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/file_provider",
+      "destination": "/versions/6.6.0/rules/lib/file_provider"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/java_compilation_info",
+      "destination": "/versions/6.6.0/rules/lib/java_compilation_info"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/providers/java_output_jars",
+      "destination": "/versions/6.6.0/rules/lib/java_output_jars"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/apple_common",
+      "destination": "/versions/6.6.0/rules/lib/apple_common"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/attr",
+      "destination": "/versions/6.6.0/rules/lib/attr"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/cc_common",
+      "destination": "/versions/6.6.0/rules/lib/cc_common"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/config",
+      "destination": "/versions/6.6.0/rules/lib/config"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/config_common",
+      "destination": "/versions/6.6.0/rules/lib/config_common"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/coverage_common",
+      "destination": "/versions/6.6.0/rules/lib/coverage_common"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/java_common",
+      "destination": "/versions/6.6.0/rules/lib/java_common"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/native",
+      "destination": "/versions/6.6.0/rules/lib/native"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/platform_common",
+      "destination": "/versions/6.6.0/rules/lib/platform_common"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/proto",
+      "destination": "/versions/6.6.0/rules/lib/proto"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/proto_common",
+      "destination": "/versions/6.6.0/rules/lib/proto_common"
+    },
+    {
+      "source": "/versions/6.6.0/rules/lib/toplevel/testing",
+      "destination": "/versions/6.6.0/rules/lib/testing"
+    },
+    {
+      "source": "/versions/7.6.0/rules/aspects",
+      "destination": "/versions/7.6.0/extending/aspects"
+    },
+    {
+      "source": "/versions/8.0.0/rules/aspects",
+      "destination": "/versions/8.0.0/extending/aspects"
+    },
+    {
+      "source": "/versions/8.1.0/rules/aspects",
+      "destination": "/versions/8.1.0/extending/aspects"
+    },
+    {
+      "source": "/versions/8.2.0/rules/aspects",
+      "destination": "/versions/8.2.0/extending/aspects"
+    },
+    {
+      "source": "/versions/8.3.0/rules/aspects",
+      "destination": "/versions/8.3.0/extending/aspects"
+    },
+    {
+      "source": "/versions/8.4.0/rules/aspects",
+      "destination": "/versions/8.4.0/extending/aspects"
+    },
+    {
+      "source": "/versions/8.5.0/rules/aspects",
+      "destination": "/versions/8.5.0/extending/aspects"
+    },
+    {
+      "source": "/versions/8.6.0/rules/aspects",
+      "destination": "/versions/8.6.0/extending/aspects"
+    },
+    {
+      "source": "/versions/9.0.0/rules/aspects",
+      "destination": "/versions/9.0.0/extending/aspects"
+    },
+    {
+      "source": "/versions/9.1.0/rules/aspects",
+      "destination": "/versions/9.1.0/extending/aspects"
+    }
+  ]
 }
