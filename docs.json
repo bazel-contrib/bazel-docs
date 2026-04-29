@@ -268,10 +268,6 @@
       "destination": "/rules/lib/overview"
     },
     {
-      "source": "/rules/lib/string",
-      "destination": "/rules/lib/core/string"
-    },
-    {
       "source": "/versions/6.0.0/rules/lib/",
       "destination": "/versions/6.0.0/rules/lib/starlark-overview"
     },
@@ -876,10 +872,6 @@
       "destination": "/rules/lib/builtins/File"
     },
     {
-      "source": "/rules/lib/Label",
-      "destination": "/rules/lib/builtins/Label"
-    },
-    {
       "source": "/rules/lib/LateBoundDefault",
       "destination": "/rules/lib/builtins/LateBoundDefault"
     },
@@ -950,10 +942,6 @@
     {
       "source": "/rules/lib/configuration",
       "destination": "/rules/lib/builtins/configuration"
-    },
-    {
-      "source": "/rules/lib/ctx",
-      "destination": "/rules/lib/builtins/ctx"
     },
     {
       "source": "/rules/lib/depset",
@@ -1040,10 +1028,6 @@
       "destination": "/rules/lib/core/builtin_function_or_method"
     },
     {
-      "source": "/rules/lib/dict",
-      "destination": "/rules/lib/core/dict"
-    },
-    {
       "source": "/rules/lib/float",
       "destination": "/rules/lib/core/float"
     },
@@ -1106,10 +1090,6 @@
     {
       "source": "/rules/lib/platform",
       "destination": "/rules/lib/fragments/platform"
-    },
-    {
-      "source": "/rules/lib/proto",
-      "destination": "/rules/lib/fragments/proto"
     },
     {
       "source": "/rules/lib/py",
@@ -1306,10 +1286,6 @@
     {
       "source": "/rules/lib/apple_common",
       "destination": "/rules/lib/toplevel/apple_common"
-    },
-    {
-      "source": "/rules/lib/attr",
-      "destination": "/rules/lib/toplevel/attr"
     },
     {
       "source": "/rules/lib/cc_common",
