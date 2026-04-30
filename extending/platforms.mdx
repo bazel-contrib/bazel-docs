@@ -256,7 +256,8 @@ cc_library(
 
 You can use the
 [`IncompatiblePlatformProvider`](/rules/lib/providers/IncompatiblePlatformProvider)
-in `bazel cquery`'s [Starlark output format](/query/cquery#output-format-definition) to distinguish
+in `bazel cquery`'s [Starlark output
+format](/query/cquery#output-format-definition) to distinguish
 incompatible targets from compatible ones.
 
 This can be used to filter out incompatible targets. The example below will
@@ -277,4 +278,5 @@ $ bazel cquery //... --output=starlark --starlark:file=example.cquery
 
 ### Known Issues
 
-Incompatible targets [ignore visibility restrictions](https://github.com/bazelbuild/bazel/issues/16044).
+Incompatible targets [ignore visibility
+restrictions](https://github.com/bazelbuild/bazel/issues/16044).

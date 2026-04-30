@@ -51,7 +51,7 @@ Sets may be compared for equality or inequality using `==` and `!=`. A set
 `s` is equal to `t` if and only if `t` is a set containing the same
 elements; iteration order is not significant. In particular, a set is *not* equal to the list
 of its elements. Sets are not ordered with respect to other sets, and an attempt to compare two sets
-using `<`, `<=`, `>`, `>=`, or to sort a
+using `&lt;`, `&lt;=`, `&gt;`, `&gt;=`, or to sort a
 sequence of sets, will fail.
 
 ```
@@ -447,7 +447,7 @@ Returns a new mutable set containing the symmetric difference of this set with a
 hashable elements.
 
 If `s` and `t` are sets, `s.symmetric_difference_update(t)` is
-equivalent to `s ^= t`; however, note that the`^=` augmented assignment requires both
+equivalent to `s ^= t`; however, note that the` ^=` augmented assignment requires both
 sides to be sets, while the `symmetric_difference_update` method also accepts a sequence
 or a dict.
 
