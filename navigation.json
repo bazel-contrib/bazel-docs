@@ -87,14 +87,6 @@
           "$ref": "./navigation/7.7.en.json"
         }
       ]
-    },
-    {
-      "version": "6.5",
-      "languages": [
-        {
-          "$ref": "./navigation/6.5.en.json"
-        }
-      ]
     }
   ]
 }
