@@ -1470,15 +1470,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
 
-`--experimental_remote_downloader=<a string>` default: see description
-:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
-
-`--[no]experimental_remote_downloader_local_fallback` default: "false"
-:   Whether to fall back to the local downloader if remote downloader fails.
-
-`--[no]experimental_remote_downloader_propagate_credentials` default: "false"
-:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
-
 `--experimental_remote_failure_rate_threshold=<an integer in 0-100 range>` default: "10"
 :   Sets the allowed number of failure rate in percentage for a specific time window after which it stops calling to the remote cache/executor. By default the value is 10. Setting this to 0 means no limitation.
 
@@ -1558,8 +1549,17 @@ Remote caching and execution options:
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--remote_downloader=<a string>` default: see description
+:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
+
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
+
+`--[no]remote_downloader_local_fallback` default: "false"
+:   Whether to fall back to the local downloader if remote downloader fails.
+
+`--[no]remote_downloader_propagate_credentials` default: "false"
+:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
@@ -4434,15 +4434,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
 
-`--experimental_remote_downloader=<a string>` default: see description
-:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
-
-`--[no]experimental_remote_downloader_local_fallback` default: "false"
-:   Whether to fall back to the local downloader if remote downloader fails.
-
-`--[no]experimental_remote_downloader_propagate_credentials` default: "false"
-:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
-
 `--experimental_remote_failure_rate_threshold=<an integer in 0-100 range>` default: "10"
 :   Sets the allowed number of failure rate in percentage for a specific time window after which it stops calling to the remote cache/executor. By default the value is 10. Setting this to 0 means no limitation.
 
@@ -4522,8 +4513,17 @@ Remote caching and execution options:
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--remote_downloader=<a string>` default: see description
+:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
+
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
+
+`--[no]remote_downloader_local_fallback` default: "false"
+:   Whether to fall back to the local downloader if remote downloader fails.
+
+`--[no]remote_downloader_propagate_credentials` default: "false"
+:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
