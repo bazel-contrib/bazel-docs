@@ -1804,14 +1804,14 @@ Miscellaneous options, not otherwise categorized.:
 `--[no]show_timestamps` default: "false"
 :   Include timestamps in messages
 
-`--tls_certificate=<a string; empty to unset>` default: see description
-:   Specify a path to a TLS certificate that is trusted to sign server certificates. An empty value resets the flag to its default.
+`--tls_certificate=<a string>` default: see description
+:   Specify a path to a TLS certificate that is trusted to sign server certificates.
 
-`--tls_client_certificate=<a string; empty to unset>` default: see description
-:   Specify the TLS client certificate to use; you also need to provide a client key to enable client authentication. An empty value resets the flag to its default.
+`--tls_client_certificate=<a string>` default: see description
+:   Specify the TLS client certificate to use; you also need to provide a client key to enable client authentication.
 
-`--tls_client_key=<a string; empty to unset>` default: see description
-:   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication. An empty value resets the flag to its default.
+`--tls_client_key=<a string>` default: see description
+:   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication.
 
 `--ui_actions_shown=<an integer>` default: "8"
 :   Number of concurrent actions shown in the detailed progress bar; each action is shown on a separate line. The progress bar always shows at least one one, all numbers less than 1 are mapped to 1.
@@ -4586,12 +4586,6 @@ Remote caching and execution options:
 
 `--[no]remote_verify_downloads` default: "true"
 :   If set to true, Bazel will compute the hash sum of all remote downloads and discard the remotely cached values if they don't match the expected value.
-
-`--[no]rewind_lost_inputs` default: "false"
-:   Whether to use action rewinding to recover from lost inputs.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
 
 Miscellaneous options, not otherwise categorized.:
 
