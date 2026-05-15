@@ -1470,6 +1470,15 @@ Remote caching and execution options:
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
 
+`--experimental_remote_downloader=<a string>` default: see description
+:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
+
+`--[no]experimental_remote_downloader_local_fallback` default: "false"
+:   Whether to fall back to the local downloader if remote downloader fails.
+
+`--[no]experimental_remote_downloader_propagate_credentials` default: "false"
+:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
+
 `--experimental_remote_failure_rate_threshold=<an integer in 0-100 range>` default: "10"
 :   Sets the allowed number of failure rate in percentage for a specific time window after which it stops calling to the remote cache/executor. By default the value is 10. Setting this to 0 means no limitation.
 
@@ -1549,17 +1558,8 @@ Remote caching and execution options:
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--remote_downloader=<a string>` default: see description
-:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
-
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
-
-`--[no]remote_downloader_local_fallback` default: "false"
-:   Whether to fall back to the local downloader if remote downloader fails.
-
-`--[no]remote_downloader_propagate_credentials` default: "false"
-:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
@@ -1804,14 +1804,14 @@ Miscellaneous options, not otherwise categorized.:
 `--[no]show_timestamps` default: "false"
 :   Include timestamps in messages
 
-`--tls_certificate=<a string; empty to unset>` default: see description
-:   Specify a path to a TLS certificate that is trusted to sign server certificates. An empty value resets the flag to its default.
+`--tls_certificate=<a string>` default: see description
+:   Specify a path to a TLS certificate that is trusted to sign server certificates.
 
-`--tls_client_certificate=<a string; empty to unset>` default: see description
-:   Specify the TLS client certificate to use; you also need to provide a client key to enable client authentication. An empty value resets the flag to its default.
+`--tls_client_certificate=<a string>` default: see description
+:   Specify the TLS client certificate to use; you also need to provide a client key to enable client authentication.
 
-`--tls_client_key=<a string; empty to unset>` default: see description
-:   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication. An empty value resets the flag to its default.
+`--tls_client_key=<a string>` default: see description
+:   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication.
 
 `--ui_actions_shown=<an integer>` default: "8"
 :   Number of concurrent actions shown in the detailed progress bar; each action is shown on a separate line. The progress bar always shows at least one one, all numbers less than 1 are mapped to 1.
@@ -3397,6 +3397,9 @@ Miscellaneous options, not otherwise categorized.:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--j2objc_translation_flags=<comma-separated list of options>` multiple uses are accumulated
+:   Additional options to pass to the J2ObjC tool.
+
 `--java_debug`
 :   Causes the Java virtual machine of a java test to wait for a connection from a JDWP-compliant debugger (such as jdb) before starting the test. Implies -test_output=streamed.
 
@@ -4434,6 +4437,15 @@ Remote caching and execution options:
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
 
+`--experimental_remote_downloader=<a string>` default: see description
+:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
+
+`--[no]experimental_remote_downloader_local_fallback` default: "false"
+:   Whether to fall back to the local downloader if remote downloader fails.
+
+`--[no]experimental_remote_downloader_propagate_credentials` default: "false"
+:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
+
 `--experimental_remote_failure_rate_threshold=<an integer in 0-100 range>` default: "10"
 :   Sets the allowed number of failure rate in percentage for a specific time window after which it stops calling to the remote cache/executor. By default the value is 10. Setting this to 0 means no limitation.
 
@@ -4513,17 +4525,8 @@ Remote caching and execution options:
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--remote_downloader=<a string>` default: see description
-:   A Remote Asset API endpoint URI, to be used as a remote download proxy. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. See: https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/asset/v1/remote_asset.proto
-
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
-
-`--[no]remote_downloader_local_fallback` default: "false"
-:   Whether to fall back to the local downloader if remote downloader fails.
-
-`--[no]remote_downloader_propagate_credentials` default: "false"
-:   Whether to propagate credentials from netrc and credential helper to the remote downloader server. The server implementation needs to support the new `http_header_url:<url-index>:<header-key>` qualifier where the `<url-index>` is a 0-based position of the URL inside the FetchBlobRequest's `uris` field. The URL-specific headers should take precedence over the global headers.
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
@@ -4586,12 +4589,6 @@ Remote caching and execution options:
 
 `--[no]remote_verify_downloads` default: "true"
 :   If set to true, Bazel will compute the hash sum of all remote downloads and discard the remotely cached values if they don't match the expected value.
-
-`--[no]rewind_lost_inputs` default: "false"
-:   Whether to use action rewinding to recover from lost inputs.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
 
 Miscellaneous options, not otherwise categorized.:
 
@@ -6068,6 +6065,9 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--j2objc_translation_flags=<comma-separated list of options>` multiple uses are accumulated
+:   Additional options to pass to the J2ObjC tool.
 
 `--java_debug`
 :   Causes the Java virtual machine of a java test to wait for a connection from a JDWP-compliant debugger (such as jdb) before starting the test. Implies -test_output=streamed.
@@ -7880,6 +7880,9 @@ Miscellaneous options, not otherwise categorized.:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--j2objc_translation_flags=<comma-separated list of options>` multiple uses are accumulated
+:   Additional options to pass to the J2ObjC tool.
+
 `--java_debug`
 :   Causes the Java virtual machine of a java test to wait for a connection from a JDWP-compliant debugger (such as jdb) before starting the test. Implies -test_output=streamed.
 
@@ -9511,6 +9514,9 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--j2objc_translation_flags=<comma-separated list of options>` multiple uses are accumulated
+:   Additional options to pass to the J2ObjC tool.
 
 `--java_debug`
 :   Causes the Java virtual machine of a java test to wait for a connection from a JDWP-compliant debugger (such as jdb) before starting the test. Implies -test_output=streamed.
@@ -12501,6 +12507,9 @@ Miscellaneous options, not otherwise categorized.:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--j2objc_translation_flags=<comma-separated list of options>` multiple uses are accumulated
+:   Additional options to pass to the J2ObjC tool.
 
 `--java_debug`
 :   Causes the Java virtual machine of a java test to wait for a connection from a JDWP-compliant debugger (such as jdb) before starting the test. Implies -test_output=streamed.
