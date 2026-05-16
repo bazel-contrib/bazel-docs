@@ -601,6 +601,12 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_repository_ctx_wasm_compilation` default: "false"
+:   If true enables compilation of WebAssembly modules.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_sibling_repository_layout` default: "false"
 :   If set to true, non-main repositories are planted as symlinks to the main repository in the execution root. That is, all repositories are direct children of the $output_base/execution_root directory. This has the side effect of freeing up $output_base/execution_root/**main**/external for the real top-level 'external' directory.
 
