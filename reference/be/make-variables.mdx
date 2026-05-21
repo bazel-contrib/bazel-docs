@@ -100,8 +100,8 @@ generally important for making that attribute work.
 * `SRCS`: The `genrule`'s `srcs` list (or more
   precisely: the path names of the files corresponding to labels in the
   `srcs` list).
-  If you have only one source file, you can also use `$<`.
-* `<`: `SRCS`, if it is a single file. Else triggers
+  If you have only one source file, you can also use `$&lt;`.
+* `&lt;`: `SRCS`, if it is a single file. Else triggers
   a build error.
 * `@`: `OUTS`, if it is a single file. Else triggers a
   build error.
@@ -134,18 +134,18 @@ filenames contain spaces, `'`, or other special characters (or your
 genrule is part of a Starlark macro which downstream users may invoke on such
 files), then `$(SRCS)` and `$(OUTS)` are not suitable
 for interpolation into a command line, as they do not have the semantics that
-`"${@}"` would in Bash.
+`"$&lcub;@&rcub;"` would in Bash.
 
 One workaround is to convert to a Bash array, with
 
 ```
-mapfile SRCS <<< "$$(sed -e 's/ /\\n/g' <<'genrule_srcs_expansion'
+mapfile SRCS &lt;&lt;&lt; "$$(sed -e 's/ /\\n/g' &lt;&lt;'genrule_srcs_expansion'
 $(SRC)
 genrule_srcs_expansion
 )
 ```
 
-and then use `"$$\{SRCS[@]}"` in subsequent command lines in place
+and then use `"$$\&lcub;SRCS[@]&rcub;"` in subsequent command lines in place
 of `$(SRCS)`. A more robust option is to write a Starlark rule
 instead.
 
@@ -153,7 +153,8 @@ instead.
 
 The predefined variables `execpath`, `execpaths`,
 `rootpath`, `rootpaths`, `location`, and
-`locations` take label parameters (e.g. `$(execpath //foo:bar)`) and substitute the file paths denoted by that label.
+`locations` take label parameters (e.g. `$(execpath
+//foo:bar)`) and substitute the file paths denoted by that label.
 
 For source files, this is the path relative to your workspace root.
 For files that are outputs of rules, this is the file's *output path*
@@ -258,7 +259,8 @@ not care about.
 **C++ toolchain variables**
 
 The following are defined in C++ toolchain rules and available to any rule
-that sets `toolchains = ["@bazel_tools//tools/cpp:toolchain_type"]`
+that sets `toolchains =
+["@bazel_tools//tools/cpp:toolchain_type"]`
 Some rules, like `java_binary`, implicitly
 include the C++ toolchain in their rule definition. They inherit these variables
 automatically.
@@ -296,7 +298,8 @@ rare cases. If you are tempted to use them, please [contact the Bazel devs](http
 **Java toolchain variables**
 
 The following are defined in Java toolchain rules and available to any rule
-that sets `toolchains = ["@rules_java//toolchains:current_java_runtime"]` (or
+that sets `toolchains =
+["@rules_java//toolchains:current_java_runtime"]` (or
 `"@rules_java//toolchains:current_host_java_runtime"`
 for the host toolchain equivalent).
 

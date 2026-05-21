@@ -105,7 +105,7 @@ or opt in early depends on your specific value / cost needs:
   flags on the command line.
 * Simpler language design. All languages share a common API for defining
   toolchains, using toolchains, and selecting the right toolchain for a platform.
-* Targets can be [skipped](/versions/6.5.0/docs/platforms#skipping-incompatible-targets) in the
+* Targets can be [skipped](/docs/platforms#skipping-incompatible-targets) in the
   build and test phase if they are incompatible with the target platform.
 
 ### Costs
@@ -157,8 +157,10 @@ attributes declare a language's tools (like `compiler =
 this information to rules that need to build with these tools.
 
 Toolchains declare the `constraint_value`s of machines they can
-[target][target_compatible_with Attribute](`target_compatible_with = ["@platforms//os:linux"]`) and machines their tools can
-[run on][exec_compatible_with Attribute](`exec_compatible_with = ["@platforms//os:mac"]`).
+[target][target_compatible_with Attribute]
+(`target_compatible_with = ["@platforms//os:linux"]`) and machines their tools can
+[run on][exec_compatible_with Attribute]
+(`exec_compatible_with = ["@platforms//os:mac"]`).
 
 When building `$ bazel build //:myproject --platforms=//:myplatform`, Bazel
 automatically selects a toolchain that can run on the build machine and
@@ -263,7 +265,7 @@ Bazel's Java rules use platforms.
 This replaces legacy flags `--java_toolchain`, `--host_java_toolchain`,
 `--javabase`, and `--host_javabase`.
 
-To learn how to use the configuration flags, see the [Bazel and Java](/versions/6.5.0/docs/bazel-and-java) manual.
+To learn how to use the configuration flags, see the [Bazel and Java](/docs/bazel-and-java) manual.
 For additional information, see the [Design document](https://docs.google.com/document/d/1MVbBxbKVKRJJY7DnkptHpvz7ROhyAYy4a-TZ-n7Q0r4).
 
 If you are still using legacy flags, follow the migration process in [Issue #7849](https://github.com/bazelbuild/bazel/issues/7849).
@@ -281,7 +283,8 @@ Bazel's Apple rules do not yet support platforms to select Apple toolchains.
 
 They also don't support platform-enabled C++ dependencies because they use the
 legacy `--crosstool_top` to set the C++ toolchain. Until this is migrated, you
-can mix Apple projects with platorm-enabled C++ with [platform mappings](#platform-mappings)
+can mix Apple projects with platorm-enabled C++ with [platform
+mappings](#platform-mappings)
 ([example](https://github.com/bazelbuild/bazel/issues/8716#issuecomment-516572378)).
 
 ### Other languages {#other-languages}
@@ -294,7 +297,7 @@ platforms
 
 If you're designing rules for a new language, use platforms
 to select your language's toolchains. See the
-[toolchains documentation](/versions/6.5.0/docs/toolchains) for a good walkthrough.
+[toolchains documentation](/docs/toolchains) for a good walkthrough.
 
 ### `select()` {#select}
 
@@ -342,7 +345,8 @@ sets `--cpu`, `--crossstool_top`, or other legacy flags, rules that read
 
 When migrating your project to platforms, you must either convert changes like
 `return { "//command_line_option:cpu": "arm" }` to `return {
-"//command_line_option:platforms": "//:my_arm_platform" }` or use [platform mappings](#platform-mappings) to support both styles through the migration
+"//command_line_option:platforms": "//:my_arm_platform" }` or use [platform
+mappings](#platform-mappings) to support both styles through the migration
 window.
 
 ## How to use platforms today
@@ -355,7 +359,8 @@ If you're a project, language, or toolchain maintainer and your build doesn't
 use platforms by default, you have three options (besides waiting for the global
 migration):
 
-1. Flip on the "use platforms" flag for your project's languages ([if they have one](#status)) and do whatever testing you need to see if the projects you care
+1. Flip on the "use platforms" flag for your project's languages ([if they have
+   one](#status)) and do whatever testing you need to see if the projects you care
    about work.
 
 1. If the projects you care about still depend on legacy flags like `--cpu` and
