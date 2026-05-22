@@ -248,7 +248,7 @@ If `init` is specified, returns a tuple of 2 elements: a [`Provider`](../builtin
 | Parameter | Description |
 | --- | --- |
 | `doc` | [string](../core/string); or `None`; default is `None` |
-| `fields` | [sequence](../core/list) of [string](../core/string)s; or [dict](../core/dict); or `None`; default is `None`  If specified, restricts the set of allowed fields.  Possible values are:  * list of fields:     ```   provider(fields = ['a', 'b'])   ```     * dictionary field name -&gt; documentation:       ```     provider(            fields = { 'a' : 'Documentation for a', 'b' : 'Documentation for b' })     ```  All fields are optional. |
+| `fields` | [sequence](../core/list) of [string](../core/string)s; or [dict](../core/dict); or `None`; default is `None`  If specified, restricts the set of allowed fields.  Possible values are:  * list of fields:     ```   provider(fields = ['a', 'b'])   ```     * dictionary field name -&gt; documentation:       ```     provider(            fields = { 'a' : 'Documentation for a', 'b' : 'Documentation for b' })     ```  All fields are optional. It is *strongly recommended* to specify this parameter, as defining a field schema allows Bazel to store provider instances more compactly. |
 | `init` | callable; or `None`; default is `None` |
 
 ## repository_rule
