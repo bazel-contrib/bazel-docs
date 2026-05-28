@@ -601,6 +601,12 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_repository_ctx_wasm_compilation` default: "false"
+:   If true enables compilation of WebAssembly modules.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_sibling_repository_layout` default: "false"
 :   If set to true, non-main repositories are planted as symlinks to the main repository in the execution root. That is, all repositories are direct children of the $output_base/execution_root directory. This has the side effect of freeing up $output_base/execution_root/**main**/external for the real top-level 'external' directory.
 
@@ -1804,14 +1810,14 @@ Miscellaneous options, not otherwise categorized.:
 `--[no]show_timestamps` default: "false"
 :   Include timestamps in messages
 
-`--tls_certificate=<a string>` default: see description
-:   Specify a path to a TLS certificate that is trusted to sign server certificates.
+`--tls_certificate=<a string; empty to unset>` default: see description
+:   Specify a path to a TLS certificate that is trusted to sign server certificates. An empty value resets the flag to its default.
 
-`--tls_client_certificate=<a string>` default: see description
-:   Specify the TLS client certificate to use; you also need to provide a client key to enable client authentication.
+`--tls_client_certificate=<a string; empty to unset>` default: see description
+:   Specify the TLS client certificate to use; you also need to provide a client key to enable client authentication. An empty value resets the flag to its default.
 
-`--tls_client_key=<a string>` default: see description
-:   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication.
+`--tls_client_key=<a string; empty to unset>` default: see description
+:   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication. An empty value resets the flag to its default.
 
 `--ui_actions_shown=<an integer>` default: "8"
 :   Number of concurrent actions shown in the detailed progress bar; each action is shown on a separate line. The progress bar always shows at least one one, all numbers less than 1 are mapped to 1.
@@ -4301,12 +4307,6 @@ Options that affect the verbosity, format or location of logging:
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--remote_analysis_json_log=<a string>` default: see description
-:   If set, a JSON file is written to this location that contains a detailed log of the behavior of remote analysis caching. It's interpreted as a path relative to the current working directory.
-
-    Tags:
-    [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
-
 `--remote_print_execution_messages=<failure, success or all>` default: "failure"
 :   Choose when to print remote execution messages. Valid values are `failure`, to print only on failures, `success` to print only on successes and `all` to print always.
 
@@ -4586,6 +4586,12 @@ Remote caching and execution options:
 
 `--[no]remote_verify_downloads` default: "true"
 :   If set to true, Bazel will compute the hash sum of all remote downloads and discard the remotely cached values if they don't match the expected value.
+
+`--[no]rewind_lost_inputs` default: "false"
+:   Whether to use action rewinding to recover from lost inputs.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
 
 Miscellaneous options, not otherwise categorized.:
 
