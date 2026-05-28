@@ -5,6 +5,17 @@ mode: custom
 ---
 
 <div class="w-11/12 mx-auto px-6 py-8">
+
+<div class="flex items-center py-16 px-12 rounded-lg text-white" style={{background: "linear-gradient(180deg, #0c713a 0%, #1e431e 100%)"}}>
+  <div class="flex-1 text-left">
+    <div class="text-5xl font-medium">{`{ Fast, Correct }: Choose two`}</div>
+    <div class="text-lg mt-3 opacity-90">From startup to enterprise, choose the Bazel open source project to build and test your multi-language, multi-platform projects.</div>
+    <a href="/install" class="inline-block mt-6 px-6 py-3 bg-white text-green-800 font-semibold rounded-md hover:bg-gray-100">Install Bazel</a>
+  </div>
+  <div class="flex-1 flex justify-end">
+    <img src="/images/bazel_hero.svg" alt="Bazel" class="w-80" />
+  </div>
+</div>
 <div class="bg-gradient-to-r from-green-600 to-green-800 p-6 rounded-lg">
 <Columns cols={4}>
   <Card
@@ -44,31 +55,26 @@ Essential Bazel
 
 Build and test software of any size, quickly and reliably. Industry leaders like Google, Stripe, and Dropbox trust Bazel to build heavy-duty, mission-critical infrastructure, services, and applications.
 
-<Columns cols={3}>
+<Columns cols={4}>
 
-<Card title="Get started" cta="Get Started" img="/images/essential_start.svg">
+<Card title="Get started" href="/start/cpp" cta="Get Started" img="/images/essential_start.svg">
 Learn what Bazel is, why it is a good choice for your project, and how you can get started using it quickly.
 </Card>
-<Card title="User's guide" cta="Read the docs" img="/images/essential_guide.svg">
+<Card title="User's guide" href="/release/index" cta="Read the docs" img="/images/essential_guide.svg">
 Learn how to use Bazel with documentation and tutorials covering topics from foundational to expert.
 
 </Card>
-<Card title="Reference guide" cta="Search the guide" img="/images/essential_reference.svg">
+
+<Card title="Query quickstart tutorial" href="/query/quickstart" cta="Write a basic query" img="/images/new_2.svg">
+Get started with the Bazel query language with this new guided scenario.
+
+</Card>
+<Card title="Reference guide" href="/reference/be/overview" cta="Search the guide" img="/images/essential_reference.svg">
 Use these resources to efficiently look up the commands, queries, and terminology necessary to working with Bazel.
 
 </Card>
 
-
 </Columns>
-
-
-<div className="justify-items-center">
-<div className="max-w-96">
-<Card title="Release Notes" img="/images/release_notes.svg" cta="View notes" link="https://github.com/bazelbuild/bazel/releases/latest">
-Bazel is always evolving — check the release notes to see what's changed in the latest releases, and how that affects your builds.
-</Card>
-</div>
-</div>
 
 <div className="text-2xl">
 What's New?
@@ -77,14 +83,14 @@ What's New?
 Catch up on the latest documentation, community events, and programs.
 <Columns cols={3}>
 
-<Card title="Roadmap" img="/images/new_1.svg" href="/about/roadmap">
-Read our new public roadmap to see what is coming down the pipeline.
+<Card title="Release notes" img="/images/release_notes.svg" href="https://github.com/bazelbuild/bazel/releases/latest">
+Bazel is always evolving — check the release notes to see what's changed in the latest releases, and how that affects your builds.
 </Card>
-<Card title="Community updates" img="/images/new_3.svg" href="/community/update">
+<Card title="Community updates" img="/images/new_3.svg" href="/community/users">
 Tune in for our new monthly community update livestream.
 </Card>
-<Card title="Query quickstart tutorial" img="/images/new_2.svg" href="/query/quickstart">
-Get started with the Bazel query language with this new guided scenario.
+<Card title="Roadmap" img="/images/new_1.svg" href="/about/roadmap">
+Read our new public roadmap to see what is coming down the pipeline.
 </Card>
 
 
