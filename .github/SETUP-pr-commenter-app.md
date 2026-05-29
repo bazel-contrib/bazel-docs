@@ -30,14 +30,21 @@ Settings → Developer settings → GitHub Apps → **New GitHub App**.
 
 | Permission | Access | Why |
 |---|---|---|
-| **Pull requests** | **Read and write** | List open PRs, read changed files for the parse-error filter, read PR state during cleanup, and post/update the preview comment (a PR conversation comment is governed by the Pull requests permission) |
+| **Issues** | **Read and write** | Post and update the preview comment. A PR conversation comment is created via the REST issue-comments endpoint (`POST /repos/{o}/{r}/issues/{n}/comments`), which GitHub's fine-grained permissions reference lists under **Issues** — not Pull requests. The `read` half lets the workflow find an existing comment to update. |
 | Metadata | Read-only | Mandatory; auto-selected |
 
-Nothing else. No `contents`, no `issues`, no org permissions, no account permissions.
+Nothing else. No `contents`, no `pull requests`, no org permissions, no account permissions.
 
-> Fallback: if a comment `POST` ever returns `403`, GitHub is treating that endpoint as
-> requiring `Issues: write` for that target. Add **Issues: Read and write** and have the
-> installation re-approve the expanded scope. Start with Pull-requests-only.
+> **Why not "Pull requests"?** The App token only ever calls the issue-comments
+> endpoints. Every `/pulls/*` read in the workflow (list open PRs, read changed files,
+> read PR state during cleanup) runs on the bazel-docs repo's own `GITHUB_TOKEN`, which
+> can read any public repo — confirmed in production: the cron has been doing exactly
+> these cross-repo reads with `github.token` since the PAT was retired. So the App needs
+> no Pull-requests access at all.
+>
+> Note the asymmetry in GitHub's reference: *updating* or *listing* issue comments can
+> use either Issues or Pull requests, but *creating* one is listed only under Issues. The
+> first comment on a PR is a create, so `Issues: write` is the load-bearing permission.
 
 Click **Create GitHub App**.
 
@@ -67,7 +74,7 @@ request to the org owners automatically.
 
 Use the template in [Appendix A](#appendix-a--maintainer-request-template) to ask.
 
-Confirm the install grants exactly **Pull requests: Read and write** on
+Confirm the install grants exactly **Issues: Read and write** on
 **`bazelbuild/bazel` only**.
 
 ## Step 4 — Verify
@@ -102,8 +109,9 @@ settings. The workflow no longer references it.
 > Could an org owner install our GitHub App **"Bazel Docs PR Commenter"** (owned by the
 > `bazel-contrib` org) on **`bazelbuild/bazel` only**, with a single permission:
 >
-> - **Pull requests: Read and write** — read open PRs + changed files, post/update the
->   preview comment.
+> - **Issues: Read and write** — post/update the preview comment (a PR conversation
+>   comment is created via the issue-comments REST endpoint, which is governed by the
+>   Issues permission).
 >
-> No contents, issues, or org-level access. No webhooks. Install link: <App "Install"
-> page URL>. Tracking issue: bazel-contrib/bazel-docs#400. Thanks!
+> No contents, pull-requests, or org-level access. No webhooks. Install link: <App
+> "Install" page URL>. Tracking issue: bazel-contrib/bazel-docs#400. Thanks!

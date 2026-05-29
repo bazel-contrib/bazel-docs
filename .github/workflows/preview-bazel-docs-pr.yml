@@ -104,9 +104,10 @@ jobs:
         id: upstream-token
         # Posting comments on bazelbuild/bazel requires a token from the dedicated
         # "Bazel Docs PR Commenter" GitHub App, installed on bazelbuild/bazel with
-        # Pull requests: read & write. Until a bazelbuild org owner approves that
-        # installation (or if the secrets are unset), this step fails and the
-        # comment step below degrades gracefully.
+        # Issues: read & write (a PR conversation comment is created via the
+        # issue-comments REST endpoint, which is governed by the Issues permission).
+        # Until a bazelbuild org owner approves that installation (or if the secrets
+        # are unset), this step fails and the comment step below degrades gracefully.
         # See https://github.com/bazel-contrib/bazel-docs/issues/400
         continue-on-error: true
         uses: actions/create-github-app-token@v3
