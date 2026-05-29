@@ -342,7 +342,7 @@ Note that attempting to watch paths inside the repo currently being fetched, or 
 ## watch_tree
 
 ```
-None repository_ctx.watch_tree(path)
+None repository_ctx.watch_tree(path, *, exclude=[])
 ```
 
 Tells Bazel to watch for changes to any files or directories transitively under the given path. Any changes to the contents of files, the existence of files or directories, file names or directory names, will cause this repo to be refetched.
@@ -354,6 +354,7 @@ Note that attempting to watch paths inside the repo currently being fetched will
 | Parameter | Description |
 | --- | --- |
 | `path` | [string](../core/string); or [Label](../builtins/Label); or [path](../builtins/path); required  Path of the directory tree to watch. |
+| `exclude` | [sequence](../core/list) of [string](../core/string)s; default is `[]`  Glob patterns to exclude from watching. The patterns provided here will be joined with `path` to create the full glob pattern that will be matched against. Eg. if `path` was `/example/path` and `exclude` was `[".ignore/**", "scratchFile"]`, then the glob pattern that would be excluded would be: `/example/path/.ignore/**` and `/example/patch/scratchFile`. |
 
 ## which
 
