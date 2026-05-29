@@ -19,7 +19,7 @@ The user should be familiar with the concepts explained [here](/extending/platfo
 [View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintSettingRule.java)
 
 ```
-constraint_setting(name, aspect_hints, default_constraint_value, deprecation, features, licenses, tags, testonly, visibility)
+constraint_setting(name, aspect_hints, default_constraint_value, deprecation, features, licenses, refines_constraint_value, tags, testonly, visibility)
 ```
 
 This rule is used to introduce a new constraint type for which a platform may specify a value.
@@ -40,6 +40,7 @@ define a platform targeting an obscure cpu architecture.
 | --- | --- |
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
 | `default_constraint_value` | [Name](/concepts/labels#target-names); [nonconfigurable](common-definitions#configurable-attributes); default is `None` The label of the default value for this setting, to be used if no value is given. If this attribute is present, the `constraint_value` it points to must be defined in the same package as this `constraint_setting`. If a constraint setting has a default value, then whenever a platform does not include any constraint value for that setting, it is the same as if the platform had specified the default value. Otherwise, if there is no default value, the constraint setting is considered to be unspecified by that platform. In that case, the platform would not match against any constraint list (such as for a `config_setting`) that requires a particular value for that setting. |
+| `refines_constraint_value` | [Label](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); default is `None` The label of a `constraint_value` that this setting refines. If set, any `platform` that specifies a non-default `constraint_value` for this setting must also specify the refined `constraint_value` in its `constraint_values` attribute. Platforms that resolve to the default `constraint_value` for this setting (either implicitly via `default_constraint_value` or explicitly) are exempt from this requirement. When both the refined `constraint_value` and a `constraint_value` for this setting appear as conditions in the same `select` and both are satisfied, the condition that includes the refining `constraint_value` is considered more specific and is chosen unambiguously. |
 
 ## constraint_value
 
