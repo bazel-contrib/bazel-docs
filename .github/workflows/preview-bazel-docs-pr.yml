@@ -30,7 +30,8 @@ jobs:
       - name: Fetch recent PRs
         id: fetch-prs
         env:
-          GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT || github.token }}
+          # bazelbuild/bazel is public, so the repo's own github.token can read PRs.
+          GH_TOKEN: ${{ github.token }}
           PR_NUMBER_OVERRIDE: ${{ inputs.pr_number || '' }}
         run: |
           set -euo pipefail
@@ -99,6 +100,22 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.list-prs.outputs.matrix || '[]') }}
     steps:
+      - name: Mint upstream comment token
+        id: upstream-token
+        # Posting comments on bazelbuild/bazel requires a token from the dedicated
+        # "Bazel Docs PR Commenter" GitHub App, installed on bazelbuild/bazel with
+        # Pull requests: read & write. Until a bazelbuild org owner approves that
+        # installation (or if the secrets are unset), this step fails and the
+        # comment step below degrades gracefully.
+        # See https://github.com/bazel-contrib/bazel-docs/issues/400
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.BAZEL_PR_COMMENTER_APP_ID }}
+          private-key: ${{ secrets.BAZEL_PR_COMMENTER_PRIVATE_KEY }}
+          owner: bazelbuild
+          repositories: bazel
+
       - name: Wait for Mintlify deployment
         id: mintlify
         env:
@@ -164,9 +181,9 @@ jobs:
       - name: Post or update preview comment
         if: ${{ steps.mintlify.outputs.conclusion != 'skipped' }}
         env:
-          # BAZELBUILD_BAZEL_PAT is required to post comments on bazelbuild/bazel PRs.
-          # github.token is used as a fallback for read-only access to this repo.
-          GH_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT }}
+          # Installation token for the "Bazel Docs PR Commenter" GitHub App, scoped
+          # to bazelbuild/bazel. Empty if the App isn't installed yet — handled below.
+          GH_TOKEN: ${{ steps.upstream-token.outputs.token }}
           PREVIEW_URL: https://bazel-${{ matrix.preview_branch }}.mintlify.app/
           PR_NUMBER: ${{ matrix.number }}
           HEAD_SHA: ${{ matrix.head_sha }}
@@ -178,7 +195,7 @@ jobs:
           marker="<!-- bazel-docs-preview -->"
 
           if [[ -z "${GH_TOKEN}" ]]; then
-            echo "BAZELBUILD_BAZEL_PAT secret is not configured — skipping comment on upstream PR."
+            echo "Bazel Docs PR Commenter App token unavailable (App not yet installed on bazelbuild/bazel, or secrets unset) — skipping comment on upstream PR."
             echo "Preview URL that would have been posted: ${PREVIEW_URL}"
             if [[ -n "${PARSE_ERRORS}" ]]; then
               echo "Parse errors in changed files that would have been reported:"
@@ -249,7 +266,8 @@ jobs:
       - name: Close draft PRs and delete branches for merged/closed upstream PRs
         env:
           GH_TOKEN: ${{ github.token }}
-          BAZELBUILD_TOKEN: ${{ secrets.BAZELBUILD_BAZEL_PAT || github.token }}
+          # bazelbuild/bazel is public; reading upstream PR state needs no elevated token.
+          BAZELBUILD_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 

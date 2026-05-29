@@ -2,3 +2,6 @@
 
 # Context folder
 .context/
+
+# Never commit private keys
+*.pem
