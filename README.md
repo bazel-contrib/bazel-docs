@@ -35,8 +35,17 @@ The preview workflow (`preview-bazel-docs-pr.yml`) polls `bazelbuild/bazel` ever
 |---|---|---|
 | `GH_APP_ID` | GitHub App ID used to push branches to this repo | `bazel-contrib/bazel-docs` |
 | `GH_APP_PRIVATE_KEY` | Private key for the GitHub App above | `bazel-contrib/bazel-docs` |
-| `BAZELBUILD_BAZEL_PAT` | Personal Access Token with `pull_requests: write` permission | `bazelbuild/bazel` |
+| `BAZEL_PR_COMMENTER_APP_ID` | App ID of the "Bazel Docs PR Commenter" GitHub App used to post preview comments | `bazelbuild/bazel` |
+| `BAZEL_PR_COMMENTER_PRIVATE_KEY` | Private key for the "Bazel Docs PR Commenter" App | `bazelbuild/bazel` |
 | `BUILDBUDDY_ORG_API_KEY` | BuildBuddy API key for remote caching during `bazel build` | BuildBuddy org |
+
+Posting preview comments on `bazelbuild/bazel` is done with a dedicated, least-privilege
+GitHub App ("Bazel Docs PR Commenter") rather than a personal access token (PATs are tied
+to a human and are discouraged for service accounts). The App needs only `Issues: read &
+write` on `bazelbuild/bazel` (a PR conversation comment is created via the issue-comments
+REST endpoint), and must be installed on that repo by a Bazel org owner. Until the
+installation is approved, previews still build and the comment step skips gracefully (it
+logs the URL it would have posted).
 
 ### Mintlify Configuration
 
