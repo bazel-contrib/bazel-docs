@@ -1358,7 +1358,7 @@ Options that affect the verbosity, format or location of logging:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--[no]slim_profile` default: "true"
-:   Slims down the size of the JSON profile by merging events if the profile gets too large.
+:   Slims down the size of the JSON profile by merging events if the profile gets too large. Supports boolean values or a size in bytes (e.g. 5M) to start slimming after the profile exceeds that size.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
