@@ -1358,7 +1358,7 @@ Options that affect the verbosity, format or location of logging:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--[no]slim_profile` default: "true"
-:   Slims down the size of the JSON profile by merging events if the profile gets too large. Supports boolean values or a size in bytes (e.g. 5M) to start slimming after the profile exceeds that size.
+:   Slims down the size of the JSON profile by merging events if the profile gets too large.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
@@ -2371,6 +2371,18 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--ios_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the iOS SDK to use to build iOS applications. If unspecified, uses the default iOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--macos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the macOS SDK to use to build macOS applications. If unspecified, uses the default macOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--minimum_os_version=<a string>` default: see description
 :   The minimum OS version which your compilation targets.
 
@@ -2391,6 +2403,24 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--tvos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the tvOS SDK to use to build tvOS applications. If unspecified, uses the default tvOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--watchos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the watchOS SDK to use to build watchOS applications. If unspecified, uses the default watchOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -3071,6 +3101,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
 `--experimental_strict_java_deps=<off, warn, error, strict or default>` default: "default"
 :   If true, checks that a Java target explicitly declares all directly used targets as dependencies.
+
+    Tags:
+    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
+
+`--experimental_unused_deps=<off, warn, error, strict or default>` default: "off"
+:   Checks that a Java target does not declare any unused direct dependencies.
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
@@ -4149,12 +4185,6 @@ Options that affect the verbosity, format or location of logging:
 
 `--[no]debug_spawn_scheduler` default: "false"
 
-`--[no]expand_param_files` default: "false"
-:   When displaying subcommands (--subcommands) or printing the command line of a failed action (--verbose_failures), expand the contents of param files. When enabled, param file references like @path/to/param_file are replaced with the actual arguments they contain.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-
 `--[no]experimental_bep_target_summary` default: "false"
 :   Whether to publish `TargetSummary` events.
 
@@ -5013,6 +5043,18 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--ios_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the iOS SDK to use to build iOS applications. If unspecified, uses the default iOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--macos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the macOS SDK to use to build macOS applications. If unspecified, uses the default macOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--minimum_os_version=<a string>` default: see description
 :   The minimum OS version which your compilation targets.
 
@@ -5033,6 +5075,24 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--tvos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the tvOS SDK to use to build tvOS applications. If unspecified, uses the default tvOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--watchos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the watchOS SDK to use to build watchOS applications. If unspecified, uses the default watchOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -5713,6 +5773,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
 `--experimental_strict_java_deps=<off, warn, error, strict or default>` default: "default"
 :   If true, checks that a Java target explicitly declares all directly used targets as dependencies.
+
+    Tags:
+    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
+
+`--experimental_unused_deps=<off, warn, error, strict or default>` default: "off"
+:   Checks that a Java target does not declare any unused direct dependencies.
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
@@ -6794,6 +6860,18 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--ios_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the iOS SDK to use to build iOS applications. If unspecified, uses the default iOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--macos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the macOS SDK to use to build macOS applications. If unspecified, uses the default macOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--minimum_os_version=<a string>` default: see description
 :   The minimum OS version which your compilation targets.
 
@@ -6814,6 +6892,24 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--tvos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the tvOS SDK to use to build tvOS applications. If unspecified, uses the default tvOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--watchos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the watchOS SDK to use to build watchOS applications. If unspecified, uses the default watchOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -7494,6 +7590,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
 `--experimental_strict_java_deps=<off, warn, error, strict or default>` default: "default"
 :   If true, checks that a Java target explicitly declares all directly used targets as dependencies.
+
+    Tags:
+    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
+
+`--experimental_unused_deps=<off, warn, error, strict or default>` default: "off"
+:   Checks that a Java target does not declare any unused direct dependencies.
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
@@ -8396,6 +8498,18 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--ios_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the iOS SDK to use to build iOS applications. If unspecified, uses the default iOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--macos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the macOS SDK to use to build macOS applications. If unspecified, uses the default macOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--minimum_os_version=<a string>` default: see description
 :   The minimum OS version which your compilation targets.
 
@@ -8416,6 +8530,24 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--tvos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the tvOS SDK to use to build tvOS applications. If unspecified, uses the default tvOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--watchos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the watchOS SDK to use to build watchOS applications. If unspecified, uses the default watchOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -9096,6 +9228,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
 `--experimental_strict_java_deps=<off, warn, error, strict or default>` default: "default"
 :   If true, checks that a Java target explicitly declares all directly used targets as dependencies.
+
+    Tags:
+    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
+
+`--experimental_unused_deps=<off, warn, error, strict or default>` default: "off"
+:   Checks that a Java target does not declare any unused direct dependencies.
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
@@ -11356,6 +11494,18 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--ios_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the iOS SDK to use to build iOS applications. If unspecified, uses the default iOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--macos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the macOS SDK to use to build macOS applications. If unspecified, uses the default macOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
 `--minimum_os_version=<a string>` default: see description
 :   The minimum OS version which your compilation targets.
 
@@ -11376,6 +11526,24 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--tvos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the tvOS SDK to use to build tvOS applications. If unspecified, uses the default tvOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--watchos_sdk_version=<a dotted version (for example '2.3' or '3.3alpha2.4')>` default: see description
+:   Specifies the version of the watchOS SDK to use to build watchOS applications. If unspecified, uses the default watchOS SDK version from 'xcode_version'.
+
+    Tags:
+    [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -12056,6 +12224,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
 `--experimental_strict_java_deps=<off, warn, error, strict or default>` default: "default"
 :   If true, checks that a Java target explicitly declares all directly used targets as dependencies.
+
+    Tags:
+    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
+
+`--experimental_unused_deps=<off, warn, error, strict or default>` default: "off"
+:   Checks that a Java target does not declare any unused direct dependencies.
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
