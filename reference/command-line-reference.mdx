@@ -1763,6 +1763,27 @@ Miscellaneous options, not otherwise categorized.:
     granularity; it is an error to set a value less than one second. If keep-alive
     pings are disabled, then this setting is ignored.
 
+`--[no]grpc_tcp_keepalive` default: "true"
+:   Whether to enable TCP keep-alive (the SO_KEEPALIVE socket option) for outgoing gRPC
+    connections. This operates at the transport layer and is independent of the
+    application-level keep-alive pings configured with `--grpc_keepalive_time`. When enabled,
+    the keep-alive behavior is controlled by `--grpc_tcp_keepalive_time`,
+    `--grpc_tcp_keepalive_interval` and `--grpc_tcp_keepalive_count`.
+
+`--grpc_tcp_keepalive_count=<an integer>` default: "3"
+:   When `--grpc_tcp_keepalive` is enabled, the number of unacknowledged TCP keep-alive probes
+    to send before considering the connection dead (TCP_KEEPCNT). Has no effect if TCP
+    keep-alive is disabled.
+
+`--grpc_tcp_keepalive_interval=<An immutable length of time.>` default: "10s"
+:   When `--grpc_tcp_keepalive` is enabled, the amount of time between successive TCP
+    keep-alive probes (TCP_KEEPINTVL). Has no effect if TCP keep-alive is disabled.
+
+`--grpc_tcp_keepalive_time=<An immutable length of time.>` default: "60s"
+:   When `--grpc_tcp_keepalive` is enabled, the amount of idle time on a gRPC connection
+    before the first TCP keep-alive probe is sent (TCP_KEEPIDLE). Has no effect if TCP
+    keep-alive is disabled.
+
 `--[no]incompatible_disable_non_executable_java_binary` default: "false"
 :   If true, java_binary is always executable. create_executable attribute is removed.
 
