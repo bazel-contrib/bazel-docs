@@ -153,7 +153,8 @@ instead.
 
 The predefined variables `execpath`, `execpaths`,
 `rootpath`, `rootpaths`, `location`, and
-`locations` take label parameters (e.g. `$(execpath //foo:bar)`) and substitute the file paths denoted by that label.
+`locations` take label parameters (e.g. `$(execpath
+//foo:bar)`) and substitute the file paths denoted by that label.
 
 For source files, this is the path relative to your workspace root.
 For files that are outputs of rules, this is the file's *output path*
@@ -258,7 +259,8 @@ not care about.
 **C++ toolchain variables**
 
 The following are defined in C++ toolchain rules and available to any rule
-that sets `toolchains = ["@bazel_tools//tools/cpp:toolchain_type"]`
+that sets `toolchains =
+["@bazel_tools//tools/cpp:toolchain_type"]`
 Some rules, like `java_binary`, implicitly
 include the C++ toolchain in their rule definition. They inherit these variables
 automatically.
@@ -296,7 +298,8 @@ rare cases. If you are tempted to use them, please [contact the Bazel devs](http
 **Java toolchain variables**
 
 The following are defined in Java toolchain rules and available to any rule
-that sets `toolchains = ["@rules_java//toolchains:current_java_runtime"]` (or
+that sets `toolchains =
+["@rules_java//toolchains:current_java_runtime"]` (or
 `"@rules_java//toolchains:current_host_java_runtime"`
 for the host toolchain equivalent).
 

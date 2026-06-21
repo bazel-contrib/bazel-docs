@@ -1,5 +1,5 @@
 ---
-title: 'rule_attributes'
+title: 'rule\_attributes'
 ---
 
 Information about attributes of a rule an aspect is applied to.
@@ -7,7 +7,7 @@ Information about attributes of a rule an aspect is applied to.
 ## Members
 
 * [attr](#attr)
-* [exec_groups](#exec_groups)
+* [exec\_groups](#exec_groups)
 * [executable](#executable)
 * [file](#file)
 * [files](#files)
@@ -23,7 +23,7 @@ struct rule_attributes.attr
 
 A struct to access the values of the [attributes](https://bazel.build/extending/rules#attributes). The values are provided by the user (if not, a default value is used). The attributes of the struct and the types of their values correspond to the keys and values of the [`attrs` dict](../globals/bzl#rule.attrs) provided to the [`rule` function](../globals/bzl#rule). [See example of use](https://github.com/bazelbuild/examples/blob/main/rules/attributes/printer.bzl).
 
-## exec_groups
+## exec\_groups
 
 ```
 ExecGroupCollection rule_attributes.exec_groups
@@ -73,7 +73,7 @@ In other words, use `files` to access the  [default outputs](https://bazel.build
 string rule_attributes.kind
 ```
 
-The kind of a rule, such as 'cc_library'
+The kind of a rule, such as 'cc\_library'
 
 ## toolchains
 
