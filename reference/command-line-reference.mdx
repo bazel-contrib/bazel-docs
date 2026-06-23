@@ -3652,7 +3652,7 @@ Options that control build execution:
     [`execution`](#effect_tag_EXECUTION)
 
 `--experimental_sandbox_limits=<a named double, 'name=value', where value is an integer, or a keyword ("HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "HOST_CPUS", "HOST_CPUS*.5">` multiple uses are accumulated
-:   If &gt; 0, each Linux sandbox will be limited to the given amount for the specified resource. Requires --incompatible_use_new_cgroup_implementation and overrides --experimental_sandbox_memory_limit_mb. Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
+:   If &gt; 0, each Linux sandbox will be limited to the given amount for the specified resource. This overrides --experimental_sandbox_memory_limit_mb. Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -3743,12 +3743,6 @@ Options that control build execution:
 
 `--genrule_strategy=<comma-separated list of options>` default: ""
 :   Specify how to execute genrules. This flag will be phased out. Instead, use --spawn_strategy=&lt;value&gt; to control all actions or --strategy=Genrule=&lt;value&gt; to control genrules only.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
-`--[no]incompatible_use_new_cgroup_implementation` default: "true"
-:   If true, use the new implementation for cgroups. The old implementation only supports the memory controller and ignores the value of --experimental_sandbox_limits.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
