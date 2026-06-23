@@ -794,12 +794,6 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_stop_exporting_language_modules` default: "false"
-:   If enabled, certain language-specific modules (such as `cc_common`) are unavailable in user .bzl files and may only be called from their respective rules repositories.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_unambiguous_label_stringification` default: "true"
 :   When true, Bazel will stringify the label @//foo:bar to @//foo:bar, instead of //foo:bar. This only affects the behavior of str(), the % operator, and so on; the behavior of repr() is unchanged. See https://github.com/bazelbuild/bazel/issues/15916 for more information.
 
@@ -7974,6 +7968,18 @@ Options that control the output of the command:
 
 `--[no]rules` default: "false"
 :   Dump rules, including counts and memory usage (if memory is tracked).
+
+    Tags:
+    [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
+
+`--skycache_cache=<a string>` default: ""
+:   Key-value store for dumping remote analysis cache entries from.
+
+    Tags:
+    [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
+
+`--skycache_fingerprint=<a string>` default: see description
+:   Hex fingerprint of the Skycache entry to dump.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
