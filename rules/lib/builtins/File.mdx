@@ -11,14 +11,14 @@ When a `File` is passed to an [`Args`](../builtins/Args) object without using a 
 * [basename](#basename)
 * [dirname](#dirname)
 * [extension](#extension)
-* [is_directory](#is_directory)
-* [is_source](#is_source)
-* [is_symlink](#is_symlink)
+* [is\_directory](#is_directory)
+* [is\_source](#is_source)
+* [is\_symlink](#is_symlink)
 * [owner](#owner)
 * [path](#path)
 * [root](#root)
-* [short_path](#short_path)
-* [tree_relative_path](#tree_relative_path)
+* [short\_path](#short_path)
+* [tree\_relative\_path](#tree_relative_path)
 
 ## basename
 
@@ -44,15 +44,15 @@ string File.extension
 
 The file extension of this file, following (not including) the rightmost period. Empty string if the file's basename includes no periods.
 
-## is_directory
+## is\_directory
 
 ```
 bool File.is_directory
 ```
 
-Returns true if this is a directory. This reflects the type the file was declared as (i.e. ctx.actions.declare_directory), not its type on the filesystem, which might differ.
+Returns true if this is a directory. This reflects the type the file was declared as (i.e. ctx.actions.declare\_directory), not its type on the filesystem, which might differ.
 
-## is_source
+## is\_source
 
 ```
 bool File.is_source
@@ -60,13 +60,13 @@ bool File.is_source
 
 Returns true if this is a source file, i.e. it is not generated.
 
-## is_symlink
+## is\_symlink
 
 ```
 bool File.is_symlink
 ```
 
-Returns true if this was declared as a symlink. This reflects the type the file was declared as (i.e. ctx.actions.declare_symlink), not its type on the filesystem, which might differ.
+Returns true if this was declared as a symlink. This reflects the type the file was declared as (i.e. ctx.actions.declare\_symlink), not its type on the filesystem, which might differ.
 
 ## owner
 
@@ -93,7 +93,7 @@ root File.root
 
 The root beneath which this file resides.
 
-## short_path
+## short\_path
 
 ```
 string File.short_path
@@ -101,10 +101,10 @@ string File.short_path
 
 The path of this file relative to its root. This excludes the aforementioned *root*, i.e. configuration-specific fragments of the path. This is also the path under which the file is mapped if it's in the runfiles of a binary.
 
-## tree_relative_path
+## tree\_relative\_path
 
 ```
 string File.tree_relative_path
 ```
 
-The path of this file relative to the root of the ancestor's tree, if the ancestor's [is_directory](#is_directory) field is true. `tree_relative_path` is only available for expanded files of a directory in an action command, i.e. [Args.add_all()](../builtins/Args#add_all). For other types of files, it is an error to access this field.
+The path of this file relative to the root of the ancestor's tree, if the ancestor's [is\_directory](#is_directory) field is true. `tree_relative_path` is only available for expanded files of a directory in an action command, i.e. [Args.add\_all()](../builtins/Args#add_all). For other types of files, it is an error to access this field.
