@@ -162,12 +162,6 @@ Options that appear before the command and are parsed by the client:
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]experimental_use_compact_object_headers` default: "true"
-:   Use compact object headers in the JVM. Enabled by default for Bazel when using the embedded JDK. This can reduce memory usage by 5-7%.
-
-    Tags:
-    [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
-
 `--extra_classpath=<a string>` default: ""
 :   A colon-separated list of classpath entries to be added to the classpath of the Bazel server.
 
@@ -540,6 +534,12 @@ This option affects semantics of the Starlark language or the build API accessib
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--[no]experimental_disable_external_package` default: "false"
+:   If set to true, the auto-generated //external package will not be available anymore. Bazel will still be unable to parse the file 'external/BUILD', but globs reaching into external/ from the unnamed package will work.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_dormant_deps` default: "false"
 :   If set to true, attr.label(materializer=), attr(for_dependency_resolution=), attr.dormant_label(), attr.dormant_label_list() and rule(for_dependency_resolution=) are allowed.
@@ -7967,7 +7967,7 @@ Options that control the output of the command:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
 `--skykey_filter=<a comma-separated list of regex expressions with prefix '-' specifying excluded paths>` default: ".\*"
-:   Regex filter of SkyKey names to output. Only used with --skyframe=value, deps, rdeps, function_graph.
+:   Regex filter of SkyKey names to output. Only used with --skyframe=deps, rdeps, function_graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
