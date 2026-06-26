@@ -7960,14 +7960,14 @@ Options that control the output of the command:
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
-`--skyframe=<off, summary, count, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
+`--skyframe=<off, summary, count, keys, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
 :   Dump the Skyframe graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
 `--skykey_filter=<a comma-separated list of regex expressions with prefix '-' specifying excluded paths>` default: ".\*"
-:   Regex filter of SkyKey names to output. Only used with --skyframe=value, deps, rdeps, function_graph.
+:   Regex filter of SkyKey names to output. Only used with --skyframe=keys, value, deps, rdeps, function_graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
