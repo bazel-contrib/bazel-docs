@@ -674,12 +674,6 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_check_external_repo_source_dir_package_boundary` default: "false"
-:   If true, a source directory in an external repository fails the build if it crosses a package boundary into a sub-package, matching the behavior that already applies to source directories in the main repository. If false, such package boundary crossings inside external repositories are not detected.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_disable_objc_library_transition` default: "true"
 :   Disable objc_library's custom transition and inherit from the top level target instead (No-op in Bazel)
 
