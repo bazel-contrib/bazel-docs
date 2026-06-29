@@ -25,7 +25,7 @@ jobs:
     outputs:
       matrix: ${{ steps.fetch-prs.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Fetch recent PRs
         id: fetch-prs

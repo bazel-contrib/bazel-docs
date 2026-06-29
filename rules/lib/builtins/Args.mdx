@@ -48,6 +48,7 @@ ctx.actions.run(
 * [add_all](#add_all)
 * [add_joined](#add_joined)
 * [set_param_file_format](#set_param_file_format)
+* [set_param_file_path](#set_param_file_path)
 * [use_param_file](#use_param_file)
 
 ## add
@@ -136,6 +137,20 @@ Sets the format of the param file, if one is used
 | Parameter | Description |
 | --- | --- |
 | `format` | [string](../core/string); required  Must be one of:  * "multiline": Each item (argument name or value) is written verbatim to the param file with a newline character following it. * "shell": Same as "multiline", but the items are shell-quoted * "flag_per_line": Same as "multiline", but (1) only flags (beginning with '--') are written to the param file, and (2) the values of the flags, if any, are written on the same line with a '=' separator. This is the format expected by the Abseil flags library.   The format defaults to "shell" if not called. |
+
+## set_param_file_path
+
+```
+Args Args.set_param_file_path(path)
+```
+
+Sets the name of the parameter file when used in an action. By default, Bazel chooses a path derived from the primary output of the action.
+
+### Parameters
+
+| Parameter | Description |
+| --- | --- |
+| `path` | [string](../core/string); required  The name for the parameter file. |
 
 ## use_param_file
 
