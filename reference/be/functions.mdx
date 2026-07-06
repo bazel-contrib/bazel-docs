@@ -5,8 +5,8 @@ title: 'Functions'
 ## Contents
 
 * [package](#package)
-* [package_group](#package_group)
-* [exports_files](#exports_files)
+* [package\_group](#package_group)
+* [exports\_files](#exports_files)
 * [glob](#glob)
 * [select](#select)
 * [subpackages](#subpackages)
@@ -33,9 +33,9 @@ file, before any rule.
 | Attribute | Description |
 | --- | --- |
 | `default_applicable_licenses` | Alias for [`default_package_metadata`](#package.default_package_metadata). |
-| `default_visibility` | List of [labels](/concepts/labels); default is `[]`  The default visibility of the top-level rule targets and symbolic macros in this package — that is, the targets and symbolic macros that are not themselves declared inside a symbolic macro. This attribute is ignored if the target or macro specifies a `visibility` value.  For detailed information about the syntax of this attribute, see the documentation of [visibility](/concepts/visibility). The package default visibility does not apply to [exports_files](#exports_files), which is public by default. |
+| `default_visibility` | List of [labels](/concepts/labels); default is `[]`  The default visibility of the top-level rule targets and symbolic macros in this package — that is, the targets and symbolic macros that are not themselves declared inside a symbolic macro. This attribute is ignored if the target or macro specifies a `visibility` value.  For detailed information about the syntax of this attribute, see the documentation of [visibility](/concepts/visibility). The package default visibility does not apply to [exports\_files](#exports_files), which is public by default. |
 | `default_deprecation` | String; default is `""`  Sets the default [`deprecation`](common-definitions#common.deprecation) message for all rules in this package. |
-| `default_package_metadata` | List of [labels](/concepts/labels); default is `[]`  Sets a default list of metadata targets which apply to all other targets in the package. These are typically targets related to OSS package and license declarations. See [rules_license](https://github.com/bazelbuild/rules_license) for examples. |
+| `default_package_metadata` | List of [labels](/concepts/labels); default is `[]`  Sets a default list of metadata targets which apply to all other targets in the package. These are typically targets related to OSS package and license declarations. See [rules\_license](https://github.com/bazelbuild/rules_license) for examples. |
 | `default_testonly` | Boolean; default is `False` except as noted  Sets the default [`testonly`](common-definitions#common.testonly) property for all rules in this package.  In packages under `javatests` the default value is `True`. |
 | `features` | List strings; default is `[]`  Sets various flags that affect the semantics of this BUILD file.  This feature is mainly used by the people working on the build system to tag packages that need some kind of special handling. Do not use this unless explicitly requested by someone working on the build system. |
 
@@ -50,7 +50,7 @@ on a rule, if present, override this specification.
 package(default_visibility = ["//foo:target"])
 ```
 
-## package_group
+## package\_group
 
 ```
 package_group(name, packages, includes)
@@ -132,7 +132,7 @@ package_group(
 )
 ```
 
-## exports_files
+## exports\_files
 
 ```
 exports_files([label, ...], visibility, licenses)
@@ -277,7 +277,7 @@ There are several important limitations and caveats:
    existence of BUILD files — that is, the same glob expression would
    include `x/y/z.cc` if there was no package called
    `x/y` or it was marked as deleted using the
-   [--deleted_packages](/docs/user-manual#flag--deleted_packages)
+   [--deleted\_packages](/docs/user-manual#flag--deleted_packages)
    flag.
 5. The restriction above applies to all glob expressions,
    no matter which wildcards they use.
@@ -389,7 +389,7 @@ that counts the number of lines in the file.
 ```
 
 If the BUILD file above is in package //foo and the package contains three
-matching files, a_test.cc, b_test.cc and c_test.cc then running
+matching files, a\_test.cc, b\_test.cc and c\_test.cc then running
 `bazel query '//foo:all'` will list all rules that were generated:
 
 ```
@@ -456,7 +456,9 @@ Notes:
   considered to match if no other condition matches. If this condition
   is left out, some other rule must match to avoid an error.
 * `select` can be embedded *inside* a larger
-  attribute assignment. So `srcs = ["common.sh"] + select({ ":conditionA": ["myrule_a.sh"], ...})` and `srcs = select({ ":conditionA": ["a.sh"]}) + select({ ":conditionB": ["b.sh"]})` are valid expressions.
+  attribute assignment. So `srcs = ["common.sh"]
+  + select({ ":conditionA": ["myrule_a.sh"], ...})` and `srcs = select({ ":conditionA": ["a.sh"]}) + select({ ":conditionB":
+  ["b.sh"]})` are valid expressions.
 * `select` works with most, but not all, attributes. Incompatible
   attributes are marked `nonconfigurable` in their documentation.
 
