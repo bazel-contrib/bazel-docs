@@ -162,12 +162,6 @@ Options that appear before the command and are parsed by the client:
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]experimental_use_compact_object_headers` default: "true"
-:   Use compact object headers in the JVM. Enabled by default for Bazel when using the embedded JDK. This can reduce memory usage by 5-7%.
-
-    Tags:
-    [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
-
 `--extra_classpath=<a string>` default: ""
 :   A colon-separated list of classpath entries to be added to the classpath of the Bazel server.
 
@@ -541,6 +535,12 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_disable_external_package` default: "false"
+:   If set to true, the auto-generated //external package will not be available anymore. Bazel will still be unable to parse the file 'external/BUILD', but globs reaching into external/ from the unnamed package will work.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_dormant_deps` default: "false"
 :   If set to true, attr.label(materializer=), attr(for_dependency_resolution=), attr.dormant_label(), attr.dormant_label_list() and rule(for_dependency_resolution=) are allowed.
 
@@ -674,12 +674,6 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_check_external_repo_source_dir_package_boundary` default: "false"
-:   If true, a source directory in an external repository fails the build if it crosses a package boundary into a sub-package, matching the behavior that already applies to source directories in the main repository. If false, such package boundary crossings inside external repositories are not detected.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_disable_objc_library_transition` default: "true"
 :   Disable objc_library's custom transition and inherit from the top level target instead (No-op in Bazel)
 
@@ -800,6 +794,12 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_stop_exporting_language_modules` default: "false"
+:   If enabled, certain language-specific modules (such as `cc_common`) are unavailable in user .bzl files and may only be called from their respective rules repositories.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--[no]incompatible_unambiguous_label_stringification` default: "true"
 :   When true, Bazel will stringify the label @//foo:bar to @//foo:bar, instead of //foo:bar. This only affects the behavior of str(), the % operator, and so on; the behavior of repr() is unchanged. See https://github.com/bazelbuild/bazel/issues/15916 for more information.
 
@@ -904,7 +904,7 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]heuristically_drop_nodes` default: "false"
-:   If true, Bazel will remove FileState and DirectoryListingState nodes after related File and DirectoryListing node is done to save memory. We expect that it is less likely that these nodes will be needed again. If so, the program will re-evaluate them.
+:   If true, Blaze will remove FileState and DirectoryListingState nodes after related File and DirectoryListing node is done to save memory. We expect that it is less likely that these nodes will be needed again. If so, the program will re-evaluate them.
 
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -940,7 +940,7 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]track_incremental_state` default: "true"
-:   If false, Bazel will not persist data that allows for invalidation and re-evaluation on incremental builds in order to save memory on this build. Subsequent builds will not have any incrementality with respect to this one. Usually you will want to specify --batch when setting this to false.
+:   If false, Blaze will not persist data that allows for invalidation and re-evaluation on incremental builds in order to save memory on this build. Subsequent builds will not have any incrementality with respect to this one. Usually you will want to specify --batch when setting this to false.
 
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -1358,7 +1358,7 @@ Options that affect the verbosity, format or location of logging:
     [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--[no]slim_profile` default: "true"
-:   Slims down the size of the JSON profile by merging events if the profile gets too large. Supports boolean values or a size in bytes (e.g. 5M) to start slimming after the profile exceeds that size.
+:   Slims down the size of the JSON profile by merging events if the profile gets too large.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
@@ -1641,7 +1641,7 @@ Miscellaneous options, not otherwise categorized.:
 :   Use terminal controls to colorize output.
 
 `--config=<a string>` multiple uses are accumulated
-:   Selects additional config sections from the rc files; for every &lt;command&gt;, it also pulls in the options from &lt;command&gt;:&lt;config&gt; if such a section exists; if this section doesn't exist in any .rc file, Bazel fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
+:   Selects additional config sections from the rc files; for every &lt;command&gt;, it also pulls in the options from &lt;command&gt;:&lt;config&gt; if such a section exists; if this section doesn't exist in any .rc file, Blaze fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
 
 `--credential_helper=<Path to a credential helper.>` multiple uses are accumulated
 :   Configures a credential helper conforming to the [Credential Helper Specification](https://github.com/EngFlow/credential-helper-spec)
@@ -1762,27 +1762,6 @@ Miscellaneous options, not otherwise categorized.:
     not receive a ping reply after this much time. Times are treated as second
     granularity; it is an error to set a value less than one second. If keep-alive
     pings are disabled, then this setting is ignored.
-
-`--[no]grpc_tcp_keepalive` default: "true"
-:   Whether to enable TCP keep-alive (the SO_KEEPALIVE socket option) for outgoing gRPC
-    connections. This operates at the transport layer and is independent of the
-    application-level keep-alive pings configured with `--grpc_keepalive_time`. When enabled,
-    the keep-alive behavior is controlled by `--grpc_tcp_keepalive_time`,
-    `--grpc_tcp_keepalive_interval` and `--grpc_tcp_keepalive_count`.
-
-`--grpc_tcp_keepalive_count=<an integer>` default: "3"
-:   When `--grpc_tcp_keepalive` is enabled, the number of unacknowledged TCP keep-alive probes
-    to send before considering the connection dead (TCP_KEEPCNT). Has no effect if TCP
-    keep-alive is disabled.
-
-`--grpc_tcp_keepalive_interval=<An immutable length of time.>` default: "10s"
-:   When `--grpc_tcp_keepalive` is enabled, the amount of time between successive TCP
-    keep-alive probes (TCP_KEEPINTVL). Has no effect if TCP keep-alive is disabled.
-
-`--grpc_tcp_keepalive_time=<An immutable length of time.>` default: "60s"
-:   When `--grpc_tcp_keepalive` is enabled, the amount of idle time on a gRPC connection
-    before the first TCP keep-alive probe is sent (TCP_KEEPIDLE). Has no effect if TCP
-    keep-alive is disabled.
 
 `--[no]incompatible_disable_non_executable_java_binary` default: "false"
 :   If true, java_binary is always executable. create_executable attribute is removed.
@@ -2068,6 +2047,12 @@ Options relating to query output and semantics:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 Options that control build execution:
+
+`--[no]experimental_persistent_aar_extractor` default: "false"
+:   Enable persistent aar extractor by using workers.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
 `--[no]experimental_remotable_source_manifests` default: "false"
 :   Whether to make source manifest actions remotable
@@ -2406,6 +2391,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -3506,6 +3497,12 @@ Miscellaneous options, not otherwise categorized.:
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
 
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -3652,7 +3649,7 @@ Options that control build execution:
     [`execution`](#effect_tag_EXECUTION)
 
 `--experimental_sandbox_limits=<a named double, 'name=value', where value is an integer, or a keyword ("HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "HOST_CPUS", "HOST_CPUS*.5">` multiple uses are accumulated
-:   If &gt; 0, each Linux sandbox will be limited to the given amount for the specified resource. This overrides --experimental_sandbox_memory_limit_mb. Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
+:   If &gt; 0, each Linux sandbox will be limited to the given amount for the specified resource. Requires --incompatible_use_new_cgroup_implementation and overrides --experimental_sandbox_memory_limit_mb. Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -3743,6 +3740,12 @@ Options that control build execution:
 
 `--genrule_strategy=<comma-separated list of options>` default: ""
 :   Specify how to execute genrules. This flag will be phased out. Instead, use --spawn_strategy=&lt;value&gt; to control all actions or --strategy=Genrule=&lt;value&gt; to control genrules only.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
+`--[no]incompatible_use_new_cgroup_implementation` default: "true"
+:   If true, use the new implementation for cgroups. The old implementation only supports the memory controller and ignores the value of --experimental_sandbox_limits.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -4151,12 +4154,6 @@ Options that affect the verbosity, format or location of logging:
     [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 
 `--[no]debug_spawn_scheduler` default: "false"
-
-`--[no]expand_param_files` default: "false"
-:   When displaying subcommands (--subcommands) or printing the command line of a failed action (--verbose_failures), expand the contents of param files. When enabled, param file references like @path/to/param_file are replaced with the actual arguments they contain.
-
-    Tags:
-    [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 
 `--[no]experimental_bep_target_summary` default: "false"
 :   Whether to publish `TargetSummary` events.
@@ -4693,6 +4690,12 @@ Miscellaneous options, not otherwise categorized.:
 
 Options that control build execution:
 
+`--[no]experimental_persistent_aar_extractor` default: "false"
+:   Enable persistent aar extractor by using workers.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_remotable_source_manifests` default: "false"
 :   Whether to make source manifest actions remotable
 
@@ -5030,6 +5033,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -6129,6 +6138,12 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
+
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -6462,6 +6477,12 @@ Options relating to query output and semantics:
 
 Options that control build execution:
 
+`--[no]experimental_persistent_aar_extractor` default: "false"
+:   Enable persistent aar extractor by using workers.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_remotable_source_manifests` default: "false"
 :   Whether to make source manifest actions remotable
 
@@ -6799,6 +6820,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -7899,6 +7926,12 @@ Miscellaneous options, not otherwise categorized.:
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
 
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -7954,26 +7987,14 @@ Options that control the output of the command:
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
-`--skycache_cache=<a string>` default: ""
-:   Key-value store for dumping remote analysis cache entries from.
-
-    Tags:
-    [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
-
-`--skycache_fingerprint=<a string>` default: see description
-:   Hex fingerprint of the Skycache entry to dump.
-
-    Tags:
-    [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
-
-`--skyframe=<off, summary, count, keys, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
+`--skyframe=<off, summary, count, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
 :   Dump the Skyframe graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
 `--skykey_filter=<a comma-separated list of regex expressions with prefix '-' specifying excluded paths>` default: ".\*"
-:   Regex filter of SkyKey names to output. Only used with --skyframe=keys, value, deps, rdeps, function_graph.
+:   Regex filter of SkyKey names to output. Only used with --skyframe=deps, rdeps, function_graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
@@ -8064,6 +8085,12 @@ Miscellaneous options, not otherwise categorized.:
 
 Options that control build execution:
 
+`--[no]experimental_persistent_aar_extractor` default: "false"
+:   Enable persistent aar extractor by using workers.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_remotable_source_manifests` default: "false"
 :   Whether to make source manifest actions remotable
 
@@ -8401,6 +8428,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -9500,6 +9533,12 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
+
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -11012,6 +11051,12 @@ Miscellaneous options, not otherwise categorized.:
 
 Options that control build execution:
 
+`--[no]experimental_persistent_aar_extractor` default: "false"
+:   Enable persistent aar extractor by using workers.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_remotable_source_manifests` default: "false"
 :   Whether to make source manifest actions remotable
 
@@ -11349,6 +11394,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_platforms_in_apple_crosstool_transition` default: "false"
+:   Makes apple_crosstool_transition fall back to using the value of `--platforms` flag instead of legacy `--cpu` when needed.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--xcode_version=<a string>` default: see description
 :   If specified, uses Xcode of the given version for relevant build actions. If unspecified, uses the executor default version of Xcode.
@@ -12448,6 +12499,12 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
+
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
