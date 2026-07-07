@@ -202,7 +202,7 @@ Materializer targets are used to dynamically select dependencies at analysis tim
 ## module_extension
 
 ```
-unknown module_extension(implementation, *, tag_classes={}, doc=None, environ=[], os_dependent=False, arch_dependent=False, facts_version=0)
+unknown module_extension(implementation, *, tag_classes={}, doc=None, environ=[], os_dependent=False, arch_dependent=False)
 ```
 
 Creates a new module extension. Store it in a global value, so that it can be exported and used in a MODULE.bazel file with `use_extension`.
@@ -217,7 +217,6 @@ Creates a new module extension. Store it in a global value, so that it can be ex
 | `environ` | [sequence](../core/list) of [string](../core/string)s; default is `[]`  **Deprecated**. This parameter has been deprecated. Migrate to `module_ctx.getenv` instead.  Provides a list of environment variable that this module extension depends on. If an environment variable in that list changes, the extension will be re-evaluated.  See also `--experimental_strict_repo_env`. |
 | `os_dependent` | [bool](../core/bool); default is `False`  Indicates whether this extension is OS-dependent or not |
 | `arch_dependent` | [bool](../core/bool); default is `False`  Indicates whether this extension is architecture-dependent or not |
-| `facts_version` | [int](../core/int); default is `0`  The schema version of the `facts` dict returned by this extension's implementation function via `extension_metadata`. The version is persisted in the lockfile alongside the facts and compared against the current value before the extension runs: if they differ, the persisted facts are discarded and the extension is invoked with an empty `module_ctx.facts`. Increment this value whenever the extension changes the schema of the facts in a backwards-incompatible way so that older facts are not interpreted with the new schema. |
 
 ## provider
 
@@ -249,7 +248,7 @@ If `init` is specified, returns a tuple of 2 elements: a [`Provider`](../builtin
 | Parameter | Description |
 | --- | --- |
 | `doc` | [string](../core/string); or `None`; default is `None` |
-| `fields` | [sequence](../core/list) of [string](../core/string)s; or [dict](../core/dict); or `None`; default is `None`  If specified, restricts the set of allowed fields.  Possible values are:  * list of fields:     ```   provider(fields = ['a', 'b'])   ```     * dictionary field name -&gt; documentation:       ```     provider(            fields = { 'a' : 'Documentation for a', 'b' : 'Documentation for b' })     ```  All fields are optional. It is *strongly recommended* to specify this parameter, as defining a field schema allows Bazel to store provider instances more compactly. |
+| `fields` | [sequence](../core/list) of [string](../core/string)s; or [dict](../core/dict); or `None`; default is `None`  If specified, restricts the set of allowed fields.  Possible values are:  * list of fields:     ```   provider(fields = ['a', 'b'])   ```     * dictionary field name -&gt; documentation:       ```     provider(            fields = { 'a' : 'Documentation for a', 'b' : 'Documentation for b' })     ```  All fields are optional. |
 | `init` | callable; or `None`; default is `None` |
 
 ## repository_rule
