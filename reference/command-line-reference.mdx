@@ -1491,6 +1491,18 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
+`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
+:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
+`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
+:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -2327,12 +2339,6 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--host_compiler=<a string>` default: see description
-:   No-op flag. Will be removed in a future release.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -4422,6 +4428,18 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
+`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
+:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
+`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
+:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -4945,12 +4963,6 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--host_compiler=<a string>` default: see description
-:   No-op flag. Will be removed in a future release.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -6709,12 +6721,6 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
-`--host_compiler=<a string>` default: see description
-:   No-op flag. Will be removed in a future release.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
-
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -8304,12 +8310,6 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--host_compiler=<a string>` default: see description
-:   No-op flag. Will be removed in a future release.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -11246,12 +11246,6 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--host_compiler=<a string>` default: see description
-:   No-op flag. Will be removed in a future release.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
