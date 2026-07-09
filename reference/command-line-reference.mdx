@@ -162,12 +162,6 @@ Options that appear before the command and are parsed by the client:
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]experimental_use_compact_object_headers` default: "true"
-:   Use compact object headers in the JVM. Enabled by default for Bazel when using the embedded JDK. This can reduce memory usage by 5-7%.
-
-    Tags:
-    [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
-
 `--extra_classpath=<a string>` default: ""
 :   A colon-separated list of classpath entries to be added to the classpath of the Bazel server.
 
@@ -541,6 +535,12 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]experimental_disable_external_package` default: "false"
+:   If set to true, the auto-generated //external package will not be available anymore. Bazel will still be unable to parse the file 'external/BUILD', but globs reaching into external/ from the unnamed package will work.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
+
 `--[no]experimental_dormant_deps` default: "false"
 :   If set to true, attr.label(materializer=), attr(for_dependency_resolution=), attr.dormant_label(), attr.dormant_label_list() and rule(for_dependency_resolution=) are allowed.
 
@@ -673,12 +673,6 @@ This option affects semantics of the Starlark language or the build API accessib
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_check_external_repo_source_dir_package_boundary` default: "false"
-:   If true, a source directory in an external repository fails the build if it crosses a package boundary into a sub-package, matching the behavior that already applies to source directories in the main repository. If false, such package boundary crossings inside external repositories are not detected.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_disable_objc_library_transition` default: "true"
 :   Disable objc_library's custom transition and inherit from the top level target instead (No-op in Bazel)
@@ -904,16 +898,10 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]heuristically_drop_nodes` default: "false"
-:   If true, Bazel will remove FileState and DirectoryListingState nodes after related File and DirectoryListing node is done to save memory. We expect that it is less likely that these nodes will be needed again. If so, the program will re-evaluate them.
+:   If true, Blaze will remove FileState and DirectoryListingState nodes after related File and DirectoryListing node is done to save memory. We expect that it is less likely that these nodes will be needed again. If so, the program will re-evaluate them.
 
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
-`--[no]incompatible_do_not_split_linking_cmdline` default: "true"
-:   When true, Bazel no longer modifies command line flags used for linking, and also doesn't selectively decide which flags go to the param file and which don't. See https://github.com/bazelbuild/bazel/issues/7670 for details.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]keep_state_after_build` default: "true"
 :   If false, Blaze will discard the inmemory state from this build when the build finishes. Subsequent builds will not have any incrementality with respect to this one.
@@ -940,7 +928,7 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]track_incremental_state` default: "true"
-:   If false, Bazel will not persist data that allows for invalidation and re-evaluation on incremental builds in order to save memory on this build. Subsequent builds will not have any incrementality with respect to this one. Usually you will want to specify --batch when setting this to false.
+:   If false, Blaze will not persist data that allows for invalidation and re-evaluation on incremental builds in order to save memory on this build. Subsequent builds will not have any incrementality with respect to this one. Usually you will want to specify --batch when setting this to false.
 
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -1491,18 +1479,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
-`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
-:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
-`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
-:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -1653,7 +1629,7 @@ Miscellaneous options, not otherwise categorized.:
 :   Use terminal controls to colorize output.
 
 `--config=<a string>` multiple uses are accumulated
-:   Selects additional config sections from the rc files; for every &lt;command&gt;, it also pulls in the options from &lt;command&gt;:&lt;config&gt; if such a section exists; if this section doesn't exist in any .rc file, Bazel fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
+:   Selects additional config sections from the rc files; for every &lt;command&gt;, it also pulls in the options from &lt;command&gt;:&lt;config&gt; if such a section exists; if this section doesn't exist in any .rc file, Blaze fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
 
 `--credential_helper=<Path to a credential helper.>` multiple uses are accumulated
 :   Configures a credential helper conforming to the [Credential Helper Specification](https://github.com/EngFlow/credential-helper-spec)
@@ -2340,6 +2316,12 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
+
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -3102,6 +3084,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -3506,6 +3494,12 @@ Miscellaneous options, not otherwise categorized.:
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
 
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -3652,7 +3646,7 @@ Options that control build execution:
     [`execution`](#effect_tag_EXECUTION)
 
 `--experimental_sandbox_limits=<a named double, 'name=value', where value is an integer, or a keyword ("HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "HOST_CPUS", "HOST_CPUS*.5">` multiple uses are accumulated
-:   If &gt; 0, each Linux sandbox will be limited to the given amount for the specified resource. This overrides --experimental_sandbox_memory_limit_mb. Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
+:   If &gt; 0, each Linux sandbox will be limited to the given amount for the specified resource. Requires --incompatible_use_new_cgroup_implementation and overrides --experimental_sandbox_memory_limit_mb. Requires cgroups v1 or v2 and permissions for the users to the cgroups dir.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -3743,6 +3737,12 @@ Options that control build execution:
 
 `--genrule_strategy=<comma-separated list of options>` default: ""
 :   Specify how to execute genrules. This flag will be phased out. Instead, use --spawn_strategy=&lt;value&gt; to control all actions or --strategy=Genrule=&lt;value&gt; to control genrules only.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
+`--[no]incompatible_use_new_cgroup_implementation` default: "true"
+:   If true, use the new implementation for cgroups. The old implementation only supports the memory controller and ignores the value of --experimental_sandbox_limits.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -4428,18 +4428,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
-`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
-:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
-`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
-:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -4963,6 +4951,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -5726,6 +5720,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -6129,6 +6129,12 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
+
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -6721,6 +6727,12 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
+
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -7483,6 +7495,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -7887,6 +7905,12 @@ Miscellaneous options, not otherwise categorized.:
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
 
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
 
@@ -7954,14 +7978,14 @@ Options that control the output of the command:
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
-`--skyframe=<off, summary, count, keys, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
+`--skyframe=<off, summary, count, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
 :   Dump the Skyframe graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
 `--skykey_filter=<a comma-separated list of regex expressions with prefix '-' specifying excluded paths>` default: ".\*"
-:   Regex filter of SkyKey names to output. Only used with --skyframe=keys, value, deps, rdeps, function_graph.
+:   Regex filter of SkyKey names to output. Only used with --skyframe=deps, rdeps, function_graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
@@ -8311,6 +8335,12 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
+
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -9073,6 +9103,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -9476,6 +9512,12 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
+
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
@@ -11247,6 +11289,12 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
+
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -12009,6 +12057,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
+
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
 
@@ -12412,6 +12466,12 @@ Miscellaneous options, not otherwise categorized.:
 
 `--test_filter=<a string>` default: see description
 :   Specifies a filter to forward to the test framework. Used to limit the tests run. Note that this does not affect which targets are built.
+
+`--test_result_expiration=<an integer>` default: "-1"
+:   This option is deprecated and has no effect.
+
+    Tags:
+    [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]test_runner_fail_fast` default: "false"
 :   Forwards fail fast option to the test runner. The test runner should stop execution upon first failure.
