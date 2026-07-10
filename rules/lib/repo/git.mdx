@@ -14,9 +14,9 @@ Rules for cloning external git repositories.
 <pre>
 load("@bazel//tools/build_defs/repo:git.bzl", "git_repository")
 
-git_repository(<a href="#git_repository-name">name</a>, <a href="#git_repository-add_prefix">add_prefix</a>, <a href="#git_repository-branch">branch</a>, <a href="#git_repository-build_file">build_file</a>, <a href="#git_repository-build_file_content">build_file_content</a>, <a href="#git_repository-canonical_id">canonical_id</a>, <a href="#git_repository-commit">commit</a>,
-               <a href="#git_repository-init_submodules">init_submodules</a>, <a href="#git_repository-patch_args">patch_args</a>, <a href="#git_repository-patch_cmds">patch_cmds</a>, <a href="#git_repository-patch_cmds_win">patch_cmds_win</a>, <a href="#git_repository-patch_strip">patch_strip</a>, <a href="#git_repository-patch_tool">patch_tool</a>,
-               <a href="#git_repository-patches">patches</a>, <a href="#git_repository-recursive_init_submodules">recursive_init_submodules</a>, <a href="#git_repository-remote">remote</a>, <a href="#git_repository-remote_module_file_integrity">remote_module_file_integrity</a>,
+git_repository(<a href="#git_repository-name">name</a>, <a href="#git_repository-branch">branch</a>, <a href="#git_repository-build_file">build_file</a>, <a href="#git_repository-build_file_content">build_file_content</a>, <a href="#git_repository-canonical_id">canonical_id</a>, <a href="#git_repository-commit">commit</a>, <a href="#git_repository-init_submodules">init_submodules</a>,
+               <a href="#git_repository-patch_args">patch_args</a>, <a href="#git_repository-patch_cmds">patch_cmds</a>, <a href="#git_repository-patch_cmds_win">patch_cmds_win</a>, <a href="#git_repository-patch_strip">patch_strip</a>, <a href="#git_repository-patch_tool">patch_tool</a>, <a href="#git_repository-patches">patches</a>,
+               <a href="#git_repository-recursive_init_submodules">recursive_init_submodules</a>, <a href="#git_repository-remote">remote</a>, <a href="#git_repository-remote_module_file_integrity">remote_module_file_integrity</a>,
                <a href="#git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#git_repository-remote_patch_strip">remote_patch_strip</a>, <a href="#git_repository-remote_patches">remote_patches</a>, <a href="#git_repository-shallow_since">shallow_since</a>,
                <a href="#git_repository-sparse_checkout_file">sparse_checkout_file</a>, <a href="#git_repository-sparse_checkout_patterns">sparse_checkout_patterns</a>, <a href="#git_repository-strip_prefix">strip_prefix</a>, <a href="#git_repository-tag">tag</a>, <a href="#git_repository-verbose">verbose</a>,
                <a href="#git_repository-workspace_file">workspace_file</a>, <a href="#git_repository-workspace_file_content">workspace_file_content</a>)
@@ -63,24 +63,6 @@ The reasons are:
 <p>
 
 A unique name for this repository.
-
-</p>
-</td>
-</tr>
-<tr id="git_repository-add_prefix">
-<td><code>add_prefix</code></td>
-<td>
-
-String; optional
-
-<p>
-
-Destination directory relative to the repository directory.
-
-The git repo will be cloned into this directory, after applying `strip_prefix`
-(if any) to the file paths within the repo. For example, file
-`foo-1.2.3/src/foo.h` will be cloned to `bar/src/foo.h` if `add_prefix = "bar"`
-and `strip_prefix = "foo-1.2.3"`.
 
 </p>
 </td>
@@ -443,7 +425,7 @@ This repository rule depends on the following environment variables:
 <pre>
 load("@bazel//tools/build_defs/repo:git.bzl", "new_git_repository")
 
-new_git_repository(<a href="#new_git_repository-name">name</a>, <a href="#new_git_repository-add_prefix">add_prefix</a>, <a href="#new_git_repository-branch">branch</a>, <a href="#new_git_repository-build_file">build_file</a>, <a href="#new_git_repository-build_file_content">build_file_content</a>, <a href="#new_git_repository-canonical_id">canonical_id</a>, <a href="#new_git_repository-commit">commit</a>,
+new_git_repository(<a href="#new_git_repository-name">name</a>, <a href="#new_git_repository-branch">branch</a>, <a href="#new_git_repository-build_file">build_file</a>, <a href="#new_git_repository-build_file_content">build_file_content</a>, <a href="#new_git_repository-canonical_id">canonical_id</a>, <a href="#new_git_repository-commit">commit</a>,
                    <a href="#new_git_repository-init_submodules">init_submodules</a>, <a href="#new_git_repository-patch_args">patch_args</a>, <a href="#new_git_repository-patch_cmds">patch_cmds</a>, <a href="#new_git_repository-patch_cmds_win">patch_cmds_win</a>, <a href="#new_git_repository-patch_strip">patch_strip</a>, <a href="#new_git_repository-patch_tool">patch_tool</a>,
                    <a href="#new_git_repository-patches">patches</a>, <a href="#new_git_repository-recursive_init_submodules">recursive_init_submodules</a>, <a href="#new_git_repository-remote">remote</a>, <a href="#new_git_repository-remote_module_file_integrity">remote_module_file_integrity</a>,
                    <a href="#new_git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#new_git_repository-remote_patch_strip">remote_patch_strip</a>, <a href="#new_git_repository-remote_patches">remote_patches</a>, <a href="#new_git_repository-shallow_since">shallow_since</a>,
@@ -470,24 +452,6 @@ Deprecated - use the drop-in replacement 'git_repository' instead
 <p>
 
 A unique name for this repository.
-
-</p>
-</td>
-</tr>
-<tr id="new_git_repository-add_prefix">
-<td><code>add_prefix</code></td>
-<td>
-
-String; optional
-
-<p>
-
-Destination directory relative to the repository directory.
-
-The git repo will be cloned into this directory, after applying `strip_prefix`
-(if any) to the file paths within the repo. For example, file
-`foo-1.2.3/src/foo.h` will be cloned to `bar/src/foo.h` if `add_prefix = "bar"`
-and `strip_prefix = "foo-1.2.3"`.
 
 </p>
 </td>

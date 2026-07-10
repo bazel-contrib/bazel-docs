@@ -126,7 +126,7 @@ not provide technical support for bazel-remote.
 
 This cache stores contents on disk and also provides garbage collection
 to enforce an upper storage limit and clean unused artifacts. The cache is
-available as a [docker image](https://hub.docker.com/r/buchgr/bazel-remote-cache/) and its code is available on
+available as a [docker image] and its code is available on
 [GitHub](https://github.com/buchgr/bazel-remote/).
 Both the REST and gRPC remote cache APIs are supported.
 
@@ -154,8 +154,8 @@ to/from your GCS bucket.
 
 4. Connect to Cloud Storage by adding the following flags to your Bazel command:
    * Pass the following URL to Bazel by using the flag:
-       `--remote_cache=https://storage.googleapis.com<var>/bucket-name</var>` where `bucket-name` is the name of your storage bucket.
-   * Pass the authentication key using the flag: `--google_credentials=<var>/path/to/your/secret-key{{ '</var>'}}.json`, or
+       `--remote_cache=https://storage.googleapis.com{{ '<var>' }}/bucket-name{{ '</var>' }}` where `bucket-name` is the name of your storage bucket.
+   * Pass the authentication key using the flag: `--google_credentials={{ '<var>' }}/path/to/your/secret-key{{ '</var>'}}.json`, or
      `--google_default_credentials` to use [Application Authentication](https://cloud.google.com/docs/authentication/production).
 
 5. You can configure Cloud Storage to automatically delete old files. To do so, see
@@ -231,7 +231,7 @@ only your CI system to be able to write to the remote cache.
 Use the following flag to read from and write to the remote cache:
 
 ```posix-terminal
-build --remote_cache=http://<var>your.host:port</var>
+build --remote_cache=http://{{ '<var>' }}your.host:port{{ '</var>' }}
 ```
 
 Besides `HTTP`, the following protocols are also supported: `HTTPS`, `grpc`, `grpcs`.
@@ -278,8 +278,8 @@ is similar to curl's `--unix-socket` flag. Use the following to configure unix
 domain socket:
 
 ```posix-terminal
-   build --remote_cache=http://<var>your.host:port</var>
-   build --remote_proxy=unix:/<var>path/to/socket</var>
+   build --remote_cache=http://{{ '<var>' }}your.host:port{{ '</var>' }}
+   build --remote_proxy=unix:/{{ '<var>' }}path/to/socket{{ '</var>' }}
 ```
 
 This feature is unsupported on Windows.
@@ -292,7 +292,7 @@ on multiple workspaces of the same project, such as multiple checkouts.
 Enable the disk cache as follows:
 
 ```posix-terminal
-build --disk_cache=<var>path/to/build/cache</var>
+build --disk_cache={{ '<var>' }}path/to/build/cache{{ '</var>' }}
 ```
 
 You can pass a user-specific path to the `--disk_cache` flag using the `~` alias
@@ -308,7 +308,8 @@ or for the age of individual cache entries. Bazel will automatically garbage
 collect the disk cache while idling between builds; the idle timer can be set
 with `--experimental_disk_cache_gc_idle_delay` (defaulting to 5 minutes).
 
-As an alternative to automatic garbage collection, we also provide a [tool](https://github.com/bazelbuild/bazel/tree/master/src/tools/diskcache) to run a
+As an alternative to automatic garbage collection, we also provide a [tool](
+https://github.com/bazelbuild/bazel/tree/master/src/tools/diskcache) to run a
 garbage collection on demand.
 
 ## Known issues

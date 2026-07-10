@@ -1,3 +1,5 @@
+keywords: Bzlmod
+
 ---
 title: '`mod` Command'
 ---
@@ -64,9 +66,11 @@ The available subcommands and their respective required arguments are:
 
 *   `<name>`: All present versions of the module `<name>`.
 
-*   `@<repo_name>`: The repo with the given [apparent name](/versions/8.6.0/external/overview#apparent-repo-name) in the context of the `--base_module`.
+*   `@<repo_name>`: The repo with the given [apparent
+    name](overview#apparent-repo-name) in the context of the `--base_module`.
 
-*   `@@<repo_name>`: The repo with the given [canonical name](/versions/8.6.0/external/overview#canonical-repo-name).
+*   `@@<repo_name>`: The repo with the given [canonical
+    name](overview#canonical-repo-name).
 
 In a context requiring specifying modules, `<arg>`s referring to repos that
 correspond to modules (as opposed to extension-generated repos) can also be
@@ -90,7 +94,8 @@ The following options only affect the subcommands that print graphs (`graph`,
     information about the version resolution of each module. If the module
     version changed during resolution, show either which version replaced it or
     what was the original version, the reason it was replaced, and which modules
-    requested the new version if the reason was [Minimal Version Selection](/versions/8.6.0/external/module#version-selection).
+    requested the new version if the reason was [Minimal Version
+    Selection](module#version-selection).
 
 *   `--include_unused` *default: "false"*: Include in the output graph the
     modules which were originally present in the dependency graph, but became
@@ -165,13 +170,16 @@ The following options only affect the subcommands that print graphs (`graph`,
     *   `text` *(default)*: Display repository definitions in Starlark.
 
     *   `streamed_proto`: Prints a
-        [length-delimited](https://protobuf.dev/programming-guides/encoding/#siz e-limit)
+        [length-delimited](https://protobuf.dev/programming-guides/encoding/#siz
+        e-limit)
         stream of
-        [`Repository`](https://github.com/bazelbuild/bazel/blob/master/src/main/ protobuf/build.proto)
+        [`Repository`](https://github.com/bazelbuild/bazel/blob/master/src/main/
+        protobuf/build.proto)
         protocol buffers.
 
     *   `streamed_jsonproto`: Similar to `--output streamed_proto`, prints a
-        stream of [`Repository`](https://github.com/bazelbuild/bazel/blob/master /src/main/protobuf/build.proto)
+        stream of [`Repository`](https://github.com/bazelbuild/bazel/blob/master
+        /src/main/protobuf/build.proto)
         protocol buffers but in [NDJSON](https://github.com/ndjson/ndjson-spec)
         format.
 
@@ -216,10 +224,10 @@ use_repo(toolchains, my_jdk="remotejdk17_linux")
   <tr style="display: flex; flex-direction: row">
     <td style="flex: 5; display: flex; flex-direction: column">
       <figure style="height: 100%; display: flex; flex-direction: column;">
-        <img src="images/mod_exampleBefore.svg" alt="Graph Before Resolution" style="object-fit: cover; max-width: 100%;" />
+        <img src="images/mod_exampleBefore.svg" alt="Graph Before Resolution" style="object-fit: cover; max-width: 100%;">
         <figcaption style="margin-top: auto; margin-left: auto; margin-right: auto ">Graph Before Resolution</figcaption>
       </figure>
-{/* digraph mygraph {
+<!-- digraph mygraph {
   node [ shape=box ]
   edge [ fontsize=8 ]
   "<root>" [ label="<root> (my_project@1.0)" ]
@@ -242,14 +250,14 @@ use_repo(toolchains, my_jdk="remotejdk17_linux")
   "bazel_skylib@1.0.3" -> "platforms@0.0.4" [  ]
   "rules_java@4.0.0" [  ]
   "rules_java@4.0.0" -> "bazel_skylib@1.0.3" [  ]
-} */}
+} -->
     </td>
     <td style="flex: 3; display: flex; flex-direction: column">
       <figure style="height: 100%; display: flex; flex-direction: column;">
-        <img src="images/mod_exampleResolved.svg" alt="Graph After Resolution" style="object-fit: cover; max-width: 100%;" />
+        <img src="images/mod_exampleResolved.svg" alt="Graph After Resolution" style="object-fit: cover; max-width: 100%;">
        <figcaption style="margin-top: auto; margin-left: auto; margin-right: auto ">Graph After Resolution</figcaption>
       </figure>
-{/* digraph mygraph {
+<!-- digraph mygraph {
   node [ shape=box ]
   edge [ fontsize=8 ]
   "<root>" [ label="<root> (my_project@1.0)" ]
@@ -268,7 +276,7 @@ use_repo(toolchains, my_jdk="remotejdk17_linux")
   "rules_cc@0.0.1" -> "platforms@0.0.4" [  ]
   "rules_proto@4.0.0" -> "bazel_skylib@1.1.1" [  ]
   "rules_proto@4.0.0" -> "rules_cc@0.0.1" [  ]
-} */}
+} -->
     </td>
   </tr>
 </table>
