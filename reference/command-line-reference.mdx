@@ -800,6 +800,12 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_symbolic_macro_strict_attrs` default: "false"
+:   If enabled, invalid attribute values in symbolic macros are treated as an error and fail the build, matching the behavior of rules.
+
+    Tags:
+    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--[no]incompatible_unambiguous_label_stringification` default: "true"
 :   When true, Bazel will stringify the label @//foo:bar to @//foo:bar, instead of //foo:bar. This only affects the behavior of str(), the % operator, and so on; the behavior of repr() is unchanged. See https://github.com/bazelbuild/bazel/issues/15916 for more information.
 
@@ -3857,8 +3863,8 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--[no]worker_sandboxing` default: "false"
-:   If enabled, singleplex workers will run in a sandboxed environment. Singleplex workers are always sandboxed when running under the dynamic execution strategy, irrespective of this flag.
+`--[no]worker_sandboxing` multiple uses are accumulated
+:   If enabled, singleplex workers will run in a sandboxed environment. This may be set as a plain boolean (the traditional --worker_sandboxing / --noworker_sandboxing forms still work), or as [mnemonic=]value to enable or disable sandboxing per worker-key mnemonic; a value with no mnemonic applies to all mnemonics. Later values override earlier ones for the mnemonics they affect. Singleplex workers are always sandboxed when running under the dynamic execution strategy or with path mapping, irrespective of this flag.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
