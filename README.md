@@ -1,25 +1,57 @@
 # Bazel Docs
 
-Pipeline repository that syncs pre-converted MDX documentation from `bazelbuild/bazel` and deploys it to Mintlify.
+![Bazel logo](/logo/light.svg)
 
-## Live Site
+This repository contains the source and automated preview generation pipeline
+for the https://bazel.build/ website.
 
-https://preview.bazel.build
+## Contributing
+
+**Most changes to https://bazel.build/ should be made in the
+[bazelbuild/bazel](https://github.com/bazelbuild/bazel) repository.**
+
+See Bazel's [Docs contribution
+workflow](https://bazel.build/contribute/docs-contribution-workflow) for more
+information on how to make changes to Bazel's documentation site.
+
+### Build the Bazel site locally
+
+If you haven't already, [install
+npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#using-a-node-version-manager-to-install-nodejs-and-npm).
+
+To build the Bazel site and launch a local preview, run the following command
+from the root of this repository:
+
+```console
+npx mint dev
+```
+
+<details>
+
+<summary>Example output</summary>
+
+```console
+$ npx mint dev
+Need to install the following packages:
+mint@4.2.679
+Ok to proceed? (y) y
+✓ preview ready
+
+  local   → http://localhost:3000
+  network → http://192.168.1.4:3000
+
+press ctrl+c to exit the preview
+```
+
+</details>
 
 ## How it works
 
-1. The `upstream` git submodule tracks `bazelbuild/bazel`.
-2. On every push to `bazelbuild/bazel`'s main branch, a `repository_dispatch` event triggers this repo to sync the latest docs.
-3. The sync workflow (`pull-from-bazel-build.yml`):
-   - Copies pre-converted MDX files from `upstream/docs/` directly into this repo.
-   - Builds reference documentation (Starlark/Java API docs) via `bazel build //...gen_mdx_reference_docs`, which produces clean MDX directly via `docs2mdx.py`, and commits the result.
-   - Commits the result and pushes to the appropriate branch.
-4. Mintlify picks up the changes and deploys the updated docs site.
-   - Files listed in `.mintignore` are excluded from Mintlify rendering. These are files with MDX syntax that cannot yet be auto-fixed (see [#226](https://github.com/bazel-contrib/bazel-docs/issues/226)).
+Each branch pushed to this repo is automatically deployed by Mintlify at `https://bazel-<branch-name>.mintlify.app`. No additional configuration is required for preview deployments — the branch name determines the subdomain.
 
-## PR Previews
+Files listed in `.mintignore` (gitignore syntax) are excluded from Mintlify rendering. Add files there when they contain MDX syntax errors that block deployment.
 
-When a contributor opens or updates a PR in `bazelbuild/bazel` that touches the `docs/` folder (or reference-doc source files), a Mintlify preview is automatically generated and a comment is posted on the upstream PR linking to it.
+### PR preview generation
 
 The preview workflow (`preview-bazel-docs-pr.yml`) polls `bazelbuild/bazel` every 30 minutes for recently-updated open PRs. For each PR that has doc-related changes, it:
 
@@ -27,23 +59,15 @@ The preview workflow (`preview-bazel-docs-pr.yml`) polls `bazelbuild/bazel` ever
 2. Mintlify deploys that branch at `https://bazel-pr-<N>.mintlify.app`.
 3. Posts (or updates) a comment on the upstream PR with the preview link.
 
-## Setup
-
-### Required GitHub Actions Secrets
-
-| Secret | Description | Scope |
-|---|---|---|
-| `GH_APP_ID` | GitHub App ID used to push branches to this repo | `bazel-contrib/bazel-docs` |
-| `GH_APP_PRIVATE_KEY` | Private key for the GitHub App above | `bazel-contrib/bazel-docs` |
-| `BAZELBUILD_BAZEL_PAT` | Personal Access Token with `pull_requests: write` permission | `bazelbuild/bazel` |
-| `BUILDBUDDY_ORG_API_KEY` | BuildBuddy API key for remote caching during `bazel build` | BuildBuddy org |
-
-### Mintlify Configuration
-
-Each branch pushed to this repo is automatically deployed by Mintlify at `https://bazel-<branch-name>.mintlify.app`. No additional configuration is required for preview deployments — the branch name determines the subdomain.
-
-Files listed in `.mintignore` (gitignore syntax) are excluded from Mintlify rendering. Add files there when they contain MDX syntax errors that block deployment.
-
-## Manual Trigger
-
 The preview workflow can be triggered manually from the GitHub Actions UI via `workflow_dispatch` without waiting for the 30-minute cron.
+
+### Updates to the live Bazel website
+
+1. The `upstream` Git submodule tracks `bazelbuild/bazel`.
+2. On every push to `bazelbuild/bazel`'s main branch, a `repository_dispatch` event triggers this repo to sync the latest docs.
+3. The sync workflow (`pull-from-bazel-build.yml`):
+   - Copies `.mdx` files from `upstream/docs/` directly into this repo.
+   - Builds reference documentation (Starlark/Java API docs) via `bazel build //...gen_mdx_reference_docs`, which produces clean MDX directly via `docs2mdx.py`, and commits the result.
+   - Commits the result and pushes to the appropriate branch.
+4. Mintlify picks up the changes and deploys the updated docs site.
+   - Files listed in `.mintignore` are excluded from Mintlify rendering. These are files with MDX syntax that cannot yet be auto-fixed (see [#226](https://github.com/bazel-contrib/bazel-docs/issues/226)).
