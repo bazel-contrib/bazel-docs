@@ -63,7 +63,7 @@ The preview workflow can be triggered manually from the GitHub Actions UI via `w
 
 ### Updates to the live Bazel website
 
-1. The `upstream` git submodule tracks `bazelbuild/bazel`.
+1. The `upstream` Git submodule tracks `bazelbuild/bazel`.
 2. On every push to `bazelbuild/bazel`'s main branch, a `repository_dispatch` event triggers this repo to sync the latest docs.
 3. The sync workflow (`pull-from-bazel-build.yml`):
    - Copies `.mdx` files from `upstream/docs/` directly into this repo.
