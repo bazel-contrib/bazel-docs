@@ -770,6 +770,12 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
+`--[no]incompatible_require_matching_aspect_hints_providers` default: "false"
+:   If set to true, targets in the aspect_hints attribute must satisfy the providers required by at least one aspect's required_aspect_hints_providers. That is, for each target C in a target P's aspect_hints attribute, C will be made a dependency of P only if there is at least one aspect A being applied to P where C's rule class declares providers that satifies A's required_aspect_hints_providers.
+
+    Tags:
+    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--[no]incompatible_require_mnemonic_for_run_actions` default: "false"
 :   If set to true, ctx.actions.run and ctx.actions.run_shell will require an explicit mnemonic
 
