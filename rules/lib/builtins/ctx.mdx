@@ -152,7 +152,7 @@ A `struct` containing executable files defined in [label type attributes](../top
 ## expand_location
 
 ```
-string ctx.expand_location(input, targets=[])
+unknown ctx.expand_location(input, targets=[], *, lazy=False)
 ```
 
 Expands all `$(location ...)` templates in the given string by replacing `$(location //x)` with the path of the output file of target //x. Expansion only works for labels that point to direct dependencies of this rule or that are explicitly listed in the optional argument `targets`.
@@ -167,6 +167,7 @@ This function is useful to let the user specify a command in a BUILD file (like 
 | --- | --- |
 | `input` | [string](../core/string); required  String to be expanded. |
 | `targets` | [sequence](../core/list) of [Target](../builtins/Target)s; default is `[]`  List of targets for additional lookup information. These are expanded as follows: A target with a single file in `DefaultInfo.files` expands to that file. Other targets expand to their `DefaultInfo.executable` file if set and if `--incompatible_locations_prefers_executable` is enabled, otherwise they expand to `DefaultInfo.files`. |
+| `lazy` | [bool](../core/bool); default is `False`  **Experimental**. This parameter is experimental and may change at any time. Please do not depend on it. It may be enabled on an experimental basis by setting `--experimental_lazy_location_expansion`  Experimental: if true, returns an opaque value that can be passed to `Args.add` in place of the eagerly expanded string. Location paths are only rendered when the consuming action's command line is expanded, which retains less memory during analysis and makes the paths subject to path mapping. |
 
 May return `None`.
 
@@ -191,7 +192,7 @@ Additional variables may come from other places, such as configurations. Note th
 | Parameter | Description |
 | --- | --- |
 | `attribute_name` | [string](../core/string); required |
-| `command` | [string](../core/string); required  The expression to expand. It can contain references to "Make variables". |
+| `command` | [string](../core/string); required |
 | `additional_substitutions` | [dict](../core/dict); required  Additional substitutions to make beyond the default make variables. |
 
 ## features
