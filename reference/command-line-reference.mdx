@@ -674,12 +674,6 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_check_external_repo_source_dir_package_boundary` default: "false"
-:   If true, a source directory in an external repository fails the build if it crosses a package boundary into a sub-package, matching the behavior that already applies to source directories in the main repository. If false, such package boundary crossings inside external repositories are not detected.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_disable_objc_library_transition` default: "true"
 :   Disable objc_library's custom transition and inherit from the top level target instead (No-op in Bazel)
 
@@ -770,12 +764,6 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_require_matching_aspect_hints_providers` default: "false"
-:   If set to true, targets in the aspect_hints attribute must satisfy the providers required by at least one aspect's required_aspect_hints_providers. That is, for each target C in a target P's aspect_hints attribute, C will be made a dependency of P only if there is at least one aspect A being applied to P where C's rule class declares providers that satifies A's required_aspect_hints_providers.
-
-    Tags:
-    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_require_mnemonic_for_run_actions` default: "false"
 :   If set to true, ctx.actions.run and ctx.actions.run_shell will require an explicit mnemonic
 
@@ -805,12 +793,6 @@ This option affects semantics of the Starlark language or the build API accessib
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_symbolic_macro_strict_attrs` default: "false"
-:   If enabled, invalid attribute values in symbolic macros are treated as an error and fail the build, matching the behavior of rules.
-
-    Tags:
-    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_unambiguous_label_stringification` default: "true"
 :   When true, Bazel will stringify the label @//foo:bar to @//foo:bar, instead of //foo:bar. This only affects the behavior of str(), the % operator, and so on; the behavior of repr() is unchanged. See https://github.com/bazelbuild/bazel/issues/15916 for more information.
@@ -916,7 +898,7 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]heuristically_drop_nodes` default: "false"
-:   If true, Bazel will remove FileState and DirectoryListingState nodes after related File and DirectoryListing node is done to save memory. We expect that it is less likely that these nodes will be needed again. If so, the program will re-evaluate them.
+:   If true, Blaze will remove FileState and DirectoryListingState nodes after related File and DirectoryListing node is done to save memory. We expect that it is less likely that these nodes will be needed again. If so, the program will re-evaluate them.
 
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -952,7 +934,7 @@ Options that trigger optimizations of the build time:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
 `--[no]track_incremental_state` default: "true"
-:   If false, Bazel will not persist data that allows for invalidation and re-evaluation on incremental builds in order to save memory on this build. Subsequent builds will not have any incrementality with respect to this one. Usually you will want to specify --batch when setting this to false.
+:   If false, Blaze will not persist data that allows for invalidation and re-evaluation on incremental builds in order to save memory on this build. Subsequent builds will not have any incrementality with respect to this one. Usually you will want to specify --batch when setting this to false.
 
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -1503,18 +1485,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
-`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
-:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
-`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
-:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -1665,7 +1635,7 @@ Miscellaneous options, not otherwise categorized.:
 :   Use terminal controls to colorize output.
 
 `--config=<a string>` multiple uses are accumulated
-:   Selects additional config sections from the rc files; for every &lt;command&gt;, it also pulls in the options from &lt;command&gt;:&lt;config&gt; if such a section exists; if this section doesn't exist in any .rc file, Bazel fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
+:   Selects additional config sections from the rc files; for every &lt;command&gt;, it also pulls in the options from &lt;command&gt;:&lt;config&gt; if such a section exists; if this section doesn't exist in any .rc file, Blaze fails with an error. The config sections and flag combinations they are equivalent to are located in the tools/\*.blazerc config files.
 
 `--credential_helper=<Path to a credential helper.>` multiple uses are accumulated
 :   Configures a credential helper conforming to the [Credential Helper Specification](https://github.com/EngFlow/credential-helper-spec)
@@ -2351,6 +2321,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -3113,6 +3089,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -3869,8 +3851,8 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--[no]worker_sandboxing` multiple uses are accumulated
-:   If enabled, singleplex workers will run in a sandboxed environment. This may be set as a plain boolean (the traditional --worker_sandboxing / --noworker_sandboxing forms still work), or as [mnemonic=]value to enable or disable sandboxing per worker-key mnemonic; a value with no mnemonic applies to all mnemonics. Later values override earlier ones for the mnemonics they affect. Singleplex workers are always sandboxed when running under the dynamic execution strategy or with path mapping, irrespective of this flag.
+`--[no]worker_sandboxing` default: "false"
+:   If enabled, singleplex workers will run in a sandboxed environment. Singleplex workers are always sandboxed when running under the dynamic execution strategy, irrespective of this flag.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -4440,18 +4422,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
-`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
-:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
-`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
-:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -4975,6 +4945,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -5737,6 +5713,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -6733,6 +6715,12 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
+
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -7494,6 +7482,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -7966,14 +7960,14 @@ Options that control the output of the command:
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
-`--skyframe=<off, summary, count, keys, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
+`--skyframe=<off, summary, count, value, deps, rdeps, function_graph, active_directories or active_directories_frontier_deps>` default: "off"
 :   Dump the Skyframe graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 
 `--skykey_filter=<a comma-separated list of regex expressions with prefix '-' specifying excluded paths>` default: ".\*"
-:   Regex filter of SkyKey names to output. Only used with --skyframe=keys, value, deps, rdeps, function_graph.
+:   Regex filter of SkyKey names to output. Only used with --skyframe=value, deps, rdeps, function_graph.
 
     Tags:
     [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
@@ -8322,6 +8316,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -9084,6 +9084,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
@@ -11259,6 +11265,12 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
+
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -12020,6 +12032,12 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
+`--[no]incompatible_disable_native_apple_binary_rule` default: "false"
+:   No-op. Kept here for backwards compatibility.
+
+    Tags:
+    [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 
 `--[no]one_version_enforcement_on_java_tests` default: "true"
 :   When enabled, and with experimental_one_version_enforcement set to a non-NONE value, enforce one version on java_test targets. This flag can be disabled to improve incremental test performance at the expense of missing potential one version violations.
