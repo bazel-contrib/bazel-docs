@@ -1533,7 +1533,7 @@ Remote caching and execution options:
 
     Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
 
-    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes).
+    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
 
 `--[no]guard_against_concurrent_changes` default: "lite"
 :   Set this to 'full' to enable checking the ctime of all input files of an action before uploading it to a remote cache. There may be cases where the Linux kernel delays writing of files, which could cause false positives. The default is 'lite', which only checks source files in the main repository. Setting this to 'off' disables all checks. This is not recommended, as the cache may be polluted when a source file is changed while an action that takes it as an input is executing.
@@ -4470,7 +4470,7 @@ Remote caching and execution options:
 
     Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
 
-    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes).
+    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
 
 `--[no]guard_against_concurrent_changes` default: "lite"
 :   Set this to 'full' to enable checking the ctime of all input files of an action before uploading it to a remote cache. There may be cases where the Linux kernel delays writing of files, which could cause false positives. The default is 'lite', which only checks source files in the main repository. Setting this to 'off' disables all checks. This is not recommended, as the cache may be polluted when a source file is changed while an action that takes it as an input is executing.
