@@ -770,12 +770,6 @@ This option affects semantics of the Starlark language or the build API accessib
     Tags:
     [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
-`--[no]incompatible_require_matching_aspect_hints_providers` default: "false"
-:   If set to true, targets in the aspect_hints attribute must satisfy the providers required by at least one aspect's required_aspect_hints_providers. That is, for each target C in a target P's aspect_hints attribute, C will be made a dependency of P only if there is at least one aspect A being applied to P where C's rule class declares providers that satifies A's required_aspect_hints_providers.
-
-    Tags:
-    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--[no]incompatible_require_mnemonic_for_run_actions` default: "false"
 :   If set to true, ctx.actions.run and ctx.actions.run_shell will require an explicit mnemonic
 
@@ -805,12 +799,6 @@ This option affects semantics of the Starlark language or the build API accessib
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
-`--[no]incompatible_symbolic_macro_strict_attrs` default: "false"
-:   If enabled, invalid attribute values in symbolic macros are treated as an error and fail the build, matching the behavior of rules.
-
-    Tags:
-    [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]incompatible_unambiguous_label_stringification` default: "true"
 :   When true, Bazel will stringify the label @//foo:bar to @//foo:bar, instead of //foo:bar. This only affects the behavior of str(), the % operator, and so on; the behavior of repr() is unchanged. See https://github.com/bazelbuild/bazel/issues/15916 for more information.
@@ -1503,18 +1491,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
-`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
-:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
-`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
-:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -1533,7 +1509,7 @@ Remote caching and execution options:
 
     Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
 
-    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
+    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes).
 
 `--[no]guard_against_concurrent_changes` default: "lite"
 :   Set this to 'full' to enable checking the ctime of all input files of an action before uploading it to a remote cache. There may be cases where the Linux kernel delays writing of files, which could cause false positives. The default is 'lite', which only checks source files in the main repository. Setting this to 'off' disables all checks. This is not recommended, as the cache may be polluted when a source file is changed while an action that takes it as an input is executing.
@@ -2351,6 +2327,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -3869,8 +3851,8 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 
-`--[no]worker_sandboxing` multiple uses are accumulated
-:   If enabled, singleplex workers will run in a sandboxed environment. This may be set as a plain boolean (the traditional --worker_sandboxing / --noworker_sandboxing forms still work), or as [mnemonic=]value to enable or disable sandboxing per worker-key mnemonic; a value with no mnemonic applies to all mnemonics. Later values override earlier ones for the mnemonics they affect. Singleplex workers are always sandboxed when running under the dynamic execution strategy or with path mapping, irrespective of this flag.
+`--[no]worker_sandboxing` default: "false"
+:   If enabled, singleplex workers will run in a sandboxed environment. Singleplex workers are always sandboxed when running under the dynamic execution strategy, irrespective of this flag.
 
     Tags:
     [`execution`](#effect_tag_EXECUTION)
@@ -4147,6 +4129,12 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
+
+`--[no]experimental_local_jobserver` default: "false"
+:   If enabled, Bazel runs a GNU-make-style jobserver sized to the CPUs not currently reserved by running actions, and points standalone local actions that declare the 'supports-jobserver' execution requirement at it via MAKEFLAGS (a fifo on Linux/macOS, a named semaphore on Windows). Jobserver-aware tools such as rustc and make then dynamically expand their internal parallelism into idle cores and shrink it when Bazel schedules more actions. On POSIX Bazel emits the modern 'fifo' auth style, so a tagged tool must be able to parse it (make &lt; 4.4 will fail). Remote and persistent-worker spawns never see MAKEFLAGS. The 'supports-jobserver' tag is a promise that an action's outputs and exit status do not depend on how many tokens it receives.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
 
 `--local_resources=<a named double, 'name=value', where value is an integer, or a keyword ("HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "HOST_CPUS", "HOST_CPUS*.5">` multiple uses are accumulated
 :   Set the number of resources available to Bazel. Takes in an assignment to a float or HOST_RAM/HOST_CPUS, optionally followed by [-|*]&lt;float&gt; (eg. memory=HOST_RAM*.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:&lt;resource name&gt;:&lt;amount&gt;" format.
@@ -4440,18 +4428,6 @@ Remote caching and execution options:
 `--[no]experimental_remote_mark_tool_inputs` default: "false"
 :   If set to true, Bazel will mark inputs as tool inputs for the remote executor. This can be used to implement remote persistent workers.
 
-`--experimental_remote_min_call_count_to_compute_failure_rate=<an integer>` default: "100"
-:   The minimum number of remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many total calls or --experimental_remote_min_fail_count_to_compute_failure_rate failures are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
-`--experimental_remote_min_fail_count_to_compute_failure_rate=<an integer>` default: "12"
-:   The minimum number of failed remote calls that must be observed within the failure window before the circuit breaker computes the failure rate. The rate is computed (and the breaker may trip) once either this many failures or --experimental_remote_min_call_count_to_compute_failure_rate total calls are observed. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 `--experimental_remote_output_service=<a string>` default: see description
 :   HOST or HOST:PORT of a remote output service endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
@@ -4470,7 +4446,7 @@ Remote caching and execution options:
 
     Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
 
-    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
+    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes).
 
 `--[no]guard_against_concurrent_changes` default: "lite"
 :   Set this to 'full' to enable checking the ctime of all input files of an action before uploading it to a remote cache. There may be cases where the Linux kernel delays writing of files, which could cause false positives. The default is 'lite', which only checks source files in the main repository. Setting this to 'off' disables all checks. This is not recommended, as the cache may be polluted when a source file is changed while an action that takes it as an input is executing.
@@ -4975,6 +4951,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -6733,6 +6715,12 @@ Options that configure the toolchain used for action execution:
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
+
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
 
@@ -8322,6 +8310,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
@@ -11258,6 +11252,12 @@ Options that configure the toolchain used for action execution:
 
     Tags:
     [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--host_compiler=<a string>` default: see description
+:   No-op flag. Will be removed in a future release.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION)
 
 `--host_grte_top=<a label>` default: see description
 :   If specified, this setting overrides the libc top-level directory (--grte_top) for the exec configuration.
