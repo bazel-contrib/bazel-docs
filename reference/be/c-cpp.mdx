@@ -845,7 +845,7 @@ fdo_prefetch_hints(
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/fdo/fdo_profile.bzl)
 
 ```
-fdo_profile(name, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, memprof_profile, package_metadata, profile, proto_profile, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
+fdo_profile(name, aspect_hints, changelist, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, memprof_profile, package_metadata, profile, proto_profile, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
 Represents an FDO profile that is in the workspace.
@@ -863,6 +863,7 @@ fdo_profile(
 | Attributes | |
 | --- | --- |
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
+| `changelist` | String; default is `"0"` The profile generation CL version. |
 | `memprof_profile` | [Label](/concepts/labels); default is `None` Label of the MemProf profile. The profile is expected to have either a .profdata extension (for an indexed/symbolized memprof profile), or a .zip extension for a zipfile containing a memprof.profdata file. |
 | `profile` | [Label](/concepts/labels); required Label of the FDO profile or a rule which generates it. The FDO file can have one of the following extensions: .profraw for unindexed LLVM profile, .profdata for indexed LLVM profile, .zip that holds an LLVM profraw profile, .afdo for AutoFDO profile, .xfdo for XBinary profile. The label can also point to an fdo_absolute_path_profile rule. |
 | `proto_profile` | [Label](/concepts/labels); default is `None` Label of the protobuf profile. |
@@ -872,7 +873,7 @@ fdo_profile(
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/fdo/memprof_profile.bzl)
 
 ```
-memprof_profile(name, aspect_hints, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, package_metadata, profile, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
+memprof_profile(name, aspect_hints, changelist, compatible_with, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, package_metadata, profile, restricted_to, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
 Represents a MEMPROF profile that is in the workspace.
@@ -890,6 +891,7 @@ memprof_profile(
 | Attributes | |
 | --- | --- |
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
+| `changelist` | String; default is `"0"` The profile generation CL version. |
 | `profile` | [Label](/concepts/labels); required Label of the MEMPROF profile. The profile is expected to have either a .profdata extension (for an indexed/symbolized memprof profile), or a .zip extension for a zipfile containing a memprof.profdata file. The label can also point to an fdo_absolute_path_profile rule. |
 
 ## propeller_optimize
