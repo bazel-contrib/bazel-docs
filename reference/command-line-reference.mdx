@@ -1533,7 +1533,7 @@ Remote caching and execution options:
 
     Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
 
-    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
+    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes).
 
 `--[no]guard_against_concurrent_changes` default: "lite"
 :   Set this to 'full' to enable checking the ctime of all input files of an action before uploading it to a remote cache. There may be cases where the Linux kernel delays writing of files, which could cause false positives. The default is 'lite', which only checks source files in the main repository. Setting this to 'off' disables all checks. This is not recommended, as the cache may be polluted when a source file is changed while an action that takes it as an input is executing.
@@ -4395,12 +4395,6 @@ Remote caching and execution options:
     Tags:
     [`execution`](#effect_tag_EXECUTION)
 
-`--experimental_max_repeated_lost_inputs=<an integer>` default: "20"
-:   The maximum number of times action rewinding will try to recover the same lost input (or top-level output) for the same action before giving up and failing the build. Set this lower to fail fast on an unstable remote cache instead of repeatedly rewinding a single lost input; 0 fails on the first lost input. Only takes effect when --rewind_lost_inputs is enabled.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 `--[no]experimental_remote_cache_chunking` default: "false"
 :   If enabled, large blobs are split into content-defined chunks using FastCDC 2020 and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and FastCDC 2020 parameters in its capabilities.
 
@@ -4476,7 +4470,7 @@ Remote caching and execution options:
 
     Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
 
-    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
+    In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes).
 
 `--[no]guard_against_concurrent_changes` default: "lite"
 :   Set this to 'full' to enable checking the ctime of all input files of an action before uploading it to a remote cache. There may be cases where the Linux kernel delays writing of files, which could cause false positives. The default is 'lite', which only checks source files in the main repository. Setting this to 'off' disables all checks. This is not recommended, as the cache may be polluted when a source file is changed while an action that takes it as an input is executing.
