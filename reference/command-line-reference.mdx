@@ -1485,6 +1485,12 @@ Remote caching and execution options:
 `--experimental_remote_capture_corrupted_outputs=<a path>` default: see description
 :   A path to a directory where the corrupted outputs will be captured to.
 
+`--experimental_remote_circuit_breaker_recovery_delay=<An immutable length of time.>` default: "0"
+:   The delay after the failure circuit breaker trips before it allows a single trial remote call to probe whether the remote cache/executor has recovered. If the trial succeeds the breaker closes and normal calls resume; otherwise it re-opens and waits again before the next trial. A zero or negative value (the default) disables recovery, so a tripped breaker stays open for the remainder of the build. Following units can be used: Days (d), hours (h), minutes (m), seconds (s), and milliseconds (ms). If the unit is omitted, the value is interpreted as seconds. Only takes effect with --experimental_circuit_breaker_strategy=failure.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
 
@@ -1602,6 +1608,9 @@ Remote caching and execution options:
 
 `--remote_grpc_log=<a path>` default: see description
 :   If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
+
+`--remote_grpc_service_config=<a path>` default: see description
+:   Path to a gRPC service config JSON file for remote gRPC channels. This replaces the service config Bazel generates from --remote_timeout. Only a subset of the gRPC service config JSON schema is supported: top-level methodConfig entries with name objects containing service and optional method, plus timeout. Other service config fields are rejected and may be supported in the future.
 
 `--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in requests: --remote_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
@@ -2250,22 +2259,10 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]use_target_platform_for_tests` default: "false"
-:   If true, use the target platform for running tests rather than the test exec group.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
-`--android_manifest_merger=<legacy, android or force_android>` default: "android"
-:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -2554,12 +2551,6 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--android_dynamic_mode=<off, default or fully>` default: "off"
-:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -4428,6 +4419,12 @@ Remote caching and execution options:
 `--experimental_remote_capture_corrupted_outputs=<a path>` default: see description
 :   A path to a directory where the corrupted outputs will be captured to.
 
+`--experimental_remote_circuit_breaker_recovery_delay=<An immutable length of time.>` default: "0"
+:   The delay after the failure circuit breaker trips before it allows a single trial remote call to probe whether the remote cache/executor has recovered. If the trial succeeds the breaker closes and normal calls resume; otherwise it re-opens and waits again before the next trial. A zero or negative value (the default) disables recovery, so a tripped breaker stays open for the remainder of the build. Following units can be used: Days (d), hours (h), minutes (m), seconds (s), and milliseconds (ms). If the unit is omitted, the value is interpreted as seconds. Only takes effect with --experimental_circuit_breaker_strategy=failure.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
 
@@ -4545,6 +4542,9 @@ Remote caching and execution options:
 
 `--remote_grpc_log=<a path>` default: see description
 :   If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
+
+`--remote_grpc_service_config=<a path>` default: see description
+:   Path to a gRPC service config JSON file for remote gRPC channels. This replaces the service config Bazel generates from --remote_timeout. Only a subset of the gRPC service config JSON schema is supported: top-level methodConfig entries with name objects containing service and optional method, plus timeout. Other service config fields are rejected and may be supported in the future.
 
 `--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in requests: --remote_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
@@ -4880,22 +4880,10 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]use_target_platform_for_tests` default: "false"
-:   If true, use the target platform for running tests rather than the test exec group.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
-`--android_manifest_merger=<legacy, android or force_android>` default: "android"
-:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -5184,12 +5172,6 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--android_dynamic_mode=<off, default or fully>` default: "off"
-:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -6637,22 +6619,10 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]use_target_platform_for_tests` default: "false"
-:   If true, use the target platform for running tests rather than the test exec group.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
-`--android_manifest_merger=<legacy, android or force_android>` default: "android"
-:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -6941,12 +6911,6 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--android_dynamic_mode=<off, default or fully>` default: "off"
-:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -8227,22 +8191,10 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]use_target_platform_for_tests` default: "false"
-:   If true, use the target platform for running tests rather than the test exec group.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
-`--android_manifest_merger=<legacy, android or force_android>` default: "android"
-:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -8531,12 +8483,6 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--android_dynamic_mode=<off, default or fully>` default: "off"
-:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -9691,12 +9637,6 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
-`--[no]use_target_platform_for_tests` default: "false"
-:   If true, use the target platform for running tests rather than the test exec group.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 Options that configure the toolchain used for action execution:
 
 `--[no]incompatible_bazel_test_exec_run_under` default: "true"
@@ -10232,12 +10172,6 @@ Options that control build execution:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
-
-`--[no]use_target_platform_for_tests` default: "false"
-:   If true, use the target platform for running tests rather than the test exec group.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
 
 Options that configure the toolchain used for action execution:
 
@@ -11163,22 +11097,10 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
-`--[no]use_target_platform_for_tests` default: "false"
-:   If true, use the target platform for running tests rather than the test exec group.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
-
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
-`--android_manifest_merger=<legacy, android or force_android>` default: "android"
-:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -11467,12 +11389,6 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-
-`--android_dynamic_mode=<off, default or fully>` default: "off"
-:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
