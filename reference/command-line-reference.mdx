@@ -2259,10 +2259,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -2551,6 +2563,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -4880,10 +4898,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -5172,6 +5202,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -6619,10 +6655,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -6911,6 +6959,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -8191,10 +8245,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -8483,6 +8549,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -9637,6 +9709,12 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--[no]incompatible_bazel_test_exec_run_under` default: "true"
@@ -10172,6 +10250,12 @@ Options that control build execution:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
 
 Options that configure the toolchain used for action execution:
 
@@ -11097,10 +11181,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -11389,6 +11485,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
