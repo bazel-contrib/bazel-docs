@@ -995,7 +995,7 @@ Options that affect the verbosity, format or location of logging:
     values for the same name will be converted to a comma-separated list.
 
     Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--bes_instance_name=<a string>` default: see description
 :   Specifies the instance name under which the BES will persist uploaded BEP. Defaults to null.
@@ -1465,7 +1465,13 @@ Remote caching and execution options:
     [`execution`](#effect_tag_EXECUTION)
 
 `--[no]experimental_remote_cache_chunking` default: "false"
-:   If enabled, large blobs are split into content-defined chunks using FastCDC 2020 and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and FastCDC 2020 parameters in its capabilities.
+:   If enabled, large blobs are split into content-defined chunks and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and the parameters of the chunking function selected by --experimental_remote_cache_chunking_function in its capabilities.
+
+    Tags:
+    [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--experimental_remote_cache_chunking_function=<auto, fast_cdc_2020 or rep_max_cdc>` default: "auto"
+:   The content-defined chunking function used to split large blobs when --experimental_remote_cache_chunking is enabled. If set to 'auto' (the default), the function is negotiated with the server: FastCDC 2020 is used if the server advertises it, otherwise RepMaxCDC. Set to 'fast_cdc_2020' or 'rep_max_cdc' to require a specific function, in which case the server must advertise the parameters of that function in its capabilities. All clients sharing a cache should use the same function to maximize chunk reuse.
 
     Tags:
     [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -1573,6 +1579,9 @@ Remote caching and execution options:
 `--remote_cache_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in cache requests: --remote_cache_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
+
 `--remote_default_exec_properties=<a 'name=value' assignment>` multiple uses are accumulated
 :   Set the default exec properties to be used as the remote execution platform if an execution platform does not already set exec_properties.
 
@@ -1591,6 +1600,9 @@ Remote caching and execution options:
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
+
 `--[no]remote_downloader_local_fallback` default: "false"
 :   Whether to fall back to the local downloader if remote downloader fails.
 
@@ -1599,6 +1611,9 @@ Remote caching and execution options:
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
+
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_execution_priority=<an integer>` default: "0"
 :   The relative priority of actions to be executed remotely. The semantics of the particular priority values are server-dependent.
@@ -1614,6 +1629,9 @@ Remote caching and execution options:
 
 `--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in requests: --remote_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
+
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_instance_name=<a string>` default: ""
 :   Value to pass as instance_name in the remote execution API.
@@ -1779,6 +1797,9 @@ Miscellaneous options, not otherwise categorized.:
 `--google_credentials=<a string>` default: see description
 :   Specifies the file to get authentication credentials from. See https://cloud.google.com/docs/authentication for details.
 
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
+
 `--[no]google_default_credentials` default: "false"
 :   Whether to use 'Google Application Default Credentials' for authentication.
     See [Authentication methods at Google - Google Cloud](https://cloud.google.com/docs/authentication) for details.
@@ -1872,6 +1893,9 @@ Miscellaneous options, not otherwise categorized.:
 
 `--tls_client_key=<a string; empty to unset>` default: see description
 :   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication. An empty value resets the flag to its default.
+
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--ui_actions_shown=<an integer>` default: "8"
 :   Number of concurrent actions shown in the detailed progress bar; each action is shown on a separate line. The progress bar always shows at least one one, all numbers less than 1 are mapped to 1.
@@ -2113,13 +2137,6 @@ Options that control build execution:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]incompatible_modify_execution_info_additive` default: "true"
-:   When enabled, passing multiple `--modify_execution_info` flags is additive.
-    When disabled, only the last flag is taken into account.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
@@ -4393,7 +4410,13 @@ Remote caching and execution options:
     [`execution`](#effect_tag_EXECUTION)
 
 `--[no]experimental_remote_cache_chunking` default: "false"
-:   If enabled, large blobs are split into content-defined chunks using FastCDC 2020 and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and FastCDC 2020 parameters in its capabilities.
+:   If enabled, large blobs are split into content-defined chunks and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and the parameters of the chunking function selected by --experimental_remote_cache_chunking_function in its capabilities.
+
+    Tags:
+    [`experimental`](#metadata_tag_EXPERIMENTAL)
+
+`--experimental_remote_cache_chunking_function=<auto, fast_cdc_2020 or rep_max_cdc>` default: "auto"
+:   The content-defined chunking function used to split large blobs when --experimental_remote_cache_chunking is enabled. If set to 'auto' (the default), the function is negotiated with the server: FastCDC 2020 is used if the server advertises it, otherwise RepMaxCDC. Set to 'fast_cdc_2020' or 'rep_max_cdc' to require a specific function, in which case the server must advertise the parameters of that function in its capabilities. All clients sharing a cache should use the same function to maximize chunk reuse.
 
     Tags:
     [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -4507,6 +4530,9 @@ Remote caching and execution options:
 `--remote_cache_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in cache requests: --remote_cache_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
+
 `--remote_default_exec_properties=<a 'name=value' assignment>` multiple uses are accumulated
 :   Set the default exec properties to be used as the remote execution platform if an execution platform does not already set exec_properties.
 
@@ -4525,6 +4551,9 @@ Remote caching and execution options:
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
+
 `--[no]remote_downloader_local_fallback` default: "false"
 :   Whether to fall back to the local downloader if remote downloader fails.
 
@@ -4533,6 +4562,9 @@ Remote caching and execution options:
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
+
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_execution_priority=<an integer>` default: "0"
 :   The relative priority of actions to be executed remotely. The semantics of the particular priority values are server-dependent.
@@ -4548,6 +4580,9 @@ Remote caching and execution options:
 
 `--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in requests: --remote_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
+
+    Tags:
+    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_instance_name=<a string>` default: ""
 :   Value to pass as instance_name in the remote execution API.
@@ -4734,13 +4769,6 @@ Options that control build execution:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]incompatible_modify_execution_info_additive` default: "true"
-:   When enabled, passing multiple `--modify_execution_info` flags is additive.
-    When disabled, only the last flag is taken into account.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
@@ -6474,13 +6502,6 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
-`--[no]incompatible_modify_execution_info_additive` default: "true"
-:   When enabled, passing multiple `--modify_execution_info` flags is additive.
-    When disabled, only the last flag is taken into account.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
     Applies only to actions which support execution info. Many common actions
@@ -8046,13 +8067,6 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
-`--[no]incompatible_modify_execution_info_additive` default: "true"
-:   When enabled, passing multiple `--modify_execution_info` flags is additive.
-    When disabled, only the last flag is taken into account.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
     Applies only to actions which support execution info. Many common actions
@@ -9606,13 +9620,6 @@ Options that control build execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
-`--[no]incompatible_modify_execution_info_additive` default: "true"
-:   When enabled, passing multiple `--modify_execution_info` flags is additive.
-    When disabled, only the last flag is taken into account.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-
 `--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 :   Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
@@ -10135,13 +10142,6 @@ Options that control build execution:
 
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]incompatible_modify_execution_info_additive` default: "true"
-:   When enabled, passing multiple `--modify_execution_info` flags is additive.
-    When disabled, only the last flag is taken into account.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]keep_going` [`-k`] default: "false"
 :   Continue as much as possible after an error. While the target that failed and those that depend on it cannot be analyzed, other prerequisites of these targets can be.
@@ -10951,13 +10951,6 @@ Options that control build execution:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--[no]incompatible_modify_execution_info_additive` default: "true"
-:   When enabled, passing multiple `--modify_execution_info` flags is additive.
-    When disabled, only the last flag is taken into account.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
@@ -12406,6 +12399,7 @@ Options that let the user configure the intended output, affecting its value, as
 | `incompatible_change` | This option triggers a breaking change. Use this option to test your migration readiness or get early access to the new feature |
 | `deprecated` | This option is deprecated. It might be that the feature it affects is deprecated, or that another method of supplying the information is preferred. |
 | `non_configurable` | This option cannot be changed in a transition or be used in a select() statement. |
+| `fully_redacted_in_logs` | This option may contain sensitive credentials and should be redacted in logs. |
 
 
 

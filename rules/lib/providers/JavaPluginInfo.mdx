@@ -15,7 +15,7 @@ At the moment, the only supported kind of plugins are annotation processors.
 ## api_generating_plugins
 
 ```
-struct JavaPluginInfo.api_generating_plugins
+JavaPluginData JavaPluginInfo.api_generating_plugins
 ```
 
 Returns data about API generating plugins defined or exported by this target.
@@ -35,7 +35,7 @@ Returns information about outputs of this Java/Java-like target.
 ## plugins
 
 ```
-struct JavaPluginInfo.plugins
+JavaPluginData JavaPluginInfo.plugins
 ```
 
 Returns data about all plugins that a consuming target should apply.
