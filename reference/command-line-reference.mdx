@@ -995,7 +995,7 @@ Options that affect the verbosity, format or location of logging:
     values for the same name will be converted to a comma-separated list.
 
     Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 
 `--bes_instance_name=<a string>` default: see description
 :   Specifies the instance name under which the BES will persist uploaded BEP. Defaults to null.
@@ -1465,13 +1465,7 @@ Remote caching and execution options:
     [`execution`](#effect_tag_EXECUTION)
 
 `--[no]experimental_remote_cache_chunking` default: "false"
-:   If enabled, large blobs are split into content-defined chunks and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and the parameters of the chunking function selected by --experimental_remote_cache_chunking_function in its capabilities.
-
-    Tags:
-    [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_remote_cache_chunking_function=<auto, fast_cdc_2020 or rep_max_cdc>` default: "auto"
-:   The content-defined chunking function used to split large blobs when --experimental_remote_cache_chunking is enabled. If set to 'auto' (the default), the function is negotiated with the server: FastCDC 2020 is used if the server advertises it, otherwise RepMaxCDC. Set to 'fast_cdc_2020' or 'rep_max_cdc' to require a specific function, in which case the server must advertise the parameters of that function in its capabilities. All clients sharing a cache should use the same function to maximize chunk reuse.
+:   If enabled, large blobs are split into content-defined chunks using FastCDC 2020 and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and FastCDC 2020 parameters in its capabilities.
 
     Tags:
     [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -1490,12 +1484,6 @@ Remote caching and execution options:
 
 `--experimental_remote_capture_corrupted_outputs=<a path>` default: see description
 :   A path to a directory where the corrupted outputs will be captured to.
-
-`--experimental_remote_circuit_breaker_recovery_delay=<An immutable length of time.>` default: "0"
-:   The delay after the failure circuit breaker trips before it allows a single trial remote call to probe whether the remote cache/executor has recovered. If the trial succeeds the breaker closes and normal calls resume; otherwise it re-opens and waits again before the next trial. A zero or negative value (the default) disables recovery, so a tripped breaker stays open for the remainder of the build. Following units can be used: Days (d), hours (h), minutes (m), seconds (s), and milliseconds (ms). If the unit is omitted, the value is interpreted as seconds. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
 
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
@@ -1579,9 +1567,6 @@ Remote caching and execution options:
 `--remote_cache_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in cache requests: --remote_cache_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
-
 `--remote_default_exec_properties=<a 'name=value' assignment>` multiple uses are accumulated
 :   Set the default exec properties to be used as the remote execution platform if an execution platform does not already set exec_properties.
 
@@ -1600,9 +1585,6 @@ Remote caching and execution options:
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
-
 `--[no]remote_downloader_local_fallback` default: "false"
 :   Whether to fall back to the local downloader if remote downloader fails.
 
@@ -1611,9 +1593,6 @@ Remote caching and execution options:
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
-
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_execution_priority=<an integer>` default: "0"
 :   The relative priority of actions to be executed remotely. The semantics of the particular priority values are server-dependent.
@@ -1624,14 +1603,8 @@ Remote caching and execution options:
 `--remote_grpc_log=<a path>` default: see description
 :   If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
 
-`--remote_grpc_service_config=<a path>` default: see description
-:   Path to a gRPC service config JSON file for remote gRPC channels. This replaces the service config Bazel generates from --remote_timeout. Only a subset of the gRPC service config JSON schema is supported: top-level methodConfig entries with name objects containing service and optional method, plus timeout. Other service config fields are rejected and may be supported in the future.
-
 `--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in requests: --remote_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
-
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_instance_name=<a string>` default: ""
 :   Value to pass as instance_name in the remote execution API.
@@ -1797,9 +1770,6 @@ Miscellaneous options, not otherwise categorized.:
 `--google_credentials=<a string>` default: see description
 :   Specifies the file to get authentication credentials from. See https://cloud.google.com/docs/authentication for details.
 
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
-
 `--[no]google_default_credentials` default: "false"
 :   Whether to use 'Google Application Default Credentials' for authentication.
     See [Authentication methods at Google - Google Cloud](https://cloud.google.com/docs/authentication) for details.
@@ -1893,9 +1863,6 @@ Miscellaneous options, not otherwise categorized.:
 
 `--tls_client_key=<a string; empty to unset>` default: see description
 :   Specify the TLS client key to use; you also need to provide a client certificate to enable client authentication. An empty value resets the flag to its default.
-
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--ui_actions_shown=<an integer>` default: "8"
 :   Number of concurrent actions shown in the detailed progress bar; each action is shown on a separate line. The progress bar always shows at least one one, all numbers less than 1 are mapped to 1.
@@ -2138,6 +2105,13 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incompatible_modify_execution_info_additive` default: "true"
+:   When enabled, passing multiple `--modify_execution_info` flags is additive.
+    When disabled, only the last flag is taken into account.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
     Applies only to actions which support execution info. Many common actions
@@ -2276,10 +2250,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -2568,6 +2554,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -4410,13 +4402,7 @@ Remote caching and execution options:
     [`execution`](#effect_tag_EXECUTION)
 
 `--[no]experimental_remote_cache_chunking` default: "false"
-:   If enabled, large blobs are split into content-defined chunks and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and the parameters of the chunking function selected by --experimental_remote_cache_chunking_function in its capabilities.
-
-    Tags:
-    [`experimental`](#metadata_tag_EXPERIMENTAL)
-
-`--experimental_remote_cache_chunking_function=<auto, fast_cdc_2020 or rep_max_cdc>` default: "auto"
-:   The content-defined chunking function used to split large blobs when --experimental_remote_cache_chunking is enabled. If set to 'auto' (the default), the function is negotiated with the server: FastCDC 2020 is used if the server advertises it, otherwise RepMaxCDC. Set to 'fast_cdc_2020' or 'rep_max_cdc' to require a specific function, in which case the server must advertise the parameters of that function in its capabilities. All clients sharing a cache should use the same function to maximize chunk reuse.
+:   If enabled, large blobs are split into content-defined chunks using FastCDC 2020 and uploaded/downloaded in chunks, enabling deduplication across blobs. The server must advertise SplitBlob/SpliceBlob RPCs and FastCDC 2020 parameters in its capabilities.
 
     Tags:
     [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -4441,12 +4427,6 @@ Remote caching and execution options:
 
 `--experimental_remote_capture_corrupted_outputs=<a path>` default: see description
 :   A path to a directory where the corrupted outputs will be captured to.
-
-`--experimental_remote_circuit_breaker_recovery_delay=<An immutable length of time.>` default: "0"
-:   The delay after the failure circuit breaker trips before it allows a single trial remote call to probe whether the remote cache/executor has recovered. If the trial succeeds the breaker closes and normal calls resume; otherwise it re-opens and waits again before the next trial. A zero or negative value (the default) disables recovery, so a tripped breaker stays open for the remainder of the build. Following units can be used: Days (d), hours (h), minutes (m), seconds (s), and milliseconds (ms). If the unit is omitted, the value is interpreted as seconds. Only takes effect with --experimental_circuit_breaker_strategy=failure.
-
-    Tags:
-    [`execution`](#effect_tag_EXECUTION)
 
 `--[no]experimental_remote_discard_merkle_trees` default: "true"
 :   If set to true, discard in-memory copies of the input root's Merkle tree and associated input mappings during calls to GetActionResult() and Execute(). This reduces memory usage significantly, but does require Bazel to recompute them upon remote cache misses and retries.
@@ -4530,9 +4510,6 @@ Remote caching and execution options:
 `--remote_cache_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in cache requests: --remote_cache_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
-
 `--remote_default_exec_properties=<a 'name=value' assignment>` multiple uses are accumulated
 :   Set the default exec properties to be used as the remote execution platform if an execution platform does not already set exec_properties.
 
@@ -4551,9 +4528,6 @@ Remote caching and execution options:
 `--remote_downloader_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in remote downloader requests: --remote_downloader_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
 
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
-
 `--[no]remote_downloader_local_fallback` default: "false"
 :   Whether to fall back to the local downloader if remote downloader fails.
 
@@ -4562,9 +4536,6 @@ Remote caching and execution options:
 
 `--remote_exec_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in execution requests: --remote_exec_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
-
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_execution_priority=<an integer>` default: "0"
 :   The relative priority of actions to be executed remotely. The semantics of the particular priority values are server-dependent.
@@ -4575,14 +4546,8 @@ Remote caching and execution options:
 `--remote_grpc_log=<a path>` default: see description
 :   If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
 
-`--remote_grpc_service_config=<a path>` default: see description
-:   Path to a gRPC service config JSON file for remote gRPC channels. This replaces the service config Bazel generates from --remote_timeout. Only a subset of the gRPC service config JSON schema is supported: top-level methodConfig entries with name objects containing service and optional method, plus timeout. Other service config fields are rejected and may be supported in the future.
-
 `--remote_header=<a 'name=value' assignment>` multiple uses are accumulated
 :   Specify a header that will be included in requests: --remote_header=Name=Value. Multiple headers can be passed by specifying the flag multiple times. Multiple values for the same name will be converted to a comma-separated list.
-
-    Tags:
-    [`fully_redacted_in_logs`](#metadata_tag_FULLY_REDACTED_IN_LOGS)
 
 `--remote_instance_name=<a string>` default: ""
 :   Value to pass as instance_name in the remote execution API.
@@ -4770,6 +4735,13 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incompatible_modify_execution_info_additive` default: "true"
+:   When enabled, passing multiple `--modify_execution_info` flags is additive.
+    When disabled, only the last flag is taken into account.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
     Applies only to actions which support execution info. Many common actions
@@ -4908,10 +4880,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -5200,6 +5184,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -6502,6 +6492,13 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incompatible_modify_execution_info_additive` default: "true"
+:   When enabled, passing multiple `--modify_execution_info` flags is additive.
+    When disabled, only the last flag is taken into account.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
     Applies only to actions which support execution info. Many common actions
@@ -6640,10 +6637,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -6932,6 +6941,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -8067,6 +8082,13 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incompatible_modify_execution_info_additive` default: "true"
+:   When enabled, passing multiple `--modify_execution_info` flags is additive.
+    When disabled, only the last flag is taken into account.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
     Applies only to actions which support execution info. Many common actions
@@ -8205,10 +8227,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -8497,6 +8531,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -9620,6 +9660,13 @@ Options that control build execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incompatible_modify_execution_info_additive` default: "true"
+:   When enabled, passing multiple `--modify_execution_info` flags is additive.
+    When disabled, only the last flag is taken into account.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--loading_phase_threads=<an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]<float>) eg. "auto", "HOST_CPUS*.5">` default: "auto"
 :   Number of parallel threads to use for the loading/analysis phase.Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5". "auto" sets a reasonable default based on host resources. Must be at least 1.
 
@@ -9643,6 +9690,12 @@ Options that control build execution:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
 
 Options that configure the toolchain used for action execution:
 
@@ -10143,6 +10196,13 @@ Options that control build execution:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incompatible_modify_execution_info_additive` default: "true"
+:   When enabled, passing multiple `--modify_execution_info` flags is additive.
+    When disabled, only the last flag is taken into account.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--[no]keep_going` [`-k`] default: "false"
 :   Continue as much as possible after an error. While the target that failed and those that depend on it cannot be analyzed, other prerequisites of these targets can be.
 
@@ -10172,6 +10232,12 @@ Options that control build execution:
 
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
 
 Options that configure the toolchain used for action execution:
 
@@ -10952,6 +11018,13 @@ Options that control build execution:
     Tags:
     [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
 
+`--[no]incompatible_modify_execution_info_additive` default: "true"
+:   When enabled, passing multiple `--modify_execution_info` flags is additive.
+    When disabled, only the last flag is taken into account.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--modify_execution_info=<regex=[+-]key,regex=[+-]key,...>` multiple uses are accumulated
 :   Add or remove keys from an action's execution info based on action mnemonic.
     Applies only to actions which support execution info. Many common actions
@@ -11090,10 +11163,22 @@ Options that control build execution:
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
+`--[no]use_target_platform_for_tests` default: "false"
+:   If true, use the target platform for running tests rather than the test exec group.
+
+    Tags:
+    [`execution`](#effect_tag_EXECUTION)
+
 Options that configure the toolchain used for action execution:
 
 `--android_compiler=<a string>` default: see description
 :   The Android target compiler.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
+
+`--android_manifest_merger=<legacy, android or force_android>` default: "android"
+:   Selects the manifest merger to use for android_binary rules. Flag to help the transition to the Android manifest merger from the legacy merger.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
@@ -11382,6 +11467,12 @@ Options that let the user configure the intended output, affecting its value, as
 
     Tags:
     [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+
+`--android_dynamic_mode=<off, default or fully>` default: "off"
+:   Determines whether C++ deps of Android rules will be linked dynamically when a cc_binary does not explicitly create a shared library. 'default' means bazel will choose whether to link dynamically. 'fully' means all libraries will be linked dynamically. 'off' means that all libraries will be linked in mostly static mode.
+
+    Tags:
+    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--android_manifest_merger_order=<alphabetical, alphabetical_by_configuration or dependency>` default: "alphabetical"
 :   Sets the order of manifests passed to the manifest merger for Android binaries. ALPHABETICAL means manifests are sorted by path relative to the execroot. ALPHABETICAL_BY_CONFIGURATION means manifests are sorted by paths relative to the configuration directory within the output directory. DEPENDENCY means manifests are ordered with each library's manifest coming before the manifests of its dependencies.
@@ -12399,7 +12490,6 @@ Options that let the user configure the intended output, affecting its value, as
 | `incompatible_change` | This option triggers a breaking change. Use this option to test your migration readiness or get early access to the new feature |
 | `deprecated` | This option is deprecated. It might be that the feature it affects is deprecated, or that another method of supplying the information is preferred. |
 | `non_configurable` | This option cannot be changed in a transition or be used in a select() statement. |
-| `fully_redacted_in_logs` | This option may contain sensitive credentials and should be redacted in logs. |
 
 
 
