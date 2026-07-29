@@ -20,7 +20,7 @@ While a lot of customization is possible, this document focuses on
 producing and consuming [`lcov`][lcov] reports, which is currently the
 most well-supported route.
 
-## Creating a coverage report {#creating-a-coverage-report}
+## Creating a coverage report
 
 ### Preparation
 
@@ -37,10 +37,10 @@ however the latter can be more difficult for complex projects.
 "Instrumentation" in this case refers to the coverage tools that are
 used for a specific target. Bazel allows turning this on for a
 specific subset of files using the
-[`--instrumentation_filter`](/versions/6.5.0/reference/command-line-reference#flag--instrumentation_filter)
+[`--instrumentation_filter`](/reference/command-line-reference#flag--instrumentation_filter)
 flag, which specifies a filter for targets that are tested with the
 instrumentation enabled. To enable instrumentation for tests, the
-[`--instrument_test_targets`](/versions/6.5.0/reference/command-line-reference#flag--instrument_test_targets)
+[`--instrument_test_targets`](/reference/command-line-reference#flag--instrument_test_targets)
 flag is required.
 
 By default, bazel tries to match the target package(s), and prints the
@@ -84,7 +84,7 @@ To view the result, simply open the `index.html` file produced in the
 For further help and information around the `genhtml` tool, or the
 `lcov` coverage format, see [the lcov project][lcov].
 
-## Remote execution {#remote-execution}
+## Remote execution
 
 Running with remote test execution currently has a few caveats:
 

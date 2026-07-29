@@ -1,5 +1,5 @@
 ---
-title: 'template_ctx'
+title: 'template\_ctx'
 ---
 
 A context object that is passed to the action template expansion function.
@@ -7,8 +7,8 @@ A context object that is passed to the action template expansion function.
 ## Members
 
 * [args](#args)
-* [declare_file](#declare_file)
-* [declare_subdirectory](#declare_subdirectory)
+* [declare\_file](#declare_file)
+* [declare\_subdirectory](#declare_subdirectory)
 * [run](#run)
 
 ## args
@@ -19,7 +19,7 @@ Args template_ctx.args()
 
 Returns an Args object that can be used to build memory-efficient command lines.
 
-## declare_file
+## declare\_file
 
 ```
 File template_ctx.declare_file(filename, *, directory)
@@ -36,7 +36,7 @@ Remember that in addition to declaring a file, you must separately create an act
 | `filename` | [string](../core/string); required  The relative path of the file within the directory. |
 | `directory` | [File](../builtins/File); required  The directory in which the file should be created. |
 
-## declare_subdirectory
+## declare\_subdirectory
 
 ```
 File template_ctx.declare_subdirectory(subdirectory, *, directory)

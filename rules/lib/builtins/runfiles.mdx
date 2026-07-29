@@ -8,14 +8,14 @@ See [runfiles guide](https://bazel.build/extending/rules#runfiles) for details.
 
 ## Members
 
-* [empty_filenames](#empty_filenames)
+* [empty\_filenames](#empty_filenames)
 * [files](#files)
 * [merge](#merge)
-* [merge_all](#merge_all)
-* [root_symlinks](#root_symlinks)
+* [merge\_all](#merge_all)
+* [root\_symlinks](#root_symlinks)
 * [symlinks](#symlinks)
 
-## empty_filenames
+## empty\_filenames
 
 ```
 depset runfiles.empty_filenames
@@ -47,7 +47,7 @@ Returns a new runfiles object that includes all the contents of this one and the
 | --- | --- |
 | `other` | [runfiles](../builtins/runfiles); required  The runfiles object to merge into this. |
 
-## merge_all
+## merge\_all
 
 ```
 runfiles runfiles.merge_all(other)
@@ -61,7 +61,7 @@ Returns a new runfiles object that includes all the contents of this one and of 
 | --- | --- |
 | `other` | [sequence](../core/list) of [runfiles](../builtins/runfiles)s; required  The sequence of runfiles objects to merge into this. |
 
-## root_symlinks
+## root\_symlinks
 
 ```
 depset runfiles.root_symlinks
