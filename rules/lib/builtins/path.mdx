@@ -9,8 +9,8 @@ A structure representing a file to be used inside a repository.
 * [basename](#basename)
 * [dirname](#dirname)
 * [exists](#exists)
-* [get_child](#get_child)
-* [is_dir](#is_dir)
+* [get\_child](#get_child)
+* [is\_dir](#is_dir)
 * [readdir](#readdir)
 * [realpath](#realpath)
 
@@ -41,7 +41,7 @@ Returns true if the file or directory denoted by this path exists.
 
 Note that accessing this field does *not* cause the path to be watched. If you'd like the repo rule or module extension to be sensitive to the path's existence, use the `watch()` method on the context object.
 
-## get_child
+## get\_child
 
 ```
 path path.get_child(*relative_paths)
@@ -55,7 +55,7 @@ Returns the path obtained by joining this path with the given relative paths.
 | --- | --- |
 | `relative_paths` | required  Zero or more relative path strings to append to this path with path separators added as needed. |
 
-## is_dir
+## is\_dir
 
 ```
 bool path.is_dir
