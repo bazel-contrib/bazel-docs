@@ -865,6 +865,12 @@ Options relating to Bzlmod output and semantics:
     Tags:
     [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
+`--[no]incompatible_require_repo_extension_metadata` default: "false"
+:   Require repository rules and module extensions to return explicit metadata. Valid values are `false` to disable the check, `all` to require metadata everywhere, or `root` to require metadata only for repo rules and extensions defined in the root module.
+
+    Tags:
+    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+
 `--lockfile_mode=<off, update, refresh or error>` default: "update"
 :   Specifies how and whether or not to use the lockfile. Valid values are `update` to use the lockfile and update it if there are changes, `refresh` to additionally refresh mutable information (yanked versions and previously missing modules) from remote registries from time to time, `error` to use the lockfile but throw an error if it's not up-to-date, or `off` to neither read from or write to the lockfile.
 
@@ -920,12 +926,6 @@ Options that trigger optimizations of the build time:
 
     Tags:
     [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
-`--[no]incompatible_do_not_split_linking_cmdline` default: "true"
-:   When true, Bazel no longer modifies command line flags used for linking, and also doesn't selectively decide which flags go to the param file and which don't. See https://github.com/bazelbuild/bazel/issues/7670 for details.
-
-    Tags:
-    [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 
 `--[no]keep_state_after_build` default: "true"
 :   If false, Blaze will discard the inmemory state from this build when the build finishes. Subsequent builds will not have any incrementality with respect to this one.
@@ -2277,12 +2277,6 @@ Options that control build execution:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
 Options that configure the toolchain used for action execution:
-
-`--android_compiler=<a string>` default: see description
-:   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--android_platforms=<a build target label>` default: ""
 :   Sets the platforms that android_binary targets use. If multiple platforms are specified, then the binary is a fat APKs, which contains native binaries for each specified target platform.
@@ -4910,12 +4904,6 @@ Options that control build execution:
 
 Options that configure the toolchain used for action execution:
 
-`--android_compiler=<a string>` default: see description
-:   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
 `--android_platforms=<a build target label>` default: ""
 :   Sets the platforms that android_binary targets use. If multiple platforms are specified, then the binary is a fat APKs, which contains native binaries for each specified target platform.
 
@@ -6642,12 +6630,6 @@ Options that control build execution:
 
 Options that configure the toolchain used for action execution:
 
-`--android_compiler=<a string>` default: see description
-:   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
-
 `--android_platforms=<a build target label>` default: ""
 :   Sets the platforms that android_binary targets use. If multiple platforms are specified, then the binary is a fat APKs, which contains native binaries for each specified target platform.
 
@@ -8206,12 +8188,6 @@ Options that control build execution:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
 Options that configure the toolchain used for action execution:
-
-`--android_compiler=<a string>` default: see description
-:   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--android_platforms=<a build target label>` default: ""
 :   Sets the platforms that android_binary targets use. If multiple platforms are specified, then the binary is a fat APKs, which contains native binaries for each specified target platform.
@@ -11091,12 +11067,6 @@ Options that control build execution:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
 
 Options that configure the toolchain used for action execution:
-
-`--android_compiler=<a string>` default: see description
-:   The Android target compiler.
-
-    Tags:
-    [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 
 `--android_platforms=<a build target label>` default: ""
 :   Sets the platforms that android_binary targets use. If multiple platforms are specified, then the binary is a fat APKs, which contains native binaries for each specified target platform.
