@@ -47,6 +47,7 @@ jobs:
               head_sha: .head.sha,
               base_sha: .base.sha,
               head_ref: .head.ref,
+              head_repo_fork: (if .head.repo == null then true else .head.repo.fork end),
               preview_branch: ("pr-" + (.number|tostring))
             }]')"
           else
@@ -64,6 +65,7 @@ jobs:
                   head_sha: .head.sha,
                   base_sha: .base.sha,
                   head_ref: .head.ref,
+                  head_repo_fork: (if .head.repo == null then true else .head.repo.fork end),
                   preview_branch: ("pr-" + (.number|tostring))
                 }
               ]
@@ -81,13 +83,21 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.list-prs.outputs.matrix) }}
     uses: ./.github/workflows/pull-from-bazel-build.yml
-    secrets: inherit
+    # Only the secrets this workflow actually needs; `inherit` would also expose
+    # unrelated repo secrets to a job that processes upstream PR content.
+    secrets:
+      GH_APP_ID: ${{ secrets.GH_APP_ID }}
+      GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+      BUILDBUDDY_ORG_API_KEY: ${{ secrets.BUILDBUDDY_ORG_API_KEY }}
     with:
       bazelCommitHash: ${{ matrix.head_sha }}
       bazelBaseCommitHash: ${{ matrix.base_sha }}
       bazelPullRequestNumber: ${{ matrix.number }}
       detect_upstream_docs_changes: true
+      # Write access to this repo: always ours, previews are pushed here.
       is_internal_pr: true
+      # Executing upstream code: only for PRs from bazelbuild/bazel itself.
+      trust_upstream_code: ${{ !matrix.head_repo_fork }}
       target_branch: ${{ matrix.preview_branch }}
 
   comment:
