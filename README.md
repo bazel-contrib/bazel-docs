@@ -59,8 +59,6 @@ The preview workflow (`preview-bazel-docs-pr.yml`) polls `bazelbuild/bazel` ever
 2. Mintlify deploys that branch at `https://bazel-pr-<N>.mintlify.app`.
 3. Posts (or updates) a comment on the upstream PR with the preview link.
 
-Step 3 posts as a dedicated GitHub App ("Bazel Docs PR Commenter", secrets `BAZEL_PR_COMMENTER_APP_ID` and `BAZEL_PR_COMMENTER_PRIVATE_KEY`) rather than a personal access token, since PATs are tied to a human and are discouraged for service accounts. The App must be installed on `bazelbuild/bazel` by a Bazel org owner, with `Pull requests: read & write` and `Issues: read & write`. The comment is created through the issue-comments REST endpoint, but its target is a pull request, so the `Pull requests` permission is the one that governs the write. If the App token cannot be minted — installation revoked or secrets unset — previews still build and the comment step skips gracefully, logging the URL it would have posted.
-
 The preview workflow can be triggered manually from the GitHub Actions UI via `workflow_dispatch` without waiting for the 30-minute cron.
 
 ### Updates to the live Bazel website
