@@ -178,8 +178,6 @@ jobs:
       - name: Post or update preview comment
         if: ${{ steps.mintlify.outputs.conclusion != 'skipped' }}
         env:
-          # Installation token for the "Bazel Docs PR Commenter" GitHub App, scoped
-          # to bazelbuild/bazel. Empty if the App isn't installed yet — handled below.
           GH_TOKEN: ${{ steps.upstream-token.outputs.token }}
           PREVIEW_URL: https://bazel-${{ matrix.preview_branch }}.mintlify.app/
           PR_NUMBER: ${{ matrix.number }}
