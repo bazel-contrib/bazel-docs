@@ -102,13 +102,9 @@ jobs:
     steps:
       - name: Mint upstream comment token
         id: upstream-token
-        # Posting comments on bazelbuild/bazel requires a token from the dedicated
-        # "Bazel Docs PR Commenter" GitHub App, installed on bazelbuild/bazel with
-        # Pull requests: read & write. The comment goes through the issue-comments
-        # endpoint, but its target is a PR, so Pull requests governs the write.
-        # If the installation is revoked or the secrets are unset, this step fails
-        # and the comment step below degrades gracefully.
-        # See https://github.com/bazel-contrib/bazel-docs/issues/400
+        # Needs the "Bazel Docs PR Commenter" App installed on bazelbuild/bazel with
+        # Pull requests and Issues: read & write; if minting fails, the comment step
+        # below degrades gracefully. See https://github.com/bazel-contrib/bazel-docs/issues/400
         continue-on-error: true
         uses: actions/create-github-app-token@v3
         with:
