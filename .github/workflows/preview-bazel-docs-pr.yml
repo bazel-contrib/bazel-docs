@@ -287,9 +287,9 @@ jobs:
 
             # Check if the upstream bazelbuild/bazel PR is still open
             state=$(GH_TOKEN="${BAZELBUILD_TOKEN}" gh api "repos/bazelbuild/bazel/pulls/${pr_number}" \
-              --jq '.state' 2>/dev/null || echo "not_found")
+              2>/dev/null | jq -r '.state // "unknown"')
 
-            if [[ "$state" == "open" ]]; then
+            if [[ "$state" != "closed" ]]; then
               continue
             fi
 
