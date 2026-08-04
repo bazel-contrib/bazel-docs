@@ -2,7 +2,7 @@
 title: 'Extension Overview'
 ---
 
-
+<!-- [TOC] -->
 
 This page describes how to extend the BUILD language using macros
 and rules.
@@ -18,7 +18,7 @@ Before learning the more advanced concepts, first:
 * Learn how you can [share variables](/versions/6.5.0/rules/tutorial-sharing-variables)
   between two `BUILD` files.
 
-## Macros and rules {#macros-and-rules}
+## Macros and rules
 
 A [macro](/versions/6.5.0/rules/macros) is a function that instantiates rules. It is useful when a
 `BUILD` file is getting too repetitive or too complex, as it allows you to reuse
@@ -37,7 +37,7 @@ is typically done with a rule. Rules are for advanced users, and most
 users will never have to write one; they will only load and call existing
 rules.
 
-## Evaluation model {#evaluation-model}
+## Evaluation model {:#evaluation-model}
 
 A build consists of three phases.
 
@@ -89,7 +89,7 @@ them within reach:
 In addition to [macros](/versions/6.5.0/rules/macros) and [rules](/versions/6.5.0/rules/rules), you may want to write
 [aspects](/versions/6.5.0/rules/aspects) and [repository rules](/versions/6.5.0/rules/repository_rules).
 
-* Use [Buildifier](https://github.com/bazelbuild/buildtools)
+* Use [Buildifier](https://github.com/bazelbuild/buildtools){: .external}
   consistently to format and lint your code.
 
 * Follow the [`.bzl` style guide](/versions/6.5.0/rules/bzl-style).

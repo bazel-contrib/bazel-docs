@@ -2,8 +2,7 @@
 title: 'Depsets'
 ---
 
-
-[Depsets](/versions/6.5.0/rules/lib/builtins/depset) are a specialized data structure for efficiently
+[Depsets](/versions/6.5.0/rules/lib/depset) are a specialized data structure for efficiently
 collecting data across a target’s transitive dependencies. They are an essential
 element of rule processing.
 
@@ -45,7 +44,7 @@ print(t)    # depset(["d", "e", "a", "b", "c"])
 ```
 
 To retrieve the contents of a depset, use the
-[to_list()](/versions/6.5.0/rules/lib/builtins/depset#to_list) method. It returns a list of all transitive
+[to_list()](/versions/6.5.0/rules/lib/depset#to_list) method. It returns a list of all transitive
 elements, not including duplicates. There is no way to directly inspect the
 precise structure of the DAG, although this structure does affect the order in
 which the elements are returned.
@@ -112,7 +111,8 @@ need to ensure that if `B` depends on `A`, then `A.o` comes before `B.o` on the
 linker’s command line. Other tools might have the opposite requirement.
 
 Three traversal orders are supported: `postorder`, `preorder`, and
-`topological`. The first two work exactly like [tree traversals](https://en.wikipedia.org/wiki/Tree_traversal#Depth-first_search)
+`topological`. The first two work exactly like [tree
+traversals](https://en.wikipedia.org/wiki/Tree_traversal#Depth-first_search)
 except that they operate on DAGs and skip already visited nodes. The third order
 works as a topological sort from root to leaves, essentially the same as
 preorder except that shared children are listed only after all of their parents.
@@ -281,7 +281,6 @@ You can test this by copying these files into a fresh package, renaming the
 labels appropriately, creating the source `*.foo` files with dummy content, and
 building the `d` target.
 
-
 ## Performance
 
 To see the motivation for using depsets, consider what would happen if
@@ -340,5 +339,5 @@ For more information about using depsets efficiently, see the [performance](/ver
 
 ## API Reference
 
-Please see [here](/versions/6.5.0/rules/lib/builtins/depset) for more details.
+Please see [here](/versions/6.5.0/rules/lib/depset) for more details.
 

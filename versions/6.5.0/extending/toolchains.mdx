@@ -2,7 +2,6 @@
 title: 'Toolchains'
 ---
 
-
 This page describes the toolchain framework, which is a way for rule authors to
 decouple their rule logic from platform-based selection of tools. It is
 recommended to read the [rules](/versions/6.5.0/rules/rules) and [platforms](/versions/6.5.0/docs/platforms)
@@ -10,7 +9,7 @@ pages before continuing. This page covers why toolchains are needed, how to
 define and use them, and how Bazel selects an appropriate toolchain based on
 platform constraints.
 
-## Motivation {#motivation}
+## Motivation {:#motivation}
 
 Let's first look at the problem toolchains are designed to solve. Suppose you
 are writing rules to support the "bar" programming language. Your `bar_binary`
@@ -123,7 +122,7 @@ automatically resolves this to a particular target (a toolchain) based on the
 applicable platform constraints. Neither the rule author nor the target author
 need know the complete set of available platforms and toolchains.
 
-## Writing rules that use toolchains {#writing-rules-toolchains}
+## Writing rules that use toolchains {:#writing-rules-toolchains}
 
 Under the toolchain framework, instead of having rules depend directly on tools,
 they instead depend on *toolchain types*. A toolchain type is a simple target
@@ -171,7 +170,7 @@ def _bar_binary_impl(ctx):
 ```
 
 `ctx.toolchains["//bar_tools:toolchain_type"]` returns the
-[`ToolchainInfo` provider](/versions/6.5.0/rules/lib/toplevel/platform_common#ToolchainInfo)
+[`ToolchainInfo` provider](/versions/6.5.0/rules/lib/platform_common#ToolchainInfo)
 of whatever target Bazel resolved the toolchain dependency to. The fields of the
 `ToolchainInfo` object are set by the underlying tool's rule; in the next
 section, this rule is defined such that there is a `barcinfo` field that wraps
@@ -182,7 +181,7 @@ Bazel's procedure for resolving toolchains to targets is described
 made a dependency of the `bar_binary` target, not the whole space of candidate
 toolchains.
 
-### Mandatory and Optional Toolchains {#optional-toolchains}
+### Mandatory and Optional Toolchains {:#optional-toolchains}
 
 By default, when a rule expresses a toolchain type dependency using a bare label
 (as shown above), the toolchain type is considered to be **mandatory**. If Bazel
@@ -205,7 +204,7 @@ bar_binary = rule(
 When an optional toolchain type cannot be resolved, analysis continues, and the
 result of `ctx.toolchains[""//bar_tools:toolchain_type"]` is `None`.
 
-The [`config_common.toolchain_type`](/versions/6.5.0/rules/lib/toplevel/config_common#toolchain_type)
+The [`config_common.toolchain_type`](/versions/6.5.0/rules/lib/config_common#toolchain_type)
 function defaults to mandatory.
 
 The following forms can be used:
@@ -231,7 +230,7 @@ You can mix and match forms in the same rule, also. However, if the same
 toolchain type is listed multiple times, it will take the most strict version,
 where mandatory is more strict than optional.
 
-### Writing aspects that use toolchains {#writing-aspects-toolchains}
+### Writing aspects that use toolchains {:#writing-aspects-toolchains}
 
 Aspects have access to the same toolchain API as rules: you can define required
 toolchain types, access toolchains via the context, and use them to generate new
@@ -250,7 +249,7 @@ def _bar_aspect_impl(target, ctx):
   return []
 ```
 
-## Defining toolchains {#toolchain-definitions}
+## Defining toolchains {:#toolchain-definitions}
 
 To define some toolchains for a given toolchain type, you need three things:
 
@@ -370,7 +369,7 @@ same package, but there's no reason the toolchain type, language-specific
 toolchain targets, and `toolchain` definition targets can't all be in separate
 packages.
 
-See the [`go_toolchain`](https://github.com/bazelbuild/rules_go/blob/master/go/private/go_toolchain.bzl)
+See the [`go_toolchain`](https://github.com/bazelbuild/rules_go/blob/master/go/private/go_toolchain.bzl){: .external}
 for a real-world example.
 
 ### Toolchains and configurations
@@ -405,7 +404,7 @@ bar_toolchain = rule(
 )
 ```
 
-The use of [`attr.label`](/versions/6.5.0/rules/lib/toplevel/attr#label) is the same as for a standard rule,
+The use of [`attr.label`](/versions/6.5.0/rules/lib/attr#label) is the same as for a standard rule,
 but the meaning of the `cfg` parameter is slightly different.
 
 The dependency from a target (called the "parent") to a toolchain via toolchain
@@ -424,7 +423,7 @@ are linked into the final artifact, and so need to be built for the same
 platform, whereas the compiler is a tool invoked during the build, and needs to
 be able to run on the execution platform.
 
-## Registering and building with toolchains {#registering-building-toolchains}
+## Registering and building with toolchains {:#registering-building-toolchains}
 
 At this point all the building blocks are assembled, and you just need to make
 the toolchains available to Bazel's resolution procedure. This is done by
@@ -470,7 +469,7 @@ has `@platforms//os:linux` and therefore resolve the
 This will end up building `//bar_tools:barc_linux` but not
 `//bar_tools:barc_windows`.
 
-## Toolchain resolution {#toolchain-resolution}
+## Toolchain resolution {:#toolchain-resolution}
 
 Note: [Some Bazel rules](/versions/6.5.0/concepts/platforms-intro#status) do not yet support
 toolchain resolution.
@@ -532,7 +531,7 @@ If the rule uses [execution groups](/versions/6.5.0/reference/exec-groups), each
 group performs toolchain resolution separately, and each has its own execution
 platform and toolchains.
 
-## Debugging toolchains {#debugging-toolchains}
+## Debugging toolchains {:#debugging-toolchains}
 
 If you are adding toolchain support to an existing rule, use the
 `--toolchain_resolution_debug=regex` flag. During toolchain resolution, the flag
