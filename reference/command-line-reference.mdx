@@ -211,7 +211,7 @@ Options that appear before the command and are parsed by the client:
     [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 
 `--macos_qos_class=<a string>` default: "default"
-:   Sets the QoS service class of the bazel server when running on macOS. This flag has no effect on all other platforms but is supported to ensure rc files can be shared among them without changes. Possible values are: user-interactive, user-initiated, default, utility, and background.
+:   Sets the QoS service class of the bazel server when running on macOS. This flag has no effect on all other platforms but is supported to ensure rc files can be shared among them without changes. Possible values are: default (leave QoS unchanged), utility, and background. Only utility and background request a macOS process QoS class because Apple's posix_spawnattr_set_qos_class_np API does not accept user-interactive or user-initiated for spawned processes.
 
     Tags:
     [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
@@ -1621,6 +1621,9 @@ Remote caching and execution options:
 `--remote_executor=<a string>` default: see description
 :   HOST or HOST:PORT of a remote execution endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
+`--remote_grpc_download_idle_timeout=<An immutable length of time.>` default: "60s"
+:   The maximum amount of time a remote gRPC download may go without receiving response data before Bazel cancels and retries the download. This applies to ByteStream Read. The value 0 disables the timeout. If the unit is omitted, the value is interpreted as seconds.
+
 `--remote_grpc_log=<a path>` default: see description
 :   If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
 
@@ -2484,7 +2487,7 @@ Options that control the output of the command:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--[no]experimental_proto_descriptor_sets_include_source_info` default: "false"
-:   Run extra actions for alternative Java api versions in a proto_library.
+:   Pass the --include_source_info flag when building a proto_library. This results in vastly larger descriptors that include information about the original location of each decl in the source file as well as surrounding comments.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -4566,6 +4569,9 @@ Remote caching and execution options:
 `--remote_executor=<a string>` default: see description
 :   HOST or HOST:PORT of a remote execution endpoint. The supported schemes are grpc, grpcs (grpc with TLS enabled) and unix (local UNIX sockets). If no scheme is provided Bazel will default to grpcs. Specify grpc:// or unix: scheme to disable TLS.
 
+`--remote_grpc_download_idle_timeout=<An immutable length of time.>` default: "60s"
+:   The maximum amount of time a remote gRPC download may go without receiving response data before Bazel cancels and retries the download. This applies to ByteStream Read. The value 0 disables the timeout. If the unit is omitted, the value is interpreted as seconds.
+
 `--remote_grpc_log=<a path>` default: see description
 :   If specified, a path to a file to log gRPC call related details. This log consists of a sequence of serialized com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry protobufs with each message prefixed by a varint denoting the size of the following serialized protobuf message, as performed by the method LogEntry.writeDelimitedTo(OutputStream).
 
@@ -5110,7 +5116,7 @@ Options that control the output of the command:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--[no]experimental_proto_descriptor_sets_include_source_info` default: "false"
-:   Run extra actions for alternative Java api versions in a proto_library.
+:   Pass the --include_source_info flag when building a proto_library. This results in vastly larger descriptors that include information about the original location of each decl in the source file as well as surrounding comments.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -6836,7 +6842,7 @@ Options that control the output of the command:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--[no]experimental_proto_descriptor_sets_include_source_info` default: "false"
-:   Run extra actions for alternative Java api versions in a proto_library.
+:   Pass the --include_source_info flag when building a proto_library. This results in vastly larger descriptors that include information about the original location of each decl in the source file as well as surrounding comments.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -8395,7 +8401,7 @@ Options that control the output of the command:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--[no]experimental_proto_descriptor_sets_include_source_info` default: "false"
-:   Run extra actions for alternative Java api versions in a proto_library.
+:   Pass the --include_source_info flag when building a proto_library. This results in vastly larger descriptors that include information about the original location of each decl in the source file as well as surrounding comments.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -11274,7 +11280,7 @@ Options that control the output of the command:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 
 `--[no]experimental_proto_descriptor_sets_include_source_info` default: "false"
-:   Run extra actions for alternative Java api versions in a proto_library.
+:   Pass the --include_source_info flag when building a proto_library. This results in vastly larger descriptors that include information about the original location of each decl in the source file as well as surrounding comments.
 
     Tags:
     [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
