@@ -12,6 +12,10 @@
         "measurementId": "G-V5WZVG5WF1"
     }
   },
+  "banner": {
+    "content": "The new site is online! Please use this [issue](https://github.com/bazelbuild/bazel/issues/30598) to report any problems.",
+    "dismissible": true
+  },
   "favicon": "/favicon.png",
   "navigation": { "$ref": "./navigation.json" },
   "navbar": {
