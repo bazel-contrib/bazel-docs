@@ -2,7 +2,6 @@
 title: 'Repository Rules'
 ---
 
-
 This page covers how to create repository rules and provides examples for
 more details.
 
@@ -69,7 +68,7 @@ specified.
 The input parameter `repository_ctx` can be used to
 access attribute values, and non-hermetic functions (finding a binary,
 executing a binary, creating a file in the repository or downloading a file
-from the Internet). See [the library](/versions/6.5.0/rules/lib/builtins/repository_ctx) for more
+from the Internet). See [the library](/versions/6.5.0/rules/lib/repository_ctx) for more
 context. Example:
 
 ```python
@@ -124,7 +123,6 @@ outdated if the local machine was upgraded. Here you can ask bazel to
 only refetch those external repositories where the
 [`repository_rule`](/versions/6.5.0/rules/lib/globals#repository_rule)
 definition has the `configure` attribute set, use `bazel sync --configure`.
-
 
 ## Examples
 

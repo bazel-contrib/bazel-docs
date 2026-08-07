@@ -2,7 +2,6 @@
 title: 'Aspects'
 ---
 
-
 This page explains the basics and benefits of using aspects and provides
 simple and advanced examples.
 
@@ -138,12 +137,12 @@ Aspect implementation functions are similar to the rule implementation
 functions. They return [providers](/versions/6.5.0/rules/rules#providers), can generate
 [actions](/versions/6.5.0/rules/rules#actions), and take two arguments:
 
-*  `target`: the [target](/versions/6.5.0/rules/lib/builtins/Target) the aspect is being applied to.
-*   `ctx`: [`ctx`](/versions/6.5.0/rules/lib/builtins/ctx) object that can be used to access attributes
+*  `target`: the [target](/versions/6.5.0/rules/lib/Target) the aspect is being applied to.
+*   `ctx`: [`ctx`](/versions/6.5.0/rules/lib/ctx) object that can be used to access attributes
     and generate outputs and actions.
 
 The implementation function can access the attributes of the target rule via
-[`ctx.rule.attr`](/versions/6.5.0/rules/lib/builtins/ctx#rule). It can examine providers that are
+[`ctx.rule.attr`](/versions/6.5.0/rules/lib/ctx#rule). It can examine providers that are
 provided by the target to which it is applied (via the `target` argument).
 
 Aspects are required to return a list of providers. In this example, the aspect
@@ -326,12 +325,12 @@ implementation of aspect A. The providers that a rule implementation propagates
 are created and frozen before aspects are applied and cannot be modified from an
 aspect. It is an error if a target and an aspect that is applied to it each
 provide a provider with the same type, with the exceptions of
-[`OutputGroupInfo`](/versions/6.5.0/rules/lib/providers/OutputGroupInfo)
+[`OutputGroupInfo`](/versions/6.5.0/rules/lib/OutputGroupInfo)
 (which is merged, so long as the
 rule and aspect specify different output groups) and
-[`InstrumentedFilesInfo`](/versions/6.5.0/rules/lib/providers/InstrumentedFilesInfo)
+[`InstrumentedFilesInfo`](/versions/6.5.0/rules/lib/InstrumentedFilesInfo)
 (which is taken from the aspect). This means that aspect implementations may
-never return [`DefaultInfo`](/versions/6.5.0/rules/lib/providers/DefaultInfo).
+never return [`DefaultInfo`](/versions/6.5.0/rules/lib/DefaultInfo).
 
 The parameters and private attributes are passed in the attributes of the
 ``ctx``. This example references the ``extension`` parameter and determines

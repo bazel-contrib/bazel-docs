@@ -2,8 +2,6 @@
 title: 'Bazel modules'
 ---
 
-
-
 A Bazel **module** is a Bazel project that can have multiple versions, each of
 which publishes metadata about other modules that it depends on. This is
 analogous to familiar concepts in other dependency management systems, such as a
@@ -21,7 +19,7 @@ bazel_dep(name = "rules_cc", version = "0.0.1")
 bazel_dep(name = "protobuf", version = "3.19.0")
 ```
 
-// TODO(wyv): add link to MODULE.bazel globals
+<!-- TODO(wyv): add link to MODULE.bazel globals -->
 
 To perform module resolution, Bazel starts by reading the root module's
 `MODULE.bazel` file, and then repeatedly requests any dependency's
@@ -32,12 +30,12 @@ By default, Bazel then [selects](#version-selection) one version of each module
 to use. Bazel represents each module with a repo, and consults the registry
 again to learn how to define each of the repos.
 
-## Version format {#version-format}
+## Version format
 
 Bazel has a diverse ecosystem and projects use various versioning schemes. The
-most popular by far is [SemVer](https://semver.org), but there are
+most popular by far is [SemVer](https://semver.org){: .external}, but there are
 also prominent projects using different schemes such as
-[Abseil](https://github.com/abseil/abseil-cpp/releases), whose
+[Abseil](https://github.com/abseil/abseil-cpp/releases){: .external}, whose
 versions are date-based, for example `20210324.2`).
 
 For this reason, Bzlmod adopts a more relaxed version of the SemVer spec. The
@@ -57,7 +55,7 @@ Any valid SemVer version is a valid Bazel module version. Additionally, two
 SemVer versions `a` and `b` compare `a < b` if and only if the same holds when
 they're compared as Bazel module versions.
 
-## Version selection {#version-selection}
+## Version selection {:#version-selection}
 
 Consider the diamond dependency problem, a staple in the versioned dependency
 management space. Suppose you have the dependency graph:
@@ -71,7 +69,7 @@ management space. Suppose you have the dependency graph:
 ```
 
 Which version of `D` should be used? To resolve this question, Bzlmod uses the
-[Minimal Version Selection](https://research.swtch.com/vgo-mvs)
+[Minimal Version Selection](https://research.swtch.com/vgo-mvs){: .external}
 (MVS) algorithm introduced in the Go module system. MVS assumes that all new
 versions of a module are backwards compatible, and so picks the highest version
 specified by any dependent (`D 1.1` in our example). It's called "minimal"
@@ -124,7 +122,8 @@ serves multiple purposes:
     version, regardless of which versions of the dependency are requested in the
     dependency graph.
 *   With the `registry` attribute, you can force this dependency to come from a
-    specific registry, instead of following the normal [registry selection](/versions/6.5.0/external/registry#selecting_registries) process.
+    specific registry, instead of following the normal [registry
+    selection](/external/registry#selecting_registries) process.
 *   With the `patch*` attributes, you can specify a set of patches to apply to
     the downloaded module.
 
@@ -174,8 +173,9 @@ Bazel supports the following non-registry overrides:
 ## Repository names and strict deps
 
 The [canonical name](/versions/6.5.0/external/overview#canonical-repo-name) of a repo backing a
-module is `<var>module_name</var>~<var>version</var>` (for example, `bazel_skylib~1.0.3`). For modules with a
-non-registry override, replace the `<var>version</var>` part
+module is `{{ "<var>" }}module_name{{ "</var>" }}~{{ "<var>" }}version{{
+"</var>" }}` (for example, `bazel_skylib~1.0.3`). For modules with a
+non-registry override, replace the `{{ "<var>" }}version{{ "</var>" }}` part
 with the string `override`. Note that the canonical name format is not an API
 you should depend on and is subject to change at any time.
 
