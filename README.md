@@ -14,36 +14,45 @@ See Bazel's [Docs contribution
 workflow](https://bazel.build/contribute/docs-contribution-workflow) for more
 information on how to make changes to Bazel's documentation site.
 
-### Build the Bazel site locally
+### How to build the Bazel site locally
 
-If you haven't already, [install
-npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#using-a-node-version-manager-to-install-nodejs-and-npm).
+1. Clone the `bazel-docs` project:
 
-To build the Bazel site and launch a local preview, run the following command
-from the root of this repository:
+   ```console
+   git clone https://github.com/bazel-contrib/bazel-docs.git && cd bazel-docs
+   ```
 
-```console
-npx mint dev
-```
+   > WARNING: Do not clone with `--recurse-submodules` or it will break the local
+   > preview generation. If you accidentally initialize the upstream submodule, you
+   > can deinitialize it with `git submodule deinit -f --all`.
 
-<details>
+2. If you haven't already, [install
+   npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#using-a-node-version-manager-to-install-nodejs-and-npm).
 
-<summary>Example output</summary>
+3. Launch a local preview server with the following command:
 
-```console
-$ npx mint dev
-Need to install the following packages:
-mint@4.2.679
-Ok to proceed? (y) y
-✓ preview ready
+   ```console
+   npx mint dev
+   ```
 
-  local   → http://localhost:3000
-  network → http://192.168.1.4:3000
+   <details>
 
-press ctrl+c to exit the preview
-```
+   <summary>Example output</summary>
 
-</details>
+   ```console
+   $ npx mint dev
+   Need to install the following packages:
+   mint@4.2.679
+   Ok to proceed? (y) y
+   ✓ preview ready
+
+     local   → http://localhost:3000
+     network → http://192.168.1.4:3000
+
+   press ctrl+c to exit the preview
+   ```
+
+   </details>
 
 ## How it works
 
