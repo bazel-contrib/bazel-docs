@@ -6,6 +6,9 @@ updates:
       interval: daily
       time: "23:00"
       timezone: "America/Los_Angeles"
+    cooldown:
+      exclude:
+        - "bazelbuild/bazel"
     open-pull-requests-limit: 3
     rebase-strategy: auto
 
