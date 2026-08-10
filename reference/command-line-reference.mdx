@@ -1810,8 +1810,8 @@ Miscellaneous options, not otherwise categorized.:
 
 `--grpc_keepalive_time=<An immutable length of time.>` default: "60s"
 :   Configures keep-alive pings for outgoing gRPC connections. If this is set, then Bazel
-    sends pings after this much time of no read operations on the connection, but
-    only if there is at least one pending gRPC call. The value 0 disables the keep-alives.
+    sends pings after this much time of no read operations on the connection, even if
+    there are no pending gRPC calls. The value 0 disables the keep-alives.
 
 `--grpc_keepalive_timeout=<An immutable length of time.>` default: "20s"
 :   Configures a keep-alive timeout for outgoing gRPC connections. If keep-alive pings are
