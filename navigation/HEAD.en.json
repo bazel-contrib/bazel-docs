@@ -180,6 +180,13 @@
           "pages": [
             "reference/flag-cheatsheet"
           ]
+        },
+        {
+          "group": "Skyframe",
+          "pages": [
+            "reference/skyframe",
+            "reference/skyframe-debugging"
+          ]
         }
       ]
     },
