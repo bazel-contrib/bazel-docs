@@ -70,7 +70,9 @@ Verification scripts: `scripts/verify_mintlify_preview.mjs`, `scripts/screenshot
 - [ ] Launch 3–5 sub-agents (Task tool); each follows bazel-docs-fix-worker
 - [ ] Push to fork if upstream push denied; draft PR to bazelbuild/bazel
 - [ ] Close duplicate PRs when agents overlap
-- [ ] Ensure agents have performed visual verification of changes using mintlify preview
+- [ ] Trigger previews: gh workflow run "Preview Bazel docs PRs" --repo bazel-contrib/bazel-docs -f pr_number=<N>
+- [ ] After ~10–15 min: node scripts/verify_mintlify_preview.mjs <N> --path <repro-page> [...]
+- [ ] Ensure agents have performed visual verification of changes using Mintlify preview
 - [ ] Post verification comments on upstream PRs; update test plan checkboxes
 ```
 

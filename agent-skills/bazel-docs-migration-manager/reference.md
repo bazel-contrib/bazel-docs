@@ -35,10 +35,12 @@ bazel test //scripts/docs:docs2mdx_test //scripts/docs:rewriter_test
 ```bash
 export PATH="$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node | tail -1)/bin:$PATH"
 cd /tmp && npm init -y && npm install playwright && npx playwright install chromium
-node scripts/verify_mintlify_preview.mjs <bazelbuild/bazel PR number>
+node scripts/verify_mintlify_preview.mjs <PR#> --path /path/to/check [--path ...]
+# Or with a local checks file (see scripts/examples/mintlify-checks.example.json):
+node scripts/verify_mintlify_preview.mjs <PR#> --checks-file /tmp/pr-<N>-checks.json
 ```
 
-## Verification pages by PR type
+## Verification pages by fix type
 
 | Fix type | Pages to check |
 |----------|----------------|

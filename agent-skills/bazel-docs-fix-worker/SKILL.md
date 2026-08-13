@@ -30,7 +30,7 @@ One GitHub issue → one branch → one draft PR → verified test plan.
 - [ ] Tests: bazel test //scripts/docs:docs2mdx_test //scripts/docs:rewriter_test
 - [ ] Draft PR to bazelbuild/bazel with Fixes #NNNN, test plan
 - [ ] Trigger/wait for Mintlify preview (this repo's workflow)
-- [ ] Visual verification: node scripts/verify_mintlify_preview.mjs <PR#>
+- [ ] Visual verification: node scripts/verify_mintlify_preview.mjs <PR#> --path <repro-page> [...]
 - [ ] Post verification comment on upstream PR
 ```
 
@@ -51,8 +51,13 @@ From **this repo** (bazel-docs), after preview bot comment (~10–15 min):
 ```bash
 export PATH="$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node | tail -1)/bin:$PATH"
 cd /tmp && npm init -y && npm install playwright && npx playwright install chromium
-node scripts/verify_mintlify_preview.mjs <bazelbuild/bazel PR number>
+node scripts/verify_mintlify_preview.mjs <PR#> --path /path/from/issue [--path ...]
+# Optional custom checks (local file; do not commit):
+node scripts/verify_mintlify_preview.mjs <PR#> --checks-file /tmp/pr-<N>-checks.json
 ```
+
+Pick paths from the issue repro or [reference.md](../bazel-docs-migration-manager/reference.md).
+Example schema: `scripts/examples/mintlify-checks.example.json`.
 
 Output: `/tmp/bazel-docs-screenshots/pr-<N>/`
 
@@ -84,7 +89,7 @@ Preview: https://bazel-pr-<PR>.mintlify.app/
 |------|-------|--------|
 | `/path` | <expected> | [ ] |
 
-- [ ] Automated: `node scripts/verify_mintlify_preview.mjs <PR>` (from bazel-docs repo)
+- [ ] Automated: `node scripts/verify_mintlify_preview.mjs <PR> --path <page>` (from bazel-docs repo)
 ```
 
 See [../bazel-docs-migration-manager/reference.md](../bazel-docs-migration-manager/reference.md).

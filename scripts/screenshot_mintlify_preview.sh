@@ -2,7 +2,10 @@
 # Capture screenshots of Mintlify preview pages for bazelbuild/bazel PRs.
 #
 # Usage (from bazel-docs repo root):
-#   ./scripts/screenshot_mintlify_preview.sh <pr_number> [page_path...]
+#   ./scripts/screenshot_mintlify_preview.sh <pr_number> <page_path> [<page_path>...]
+#
+# Example:
+#   ./scripts/screenshot_mintlify_preview.sh 12345 /configure/attributes /release/rolling
 #
 # Requires: node/npm + npx playwright
 
@@ -11,20 +14,15 @@ set -euo pipefail
 PR="${1:?PR number required}"
 shift || true
 
+if [[ $# -eq 0 ]]; then
+  echo "Usage: $0 <pr_number> <page_path> [<page_path>...]" >&2
+  echo "Example: $0 12345 /configure/attributes /reference/be/common-definitions" >&2
+  exit 1
+fi
+
 BASE_URL="https://bazel-pr-${PR}.mintlify.app"
 OUT_DIR="/tmp/bazel-docs-screenshots/pr-${PR}"
 mkdir -p "${OUT_DIR}"
-
-if [[ $# -eq 0 ]]; then
-  case "${PR}" in
-    30702) set -- /configure/attributes /release/rolling /external/mod-command ;;
-    30704) set -- /reference/be/common-definitions ;;
-    30705) set -- /reference/be/common-definitions ;;
-    30706) set -- /remote/output-directories /query/guide ;;
-    30708) set -- /reference/command-line-reference ;;
-    *) set -- /configure/attributes ;;
-  esac
-fi
 
 if ! command -v npx >/dev/null 2>&1; then
   echo "ERROR: npx not found. Install Node.js/npm first." >&2
