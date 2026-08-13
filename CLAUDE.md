@@ -64,6 +64,16 @@ Files with MDX syntax errors that Mintlify cannot parse are listed in `.mintigno
 
 Types: `feat`, `fix`, `chore`, `docs`, `refactor`. Keep messages succinct.
 
+## Agent skills (docs migration)
+
+For bazel.build migration work (issue #30598 and related):
+
+- **Manager:** `agent-skills/bazel-docs-migration-manager/SKILL.md`
+- **Worker:** `agent-skills/bazel-docs-fix-worker/SKILL.md`
+- **Verification:** `scripts/verify_mintlify_preview.mjs`
+
+Symlinks: `.claude/skills/` and `.cursor/skills/` → `agent-skills/`. See also `AGENTS.md`.
+
 ## Working norms
 
 - Always ask before editing the PR description.
