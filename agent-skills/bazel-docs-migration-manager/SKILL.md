@@ -12,7 +12,7 @@ description: >-
 
 ## When to use
 
-User gives a list of GitHub issues (often from tracking issue bazelbuild/bazel#30598) and wants draft PRs with minimal maintainer attention.
+User gives a list of GitHub issues and wants draft PRs with minimal maintainer attention.
 
 ## Architecture
 
@@ -68,11 +68,9 @@ Verification scripts: `scripts/verify_mintlify_preview.mjs`, `scripts/screenshot
 - [ ] Read tracking issue comments for repro URLs
 - [ ] Classify issues: hand-authored MDX vs docs2mdx vs infra
 - [ ] Launch 3–5 sub-agents (Task tool); each follows bazel-docs-fix-worker
-- [ ] Tell agents: use `bazel test`, not bare `python3` (Santa may block)
 - [ ] Push to fork if upstream push denied; draft PR to bazelbuild/bazel
 - [ ] Close duplicate PRs when agents overlap
-- [ ] Trigger previews: gh workflow run "Preview Bazel docs PRs" --repo bazel-contrib/bazel-docs -f pr_number=<N>
-- [ ] After ~10–15 min: node scripts/verify_mintlify_preview.mjs <N>
+- [ ] Ensure agents have performed visual verification of changes using mintlify preview
 - [ ] Post verification comments on upstream PRs; update test plan checkboxes
 ```
 
