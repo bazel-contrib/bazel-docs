@@ -36,11 +36,13 @@ One GitHub issue → one branch → one draft PR → verified test plan.
 
 ## Testing rules
 
-Use Bazel, not bare `python3` (Santa / missing deps on macOS):
+Use Bazel:
 
 ```bash
 bazel test //scripts/docs:docs2mdx_test //scripts/docs:rewriter_test
 ```
+
+You may also construct one-off verification scripts when needed.
 
 ## Visual verification
 
@@ -84,15 +86,5 @@ Preview: https://bazel-pr-<PR>.mintlify.app/
 
 - [ ] Automated: `node scripts/verify_mintlify_preview.mjs <PR>` (from bazel-docs repo)
 ```
-
-## Fix type quick reference
-
-| Symptom | Where to fix |
-|---------|--------------|
-| `style="..."` breaks MDX | JSX `style={{...}}` in `docs/**/*.mdx` |
-| Heading anchors missing | `docs2mdx.py` → `{#id}` |
-| Lists/tables flat in cells | `docs2mdx.py` → preserve HTML in `<td>` |
-| Entities in code blocks | `docs2mdx.py` → skip escape in code/pre |
-| Flag links not copyable | `docs2mdx.py` → restructure `<code><a>` |
 
 See [../bazel-docs-migration-manager/reference.md](../bazel-docs-migration-manager/reference.md).
