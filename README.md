@@ -14,6 +14,11 @@ See Bazel's [Docs contribution
 workflow](https://bazel.build/contribute/docs-contribution-workflow) for more
 information on how to make changes to Bazel's documentation site.
 
+### Agent-assisted migration
+
+Agent skills for fixing bazel.build migration bugs live in [`agent-skills/`](agent-skills/).
+See [`AGENTS.md`](AGENTS.md) for manager/worker workflows and Mintlify preview verification.
+
 ### Build the Bazel site locally
 
 If you haven't already, [install
