@@ -19,7 +19,6 @@ Pipeline that syncs pre-converted MDX docs from `bazelbuild/bazel` and deploys t
 |---|---|
 | `.github/workflows/pull-from-bazel-build.yml` | Reusable sync workflow (MDX + reference docs → commit) |
 | `.github/workflows/preview-bazel-docs-pr.yml` | Cron: polls upstream PRs, builds previews, posts comments |
-| `.github/workflows/trigger-from-bazel-repo.yml` | Syncs on upstream main-branch push |
 | `.github/workflows/generate-docs.yml` | Syncs on PRs to this repo |
 | `navigation.update.sh` | Regenerates versioned Mintlify nav (`navigation.json` + `navigation/*.en.json`); version list from `upstream/docs/versions/` |
 | `.mintignore` | Files excluded from Mintlify rendering (broken MDX syntax) |
