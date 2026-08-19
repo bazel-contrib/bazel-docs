@@ -2538,6 +2538,17 @@ Options that control the output of the command
   Tags: [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+<ParamField path="--[no]incompatible_prefer_depending_configuration_runfiles" type="boolean" default="false">
+  If true, when artifacts from the same target in multiple configurations are encountered
+  when constructing runfiles, prefer the version that matches the configuration of the
+  depending target. Specifically, when a target T depends on a target A in multiple
+  configurations, either directly or transitively, prefer the runfiles from the
+  version of A in the configuration that matches the configuration of T. This can happen,
+  for example, when a target appears in both the tools and data attributes.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
 <ParamField path="--[no]objc_generate_linkmap" type="boolean" default="false">
   Specifies whether to generate a linkmap file.
 
@@ -5351,6 +5362,17 @@ Options that control the output of the command
   Tags: [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+<ParamField path="--[no]incompatible_prefer_depending_configuration_runfiles" type="boolean" default="false">
+  If true, when artifacts from the same target in multiple configurations are encountered
+  when constructing runfiles, prefer the version that matches the configuration of the
+  depending target. Specifically, when a target T depends on a target A in multiple
+  configurations, either directly or transitively, prefer the runfiles from the
+  version of A in the configuration that matches the configuration of T. This can happen,
+  for example, when a target appears in both the tools and data attributes.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
 <ParamField path="--[no]objc_generate_linkmap" type="boolean" default="false">
   Specifies whether to generate a linkmap file.
 
@@ -7147,6 +7169,17 @@ Options that control the output of the command
   Tags: [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+<ParamField path="--[no]incompatible_prefer_depending_configuration_runfiles" type="boolean" default="false">
+  If true, when artifacts from the same target in multiple configurations are encountered
+  when constructing runfiles, prefer the version that matches the configuration of the
+  depending target. Specifically, when a target T depends on a target A in multiple
+  configurations, either directly or transitively, prefer the runfiles from the
+  version of A in the configuration that matches the configuration of T. This can happen,
+  for example, when a target appears in both the tools and data attributes.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
 <ParamField path="--[no]objc_generate_linkmap" type="boolean" default="false">
   Specifies whether to generate a linkmap file.
 
@@ -8782,6 +8815,17 @@ Options that control the output of the command
   Tags: [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+<ParamField path="--[no]incompatible_prefer_depending_configuration_runfiles" type="boolean" default="false">
+  If true, when artifacts from the same target in multiple configurations are encountered
+  when constructing runfiles, prefer the version that matches the configuration of the
+  depending target. Specifically, when a target T depends on a target A in multiple
+  configurations, either directly or transitively, prefer the runfiles from the
+  version of A in the configuration that matches the configuration of T. This can happen,
+  for example, when a target appears in both the tools and data attributes.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
 <ParamField path="--[no]objc_generate_linkmap" type="boolean" default="false">
   Specifies whether to generate a linkmap file.
 
@@ -10120,6 +10164,17 @@ Options that control the output of the command
   Tags: [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+<ParamField path="--[no]incompatible_prefer_depending_configuration_runfiles" type="boolean" default="false">
+  If true, when artifacts from the same target in multiple configurations are encountered
+  when constructing runfiles, prefer the version that matches the configuration of the
+  depending target. Specifically, when a target T depends on a target A in multiple
+  configurations, either directly or transitively, prefer the runfiles from the
+  version of A in the configuration that matches the configuration of T. This can happen,
+  for example, when a target appears in both the tools and data attributes.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
 <ParamField path="--action_env" type="a 'name[=value]' assignment with an optional value part or the special syntax '=name' to unset a variable">
@@ -10678,6 +10733,17 @@ Options that control the output of the command
   If true, runfiles of targets listed in the srcs attribute are available to targets that consume the filegroup as a data dependency.
 
   Tags: [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
+<ParamField path="--[no]incompatible_prefer_depending_configuration_runfiles" type="boolean" default="false">
+  If true, when artifacts from the same target in multiple configurations are encountered
+  when constructing runfiles, prefer the version that matches the configuration of the
+  depending target. Specifically, when a target T depends on a target A in multiple
+  configurations, either directly or transitively, prefer the runfiles from the
+  version of A in the configuration that matches the configuration of T. This can happen,
+  for example, when a target appears in both the tools and data attributes.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
@@ -11791,6 +11857,17 @@ Options that control the output of the command
   If true, runfiles of targets listed in the srcs attribute are available to targets that consume the filegroup as a data dependency.
 
   Tags: [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
+<ParamField path="--[no]incompatible_prefer_depending_configuration_runfiles" type="boolean" default="false">
+  If true, when artifacts from the same target in multiple configurations are encountered
+  when constructing runfiles, prefer the version that matches the configuration of the
+  depending target. Specifically, when a target T depends on a target A in multiple
+  configurations, either directly or transitively, prefer the runfiles from the
+  version of A in the configuration that matches the configuration of T. This can happen,
+  for example, when a target appears in both the tools and data attributes.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
 <ParamField path="--[no]objc_generate_linkmap" type="boolean" default="false">
