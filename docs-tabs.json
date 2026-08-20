@@ -8,6 +8,7 @@
           "about/intro",
           "about/why",
           "about/vision",
+          "about/roadmap",
           "about/faq"
         ]
       },
@@ -37,6 +38,7 @@
           "install/windows",
           "install/ubuntu",
           "install/suse",
+          "install/mise",
           "install/docker-container",
           "install/compile-source",
           "install/completion",
@@ -48,6 +50,7 @@
         "pages": [
           "start/cpp",
           "start/java",
+          "start/go",
           "start/android-app",
           "start/ios-app"
         ]
@@ -60,7 +63,8 @@
           "concepts/build-files",
           "concepts/dependencies",
           "concepts/visibility",
-          "concepts/platforms"
+          "concepts/platforms",
+          "concepts/runfiles"
         ]
       }
     ]
@@ -83,7 +87,10 @@
           "build/style-guide",
           "build/share-variables",
           "community/recommended-rules",
-          "run/build"
+          "run/build",
+          "run/bazelrc",
+          "run/client-server",
+          "run/scripts"
         ]
       },
       {
@@ -120,6 +127,24 @@
           "remote/bep",
           "remote/bep-examples",
           "remote/bep-glossary"
+        ]
+      },
+      {
+        "group": "Platform guides",
+        "pages": [
+          "docs/bazel-and-cpp",
+          "docs/bazel-and-java",
+          "docs/bazel-and-javascript",
+          "docs/bazel-and-apple",
+          "docs/bazel-and-android",
+          "docs/android-ndk",
+          "docs/android-instrumentation-test",
+          "docs/android-build-performance",
+          "docs/cc-toolchain-config-reference",
+          "docs/configurable-attributes",
+          "docs/mobile-install",
+          "docs/sandboxing",
+          "docs/user-manual"
         ]
       },
       {
@@ -164,13 +189,36 @@
         "group": "Query Language",
         "pages": [
           "query/language",
-          "query/quickstart"
+          "query/quickstart",
+          "query/guide",
+          "query/cquery",
+          "query/aquery"
+        ]
+      },
+      {
+        "group": "Build Encyclopedia",
+        "pages": [
+          "reference/be/overview",
+          "reference/be/common-definitions",
+          "reference/be/make-variables",
+          "reference/be/functions",
+          "reference/be/platforms-and-toolchains",
+          "reference/be/general",
+          "reference/be/c-cpp",
+          "reference/be/java",
+          "reference/be/objective-c",
+          "reference/be/protocol-buffer",
+          "reference/be/python",
+          "reference/be/shell",
+          "reference/be/extra-actions",
+          "reference/be/be-nav"
         ]
       },
       {
         "group": "Glossary",
         "pages": [
-          "reference/glossary"
+          "reference/glossary",
+          "reference/test-encyclopedia"
         ]
       },
       {
@@ -194,7 +242,16 @@
       {
         "group": "Concepts",
         "pages": [
-          "extending/concepts"
+          "extending/concepts",
+          "extending/depsets",
+          "extending/macros",
+          "extending/legacy-macros",
+          "extending/aspects",
+          "extending/rules",
+          "extending/config",
+          "extending/platforms",
+          "extending/exec-groups",
+          "extending/auto-exec-groups"
         ]
       },
       {
@@ -219,12 +276,184 @@
         ]
       },
       {
-        "group": "APIs",
+        "group": "Toolchains",
+        "pages": [
+          "extending/toolchains"
+        ]
+      },
+      {
+        "group": "API Reference Overview",
         "pages": [
           "rules/lib/overview",
+          "rules/index",
+          "rules/faq"
+        ]
+      },
+      {
+        "group": "Starlark Builtins",
+        "pages": [
+          "rules/errors/read-only-variable",
+          "rules/lib/builtins",
+          "rules/lib/builtins/Action",
+          "rules/lib/builtins/actions",
+          "rules/lib/builtins/Args",
+          "rules/lib/builtins/Aspect",
+          "rules/lib/builtins/Attribute",
+          "rules/lib/builtins/BuildSetting",
+          "rules/lib/builtins/CcCompilationOutputs",
+          "rules/lib/builtins/CcLinkingOutputs",
+          "rules/lib/builtins/CompilationContext",
+          "rules/lib/builtins/DirectoryExpander",
+          "rules/lib/builtins/DottedVersion",
+          "rules/lib/builtins/ExecGroupCollection",
+          "rules/lib/builtins/ExecGroupContext",
+          "rules/lib/builtins/ExecTransitionFactory",
+          "rules/lib/builtins/ExpandedDirectory",
+          "rules/lib/builtins/Facts",
+          "rules/lib/builtins/FeatureConfiguration",
+          "rules/lib/builtins/File",
+          "rules/lib/builtins/Label",
+          "rules/lib/builtins/LateBoundDefault",
+          "rules/lib/builtins/LibraryToLink",
+          "rules/lib/builtins/License",
+          "rules/lib/builtins/LinkerInput",
+          "rules/lib/builtins/LinkingContext",
+          "rules/lib/builtins/Provider",
+          "rules/lib/builtins/Subrule",
+          "rules/lib/builtins/SymlinkEntry",
+          "rules/lib/builtins/Target",
+          "rules/lib/builtins/TemplateDict",
+          "rules/lib/builtins/ToolchainContext",
+          "rules/lib/builtins/apple_platform",
+          "rules/lib/builtins/bazel_module",
+          "rules/lib/builtins/bazel_module_tags",
+          "rules/lib/builtins/configuration",
+          "rules/lib/builtins/ctx",
+          "rules/lib/builtins/depset",
+          "rules/lib/builtins/exec_result",
+          "rules/lib/builtins/extension_metadata",
+          "rules/lib/builtins/fragments",
+          "rules/lib/builtins/java_annotation_processing",
+          "rules/lib/builtins/java_output",
+          "rules/lib/builtins/macro",
+          "rules/lib/builtins/mapped_root",
+          "rules/lib/builtins/module_ctx",
+          "rules/lib/builtins/path",
+          "rules/lib/builtins/propagation_ctx",
+          "rules/lib/builtins/repo_metadata",
+          "rules/lib/builtins/repository_ctx",
+          "rules/lib/builtins/repository_os",
+          "rules/lib/builtins/repository_rule",
+          "rules/lib/builtins/root",
+          "rules/lib/builtins/rule",
+          "rules/lib/builtins/rule_attributes",
+          "rules/lib/builtins/runfiles",
+          "rules/lib/builtins/struct",
+          "rules/lib/builtins/subrule_ctx",
+          "rules/lib/builtins/tag_class",
+          "rules/lib/builtins/template_ctx",
+          "rules/lib/builtins/toolchain_type",
+          "rules/lib/builtins/transition",
+          "rules/lib/builtins/wasm_exec_result",
+          "rules/lib/builtins/wasm_module"
+        ]
+      },
+      {
+        "group": "Core Types",
+        "pages": [
+          "rules/lib/core",
+          "rules/lib/core/bool",
+          "rules/lib/core/builtin_function_or_method",
+          "rules/lib/core/dict",
+          "rules/lib/core/float",
+          "rules/lib/core/function",
+          "rules/lib/core/int",
+          "rules/lib/core/json",
+          "rules/lib/core/list",
+          "rules/lib/core/range",
+          "rules/lib/core/set",
+          "rules/lib/core/string",
+          "rules/lib/core/tuple"
+        ]
+      },
+      {
+        "group": "Providers",
+        "pages": [
+          "rules/lib/providers",
+          "rules/lib/providers/AnalysisTestResultInfo",
+          "rules/lib/providers/CcInfo",
+          "rules/lib/providers/CcToolchainConfigInfo",
+          "rules/lib/providers/CcToolchainInfo",
+          "rules/lib/providers/ConstraintCollection",
+          "rules/lib/providers/ConstraintSettingInfo",
+          "rules/lib/providers/ConstraintValueInfo",
+          "rules/lib/providers/DebugPackageInfo",
+          "rules/lib/providers/DefaultInfo",
+          "rules/lib/providers/ExecutionInfo",
+          "rules/lib/providers/FeatureFlagInfo",
+          "rules/lib/providers/FilesToRunProvider",
+          "rules/lib/providers/IncompatiblePlatformProvider",
+          "rules/lib/providers/InstrumentedFilesInfo",
+          "rules/lib/providers/JavaInfo",
+          "rules/lib/providers/JavaPluginInfo",
+          "rules/lib/providers/JavaRuntimeInfo",
+          "rules/lib/providers/JavaToolchainInfo",
+          "rules/lib/providers/MaterializedDepsInfo",
+          "rules/lib/providers/ObjcProvider",
+          "rules/lib/providers/OutputGroupInfo",
+          "rules/lib/providers/PackageSpecificationInfo",
+          "rules/lib/providers/PlatformInfo",
+          "rules/lib/providers/RunEnvironmentInfo",
+          "rules/lib/providers/TemplateVariableInfo",
+          "rules/lib/providers/ToolchainInfo",
+          "rules/lib/providers/ToolchainTypeInfo",
+          "rules/lib/providers/file_provider",
+          "rules/lib/providers/java_compilation_info",
+          "rules/lib/providers/java_output_jars"
+        ]
+      },
+      {
+        "group": "Global Functions",
+        "pages": [
           "rules/lib/globals",
+          "rules/lib/globals/all",
+          "rules/lib/globals/build",
+          "rules/lib/globals/repo",
+          "rules/lib/globals/vendor",
           "rules/lib/globals/bzl",
           "rules/lib/globals/module"
+        ]
+      },
+      {
+        "group": "Configuration Fragments",
+        "pages": [
+          "rules/lib/fragments",
+          "rules/lib/fragments/apple",
+          "rules/lib/fragments/bazel_android",
+          "rules/lib/fragments/coverage",
+          "rules/lib/fragments/cpp",
+          "rules/lib/fragments/j2objc",
+          "rules/lib/fragments/java",
+          "rules/lib/fragments/objc",
+          "rules/lib/fragments/platform",
+          "rules/lib/fragments/proto"
+        ]
+      },
+      {
+        "group": "Toplevel APIs",
+        "pages": [
+          "rules/lib/toplevel",
+          "rules/lib/toplevel/apple_common",
+          "rules/lib/toplevel/attr",
+          "rules/lib/toplevel/cc_common",
+          "rules/lib/toplevel/config",
+          "rules/lib/toplevel/config_common",
+          "rules/lib/toplevel/coverage_common",
+          "rules/lib/toplevel/java_common",
+          "rules/lib/toplevel/native",
+          "rules/lib/toplevel/platform_common",
+          "rules/lib/toplevel/proto",
+          "rules/lib/toplevel/testing"
         ]
       },
       {
@@ -236,6 +465,22 @@
           "rules/lib/repo/http",
           "rules/lib/repo/local",
           "rules/lib/repo/utils"
+        ]
+      },
+      {
+        "group": "Module system",
+        "pages": [
+          "external/overview",
+          "external/module",
+          "external/extension",
+          "external/registry",
+          "external/lockfile",
+          "external/vendor",
+          "external/repo",
+          "external/mod-command",
+          "external/migration",
+          "external/migration_tool",
+          "external/faq"
         ]
       }
     ]
@@ -255,8 +500,14 @@
           "contribute/statemachine-guide",
           "contribute/docs",
           "contribute/docs-style-guide",
+          "contribute/docs-contribution-workflow",
+          "contribute/docs-navigation",
           "contribute/design-documents",
-          "contribute/release-notes"
+          "contribute/release-notes",
+          "contribute/breaking-changes",
+          "contribute/naming",
+          "contribute/windows-chocolatey-maintenance",
+          "contribute/windows-scoop-maintenance"
         ]
       },
       {
@@ -275,6 +526,12 @@
         "pages": [
           "help",
           "contribute/policy"
+        ]
+      },
+      {
+        "group": "Brand",
+        "pages": [
+          "brand/index"
         ]
       }
     ]
