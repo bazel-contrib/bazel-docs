@@ -4842,7 +4842,7 @@ Remote caching and execution options
   If set to true, Bazel will compute the hash sum of all remote downloads and  discard the remotely cached values if they don't match the expected value.
 </ParamField>
 
-<ParamField path="--[no]rewind_lost_inputs" type="boolean" default="false">
+<ParamField path="--[no]rewind_lost_inputs" type="boolean" default="true">
   Whether to use action rewinding to recover from lost inputs.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
