@@ -228,6 +228,13 @@
         ]
       },
       {
+        "group": "Platforms & toolchains",
+        "pages": [
+          "concepts/platforms",
+          "extending/toolchains",
+        ]
+      },
+      {
         "group": "Repo rules",
         "pages": [
           "rules/lib/repo/index",
