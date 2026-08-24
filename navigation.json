@@ -25,14 +25,6 @@
       ]
     },
     {
-      "version": "8.7",
-      "languages": [
-        {
-          "$ref": "./navigation/8.7.en.json"
-        }
-      ]
-    },
-    {
       "version": "8.6",
       "languages": [
         {
