@@ -4316,6 +4316,12 @@ Options that trigger optimizations of the build time
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
+<ParamField path="--[no]experimental_memory_load_scheduling" type="boolean" default="false">
+  Enables the experimental local execution scheduling based on memory load, not estimation of actions one by one.
+
+  Tags: [`execution`](#effect_tag_EXECUTION)
+</ParamField>
+
 <ParamField path="--local_resources" type="a named double, 'name=value', where value is an integer, or a keyword (&quot;HOST_CPUS&quot;, &quot;HOST_RAM&quot;), optionally followed by an operation ([-|*]&lt;float&gt;) eg. &quot;HOST_CPUS&quot;, &quot;HOST_CPUS*.5&quot;">
   Set the number of resources available to Bazel. Takes in an assignment to a float or HOST_RAM/HOST_CPUS, optionally followed by [-|*]&lt;float&gt; (eg. memory=HOST_RAM*.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:&lt;resource name&gt;:&lt;amount&gt;" format.
 
