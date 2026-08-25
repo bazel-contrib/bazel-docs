@@ -1706,6 +1706,15 @@ Miscellaneous options, not otherwise categorized.
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+<ParamField path="--build_request_id" type="An optionally prefixed UUID. The last 36 characters will be verified as a UUID.">
+  Unique string identifier that groups together a set of invocations that are conceptually
+  part of the same overall build request. The value is sent over the BES transport envelope
+  (as `StreamId.build_id`) and remote execution protocol (as
+  `RequestMetadata.correlated_invocations_id`).
+
+  Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
+</ParamField>
+
 <ParamField path="--color" type="yes, no or auto" default="auto">
   Use terminal controls to colorize output.
 </ParamField>
