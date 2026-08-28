@@ -800,10 +800,10 @@ Options relating to Bzlmod output and semantics
 </ParamField>
 
 <ParamField path="--[no]ignore_dev_dependency" type="boolean" default="false">
-  If true, Bazel ignores `bazel_dep` and `use_extension` declared as `dev_dependency` in
-  the `MODULE.bazel` of the root module. Note that, those dev dependencies are always
-  ignored in the `MODULE.bazel` if it's not the root module regardless of the value
-  of this flag.
+  If true, Bazel ignores `bazel_dep`, `use_extension`, and `include` declared as
+  `dev_dependency` in the `MODULE.bazel` of the root module. Note that these dev
+  dependencies are always ignored in the `MODULE.bazel` if it is not the root module,
+  regardless of the value of this flag.
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
@@ -1229,19 +1229,19 @@ Options that affect the verbosity, format or location of logging
 </ParamField>
 
 <ParamField path="--[no]experimental_profile_include_primary_output" type="boolean" default="false">
-  Includes the extra "out" attribute in action events that contains the exec path to the action's primary output.
+  Includes the extra "out" attribute in action and critical-path events that contains the exec path to the action's primary output.
 
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
 <ParamField path="--[no]experimental_profile_include_target_configuration" type="boolean" default="false">
-  Includes target configuration hash in action events' JSON profile data.
+  Includes target configuration hash in action and critical-path events' JSON profile data.
 
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
 <ParamField path="--[no]experimental_profile_include_target_label" type="boolean" default="false">
-  Includes target label in action events' JSON profile data.
+  Includes target label in action and critical-path events' JSON profile data.
 
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
@@ -1521,7 +1521,7 @@ Remote caching and execution options
   This feature is intended to facilitate sharing a remote/disk cache between actions executing on different platforms but targeting the same platform. It should be used with extreme care, as improper settings may cause accidental sharing of cache entries and result in incorrect builds.
   Scrubbing does not affect how an action is executed, only how its remote/disk cache key is computed for the purpose of retrieving or storing an action result. Scrubbed actions are incompatible with remote execution, and will always be executed locally instead.
   Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
-  In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
+  In order to successfully use this feature, you likely want to set a custom --host_platform (to normalize output prefixes). An empty value disables scrubbing.
 </ParamField>
 
 <ParamField path="--[no]guard_against_concurrent_changes" type="boolean" default="lite">
@@ -2756,33 +2756,6 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_override_platform_cpu_name" type="a 'label=value' assignment">
-  Each entry should be of the form `label=value` where label refers to a platform and values
-  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
-  make variable and output path. Only used when
-  `--experimental_platform_in_output_dir`, `--incompatible_target_cpu_from_platform` or
-  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
-
-  *May be used multiple times; values are accumulated.*
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
-<ParamField path="--[no]experimental_platform_in_output_dir" type="boolean" default="Auto">
-  If true, a shortname for the target platform is used in the output directory name
-  instead of the CPU. The exact scheme is experimental and subject to change:
-
-  - First, in the rare case the `--platforms` option does not have exactly one value, a
-  hash of the platforms option is used.
-  - Next, if any shortname for the current platform was registered by
-  `--experimental_override_name_platform_in_output_dir`, then that shortname is used.
-  - Then, if `--experimental_use_platforms_in_output_dir_legacy_heuristic` is set, use a
-  shortname based off the current platform Label.
-  - Finally, a hash of the platform option is used as a last resort.
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_use_llvm_covmap" type="boolean" default="false">
   If specified, Bazel will generate llvm-cov coverage map information rather than gcov when collect_code_coverage is enabled.
 
@@ -3027,6 +3000,17 @@ Options that let the user configure the intended output, affecting its value, as
   *May be used multiple times; values are accumulated.*
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
+</ParamField>
+
+<ParamField path="--override_platform_cpu_name" type="a 'label=value' assignment">
+  Each entry should be of the form `label=value` where label refers to a platform and values
+  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
+  make variable and output path. Only used when `--incompatible_target_cpu_from_platform` or
+  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
 <ParamField path="--per_file_copt" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options">
@@ -4060,6 +4044,12 @@ Options that control the output of the command
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+<ParamField path="--[no]incompatible_fail_on_unknown_output_groups" type="boolean" default="false">
+  If true, building explicitly requested output groups that are not present on any top-level target or aspect fails the build.
+
+  Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
 <ParamField path="--output_groups" type="comma-separated list of options">
   A list of comma-separated output group names, each of which optionally prefixed by a `+`
   or a `-`. A group prefixed by `+` is added to the default set of output groups,
@@ -4682,7 +4672,7 @@ Remote caching and execution options
   This feature is intended to facilitate sharing a remote/disk cache between actions executing on different platforms but targeting the same platform. It should be used with extreme care, as improper settings may cause accidental sharing of cache entries and result in incorrect builds.
   Scrubbing does not affect how an action is executed, only how its remote/disk cache key is computed for the purpose of retrieving or storing an action result. Scrubbed actions are incompatible with remote execution, and will always be executed locally instead.
   Modifying the scrubbing configuration does not invalidate outputs present in the local filesystem or internal caches; a clean build is required to reexecute affected actions.
-  In order to successfully use this feature, you likely want to set a custom --host_platform together with --experimental_platform_in_output_dir (to normalize output prefixes). An empty value disables scrubbing.
+  In order to successfully use this feature, you likely want to set a custom --host_platform (to normalize output prefixes). An empty value disables scrubbing.
 </ParamField>
 
 <ParamField path="--[no]guard_against_concurrent_changes" type="boolean" default="lite">
@@ -5586,33 +5576,6 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_override_platform_cpu_name" type="a 'label=value' assignment">
-  Each entry should be of the form `label=value` where label refers to a platform and values
-  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
-  make variable and output path. Only used when
-  `--experimental_platform_in_output_dir`, `--incompatible_target_cpu_from_platform` or
-  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
-
-  *May be used multiple times; values are accumulated.*
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
-<ParamField path="--[no]experimental_platform_in_output_dir" type="boolean" default="Auto">
-  If true, a shortname for the target platform is used in the output directory name
-  instead of the CPU. The exact scheme is experimental and subject to change:
-
-  - First, in the rare case the `--platforms` option does not have exactly one value, a
-  hash of the platforms option is used.
-  - Next, if any shortname for the current platform was registered by
-  `--experimental_override_name_platform_in_output_dir`, then that shortname is used.
-  - Then, if `--experimental_use_platforms_in_output_dir_legacy_heuristic` is set, use a
-  shortname based off the current platform Label.
-  - Finally, a hash of the platform option is used as a last resort.
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_use_llvm_covmap" type="boolean" default="false">
   If specified, Bazel will generate llvm-cov coverage map information rather than gcov when collect_code_coverage is enabled.
 
@@ -5857,6 +5820,17 @@ Options that let the user configure the intended output, affecting its value, as
   *May be used multiple times; values are accumulated.*
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
+</ParamField>
+
+<ParamField path="--override_platform_cpu_name" type="a 'label=value' assignment">
+  Each entry should be of the form `label=value` where label refers to a platform and values
+  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
+  make variable and output path. Only used when `--incompatible_target_cpu_from_platform` or
+  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
 <ParamField path="--per_file_copt" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options">
@@ -7393,33 +7367,6 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_override_platform_cpu_name" type="a 'label=value' assignment">
-  Each entry should be of the form `label=value` where label refers to a platform and values
-  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
-  make variable and output path. Only used when
-  `--experimental_platform_in_output_dir`, `--incompatible_target_cpu_from_platform` or
-  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
-
-  *May be used multiple times; values are accumulated.*
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
-<ParamField path="--[no]experimental_platform_in_output_dir" type="boolean" default="Auto">
-  If true, a shortname for the target platform is used in the output directory name
-  instead of the CPU. The exact scheme is experimental and subject to change:
-
-  - First, in the rare case the `--platforms` option does not have exactly one value, a
-  hash of the platforms option is used.
-  - Next, if any shortname for the current platform was registered by
-  `--experimental_override_name_platform_in_output_dir`, then that shortname is used.
-  - Then, if `--experimental_use_platforms_in_output_dir_legacy_heuristic` is set, use a
-  shortname based off the current platform Label.
-  - Finally, a hash of the platform option is used as a last resort.
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_use_llvm_covmap" type="boolean" default="false">
   If specified, Bazel will generate llvm-cov coverage map information rather than gcov when collect_code_coverage is enabled.
 
@@ -7664,6 +7611,17 @@ Options that let the user configure the intended output, affecting its value, as
   *May be used multiple times; values are accumulated.*
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
+</ParamField>
+
+<ParamField path="--override_platform_cpu_name" type="a 'label=value' assignment">
+  Each entry should be of the form `label=value` where label refers to a platform and values
+  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
+  make variable and output path. Only used when `--incompatible_target_cpu_from_platform` or
+  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
 <ParamField path="--per_file_copt" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options">
@@ -9039,33 +8997,6 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_override_platform_cpu_name" type="a 'label=value' assignment">
-  Each entry should be of the form `label=value` where label refers to a platform and values
-  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
-  make variable and output path. Only used when
-  `--experimental_platform_in_output_dir`, `--incompatible_target_cpu_from_platform` or
-  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
-
-  *May be used multiple times; values are accumulated.*
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
-<ParamField path="--[no]experimental_platform_in_output_dir" type="boolean" default="Auto">
-  If true, a shortname for the target platform is used in the output directory name
-  instead of the CPU. The exact scheme is experimental and subject to change:
-
-  - First, in the rare case the `--platforms` option does not have exactly one value, a
-  hash of the platforms option is used.
-  - Next, if any shortname for the current platform was registered by
-  `--experimental_override_name_platform_in_output_dir`, then that shortname is used.
-  - Then, if `--experimental_use_platforms_in_output_dir_legacy_heuristic` is set, use a
-  shortname based off the current platform Label.
-  - Finally, a hash of the platform option is used as a last resort.
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_use_llvm_covmap" type="boolean" default="false">
   If specified, Bazel will generate llvm-cov coverage map information rather than gcov when collect_code_coverage is enabled.
 
@@ -9310,6 +9241,17 @@ Options that let the user configure the intended output, affecting its value, as
   *May be used multiple times; values are accumulated.*
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
+</ParamField>
+
+<ParamField path="--override_platform_cpu_name" type="a 'label=value' assignment">
+  Each entry should be of the form `label=value` where label refers to a platform and values
+  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
+  make variable and output path. Only used when `--incompatible_target_cpu_from_platform` or
+  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
 <ParamField path="--per_file_copt" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options">
@@ -10286,33 +10228,6 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_override_platform_cpu_name" type="a 'label=value' assignment">
-  Each entry should be of the form `label=value` where label refers to a platform and values
-  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
-  make variable and output path. Only used when
-  `--experimental_platform_in_output_dir`, `--incompatible_target_cpu_from_platform` or
-  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
-
-  *May be used multiple times; values are accumulated.*
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
-<ParamField path="--[no]experimental_platform_in_output_dir" type="boolean" default="Auto">
-  If true, a shortname for the target platform is used in the output directory name
-  instead of the CPU. The exact scheme is experimental and subject to change:
-
-  - First, in the rare case the `--platforms` option does not have exactly one value, a
-  hash of the platforms option is used.
-  - Next, if any shortname for the current platform was registered by
-  `--experimental_override_name_platform_in_output_dir`, then that shortname is used.
-  - Then, if `--experimental_use_platforms_in_output_dir_legacy_heuristic` is set, use a
-  shortname based off the current platform Label.
-  - Finally, a hash of the platform option is used as a last resort.
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
@@ -10401,6 +10316,17 @@ Options that let the user configure the intended output, affecting its value, as
   specified regex-based filter will be instrumented. Rules prefixed
   with '-' are excluded instead. Note that only non-test rules are
   instrumented unless `--instrument_test_targets` is enabled.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+</ParamField>
+
+<ParamField path="--override_platform_cpu_name" type="a 'label=value' assignment">
+  Each entry should be of the form `label=value` where label refers to a platform and values
+  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
+  make variable and output path. Only used when `--incompatible_target_cpu_from_platform` or
+  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
+
+  *May be used multiple times; values are accumulated.*
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
@@ -10857,33 +10783,6 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_override_platform_cpu_name" type="a 'label=value' assignment">
-  Each entry should be of the form `label=value` where label refers to a platform and values
-  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
-  make variable and output path. Only used when
-  `--experimental_platform_in_output_dir`, `--incompatible_target_cpu_from_platform` or
-  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
-
-  *May be used multiple times; values are accumulated.*
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
-<ParamField path="--[no]experimental_platform_in_output_dir" type="boolean" default="Auto">
-  If true, a shortname for the target platform is used in the output directory name
-  instead of the CPU. The exact scheme is experimental and subject to change:
-
-  - First, in the rare case the `--platforms` option does not have exactly one value, a
-  hash of the platforms option is used.
-  - Next, if any shortname for the current platform was registered by
-  `--experimental_override_name_platform_in_output_dir`, then that shortname is used.
-  - Then, if `--experimental_use_platforms_in_output_dir_legacy_heuristic` is set, use a
-  shortname based off the current platform Label.
-  - Finally, a hash of the platform option is used as a last resort.
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
@@ -10972,6 +10871,17 @@ Options that let the user configure the intended output, affecting its value, as
   specified regex-based filter will be instrumented. Rules prefixed
   with '-' are excluded instead. Note that only non-test rules are
   instrumented unless `--instrument_test_targets` is enabled.
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
+</ParamField>
+
+<ParamField path="--override_platform_cpu_name" type="a 'label=value' assignment">
+  Each entry should be of the form `label=value` where label refers to a platform and values
+  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
+  make variable and output path. Only used when `--incompatible_target_cpu_from_platform` or
+  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
+
+  *May be used multiple times; values are accumulated.*
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
@@ -12083,33 +11993,6 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_override_platform_cpu_name" type="a 'label=value' assignment">
-  Each entry should be of the form `label=value` where label refers to a platform and values
-  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
-  make variable and output path. Only used when
-  `--experimental_platform_in_output_dir`, `--incompatible_target_cpu_from_platform` or
-  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
-
-  *May be used multiple times; values are accumulated.*
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
-<ParamField path="--[no]experimental_platform_in_output_dir" type="boolean" default="Auto">
-  If true, a shortname for the target platform is used in the output directory name
-  instead of the CPU. The exact scheme is experimental and subject to change:
-
-  - First, in the rare case the `--platforms` option does not have exactly one value, a
-  hash of the platforms option is used.
-  - Next, if any shortname for the current platform was registered by
-  `--experimental_override_name_platform_in_output_dir`, then that shortname is used.
-  - Then, if `--experimental_use_platforms_in_output_dir_legacy_heuristic` is set, use a
-  shortname based off the current platform Label.
-  - Finally, a hash of the platform option is used as a last resort.
-
-  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_use_llvm_covmap" type="boolean" default="false">
   If specified, Bazel will generate llvm-cov coverage map information rather than gcov when collect_code_coverage is enabled.
 
@@ -12354,6 +12237,17 @@ Options that let the user configure the intended output, affecting its value, as
   *May be used multiple times; values are accumulated.*
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
+</ParamField>
+
+<ParamField path="--override_platform_cpu_name" type="a 'label=value' assignment">
+  Each entry should be of the form `label=value` where label refers to a platform and values
+  is the desired shortname to override the platform's CPU name in `$(TARGET_CPU)`
+  make variable and output path. Only used when `--incompatible_target_cpu_from_platform` or
+  `--incompatible_bep_cpu_from_platform` is true. Has highest naming priority.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
 <ParamField path="--per_file_copt" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options">
