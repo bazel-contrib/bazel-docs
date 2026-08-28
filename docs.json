@@ -480,10 +480,6 @@
       "destination": "/about/vision"
     },
     {
-      "source": "/community/roadmaps",
-      "destination": "/about/roadmap"
-    },
-    {
       "source": "/faq/",
       "destination": "/about/faq"
     },
@@ -749,7 +745,11 @@
     },
     {
       "source": "/docs/platforms",
-      "destination": "/extending/platforms"
+      "destination": "/concepts/platforms"
+    },
+    {
+      "source": "/extending/platforms",
+      "destination": "/concepts/platforms"
     },
     {
       "source": "/reference/exec-groups",
@@ -802,18 +802,6 @@
     {
       "source": "/versions/updating-bazel",
       "destination": "/install/bazelisk"
-    },
-    {
-      "source": "/community/roadmaps-build-api",
-      "destination": "/about/roadmap"
-    },
-    {
-      "source": "/community/roadmaps-configurability",
-      "destination": "/about/roadmap"
-    },
-    {
-      "source": "/community/roadmaps-starlark",
-      "destination": "/about/roadmap"
     },
     {
       "source": "/rules/lib/Action",
@@ -1078,10 +1066,6 @@
     {
       "source": "/rules/lib/cpp",
       "destination": "/rules/lib/fragments/cpp"
-    },
-    {
-      "source": "/rules/lib/j2objc",
-      "destination": "/rules/lib/fragments/j2objc"
     },
     {
       "source": "/rules/lib/java",

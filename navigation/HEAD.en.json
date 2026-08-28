@@ -10,7 +10,6 @@
             "about/intro",
             "about/why",
             "about/vision",
-            "about/roadmap",
             "about/faq"
           ]
         },
@@ -434,7 +433,6 @@
             "rules/lib/fragments/bazel_android",
             "rules/lib/fragments/coverage",
             "rules/lib/fragments/cpp",
-            "rules/lib/fragments/j2objc",
             "rules/lib/fragments/java",
             "rules/lib/fragments/objc",
             "rules/lib/fragments/platform",
