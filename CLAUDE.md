@@ -63,6 +63,26 @@ Files with MDX syntax errors that Mintlify cannot parse are listed in `.mintigno
 
 Types: `feat`, `fix`, `chore`, `docs`, `refactor`. Keep messages succinct.
 
+## Release & versioning
+
+When a new Bazel version is released with docs, the following happens automatically via the sync pipeline:
+
+1. **Upstream docs synced:** `bazelbuild/bazel/docs/versions/VERSION/` → `versions/VERSION/`
+2. **Navigation regenerated:** `./navigation.update.sh` creates `navigation/VERSION.en.json`
+3. **Version filtering applied:**
+   - Major 6 & 7: keeps only latest minor (e.g., 6.5.0, not 6.4.0)
+   - Major 8+: keeps all minors (so 8.7, 8.8, 9.0, 9.1, etc.)
+   - See `navigation.update.sh` lines 25-38 for implementation
+
+**Manual step required for EOL versions:**
+When deprecating old versions (e.g., removing 6.x support), manually delete the corresponding navigation file:
+```bash
+git rm navigation/6.x.en.json  # Remove EOL version file
+./navigation.update.sh          # Regenerate to remove from version index
+```
+
+This ensures old versions don't appear in version switcher menus.
+
 ## Working norms
 
 - Always ask before editing the PR description.
