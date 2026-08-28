@@ -100,7 +100,7 @@ used as a dependency by others, its own overrides are ignored.
 ## include
 
 ```
-None include(label)
+None include(label, *, dev_dependency=False)
 ```
 
 Includes the contents of another MODULE.bazel-like file. Effectively, `include()` behaves as if the included file is textually placed at the location of the `include()` call, except that variable bindings (such as those used for `use_extension`) are only ever visible in the file they occur in, not in any included or including files.
@@ -116,6 +116,7 @@ Only files in the current module's repo may be included.
 | Parameter | Description |
 | --- | --- |
 | `label` | [string](../core/string); required  The label pointing to the file to include. The label must point to a file in the main repo; in other words, it **must **start with double slashes (`//`). The name of the file must end with `.MODULE.bazel` and must not start with `.`.**** |
+| `dev_dependency` | [bool](../core/bool); default is `False`  If true, this include will be ignored if the current module is not the root module or `--ignore_dev_dependency` is enabled. The value must be a literal `True` or `False`. |
 
 ## inject_repo
 
