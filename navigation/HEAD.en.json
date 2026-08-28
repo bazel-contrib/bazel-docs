@@ -250,7 +250,6 @@
             "extending/aspects",
             "extending/rules",
             "extending/config",
-            "extending/platforms",
             "extending/exec-groups",
             "extending/auto-exec-groups"
           ]
