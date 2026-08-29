@@ -1,7 +1,6 @@
 ---
-title: 'dict'
+title: 'dict {#modules.dict}'
 ---
-
 dict is a built-in type representing an associative mapping or *dictionary*. A dictionary supports indexing using `d[k]` and key membership testing using `k in d`; both operations take constant time. Unfrozen dictionaries are mutable, and may be updated by assigning to `d[k]` or by calling certain methods. Dictionaries are iterable; iteration yields the sequence of keys in insertion order. Iteration order is unaffected by updating the value associated with an existing key, but is affected by removing then reinserting a key.
 
 ```
@@ -44,15 +43,14 @@ There are four ways to construct a dictionary:
 * [update](#update)
 * [values](#values)
 
-## clear
+## clear {#clear}
 
 ```
 None dict.clear()
 ```
 
 Remove all items from the dictionary.
-
-## get
+## get {#get}
 
 ```
 unknown dict.get(key, default=None)
@@ -67,7 +65,7 @@ Returns the value for `key` if `key` is in the dictionary, else `default`. If `d
 | `key` | required |
 | `default` | default is `None`  The default value to use (instead of None) if the key is not found. |
 
-## items
+## items {#items}
 
 ```
 list dict.items()
@@ -79,7 +77,7 @@ Returns the list of key-value tuples:
 {2: "a", 4: "b", 1: "c"}.items() == [(2, "a"), (4, "b"), (1, "c")]
 ```
 
-## keys
+## keys {#keys}
 
 ```
 list dict.keys()
@@ -91,7 +89,7 @@ Returns the list of keys:
 {2: "a", 4: "b", 1: "c"}.keys() == [2, 4, 1]
 ```
 
-## pop
+## pop {#pop}
 
 ```
 unknown dict.pop(key, default=unbound)
@@ -106,15 +104,14 @@ Removes a `key` from the dict, and returns the associated value. If no entry wit
 | `key` | required  The key. |
 | `default` | default is `unbound`  a default value if the key is absent. |
 
-## popitem
+## popitem {#popitem}
 
 ```
 tuple dict.popitem()
 ```
 
 Remove and return the first `(key, value)` pair from the dictionary. `popitem` is useful to destructively iterate over a dictionary, as often used in set algorithms. If the dictionary is empty, the `popitem` call fails.
-
-## setdefault
+## setdefault {#setdefault}
 
 ```
 unknown dict.setdefault(key, default=None)
@@ -129,7 +126,7 @@ If `key` is in the dictionary, return its value. If not, insert key with a value
 | `key` | required  The key. |
 | `default` | default is `None`  a default value if the key is absent. |
 
-## update
+## update {#update}
 
 ```
 None dict.update(pairs=[], **kwargs)
@@ -147,7 +144,7 @@ Each keyword argument `name=value` causes the name/value pair to be inserted int
 | `pairs` | default is `[]`  Either a dictionary or a list of entries. Entries must be tuples or lists with exactly two elements: key, value. |
 | `kwargs` | required  Dictionary of additional entries. |
 
-## values
+## values {#values}
 
 ```
 list dict.values()

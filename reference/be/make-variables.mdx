@@ -1,5 +1,5 @@
 ---
-title: 'Make Variables'
+title: 'Make Variables {#make-variables}'
 ---
 
 * [Use](#use)
@@ -22,7 +22,7 @@ The reason for the term "Make" is historical: the syntax and semantics of
 these variables were originally intended to match [GNU
 Make](https://www.gnu.org/software/make/manual/html_node/Using-Variables.html).
 
-## Use
+## Use {#use}
 
 Attributes marked as *"Subject to 'Make variable' substitution"* can
 reference the "Make" variable `FOO` as follows:
@@ -47,7 +47,7 @@ the parentheses. For example:
 To write `$` as a string literal (i.e. to prevent variable
 expansion), write `$$`.
 
-## Predefined variables
+## Predefined variables {#predefined_variables}
 
 Predefined "Make" variables can be referenced by any attribute marked as
 *"Subject to 'Make variable' substitution"* on any target.
@@ -87,7 +87,7 @@ and look at the top output lines with capital letters.
 * `TARGET_CPU`:
   The target architecture's CPU, e.g. `k8`.
 
-## Predefined genrule variables
+## Predefined genrule variables {#predefined_genrule_variables}
 
 The following are specially available to `genrule`'s
 `cmd` attribute and are
@@ -149,7 +149,7 @@ and then use `"$$\{SRCS[@]}"` in subsequent command lines in place
 of `$(SRCS)`. A more robust option is to write a Starlark rule
 instead.
 
-## Predefined source/output path variables
+## Predefined source/output path variables {#predefined_label_variables}
 
 The predefined variables `execpath`, `execpaths`,
 `rootpath`, `rootpaths`, `location`, and
@@ -244,7 +244,7 @@ also reference labels in `data`.
 Labels don't have to be in canonical form: `foo`, `:foo`
 and `//somepkg:foo` are all fine.
 
-## Custom variables
+## Custom variables {#custom_variables}
 
 Custom "Make" variables can be referenced by any attribute marked as
 *"Subject to 'Make variable' substitution"*, but only on targets that

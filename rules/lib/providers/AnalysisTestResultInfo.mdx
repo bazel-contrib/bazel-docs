@@ -1,7 +1,6 @@
 ---
-title: 'AnalysisTestResultInfo'
+title: 'AnalysisTestResultInfo {#modules.AnalysisTestResultInfo}'
 ---
-
 Encapsulates the result of analyis-phase testing. Build targets which return an instance of this provider signal to the build system that it should generate a 'stub' test executable which generates the equivalent test result. Analysis test rules (rules created with `analysis_test=True` **must** return an instance of this provider, and non-analysis-phase test rules **cannot** return this provider.
 
 ## Members
@@ -10,7 +9,7 @@ Encapsulates the result of analyis-phase testing. Build targets which return an 
 * [message](#message)
 * [success](#success)
 
-## AnalysisTestResultInfo
+## AnalysisTestResultInfo {#AnalysisTestResultInfo}
 
 ```
 AnalysisTestResultInfo AnalysisTestResultInfo(success, message)
@@ -25,15 +24,14 @@ The `AnalysisTestResultInfo` constructor.
 | `success` | [bool](../core/bool); required  If true, then the analysis-phase test represented by this target should pass. If false, the test should fail. |
 | `message` | [string](../core/string); required  A descriptive message containing information about the test and its success/failure. |
 
-## message
+## message {#message}
 
 ```
 string AnalysisTestResultInfo.message
 ```
 
 A descriptive message containing information about the test and its success/failure.
-
-## success
+## success {#success}
 
 ```
 bool AnalysisTestResultInfo.success

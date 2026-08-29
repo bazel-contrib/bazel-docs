@@ -1,7 +1,6 @@
 ---
-title: 'java_common'
+title: 'java_common {#modules.java_common}'
 ---
-
 Utilities for Java compilation support in Starlark.
 
 ## Members
@@ -15,15 +14,14 @@ Utilities for Java compilation support in Starlark.
 * [run_ijar](#run_ijar)
 * [stamp_jar](#stamp_jar)
 
-## BootClassPathInfo
+## BootClassPathInfo {#BootClassPathInfo}
 
 ```
 Provider java_common.BootClassPathInfo
 ```
 
 The provider used to supply bootclasspath information
-
-## compile
+## compile {#compile}
 
 ```
 JavaInfo java_common.compile(ctx, *, source_jars=[], source_files=[], output, output_source_jar=None, javac_opts=[], deps=[], runtime_deps=[], exports=[], plugins=[], exported_plugins=[], native_libraries=[], annotation_processor_additional_inputs=[], annotation_processor_additional_outputs=[], strict_deps='ERROR', java_toolchain, bootclasspath=None, sourcepath=[], resources=[], resource_jars=[], classpath_resources=[], neverlink=False, enable_annotation_processing=True, enable_compile_jar_action=True, add_exports=[], add_opens=[])
@@ -62,23 +60,21 @@ Compiles Java source files/jars from the implementation of a Starlark rule and r
 | `add_exports` | [sequence](../core/list) of [string](../core/string)s; default is `[]`  Allow this library to access the given /. |
 | `add_opens` | [sequence](../core/list) of [string](../core/string)s; default is `[]`  Allow this library to reflectively access the given /. |
 
-## JavaRuntimeInfo
+## JavaRuntimeInfo {#JavaRuntimeInfo}
 
 ```
 Provider java_common.JavaRuntimeInfo
 ```
 
 The key used to retrieve the provider that contains information about the Java runtime being used.
-
-## JavaToolchainInfo
+## JavaToolchainInfo {#JavaToolchainInfo}
 
 ```
 Provider java_common.JavaToolchainInfo
 ```
 
 The key used to retrieve the provider that contains information about the Java toolchain being used.
-
-## merge
+## merge {#merge}
 
 ```
 JavaInfo java_common.merge(providers)
@@ -92,7 +88,7 @@ Merges the given providers into a single JavaInfo.
 | --- | --- |
 | `providers` | [sequence](../core/list) of [JavaInfo](../providers/JavaInfo)s; required  The list of providers to merge. |
 
-## pack_sources
+## pack_sources {#pack_sources}
 
 ```
 File java_common.pack_sources(actions, *, output_source_jar=None, sources=[], source_jars=[], java_toolchain)
@@ -114,7 +110,7 @@ Packs sources and source jars into a single source jar file. The return value is
 | `source_jars` | [sequence](../core/list) of [File](../builtins/File)s; default is `[]`  A list of source jars to be packed into the source jar. |
 | `java_toolchain` | Info; required  A JavaToolchainInfo to used to find the ijar tool. |
 
-## run_ijar
+## run_ijar {#run_ijar}
 
 ```
 File java_common.run_ijar(actions, *, jar, target_label=None, java_toolchain)
@@ -131,7 +127,7 @@ Runs ijar on a jar, stripping it of its method bodies. This helps reduce rebuild
 | `target_label` | [Label](../builtins/Label); or `None`; default is `None`  A target label to stamp the jar with. Used for `add_dep` support. Typically, you would pass `ctx.label` to stamp the jar with the current rule's label. |
 | `java_toolchain` | Info; required  A JavaToolchainInfo to used to find the ijar tool. |
 
-## stamp_jar
+## stamp_jar {#stamp_jar}
 
 ```
 File java_common.stamp_jar(actions, *, jar, target_label, java_toolchain)

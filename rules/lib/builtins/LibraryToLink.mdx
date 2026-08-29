@@ -1,7 +1,6 @@
 ---
-title: 'LibraryToLink'
+title: 'LibraryToLink {#modules.LibraryToLink}'
 ---
-
 A library the user can link against.
 
 ## Members
@@ -18,15 +17,14 @@ A library the user can link against.
 * [resolved_symlink_interface_library](#resolved_symlink_interface_library)
 * [static_library](#static_library)
 
-## alwayslink
+## alwayslink {#alwayslink}
 
 ```
 bool LibraryToLink.alwayslink
 ```
 
 Whether to link the static library/objects in the --whole_archive block.
-
-## dynamic_library
+## dynamic_library {#dynamic_library}
 
 ```
 File LibraryToLink.dynamic_library
@@ -34,8 +32,7 @@ File LibraryToLink.dynamic_library
 
 `Artifact` of dynamic library to be linked. Always used for runtime and used for linking if `interface_library` is not passed.
 May return `None`.
-
-## interface_library
+## interface_library {#interface_library}
 
 ```
 File LibraryToLink.interface_library
@@ -43,8 +40,7 @@ File LibraryToLink.interface_library
 
 `Artifact` of interface library to be linked.
 May return `None`.
-
-## lto_bitcode_files
+## lto_bitcode_files {#lto_bitcode_files}
 
 ```
 sequence LibraryToLink.lto_bitcode_files
@@ -52,8 +48,7 @@ sequence LibraryToLink.lto_bitcode_files
 
 `List` of LTO bitcode files in the library.
 May return `None`.
-
-## objects
+## objects {#objects}
 
 ```
 sequence LibraryToLink.objects
@@ -61,8 +56,7 @@ sequence LibraryToLink.objects
 
 `List` of object files in the library.
 May return `None`.
-
-## pic_lto_bitcode_files
+## pic_lto_bitcode_files {#pic_lto_bitcode_files}
 
 ```
 sequence LibraryToLink.pic_lto_bitcode_files
@@ -70,8 +64,7 @@ sequence LibraryToLink.pic_lto_bitcode_files
 
 `List` of pic LTO bitcode files in the library.
 May return `None`.
-
-## pic_objects
+## pic_objects {#pic_objects}
 
 ```
 sequence LibraryToLink.pic_objects
@@ -79,8 +72,7 @@ sequence LibraryToLink.pic_objects
 
 `List` of pic object files in the library.
 May return `None`.
-
-## pic_static_library
+## pic_static_library {#pic_static_library}
 
 ```
 File LibraryToLink.pic_static_library
@@ -88,8 +80,7 @@ File LibraryToLink.pic_static_library
 
 `Artifact` of pic static library to be linked.
 May return `None`.
-
-## resolved_symlink_dynamic_library
+## resolved_symlink_dynamic_library {#resolved_symlink_dynamic_library}
 
 ```
 File LibraryToLink.resolved_symlink_dynamic_library
@@ -97,8 +88,7 @@ File LibraryToLink.resolved_symlink_dynamic_library
 
 The resolved `Artifact` of the dynamic library to be linked if `dynamic_library` is a symlink, otherwise this is None.
 May return `None`.
-
-## resolved_symlink_interface_library
+## resolved_symlink_interface_library {#resolved_symlink_interface_library}
 
 ```
 File LibraryToLink.resolved_symlink_interface_library
@@ -106,8 +96,7 @@ File LibraryToLink.resolved_symlink_interface_library
 
 The resolved `Artifact` of the interface library to be linked if `interface_library` is a symlink, otherwise this is None.
 May return `None`.
-
-## static_library
+## static_library {#static_library}
 
 ```
 File LibraryToLink.static_library

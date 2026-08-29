@@ -1,7 +1,6 @@
 ---
-title: 'testing'
+title: 'testing {#modules.testing}'
 ---
-
 Helper methods for Starlark to access testing infrastructure.
 
 ## Members
@@ -10,7 +9,7 @@ Helper methods for Starlark to access testing infrastructure.
 * [ExecutionInfo](#ExecutionInfo)
 * [TestEnvironment](#TestEnvironment)
 
-## analysis_test
+## analysis_test {#analysis_test}
 
 ```
 None testing.analysis_test(name, implementation, attrs={}, fragments=[], toolchains=[], attr_values={})
@@ -31,15 +30,14 @@ The number of transitive dependencies of the test are limited. The limit is cont
 | `toolchains` | [sequence](../core/list); default is `[]`  The set of toolchains the test requires. See the [rule](../globals/bzl#rule) call. |
 | `attr_values` | [dict](../core/dict) of [string](../core/string)s; default is `{}`  Dictionary of attribute values to pass to the implementation. |
 
-## ExecutionInfo
+## ExecutionInfo {#ExecutionInfo}
 
 ```
 ExecutionInfo testing.ExecutionInfo
 ```
 
 [testing.ExecutionInfo](../providers/ExecutionInfo) provider key/constructor
-
-## TestEnvironment
+## TestEnvironment {#TestEnvironment}
 
 ```
 RunEnvironmentInfo testing.TestEnvironment(environment, inherited_environment=[])

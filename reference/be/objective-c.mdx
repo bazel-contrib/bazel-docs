@@ -7,8 +7,7 @@ title: 'Objective-C Rules'
 * [objc_import](#objc_import)
 * [objc_library](#objc_library)
 
-## objc_import
-
+## objc_import {#objc_import}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/objc_import.bzl)
 
 ```
@@ -19,7 +18,7 @@ This rule encapsulates an already-compiled static library in the form of an
 `.a` file. It also allows exporting headers and resources using the same
 attributes supported by `objc_library`.
 
-### Arguments
+### Arguments {#objc_import_args}
 
 | Attributes | |
 | --- | --- |
@@ -35,8 +34,7 @@ attributes supported by `objc_library`.
 | `textual_hdrs` | List of [labels](/concepts/labels); default is `[]` The list of C, C++, Objective-C, and Objective-C++ files that are included as headers by source files in this rule or by users of this library. Unlike hdrs, these will not be compiled separately from the sources. |
 | `weak_sdk_frameworks` | List of strings; default is `[]` Names of SDK frameworks to weakly link with. For instance, "MediaAccessibility". In difference to regularly linked SDK frameworks, symbols from weakly linked frameworks do not cause an error if they are not present at runtime. |
 
-## objc_library
-
+## objc_library {#objc_library}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_cc/blob/master/cc/private/rules_impl/objc_library.bzl)
 
 ```
@@ -45,7 +43,7 @@ objc_library(name, deps, srcs, data, hdrs, alwayslink, aspect_hints, compatible_
 
 This rule produces a static library from the given Objective-C source files.
 
-### Arguments
+### Arguments {#objc_library_args}
 
 | Attributes | |
 | --- | --- |

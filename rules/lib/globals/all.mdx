@@ -1,7 +1,6 @@
 ---
-title: 'All Bazel files'
+title: 'All Bazel files {#modules.all}'
 ---
-
 Methods available in all Bazel files, including .bzl files, BUILD, MODULE.bazel, VENDOR.bazel, and WORKSPACE.
 
 ## Members
@@ -34,7 +33,7 @@ Methods available in all Bazel files, including .bzl files, BUILD, MODULE.bazel,
 * [type](#type)
 * [zip](#zip)
 
-## abs
+## abs {#abs}
 
 ```
 unknown abs(x)
@@ -52,7 +51,7 @@ abs(-2.3) == 2.3
 | --- | --- |
 | `x` | [int](../core/int); or [float](../core/float); required  A number (int or float) |
 
-## all
+## all {#all}
 
 ```
 bool all(elements)
@@ -71,7 +70,7 @@ all([-1, 0, 1]) == False
 | --- | --- |
 | `elements` | iterable; required  A collection of elements. |
 
-## any
+## any {#any}
 
 ```
 bool any(elements)
@@ -90,7 +89,7 @@ any([False, 0, ""]) == False
 | --- | --- |
 | `elements` | iterable; required  A collection of elements. |
 
-## bool
+## bool {#bool}
 
 ```
 bool bool(x=False)
@@ -104,7 +103,7 @@ Constructor for the bool type. It returns `False` if the object is `None`, `Fals
 | --- | --- |
 | `x` | default is `False`  The variable to convert. |
 
-## dict
+## dict {#dict}
 
 ```
 dict dict(pairs=[], **kwargs)
@@ -119,7 +118,7 @@ Creates a [dictionary](../core/dict) from an optional positional argument and an
 | `pairs` | default is `[]`  A dict, or an iterable whose elements are each of length 2 (key, value). |
 | `kwargs` | required  Dictionary of additional entries. |
 
-## dir
+## dir {#dir}
 
 ```
 list dir(x)
@@ -133,7 +132,7 @@ Returns a list of strings: the names of the attributes and methods of the parame
 | --- | --- |
 | `x` | required  The object to check. |
 
-## enumerate
+## enumerate {#enumerate}
 
 ```
 list enumerate(list, start=0)
@@ -152,7 +151,7 @@ enumerate([24, 21, 84]) == [(0, 24), (1, 21), (2, 84)]
 | `list` | required  input sequence. |
 | `start` | [int](../core/int); default is `0`  start index. |
 
-## fail
+## fail {#fail}
 
 ```
 None fail(*args, msg=None, attr=None, sep=" ", stack_trace=True)
@@ -170,7 +169,7 @@ Causes execution to fail with an error.
 | `stack_trace` | [bool](../core/bool); default is `True`  If False stack trace is elided from failure for friendlier user messages |
 | `args` | required  A list of values, formatted with debugPrint (which is equivalent to str by default) and joined with sep (defaults to " "), that appear in the error message. |
 
-## float
+## float {#float}
 
 ```
 float float(x=unbound)
@@ -188,7 +187,7 @@ Any other value causes an error. With no argument, `float()` returns 0.0.
 | --- | --- |
 | `x` | [string](../core/string); or [bool](../core/bool); or [int](../core/int); or [float](../core/float); default is `unbound`  The value to convert. |
 
-## getattr
+## getattr {#getattr}
 
 ```
 unknown getattr(x, name, default=unbound)
@@ -209,7 +208,7 @@ getattr(ctx.attr, "myattr", "mydefault")
 | `name` | [string](../core/string); required  The name of the struct attribute. |
 | `default` | default is `unbound`  The default value to return in case the struct doesn't have an attribute of the given name. |
 
-## hasattr
+## hasattr {#hasattr}
 
 ```
 bool hasattr(x, name)
@@ -228,7 +227,7 @@ hasattr(ctx.attr, "myattr")
 | `x` | required |
 | `name` | [string](../core/string); required  The name of the attribute. |
 
-## hash
+## hash {#hash}
 
 ```
 int hash(value)
@@ -248,7 +247,7 @@ Hashing of values besides strings is not currently supported.
 | --- | --- |
 | `value` | [string](../core/string); required  String value to hash. |
 
-## int
+## int {#int}
 
 ```
 int int(x, base=unbound)
@@ -270,7 +269,6 @@ int("FF", 16) == 255
 int("0xFF", 16) == 255
 int("10", 0) == 10
 int("-0x10", 0) == -16
-int("-0x10", 0) == -16
 int("123.456") == 123
 ```
 
@@ -281,7 +279,7 @@ int("123.456") == 123
 | `x` | [string](../core/string); or [bool](../core/bool); or [int](../core/int); or [float](../core/float); required  The string to convert. |
 | `base` | [int](../core/int); default is `unbound`  The base used to interpret a string value; defaults to 10. Must be between 2 and 36 (inclusive), or 0 to detect the base as if `x` were an integer literal. This parameter must not be supplied if the value is not a string. |
 
-## len
+## len {#len}
 
 ```
 int len(x)
@@ -295,7 +293,7 @@ Returns the length of a string, sequence (such as a list or tuple), dict, set, o
 | --- | --- |
 | `x` | iterable; or [string](../core/string); required  The value whose length to report. |
 
-## list
+## list {#list}
 
 ```
 list list(x=[])
@@ -315,7 +313,7 @@ list({5: "a", 2: "b", 4: "c"}) == [5, 2, 4]
 | --- | --- |
 | `x` | iterable; default is `[]`  The object to convert. |
 
-## max
+## max {#max}
 
 ```
 unknown max(*args, key=None)
@@ -337,7 +335,7 @@ max([1, -1, -2, 2], key = abs) == -2  # the first encountered with maximal key v
 | `key` | callable; or `None`; default is `None`  An optional function applied to each element before comparison. Must not mutate the args sequence. |
 | `args` | required  The elements to be checked. |
 
-## min
+## min {#min}
 
 ```
 unknown min(*args, key=None)
@@ -359,7 +357,7 @@ min([2, -2, -1, 1], key = abs) == -1  # the first encountered with minimal key v
 | `key` | callable; or `None`; default is `None`  An optional function applied to each element before comparison. Must not mutate the args sequence. |
 | `args` | required  The elements to be checked. |
 
-## print
+## print {#print}
 
 ```
 None print(*args, sep=" ")
@@ -376,7 +374,7 @@ Using `print` in production code is discouraged due to the spam it creates for u
 | `sep` | [string](../core/string); default is `" "`  The separator string between the objects, default is space (" "). |
 | `args` | required  The objects to print. |
 
-## range
+## range {#range}
 
 ```
 sequence range(start_or_stop, stop=unbound, step=1)
@@ -398,7 +396,7 @@ range(3, 0, -1) == [3, 2, 1]
 | `stop` | [int](../core/int); default is `unbound`  optional index of the first item *not* to be included in the resulting list; generation of the list stops before `stop` is reached. |
 | `step` | [int](../core/int); default is `1`  The increment (default is 1). It may be negative. |
 
-## repr
+## repr {#repr}
 
 ```
 string repr(x)
@@ -416,7 +414,7 @@ repr("ab") == '"ab"'
 | --- | --- |
 | `x` | required |
 
-## reversed
+## reversed {#reversed}
 
 ```
 list reversed(sequence)
@@ -434,7 +432,7 @@ reversed([3, 5, 4]) == [4, 5, 3]
 | --- | --- |
 | `sequence` | iterable; required  The iterable sequence (e.g. list) to be reversed. |
 
-## set
+## set {#set}
 
 ```
 set set(elements=[])
@@ -459,7 +457,7 @@ set({"k1": "v1", "k2": "v2"})  # set(["k1", "k2"]), a set of two elements
 | --- | --- |
 | `elements` | iterable; default is `[]`  An iterable of hashable values. |
 
-## sorted
+## sorted {#sorted}
 
 ```
 list sorted(iterable, key=None, *, reverse=False)
@@ -482,7 +480,7 @@ sorted(["two", "three", "four"], key = len) == ["two", "four", "three"]  # sort 
 | `key` | callable; or `None`; default is `None`  An optional function applied to each element before comparison. |
 | `reverse` | [bool](../core/bool); default is `False`  Return results in descending order. |
 
-## str
+## str {#str}
 
 ```
 string str(x)
@@ -501,7 +499,7 @@ str(8) == "8"
 | --- | --- |
 | `x` | required  The object to convert. |
 
-## tuple
+## tuple {#tuple}
 
 ```
 tuple tuple(x=())
@@ -521,7 +519,7 @@ tuple({5: "a", 2: "b", 4: "c"}) == (5, 2, 4)
 | --- | --- |
 | `x` | iterable; default is `()`  The object to convert. |
 
-## type
+## type {#type}
 
 ```
 string type(x)
@@ -547,7 +545,7 @@ if type(x) == type([]):  # if x is a list
 | --- | --- |
 | `x` | required  The object to check type of. |
 
-## zip
+## zip {#zip}
 
 ```
 list zip(*args)

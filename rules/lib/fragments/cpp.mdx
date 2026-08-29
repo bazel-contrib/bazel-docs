@@ -1,7 +1,6 @@
 ---
-title: 'cpp'
+title: 'cpp {#modules.cpp}'
 ---
-
 A configuration fragment for C++.
 
 ## Members
@@ -16,31 +15,28 @@ A configuration fragment for C++.
 * [objc_should_strip_binary](#objc_should_strip_binary)
 * [objccopts](#objccopts)
 
-## apple_generate_dsym
+## apple_generate_dsym {#apple_generate_dsym}
 
 ```
 bool cpp.apple_generate_dsym
 ```
 
 Whether to generate Apple debug symbol(.dSYM) artifacts.
-
-## conlyopts
+## conlyopts {#conlyopts}
 
 ```
 list cpp.conlyopts
 ```
 
 The flags passed to Bazel by [`--conlyopt`](/docs/user-manual#flag--conlyopt) option.
-
-## copts
+## copts {#copts}
 
 ```
 list cpp.copts
 ```
 
 The flags passed to Bazel by [`--copt`](/docs/user-manual#flag--copt) option.
-
-## custom_malloc
+## custom_malloc {#custom_malloc}
 
 ```
 Label cpp.custom_malloc
@@ -58,40 +54,35 @@ attr.label(
 ```
 
 May return `None`.
-
-## cxxopts
+## cxxopts {#cxxopts}
 
 ```
 list cpp.cxxopts
 ```
 
 The flags passed to Bazel by [`--cxxopt`](/docs/user-manual#flag--cxxopt) option.
-
-## linkopts
+## linkopts {#linkopts}
 
 ```
 list cpp.linkopts
 ```
 
 The flags passed to Bazel by [`--linkopt`](/docs/user-manual#flag--linkopt) option.
-
-## objc_generate_linkmap
+## objc_generate_linkmap {#objc_generate_linkmap}
 
 ```
 bool cpp.objc_generate_linkmap
 ```
 
 (Apple-only) Whether to generate linkmap artifacts.
-
-## objc_should_strip_binary
+## objc_should_strip_binary {#objc_should_strip_binary}
 
 ```
 bool cpp.objc_should_strip_binary
 ```
 
 (Apple-only) whether to perform symbol and dead-code strippings on linked binaries.
-
-## objccopts
+## objccopts {#objccopts}
 
 ```
 list cpp.objccopts

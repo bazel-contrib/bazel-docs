@@ -1,5 +1,5 @@
 ---
-title: 'transition'
+title: 'transition {#modules.transition}'
 ---
 
 Represents a configuration transition across a dependency edge. For example, if `//package:foo` depends on `//package:bar` with a configuration transition, then the configuration of `//package:bar` (and its dependencies) will be `//package:foo`'s configuration plus the changes specified by the transition function.
@@ -9,7 +9,7 @@ Represents a configuration transition across a dependency edge. For example, if 
 * [transition](#transition)
 * [and_then](#and_then)
 
-## transition
+## transition {#transition}
 
 ```
 transition transition(*, implementation, inputs, outputs)
@@ -43,7 +43,7 @@ For more details see [here](https://bazel.build/rules/config#user-defined-transi
 | `inputs` | [sequence](../core/list) of [string](../core/string)s; required  List of build settings that can be read by this transition. This becomes the key set of the settings parameter of the implementation function parameter. |
 | `outputs` | [sequence](../core/list) of [string](../core/string)s; required  List of build settings that can be written by this transition. This must be a superset of the key set of the dictionary returned by this transition. |
 
-## and_then
+## and_then {#and_then}
 
 ```
 transition transition.and_then(transition)

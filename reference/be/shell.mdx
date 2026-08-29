@@ -8,8 +8,7 @@ title: 'Shell Rules'
 * [sh_library](#sh_library)
 * [sh_test](#sh_test)
 
-## sh_binary
-
+## sh_binary {#sh_binary}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_binary.bzl)
 
 ```
@@ -24,7 +23,7 @@ the extension (e.g. `.sh`); the rule name and the file name must be distinct.
 `sh_binary` respects shebangs, so any available interpreter may be used (eg.
 `#!/bin/zsh`)
 
-#### Example
+#### Example {#sh_binary_examples}
 
 For a simple shell script with no dependencies and some data files:
 
@@ -36,7 +35,7 @@ sh_binary(
 )
 ```
 
-### Arguments
+### Arguments {#sh_binary_args}
 
 | Attributes | |
 | --- | --- |
@@ -46,8 +45,7 @@ sh_binary(
 | `env_inherit` | List of strings; default is `[]` |
 | `use_bash_launcher` | Boolean; default is `False` Use a bash launcher initializing the runfiles library |
 
-## sh_library
-
+## sh_library {#sh_library}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_library.bzl)
 
 ```
@@ -74,7 +72,7 @@ The current implementation does not distinguish between the elements of these li
 All three attributes accept rules, source files and generated files.
 It is however good practice to use the attributes for their usual purpose (as with other rules).
 
-#### Examples
+#### Examples {#sh_library_examples}
 
 ```
 sh_library(
@@ -86,7 +84,7 @@ sh_library(
 )
 ```
 
-### Arguments
+### Arguments {#sh_library_args}
 
 | Attributes | |
 | --- | --- |
@@ -94,8 +92,7 @@ sh_library(
 | `deps` | List of [labels](/concepts/labels); default is `[]` The list of "library" targets to be aggregated into this target. See general comments about `deps` at [Typical attributes defined by most build rules](/reference/be/common-definitions#typical.deps). This attribute should be used to list other `sh_library` rules that provide interpreted program source code depended on by the code in `srcs`. The files provided by these rules will be present among the `runfiles` of this target. |
 | `srcs` | List of [labels](/concepts/labels); default is `[]` The list of input files. This attribute should be used to list shell script source files that belong to this library. Scripts can load other scripts using the shell's `source` or `.` command. |
 
-## sh_test
-
+## sh_test {#sh_test}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_shell/tree/v0.2.0/shell/private/sh_test.bzl)
 
 ```
@@ -106,7 +103,7 @@ A `sh_test()` rule creates a test written as a Bourne shell script.
 
 See the [attributes common to all test rules (\*\_test)](/reference/be/common-definitions#common-attributes-tests).
 
-#### Examples
+#### Examples {#sh_test_examples}
 
 ```
 sh_test(
@@ -118,7 +115,7 @@ sh_test(
 )
 ```
 
-### Arguments
+### Arguments {#sh_test_args}
 
 | Attributes | |
 | --- | --- |

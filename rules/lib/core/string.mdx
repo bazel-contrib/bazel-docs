@@ -1,7 +1,6 @@
 ---
-title: 'string'
+title: 'string {#modules.string}'
 ---
-
 A language built-in type to support strings. Examples of string literals:
 
 ```
@@ -62,15 +61,14 @@ Implicit concatenation of strings is not allowed; use the `+` operator instead. 
 * [title](#title)
 * [upper](#upper)
 
-## capitalize
+## capitalize {#capitalize}
 
 ```
 string string.capitalize()
 ```
 
 Returns a copy of the string with its first character (if any) capitalized and the rest lowercased. This method does not support non-ascii characters.
-
-## count
+## count {#count}
 
 ```
 int string.count(sub, start=0, end=None)
@@ -86,15 +84,14 @@ Returns the number of (non-overlapping) occurrences of substring `sub` in string
 | `start` | [int](../core/int); or `None`; default is `0` |
 | `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
-## elems
+## elems {#elems}
 
 ```
 sequence string.elems()
 ```
 
 Returns an iterable value containing successive 1-element substrings of the string. Equivalent to `[s[i] for i in range(len(s))]`, except that the returned value might not be a list.
-
-## endswith
+## endswith {#endswith}
 
 ```
 bool string.endswith(sub, start=0, end=None)
@@ -110,7 +107,7 @@ Returns True if the string ends with `sub`, otherwise False, optionally restrict
 | `start` | [int](../core/int); or `None`; default is `0`  Test beginning at this position. |
 | `end` | [int](../core/int); or `None`; default is `None`  optional position at which to stop comparing. |
 
-## find
+## find {#find}
 
 ```
 int string.find(sub, start=0, end=None)
@@ -126,7 +123,7 @@ Returns the first index where `sub` is found, or -1 if no such index exists, opt
 | `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
 | `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
-## format
+## format {#format}
 
 ```
 string string.format(*args, **kwargs)
@@ -150,7 +147,7 @@ Perform string interpolation. Format strings contain replacement fields surround
 | `args` | default is `()`  List of arguments. |
 | `kwargs` | default is `{}`  Dictionary of arguments. |
 
-## index
+## index {#index}
 
 ```
 int string.index(sub, start=0, end=None)
@@ -166,63 +163,56 @@ Returns the first index where `sub` is found, or raises an error if no such inde
 | `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
 | `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
-## isalnum
+## isalnum {#isalnum}
 
 ```
 bool string.isalnum()
 ```
 
 Returns True if all characters in the string are alphanumeric ([a-zA-Z0-9]) and there is at least one character.
-
-## isalpha
+## isalpha {#isalpha}
 
 ```
 bool string.isalpha()
 ```
 
 Returns True if all characters in the string are alphabetic ([a-zA-Z]) and there is at least one character.
-
-## isdigit
+## isdigit {#isdigit}
 
 ```
 bool string.isdigit()
 ```
 
 Returns True if all characters in the string are digits ([0-9]) and there is at least one character.
-
-## islower
+## islower {#islower}
 
 ```
 bool string.islower()
 ```
 
 Returns True if all cased characters in the string are lowercase and there is at least one character.
-
-## isspace
+## isspace {#isspace}
 
 ```
 bool string.isspace()
 ```
 
 Returns True if all characters are white space characters and the string contains at least one character.
-
-## istitle
+## istitle {#istitle}
 
 ```
 bool string.istitle()
 ```
 
 Returns True if the string is in title case and it contains at least one character. This means that every uppercase character must follow an uncased one (e.g. whitespace) and every lowercase character must follow a cased one (e.g. uppercase or lowercase).
-
-## isupper
+## isupper {#isupper}
 
 ```
 bool string.isupper()
 ```
 
 Returns True if all cased characters in the string are uppercase and there is at least one character.
-
-## join
+## join {#join}
 
 ```
 string string.join(elements)
@@ -240,15 +230,14 @@ Returns a string in which the string elements of the argument have been joined b
 | --- | --- |
 | `elements` | iterable of [string](../core/string)s; required |
 
-## lower
+## lower {#lower}
 
 ```
 string string.lower()
 ```
 
 Returns the lower case version of this string.
-
-## lstrip
+## lstrip {#lstrip}
 
 ```
 string string.lstrip(chars=None)
@@ -266,7 +255,7 @@ Returns a copy of the string where leading characters that appear in `chars` are
 | --- | --- |
 | `chars` | [string](../core/string); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
-## partition
+## partition {#partition}
 
 ```
 tuple string.partition(sep)
@@ -280,7 +269,7 @@ Splits the input string at the first occurrence of the separator `sep` and retur
 | --- | --- |
 | `sep` | [string](../core/string); required  The string to split on. |
 
-## removeprefix
+## removeprefix {#removeprefix}
 
 ```
 string string.removeprefix(prefix)
@@ -294,7 +283,7 @@ If the string starts with `prefix`, returns a new string with the prefix removed
 | --- | --- |
 | `prefix` | [string](../core/string); required  The prefix to remove if present. |
 
-## removesuffix
+## removesuffix {#removesuffix}
 
 ```
 string string.removesuffix(suffix)
@@ -308,7 +297,7 @@ If the string ends with `suffix`, returns a new string with the suffix removed. 
 | --- | --- |
 | `suffix` | [string](../core/string); required  The suffix to remove if present. |
 
-## replace
+## replace {#replace}
 
 ```
 string string.replace(old, new, count=-1)
@@ -324,7 +313,7 @@ Returns a copy of the string in which the occurrences of `old` have been replace
 | `new` | [string](../core/string); required  The string to replace with. |
 | `count` | [int](../core/int); default is `-1`  The maximum number of replacements. If omitted, or if the value is negative, there is no limit. |
 
-## rfind
+## rfind {#rfind}
 
 ```
 int string.rfind(sub, start=0, end=None)
@@ -340,7 +329,7 @@ Returns the last index where `sub` is found, or -1 if no such index exists, opti
 | `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
 | `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
-## rindex
+## rindex {#rindex}
 
 ```
 int string.rindex(sub, start=0, end=None)
@@ -356,7 +345,7 @@ Returns the last index where `sub` is found, or raises an error if no such index
 | `start` | [int](../core/int); or `None`; default is `0`  Restrict to search from this position. |
 | `end` | [int](../core/int); or `None`; default is `None`  optional position before which to restrict to search. |
 
-## rpartition
+## rpartition {#rpartition}
 
 ```
 tuple string.rpartition(sep)
@@ -370,7 +359,7 @@ Splits the input string at the last occurrence of the separator `sep` and return
 | --- | --- |
 | `sep` | [string](../core/string); required  The string to split on. |
 
-## rsplit
+## rsplit {#rsplit}
 
 ```
 list string.rsplit(sep, maxsplit=unbound)
@@ -385,7 +374,7 @@ Returns a list of all the words in the string, using `sep` as the separator, opt
 | `sep` | [string](../core/string); required  The string to split on. |
 | `maxsplit` | [int](../core/int); default is `unbound`  The maximum number of splits. |
 
-## rstrip
+## rstrip {#rstrip}
 
 ```
 string string.rstrip(chars=None)
@@ -403,7 +392,7 @@ Returns a copy of the string where trailing characters that appear in `chars` ar
 | --- | --- |
 | `chars` | [string](../core/string); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
-## split
+## split {#split}
 
 ```
 list string.split(sep, maxsplit=unbound)
@@ -418,7 +407,7 @@ Returns a list of all the words in the string, using `sep` as the separator, opt
 | `sep` | [string](../core/string); required  The string to split on. |
 | `maxsplit` | [int](../core/int); default is `unbound`  The maximum number of splits. |
 
-## splitlines
+## splitlines {#splitlines}
 
 ```
 sequence string.splitlines(keepends=False)
@@ -432,7 +421,7 @@ Splits the string at line boundaries ('\n', '\r\n', '\r') and returns the result
 | --- | --- |
 | `keepends` | [bool](../core/bool); default is `False`  Whether the line breaks should be included in the resulting list. |
 
-## startswith
+## startswith {#startswith}
 
 ```
 bool string.startswith(sub, start=0, end=None)
@@ -448,7 +437,7 @@ Returns True if the string starts with `sub`, otherwise False, optionally restri
 | `start` | [int](../core/int); or `None`; default is `0`  Test beginning at this position. |
 | `end` | [int](../core/int); or `None`; default is `None`  Stop comparing at this position. |
 
-## strip
+## strip {#strip}
 
 ```
 string string.strip(chars=None)
@@ -466,15 +455,14 @@ Returns a copy of the string where leading or trailing characters that appear in
 | --- | --- |
 | `chars` | [string](../core/string); or `None`; default is `None`  The characters to remove, or all whitespace if None. |
 
-## title
+## title {#title}
 
 ```
 string string.title()
 ```
 
 Converts the input string into title case, i.e. every word starts with an uppercase letter while the remaining letters are lowercase. In this context, a word means strictly a sequence of letters. This method does not support supplementary Unicode characters.
-
-## upper
+## upper {#upper}
 
 ```
 string string.upper()

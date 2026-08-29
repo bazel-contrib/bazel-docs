@@ -1,7 +1,6 @@
 ---
-title: 'wasm_exec_result'
+title: 'wasm_exec_result {#modules.wasm_exec_result}'
 ---
-
 The result of executing a WebAssembly function with
 `repository_ctx.execute_wasm()`. It contains the function's
 return value and output buffer.
@@ -15,23 +14,21 @@ and the `error_message` field will be set.
 * [output](#output)
 * [return_code](#return_code)
 
-## error_message
+## error_message {#error_message}
 
 ```
 string wasm_exec_result.error_message
 ```
 
 Contains an error message if execution failed before the function returned.
-
-## output
+## output {#output}
 
 ```
 string wasm_exec_result.output
 ```
 
 The content of the output buffer returned by the WebAssembly function.
-
-## return_code
+## return_code {#return_code}
 
 ```
 long wasm_exec_result.return_code

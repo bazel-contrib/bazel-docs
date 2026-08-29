@@ -1,7 +1,6 @@
 ---
-title: 'TemplateDict'
+title: 'TemplateDict {#modules.TemplateDict}'
 ---
-
 An Args-like structure for use in ctx.actions.expand_template(), which allows for deferring evaluation of values till the execution phase.
 
 ## Members
@@ -9,7 +8,7 @@ An Args-like structure for use in ctx.actions.expand_template(), which allows fo
 * [add](#add)
 * [add_joined](#add_joined)
 
-## add
+## add {#add}
 
 ```
 TemplateDict TemplateDict.add(key, value)
@@ -24,7 +23,7 @@ Add a String value
 | `key` | [string](../core/string); required  A String key |
 | `value` | [string](../core/string); required  A String value |
 
-## add_joined
+## add_joined {#add_joined}
 
 ```
 TemplateDict TemplateDict.add_joined(key, values, *, join_with, map_each, uniquify=False, format_joined=None, allow_closure=False)
