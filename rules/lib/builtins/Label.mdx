@@ -1,7 +1,6 @@
 ---
-title: 'Label'
+title: 'Label {#modules.Label}'
 ---
-
 A BUILD target identifier.
 
 For every `Label` instance `l`, the string representation `str(l)` has the property that `Label(str(l)) == l`, regardless of where the `Label()` call occurs.
@@ -19,7 +18,7 @@ When passed as positional arguments to `print()` or `fail()`, `Label` use a stri
 * [workspace_name](#workspace_name)
 * [workspace_root](#workspace_root)
 
-## Label
+## Label {#Label}
 
 ```
 Label Label(input)
@@ -35,7 +34,7 @@ For macros, a related function, `native.package_relative_label()`, converts the 
 | --- | --- |
 | `input` | [string](../core/string); or [Label](../builtins/Label); required  The input label string or Label object. If a Label object is passed, it's returned as is. |
 
-## name
+## name {#name}
 
 ```
 string Label.name
@@ -47,7 +46,7 @@ The name of the target referred to by this label. For instance:
 Label("@@foo//pkg/foo:abc").name == "abc"
 ```
 
-## package
+## package {#package}
 
 ```
 string Label.package
@@ -59,7 +58,7 @@ The name of the package containing the target referred to by this label, without
 Label("@@repo//pkg/foo:abc").package == "pkg/foo"
 ```
 
-## relative
+## relative {#relative}
 
 ```
 Label Label.relative(relName)
@@ -91,7 +90,7 @@ Label("@repo//foo/bar:baz").relative("@other//wiz:quux") == Label("@remapped//wi
 | --- | --- |
 | `relName` | [string](../core/string); required |
 
-## repo_name
+## repo_name {#repo_name}
 
 ```
 string Label.repo_name
@@ -103,7 +102,7 @@ The canonical name of the repository containing the target referred to by this l
 Label("@@foo//bar:baz").repo_name == "foo"
 ```
 
-## same_package_label
+## same_package_label {#same_package_label}
 
 ```
 Label Label.same_package_label(target_name)
@@ -117,7 +116,7 @@ Creates a label in the same package as this label with the given target name.
 | --- | --- |
 | `target_name` | [string](../core/string); required |
 
-## workspace_name
+## workspace_name {#workspace_name}
 
 ```
 string Label.workspace_name
@@ -132,7 +131,7 @@ The canonical name of the repository containing the target referred to by this l
 Label("@@foo//bar:baz").workspace_name == "foo"
 ```
 
-## workspace_root
+## workspace_root {#workspace_root}
 
 ```
 string Label.workspace_root

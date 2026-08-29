@@ -9,15 +9,14 @@ title: 'Python Rules'
 * [py_test](#py_test)
 * [py_runtime](#py_runtime)
 
-## py_binary
-
+## py_binary {#py_binary}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_binary_rule.bzl)
 
 ```
 py_binary(name, deps, srcs, data, args, aspect_hints, compatible_with, config_settings, deprecation, distribs, env, exec_compatible_with, exec_group_compatible_with, exec_properties, features, imports, interpreter_args, legacy_create_init, licenses, main, main_module, output_licenses, package_metadata, precompile, precompile_invalidation_mode, precompile_optimize_level, precompile_source_retention, pyc_collection, pyi_deps, pyi_srcs, python_version, restricted_to, srcs_version, stamp, tags, target_compatible_with, testonly, toolchains, visibility)
 ```
 
-### Arguments
+### Arguments {#py_binary_args}
 
 | Attributes | |
 | --- | --- |
@@ -43,8 +42,7 @@ py_binary(name, deps, srcs, data, args, aspect_hints, compatible_with, config_se
 | `srcs_version` | String; default is `""` Defunct, unused, does nothing. |
 | `stamp` | Integer; default is `-1` Whether to encode build information into the binary. Possible values: \* `stamp = 1`: Always stamp the build information into the binary, even in `--nostamp` builds. \*\*This setting should be avoided\*\*, since it potentially kills remote caching for the binary and any downstream actions that depend on it. \* `stamp = 0`: Always replace build information by constant values. This gives good build result caching. \* `stamp = -1`: Embedding of build information is controlled by the `--[no]stamp` flag. Stamped binaries are not rebuilt unless their dependencies change. WARNING: Stamping can harm build performance by reducing cache hits and should be avoided if possible. |
 
-## py_library
-
+## py_library {#py_library}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_library_rule.bzl)
 
 ```
@@ -61,8 +59,7 @@ more information.
 :::&lcub;versionchanged&rcub; 0.37.0
 Source files are no longer added to the runfiles directly.
 :::
-
-### Arguments
+### Arguments {#py_library_args}
 
 | Attributes | |
 | --- | --- |
@@ -81,15 +78,14 @@ Source files are no longer added to the runfiles directly.
 | `pyi_srcs` | List of [labels](/concepts/labels); default is `[]` Type definition files for the library. These are typically `.pyi` files, but other file types for type-checker specific formats are allowed. These files are build-time only dependencies and not included as part of a runnable program (packaging rules may include them, however). :::&lcub;versionadded&rcub; 1.1.0 ::: |
 | `srcs_version` | String; default is `""` Defunct, unused, does nothing. |
 
-## py_test
-
+## py_test {#py_test}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_test_rule.bzl)
 
 ```
 py_test(name, deps, srcs, data, args, aspect_hints, compatible_with, config_settings, deprecation, distribs, env, env_inherit, exec_compatible_with, exec_group_compatible_with, exec_properties, features, flaky, imports, interpreter_args, legacy_create_init, licenses, local, main, main_module, package_metadata, precompile, precompile_invalidation_mode, precompile_optimize_level, precompile_source_retention, pyc_collection, pyi_deps, pyi_srcs, python_version, restricted_to, shard_count, size, srcs_version, stamp, tags, target_compatible_with, testonly, timeout, toolchains, visibility)
 ```
 
-### Arguments
+### Arguments {#py_test_args}
 
 | Attributes | |
 | --- | --- |
@@ -115,8 +111,7 @@ py_test(name, deps, srcs, data, args, aspect_hints, compatible_with, config_sett
 | `srcs_version` | String; default is `""` Defunct, unused, does nothing. |
 | `stamp` | Integer; default is `0` Whether to encode build information into the binary. Possible values: \* `stamp = 1`: Always stamp the build information into the binary, even in `--nostamp` builds. \*\*This setting should be avoided\*\*, since it potentially kills remote caching for the binary and any downstream actions that depend on it. \* `stamp = 0`: Always replace build information by constant values. This gives good build result caching. \* `stamp = -1`: Embedding of build information is controlled by the `--[no]stamp` flag. Stamped binaries are not rebuilt unless their dependencies change. WARNING: Stamping can harm build performance by reducing cache hits and should be avoided if possible. |
 
-## py_runtime
-
+## py_runtime {#py_runtime}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_runtime_rule.bzl)
 
 ```
@@ -148,8 +143,7 @@ name = "python-3.6.0",
 interpreter_path = "/opt/pyenv/versions/3.6.0/bin/python",
 )
 ```
-
-### Arguments
+### Arguments {#py_runtime_args}
 
 | Attributes | |
 | --- | --- |

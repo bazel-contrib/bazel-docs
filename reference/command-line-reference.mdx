@@ -2149,6 +2149,12 @@ Options relating to query output and semantics
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+<ParamField path="--[no]prune_unused_actions" type="boolean" default="false">
+  If true, only emits actions that are reachable from the requested top-level targets' default outputs (or specified --output_groups) in the action graph.
+
+  Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+</ParamField>
+
 <ParamField path="--query_file" type="a string">
   If set, query will read the query from the file named here, rather than on the command line. It is an error to specify a file here as well as a command-line query.
 

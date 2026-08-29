@@ -14,8 +14,7 @@ The user should be familiar with the concepts explained [here](/extending/platfo
 * [toolchain](#toolchain)
 * [toolchain_type](#toolchain_type)
 
-## constraint_setting
-
+## constraint_setting {#constraint_setting}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintSettingRule.java)
 
 ```
@@ -33,8 +32,7 @@ Each `constraint_setting` has an extensible set of associated
 different package will introduce new values for an existing setting. For instance, the predefined
 setting `@platforms//cpu:cpu` can be extended with a custom value in order to
 define a platform targeting an obscure cpu architecture.
-
-### Arguments
+### Arguments {#constraint_setting_args}
 
 | Attributes | |
 | --- | --- |
@@ -42,8 +40,7 @@ define a platform targeting an obscure cpu architecture.
 | `default_constraint_value` | [Name](/concepts/labels#target-names); [nonconfigurable](common-definitions#configurable-attributes); default is `None` The label of the default value for this setting, to be used if no value is given. If this attribute is present, the `constraint_value` it points to must be defined in the same package as this `constraint_setting`. If a constraint setting has a default value, then whenever a platform does not include any constraint value for that setting, it is the same as if the platform had specified the default value. Otherwise, if there is no default value, the constraint setting is considered to be unspecified by that platform. In that case, the platform would not match against any constraint list (such as for a `config_setting`) that requires a particular value for that setting. |
 | `refines_constraint_value` | [Label](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); default is `None` The label of a `constraint_value` that this setting refines. If set, any `platform` that specifies a non-default `constraint_value` for this setting must also specify the refined `constraint_value` in its `constraint_values` attribute. Platforms that resolve to the default `constraint_value` for this setting (either implicitly via `default_constraint_value` or explicitly) are exempt from this requirement. When both the refined `constraint_value` and a `constraint_value` for this setting appear as conditions in the same `select` and both are satisfied, the condition that includes the refining `constraint_value` is considered more specific and is chosen unambiguously. |
 
-## constraint_value
-
+## constraint_value {#constraint_value}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintValueRule.java)
 
 ```
@@ -53,8 +50,7 @@ constraint_value(name, aspect_hints, constraint_setting, deprecation, features, 
 This rule introduces a new value for a given constraint type.
 For more details, see the
 [Platforms](https://bazel.build/docs/platforms) page.
-
-#### Example
+#### Example {#constraint_value_examples}
 
 The following creates a new possible value for the predefined `constraint_value`
 representing cpu architecture.
@@ -68,16 +64,14 @@ constraint_value(
 
 Platforms can then declare that they have the `mips` architecture as an alternative to
 `x86_64`, `arm`, and so on.
-
-### Arguments
+### Arguments {#constraint_value_args}
 
 | Attributes | |
 | --- | --- |
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
 | `constraint_setting` | [Label](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); required The `constraint_setting` for which this `constraint_value` is a possible choice. |
 
-## platform
-
+## platform {#platform}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/PlatformRule.java)
 
 ```
@@ -88,8 +82,7 @@ This rule defines a new platform -- a named collection of constraint choices
 (such as cpu architecture or compiler version) describing an environment in
 which part of the build may run.
 For more details, see the [Platforms](/extending/platforms) page.
-
-#### Example
+#### Example {#platform_examples}
 
 This defines a platform that describes any environment running Linux on ARM.
 
@@ -103,7 +96,7 @@ platform(
 )
 ```
 
-### Platform Flags
+### Platform Flags {#platform_flags}
 
 Platforms may use the `flags` attribute to specify a list of flags that will be added
 to the configuration whenever the platform is used as the target platform (i.e., as the value of
@@ -112,7 +105,7 @@ the `--platforms` flag).
 Flags set from the platform effectively have the highest precedence and overwrite any previous
 value for that flag, from the command line, rc file, or transition.
 
-#### Example
+#### Example {#platform_flags_examples}
 
 ```
 platform(
@@ -154,7 +147,7 @@ platform(
 
 For this reason, it is discouraged to use repeatable flags in the `flags` attribute.
 
-### Platform Inheritance
+### Platform Inheritance {#platform_inheritance}
 
 Platforms may use the `parents` attribute to specify another platform that they will
 inherit constraint values from. Although the `parents` attribute takes a list, no
@@ -172,7 +165,7 @@ If the same key appears in both the parent's and the child's `exec_properties`,
 the child's value will be used. If the child platform specifies an empty string as a value, the
 corresponding property will be unset.
 
-#### Example: Constraint Values
+#### Example: Constraint Values {#platform_inheritance_examples}
 
 ```
 platform(
@@ -202,7 +195,7 @@ In this example, the child platforms have the following properties:
 * `child_b` inherits all constraint values from the parent, and doesn't set any of
   its own.
 
-#### Example: Execution properties
+#### Example: Execution properties {#platform_inheritance_exec_examples}
 
 ```
 platform(
@@ -252,7 +245,7 @@ In this example, the child platforms have the following properties:
   property. Its `exec_properties` will be:
   `{ "k1": "v1", "k2": "v2", "k3": "v3" }`.
 
-### Arguments
+### Arguments {#platform_args}
 
 | Attributes | |
 | --- | --- |
@@ -264,8 +257,7 @@ In this example, the child platforms have the following properties:
 | `parents` | List of [labels](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); default is `[]` The label of a `platform` target that this platform should inherit from. Although the attribute takes a list, there should be no more than one platform present. Any constraint_settings not set directly on this platform will be found in the parent platform. See the section on [Platform Inheritance](#platform_inheritance) for details. |
 | `required_settings` | List of [labels](/concepts/labels); default is `[]` A list of `config_setting`s that must be satisfied by the target configuration in order for this platform to be used as an execution platform during toolchain resolution. Required settings are not inherited from parent platforms. |
 
-## toolchain
-
+## toolchain {#toolchain}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ToolchainRule.java)
 
 ```
@@ -276,8 +268,7 @@ This rule declares a specific toolchain's type and constraints so that it can be
 during toolchain resolution. See the
 [Toolchains](https://bazel.build/docs/toolchains) page for more
 details.
-
-### Arguments
+### Arguments {#toolchain_args}
 
 | Attributes | |
 | --- | --- |
@@ -289,8 +280,7 @@ details.
 | `toolchain_type` | [Label](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); required The label of a `toolchain_type` target that represents the role that this toolchain serves. |
 | `use_target_platform_constraints` | Boolean; [nonconfigurable](common-definitions#configurable-attributes); default is `False` If `True`, this toolchain behaves as if its `exec_compatible_with` and `target_compatible_with` constraints are set to those of the current target platform. `exec_compatible_with` and `target_compatible_with` must not be set in that case. |
 
-## toolchain_type
-
+## toolchain_type {#toolchain_type}
 [View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/ToolchainType.java)
 
 ```
@@ -302,7 +292,7 @@ serve the same role for different platforms.
 
 See the [Toolchains](/docs/toolchains) page for more details.
 
-#### Example
+#### Example {#toolchain_type_examples}
 
 This defines a toolchain type for a custom rule.
 
@@ -326,7 +316,7 @@ bar_binary = rule(
 )
 ```
 
-### Arguments
+### Arguments {#toolchain_type_args}
 
 | Attributes | |
 | --- | --- |

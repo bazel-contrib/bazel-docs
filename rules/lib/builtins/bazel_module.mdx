@@ -1,7 +1,6 @@
 ---
-title: 'bazel_module'
+title: 'bazel_module {#modules.bazel_module}'
 ---
-
 Represents a Bazel module in the external dependency graph.
 
 ## Members
@@ -11,31 +10,28 @@ Represents a Bazel module in the external dependency graph.
 * [tags](#tags)
 * [version](#version)
 
-## is_root
+## is_root {#is_root}
 
 ```
 bool bazel_module.is_root
 ```
 
 Whether this module is the root module.
-
-## name
+## name {#name}
 
 ```
 string bazel_module.name
 ```
 
 The name of the module.
-
-## tags
+## tags {#tags}
 
 ```
 bazel_module_tags bazel_module.tags
 ```
 
 The tags in the module related to the module extension currently being processed.
-
-## version
+## version {#version}
 
 ```
 string bazel_module.version

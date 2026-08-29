@@ -1,7 +1,6 @@
 ---
-title: 'json'
+title: 'json {#modules.json}'
 ---
-
 Module json is a Starlark module of JSON-related functions.
 
 ## Members
@@ -11,7 +10,7 @@ Module json is a Starlark module of JSON-related functions.
 * [encode_indent](#encode_indent)
 * [indent](#indent)
 
-## decode
+## decode {#decode}
 
 ```
 unknown json.decode(x, default=unbound)
@@ -32,7 +31,7 @@ If `x` is not a valid JSON encoding and the optional `default` parameter is *not
 | `x` | [string](../core/string); required  JSON string to decode. |
 | `default` | default is `unbound`  If specified, the value to return when `x` cannot be decoded. |
 
-## encode
+## encode {#encode}
 
 ```
 string json.encode(x)
@@ -51,7 +50,7 @@ Encoding any other value yields an error.
 | --- | --- |
 | `x` | required |
 
-## encode_indent
+## encode_indent {#encode_indent}
 
 ```
 string json.encode_indent(x, *, prefix='', indent='\t')
@@ -67,7 +66,7 @@ The encode_indent function is equivalent to `json.indent(json.encode(x), ...)`. 
 | `prefix` | [string](../core/string); default is `''` |
 | `indent` | [string](../core/string); default is `'\t'` |
 
-## indent
+## indent {#indent}
 
 ```
 string json.indent(s, *, prefix='', indent='\t')

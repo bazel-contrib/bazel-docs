@@ -1,7 +1,6 @@
 ---
-title: 'config'
+title: 'config {#modules.config}'
 ---
-
 This is a top-level module for creating configuration transitions and build setting descriptors which describe what kind of build setting (if any) a rule is.
 
 ex: the following rule is marked as a build setting by setting the `build_setting` parameter of the `rule()` function. Specifically it is a build setting of type `int` and is a `flag` which means this build setting is callable on the command line.
@@ -25,7 +24,7 @@ ex: the following rule is marked as a build setting by setting the `build_settin
 * [string_set](#string_set)
 * [target](#target)
 
-## bool
+## bool {#bool}
 
 ```
 BuildSetting config.bool(*, flag=False)
@@ -39,7 +38,7 @@ A bool-typed build setting
 | --- | --- |
 | `flag` | [bool](../core/bool); default is `False` |
 
-## exec
+## exec {#exec}
 
 ```
 ExecTransitionFactory config.exec(exec_group=None)
@@ -53,7 +52,7 @@ Creates an execution transition.
 | --- | --- |
 | `exec_group` | [string](../core/string); or `None`; default is `None`  The name of the exec group whose execution platform this transition will use. If not provided, this exec transition will use the target's default execution platform. |
 
-## int
+## int {#int}
 
 ```
 BuildSetting config.int(*, flag=False)
@@ -67,15 +66,14 @@ An integer-typed build setting
 | --- | --- |
 | `flag` | [bool](../core/bool); default is `False`  Whether or not this build setting is callable on the command line. |
 
-## none
+## none {#none}
 
 ```
 transition config.none()
 ```
 
 Creates a transition which removes all configuration, unsetting all flags. Intended for the case where a dependency is data-only and contains no code that needs to be built, but should only be analyzed once.
-
-## string
+## string {#string}
 
 ```
 BuildSetting config.string(*, flag=False, allow_multiple=False)
@@ -90,7 +88,7 @@ A string-typed build setting
 | `flag` | [bool](../core/bool); default is `False`  Whether or not this build setting is callable on the command line. |
 | `allow_multiple` | [bool](../core/bool); default is `False`  Deprecated, use a `string_list` setting with `repeatable = True` instead. If set, this flag is allowed to be set multiple times on the command line. The Value of the flag as accessed in transitions and build setting implementation function will be a list of strings. Insertion order and repeated values are both maintained. This list can be post-processed in the build setting implementation function if different behavior is desired. |
 
-## string_list
+## string_list {#string_list}
 
 ```
 BuildSetting config.string_list(*, flag=False, repeatable=False)
@@ -105,7 +103,7 @@ A string list-typed build setting. On the command line pass a list using comma-s
 | `flag` | [bool](../core/bool); default is `False`  Whether or not this build setting is callable on the command line. |
 | `repeatable` | [bool](../core/bool); default is `False`  If set, instead of expecting a comma-separated value, this flag is allowed to be set multiple times on the command line with each individual value treated as a single string to add to the list value. Insertion order and repeated values are both maintained. This list can be post-processed in the build setting implementation function if different behavior is desired. |
 
-## string_set
+## string_set {#string_set}
 
 ```
 BuildSetting config.string_set(*, flag=False, repeatable=False)
@@ -122,7 +120,7 @@ Unlike with a `string_list`, the order of the elements doesn't matter and only a
 | `flag` | [bool](../core/bool); default is `False`  Whether or not this build setting is callable on the command line. |
 | `repeatable` | [bool](../core/bool); default is `False`  If set, instead of expecting a comma-separated value, this flag is allowed to be set multiple times on the command line with each individual value treated as a single string to add to the set value. Only a single instance of repeated values is maintained and the insertion order does not matter. |
 
-## target
+## target {#target}
 
 ```
 transition config.target()

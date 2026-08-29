@@ -1,7 +1,6 @@
 ---
-title: 'CcToolchainInfo'
+title: 'CcToolchainInfo {#modules.CcToolchainInfo}'
 ---
-
 Information about the C++ compiler being used.
 
 ## Members
@@ -26,55 +25,49 @@ Information about the C++ compiler being used.
 * [sysroot](#sysroot)
 * [target_gnu_system_name](#target_gnu_system_name)
 
-## all_files
+## all_files {#all_files}
 
 ```
 None CcToolchainInfo.all_files
 ```
 
 Returns all toolchain files (so they can be passed to actions using this toolchain as inputs).
-
-## ar_executable
+## ar_executable {#ar_executable}
 
 ```
 None CcToolchainInfo.ar_executable
 ```
 
 The path to the ar binary.
-
-## built_in_include_directories
+## built_in_include_directories {#built_in_include_directories}
 
 ```
 None CcToolchainInfo.built_in_include_directories
 ```
 
 Returns the list of built-in directories of the compiler.
-
-## compiler
+## compiler {#compiler}
 
 ```
 None CcToolchainInfo.compiler
 ```
 
 C++ compiler.
-
-## compiler_executable
+## compiler_executable {#compiler_executable}
 
 ```
 None CcToolchainInfo.compiler_executable
 ```
 
 The path to the compiler binary.
-
-## cpu
+## cpu {#cpu}
 
 ```
 None CcToolchainInfo.cpu
 ```
 
 Target CPU of the C++ toolchain.
-
-## dynamic_runtime_lib
+## dynamic_runtime_lib {#dynamic_runtime_lib}
 
 ```
 None CcToolchainInfo.dynamic_runtime_lib(*, feature_configuration)
@@ -88,31 +81,28 @@ Returns the files from `dynamic_runtime_lib` attribute (so they can be passed to
 | --- | --- |
 | `feature_configuration` | required  Feature configuration to be queried. |
 
-## gcov_executable
+## gcov_executable {#gcov_executable}
 
 ```
 None CcToolchainInfo.gcov_executable
 ```
 
 The path to the gcov binary.
-
-## ld_executable
+## ld_executable {#ld_executable}
 
 ```
 None CcToolchainInfo.ld_executable
 ```
 
 The path to the ld binary.
-
-## libc
+## libc {#libc}
 
 ```
 None CcToolchainInfo.libc
 ```
 
 libc version string.
-
-## needs_pic_for_dynamic_libraries
+## needs_pic_for_dynamic_libraries {#needs_pic_for_dynamic_libraries}
 
 ```
 None CcToolchainInfo.needs_pic_for_dynamic_libraries(*, feature_configuration)
@@ -126,39 +116,35 @@ Returns true if this rule's compilations should apply -fPIC, false otherwise. De
 | --- | --- |
 | `feature_configuration` | required  Feature configuration to be queried. |
 
-## nm_executable
+## nm_executable {#nm_executable}
 
 ```
 None CcToolchainInfo.nm_executable
 ```
 
 The path to the nm binary.
-
-## objcopy_executable
+## objcopy_executable {#objcopy_executable}
 
 ```
 None CcToolchainInfo.objcopy_executable
 ```
 
 The path to the objcopy binary.
-
-## objdump_executable
+## objdump_executable {#objdump_executable}
 
 ```
 None CcToolchainInfo.objdump_executable
 ```
 
 The path to the objdump binary.
-
-## preprocessor_executable
+## preprocessor_executable {#preprocessor_executable}
 
 ```
 None CcToolchainInfo.preprocessor_executable
 ```
 
 The path to the preprocessor binary.
-
-## static_runtime_lib
+## static_runtime_lib {#static_runtime_lib}
 
 ```
 None CcToolchainInfo.static_runtime_lib(*, feature_configuration)
@@ -172,23 +158,21 @@ Returns the files from `static_runtime_lib` attribute (so they can be passed to 
 | --- | --- |
 | `feature_configuration` | required  Feature configuration to be queried. |
 
-## strip_executable
+## strip_executable {#strip_executable}
 
 ```
 None CcToolchainInfo.strip_executable
 ```
 
 The path to the strip binary.
-
-## sysroot
+## sysroot {#sysroot}
 
 ```
 None CcToolchainInfo.sysroot
 ```
 
 Returns the sysroot to be used. If the toolchain compiler does not support different sysroots, or the sysroot is the same as the default sysroot, then this method returns `None`.
-
-## target_gnu_system_name
+## target_gnu_system_name {#target_gnu_system_name}
 
 ```
 None CcToolchainInfo.target_gnu_system_name

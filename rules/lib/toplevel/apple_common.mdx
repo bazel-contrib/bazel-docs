@@ -1,7 +1,6 @@
 ---
-title: 'apple_common'
+title: 'apple_common {#modules.apple_common}'
 ---
-
 Functions for Starlark to access internals of the apple rule implementations.
 
 ## Members
@@ -15,7 +14,7 @@ Functions for Starlark to access internals of the apple rule implementations.
 * [XcodeProperties](#XcodeProperties)
 * [XcodeVersionConfig](#XcodeVersionConfig)
 
-## apple_host_system_env
+## apple_host_system_env {#apple_host_system_env}
 
 ```
 dict apple_common.apple_host_system_env(xcode_config)
@@ -29,15 +28,14 @@ Returns a [dict](../core/dict) of environment variables that should be set for a
 | --- | --- |
 | `xcode_config` | required  A provider containing information about the Xcode configuration. |
 
-## apple_toolchain
+## apple_toolchain {#apple_toolchain}
 
 ```
 unknown apple_common.apple_toolchain()
 ```
 
 Utilities for resolving items from the apple toolchain.
-
-## dotted_version
+## dotted_version {#dotted_version}
 
 ```
 DottedVersion apple_common.dotted_version(version)
@@ -51,7 +49,7 @@ Creates a new [DottedVersion](../builtins/DottedVersion) instance.
 | --- | --- |
 | `version` | [string](../core/string); required  The string representation of the DottedVersion. |
 
-## platform
+## platform {#platform}
 
 ```
 struct apple_common.platform
@@ -70,8 +68,7 @@ An enum-like struct that contains the following fields corresponding to Apple pl
 * `watchos_simulator`
 
 These values can be passed to methods that expect a platform, like [XcodeVersionConfig.sdk_version_for_platform](../providers/XcodeVersionConfig#sdk_version_for_platform).
-
-## platform_type
+## platform_type {#platform_type}
 
 ```
 struct apple_common.platform_type
@@ -86,8 +83,7 @@ An enum-like struct that contains the following fields corresponding to Apple pl
 * `watchos`
 
 These values can be passed to methods that expect a platform type.
-
-## target_apple_env
+## target_apple_env {#target_apple_env}
 
 ```
 dict apple_common.target_apple_env(xcode_config, platform)
@@ -102,7 +98,7 @@ Returns a `dict` of environment variables that should be set for actions that bu
 | `xcode_config` | required |
 | `platform` | required |
 
-## XcodeProperties
+## XcodeProperties {#XcodeProperties}
 
 ```
 Provider apple_common.XcodeProperties
@@ -117,7 +113,7 @@ dep = ctx.attr.deps[0]
 p = dep[apple_common.XcodeVersionProperties]
 ```
 
-## XcodeVersionConfig
+## XcodeVersionConfig {#XcodeVersionConfig}
 
 ```
 Provider apple_common.XcodeVersionConfig

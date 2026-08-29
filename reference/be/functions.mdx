@@ -11,7 +11,7 @@ title: 'Functions'
 * [select](#select)
 * [subpackages](#subpackages)
 
-## package
+## package {#package}
 
 ```
 package(default_deprecation, default_package_metadata, default_testonly, default_visibility, features)
@@ -28,7 +28,7 @@ The `repo()` function takes exactly the same arguments as `package()`.
 The package() function should be called right after all the load() statements at the top of the
 file, before any rule.
 
-### Arguments
+### Arguments {#package_args}
 
 | Attribute | Description |
 | --- | --- |
@@ -39,8 +39,7 @@ file, before any rule.
 | `default_testonly` | Boolean; default is `False` except as noted  Sets the default [`testonly`](common-definitions#common.testonly) property for all rules in this package.  In packages under `javatests` the default value is `True`. |
 | `features` | List strings; default is `[]`  Sets various flags that affect the semantics of this BUILD file.  This feature is mainly used by the people working on the build system to tag packages that need some kind of special handling. Do not use this unless explicitly requested by someone working on the build system. |
 
-### Examples
-
+### Examples {#package_example}
 The declaration below declares that the rules in this package are
 visible only to members of package
 group `//foo:target`. Individual visibility declarations
@@ -50,7 +49,7 @@ on a rule, if present, override this specification.
 package(default_visibility = ["//foo:target"])
 ```
 
-## package_group
+## package_group {#package_group}
 
 ```
 package_group(name, packages, includes)
@@ -76,15 +75,15 @@ package groups mentioned in the `includes` attribute.
 Package groups are technically targets, but are not created by rules, and do
 not themselves have any visibility protection.
 
-### Arguments
+### Arguments {#package_group_args}
 
 | Attribute | Description |
 | --- | --- |
 | `name` | [Name](/concepts/labels#target-names); required  A unique name for this target. |
-| `packages` | List of strings; default is `[]`  A list of zero or more package specifications.  Each package specification string can have one of the following forms:   1. The full name of a package, without its repository, starting with a    double slash. For example, `//foo/bar` specifies the package    having that name and which lives in the same repository as the package    group.- As above, but with a trailing `/...`. For example, `//foo/...` specifies the set of `//foo` and all its      subpackages. `//...` specifies all packages in the current      repository. `//` is used to denote the root package.- The strings `public` or `private`, which        respectively specify every package or no package. (This form requires        the flag `--incompatible_package_group_has_public_syntax` to        be set.)   In addition, the first two kinds of package specifications may also be prefixed with `-` to indicate that they are negated.  The package group contains any package that matches at least one of its positive specifications and none of its negative specifications For instance, the value `[//foo/..., -//foo/tests/...]` includes all subpackages of `//foo` that are not also subpackages of `//foo/tests`. (`//foo` itself is included while //foo/tests itself is not.)  Aside from public visibility, there is no way to directly specify packages outside the current repository.  If this attribute is missing, it is the same as setting it to an empty list, which is also the same as setting it to a list containing only `private`. *Note:* Prior to Bazel 6.0, the specification `//...` had a legacy behavior of being the same as `public`. This behavior is fixed when `--incompatible_fix_package_group_reporoot_syntax` is enabled, which is the default after Bazel 6.0.  *Note:* Prior to Bazel 6.0, when this attribute is serialized as part of `bazel query --output=proto` (or `--output=xml`), the leading slashes are omitted. For instance, `//pkg/foo/...` will output as `\"pkg/foo/...\"`. This behavior is fixed when `--incompatible_package_group_includes_double_slash` is enabled, which is the default after Bazel 6.0. |
+| `packages` | <p>List of strings; default is <code>[]</code></p> <p>A list of zero or more package specifications.</p> <p>Each package specification string can have one of the following         forms:</p> <ol> <li>The full name of a package, without its repository, starting with a         double slash. For example, <code>//foo/bar</code> specifies the package         having that name and which lives in the same repository as the package         group.          <li>As above, but with a trailing <code>/...</code>. For example, <code>         //foo/...</code> specifies the set of <code>//foo</code> and all its         subpackages. <code>//...</code> specifies all packages in the current         repository. <code>//</code> is used to denote the root package.          <li>The strings <code>public</code> or <code>private</code>, which         respectively specify every package or no package. (This form requires         the flag <code>--incompatible_package_group_has_public_syntax</code> to         be set.)          </li></li></li></ol> <p>In addition, the first two kinds of package specifications may also         be prefixed with <code>-</code> to indicate that they are negated.</p> <p>The package group contains any package that matches at least one of         its positive specifications and none of its negative specifications         For instance, the value <code>[//foo/..., -//foo/tests/...]</code>         includes all subpackages of <code>//foo</code> that are not also         subpackages of <code>//foo/tests</code>. (<code>//foo</code> itself is         included while //foo/tests itself is not.)</p> <p>Aside from public visibility, there is no way to directly specify         packages outside the current repository.</p> <p>If this attribute is missing, it is the same as setting it to an         empty list, which is also the same as setting it to a list containing         only <code>private</code>.          <p><i>Note:</i> Prior to Bazel 6.0, the specification <code>//...</code>         had a legacy behavior of being the same as <code>public</code>. This         behavior is fixed when         <code>--incompatible_fix_package_group_reporoot_syntax</code> is         enabled, which is the default after Bazel 6.0.</p> <p><i>Note:</i> Prior to Bazel 6.0, when this attribute is serialized as         part of <code>bazel query --output=proto</code> (or         <code>--output=xml</code>), the leading slashes are omitted. For         instance, <code>//pkg/foo/...</code> will output as         <code>\"pkg/foo/...\"</code>. This behavior is fixed when         <code>--incompatible_package_group_includes_double_slash</code> is         enabled, which is the default after Bazel 6.0.</p> </p> |
 | `includes` | List of [labels](/concepts/labels); default is `[]`  Other package groups that are included in this one.  The labels in this attribute must refer to other package groups. Packages in referenced package groups are taken to be part of this package group. This is transitive — if package group `a` includes package group `b`, and `b` includes package group `c`, then every package in `c` will also be a member of `a`.  When used together with negated package specifications, note that the set of packages for each group is first computed independently and the results are then unioned together. This means that negated specifications in one group have no effect on the specifications in another group. |
 
-### Examples
+### Examples {#package_group_example}
 
 The following `package_group` declaration specifies a
 package group called "tropical" that contains tropical fruits.
@@ -132,7 +131,7 @@ package_group(
 )
 ```
 
-## exports_files
+## exports_files {#exports_files}
 
 ```
 exports_files([label, ...], visibility, licenses)
@@ -152,7 +151,7 @@ with the default visibility until the flag
 is flipped. However, this behavior should not be relied upon and actively
 migrated away from.
 
-### Arguments
+### Arguments {#exports_files_args}
 
 The argument is a list of names of files within the current package. A
 visibility declaration can also be specified; in this case, the files will be
@@ -162,7 +161,7 @@ specified in the `package`
 function. The [licenses](common-definitions#common.licenses)
 can also be specified.
 
-### Example
+### Example {#exports_files_example}
 
 The following example exports `golden.txt`, a
 text file from the `test_data` package, so that other
@@ -175,7 +174,7 @@ of tests.
 exports_files(["golden.txt"])
 ```
 
-## glob
+## glob {#glob}
 
 ```
 glob(include, exclude=[], exclude_directories=1, allow_empty=True)
@@ -306,7 +305,7 @@ When writing build rules you can enumerate the elements of the glob. This
 enables generating individual rules for every input, for example. See the
 [expanded glob example](#expanded_glob_example) section below.
 
-### Glob Examples
+### Glob Examples {#glob_example}
 
 Create a Java library built from all java files in this directory,
 and all files generated by the `:gen_java_srcs` rule.
@@ -343,7 +342,7 @@ sh_test(
 )
 ```
 
-### Recursive Glob Examples
+### Recursive Glob Examples {#recursive_glob_example}
 
 Make the test depend on all txt files in the testdata directory and any
 of its subdirectories (and their subdirectories, and so on).
@@ -373,7 +372,7 @@ java_library(
 )
 ```
 
-### Expanded Glob Examples
+### Expanded Glob Examples {#expanded_glob_example}
 
 Create an individual genrule for \*\_test.cc in the current directory
 that counts the number of lines in the file.
@@ -399,7 +398,7 @@ $ bazel query '//foo:all' | sort
 //foo:count_lines_c_test
 ```
 
-## select
+## select {#select}
 
 ```
 select(
@@ -459,8 +458,7 @@ Notes:
   attribute assignment. So `srcs = ["common.sh"] + select({ ":conditionA": ["myrule_a.sh"], ...})` and `srcs = select({ ":conditionA": ["a.sh"]}) + select({ ":conditionB": ["b.sh"]})` are valid expressions.
 * `select` works with most, but not all, attributes. Incompatible
   attributes are marked `nonconfigurable` in their documentation.
-
-  ## subpackages
+  ## subpackages {#subpackages}
 
   ```
   subpackages(include, exclude=[], allow_empty=True)

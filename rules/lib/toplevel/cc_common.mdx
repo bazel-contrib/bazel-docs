@@ -1,7 +1,6 @@
 ---
-title: 'cc_common'
+title: 'cc_common {#modules.cc_common}'
 ---
-
 Utilities for C++ compilation, linking, and command line generation.
 
 ## Members
@@ -31,7 +30,7 @@ Utilities for C++ compilation, linking, and command line generation.
 * [merge_compilation_contexts](#merge_compilation_contexts)
 * [merge_compilation_outputs](#merge_compilation_outputs)
 
-## action_is_enabled
+## action_is_enabled {#action_is_enabled}
 
 ```
 bool cc_common.action_is_enabled(*, feature_configuration, action_name)
@@ -46,15 +45,14 @@ Returns True if given action_config is enabled in the feature configuration.
 | `feature_configuration` | [FeatureConfiguration](../builtins/FeatureConfiguration); required  Feature configuration to be queried. |
 | `action_name` | [string](../core/string); required  Name of the action_config. |
 
-## CcToolchainInfo
+## CcToolchainInfo {#CcToolchainInfo}
 
 ```
 Provider cc_common.CcToolchainInfo
 ```
 
 The key used to retrieve the provider that contains information about the C++ toolchain being used
-
-## compile
+## compile {#compile}
 
 ```
 tuple cc_common.compile(*, actions, feature_configuration, cc_toolchain, srcs=[], public_hdrs=[], private_hdrs=[], includes=[], local_includes=[], quote_includes=[], system_includes=[], framework_includes=[], defines=[], local_defines=[], include_prefix='', strip_include_prefix='', user_compile_flags=[], conly_flags=[], cxx_flags=[], compilation_contexts=[], progress_message_prefix, name, disallow_pic_outputs=False, disallow_nopic_outputs=False, additional_inputs=[], module_interfaces=unbound)
@@ -92,7 +90,7 @@ Should be used for C++ compilation. Returns tuple of (`CompilationContext`, `CcC
 | `additional_inputs` | [sequence](../core/list); default is `[]`  List of additional files needed for compilation of srcs |
 | `module_interfaces` | [sequence](../core/list); default is `unbound`  The list of module interfaces source files to be compiled. Note: this is an experimental feature, only enabled with --experimental_cpp_modules |
 
-## configure_features
+## configure_features {#configure_features}
 
 ```
 FeatureConfiguration cc_common.configure_features(*, ctx, cc_toolchain, language=None, requested_features=[], unsupported_features=[])
@@ -110,7 +108,7 @@ Creates a feature_configuration instance. Requires the cpp configuration fragmen
 | `requested_features` | [sequence](../core/list); default is `[]`  List of features to be enabled. |
 | `unsupported_features` | [sequence](../core/list); default is `[]`  List of features that are unsupported by the current rule. |
 
-## create_cc_toolchain_config_info
+## create_cc_toolchain_config_info {#create_cc_toolchain_config_info}
 
 ```
 None cc_common.create_cc_toolchain_config_info(*, ctx, features=[], action_configs=[], artifact_name_patterns=[], cxx_builtin_include_directories=[], toolchain_identifier, host_system_name=None, target_system_name=None, target_cpu=None, target_libc=None, compiler, abi_version=None, abi_libc_version=None, tool_paths=[], make_variables=[], builtin_sysroot=None)
@@ -139,7 +137,7 @@ Creates a `CcToolchainConfigInfo` provider
 | `make_variables` | [sequence](../core/list); default is `[]`  A make variable that is made accessible to rules. |
 | `builtin_sysroot` | [string](../core/string); or `None`; default is `None`  The built-in sysroot. If this attribute is not present, Bazel does not allow using a different sysroot, i.e. through the --grte_top option. |
 
-## create_compilation_context
+## create_compilation_context {#create_compilation_context}
 
 ```
 CompilationContext cc_common.create_compilation_context(*, headers=unbound, system_includes=unbound, includes=unbound, quote_includes=unbound, framework_includes=unbound, defines=unbound, local_defines=unbound)
@@ -159,7 +157,7 @@ Creates a `CompilationContext`.
 | `defines` | default is `unbound`  Set of defines needed to compile this target. Each define is a string. Propagated transitively to dependents. |
 | `local_defines` | default is `unbound`  Set of defines needed to compile this target. Each define is a string. Not propagated transitively to dependents. |
 
-## create_compilation_outputs
+## create_compilation_outputs {#create_compilation_outputs}
 
 ```
 CcCompilationOutputs cc_common.create_compilation_outputs(*, objects=None, pic_objects=None)
@@ -174,7 +172,7 @@ Create compilation outputs object.
 | `objects` | [depset](../builtins/depset); or `None`; default is `None`  List of object files. |
 | `pic_objects` | [depset](../builtins/depset); or `None`; default is `None`  List of pic object files. |
 
-## create_compile_variables
+## create_compile_variables {#create_compile_variables}
 
 ```
 Variables cc_common.create_compile_variables(*, cc_toolchain, feature_configuration, source_file=None, output_file=None, user_compile_flags=None, include_directories=None, quote_include_directories=None, system_include_directories=None, framework_include_directories=None, preprocessor_defines=None, thinlto_index=None, thinlto_input_bitcode_file=None, thinlto_output_object_file=None, use_pic=False, add_legacy_cxx_options=False, variables_extension=unbound)
@@ -203,7 +201,7 @@ Returns variables used for compilation actions.
 | `add_legacy_cxx_options` | [bool](../core/bool); default is `False`  Unused. |
 | `variables_extension` | [dict](../core/dict); default is `unbound`  A dictionary of additional variables used by compile actions. |
 
-## create_library_to_link
+## create_library_to_link {#create_library_to_link}
 
 ```
 LibraryToLink cc_common.create_library_to_link(*, actions, feature_configuration=None, cc_toolchain=None, static_library=None, pic_static_library=None, dynamic_library=None, interface_library=None, pic_objects=unbound, objects=unbound, alwayslink=False, dynamic_library_symlink_path='', interface_library_symlink_path='')
@@ -228,7 +226,7 @@ Creates `LibraryToLink`
 | `dynamic_library_symlink_path` | [string](../core/string); default is `''`  Override the default path of the dynamic library link in the solib directory. Empty string to use the default. |
 | `interface_library_symlink_path` | [string](../core/string); default is `''`  Override the default path of the interface library link in the solib directory. Empty string to use the default. |
 
-## create_link_variables
+## create_link_variables {#create_link_variables}
 
 ```
 Variables cc_common.create_link_variables(*, cc_toolchain, feature_configuration, library_search_directories=[], runtime_library_search_directories=[], user_link_flags=[], output_file=None, param_file=None, is_using_linker=True, is_linking_dynamic_library=False, must_keep_debug=True, use_test_only_flags=False, is_static_linking_mode=True)
@@ -253,7 +251,7 @@ Returns link variables used for linking actions.
 | `use_test_only_flags` | [bool](../core/bool); default is `False`  When set to true, 'is_cc_test' variable will be set. |
 | `is_static_linking_mode` | [bool](../core/bool); default is `True`  Unused. |
 
-## create_linker_input
+## create_linker_input {#create_linker_input}
 
 ```
 LinkerInput cc_common.create_linker_input(*, owner, libraries=None, user_link_flags=None, additional_inputs=None)
@@ -270,7 +268,7 @@ Creates a `LinkerInput`.
 | `user_link_flags` | `None`; or [depset](../builtins/depset) of [string](../core/string)s; or [sequence](../core/list) of [string](../core/string)s; default is `None`  User link flags passed as strings. Accepts either [String], [[String]] or depset(String). The latter is discouraged as it's only kept for compatibility purposes, the depset is flattened. If you want to propagate user_link_flags via unflattened depsets() wrap them in a LinkerInput so that they are not flattened till the end. |
 | `additional_inputs` | `None`; or [depset](../builtins/depset); default is `None`  For additional inputs to the linking action, e.g.: linking scripts. |
 
-## create_linking_context
+## create_linking_context {#create_linking_context}
 
 ```
 LinkingContext cc_common.create_linking_context(*, linker_inputs)
@@ -284,7 +282,7 @@ Creates a `LinkingContext`.
 | --- | --- |
 | `linker_inputs` | [depset](../builtins/depset); required  Depset of `LinkerInput`. |
 
-## create_linking_context_from_compilation_outputs
+## create_linking_context_from_compilation_outputs {#create_linking_context_from_compilation_outputs}
 
 ```
 tuple cc_common.create_linking_context_from_compilation_outputs(*, actions, name, feature_configuration, cc_toolchain, language='c++', disallow_static_libraries=False, disallow_dynamic_library=False, compilation_outputs, linking_contexts=[], user_link_flags=[], alwayslink=False, additional_inputs=[], variables_extension=unbound)
@@ -310,7 +308,7 @@ Should be used for creating library rules that can propagate information downstr
 | `additional_inputs` | [sequence](../core/list); default is `[]`  For additional inputs to the linking action, e.g.: linking scripts. |
 | `variables_extension` | [dict](../core/dict); default is `unbound`  Additional variables to pass to the toolchain configuration when creating link command line. |
 
-## create_lto_compilation_context
+## create_lto_compilation_context {#create_lto_compilation_context}
 
 ```
 LtoCompilationContext cc_common.create_lto_compilation_context(*, objects={})
@@ -324,15 +322,14 @@ Create LTO compilation context
 | --- | --- |
 | `objects` | [dict](../core/dict); default is `{}`  map of full object to index object |
 
-## do_not_use_tools_cpp_compiler_present
+## do_not_use_tools_cpp_compiler_present {#do_not_use_tools_cpp_compiler_present}
 
 ```
 None cc_common.do_not_use_tools_cpp_compiler_present
 ```
 
 Do not use this field, its only purpose is to help with migration from config_setting.values&lcub;'compiler') to config_settings.flag_values&lcub;'@bazel_tools//tools/cpp:compiler'&rcub;
-
-## get_environment_variables
+## get_environment_variables {#get_environment_variables}
 
 ```
 dict cc_common.get_environment_variables(*, feature_configuration, action_name, variables)
@@ -348,7 +345,7 @@ Returns environment variables to be set for given action.
 | `action_name` | [string](../core/string); required  Name of the action. Has to be one of the names in @bazel_tools//tools/build_defs/cc:action_names.bzl (https://github.com/bazelbuild/bazel/blob/master/tools/build_defs/cc/action_names.bzl) |
 | `variables` | Variables; required  Build variables to be used for template expansion. |
 
-## get_execution_requirements
+## get_execution_requirements {#get_execution_requirements}
 
 ```
 sequence cc_common.get_execution_requirements(*, feature_configuration, action_name)
@@ -363,7 +360,7 @@ Returns execution requirements for given action.
 | `feature_configuration` | [FeatureConfiguration](../builtins/FeatureConfiguration); required  Feature configuration to be queried. |
 | `action_name` | [string](../core/string); required  Name of the action. Has to be one of the names in @bazel_tools//tools/build_defs/cc:action_names.bzl (https://github.com/bazelbuild/bazel/blob/master/tools/build_defs/cc/action_names.bzl) |
 
-## get_memory_inefficient_command_line
+## get_memory_inefficient_command_line {#get_memory_inefficient_command_line}
 
 ```
 sequence cc_common.get_memory_inefficient_command_line(*, feature_configuration, action_name, variables)
@@ -379,7 +376,7 @@ Returns flattened command line flags for given action, using given variables for
 | `action_name` | [string](../core/string); required  Name of the action. Has to be one of the names in @bazel_tools//tools/build_defs/cc:action_names.bzl (https://github.com/bazelbuild/bazel/blob/master/tools/build_defs/cc/action_names.bzl) |
 | `variables` | Variables; required  Build variables to be used for template expansions. |
 
-## get_tool_for_action
+## get_tool_for_action {#get_tool_for_action}
 
 ```
 string cc_common.get_tool_for_action(*, feature_configuration, action_name)
@@ -394,7 +391,7 @@ Returns tool path for given action.
 | `feature_configuration` | [FeatureConfiguration](../builtins/FeatureConfiguration); required  Feature configuration to be queried. |
 | `action_name` | [string](../core/string); required  Name of the action. Has to be one of the names in @bazel_tools//tools/build_defs/cc:action_names.bzl (https://github.com/bazelbuild/bazel/blob/master/tools/build_defs/cc/action_names.bzl) |
 
-## is_enabled
+## is_enabled {#is_enabled}
 
 ```
 bool cc_common.is_enabled(*, feature_configuration, feature_name)
@@ -409,7 +406,7 @@ Returns True if given feature is enabled in the feature configuration.
 | `feature_configuration` | [FeatureConfiguration](../builtins/FeatureConfiguration); required  Feature configuration to be queried. |
 | `feature_name` | [string](../core/string); required  Name of the feature. |
 
-## link
+## link {#link}
 
 ```
 CcLinkingOutputs cc_common.link(*, actions, name, feature_configuration, cc_toolchain, language='c++', output_type='executable', link_deps_statically=True, compilation_outputs=None, linking_contexts=[], user_link_flags=[], stamp=0, additional_inputs=[], additional_outputs=[], variables_extension={})
@@ -436,7 +433,7 @@ Should be used for C++ transitive linking.
 | `additional_outputs` | [sequence](../core/list); default is `[]`  For additional outputs to the linking action, e.g.: map files. |
 | `variables_extension` | [dict](../core/dict); default is `{}`  Additional variables to pass to the toolchain configuration when create link command line. |
 
-## merge_cc_infos
+## merge_cc_infos {#merge_cc_infos}
 
 ```
 unknown cc_common.merge_cc_infos(*, direct_cc_infos=[], cc_infos=[])
@@ -451,7 +448,7 @@ Merges multiple `CcInfo`s into one.
 | `direct_cc_infos` | [sequence](../core/list); default is `[]`  List of `CcInfo`s to be merged, whose headers will be exported by the direct fields in the returned provider. |
 | `cc_infos` | [sequence](../core/list); default is `[]`  List of `CcInfo`s to be merged, whose headers will not be exported by the direct fields in the returned provider. |
 
-## merge_compilation_contexts
+## merge_compilation_contexts {#merge_compilation_contexts}
 
 ```
 CompilationContext cc_common.merge_compilation_contexts(*, compilation_contexts=[])
@@ -465,7 +462,7 @@ Merges multiple `CompilationContexts`s into one.
 | --- | --- |
 | `compilation_contexts` | [sequence](../core/list); default is `[]`  List of `CompilationContexts`s to be merged. The headers of each context will be exported by the direct fields in the returned provider. |
 
-## merge_compilation_outputs
+## merge_compilation_outputs {#merge_compilation_outputs}
 
 ```
 CcCompilationOutputs cc_common.merge_compilation_outputs(*, compilation_outputs=[])

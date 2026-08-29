@@ -1,7 +1,6 @@
 ---
-title: 'runfiles'
+title: 'runfiles {#modules.runfiles}'
 ---
-
 A container of information regarding a set of files required at runtime by an executable. This object should be passed via [`DefaultInfo`](../providers/DefaultInfo) in order to tell the build system about the runfiles needed by the outputs produced by the rule.
 
 See [runfiles guide](https://bazel.build/extending/rules#runfiles) for details.
@@ -15,23 +14,21 @@ See [runfiles guide](https://bazel.build/extending/rules#runfiles) for details.
 * [root_symlinks](#root_symlinks)
 * [symlinks](#symlinks)
 
-## empty_filenames
+## empty_filenames {#empty_filenames}
 
 ```
 depset runfiles.empty_filenames
 ```
 
 Returns names of empty files to create.
-
-## files
+## files {#files}
 
 ```
 depset runfiles.files
 ```
 
 Returns the set of runfiles as files.
-
-## merge
+## merge {#merge}
 
 ```
 runfiles runfiles.merge(other)
@@ -47,7 +44,7 @@ Returns a new runfiles object that includes all the contents of this one and the
 | --- | --- |
 | `other` | [runfiles](../builtins/runfiles); required  The runfiles object to merge into this. |
 
-## merge_all
+## merge_all {#merge_all}
 
 ```
 runfiles runfiles.merge_all(other)
@@ -61,15 +58,14 @@ Returns a new runfiles object that includes all the contents of this one and of 
 | --- | --- |
 | `other` | [sequence](../core/list) of [runfiles](../builtins/runfiles)s; required  The sequence of runfiles objects to merge into this. |
 
-## root_symlinks
+## root_symlinks {#root_symlinks}
 
 ```
 depset runfiles.root_symlinks
 ```
 
 Returns the set of root symlinks.
-
-## symlinks
+## symlinks {#symlinks}
 
 ```
 depset runfiles.symlinks

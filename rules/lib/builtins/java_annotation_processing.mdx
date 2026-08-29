@@ -1,7 +1,6 @@
 ---
-title: 'java_annotation_processing'
+title: 'java_annotation_processing {#modules.java_annotation_processing}'
 ---
-
 Information about jars that are a result of annotation processing for a Java rule.
 
 ## Members
@@ -14,7 +13,7 @@ Information about jars that are a result of annotation processing for a Java rul
 * [transitive_class_jars](#transitive_class_jars)
 * [transitive_source_jars](#transitive_source_jars)
 
-## class_jar
+## class_jar {#class_jar}
 
 ```
 File java_annotation_processing.class_jar
@@ -22,32 +21,28 @@ File java_annotation_processing.class_jar
 
 Deprecated: Please use `JavaInfo.java_outputs.generated_class_jar` instead.
 May return `None`.
-
-## enabled
+## enabled {#enabled}
 
 ```
 bool java_annotation_processing.enabled
 ```
 
 Deprecated. Returns true if annotation processing was applied on this target.
-
-## processor_classnames
+## processor_classnames {#processor_classnames}
 
 ```
 list java_annotation_processing.processor_classnames
 ```
 
 Deprecated: Please use `JavaInfo.plugins` instead. Returns class names of annotation processors applied to this rule.
-
-## processor_classpath
+## processor_classpath {#processor_classpath}
 
 ```
 depset java_annotation_processing.processor_classpath
 ```
 
 Deprecated: Please use `JavaInfo.plugins` instead. Returns a classpath of annotation processors applied to this rule.
-
-## source_jar
+## source_jar {#source_jar}
 
 ```
 File java_annotation_processing.source_jar
@@ -55,16 +50,14 @@ File java_annotation_processing.source_jar
 
 Deprecated: Please use `JavaInfo.java_outputs.generated_source_jar` instead.
 May return `None`.
-
-## transitive_class_jars
+## transitive_class_jars {#transitive_class_jars}
 
 ```
 depset java_annotation_processing.transitive_class_jars
 ```
 
 Deprecated. Returns a transitive set of class file jars resulting from annotation processing of this rule and its dependencies.
-
-## transitive_source_jars
+## transitive_source_jars {#transitive_source_jars}
 
 ```
 depset java_annotation_processing.transitive_source_jars

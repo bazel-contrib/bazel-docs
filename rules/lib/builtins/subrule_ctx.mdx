@@ -1,7 +1,6 @@
 ---
-title: 'subrule_ctx'
+title: 'subrule_ctx {#modules.subrule_ctx}'
 ---
-
 A context object passed to the implementation function of a subrule.
 
 ## Members
@@ -11,31 +10,28 @@ A context object passed to the implementation function of a subrule.
 * [label](#label)
 * [toolchains](#toolchains)
 
-## actions
+## actions {#actions}
 
 ```
 actions subrule_ctx.actions
 ```
 
 Contains methods for declaring output files and the actions that produce them
-
-## fragments
+## fragments {#fragments}
 
 ```
 fragments subrule_ctx.fragments
 ```
 
 Allows access to configuration fragments in target configuration.
-
-## label
+## label {#label}
 
 ```
 Label subrule_ctx.label
 ```
 
 The label of the target currently being analyzed
-
-## toolchains
+## toolchains {#toolchains}
 
 ```
 ToolchainContext subrule_ctx.toolchains
