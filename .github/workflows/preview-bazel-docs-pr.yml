@@ -175,6 +175,23 @@ jobs:
                 echo "PARSE_EOF"
               } >> "$GITHUB_OUTPUT"
 
+              changed_pages=""
+              preview_pr=$(gh pr list --repo "${{ github.repository }}" --head "${PREVIEW_BRANCH}" \
+                --json number --jq '.[0].number // empty')
+              if [[ -n "${preview_pr}" ]]; then
+                preview_files=$(gh api "/repos/${{ github.repository }}/pulls/${preview_pr}/files" --paginate \
+                  --jq '[.[] | select(.status != "removed") | .filename | select(endswith(".mdx"))] | .[]' 2>/dev/null || true)
+                while IFS= read -r file; do
+                  [[ -z "$file" ]] && continue
+                  changed_pages="${changed_pages}${file%.mdx}"$'\n'
+                done <<< "$preview_files"
+              fi
+              {
+                echo "changed_pages<<PAGES_EOF"
+                printf '%s' "$changed_pages"
+                echo "PAGES_EOF"
+              } >> "$GITHUB_OUTPUT"
+
               exit 0
             fi
 
@@ -194,6 +211,7 @@ jobs:
           HEAD_SHA: ${{ matrix.head_sha }}
           MINTLIFY_RESULT: ${{ steps.mintlify.outputs.conclusion }}
           PARSE_ERRORS: ${{ steps.mintlify.outputs.parse_errors }}
+          CHANGED_PAGES: ${{ steps.mintlify.outputs.changed_pages }}
         run: |
           set -euo pipefail
 
@@ -207,6 +225,37 @@ jobs:
               echo "${PARSE_ERRORS}"
             fi
             exit 0
+          fi
+
+          # Build optional updated-pages section
+          pages_section=""
+          if [[ -n "${CHANGED_PAGES}" ]]; then
+            page_list=""
+            page_count=0
+            while IFS= read -r page; do
+              [[ -z "$page" ]] && continue
+              page_list="${page_list}* ${PREVIEW_URL}${page}"$'\n'
+              ((page_count++)) || true
+            done <<< "${CHANGED_PAGES}"
+            if (( page_count > 5 )); then
+              pages_section=$(cat <<EOF
+
+          <details>
+          <summary><b>Updated pages</b></summary>
+
+          ${page_list}
+          </details>
+          EOF
+          )
+            else
+              pages_section=$(cat <<EOF
+
+          **Updated pages**
+          ${page_list}
+          EOF
+          )
+            fi
+            pages_section="${pages_section}"$'\n'
           fi
 
           # Build optional parse-error section
@@ -233,6 +282,7 @@ jobs:
 
           :white_check_mark: Bazel docs preview is ready!
 
+          ${pages_section}
           **Preview URL:** ${PREVIEW_URL}
           ${parse_section}
           *Updated for \`${HEAD_SHA}\`*
