@@ -277,8 +277,9 @@
           ]
         },
         {
-          "group": "Toolchains",
+          "group": "Platforms & toolchains",
           "pages": [
+            "concepts/platforms",
             "extending/toolchains"
           ]
         },
