@@ -2,8 +2,6 @@
 title: 'Depsets'
 ---
 
-
-
 [Depsets](/rules/lib/builtins/depset) are a specialized data structure for efficiently
 collecting data across a target’s transitive dependencies. They are an essential
 element of rule processing.
@@ -113,7 +111,8 @@ need to ensure that if `B` depends on `A`, then `A.o` comes before `B.o` on the
 linker’s command line. Other tools might have the opposite requirement.
 
 Three traversal orders are supported: `postorder`, `preorder`, and
-`topological`. The first two work exactly like [tree traversals](https://en.wikipedia.org/wiki/Tree_traversal#Depth-first_search)
+`topological`. The first two work exactly like [tree
+traversals](https://en.wikipedia.org/wiki/Tree_traversal#Depth-first_search)
 except that they operate on DAGs and skip already visited nodes. The third order
 works as a topological sort from root to leaves, essentially the same as
 preorder except that shared children are listed only after all of their parents.
@@ -281,7 +280,6 @@ foo_binary = rule(
 You can test this by copying these files into a fresh package, renaming the
 labels appropriately, creating the source `*.foo` files with dummy content, and
 building the `d` target.
-
 
 ## Performance
 

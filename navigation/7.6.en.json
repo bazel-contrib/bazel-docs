@@ -1,0 +1,507 @@
+{
+  "language": "en",
+  "tabs": [
+    {
+      "tab": "About Bazel",
+      "groups": [
+        {
+          "group": "Why Bazel?",
+          "pages": [
+            "versions/7.6.0/about/intro",
+            "versions/7.6.0/about/vision",
+            "versions/7.6.0/about/roadmap",
+            "versions/7.6.0/about/faq"
+          ]
+        },
+        {
+          "group": "Build system basics",
+          "pages": [
+            "versions/7.6.0/basics/index",
+            "versions/7.6.0/basics/build-systems",
+            "versions/7.6.0/basics/task-based-builds",
+            "versions/7.6.0/basics/artifact-based-builds",
+            "versions/7.6.0/basics/distributed-builds",
+            "versions/7.6.0/basics/dependencies",
+            "versions/7.6.0/basics/hermeticity"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Getting started",
+      "groups": [
+        {
+          "group": "Install",
+          "pages": [
+            "versions/7.6.0/install/index",
+            "versions/7.6.0/install/bazelisk",
+            "versions/7.6.0/install/os-x",
+            "versions/7.6.0/install/windows",
+            "versions/7.6.0/install/ubuntu",
+            "versions/7.6.0/install/suse",
+            "versions/7.6.0/install/docker-container",
+            "versions/7.6.0/install/compile-source",
+            "versions/7.6.0/install/completion",
+            "versions/7.6.0/install/ide"
+          ]
+        },
+        {
+          "group": "First build tutorials",
+          "pages": [
+            "versions/7.6.0/start/cpp",
+            "versions/7.6.0/start/java",
+            "versions/7.6.0/start/android-app",
+            "versions/7.6.0/start/ios-app"
+          ]
+        },
+        {
+          "group": "Concepts",
+          "pages": [
+            "versions/7.6.0/concepts/build-ref",
+            "versions/7.6.0/concepts/labels",
+            "versions/7.6.0/concepts/build-files",
+            "versions/7.6.0/concepts/dependencies",
+            "versions/7.6.0/concepts/visibility",
+            "versions/7.6.0/concepts/platforms"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "User guide",
+      "groups": [
+        {
+          "group": "Releases",
+          "pages": [
+            "versions/7.6.0/release/index",
+            "versions/7.6.0/release/backward-compatibility",
+            "versions/7.6.0/release/rule-compatibility"
+          ]
+        },
+        {
+          "group": "Basics",
+          "pages": [
+            "versions/7.6.0/build/style-guide",
+            "versions/7.6.0/build/share-variables",
+            "versions/7.6.0/community/recommended-rules",
+            "versions/7.6.0/run/build",
+            "versions/7.6.0/run/bazelrc",
+            "versions/7.6.0/run/client-server",
+            "versions/7.6.0/run/scripts"
+          ]
+        },
+        {
+          "group": "Advanced",
+          "pages": [
+            "versions/7.6.0/configure/attributes",
+            "versions/7.6.0/configure/integrate-cpp",
+            "versions/7.6.0/configure/coverage",
+            "versions/7.6.0/configure/best-practices",
+            "versions/7.6.0/configure/windows",
+            "versions/7.6.0/advanced/performance/build-performance-metrics",
+            "versions/7.6.0/advanced/performance/build-performance-breakdown",
+            "versions/7.6.0/advanced/performance/json-trace-profile",
+            "versions/7.6.0/advanced/performance/memory",
+            "versions/7.6.0/advanced/performance/iteration-speed"
+          ]
+        },
+        {
+          "group": "Remote Execution",
+          "pages": [
+            "versions/7.6.0/remote/rbe",
+            "versions/7.6.0/remote/rules",
+            "versions/7.6.0/remote/ci",
+            "versions/7.6.0/remote/dynamic",
+            "versions/7.6.0/remote/caching",
+            "versions/7.6.0/remote/sandbox",
+            "versions/7.6.0/remote/workspace",
+            "versions/7.6.0/remote/cache-remote",
+            "versions/7.6.0/remote/cache-local",
+            "versions/7.6.0/remote/output-directories",
+            "versions/7.6.0/remote/persistent",
+            "versions/7.6.0/remote/multiplex",
+            "versions/7.6.0/remote/creating",
+            "versions/7.6.0/remote/bep",
+            "versions/7.6.0/remote/bep-examples",
+            "versions/7.6.0/remote/bep-glossary"
+          ]
+        },
+        {
+          "group": "Platform guides",
+          "pages": [
+            "versions/7.6.0/docs/bazel-and-cpp",
+            "versions/7.6.0/docs/bazel-and-java",
+            "versions/7.6.0/docs/bazel-and-javascript",
+            "versions/7.6.0/docs/bazel-and-apple",
+            "versions/7.6.0/docs/bazel-and-android",
+            "versions/7.6.0/docs/android-ndk",
+            "versions/7.6.0/docs/android-instrumentation-test",
+            "versions/7.6.0/docs/android-build-performance",
+            "versions/7.6.0/docs/cc-toolchain-config-reference",
+            "versions/7.6.0/docs/configurable-attributes",
+            "versions/7.6.0/docs/mobile-install",
+            "versions/7.6.0/docs/sandboxing",
+            "versions/7.6.0/docs/user-manual"
+          ]
+        },
+        {
+          "group": "Tutorials",
+          "pages": [
+            "versions/7.6.0/tutorials/cpp-use-cases",
+            "versions/7.6.0/tutorials/ccp-toolchain-config",
+            "versions/7.6.0/tutorials/cpp-dependency",
+            "versions/7.6.0/tutorials/cpp-labels"
+          ]
+        },
+        {
+          "group": "Migrate",
+          "pages": [
+            "versions/7.6.0/migrate/index",
+            "versions/7.6.0/migrate/maven",
+            "versions/7.6.0/migrate/xcode"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Reference",
+      "groups": [
+        {
+          "group": "Build encyclopedia",
+          "pages": [
+            "versions/7.6.0/reference/be/overview",
+            "versions/7.6.0/reference/be/common-definitions",
+            "versions/7.6.0/reference/be/make-variables",
+            "versions/7.6.0/reference/be/functions",
+            "versions/7.6.0/reference/be/platforms-and-toolchains"
+          ]
+        },
+        {
+          "group": "Command line reference",
+          "pages": [
+            "versions/7.6.0/reference/command-line-reference"
+          ]
+        },
+        {
+          "group": "Query Language",
+          "pages": [
+            "versions/7.6.0/query/language",
+            "versions/7.6.0/query/quickstart",
+            "versions/7.6.0/query/guide",
+            "versions/7.6.0/query/cquery",
+            "versions/7.6.0/query/aquery"
+          ]
+        },
+        {
+          "group": "Build Encyclopedia",
+          "pages": [
+            "versions/7.6.0/reference/be/overview",
+            "versions/7.6.0/reference/be/common-definitions",
+            "versions/7.6.0/reference/be/make-variables",
+            "versions/7.6.0/reference/be/functions",
+            "versions/7.6.0/reference/be/platforms-and-toolchains",
+            "versions/7.6.0/reference/be/general",
+            "versions/7.6.0/reference/be/c-cpp",
+            "versions/7.6.0/reference/be/java",
+            "versions/7.6.0/reference/be/objective-c",
+            "versions/7.6.0/reference/be/protocol-buffer",
+            "versions/7.6.0/reference/be/python",
+            "versions/7.6.0/reference/be/shell",
+            "versions/7.6.0/reference/be/extra-actions",
+            "versions/7.6.0/reference/be/be-nav"
+          ]
+        },
+        {
+          "group": "Glossary",
+          "pages": [
+            "versions/7.6.0/reference/glossary",
+            "versions/7.6.0/reference/test-encyclopedia"
+          ]
+        },
+        {
+          "group": "Flag cheatsheet",
+          "pages": []
+        },
+        {
+          "group": "Skyframe",
+          "pages": [
+            "versions/7.6.0/reference/skyframe"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Extending",
+      "groups": [
+        {
+          "group": "Concepts",
+          "pages": [
+            "versions/7.6.0/extending/concepts",
+            "versions/7.6.0/extending/depsets",
+            "versions/7.6.0/extending/macros",
+            "versions/7.6.0/extending/aspects",
+            "versions/7.6.0/extending/rules",
+            "versions/7.6.0/extending/config",
+            "versions/7.6.0/extending/exec-groups"
+          ]
+        },
+        {
+          "group": "Writing rules",
+          "pages": [
+            "versions/7.6.0/rules/rules-tutorial",
+            "versions/7.6.0/rules/macro-tutorial",
+            "versions/7.6.0/rules/verbs-tutorial",
+            "versions/7.6.0/rules/language",
+            "versions/7.6.0/rules/bzl-style",
+            "versions/7.6.0/rules/challenges",
+            "versions/7.6.0/rules/windows"
+          ]
+        },
+        {
+          "group": "Distributing rules",
+          "pages": [
+            "versions/7.6.0/rules/testing",
+            "versions/7.6.0/rules/performance",
+            "versions/7.6.0/rules/deploying"
+          ]
+        },
+        {
+          "group": "Platforms & toolchains",
+          "pages": [
+            "versions/7.6.0/concepts/platforms",
+            "versions/7.6.0/extending/toolchains"
+          ]
+        },
+        {
+          "group": "API Reference Overview",
+          "pages": [
+            "versions/7.6.0/rules/lib/overview",
+            "versions/7.6.0/rules/index",
+            "versions/7.6.0/rules/faq"
+          ]
+        },
+        {
+          "group": "Starlark Builtins",
+          "pages": [
+            "versions/7.6.0/rules/errors/read-only-variable",
+            "versions/7.6.0/rules/lib/builtins",
+            "versions/7.6.0/rules/lib/builtins/Action",
+            "versions/7.6.0/rules/lib/builtins/actions",
+            "versions/7.6.0/rules/lib/builtins/Args",
+            "versions/7.6.0/rules/lib/builtins/Aspect",
+            "versions/7.6.0/rules/lib/builtins/Attribute",
+            "versions/7.6.0/rules/lib/builtins/BuildSetting",
+            "versions/7.6.0/rules/lib/builtins/CcCompilationOutputs",
+            "versions/7.6.0/rules/lib/builtins/CcLinkingOutputs",
+            "versions/7.6.0/rules/lib/builtins/CompilationContext",
+            "versions/7.6.0/rules/lib/builtins/DirectoryExpander",
+            "versions/7.6.0/rules/lib/builtins/DottedVersion",
+            "versions/7.6.0/rules/lib/builtins/ExecGroupCollection",
+            "versions/7.6.0/rules/lib/builtins/ExecGroupContext",
+            "versions/7.6.0/rules/lib/builtins/ExecTransitionFactory",
+            "versions/7.6.0/rules/lib/builtins/FeatureConfiguration",
+            "versions/7.6.0/rules/lib/builtins/File",
+            "versions/7.6.0/rules/lib/builtins/Label",
+            "versions/7.6.0/rules/lib/builtins/LateBoundDefault",
+            "versions/7.6.0/rules/lib/builtins/LibraryToLink",
+            "versions/7.6.0/rules/lib/builtins/License",
+            "versions/7.6.0/rules/lib/builtins/LinkerInput",
+            "versions/7.6.0/rules/lib/builtins/LinkingContext",
+            "versions/7.6.0/rules/lib/builtins/Provider",
+            "versions/7.6.0/rules/lib/builtins/Subrule",
+            "versions/7.6.0/rules/lib/builtins/SymlinkEntry",
+            "versions/7.6.0/rules/lib/builtins/Target",
+            "versions/7.6.0/rules/lib/builtins/TemplateDict",
+            "versions/7.6.0/rules/lib/builtins/ToolchainContext",
+            "versions/7.6.0/rules/lib/builtins/apple_platform",
+            "versions/7.6.0/rules/lib/builtins/bazel_module",
+            "versions/7.6.0/rules/lib/builtins/bazel_module_tags",
+            "versions/7.6.0/rules/lib/builtins/configuration",
+            "versions/7.6.0/rules/lib/builtins/ctx",
+            "versions/7.6.0/rules/lib/builtins/depset",
+            "versions/7.6.0/rules/lib/builtins/exec_result",
+            "versions/7.6.0/rules/lib/builtins/extension_metadata",
+            "versions/7.6.0/rules/lib/builtins/fragments",
+            "versions/7.6.0/rules/lib/builtins/java_annotation_processing",
+            "versions/7.6.0/rules/lib/builtins/mapped_root",
+            "versions/7.6.0/rules/lib/builtins/module_ctx",
+            "versions/7.6.0/rules/lib/builtins/path",
+            "versions/7.6.0/rules/lib/builtins/repository_ctx",
+            "versions/7.6.0/rules/lib/builtins/repository_os",
+            "versions/7.6.0/rules/lib/builtins/repository_rule",
+            "versions/7.6.0/rules/lib/builtins/root",
+            "versions/7.6.0/rules/lib/builtins/rule",
+            "versions/7.6.0/rules/lib/builtins/rule_attributes",
+            "versions/7.6.0/rules/lib/builtins/runfiles",
+            "versions/7.6.0/rules/lib/builtins/struct",
+            "versions/7.6.0/rules/lib/builtins/subrule_ctx",
+            "versions/7.6.0/rules/lib/builtins/tag_class",
+            "versions/7.6.0/rules/lib/builtins/toolchain_type",
+            "versions/7.6.0/rules/lib/builtins/transition"
+          ]
+        },
+        {
+          "group": "Core Types",
+          "pages": [
+            "versions/7.6.0/rules/lib/core",
+            "versions/7.6.0/rules/lib/core/bool",
+            "versions/7.6.0/rules/lib/core/builtin_function_or_method",
+            "versions/7.6.0/rules/lib/core/dict",
+            "versions/7.6.0/rules/lib/core/float",
+            "versions/7.6.0/rules/lib/core/function",
+            "versions/7.6.0/rules/lib/core/int",
+            "versions/7.6.0/rules/lib/core/json",
+            "versions/7.6.0/rules/lib/core/list",
+            "versions/7.6.0/rules/lib/core/range",
+            "versions/7.6.0/rules/lib/core/string",
+            "versions/7.6.0/rules/lib/core/tuple"
+          ]
+        },
+        {
+          "group": "Providers",
+          "pages": [
+            "versions/7.6.0/rules/lib/providers",
+            "versions/7.6.0/rules/lib/providers/AnalysisTestResultInfo",
+            "versions/7.6.0/rules/lib/providers/CcInfo",
+            "versions/7.6.0/rules/lib/providers/CcToolchainConfigInfo",
+            "versions/7.6.0/rules/lib/providers/CcToolchainInfo",
+            "versions/7.6.0/rules/lib/providers/ConstraintCollection",
+            "versions/7.6.0/rules/lib/providers/ConstraintSettingInfo",
+            "versions/7.6.0/rules/lib/providers/ConstraintValueInfo",
+            "versions/7.6.0/rules/lib/providers/DebugPackageInfo",
+            "versions/7.6.0/rules/lib/providers/DefaultInfo",
+            "versions/7.6.0/rules/lib/providers/ExecutionInfo",
+            "versions/7.6.0/rules/lib/providers/FeatureFlagInfo",
+            "versions/7.6.0/rules/lib/providers/FilesToRunProvider",
+            "versions/7.6.0/rules/lib/providers/IncompatiblePlatformProvider",
+            "versions/7.6.0/rules/lib/providers/InstrumentedFilesInfo",
+            "versions/7.6.0/rules/lib/providers/JavaRuntimeInfo",
+            "versions/7.6.0/rules/lib/providers/JavaToolchainInfo",
+            "versions/7.6.0/rules/lib/providers/ObjcProvider",
+            "versions/7.6.0/rules/lib/providers/OutputGroupInfo",
+            "versions/7.6.0/rules/lib/providers/PackageSpecificationInfo",
+            "versions/7.6.0/rules/lib/providers/PlatformInfo",
+            "versions/7.6.0/rules/lib/providers/RunEnvironmentInfo",
+            "versions/7.6.0/rules/lib/providers/TemplateVariableInfo",
+            "versions/7.6.0/rules/lib/providers/ToolchainInfo",
+            "versions/7.6.0/rules/lib/providers/ToolchainTypeInfo",
+            "versions/7.6.0/rules/lib/providers/file_provider",
+            "versions/7.6.0/rules/lib/providers/java_compilation_info",
+            "versions/7.6.0/rules/lib/providers/java_output_jars"
+          ]
+        },
+        {
+          "group": "Global Functions",
+          "pages": [
+            "versions/7.6.0/rules/lib/globals",
+            "versions/7.6.0/rules/lib/globals/all",
+            "versions/7.6.0/rules/lib/globals/build",
+            "versions/7.6.0/rules/lib/globals/vendor",
+            "versions/7.6.0/rules/lib/globals/bzl",
+            "versions/7.6.0/rules/lib/globals/module"
+          ]
+        },
+        {
+          "group": "Configuration Fragments",
+          "pages": [
+            "versions/7.6.0/rules/lib/fragments",
+            "versions/7.6.0/rules/lib/fragments/apple",
+            "versions/7.6.0/rules/lib/fragments/bazel_android",
+            "versions/7.6.0/rules/lib/fragments/coverage",
+            "versions/7.6.0/rules/lib/fragments/cpp",
+            "versions/7.6.0/rules/lib/fragments/java",
+            "versions/7.6.0/rules/lib/fragments/objc",
+            "versions/7.6.0/rules/lib/fragments/platform",
+            "versions/7.6.0/rules/lib/fragments/proto"
+          ]
+        },
+        {
+          "group": "Toplevel APIs",
+          "pages": [
+            "versions/7.6.0/rules/lib/toplevel",
+            "versions/7.6.0/rules/lib/toplevel/apple_common",
+            "versions/7.6.0/rules/lib/toplevel/attr",
+            "versions/7.6.0/rules/lib/toplevel/cc_common",
+            "versions/7.6.0/rules/lib/toplevel/config",
+            "versions/7.6.0/rules/lib/toplevel/config_common",
+            "versions/7.6.0/rules/lib/toplevel/coverage_common",
+            "versions/7.6.0/rules/lib/toplevel/java_common",
+            "versions/7.6.0/rules/lib/toplevel/native",
+            "versions/7.6.0/rules/lib/toplevel/platform_common",
+            "versions/7.6.0/rules/lib/toplevel/proto",
+            "versions/7.6.0/rules/lib/toplevel/testing"
+          ]
+        },
+        {
+          "group": "Repo rules",
+          "pages": [
+            "versions/7.6.0/rules/lib/repo/index",
+            "versions/7.6.0/rules/lib/repo/cache",
+            "versions/7.6.0/rules/lib/repo/git",
+            "versions/7.6.0/rules/lib/repo/http",
+            "versions/7.6.0/rules/lib/repo/local",
+            "versions/7.6.0/rules/lib/repo/utils"
+          ]
+        },
+        {
+          "group": "Module system",
+          "pages": [
+            "versions/7.6.0/external/overview",
+            "versions/7.6.0/external/module",
+            "versions/7.6.0/external/extension",
+            "versions/7.6.0/external/registry",
+            "versions/7.6.0/external/lockfile",
+            "versions/7.6.0/external/vendor",
+            "versions/7.6.0/external/mod-command",
+            "versions/7.6.0/external/migration"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "Community",
+      "groups": [
+        {
+          "group": "Contributing",
+          "pages": [
+            "versions/7.6.0/contribute/index",
+            "versions/7.6.0/contribute/policy",
+            "versions/7.6.0/contribute/patch-acceptance",
+            "versions/7.6.0/contribute/maintainers-guide",
+            "versions/7.6.0/contribute/codebase",
+            "versions/7.6.0/contribute/search",
+            "versions/7.6.0/contribute/statemachine-guide",
+            "versions/7.6.0/contribute/docs",
+            "versions/7.6.0/contribute/docs-style-guide",
+            "versions/7.6.0/contribute/design-documents",
+            "versions/7.6.0/contribute/release-notes",
+            "versions/7.6.0/contribute/breaking-changes",
+            "versions/7.6.0/contribute/naming",
+            "versions/7.6.0/contribute/windows-chocolatey-maintenance",
+            "versions/7.6.0/contribute/windows-scoop-maintenance"
+          ]
+        },
+        {
+          "group": "Programs",
+          "pages": [
+            "versions/7.6.0/community/sig",
+            "versions/7.6.0/community/users",
+            "versions/7.6.0/community/recommended-rules",
+            "versions/7.6.0/community/remote-execution-services"
+          ]
+        },
+        {
+          "group": "Getting help",
+          "pages": [
+            "versions/7.6.0/help",
+            "versions/7.6.0/contribute/policy"
+          ]
+        },
+        {
+          "group": "Brand",
+          "pages": []
+        }
+      ]
+    }
+  ]
+}
