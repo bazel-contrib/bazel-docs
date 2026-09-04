@@ -4205,7 +4205,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--sandbox_block_path" type="a string">
+<ParamField path="--sandbox_block_path" type="an absolute path">
   For sandboxed actions, disallow access to this path.
 
   *May be used multiple times; values are accumulated.*
@@ -4231,7 +4231,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--sandbox_writable_path" type="a string">
+<ParamField path="--sandbox_writable_path" type="an absolute path">
   For sandboxed actions, make an existing directory writable in the sandbox (if supported by the sandboxing implementation, ignored otherwise).
 
   *May be used multiple times; values are accumulated.*
