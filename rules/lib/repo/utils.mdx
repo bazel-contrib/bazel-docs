@@ -273,15 +273,15 @@ about them
 <pre>
 load("@bazel//tools/build_defs/repo:utils.bzl", "patch")
 
-patch(<a href="#patch-ctx">ctx</a>, <a href="#patch-patches">patches</a>, <a href="#patch-patch_cmds">patch_cmds</a>, <a href="#patch-patch_cmds_win">patch_cmds_win</a>, <a href="#patch-patch_tool">patch_tool</a>, <a href="#patch-patch_args">patch_args</a>, <a href="#patch-auth">auth</a>)
+patch(<a href="#patch-ctx">ctx</a>, <a href="#patch-patches">patches</a>, <a href="#patch-patch_cmds">patch_cmds</a>, <a href="#patch-patch_cmds_win">patch_cmds_win</a>, <a href="#patch-patch_tool">patch_tool</a>, <a href="#patch-patch_args">patch_args</a>, <a href="#patch-auth">auth</a>, <a href="#patch-patch_directory">patch_directory</a>)
 </pre>
 
 Implementation of patching an already extracted repository.
 
 This rule is intended to be used in the implementation function of
 a repository rule. If the parameters `patches`, `patch_tool`,
-`patch_args`, `patch_cmds` and `patch_cmds_win` are not specified
-then they are taken from `ctx.attr`.
+`patch_args`, `patch_cmds`, `patch_cmds_win` and `patch_directory`
+are not specified then they are taken from `ctx.attr`.
 
 ### Parameters
 
@@ -390,6 +390,22 @@ default is <code>None</code>
 <p>
 
 An optional dict specifying authentication information for some of the URLs.
+
+</p>
+</td>
+</tr>
+<tr id="patch-patch_directory">
+<td><code>patch_directory</code></td>
+<td>
+
+optional.
+default is <code>None</code>
+
+<p>
+
+Directory relative to the repository root in which to
+apply `patches` and run `patch_cmds`. Remote patches are always applied
+at the repository root. Defaults to the repository root.
 
 </p>
 </td>
