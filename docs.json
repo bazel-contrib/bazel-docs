@@ -136,6 +136,10 @@
       "destination": "/concepts/labels"
     },
     {
+      "source": "/contribute.html",
+      "destination": "/contribute"
+    },
+    {
       "source": "/docs/skylark/lib/dict.html",
       "destination": "/rules/lib/core/dict"
     },
