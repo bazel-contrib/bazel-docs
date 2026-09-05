@@ -502,12 +502,6 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 </ParamField>
 
-<ParamField path="--[no]experimental_enable_scl_dialect" type="boolean" default="true">
-  If set to true, .scl files may be used in load() statements.
-
-  Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
-</ParamField>
-
 <ParamField path="--[no]experimental_enable_starlark_set" type="boolean" default="true">
   If true, enable the set data type and set() constructor in Starlark.
 
@@ -3617,7 +3611,7 @@ Miscellaneous options, not otherwise categorized.
   default path depending on the operating system it runs on;
 
   - Windows: `c:/msys64/usr/bin/bash.exe`
-  - FreeBSD: `/usr/local/bin/bash`
+  - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
   Note that using a shell that is not compatible with `bash` may lead
@@ -6437,7 +6431,7 @@ Miscellaneous options, not otherwise categorized.
   default path depending on the operating system it runs on;
 
   - Windows: `c:/msys64/usr/bin/bash.exe`
-  - FreeBSD: `/usr/local/bin/bash`
+  - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
   Note that using a shell that is not compatible with `bash` may lead
@@ -8228,7 +8222,7 @@ Miscellaneous options, not otherwise categorized.
   default path depending on the operating system it runs on;
 
   - Windows: `c:/msys64/usr/bin/bash.exe`
-  - FreeBSD: `/usr/local/bin/bash`
+  - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
   Note that using a shell that is not compatible with `bash` may lead
@@ -9858,7 +9852,7 @@ Miscellaneous options, not otherwise categorized.
   default path depending on the operating system it runs on;
 
   - Windows: `c:/msys64/usr/bin/bash.exe`
-  - FreeBSD: `/usr/local/bin/bash`
+  - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
   Note that using a shell that is not compatible with `bash` may lead
@@ -12854,7 +12848,7 @@ Miscellaneous options, not otherwise categorized.
   default path depending on the operating system it runs on;
 
   - Windows: `c:/msys64/usr/bin/bash.exe`
-  - FreeBSD: `/usr/local/bin/bash`
+  - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
   Note that using a shell that is not compatible with `bash` may lead
