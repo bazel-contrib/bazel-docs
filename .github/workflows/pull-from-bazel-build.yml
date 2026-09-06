@@ -206,8 +206,8 @@ jobs:
         run: |
           # Copy all MDX files from the upstream docs directory to the root.
           # Versioned docs live under upstream/docs/versions/ and are copied into versions/.
-          rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
-          
+          rsync -av --exclude='reference/flag-cheatsheet.mdx' --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
+
       - name: Extract MDX reference docs
         if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
