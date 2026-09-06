@@ -1,6 +1,11 @@
 diff --git a/query/language.mdx b/query/language.mdx
 --- a/query/language.mdx
 +++ b/query/language.mdx
-@@ -771,1 +771,1 @@
+@@ -771,1 +771,6 @@
 -<table>
 +<table style="width: 100%">
++  <colgroup>
++    <col style="width: 50%" />
++    <col style="width: 25%" />
++    <col style="width: 25%" />
++  </colgroup>
