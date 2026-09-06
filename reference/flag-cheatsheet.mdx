@@ -17,7 +17,7 @@ This page focuses on the most crucial flags you'll need to know.
 The following flags are meant to be set explicitly on the command line.
 
 <a id="flag-config" />
-<ResponseField name="--config" type="flag">
+<ResponseField name="--config">
   [See --config in the command-line reference](https://bazel.build/reference/command-line-reference#flag--config)
 
 You can organize flags in a <strong>.bazelrc</strong> file into configurations,
@@ -26,7 +26,7 @@ be selected with <code>--config=<strong>&lt;group&gt;</strong></code>.
 </ResponseField>
 
 <a id="flag-keep-going" />
-<ResponseField name="--keep_going" type="flag">
+<ResponseField name="--keep_going">
   [See --keep_going in the command-line reference](https://bazel.build/reference/command-line-reference#flag--keep_going)
 
 Bazel should try as much as possible to continue with build and test execution.
@@ -34,7 +34,7 @@ By default, Bazel fails eagerly.
 </ResponseField>
 
 <a id="flag-remote-download-outputs" />
-<ResponseField name="--remote_download_outputs" type="flag">
+<ResponseField name="--remote_download_outputs">
   [See --remote_download_outputs in the command-line reference](https://bazel.build/reference/command-line-reference#flag--remote_download_outputs)
 
 When using remote execution or caching (both disk and remote), you can signal to
@@ -50,7 +50,7 @@ and intermediate artifacts that are necessary for local actions.
 </ResponseField>
 
 <a id="flag-stamp" />
-<ResponseField name="--stamp" type="flag">
+<ResponseField name="--stamp">
   [See --stamp in the command-line reference](https://bazel.build/reference/command-line-reference#flag--stamp)
 
 Adds build info (user, timestamp) to binaries.
@@ -66,7 +66,7 @@ Adds build info (user, timestamp) to binaries.
 The following flags can help you better understand Bazel build or test errors.
 
 <a id="flag-announce-rc" />
-<ResponseField name="--announce_rc" type="flag">
+<ResponseField name="--announce_rc">
   [See --announce_rc in the command-line reference](https://bazel.build/reference/command-line-reference#flag--announce_rc)
 
 Shows which flags are implicitly set through user-defined,
@@ -74,7 +74,7 @@ machine-defined, or project-defined <strong>.bazelrc</strong> files.
 </ResponseField>
 
 <a id="flag-auto-output-filter" />
-<ResponseField name="--auto_output_filter" type="flag">
+<ResponseField name="--auto_output_filter">
   [See --auto_output_filter in the command-line reference](https://bazel.build/reference/command-line-reference#flag--auto_output_filter)
 
 By default, Bazel tries to prevent log spam and does only print compiler
@@ -84,7 +84,7 @@ command line. To disable all filtering, set
 </ResponseField>
 
 <a id="flag-sandbox-debug" />
-<ResponseField name="--sandbox_debug" type="flag">
+<ResponseField name="--sandbox_debug">
   [See --sandbox_debug in the command-line reference](https://bazel.build/reference/command-line-reference#flag--sandbox_debug)
 
 Lets you drill into sandboxing errors. For details on why Bazel sandboxes
@@ -102,7 +102,7 @@ builds by default and what gets sandboxed, see our
 </ResponseField>
 
 <a id="flag-subcommands" />
-<ResponseField name="--subcommands (-s)" type="flag">
+<ResponseField name="--subcommands (-s)">
   [See --subcommands (-s) in the command-line reference](https://bazel.build/reference/command-line-reference#flag--subcommands)
 
 Displays a comprehensive list of every command that Bazel runs during a build,
@@ -115,7 +115,7 @@ Caution: Startup flags need to be passed before the command and cause
 a server restart. Toggle these flags with caution.
 
 <a id="flag-bazelrc" />
-<ResponseField name="--bazelrc" type="flag">
+<ResponseField name="--bazelrc">
   [See --bazelrc in the command-line reference](https://bazel.build/reference/command-line-reference#flag--bazelrc)
 
 You can specify default Bazel options in <strong>.bazelrc</strong> files. If
@@ -135,7 +135,7 @@ the .bazelrc file&gt;</strong></code>.
 </ResponseField>
 
 <a id="flag-host-jvm-args" />
-<ResponseField name="--host_jvm_args" type="flag">
+<ResponseField name="--host_jvm_args">
   [See --host_jvm_args in the command-line reference](https://bazel.build/docs/user-manual#host-jvm-args)
 
 Limits the amount of RAM the Bazel server uses.
@@ -163,7 +163,7 @@ For example, the following limits the Bazel heap size to <strong>3</strong>GB:
 </ResponseField>
 
 <a id="flag-output-base" />
-<ResponseField name="--output_base" type="flag">
+<ResponseField name="--output_base">
   [See --output_base in the command-line reference](https://bazel.build/reference/command-line-reference#flag--output_base)
 
 Controls Bazel's output tree. Bazel doesn't store build outputs, including logs,
@@ -183,14 +183,14 @@ see <a href="https://bazel.build/run/scripts#output-base-option">Choosing the ou
 The following flags are related to Bazel test
 
 <a id="flag-java-debug" />
-<ResponseField name="--java_debug" type="flag">
+<ResponseField name="--java_debug">
   [See --java_debug in the command-line reference](https://bazel.build/reference/command-line-reference#flag--java_debug)
 
 Causes Java tests to wait for a debugger connection before being executed.
 </ResponseField>
 
 <a id="flag-runs-per-test" />
-<ResponseField name="--runs_per_test" type="flag">
+<ResponseField name="--runs_per_test">
   [See --runs_per_test in the command-line reference](https://bazel.build/reference/command-line-reference#flag--runs_per_test)
 
 The number of times to run tests. For example, to run tests N times, add
@@ -199,7 +199,7 @@ flaky tests and see whether a fix causes a test to pass consistently.
 </ResponseField>
 
 <a id="flag-test-filter" />
-<ResponseField name="--test_filter" type="flag">
+<ResponseField name="--test_filter">
   [See --test_filter in the command-line reference](https://bazel.build/reference/command-line-reference#flag--test_filter)
 
 This flag is particularly useful when iterating on a single test method, such as
@@ -211,7 +211,7 @@ debugging. This flag is often used in conjunction with
 </ResponseField>
 
 <a id="flag-test-output" />
-<ResponseField name="--test_output" type="flag">
+<ResponseField name="--test_output">
   [See --test_output in the command-line reference](https://bazel.build/reference/command-line-reference#flag--test_output)
 
 Specifies the output mode. By default, Bazel captures test output in
@@ -225,7 +225,7 @@ real time.
 The following flags are related to Bazel run.
 
 <a id="flag-run-under" />
-<ResponseField name="--run_under" type="flag">
+<ResponseField name="--run_under">
   [See --run_under in the command-line reference](https://bazel.build/reference/command-line-reference#flag--run_under)
 
 Changes how executables are invoked. For example <code>--run_under=<strong>"strace -c"</strong></code> is
@@ -238,7 +238,7 @@ The following flags are related to user-specific **.bazelrc**
 options.
 
 <a id="flag-disk-cache" />
-<ResponseField name="--disk_cache" type="flag">
+<ResponseField name="--disk_cache">
   [See --disk_cache in the command-line reference](https://bazel.build/reference/command-line-reference#flag--disk_cache)
 
 A path to a directory where Bazel can read and write actions and action outputs.
@@ -250,7 +250,7 @@ up Bazel builds by adding
 </ResponseField>
 
 <a id="flag-jobs" />
-<ResponseField name="--jobs" type="flag">
+<ResponseField name="--jobs">
   [See --jobs in the command-line reference](https://bazel.build/reference/command-line-reference#flag--jobs)
 
 The number of concurrent jobs to run.
@@ -260,7 +260,7 @@ cluster executes more jobs than you have cores locally.
 </ResponseField>
 
 <a id="flag-local-resources" />
-<ResponseField name="--local_resources" type="flag">
+<ResponseField name="--local_resources">
   [See --local_resources in the command-line reference](https://bazel.build/reference/command-line-reference#flag--local_resources)
 
 Limits how much CPU or RAM is consumed by locally running actions.
@@ -272,7 +272,7 @@ Limits how much CPU or RAM is consumed by locally running actions.
 </ResponseField>
 
 <a id="flag-sandbox-base" />
-<ResponseField name="--sandbox_base" type="flag">
+<ResponseField name="--sandbox_base">
   [See --sandbox_base in the command-line reference](https://bazel.build/reference/command-line-reference#flag--sandbox_base)
 
 Lets the sandbox create its sandbox directories underneath this path. By
@@ -292,7 +292,7 @@ The following flags are related to project-specific <strong>.bazelrc</strong>
 options.
 
 <a id="flag-flaky-test-attempts" />
-<ResponseField name="--flaky_test_attempts" type="flag">
+<ResponseField name="--flaky_test_attempts">
   [See --flaky_test_attempts in the command-line reference](https://bazel.build/reference/command-line-reference#flag--flaky_test_attempts)
 
 Retry each test up to the specified number of times in case of any
@@ -302,7 +302,7 @@ the test summary.
 </ResponseField>
 
 <a id="flag-remote-cache" />
-<ResponseField name="--remote_cache" type="flag">
+<ResponseField name="--remote_cache">
   [See --remote_cache in the command-line reference](https://bazel.build/reference/command-line-reference#flag--remote_cache)
 
 A URI of a caching endpoint. Setting up remote caching can be a great way to
@@ -310,7 +310,7 @@ speed up Bazel builds. It can be combined with a local disk cache.
 </ResponseField>
 
 <a id="flag-remote-download-regex" />
-<ResponseField name="--remote_download_regex" type="flag">
+<ResponseField name="--remote_download_regex">
   [See --remote_download_regex in the command-line reference](https://bazel.build/reference/command-line-reference#flag--remote_download_regex)
 
 Force remote build outputs whose path matches this pattern to be downloaded,
@@ -319,7 +319,7 @@ patterns may be specified by repeating this flag.
 </ResponseField>
 
 <a id="flag-remote-executor" />
-<ResponseField name="--remote_executor" type="flag">
+<ResponseField name="--remote_executor">
   [See --remote_executor in the command-line reference](https://bazel.build/reference/command-line-reference#flag--remote_executor)
 
 <code>HOST</code> or <code>HOST:PORT</code> of a remote execution endpoint. Pass this if you are using
@@ -328,14 +328,14 @@ a remote execution service. You'll often need to Add
 </ResponseField>
 
 <a id="flag-remote-instance-name" />
-<ResponseField name="--remote_instance_name" type="flag">
+<ResponseField name="--remote_instance_name">
   [See --remote_instance_name in the command-line reference](https://bazel.build/reference/command-line-reference#flag--remote_instance_name)
 
 The value to pass as <code>instance_name</code> in the remote execution API.
 </ResponseField>
 
 <a id="flag-show-timestamps" />
-<ResponseField name="--show_timestamps" type="flag">
+<ResponseField name="--show_timestamps">
   [See --show_timestamps in the command-line reference](https://bazel.build/docs/user-manual#show-timestamps)
 
 If specified, a timestamp is added to each message generated by Bazel specifying
@@ -344,7 +344,7 @@ quickly understand what step took how long.
 </ResponseField>
 
 <a id="flag-spawn-strategy" />
-<ResponseField name="--spawn_strategy" type="flag">
+<ResponseField name="--spawn_strategy">
   [See --spawn_strategy in the command-line reference](https://bazel.build/reference/command-line-reference#flag--spawn_strategy)
 
 Even with remote execution, running some build actions locally might be faster.
