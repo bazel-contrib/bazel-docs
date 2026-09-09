@@ -544,12 +544,6 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
 
-<ParamField path="--[no]experimental_sibling_repository_layout" type="boolean" default="false">
-  If set to true, non-main repositories are planted as symlinks to the main repository in the execution root. That is, all repositories are direct children of the &#36;output_base/execution_root directory. This has the side effect of freeing up &#36;output_base/execution_root/**main**/external for the real top-level 'external' directory.
-
-  Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES), [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`experimental`](#metadata_tag_EXPERIMENTAL)
-</ParamField>
-
 <ParamField path="--[no]experimental_single_package_toolchain_binding" type="boolean" default="false">
   If enabled, the register_toolchain function may not include target patterns which may refer to more than one package.
 
