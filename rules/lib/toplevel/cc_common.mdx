@@ -111,7 +111,7 @@ Creates a feature_configuration instance. Requires the cpp configuration fragmen
 ## create_cc_toolchain_config_info {#create_cc_toolchain_config_info}
 
 ```
-None cc_common.create_cc_toolchain_config_info(*, ctx, features=[], action_configs=[], artifact_name_patterns=[], cxx_builtin_include_directories=[], toolchain_identifier, host_system_name=None, target_system_name=None, target_cpu=None, target_libc=None, compiler, abi_version=None, abi_libc_version=None, tool_paths=[], make_variables=[], builtin_sysroot=None)
+None cc_common.create_cc_toolchain_config_info(*, ctx, features=[], action_configs=[], artifact_name_patterns=[], cxx_builtin_include_directories=[], toolchain_identifier, host_system_name=None, target_system_name=None, target_cpu=None, target_libc=None, compiler, abi_version=None, abi_libc_version=None, tool_paths=[], make_variables=[], builtin_sysroot=None, disallowed_copts_infos=[])
 ```
 
 Creates a `CcToolchainConfigInfo` provider
@@ -136,6 +136,7 @@ Creates a `CcToolchainConfigInfo` provider
 | `tool_paths` | [sequence](../core/list); default is `[]`  Tool locations. Arguments:  `name`: Name of the tool.  `path`: Location of the tool; Can be absolute path (in case of non hermetic toolchain), or path relative to the cc_toolchain's package. |
 | `make_variables` | [sequence](../core/list); default is `[]`  A make variable that is made accessible to rules. |
 | `builtin_sysroot` | [string](../core/string); or `None`; default is `None`  The built-in sysroot. If this attribute is not present, Bazel does not allow using a different sysroot, i.e. through the --grte_top option. |
+| `disallowed_copts_infos` | [sequence](../core/list); default is `[]`  A list of disallowed_copts_info structs used for disallowed copts enforcement. |
 
 ## create_compilation_context {#create_compilation_context}
 
