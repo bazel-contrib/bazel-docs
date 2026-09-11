@@ -10,6 +10,7 @@ See the [rules](https://bazel.build/extending/rules) page for extensive guides o
 * [DefaultInfo](#DefaultInfo)
 * [data_runfiles](#data_runfiles)
 * [default_runfiles](#default_runfiles)
+* [executable](#executable)
 * [files](#files)
 * [files_to_run](#files_to_run)
 
@@ -46,6 +47,14 @@ runfiles DefaultInfo.default_runfiles
 ```
 
 runfiles descriptor describing the files that this target needs when run (via the `run` command or as a tool dependency).
+May return `None`.
+## executable {#executable}
+
+```
+File DefaultInfo.executable
+```
+
+A [`File`](../builtins/File) object representing the executable that should be executed to run the target, or `None` if unset. Should be set only for [`executable`](../globals/bzl#rule.executable) and [`test`](../globals/bzl#rule.test) targets.
 May return `None`.
 ## files {#files}
 

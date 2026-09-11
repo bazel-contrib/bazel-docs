@@ -1342,6 +1342,12 @@ Options that affect the verbosity, format or location of logging
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
+<ParamField path="--[no]terminal_hyperlinks" type="boolean" default="auto">
+  If true (or auto with color enabled and a tty), format terminal file paths and test logs as clickable OSC 8 hyperlinks.
+
+  Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+</ParamField>
+
 <ParamField path="--tool_tag" type="a string">
   A tool name to attribute this Bazel invocation to.
 
@@ -4514,7 +4520,9 @@ Options that affect the verbosity, format or location of logging
   - `errors` to also print test logs for failed tests,
   - `all` to print summaries and logs for all tests and
   - `streamed` to output logs for all tests in real time (this will force tests to be
-  executed locally one at a time regardless of `--test_strategy` value).
+  executed locally one at a time via `--test_strategy=exclusive`, disabling parallel
+  execution and sharding. For parallel execution of multiple tests, use `errors` or
+  `all`).
 
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER), [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
