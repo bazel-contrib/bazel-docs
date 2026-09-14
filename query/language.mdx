@@ -768,39 +768,30 @@ parameter specifies what kind of target to match.
 For example, the kinds for the four targets defined by the `BUILD` file
 (for package `p`) shown below are illustrated in the table:
 
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Target</th>
-    <th>Kind</th>
-  </tr>
-  <tr>
-    <td rowspan="4">
-      <pre>
-        genrule(
-            name = "a",
-            srcs = ["a.in"],
-            outs = ["a.out"],
-            cmd = "...",
-        )
-      </pre>
-    </td>
-    <td><code>//p:a</code></td>
-    <td>genrule rule</td>
-  </tr>
-  <tr>
-    <td><code>//p:a.in</code></td>
-    <td>source file</td>
-  </tr>
-  <tr>
-    <td><code>//p:a.out</code></td>
-    <td>generated file</td>
-  </tr>
-  <tr>
-    <td><code>//p:BUILD</code></td>
-    <td>source file</td>
-  </tr>
-</table>
+<Columns cols={2}>
+  <Column>
+
+    ```starlark
+    genrule(
+        name = "a",
+        srcs = ["a.in"],
+        outs = ["a.out"],
+        cmd = "...",
+    )
+    ```
+
+  </Column>
+  <Column>
+
+    This `BUILD` file defines four targets:
+
+    - `//p:a` — a `genrule` rule
+    - `//p:a.in` — a source file
+    - `//p:a.out` — a generated file
+    - `//p:BUILD` — a source file
+
+  </Column>
+</Columns>
 
 Thus, `kind("cc_.* rule", foo/...)` evaluates to the set
 of all `cc_library`, `cc_binary`, etc,
