@@ -10,7 +10,7 @@ The provider returned from materializer rules to materialize dependencies.
 ## deps {#deps}
 
 ```
-list MaterializedDepsInfo.deps
+sequence MaterializedDepsInfo.deps
 ```
 
-The list of dependencies. These may be ConfiguredTarget or DormantDependency objects.
+A newly allocated immutable copy of the list of dependencies. These may be ConfiguredTarget or DormantDependency objects.
