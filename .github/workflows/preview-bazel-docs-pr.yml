@@ -3,8 +3,9 @@ on:
   # Since PRs to Bazel repo may come from a fork, and those cannot see GHA Secrets,
   # we fall back to polling the Bazel repo for new PRs.
   schedule:
-    # Runs every 30 minutes.
-    - cron: '*/30 * * * *'
+    # Runs every 30 minutes at off-peak minutes (:07/:37) to avoid clashing with the many
+    # other repos scheduled at :00/:30, which is when GitHub throttles or drops cron runs.
+    - cron: '7,37 * * * *'
   # Also allow manual triggering in the GH UI.
   workflow_dispatch:
     inputs:
@@ -15,6 +16,7 @@ on:
         default: ''
 
 permissions:
+  actions: read
   contents: write
   pull-requests: write
 
@@ -51,8 +53,23 @@ jobs:
               preview_branch: ("pr-" + (.number|tostring))
             }]')"
           else
-            # Scheduled run — poll for PRs updated in the last 45 minutes
-            since="$(date -u -d '45 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')"
+            # Scheduled run — poll for PRs updated since the previous scheduled run.
+            # GitHub throttles cron schedules (gaps of several hours are common), so a
+            # fixed lookback window misses PRs. Overlap by 15 minutes to be safe, and
+            # fall back to 45 minutes if there's no previous run.
+            last_run="$(gh run list \
+              --repo "${{ github.repository }}" \
+              --workflow preview-bazel-docs-pr.yml \
+              --event schedule \
+              --limit 5 \
+              --json databaseId,createdAt \
+              --jq '[.[] | select(.databaseId != ${{ github.run_id }})][0].createdAt // empty')"
+            if [[ -n "${last_run}" ]]; then
+              since="$(date -u -d "@$(( $(date -u -d "${last_run}" +%s) - 900 ))" '+%Y-%m-%dT%H:%M:%SZ')"
+            else
+              since="$(date -u -d '45 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')"
+            fi
+            echo "Polling for PRs updated since ${since} (previous run: ${last_run:-none})"
             prs="$(gh api \
               -H "Accept: application/vnd.github+json" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
