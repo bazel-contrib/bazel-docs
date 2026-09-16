@@ -106,6 +106,7 @@ jobs:
         run: git submodule update --init -- upstream
 
       - name: Checkout commit of Bazel Build submodule
+        id: checkout-bazel
         if: ${{ inputs.bazelCommitHash != '' }}
         working-directory: upstream
         env:
@@ -113,14 +114,31 @@ jobs:
           BAZEL_PR_NUMBER: ${{ inputs.bazelPullRequestNumber }}
         run: |
           set -euo pipefail
-          if ! git cat-file -e "${BAZEL_COMMIT_HASH}" 2>/dev/null; then
+          # Checking out is also how we test for the commit: `git cat-file -e` passes on
+          # a commit whose tree is missing, which is exactly the state a lagging pull ref
+          # leaves behind.
+          if ! git checkout --detach "${BAZEL_COMMIT_HASH}" 2>/dev/null; then
             if [[ -n "${BAZEL_PR_NUMBER}" ]]; then
               git fetch --no-tags origin "pull/${BAZEL_PR_NUMBER}/head"
             else
               git fetch --no-tags origin "${BAZEL_COMMIT_HASH}"
             fi
           fi
-          git checkout "${BAZEL_COMMIT_HASH}"
+          resolved_sha="${BAZEL_COMMIT_HASH}"
+          if ! git checkout --detach "${BAZEL_COMMIT_HASH}" 2>/dev/null; then
+            # refs/pull/N/head can lag behind the PR head SHA the API reports, typically
+            # right after a force-push, leaving that commit unfetchable. Preview whatever
+            # the pull ref does point at instead of failing the run.
+            fetch_head="$(git rev-parse --verify --quiet FETCH_HEAD || true)"
+            if [[ -z "${BAZEL_PR_NUMBER}" || -z "${fetch_head}" ]]; then
+              echo "::error::Unable to check out ${BAZEL_COMMIT_HASH} in upstream"
+              exit 1
+            fi
+            resolved_sha="${fetch_head}"
+            echo "::warning::${BAZEL_COMMIT_HASH} is not reachable from refs/pull/${BAZEL_PR_NUMBER}/head; building ${resolved_sha} instead"
+            git checkout --detach "${resolved_sha}"
+          fi
+          echo "resolved_sha=${resolved_sha}" >> "$GITHUB_OUTPUT"
 
       - name: Get changed files in upstream
         id: changed-files
@@ -129,7 +147,7 @@ jobs:
         with:
           path: upstream
           base_sha: ${{ inputs.bazelBaseCommitHash }}
-          sha: ${{ inputs.bazelCommitHash }}
+          sha: ${{ steps.checkout-bazel.outputs.resolved_sha || inputs.bazelCommitHash }}
           files: |
             docs/**
             src/main/java/com/google/devtools/build/docgen/**

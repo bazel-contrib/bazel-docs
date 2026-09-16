@@ -87,6 +87,46 @@ jobs:
                 }
               ]
             ')"
+
+            # The build pipeline's own docs detection diffs base_sha..head_sha, which is
+            # meaningless for a PR whose base has drifted by months: every doc added
+            # upstream since then shows up as changed. Filter on the PR's real file list
+            # instead, so stale PRs that touch no docs never get a preview built.
+            # Keep these paths in sync with the `files:` list in pull-from-bazel-build.yml.
+            doc_paths='
+              .filename | (
+                startswith("docs/") or
+                startswith("src/main/java/com/google/devtools/build/docgen/") or
+                startswith("src/main/starlark/docgen/") or
+                startswith("tools/build_defs/repo/") or
+                startswith("scripts/docs/") or
+                . == "site/command-line-reference-prefix.html" or
+                . == "site/command-line-reference-suffix.html" or
+                . == "site/BUILD" or
+                . == "site/BUILD.bazel"
+              )
+            '
+            keep=""
+            while read -r number; do
+              if [[ -z "${number}" ]]; then continue; fi
+              # Fail open: if the files API errors, keep the PR rather than silently
+              # dropping its preview.
+              if ! doc_files="$(gh api --paginate \
+                "/repos/bazelbuild/bazel/pulls/${number}/files?per_page=100" \
+                | jq -s "[.[][] | select(${doc_paths})] | length")"; then
+                echo "PR ${number}: could not list files, keeping it"
+                doc_files=1
+              fi
+              if [[ "${doc_files}" -gt 0 ]]; then
+                keep="${keep}${number} "
+              else
+                echo "PR ${number}: no doc-producing files changed, skipping"
+              fi
+            done < <(echo "$matrix" | jq -r '.[].number')
+            matrix="$(echo "$matrix" | jq -c --arg keep "${keep}" '
+              ($keep | split(" ") | map(select(length > 0) | tonumber)) as $keep |
+              [ .[] | select(.number as $n | $keep | index($n)) ]
+            ')"
           fi
 
           echo "Matrix entries: $(echo "$matrix" | jq -r 'length')"
