@@ -55,7 +55,7 @@ on:
 jobs:
   pull-fresh-upstream:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     permissions:
       contents: write
       pull-requests: write
@@ -152,6 +152,46 @@ jobs:
             echo "should_run=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Determine reference docs regen mode
+        id: reference-regen
+        if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
+        env:
+          ALL_CHANGED: ${{ steps.changed-files.outputs.all_changed_files }}
+          TRUST_UPSTREAM: ${{ inputs.trust_upstream_code }}
+          DETECT_CHANGES: ${{ inputs.detect_upstream_docs_changes }}
+        run: |
+          set -euo pipefail
+          full_build=false
+          split_trust=false
+
+          if [[ "${DETECT_CHANGES}" != "true" ]]; then
+            # Main sync: always run full reference doc build on trusted upstream.
+            full_build=true
+          elif [[ "${TRUST_UPSTREAM}" == "true" ]]; then
+            for file in ${ALL_CHANGED}; do
+              case "${file}" in
+                scripts/docs/*|src/main/java/com/google/devtools/build/docgen/*|src/main/starlark/docgen/*|tools/build_defs/repo/*|site/command-line-reference-*|site/BUILD|site/BUILD.bazel)
+                  full_build=true
+                  break
+                  ;;
+              esac
+            done
+          else
+            # Fork PR: regen reference MDX with trusted-base HTML + PR docs2mdx.py.
+            for file in ${ALL_CHANGED}; do
+              case "${file}" in
+                scripts/docs/*)
+                  split_trust=true
+                  break
+                  ;;
+              esac
+            done
+          fi
+
+          echo "full_build=${full_build}" >> "$GITHUB_OUTPUT"
+          echo "split_trust=${split_trust}" >> "$GITHUB_OUTPUT"
+          echo "Reference regen: full_build=${full_build}, split_trust=${split_trust}"
+
       - name: Ensure target branch exists for previews
         if: ${{ inputs.is_internal_pr && inputs.target_branch != '' && steps.docs-changes.outputs.should_run == 'true' }}
         env:
@@ -166,7 +206,7 @@ jobs:
           git push origin "HEAD:${TARGET_BRANCH}"
 
       - name: Setup Bazel
-        if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' && (steps.reference-regen.outputs.full_build == 'true' || steps.reference-regen.outputs.split_trust == 'true') }}
         uses: bazel-contrib/setup-bazel@0.19.0
         with:
           bazelisk-cache: true
@@ -175,7 +215,7 @@ jobs:
       - name: Build reference documentation
         # Runs Bazel over upstream BUILD/Starlark files, which is arbitrary code
         # execution. Never run this for a commit from a fork.
-        if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
+        if: ${{ inputs.is_internal_pr && steps.reference-regen.outputs.full_build == 'true' && steps.docs-changes.outputs.should_run == 'true' }}
         working-directory: upstream
         env:
           BUILDBUDDY_ORG_API_KEY: ${{ secrets.BUILDBUDDY_ORG_API_KEY }}
@@ -192,9 +232,24 @@ jobs:
             --remote_cache=grpcs://remote.buildbuddy.io \
             --remote_timeout=10m \
             //src/main/java/com/google/devtools/build/lib:gen_mdx_reference_docs
+
+      - name: Regenerate reference docs (fork PR, split-trust)
+        # Build HTML from trusted base; run docs2mdx.py from PR head via Python only.
+        if: ${{ inputs.is_internal_pr && steps.reference-regen.outputs.split_trust == 'true' && steps.docs-changes.outputs.should_run == 'true' }}
+        env:
+          BUILDBUDDY_ORG_API_KEY: ${{ secrets.BUILDBUDDY_ORG_API_KEY }}
+          BASE_SHA: ${{ inputs.bazelBaseCommitHash }}
+          HEAD_SHA: ${{ inputs.bazelCommitHash }}
+        run: |
+          set -euo pipefail
+          rcfile="$(mktemp)"
+          printf 'build --remote_header=x-buildbuddy-api-key=%s\n' "${BUILDBUDDY_ORG_API_KEY}" > "${rcfile}"
+          export BAZEL_EXTRA_RCFILE="${rcfile}"
+          chmod +x scripts/regen_reference_docs_split_trust.sh
+          ./scripts/regen_reference_docs_split_trust.sh "${BASE_SHA}" "${HEAD_SHA}"
       
       - name: Upload reference docs artifact
-        if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' && github.ref != 'refs/heads/main' }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' && (steps.reference-regen.outputs.full_build == 'true' || steps.reference-regen.outputs.split_trust == 'true') && github.ref != 'refs/heads/main' }}
         uses: actions/upload-artifact@v7
         with:
           name: reference-docs
@@ -209,7 +264,7 @@ jobs:
           rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
           
       - name: Extract MDX reference docs
-        if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
+        if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' && (steps.reference-regen.outputs.full_build == 'true' || steps.reference-regen.outputs.split_trust == 'true') }}
         run: |
           unzip -o upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip -d .
 
