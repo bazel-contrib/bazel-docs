@@ -74,7 +74,7 @@ jobs:
               -H "Accept: application/vnd.github+json" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
               "/repos/bazelbuild/bazel/pulls?state=open&sort=updated&direction=desc&per_page=100")"
-            matrix="$(echo "$prs" | jq -c --arg since "$since" '
+            candidates="$(echo "$prs" | jq -c --arg since "$since" '
               [
                 .[] | select(.updated_at >= $since) |
                 {
@@ -87,6 +87,27 @@ jobs:
                 }
               ]
             ')"
+
+            # Filter out PRs whose current head commit already has a preview comment.
+            # This breaks the feedback loop where the bot's own preview comment bumps
+            # the PR's updated_at timestamp, causing it to be re-processed on every cron run.
+            filtered="[]"
+            while IFS= read -r item; do
+              [[ -z "$item" ]] && continue
+              pr_number=$(echo "$item" | jq -r '.number')
+              head_sha=$(echo "$item" | jq -r '.head_sha')
+
+              has_preview=$(gh api "/repos/bazelbuild/bazel/issues/${pr_number}/comments" --paginate \
+                --jq ".[] | select(.body | contains(\"<!-- bazel-docs-preview -->\")) | select(.body | contains(\"${head_sha}\")) | .id" \
+                2>/dev/null | head -n 1 || true)
+
+              if [[ -n "${has_preview}" ]]; then
+                echo "PR #${pr_number} head commit ${head_sha} already has a preview comment. Skipping."
+              else
+                filtered=$(echo "$filtered" | jq -c --argjson item "$item" '. + [$item]')
+              fi
+            done < <(echo "$candidates" | jq -c '.[]')
+            matrix="$filtered"
           fi
 
           echo "Matrix entries: $(echo "$matrix" | jq -r 'length')"
@@ -146,8 +167,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PREVIEW_BRANCH: ${{ matrix.preview_branch }}
           PR_NUMBER: ${{ matrix.number }}
+          BUILD_PREVIEWS_RESULT: ${{ needs.build-previews.result }}
         run: |
           set -euo pipefail
+
+          # Skip if the build-previews workflow failed
+          if [[ "${BUILD_PREVIEWS_RESULT:-success}" != "success" ]]; then
+            echo "Build preview workflow did not succeed (result: ${BUILD_PREVIEWS_RESULT}). Skipping Mintlify wait."
+            echo "conclusion=skipped" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
           # If the preview branch doesn't exist, this PR has no doc changes — skip.
           if ! gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --silent 2>/dev/null; then
@@ -156,15 +185,24 @@ jobs:
             exit 0
           fi
 
+          # Check whether an open draft PR exists in this repo for the preview branch
+          draft_pr=$(gh pr list --repo "${{ github.repository }}" --head "${PREVIEW_BRANCH}" \
+            --state open --json number --jq '.[0].number // empty')
+          if [[ -z "${draft_pr}" ]]; then
+            echo "No open draft PR found for ${PREVIEW_BRANCH} in ${{ github.repository }} (workflow did not create draft PR). Skipping Mintlify wait."
+            echo "conclusion=skipped" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           sha=$(gh api "/repos/${{ github.repository }}/branches/${PREVIEW_BRANCH}" --jq '.commit.sha')
           echo "Waiting for Mintlify deployment on ${PREVIEW_BRANCH} @ ${sha}..."
 
-          for i in $(seq 1 30); do
+          for i in $(seq 1 45); do
             check=$(gh api "/repos/${{ github.repository }}/commits/${sha}/check-runs" \
               --jq '[.check_runs[] | select(.name == "Mintlify Deployment")] | .[0] // empty')
 
             if [[ -z "$check" ]]; then
-              echo "Attempt $i: Mintlify check not yet registered, waiting 20s..."
+              echo "Attempt $i/45: Mintlify check not yet registered, waiting 20s..."
               sleep 20
               continue
             fi
@@ -212,7 +250,7 @@ jobs:
               exit 0
             fi
 
-            echo "Attempt $i: Mintlify status=$status, waiting 20s..."
+            echo "Attempt $i/45: Mintlify status=$status, waiting 20s..."
             sleep 20
           done
 
@@ -318,8 +356,16 @@ jobs:
           )
           fi
 
-          existing_id="$(gh api "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" \
-            --jq "map(select(.body | contains(\"${marker}\")))[0].id // empty")"
+          existing_comment="$(gh api "/repos/bazelbuild/bazel/issues/${PR_NUMBER}/comments" --paginate \
+            --jq ".[] | select(.body | contains(\"${marker}\"))" 2>/dev/null | jq -s '.[0] // empty' || true)"
+          existing_id="$(echo "$existing_comment" | jq -r '.id // empty')"
+          existing_body="$(echo "$existing_comment" | jq -r '.body // empty')"
+
+          # If the existing comment already reflects this exact HEAD_SHA and was successful, avoid re-commenting
+          if [[ -n "${existing_body}" && "${existing_body}" == *"${HEAD_SHA}"* && "${existing_body}" == *":white_check_mark:"* && "${MINTLIFY_RESULT}" == "success" ]]; then
+            echo "Preview comment for ${HEAD_SHA} is already up to date. Skipping comment update to avoid bumping PR updated_at."
+            exit 0
+          fi
 
           if [[ -n "${existing_id}" ]]; then
             gh api -X PATCH "/repos/bazelbuild/bazel/issues/comments/${existing_id}" -f body="${body}"
