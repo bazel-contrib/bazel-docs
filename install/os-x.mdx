@@ -2,8 +2,6 @@
 title: 'Installing Bazel on macOS'
 ---
 
-
-
 This page describes how to install Bazel on macOS and set up your environment.
 
 You can install Bazel on macOS using one of the following methods:
@@ -53,7 +51,7 @@ brew upgrade bazel
 <h2 id="install-with-installer-mac-os-x">Installing using the binary installer</h2>
 
 The binary installers are on Bazel's
-[GitHub releases page](https://github.com/bazelbuild/bazel/releases).
+[GitHub releases page](https://github.com/bazelbuild/bazel/releases){: .external}.
 
 The installer contains the Bazel binary. Some additional libraries
 must also be installed for Bazel to work.
@@ -71,8 +69,8 @@ Otherwise, for `ios_*` rule support, you must have Xcode 6.1 or later with iOS
 SDK 8.1 installed on your system.
 
 Download Xcode from the
-[App Store](https://apps.apple.com/us/app/xcode/id497799835) or the
-[Apple Developer site](https://developer.apple.com/download/more/?=xcode).
+[App Store](https://apps.apple.com/us/app/xcode/id497799835){: .external} or the
+[Apple Developer site](https://developer.apple.com/download/more/?=xcode){: .external}.
 
 Once Xcode is installed, accept the license agreement for all users with the
 following command:
@@ -85,7 +83,7 @@ sudo xcodebuild -license accept
 
 Next, download the Bazel binary installer named
 `bazel-<version>-installer-darwin-x86_64.sh` from the
-[Bazel releases page on GitHub](https://github.com/bazelbuild/bazel/releases).
+[Bazel releases page on GitHub](https://github.com/bazelbuild/bazel/releases){: .external}.
 
 **On macOS Catalina or newer (macOS >= 11)**, due to Apple's new app signing requirements,
 you need to download the installer from the terminal using `curl`, replacing
@@ -94,20 +92,20 @@ the version variable with the Bazel version you want to download:
 ```posix-terminal
 export BAZEL_VERSION=5.2.0
 
-curl -fLO "https://github.com/bazelbuild/bazel/releases/download/<var>$BAZEL_VERSION</var>/bazel-<var>$BAZEL_VERSION</var>-installer-darwin-x86_64.sh"
+curl -fLO "https://github.com/bazelbuild/bazel/releases/download/{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}/bazel-{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}-installer-darwin-x86_64.sh"
 ```
 
 This is a temporary workaround until the macOS release flow supports
-signing ([#9304](https://github.com/bazelbuild/bazel/issues/9304)).
+signing ([#9304](https://github.com/bazelbuild/bazel/issues/9304){: .external}).
 
 ### Step 3: Run the installer
 
 Run the Bazel installer as follows:
 
 ```posix-terminal
-chmod +x "bazel-<var>$BAZEL_VERSION</var>-installer-darwin-x86_64.sh"
+chmod +x "bazel-{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}-installer-darwin-x86_64.sh"
 
-./bazel-<var>$BAZEL_VERSION</var>-installer-darwin-x86_64.sh --user
+./bazel-{{ '<var>' }}$BAZEL_VERSION{{ '</var>' }}-installer-darwin-x86_64.sh --user
 ```
 
 The `--user` flag installs Bazel to the `$HOME/bin` directory on your system and
@@ -121,11 +119,11 @@ the installer from the terminal using `curl` as a workaround; see Step 2 above.
 ### Step 4: Set up your environment
 
 If you ran the Bazel installer with the `--user` flag as above, the Bazel
-executable is installed in your `<var>HOME</var>/bin` directory.
+executable is installed in your `{{ '<var>' }}HOME{{ '</var>' }}/bin` directory.
 It's a good idea to add this directory to your default paths, as follows:
 
 ```posix-terminal
-export PATH="<var>PATH</var>:<var>HOME</var>/bin"
+export PATH="{{ '<var>' }}PATH{{ '</var>' }}:{{ '<var>' }}HOME{{ '</var>' }}/bin"
 ```
 
 You can also add this command to your `~/.bashrc`, `~/.zshrc`, or `~/.profile`
