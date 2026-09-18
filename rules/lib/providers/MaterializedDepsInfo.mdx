@@ -1,16 +1,17 @@
 ---
-title: 'MaterializedDepsInfo {#modules.MaterializedDepsInfo}'
+title: 'MaterializedDepsInfo'
 ---
+
 The provider returned from materializer rules to materialize dependencies.
 
 ## Members
 
 * [deps](#deps)
 
-## deps {#deps}
+## deps
 
 ```
-sequence MaterializedDepsInfo.deps
+list MaterializedDepsInfo.deps
 ```
 
-A newly allocated immutable copy of the list of dependencies. These may be ConfiguredTarget or DormantDependency objects.
+The list of dependencies. These may be ConfiguredTarget or DormantDependency objects.
