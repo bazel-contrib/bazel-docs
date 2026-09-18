@@ -66,7 +66,7 @@ Options that appear before the command and are parsed by the client
 </ParamField>
 
 <ParamField path="--[no]block_for_lock" type="boolean" default="true">
-  When --noblock_for_lock is passed, Bazel does not wait for a running command to complete, but instead exits immediately. If a duration is specified (e.g. --block_for_lock=30s), Bazel will wait up to that duration for the lock before exiting.
+  When --noblock_for_lock is passed, Bazel does not wait for a running command to complete, but instead exits immediately.
 
   Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 </ParamField>
@@ -1342,8 +1342,8 @@ Options that affect the verbosity, format or location of logging
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
-<ParamField path="--[no]terminal_hyperlinks" type="boolean" default="no">
-  If true (or auto with color enabled and a tty), format terminal file paths, test logs, and build results URLs as clickable OSC 8 hyperlinks.
+<ParamField path="--[no]terminal_hyperlinks" type="boolean" default="auto">
+  If true (or auto with color enabled), format terminal file paths, test logs, and build results URLs as clickable OSC 8 hyperlinks.
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
@@ -1755,18 +1755,6 @@ Miscellaneous options, not otherwise categorized.
   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created. Use --disk_cache with no value (or --disk_cache=true) to use a default location under the output user root (&lt;outputUserRoot&gt;/cache/disk). Use --nodisk_cache or --disk_cache=false to disable.
 </ParamField>
 
-<ParamField path="--disk_cache_gc_idle_delay" type="An immutable length of time." default="5m">
-  How long the server must remain idle before a garbage collection of the disk cache occurs. To specify the garbage collection policy, set --disk_cache_gc_max_size and/or --disk_cache_gc_max_age.
-</ParamField>
-
-<ParamField path="--disk_cache_gc_max_age" type="An immutable length of time." default="0">
-  If set to a positive value, the disk cache will be periodically garbage collected to remove entries older than this age. If set in conjunction with --disk_cache_gc_max_size, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --disk_cache_gc_idle_delay flag.
-</ParamField>
-
-<ParamField path="--disk_cache_gc_max_size" type="a size in bytes, optionally followed by a K, M, G or T multiplier" default="0">
-  If set to a positive value, the disk cache will be periodically garbage collected to stay under this size. If set in conjunction with --disk_cache_gc_max_age, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --disk_cache_gc_idle_delay flag.
-</ParamField>
-
 <ParamField path="--[no]enable_platform_specific_config" type="boolean" default="false">
   If true, Bazel picks up host-OS-specific config lines from bazelrc files. For example, if the host OS is Linux and you run bazel build, Bazel picks up lines starting with build:linux. Supported OS identifiers are linux, macos, windows, freebsd, and openbsd. Enabling this flag is equivalent to using --config=linux on Linux, --config=windows on Windows, etc.
 </ParamField>
@@ -1789,10 +1777,28 @@ Miscellaneous options, not otherwise categorized.
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
+<ParamField path="--experimental_disk_cache_gc_idle_delay" type="An immutable length of time." default="5m">
+  How long the server must remain idle before a garbage collection of the disk cache occurs. To specify the garbage collection policy, set --experimental_disk_cache_gc_max_size and/or --experimental_disk_cache_gc_max_age.
+</ParamField>
+
+<ParamField path="--experimental_disk_cache_gc_max_age" type="An immutable length of time." default="0">
+  If set to a positive value, the disk cache will be periodically garbage collected to remove entries older than this age. If set in conjunction with --experimental_disk_cache_gc_max_size, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --experimental_disk_cache_gc_idle_delay flag.
+</ParamField>
+
+<ParamField path="--experimental_disk_cache_gc_max_size" type="a size in bytes, optionally followed by a K, M, G or T multiplier" default="0">
+  If set to a positive value, the disk cache will be periodically garbage collected to stay under this size. If set in conjunction with --experimental_disk_cache_gc_max_age, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --experimental_disk_cache_gc_idle_delay flag.
+</ParamField>
+
 <ParamField path="--[no]experimental_enable_thread_dump" type="boolean" default="false">
   Whether to enable thread dumps. If true, Bazel will dump the state of all threads (including virtual threads) to a file every --experimental_thread_dump_interval, or after action execution being inactive for --experimental_thread_dump_action_execution_inactivity_duration. The dumps will be written to the &lt;output_base&gt;/server/thread_dumps/ directory.
 
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
+</ParamField>
+
+<ParamField path="--experimental_install_base_gc_max_age" type="An immutable length of time." default="30d">
+  How long an install base must go unused before it's eligible for garbage collection. If nonzero, the server will attempt to garbage collect other install bases when idle.
+
+  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
 <ParamField path="--[no]experimental_rule_extension_api" type="boolean" default="true">
@@ -1889,12 +1895,6 @@ Miscellaneous options, not otherwise categorized.
   is empty, then remove any previous injections.
 
   *May be used multiple times; values are accumulated.*
-</ParamField>
-
-<ParamField path="--install_base_gc_max_age" type="An immutable length of time." default="30d">
-  How long an install base must go unused before it's eligible for garbage collection. If nonzero, the server will attempt to garbage collect other install bases when idle.
-
-  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
 <ParamField path="--invocation_id" type="a UUID">
@@ -2685,7 +2685,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--override_platform_cpu_name`.
+  relying on just `--experimental_override_name_platform_in_output_dir`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -4495,18 +4495,6 @@ Options specifying or altering a generic input to a Bazel command that does not 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
-<ParamField path="--target_query" type="a string">
-  If set, build will evaluate the query expression and build the resulting targets. Example: --target_query='deps(//foo) - deps(//bar)'. May be combined with command-line target patterns. Cannot be used with --target_pattern_file or --target_query_file.
-
-  Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
-</ParamField>
-
-<ParamField path="--target_query_file" type="a string">
-  If set, build will read a query expression from the file named here and build the resulting targets. May be combined with command-line target patterns. Cannot be used with --target_pattern_file or --target_query.
-
-  Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
-</ParamField>
-
 Remote caching and execution options
 
 <ParamField path="--experimental_circuit_breaker_strategy" type="failure" default="see description">
@@ -4842,18 +4830,6 @@ Miscellaneous options, not otherwise categorized.
   A path to a directory where Bazel can read and write actions and action outputs. If the directory does not exist, it will be created. Use --disk_cache with no value (or --disk_cache=true) to use a default location under the output user root (&lt;outputUserRoot&gt;/cache/disk). Use --nodisk_cache or --disk_cache=false to disable.
 </ParamField>
 
-<ParamField path="--disk_cache_gc_idle_delay" type="An immutable length of time." default="5m">
-  How long the server must remain idle before a garbage collection of the disk cache occurs. To specify the garbage collection policy, set --disk_cache_gc_max_size and/or --disk_cache_gc_max_age.
-</ParamField>
-
-<ParamField path="--disk_cache_gc_max_age" type="An immutable length of time." default="0">
-  If set to a positive value, the disk cache will be periodically garbage collected to remove entries older than this age. If set in conjunction with --disk_cache_gc_max_size, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --disk_cache_gc_idle_delay flag.
-</ParamField>
-
-<ParamField path="--disk_cache_gc_max_size" type="a size in bytes, optionally followed by a K, M, G or T multiplier" default="0">
-  If set to a positive value, the disk cache will be periodically garbage collected to stay under this size. If set in conjunction with --disk_cache_gc_max_age, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --disk_cache_gc_idle_delay flag.
-</ParamField>
-
 <ParamField path="--embed_label" type="a one-line string">
   Embed source control revision or release label in binary
 </ParamField>
@@ -4882,6 +4858,18 @@ Miscellaneous options, not otherwise categorized.
   Expand test_suite targets into their constituent tests before analysis. When this flag is turned on (the default), negative target patterns will apply to the tests belonging to the test suite, otherwise they will not. Turning off this flag is useful when top-level aspects are applied at command line: then they can analyze test_suite targets.
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+</ParamField>
+
+<ParamField path="--experimental_disk_cache_gc_idle_delay" type="An immutable length of time." default="5m">
+  How long the server must remain idle before a garbage collection of the disk cache occurs. To specify the garbage collection policy, set --experimental_disk_cache_gc_max_size and/or --experimental_disk_cache_gc_max_age.
+</ParamField>
+
+<ParamField path="--experimental_disk_cache_gc_max_age" type="An immutable length of time." default="0">
+  If set to a positive value, the disk cache will be periodically garbage collected to remove entries older than this age. If set in conjunction with --experimental_disk_cache_gc_max_size, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --experimental_disk_cache_gc_idle_delay flag.
+</ParamField>
+
+<ParamField path="--experimental_disk_cache_gc_max_size" type="a size in bytes, optionally followed by a K, M, G or T multiplier" default="0">
+  If set to a positive value, the disk cache will be periodically garbage collected to stay under this size. If set in conjunction with --experimental_disk_cache_gc_max_age, both criteria are applied. Garbage collection occurrs in the background once the server has become idle, as determined by the --experimental_disk_cache_gc_idle_delay flag.
 </ParamField>
 
 <ParamField path="--experimental_extra_action_filter" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths">
@@ -5445,7 +5433,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--override_platform_cpu_name`.
+  relying on just `--experimental_override_name_platform_in_output_dir`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -7156,7 +7144,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--override_platform_cpu_name`.
+  relying on just `--experimental_override_name_platform_in_output_dir`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -8706,7 +8694,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--override_platform_cpu_name`.
+  relying on just `--experimental_override_name_platform_in_output_dir`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -9931,7 +9919,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--override_platform_cpu_name`.
+  relying on just `--experimental_override_name_platform_in_output_dir`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -10486,7 +10474,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--override_platform_cpu_name`.
+  relying on just `--experimental_override_name_platform_in_output_dir`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -11005,7 +10993,7 @@ Options that appear before the command and are parsed by the client
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
 <ParamField path="--script_path" type="a path" default="see description">
-  If set, write a shell script to the given file which invokes the target. If this option is set, the target is not run from bazel. Use 'bazel run --script_path=foo //foo && ./foo' to invoke target '//foo'.
+  If set, write a shell script to the given file which invokes the target. If this option is set, the target is not run from bazel. Use 'bazel run --script_path=foo //foo && ./foo' to invoke target '//foo' This differs from 'bazel run //foo' in that the bazel lock is released and the executable is connected to the terminal's stdin.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -11622,7 +11610,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--override_platform_cpu_name`.
+  relying on just `--experimental_override_name_platform_in_output_dir`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
