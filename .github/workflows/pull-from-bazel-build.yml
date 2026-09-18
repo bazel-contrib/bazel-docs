@@ -106,11 +106,13 @@ jobs:
         run: git submodule update --init -- upstream
 
       - name: Checkout commit of Bazel Build submodule
+        id: checkout-submodule
         if: ${{ inputs.bazelCommitHash != '' }}
         working-directory: upstream
         env:
           BAZEL_COMMIT_HASH: ${{ inputs.bazelCommitHash }}
           BAZEL_PR_NUMBER: ${{ inputs.bazelPullRequestNumber }}
+          BAZEL_BASE_COMMIT_HASH: ${{ inputs.bazelBaseCommitHash }}
         run: |
           set -euo pipefail
           if ! git cat-file -e "${BAZEL_COMMIT_HASH}" 2>/dev/null; then
@@ -120,15 +122,48 @@ jobs:
               git fetch --no-tags origin "${BAZEL_COMMIT_HASH}"
             fi
           fi
-          git checkout "${BAZEL_COMMIT_HASH}"
+          if git cat-file -e "${BAZEL_COMMIT_HASH}" 2>/dev/null; then
+            git checkout "${BAZEL_COMMIT_HASH}"
+          else
+            git fetch --no-tags origin "${BAZEL_COMMIT_HASH}" && git checkout "${BAZEL_COMMIT_HASH}" || git checkout FETCH_HEAD
+          fi
+
+          # Fetch origin/master to compute merge-base and detect stale/ancient branches
+          git fetch --no-tags origin master || true
+
+          effective_base=""
+          is_ancient="false"
+
+          merge_base="$(git merge-base origin/master HEAD 2>/dev/null || true)"
+          if [[ -n "${merge_base}" ]]; then
+            echo "Computed merge-base with origin/master: ${merge_base}"
+            effective_base="${merge_base}"
+            commits_behind="$(git rev-list --count "${merge_base}..origin/master" 2>/dev/null || echo 0)"
+            echo "Merge-base is ${commits_behind} commit(s) behind origin/master"
+            if (( commits_behind > 500 )); then
+              echo "PR base commit is far behind origin/master (${commits_behind} commits). Skipping doc build."
+              is_ancient="true"
+            fi
+          elif [[ -n "${BAZEL_BASE_COMMIT_HASH}" ]]; then
+            echo "Could not compute merge-base with origin/master; falling back to bazelBaseCommitHash: ${BAZEL_BASE_COMMIT_HASH}"
+            effective_base="${BAZEL_BASE_COMMIT_HASH}"
+          fi
+
+          if [[ ! -d "docs" ]]; then
+            echo "docs/ directory does not exist in upstream commit ${BAZEL_COMMIT_HASH} (e.g. legacy PR). Skipping doc build."
+            is_ancient="true"
+          fi
+
+          echo "base_sha=${effective_base}" >> "$GITHUB_OUTPUT"
+          echo "is_ancient=${is_ancient}" >> "$GITHUB_OUTPUT"
 
       - name: Get changed files in upstream
         id: changed-files
-        if: ${{ inputs.detect_upstream_docs_changes }}
+        if: ${{ inputs.detect_upstream_docs_changes && steps.checkout-submodule.outputs.is_ancient != 'true' }}
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           path: upstream
-          base_sha: ${{ inputs.bazelBaseCommitHash }}
+          base_sha: ${{ steps.checkout-submodule.outputs.base_sha || inputs.bazelBaseCommitHash }}
           sha: ${{ inputs.bazelCommitHash }}
           files: |
             docs/**
@@ -146,24 +181,14 @@ jobs:
         run: |
           if [[ "${{ inputs.detect_upstream_docs_changes }}" != "true" ]]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ steps.checkout-submodule.outputs.is_ancient }}" == "true" ]]; then
+            echo "PR base commit is ancient or upstream/docs does not exist; skipping pipeline."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
           elif [[ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
           else
             echo "should_run=false" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Ensure target branch exists for previews
-        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' && steps.docs-changes.outputs.should_run == 'true' }}
-        env:
-          TARGET_BRANCH: ${{ inputs.target_branch }}
-          GH_APP_TOKEN: ${{ steps.generate-token.outputs.token }}
-        run: |
-          set -euo pipefail
-          if git ls-remote --exit-code --heads origin "${TARGET_BRANCH}" >/dev/null; then
-            echo "Preview branch ${TARGET_BRANCH} already exists."
-            exit 0
-          fi
-          git push origin "HEAD:${TARGET_BRANCH}"
 
       - name: Setup Bazel
         if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
@@ -206,12 +231,20 @@ jobs:
         run: |
           # Copy all MDX files from the upstream docs directory to the root.
           # Versioned docs live under upstream/docs/versions/ and are copied into versions/.
+          if [[ ! -d "upstream/docs" ]]; then
+            echo "upstream/docs directory does not exist (e.g. legacy PR where docs were in site/). Skipping rsync."
+            exit 0
+          fi
           rsync -av --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
           
       - name: Extract MDX reference docs
         if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
-          unzip -o upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip -d .
+          if [[ -f upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip ]]; then
+            unzip -o upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip -d .
+          else
+            echo "Reference docs zip not found; skipping extraction."
+          fi
 
       - name: Create versioned navigation
         if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
@@ -234,6 +267,19 @@ jobs:
               done
             done
           done < .mintignore
+
+      - name: Ensure target branch exists for previews
+        if: ${{ inputs.is_internal_pr && inputs.target_branch != '' && steps.docs-changes.outputs.should_run == 'true' }}
+        env:
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+          GH_APP_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin "${TARGET_BRANCH}" >/dev/null; then
+            echo "Preview branch ${TARGET_BRANCH} already exists."
+            exit 0
+          fi
+          git push origin "HEAD:${TARGET_BRANCH}"
 
       - name: Commit and push changes
         if: ${{ inputs.is_internal_pr && steps.docs-changes.outputs.should_run == 'true' }}
