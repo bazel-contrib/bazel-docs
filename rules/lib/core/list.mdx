@@ -1,6 +1,7 @@
 ---
-title: 'list {#modules.list}'
+title: 'list'
 ---
+
 The built-in list type. Example list expressions:
 
 ```
@@ -41,7 +42,7 @@ Lists are mutable, as in Python.
 * [pop](#pop)
 * [remove](#remove)
 
-## append {#append}
+## append
 
 ```
 None list.append(item)
@@ -55,14 +56,15 @@ Adds an item to the end of the list.
 | --- | --- |
 | `item` | required |
 
-## clear {#clear}
+## clear
 
 ```
 None list.clear()
 ```
 
 Removes all the elements of the list.
-## extend {#extend}
+
+## extend
 
 ```
 None list.extend(items)
@@ -76,7 +78,7 @@ Adds all items to the end of the list.
 | --- | --- |
 | `items` | iterable; required |
 
-## index {#index}
+## index
 
 ```
 int list.index(x, start=unbound, end=unbound)
@@ -92,7 +94,7 @@ Returns the index in the list of the first item whose value is x. It is an error
 | `start` | [int](../core/int); default is `unbound`  The start index of the list portion to inspect. |
 | `end` | [int](../core/int); default is `unbound`  The end index of the list portion to inspect. |
 
-## insert {#insert}
+## insert
 
 ```
 None list.insert(index, item)
@@ -107,7 +109,7 @@ Inserts an item at a given position.
 | `index` | [int](../core/int); required  The index the item will be at after insertion. If the index is out of range, it's transformed into an effective index in the range from 0 to the list's previous length, inclusive, in the same manner as for the start index of a slice operator. |
 | `item` | required  The item. |
 
-## pop {#pop}
+## pop
 
 ```
 unknown list.pop(i=-1)
@@ -121,7 +123,7 @@ Removes the item at the given position in the list, and returns it. If no `index
 | --- | --- |
 | `i` | [int](../core/int); default is `-1`  The index of the item. |
 
-## remove {#remove}
+## remove
 
 ```
 None list.remove(x)
