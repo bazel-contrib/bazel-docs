@@ -66,7 +66,7 @@ Options that appear before the command and are parsed by the client
 </ParamField>
 
 <ParamField path="--[no]block_for_lock" type="boolean" default="true">
-  When --noblock_for_lock is passed, Bazel does not wait for a running command to complete, but instead exits immediately.
+  When --noblock_for_lock is passed, Bazel does not wait for a running command to complete, but instead exits immediately. If a duration is specified (e.g. --block_for_lock=30s), Bazel will wait up to that duration for the lock before exiting.
 
   Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 </ParamField>
@@ -1795,12 +1795,6 @@ Miscellaneous options, not otherwise categorized.
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
-<ParamField path="--experimental_install_base_gc_max_age" type="An immutable length of time." default="30d">
-  How long an install base must go unused before it's eligible for garbage collection. If nonzero, the server will attempt to garbage collect other install bases when idle.
-
-  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
-</ParamField>
-
 <ParamField path="--[no]experimental_rule_extension_api" type="boolean" default="true">
   Enable experimental rule extension API and subrule APIs
 
@@ -1895,6 +1889,12 @@ Miscellaneous options, not otherwise categorized.
   is empty, then remove any previous injections.
 
   *May be used multiple times; values are accumulated.*
+</ParamField>
+
+<ParamField path="--install_base_gc_max_age" type="An immutable length of time." default="30d">
+  How long an install base must go unused before it's eligible for garbage collection. If nonzero, the server will attempt to garbage collect other install bases when idle.
+
+  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
 <ParamField path="--invocation_id" type="a UUID">
@@ -2685,7 +2685,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--experimental_override_name_platform_in_output_dir`.
+  relying on just `--override_platform_cpu_name`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -4495,6 +4495,18 @@ Options specifying or altering a generic input to a Bazel command that does not 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+<ParamField path="--target_query" type="a string">
+  If set, build will evaluate the query expression and build the resulting targets. Example: --target_query='deps(//foo) - deps(//bar)'. May be combined with command-line target patterns. Cannot be used with --target_pattern_file or --target_query_file.
+
+  Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
+</ParamField>
+
+<ParamField path="--target_query_file" type="a string">
+  If set, build will read a query expression from the file named here and build the resulting targets. May be combined with command-line target patterns. Cannot be used with --target_pattern_file or --target_query.
+
+  Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
+</ParamField>
+
 Remote caching and execution options
 
 <ParamField path="--experimental_circuit_breaker_strategy" type="failure" default="see description">
@@ -5433,7 +5445,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--experimental_override_name_platform_in_output_dir`.
+  relying on just `--override_platform_cpu_name`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -7144,7 +7156,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--experimental_override_name_platform_in_output_dir`.
+  relying on just `--override_platform_cpu_name`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -8694,7 +8706,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--experimental_override_name_platform_in_output_dir`.
+  relying on just `--override_platform_cpu_name`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -9919,7 +9931,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--experimental_override_name_platform_in_output_dir`.
+  relying on just `--override_platform_cpu_name`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -10474,7 +10486,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--experimental_override_name_platform_in_output_dir`.
+  relying on just `--override_platform_cpu_name`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -10993,7 +11005,7 @@ Options that appear before the command and are parsed by the client
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
 <ParamField path="--script_path" type="a path" default="see description">
-  If set, write a shell script to the given file which invokes the target. If this option is set, the target is not run from bazel. Use 'bazel run --script_path=foo //foo && ./foo' to invoke target '//foo' This differs from 'bazel run //foo' in that the bazel lock is released and the executable is connected to the terminal's stdin.
+  If set, write a shell script to the given file which invokes the target. If this option is set, the target is not run from bazel. Use 'bazel run --script_path=foo //foo && ./foo' to invoke target '//foo'.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -11610,7 +11622,7 @@ Options that let the user configure the intended output, affecting its value, as
 <ParamField path="--[no]experimental_use_platforms_in_output_dir_legacy_heuristic" type="boolean" default="true">
   Please only use this flag as part of a suggested migration or testing strategy. Note
   that the heuristic has known deficiencies and it is suggested to migrate to
-  relying on just `--experimental_override_name_platform_in_output_dir`.
+  relying on just `--override_platform_cpu_name`.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
