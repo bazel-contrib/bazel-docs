@@ -1,6 +1,7 @@
 ---
-title: 'FeatureFlagInfo {#modules.FeatureFlagInfo}'
+title: 'FeatureFlagInfo'
 ---
+
 A provider used to access information about config_feature_flag rules.
 
 ## Members
@@ -9,7 +10,7 @@ A provider used to access information about config_feature_flag rules.
 * [is_valid_value](#is_valid_value)
 * [value](#value)
 
-## error {#error}
+## error
 
 ```
 string FeatureFlagInfo.error
@@ -17,7 +18,8 @@ string FeatureFlagInfo.error
 
 If non-None, this error was generated when trying to compute current value of flag.
 May return `None`.
-## is_valid_value {#is_valid_value}
+
+## is_valid_value
 
 ```
 bool FeatureFlagInfo.is_valid_value(value)
@@ -31,7 +33,7 @@ The value of the flag in the configuration used by the flag rule.
 | --- | --- |
 | `value` | [string](../core/string); required  String, the value to check for validity for this flag. |
 
-## value {#value}
+## value
 
 ```
 string FeatureFlagInfo.value
