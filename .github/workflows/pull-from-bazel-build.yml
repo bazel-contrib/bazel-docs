@@ -229,7 +229,10 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: reference-docs
-          path: upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip
+          # reference-docs.zip was previously named mdx-reference-docs.zip; accept either.
+          path: |
+            upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/reference-docs.zip
+            upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip
           retention-days: 7
 
       - name: Sync pre-converted MDX docs from upstream
@@ -246,8 +249,16 @@ jobs:
       - name: Extract MDX reference docs
         if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
         run: |
-          if [[ -f upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip ]]; then
-            unzip -o upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/mdx-reference-docs.zip -d .
+          # reference-docs.zip was previously named mdx-reference-docs.zip; accept either.
+          zip=""
+          for candidate in reference-docs.zip mdx-reference-docs.zip; do
+            if [[ -f upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/${candidate} ]]; then
+              zip=upstream/bazel-bin/src/main/java/com/google/devtools/build/lib/${candidate}
+              break
+            fi
+          done
+          if [[ -n "${zip}" ]]; then
+            unzip -o "${zip}" -d .
           else
             echo "Reference docs zip not found; skipping extraction."
           fi
