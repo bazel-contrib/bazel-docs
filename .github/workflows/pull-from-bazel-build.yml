@@ -209,6 +209,12 @@ jobs:
           # Keep the API key out of argv, where any process in the build could read it.
           rcfile="$(mktemp)"
           printf 'build --remote_header=x-buildbuddy-api-key=%s\n' "${BUILDBUDDY_ORG_API_KEY}" > "${rcfile}"
+          # The target was renamed from gen_mdx_reference_docs to gen_reference_docs
+          # (bazelbuild/bazel#31211). Support both so older upstream commits still build.
+          target=gen_reference_docs
+          if ! grep -q 'name = "gen_reference_docs"' src/main/java/com/google/devtools/build/lib/BUILD; then
+            target=gen_mdx_reference_docs
+          fi
           bazel --bazelrc="${rcfile}" build \
             --config=docs \
             --build_metadata=ROLE=DOCS \
@@ -216,7 +222,7 @@ jobs:
             --bes_backend=grpcs://remote.buildbuddy.io \
             --remote_cache=grpcs://remote.buildbuddy.io \
             --remote_timeout=10m \
-            //src/main/java/com/google/devtools/build/lib:gen_mdx_reference_docs
+            "//src/main/java/com/google/devtools/build/lib:${target}"
       
       - name: Upload reference docs artifact
         if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' && github.ref != 'refs/heads/main' }}
