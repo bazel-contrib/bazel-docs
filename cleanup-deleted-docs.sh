@@ -35,7 +35,7 @@ for nav_file in navigation/*.en.json; do
   done <<< "$pages"
 done
 
-if [[ ${#deleted_files[@]:-0} -eq 0 ]]; then
+if [[ ${#deleted_files[@]} -eq 0 ]]; then
   echo "No deleted files found in navigation."
   exit 0
 fi
