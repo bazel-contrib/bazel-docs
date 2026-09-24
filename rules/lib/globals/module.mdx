@@ -66,8 +66,9 @@ Declares a direct dependency on another Bazel module.
 None flag_alias(*, name, starlark_flag)
 ```
 
-Maps a command-line flag --foo to a Starlark flag --@repo//defs:foo. Bazel translates all
-instances of $ bazel build //target --foo to $ bazel build //target --@repo//defs:foo.
+Maps a command-line flag `--foo` to a Starlark flag `--@repo//defs:foo`.
+Bazel translates all instances of `bazel build //target --foo`
+to `bazel build //target --@repo//defs:foo`.
 
 ### Parameters
 
