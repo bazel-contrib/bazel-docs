@@ -1692,6 +1692,24 @@ Remote caching and execution options
 
 Miscellaneous options, not otherwise categorized.
 
+<ParamField path="--action_cache_gc_idle_delay" type="An immutable length of time." default="5m">
+  How long the server must remain idle before a garbage collection of the action cache is attempted. Ineffectual unless --action_cache_gc_max_age is nonzero.
+
+  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
+</ParamField>
+
+<ParamField path="--action_cache_gc_max_age" type="An immutable length of time." default="0">
+  If set to a nonzero value, the action cache will be periodically garbage collected to remove entries older than this age. Garbage collection occurs in the background once the server has become idle, as determined by the --action_cache_gc_idle_delay and --action_cache_gc_threshold flags.
+
+  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
+</ParamField>
+
+<ParamField path="--action_cache_gc_threshold" type="an integer in 0-100 range" default="10">
+  The percentage of stale action cache entries required for garbage collection to be triggered. Ineffectual unless --action_cache_gc_max_age is nonzero.
+
+  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
+</ParamField>
+
 <ParamField path="--build_metadata" type="a 'name=value' assignment">
   Custom key-value string pairs to supply in a build event.
 
@@ -1769,24 +1787,6 @@ Miscellaneous options, not otherwise categorized.
 
 <ParamField path="--[no]enable_platform_specific_config" type="boolean" default="false">
   If true, Bazel picks up host-OS-specific config lines from bazelrc files. For example, if the host OS is Linux and you run bazel build, Bazel picks up lines starting with build:linux. Supported OS identifiers are linux, macos, windows, freebsd, and openbsd. Enabling this flag is equivalent to using --config=linux on Linux, --config=windows on Windows, etc.
-</ParamField>
-
-<ParamField path="--experimental_action_cache_gc_idle_delay" type="An immutable length of time." default="5m">
-  How long the server must remain idle before a garbage collection of the action cache is attempted. Ineffectual unless --experimental_action_cache_gc_max_age is nonzero.
-
-  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
-</ParamField>
-
-<ParamField path="--experimental_action_cache_gc_max_age" type="An immutable length of time." default="0">
-  If set to a nonzero value, the action cache will be periodically garbage collected to remove entries older than this age. Garbage collection occurs in the background once the server has become idle, as determined by the --experimental_action_cache_gc_idle_delay and --experimental_action_cache_gc_threshold flags.
-
-  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
-</ParamField>
-
-<ParamField path="--experimental_action_cache_gc_threshold" type="an integer in 0-100 range" default="10">
-  The percentage of stale action cache entries required for garbage collection to be triggered. Ineffectual unless --experimental_action_cache_gc_max_age is nonzero.
-
-  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
 <ParamField path="--[no]experimental_enable_thread_dump" type="boolean" default="false">
