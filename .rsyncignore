@@ -1,0 +1,7 @@
+# This repo uses rsync to synchronize the docs from upstream Bazel
+# to the root of this repo. This file excludes certain files that only
+# exist in this repo to ensure they're not deleted during the rsync process.
+/index.mdx
+/favicon.png
+/CLAUDE.md
+/README.md

@@ -235,7 +235,17 @@ jobs:
             echo "upstream/docs directory does not exist (e.g. legacy PR where docs were in site/). Skipping rsync."
             exit 0
           fi
-          rsync -av --delete-after --exclude='reference/flag-cheatsheet.mdx' --include='*/' --include='*.mdx' --include='*.md' --include='*.png' --include='*.jpg' --include='*.svg' --exclude='*' upstream/docs/ .
+          rsync -av \
+            --delete-after \
+            --exclude='reference/flag-cheatsheet.mdx' \
+            --exclude-from='.rsyncignore' \
+            --include='*/' \
+            --include='*.mdx' \
+            --include='*.md' \
+            --include='*.png' \
+            --include='*.jpg' \
+            --include='*.svg' \
+            upstream/docs/ .
 
       - name: Apply local documentation patches
         if: ${{ steps.docs-changes.outputs.should_run == 'true' }}
