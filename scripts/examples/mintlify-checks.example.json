@@ -1,0 +1,25 @@
+{
+  "pages": [
+    {
+      "path": "/configure/attributes",
+      "name": "configure-attributes",
+      "checks": [
+        { "selector": "table tr", "minCount": 1 }
+      ]
+    },
+    {
+      "path": "/reference/be/common-definitions#common-attributes",
+      "name": "heading-anchor",
+      "checks": [
+        { "anchorId": "common-attributes" }
+      ]
+    },
+    {
+      "path": "/remote/output-directories",
+      "name": "code-no-entities",
+      "checks": [
+        { "selector": "pre, code", "mustNotContain": ["&lt;", "&gt;"] }
+      ]
+    }
+  ]
+}

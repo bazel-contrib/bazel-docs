@@ -83,6 +83,16 @@ git rm navigation/6.x.en.json  # Remove EOL version file
 
 This ensures old versions don't appear in version switcher menus.
 
+## Agent skills (docs migration)
+
+For bazel.build migration work (issue #30598 and related):
+
+- **Manager:** `agent-skills/bazel-docs-migration-manager/SKILL.md`
+- **Worker:** `agent-skills/bazel-docs-fix-worker/SKILL.md`
+- **Verification:** `scripts/verify_mintlify_preview.mjs`
+
+Symlinks: `.claude/skills/` and `.cursor/skills/` → `agent-skills/`. See also `AGENTS.md`.
+
 ## Working norms
 
 - Always ask before editing the PR description.
