@@ -548,10 +548,6 @@
       "destination": "/external/faq"
     },
     {
-      "source": "/rules/",
-      "destination": "/build/rules"
-    },
-    {
       "source": "/docs/build",
       "destination": "/run/build"
     },
