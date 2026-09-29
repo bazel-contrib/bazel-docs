@@ -14,6 +14,7 @@ When passed as positional arguments to `print()` or `fail()`, `Label` use a stri
 * [package](#package)
 * [relative](#relative)
 * [repo_name](#repo_name)
+* [repo_root](#repo_root)
 * [same_package_label](#same_package_label)
 * [workspace_name](#workspace_name)
 * [workspace_root](#workspace_root)
@@ -102,6 +103,18 @@ The canonical name of the repository containing the target referred to by this l
 Label("@@foo//bar:baz").repo_name == "foo"
 ```
 
+## repo_root {#repo_root}
+
+```
+string Label.repo_root
+```
+
+The root directory of the repository containing the target referred to by this label, relative to the execution root. This is the empty string for the main repository and `external/` followed by the canonical repository name for all other repositories. For instance:
+
+```
+Label("@@repo//pkg/foo:abc").repo_root == "external/repo"
+```
+
 ## same_package_label {#same_package_label}
 
 ```
@@ -136,6 +149,9 @@ Label("@@foo//bar:baz").workspace_name == "foo"
 ```
 string Label.workspace_root
 ```
+
+**Experimental**. This API is experimental and may change at any time. Please do not depend on it. It may be enabled on an experimental basis by setting `--+incompatible_enable_deprecated_label_apis`
+**Deprecated.** The field name "workspace root" is a misnomer here; use the identically-behaving [`Label.repo_root`](#repo_root) instead.
 
 Returns the execution root for the repository containing the target referred to by this label, relative to the execroot. For instance:
 
