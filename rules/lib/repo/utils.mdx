@@ -486,6 +486,11 @@ read_user_netrc(<a href="#read_user_netrc-ctx">ctx</a>)
 
 Read user's default netrc file.
 
+If the `NETRC` environment variable is set to a non-empty value, the file it
+names is read; as with `read_netrc`, it is an error if that file does not
+exist. Otherwise, `.netrc` in the user's home directory (`$HOME`, or
+`%USERPROFILE%` on Windows) is read if it exists.
+
 ### Parameters
 
 <table class="params-table">
