@@ -192,7 +192,7 @@ Options that appear before the command and are parsed by the client
 </ParamField>
 
 <ParamField path="--[no]shutdown_on_low_sys_mem" type="boolean" default="false">
-  If max_idle_secs is set and the build server has been idle for a while, shut down the server when the system is low on free RAM. Linux and MacOS only.
+  If max_idle_secs is set and the build server has been idle for at least 5 minutes, shut down the server when available system memory falls below critical thresholds. Linux and macOS only.
 
   Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
@@ -4814,7 +4814,7 @@ Miscellaneous options, not otherwise categorized.
 </ParamField>
 
 <ParamField path="--[no]build_manual_tests" type="boolean" default="false">
-  Forces test targets tagged 'manual' to be built. 'manual' tests are excluded from processing. This option forces them to be built (but not executed).
+  Forces targets tagged 'manual' to be built. Despite the flag name, this option applies to all targets (both test and non-test targets) matching the pattern. Targets tagged 'manual' are excluded from processing by default; this option forces them to be built (tests are built but not executed).
 </ParamField>
 
 <ParamField path="--build_tag_filters" type="comma-separated list of options">
