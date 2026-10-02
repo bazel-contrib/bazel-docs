@@ -11,3 +11,6 @@ The survey is embedded by [`survey.mdx`](survey.mdx) at
 - Publish form content changes in Tally when ready for respondents to see them.
 
 This README is excluded from the documentation site by `.mintignore`.
+
+Keep `noZoom` on the iframe. Mintlify's iframe wrapper converts `100dvh` to
+`100px`; `noZoom` preserves the native iframe and its viewport-based height.
