@@ -2,8 +2,10 @@
 title: 'local repository rules'
 ---
 
+
 The following functions can be loaded from
 `@bazel_tools//tools/build_defs/repo:local.bzl`.
+
 
 Rules for making directories in the local filesystem available as repos.
 
@@ -33,11 +35,11 @@ local_repository(name = "foo", path = "foo")
 
 ## local_repository
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:local.bzl", "local_repository")
 
 local_repository(<a href="#local_repository-name">name</a>, <a href="#local_repository-path">path</a>)
-</pre>
+```
 
 Makes a local directory that already contains Bazel files available as a repo. This directory should contain Bazel BUILD files and a repo boundary file already. If it doesn't contain these files, consider using [`new_local_repository`](#new_local_repository) instead.
 
@@ -52,7 +54,6 @@ Makes a local directory that already contains Bazel files available as a repo. T
 <tr id="local_repository-name">
 <td><code>name</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
 <p>
@@ -65,7 +66,6 @@ A unique name for this repository.
 <tr id="local_repository-path">
 <td><code>path</code></td>
 <td>
-
 String; required
 
 <p>
@@ -80,15 +80,16 @@ The path can be either absolute, or relative to the workspace root.
 </tbody>
 </table>
 
+
 <a id="new_local_repository"></a>
 
 ## new_local_repository
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:local.bzl", "new_local_repository")
 
 new_local_repository(<a href="#new_local_repository-name">name</a>, <a href="#new_local_repository-build_file">build_file</a>, <a href="#new_local_repository-build_file_content">build_file_content</a>, <a href="#new_local_repository-path">path</a>)
-</pre>
+```
 
 Makes a local directory that doesn't contain Bazel files available as a repo. This directory need not contain Bazel BUILD files or a repo boundary file; they will be created by this repo rule. If the directory already contains Bazel files, consider using [`local_repository`](#local_repository) instead.
 
@@ -103,7 +104,6 @@ Makes a local directory that doesn't contain Bazel files available as a repo. Th
 <tr id="new_local_repository-name">
 <td><code>name</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
 <p>
@@ -116,7 +116,6 @@ A unique name for this repository.
 <tr id="new_local_repository-build_file">
 <td><code>build_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -133,7 +132,6 @@ The file addressed by this label does not need to be named BUILD, but can be. So
 <tr id="new_local_repository-build_file_content">
 <td><code>build_file_content</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -148,7 +146,6 @@ Exactly one of `build_file` and `build_file_content` must be specified.
 <tr id="new_local_repository-path">
 <td><code>path</code></td>
 <td>
-
 String; required
 
 <p>
@@ -162,4 +159,5 @@ The path can be either absolute, or relative to the workspace root.
 </tr>
 </tbody>
 </table>
+
 

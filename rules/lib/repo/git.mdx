@@ -2,8 +2,10 @@
 title: 'git repository rules'
 ---
 
+
 The following functions can be loaded from
 `@bazel_tools//tools/build_defs/repo:git.bzl`.
+
 
 Rules for cloning external git repositories.
 
@@ -11,7 +13,7 @@ Rules for cloning external git repositories.
 
 ## git_repository
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(<a href="#git_repository-name">name</a>, <a href="#git_repository-add_prefix">add_prefix</a>, <a href="#git_repository-branch">branch</a>, <a href="#git_repository-build_file">build_file</a>, <a href="#git_repository-build_file_content">build_file_content</a>, <a href="#git_repository-canonical_id">canonical_id</a>, <a href="#git_repository-commit">commit</a>,
@@ -20,7 +22,7 @@ git_repository(<a href="#git_repository-name">name</a>, <a href="#git_repository
                <a href="#git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#git_repository-remote_patch_strip">remote_patch_strip</a>, <a href="#git_repository-remote_patches">remote_patches</a>, <a href="#git_repository-shallow_since">shallow_since</a>,
                <a href="#git_repository-sparse_checkout_file">sparse_checkout_file</a>, <a href="#git_repository-sparse_checkout_patterns">sparse_checkout_patterns</a>, <a href="#git_repository-strip_prefix">strip_prefix</a>, <a href="#git_repository-tag">tag</a>, <a href="#git_repository-verbose">verbose</a>,
                <a href="#git_repository-workspace_file">workspace_file</a>, <a href="#git_repository-workspace_file_content">workspace_file_content</a>)
-</pre>
+```
 
 Clone an external git repository.
 
@@ -57,7 +59,6 @@ The reasons are:
 <tr id="git_repository-name">
 <td><code>name</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
 <p>
@@ -70,7 +71,6 @@ A unique name for this repository.
 <tr id="git_repository-add_prefix">
 <td><code>add_prefix</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -88,7 +88,6 @@ and `strip_prefix = "foo-1.2.3"`.
 <tr id="git_repository-branch">
 <td><code>branch</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -101,7 +100,6 @@ branch in the remote repository to checked out. Precisely one of branch, tag, or
 <tr id="git_repository-build_file">
 <td><code>build_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -114,7 +112,6 @@ The file to use as the BUILD file for this repository. This attribute is an abso
 <tr id="git_repository-build_file_content">
 <td><code>build_file_content</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -127,7 +124,6 @@ The content for the BUILD file for this repository.
 <tr id="git_repository-canonical_id">
 <td><code>canonical_id</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -149,7 +145,6 @@ machines without the file in the cache. This behavior can be disabled with
 <tr id="git_repository-commit">
 <td><code>commit</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -162,7 +157,6 @@ specific commit to be checked out. Precisely one of branch, tag, or commit must 
 <tr id="git_repository-init_submodules">
 <td><code>init_submodules</code></td>
 <td>
-
 Boolean; optional
 
 <p>
@@ -175,7 +169,6 @@ Whether to clone submodules in the repository.
 <tr id="git_repository-patch_args">
 <td><code>patch_args</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -188,7 +181,6 @@ The arguments given to the patch tool. Defaults to -p0 (see the `patch_strip` at
 <tr id="git_repository-patch_cmds">
 <td><code>patch_cmds</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -201,7 +193,6 @@ Sequence of Bash commands to be applied on Linux/Macos after patches are applied
 <tr id="git_repository-patch_cmds_win">
 <td><code>patch_cmds_win</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -214,7 +205,6 @@ Sequence of Powershell commands to be applied on Windows after patches are appli
 <tr id="git_repository-patch_strip">
 <td><code>patch_strip</code></td>
 <td>
-
 Integer; optional
 
 <p>
@@ -227,7 +217,6 @@ When set to `N`, this is equivalent to inserting `-pN` to the beginning of `patc
 <tr id="git_repository-patch_tool">
 <td><code>patch_tool</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -240,7 +229,6 @@ The patch(1) utility to use. If this is specified, Bazel will use the specified 
 <tr id="git_repository-patches">
 <td><code>patches</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">List of labels</a>; optional
 
 <p>
@@ -253,7 +241,6 @@ A list of files that are to be applied as patches after extracting the archive. 
 <tr id="git_repository-recursive_init_submodules">
 <td><code>recursive_init_submodules</code></td>
 <td>
-
 Boolean; optional
 
 <p>
@@ -266,7 +253,6 @@ Whether to clone submodules recursively in the repository.
 <tr id="git_repository-remote">
 <td><code>remote</code></td>
 <td>
-
 String; required
 
 <p>
@@ -279,7 +265,6 @@ The URI of the remote Git repository
 <tr id="git_repository-remote_module_file_integrity">
 <td><code>remote_module_file_integrity</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -292,7 +277,6 @@ For internal use only.
 <tr id="git_repository-remote_module_file_urls">
 <td><code>remote_module_file_urls</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -305,7 +289,6 @@ For internal use only.
 <tr id="git_repository-remote_patch_strip">
 <td><code>remote_patch_strip</code></td>
 <td>
-
 Integer; optional
 
 <p>
@@ -318,7 +301,6 @@ The number of leading slashes to be stripped from the file name in the remote pa
 <tr id="git_repository-remote_patches">
 <td><code>remote_patches</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
 <p>
@@ -331,7 +313,6 @@ A map of patch file URL to its integrity value, they are applied after cloning t
 <tr id="git_repository-shallow_since">
 <td><code>shallow_since</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -344,7 +325,6 @@ an optional date, not after the specified commit; the argument is not allowed if
 <tr id="git_repository-sparse_checkout_file">
 <td><code>sparse_checkout_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -357,7 +337,6 @@ File containing .gitignore-style patterns for a sparse checkout of files in this
 <tr id="git_repository-sparse_checkout_patterns">
 <td><code>sparse_checkout_patterns</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -370,7 +349,6 @@ Sequence of patterns for a sparse checkout of files in this repository.
 <tr id="git_repository-strip_prefix">
 <td><code>strip_prefix</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -387,7 +365,6 @@ paths in the original Git repository.
 <tr id="git_repository-tag">
 <td><code>tag</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -400,15 +377,12 @@ tag in the remote repository to checked out. Precisely one of branch, tag, or co
 <tr id="git_repository-verbose">
 <td><code>verbose</code></td>
 <td>
-
 Boolean; optional
-
 </td>
 </tr>
 <tr id="git_repository-workspace_file">
 <td><code>workspace_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -421,7 +395,6 @@ No-op attribute; do not use.
 <tr id="git_repository-workspace_file_content">
 <td><code>workspace_file_content</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -440,11 +413,12 @@ This repository rule depends on the following environment variables:
 
 * `BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID`
 
+
 <a id="new_git_repository"></a>
 
 ## new_git_repository
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:git.bzl", "new_git_repository")
 
 new_git_repository(<a href="#new_git_repository-name">name</a>, <a href="#new_git_repository-add_prefix">add_prefix</a>, <a href="#new_git_repository-branch">branch</a>, <a href="#new_git_repository-build_file">build_file</a>, <a href="#new_git_repository-build_file_content">build_file_content</a>, <a href="#new_git_repository-canonical_id">canonical_id</a>, <a href="#new_git_repository-commit">commit</a>,
@@ -453,7 +427,7 @@ new_git_repository(<a href="#new_git_repository-name">name</a>, <a href="#new_gi
                    <a href="#new_git_repository-remote_module_file_urls">remote_module_file_urls</a>, <a href="#new_git_repository-remote_patch_strip">remote_patch_strip</a>, <a href="#new_git_repository-remote_patches">remote_patches</a>, <a href="#new_git_repository-shallow_since">shallow_since</a>,
                    <a href="#new_git_repository-sparse_checkout_file">sparse_checkout_file</a>, <a href="#new_git_repository-sparse_checkout_patterns">sparse_checkout_patterns</a>, <a href="#new_git_repository-strip_prefix">strip_prefix</a>, <a href="#new_git_repository-tag">tag</a>, <a href="#new_git_repository-verbose">verbose</a>,
                    <a href="#new_git_repository-workspace_file">workspace_file</a>, <a href="#new_git_repository-workspace_file_content">workspace_file_content</a>)
-</pre>
+```
 
 Deprecated - use the drop-in replacement 'git_repository' instead
 
@@ -468,7 +442,6 @@ Deprecated - use the drop-in replacement 'git_repository' instead
 <tr id="new_git_repository-name">
 <td><code>name</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
 <p>
@@ -481,7 +454,6 @@ A unique name for this repository.
 <tr id="new_git_repository-add_prefix">
 <td><code>add_prefix</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -499,7 +471,6 @@ and `strip_prefix = "foo-1.2.3"`.
 <tr id="new_git_repository-branch">
 <td><code>branch</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -512,7 +483,6 @@ branch in the remote repository to checked out. Precisely one of branch, tag, or
 <tr id="new_git_repository-build_file">
 <td><code>build_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -525,7 +495,6 @@ The file to use as the BUILD file for this repository. This attribute is an abso
 <tr id="new_git_repository-build_file_content">
 <td><code>build_file_content</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -538,7 +507,6 @@ The content for the BUILD file for this repository.
 <tr id="new_git_repository-canonical_id">
 <td><code>canonical_id</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -560,7 +528,6 @@ machines without the file in the cache. This behavior can be disabled with
 <tr id="new_git_repository-commit">
 <td><code>commit</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -573,7 +540,6 @@ specific commit to be checked out. Precisely one of branch, tag, or commit must 
 <tr id="new_git_repository-init_submodules">
 <td><code>init_submodules</code></td>
 <td>
-
 Boolean; optional
 
 <p>
@@ -586,7 +552,6 @@ Whether to clone submodules in the repository.
 <tr id="new_git_repository-patch_args">
 <td><code>patch_args</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -599,7 +564,6 @@ The arguments given to the patch tool. Defaults to -p0 (see the `patch_strip` at
 <tr id="new_git_repository-patch_cmds">
 <td><code>patch_cmds</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -612,7 +576,6 @@ Sequence of Bash commands to be applied on Linux/Macos after patches are applied
 <tr id="new_git_repository-patch_cmds_win">
 <td><code>patch_cmds_win</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -625,7 +588,6 @@ Sequence of Powershell commands to be applied on Windows after patches are appli
 <tr id="new_git_repository-patch_strip">
 <td><code>patch_strip</code></td>
 <td>
-
 Integer; optional
 
 <p>
@@ -638,7 +600,6 @@ When set to `N`, this is equivalent to inserting `-pN` to the beginning of `patc
 <tr id="new_git_repository-patch_tool">
 <td><code>patch_tool</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -651,7 +612,6 @@ The patch(1) utility to use. If this is specified, Bazel will use the specified 
 <tr id="new_git_repository-patches">
 <td><code>patches</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">List of labels</a>; optional
 
 <p>
@@ -664,7 +624,6 @@ A list of files that are to be applied as patches after extracting the archive. 
 <tr id="new_git_repository-recursive_init_submodules">
 <td><code>recursive_init_submodules</code></td>
 <td>
-
 Boolean; optional
 
 <p>
@@ -677,7 +636,6 @@ Whether to clone submodules recursively in the repository.
 <tr id="new_git_repository-remote">
 <td><code>remote</code></td>
 <td>
-
 String; required
 
 <p>
@@ -690,7 +648,6 @@ The URI of the remote Git repository
 <tr id="new_git_repository-remote_module_file_integrity">
 <td><code>remote_module_file_integrity</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -703,7 +660,6 @@ For internal use only.
 <tr id="new_git_repository-remote_module_file_urls">
 <td><code>remote_module_file_urls</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -716,7 +672,6 @@ For internal use only.
 <tr id="new_git_repository-remote_patch_strip">
 <td><code>remote_patch_strip</code></td>
 <td>
-
 Integer; optional
 
 <p>
@@ -729,7 +684,6 @@ The number of leading slashes to be stripped from the file name in the remote pa
 <tr id="new_git_repository-remote_patches">
 <td><code>remote_patches</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
 <p>
@@ -742,7 +696,6 @@ A map of patch file URL to its integrity value, they are applied after cloning t
 <tr id="new_git_repository-shallow_since">
 <td><code>shallow_since</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -755,7 +708,6 @@ an optional date, not after the specified commit; the argument is not allowed if
 <tr id="new_git_repository-sparse_checkout_file">
 <td><code>sparse_checkout_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -768,7 +720,6 @@ File containing .gitignore-style patterns for a sparse checkout of files in this
 <tr id="new_git_repository-sparse_checkout_patterns">
 <td><code>sparse_checkout_patterns</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -781,7 +732,6 @@ Sequence of patterns for a sparse checkout of files in this repository.
 <tr id="new_git_repository-strip_prefix">
 <td><code>strip_prefix</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -798,7 +748,6 @@ paths in the original Git repository.
 <tr id="new_git_repository-tag">
 <td><code>tag</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -811,15 +760,12 @@ tag in the remote repository to checked out. Precisely one of branch, tag, or co
 <tr id="new_git_repository-verbose">
 <td><code>verbose</code></td>
 <td>
-
 Boolean; optional
-
 </td>
 </tr>
 <tr id="new_git_repository-workspace_file">
 <td><code>workspace_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -832,7 +778,6 @@ No-op attribute; do not use.
 <tr id="new_git_repository-workspace_file_content">
 <td><code>workspace_file_content</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -844,4 +789,5 @@ No-op attribute; do not use.
 </tr>
 </tbody>
 </table>
+
 

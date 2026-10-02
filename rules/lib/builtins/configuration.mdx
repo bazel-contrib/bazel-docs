@@ -1,5 +1,5 @@
 ---
-title: 'configuration {#modules.configuration}'
+title: 'configuration'
 ---
 This object holds information about the environment in which the build is running. See the [Rules page](https://bazel.build/extending/rules#configurations) for more on the general concept of configurations.
 
@@ -50,7 +50,8 @@ A short identifier for this configuration understood by the `config` and query s
 
 Use this to distinguish different configurations for the same target in a way that is friendly to humans and tool usage, for example in an aspect used by an IDE. Keep in mind the following caveats:
 
-* The value may differ across Bazel versions, including patch releases.* The value encodes the value of **every** flag, including those that aren't otherwise relevant for the current target and may thus invalidate caches more frequently.
+* The value may differ across Bazel versions, including patch releases.
+* The value encodes the value of **every** flag, including those that aren't otherwise relevant for the current target and may thus invalidate caches more frequently.
 
 ## test_env {#test_env}
 

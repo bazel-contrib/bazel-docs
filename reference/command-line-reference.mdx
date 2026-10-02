@@ -192,7 +192,7 @@ Options that appear before the command and are parsed by the client
 </ParamField>
 
 <ParamField path="--[no]shutdown_on_low_sys_mem" type="boolean" default="false">
-  If max_idle_secs is set and the build server has been idle for a while, shut down the server when the system is low on free RAM. Linux and MacOS only.
+  If max_idle_secs is set and the build server has been idle for at least 5 minutes, shut down the server when available system memory falls below critical thresholds. Linux and macOS only.
 
   Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
@@ -221,6 +221,7 @@ Options that appear before the command and are parsed by the client
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 Remote caching and execution options
 
 <ParamField path="--[no]experimental_remote_repo_contents_cache" type="boolean" default="false">
@@ -231,6 +232,7 @@ Remote caching and execution options
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -250,6 +252,7 @@ Miscellaneous options, not otherwise categorized.
 <ParamField path="--server_javabase" type="jvm path">
   Path to the JVM used to execute Bazel itself.
 </ParamField>
+
 
 ## Options Common to all Commands {#common_options}
 
@@ -346,6 +349,7 @@ Options that appear before the command and are parsed by the client
   Tags: [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 </ParamField>
 
+
 Options that control build execution
 
 <ParamField path="--experimental_ui_max_stdouterr_bytes" type="an integer in (-1)-1073741819 range" default="1048576">
@@ -372,6 +376,7 @@ Options that control build execution
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
+
 Options that configure the toolchain used for action execution
 
 <ParamField path="--[no]incompatible_enable_proto_toolchain_resolution" type="boolean" default="true">
@@ -379,6 +384,7 @@ Options that configure the toolchain used for action execution
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -450,6 +456,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]allow_experimental_loads" type="boolean" default="false">
@@ -470,7 +477,14 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
+
+<ParamField path="--bzl_file_size_limit_allowlist" type="a build target label">
+  A label to a .scl file defining an ALLOWED list of .bzl/.scl file paths exempt from file size limits.
+
+  Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
+</ParamField>
 
 <ParamField path="--[no]experimental_bzl_visibility" type="boolean" default="true">
   If enabled, adds a `visibility()` function that .bzl files may call during top-level evaluation to set their visibility for the purpose of load() statements.
@@ -747,6 +761,12 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+<ParamField path="--max_bzl_file_size" type="a long integer" default="0">
+  The hard maximum size in bytes allowed for an individual .bzl or .scl file. Files exceeding this size fail compilation unless on --bzl_file_size_limit_allowlist (zero means no limit).
+
+  Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
+</ParamField>
+
 <ParamField path="--max_computation_steps" type="a long integer" default="0">
   The maximum number of Starlark computation steps that may be executed by a BUILD file (zero means no limit).
 
@@ -758,6 +778,13 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
+<ParamField path="--soft_max_bzl_file_size" type="a long integer" default="0">
+  The soft maximum size in bytes for an individual .bzl or .scl file. Files exceeding this size fail compilation unless they define _KNOWN_OVERSIZED_BZL_FILE at the top level or are on --bzl_file_size_limit_allowlist (zero means no limit).
+
+  Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
+</ParamField>
+
 
 Options relating to Bzlmod output and semantics
 
@@ -851,6 +878,7 @@ Options relating to Bzlmod output and semantics
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that trigger optimizations of the build time
 
 <ParamField path="--[no]experimental_non_deterministic_memory_optimizations" type="boolean" default="true">
@@ -900,6 +928,7 @@ Options that trigger optimizations of the build time
 
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
+
 
 Options that affect the verbosity, format or location of logging
 
@@ -1374,6 +1403,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
+
 Remote caching and execution options
 
 <ParamField path="--downloader_config" type="a path">
@@ -1696,6 +1726,7 @@ Remote caching and execution options
   If set to true, Bazel will compute the hash sum of all remote downloads and  discard the remotely cached values if they don't match the expected value.
 </ParamField>
 
+
 Miscellaneous options, not otherwise categorized.
 
 <ParamField path="--action_cache_gc_idle_delay" type="An immutable length of time." default="5m">
@@ -1963,6 +1994,7 @@ Miscellaneous options, not otherwise categorized.
   On Linux/macOS: If true, bazel tries to use the operating system's file watch service for local changes instead of scanning every file for a change. On Windows: this flag currently is a non-op but can be enabled in conjunction with --experimental_windows_watchfs. On any OS: The behavior is undefined if your workspace is on a network file system, and files are edited on a remote machine.
 </ParamField>
 
+
 ## Aquery Options {#aquery}
 
 Inherits all options from [build](#build).
@@ -2187,6 +2219,7 @@ Options relating to query output and semantics
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that control build execution
 
 <ParamField path="--[no]experimental_remotable_source_manifests" type="boolean" default="false">
@@ -2218,6 +2251,7 @@ Options that control build execution
 
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Options that configure the toolchain used for action execution
 
@@ -2390,6 +2424,7 @@ Options that configure the toolchain used for action execution
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that control the output of the command
 
 <ParamField path="--[no]apple_generate_dsym" type="boolean" default="false">
@@ -2495,6 +2530,7 @@ Options that control the output of the command
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -3063,6 +3099,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]check_visibility" type="boolean" default="true">
@@ -3148,6 +3185,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 Options that affect the signing outputs of a build
 
 <ParamField path="--apk_signing_method" type="v1, v2, v1_v2 or v4" default="v1_v2">
@@ -3162,6 +3200,7 @@ Options that affect the signing outputs of a build
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_disallow_sdk_frameworks_attributes" type="boolean" default="false">
@@ -3175,6 +3214,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -3252,6 +3292,7 @@ Options that govern the behavior of the test environment or test runner
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER)
 </ParamField>
 
+
 Options that trigger optimizations of the build time
 
 <ParamField path="--[no]cc_dotd_files" type="boolean" default="true">
@@ -3311,6 +3352,7 @@ Options that trigger optimizations of the build time
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--toolchain_resolution_debug" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths" default="-.*">
@@ -3325,6 +3367,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
 
+
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
 <ParamField path="--flag_alias" type="a 'name=label' flag alias">
@@ -3335,6 +3378,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -3584,6 +3628,7 @@ Miscellaneous options, not otherwise categorized.
 <ParamField path="--[no]use_ijars" type="boolean" default="true">
   If enabled, this option causes Java compilation to use interface jars. This will result in faster incremental compilation, but error messages can be different.
 </ParamField>
+
 
 ## Build Options {#build}
 
@@ -3959,6 +4004,7 @@ Options that control build execution
   If enabled, prints verbose messages when workers are started, shutdown, ...
 </ParamField>
 
+
 Options that control the output of the command
 
 <ParamField path="--[no]build" type="boolean" default="true">
@@ -4007,6 +4053,7 @@ Options that control the output of the command
 
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -4109,6 +4156,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]experimental_docker_privileged" type="boolean" default="false">
@@ -4165,6 +4213,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_config_setting_private_default_visibility" type="boolean" default="false">
@@ -4178,6 +4227,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -4216,6 +4266,7 @@ Options that govern the behavior of the test environment or test runner
 <ParamField path="--test_tmpdir" type="a path" default="see description">
   Specifies the base temporary directory for 'bazel test' to use.
 </ParamField>
+
 
 Options that trigger optimizations of the build time
 
@@ -4260,6 +4311,7 @@ Options that trigger optimizations of the build time
 
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
+
 
 Options that affect the verbosity, format or location of logging
 
@@ -4481,6 +4533,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
 <ParamField path="--aspects_parameters" type="a 'name=value' assignment">
@@ -4512,6 +4565,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
+
 
 Remote caching and execution options
 
@@ -4799,6 +4853,7 @@ Remote caching and execution options
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
+
 Miscellaneous options, not otherwise categorized.
 
 <ParamField path="--[no]allow_analysis_cache_discard" type="boolean" default="true">
@@ -4814,7 +4869,7 @@ Miscellaneous options, not otherwise categorized.
 </ParamField>
 
 <ParamField path="--[no]build_manual_tests" type="boolean" default="false">
-  Forces test targets tagged 'manual' to be built. 'manual' tests are excluded from processing. This option forces them to be built (but not executed).
+  Forces targets tagged 'manual' to be built. Despite the flag name, this option applies to all targets (both test and non-test targets) matching the pattern. Targets tagged 'manual' are excluded from processing by default; this option forces them to be built (tests are built but not executed).
 </ParamField>
 
 <ParamField path="--build_tag_filters" type="comma-separated list of options">
@@ -4947,6 +5002,7 @@ Miscellaneous options, not otherwise categorized.
   `tools/buildstamp/get_workspace_status` for an example.
 </ParamField>
 
+
 Options that control build execution
 
 <ParamField path="--[no]experimental_remotable_source_manifests" type="boolean" default="false">
@@ -4978,6 +5034,7 @@ Options that control build execution
 
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Options that configure the toolchain used for action execution
 
@@ -5150,6 +5207,7 @@ Options that configure the toolchain used for action execution
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that control the output of the command
 
 <ParamField path="--[no]apple_generate_dsym" type="boolean" default="false">
@@ -5255,6 +5313,7 @@ Options that control the output of the command
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -5823,6 +5882,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]check_visibility" type="boolean" default="true">
@@ -5908,6 +5968,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 Options that affect the signing outputs of a build
 
 <ParamField path="--apk_signing_method" type="v1, v2, v1_v2 or v4" default="v1_v2">
@@ -5922,6 +5983,7 @@ Options that affect the signing outputs of a build
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_disallow_sdk_frameworks_attributes" type="boolean" default="false">
@@ -5935,6 +5997,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -6012,6 +6075,7 @@ Options that govern the behavior of the test environment or test runner
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER)
 </ParamField>
 
+
 Options that trigger optimizations of the build time
 
 <ParamField path="--[no]cc_dotd_files" type="boolean" default="true">
@@ -6071,6 +6135,7 @@ Options that trigger optimizations of the build time
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--toolchain_resolution_debug" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths" default="-.*">
@@ -6085,6 +6150,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
 
+
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
 <ParamField path="--flag_alias" type="a 'name=label' flag alias">
@@ -6095,6 +6161,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -6345,6 +6412,7 @@ Miscellaneous options, not otherwise categorized.
   If enabled, this option causes Java compilation to use interface jars. This will result in faster incremental compilation, but error messages can be different.
 </ParamField>
 
+
 ## Canonicalize-flags Options {#canonicalize-flags}
 
 Inherits all options from [build](#build).
@@ -6363,6 +6431,7 @@ Options that control the output of the command
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_config_setting_private_default_visibility" type="boolean" default="false">
@@ -6377,6 +6446,7 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
 <ParamField path="--for_command" type="a string" default="build">
@@ -6390,6 +6460,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -6411,6 +6482,7 @@ Miscellaneous options, not otherwise categorized.
 <ParamField path="--[no]show_loading_progress" type="boolean" default="true">
   If enabled, causes Bazel to print "Loading package:" messages.
 </ParamField>
+
 
 ## Clean Options {#clean}
 
@@ -6439,6 +6511,7 @@ Options that control the output of the command
 
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
+
 
 ## Config Options {#config}
 
@@ -6658,6 +6731,7 @@ Options relating to query output and semantics
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that control build execution
 
 <ParamField path="--[no]experimental_remotable_source_manifests" type="boolean" default="false">
@@ -6689,6 +6763,7 @@ Options that control build execution
 
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Options that configure the toolchain used for action execution
 
@@ -6861,6 +6936,7 @@ Options that configure the toolchain used for action execution
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that control the output of the command
 
 <ParamField path="--[no]apple_generate_dsym" type="boolean" default="false">
@@ -6966,6 +7042,7 @@ Options that control the output of the command
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -7534,6 +7611,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]check_visibility" type="boolean" default="true">
@@ -7619,6 +7697,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 Options that affect the signing outputs of a build
 
 <ParamField path="--apk_signing_method" type="v1, v2, v1_v2 or v4" default="v1_v2">
@@ -7633,6 +7712,7 @@ Options that affect the signing outputs of a build
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_disallow_sdk_frameworks_attributes" type="boolean" default="false">
@@ -7646,6 +7726,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -7723,6 +7804,7 @@ Options that govern the behavior of the test environment or test runner
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER)
 </ParamField>
 
+
 Options that trigger optimizations of the build time
 
 <ParamField path="--[no]cc_dotd_files" type="boolean" default="true">
@@ -7782,6 +7864,7 @@ Options that trigger optimizations of the build time
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--toolchain_resolution_debug" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths" default="-.*">
@@ -7796,6 +7879,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
 
+
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
 <ParamField path="--flag_alias" type="a 'name=label' flag alias">
@@ -7806,6 +7890,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -8055,6 +8140,7 @@ Miscellaneous options, not otherwise categorized.
 <ParamField path="--[no]use_ijars" type="boolean" default="true">
   If enabled, this option causes Java compilation to use interface jars. This will result in faster incremental compilation, but error messages can be different.
 </ParamField>
+
 
 ## Dump Options {#dump}
 
@@ -8120,6 +8206,7 @@ Options that control the output of the command
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
+
 ## Fetch Options {#fetch}
 
 Inherits all options from [test](#test).
@@ -8148,6 +8235,7 @@ Options that control build execution
   Tags: [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_config_setting_private_default_visibility" type="boolean" default="false">
@@ -8161,6 +8249,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options relating to Bzlmod output and semantics
 
@@ -8187,6 +8276,7 @@ Options relating to Bzlmod output and semantics
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 Miscellaneous options, not otherwise categorized.
 
 <ParamField path="--deleted_packages" type="comma-separated list of package names">
@@ -8207,6 +8297,7 @@ Miscellaneous options, not otherwise categorized.
 <ParamField path="--[no]show_loading_progress" type="boolean" default="true">
   If enabled, causes Bazel to print "Loading package:" messages.
 </ParamField>
+
 
 Options that control build execution
 
@@ -8239,6 +8330,7 @@ Options that control build execution
 
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Options that configure the toolchain used for action execution
 
@@ -8411,6 +8503,7 @@ Options that configure the toolchain used for action execution
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that control the output of the command
 
 <ParamField path="--[no]apple_generate_dsym" type="boolean" default="false">
@@ -8516,6 +8609,7 @@ Options that control the output of the command
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -9084,6 +9178,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]check_visibility" type="boolean" default="true">
@@ -9169,6 +9264,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 Options that affect the signing outputs of a build
 
 <ParamField path="--apk_signing_method" type="v1, v2, v1_v2 or v4" default="v1_v2">
@@ -9183,6 +9279,7 @@ Options that affect the signing outputs of a build
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_disallow_sdk_frameworks_attributes" type="boolean" default="false">
@@ -9196,6 +9293,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -9273,6 +9371,7 @@ Options that govern the behavior of the test environment or test runner
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER)
 </ParamField>
 
+
 Options that trigger optimizations of the build time
 
 <ParamField path="--[no]cc_dotd_files" type="boolean" default="true">
@@ -9332,6 +9431,7 @@ Options that trigger optimizations of the build time
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--toolchain_resolution_debug" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths" default="-.*">
@@ -9346,6 +9446,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
 
+
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
 <ParamField path="--flag_alias" type="a 'name=label' flag alias">
@@ -9356,6 +9457,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -9606,6 +9708,7 @@ Miscellaneous options, not otherwise categorized.
   If enabled, this option causes Java compilation to use interface jars. This will result in faster incremental compilation, but error messages can be different.
 </ParamField>
 
+
 ## Help Options {#help}
 
 Options that affect the verbosity, format or location of logging
@@ -9636,6 +9739,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+
 ## Info Options {#info}
 
 Inherits all options from [build](#build).
@@ -9648,6 +9752,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--[no]show_make_env" type="boolean" default="false">
@@ -9655,6 +9760,7 @@ Options that affect the verbosity, format or location of logging
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
+
 
 ## License Options {#license}
 
@@ -9670,6 +9776,7 @@ Options that control build execution
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
 </ParamField>
 
+
 Options that configure the toolchain used for action execution
 
 <ParamField path="--adb" type="a string">
@@ -9677,6 +9784,7 @@ Options that configure the toolchain used for action execution
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
+
 
 Options that control the output of the command
 
@@ -9691,6 +9799,7 @@ Options that control the output of the command
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -9732,6 +9841,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--incremental_install_verbosity" type="a string">
@@ -9739,6 +9849,7 @@ Options that affect the verbosity, format or location of logging
 
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
+
 
 ## Mod Options {#mod}
 
@@ -9774,6 +9885,7 @@ Options that control build execution
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that configure the toolchain used for action execution
 
 <ParamField path="--[no]incompatible_bazel_test_exec_run_under" type="boolean" default="true">
@@ -9785,6 +9897,7 @@ Options that configure the toolchain used for action execution
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that control the output of the command
 
@@ -9837,6 +9950,7 @@ Options that control the output of the command
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -10065,6 +10179,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]check_visibility" type="boolean" default="true">
@@ -10102,6 +10217,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_config_setting_private_default_visibility" type="boolean" default="false">
@@ -10115,6 +10231,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -10133,6 +10250,7 @@ Options that govern the behavior of the test environment or test runner
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Options relating to the output and semantics of the `mod` subcommand
 
@@ -10235,6 +10353,7 @@ Options relating to the output and semantics of the `mod` subcommand
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--[no]verbose_visibility_errors" type="boolean" default="false">
@@ -10242,6 +10361,7 @@ Options that affect the verbosity, format or location of logging
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
@@ -10253,6 +10373,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -10275,6 +10396,7 @@ Miscellaneous options, not otherwise categorized.
   If enabled, causes Bazel to print "Loading package:" messages.
 </ParamField>
 
+
 ## Print_action Options {#print_action}
 
 Inherits all options from [build](#build).
@@ -10286,6 +10408,7 @@ Miscellaneous options, not otherwise categorized.
 
   *May be used multiple times; values are accumulated.*
 </ParamField>
+
 
 ## Query Options {#query}
 
@@ -10329,6 +10452,7 @@ Options that control build execution
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that configure the toolchain used for action execution
 
 <ParamField path="--[no]incompatible_bazel_test_exec_run_under" type="boolean" default="true">
@@ -10340,6 +10464,7 @@ Options that configure the toolchain used for action execution
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that control the output of the command
 
@@ -10392,6 +10517,7 @@ Options that control the output of the command
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -10620,6 +10746,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]check_visibility" type="boolean" default="true">
@@ -10657,6 +10784,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_config_setting_private_default_visibility" type="boolean" default="false">
@@ -10670,6 +10798,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -10688,6 +10817,7 @@ Options that govern the behavior of the test environment or test runner
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Options relating to query output and semantics
 
@@ -10936,6 +11066,7 @@ Options relating to query output and semantics
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--[no]verbose_visibility_errors" type="boolean" default="false">
@@ -10943,6 +11074,7 @@ Options that affect the verbosity, format or location of logging
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
@@ -10954,6 +11086,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -10975,6 +11108,7 @@ Miscellaneous options, not otherwise categorized.
 <ParamField path="--[no]show_loading_progress" type="boolean" default="true">
   If enabled, causes Bazel to print "Loading package:" messages.
 </ParamField>
+
 
 ## Run Options {#run}
 
@@ -11008,6 +11142,7 @@ Options that appear before the command and are parsed by the client
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
 <ParamField path="--script_path" type="a path" default="see description">
@@ -11016,6 +11151,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--[no]omit_run_args" type="boolean" default="true">
@@ -11023,6 +11159,7 @@ Options that affect the verbosity, format or location of logging
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
+
 
 ## Shutdown Options {#shutdown}
 
@@ -11033,6 +11170,7 @@ Options that control the output of the command
 
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 </ParamField>
+
 
 ## Test Options {#test}
 
@@ -11058,6 +11196,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 ## Vendor Options {#vendor}
 
 Inherits all options from [test](#test).
@@ -11078,6 +11217,7 @@ Options that control build execution
   Tags: [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_config_setting_private_default_visibility" type="boolean" default="false">
@@ -11092,6 +11232,7 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
+
 Options relating to Bzlmod output and semantics
 
 <ParamField path="--repo" type="a string">
@@ -11102,6 +11243,7 @@ Options relating to Bzlmod output and semantics
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -11123,6 +11265,7 @@ Miscellaneous options, not otherwise categorized.
 <ParamField path="--[no]show_loading_progress" type="boolean" default="true">
   If enabled, causes Bazel to print "Loading package:" messages.
 </ParamField>
+
 
 Options that control build execution
 
@@ -11155,6 +11298,7 @@ Options that control build execution
 
   Tags: [`execution`](#effect_tag_EXECUTION), [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
+
 
 Options that configure the toolchain used for action execution
 
@@ -11327,6 +11471,7 @@ Options that configure the toolchain used for action execution
   Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+
 Options that control the output of the command
 
 <ParamField path="--[no]apple_generate_dsym" type="boolean" default="false">
@@ -11432,6 +11577,7 @@ Options that control the output of the command
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
+
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
 
@@ -12000,6 +12146,7 @@ Options that let the user configure the intended output, affecting its value, as
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
 
+
 Options that affect how strictly Bazel enforces valid build inputs (rule definitions,  flag combinations, etc.)
 
 <ParamField path="--[no]check_visibility" type="boolean" default="true">
@@ -12085,6 +12232,7 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 Options that affect the signing outputs of a build
 
 <ParamField path="--apk_signing_method" type="v1, v2, v1_v2 or v4" default="v1_v2">
@@ -12099,6 +12247,7 @@ Options that affect the signing outputs of a build
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
 </ParamField>
 
+
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
 <ParamField path="--[no]incompatible_disallow_sdk_frameworks_attributes" type="boolean" default="false">
@@ -12112,6 +12261,7 @@ This option affects semantics of the Starlark language or the build API accessib
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
+
 
 Options that govern the behavior of the test environment or test runner
 
@@ -12189,6 +12339,7 @@ Options that govern the behavior of the test environment or test runner
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER)
 </ParamField>
 
+
 Options that trigger optimizations of the build time
 
 <ParamField path="--[no]cc_dotd_files" type="boolean" default="true">
@@ -12248,6 +12399,7 @@ Options that trigger optimizations of the build time
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE)
 </ParamField>
 
+
 Options that affect the verbosity, format or location of logging
 
 <ParamField path="--toolchain_resolution_debug" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths" default="-.*">
@@ -12262,6 +12414,7 @@ Options that affect the verbosity, format or location of logging
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
 
+
 Options specifying or altering a generic input to a Bazel command that does not fall into other categories.
 
 <ParamField path="--flag_alias" type="a 'name=label' flag alias">
@@ -12272,6 +12425,7 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
   Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
+
 
 Miscellaneous options, not otherwise categorized.
 
@@ -12522,6 +12676,7 @@ Miscellaneous options, not otherwise categorized.
   If enabled, this option causes Java compilation to use interface jars. This will result in faster incremental compilation, but error messages can be different.
 </ParamField>
 
+
 ## Version Options {#version}
 
 Options that let the user configure the intended output, affecting its value, as opposed to its existence
@@ -12531,6 +12686,7 @@ Options that let the user configure the intended output, affecting its value, as
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
+
 
 ### Option Effect Tags
 
