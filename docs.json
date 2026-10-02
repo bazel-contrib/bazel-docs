@@ -472,10 +472,6 @@
       "destination": "/install"
     },
     {
-      "source": "/survey",
-      "destination": "https://forms.gle/cmMSQwL7hF49kAwu8"
-    },
-    {
       "source": "/start/bazel-intro",
       "destination": "/about/intro"
     },
