@@ -2,8 +2,10 @@
 title: 'cache repository rules'
 ---
 
+
 The following functions can be loaded from
 `@bazel_tools//tools/build_defs/repo:cache.bzl`.
+
 
 Returns the default canonical id to use for downloads.
 
@@ -11,11 +13,11 @@ Returns the default canonical id to use for downloads.
 
 ## get_default_canonical_id
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:cache.bzl", "get_default_canonical_id")
 
 get_default_canonical_id(<a href="#get_default_canonical_id-repository_ctx">repository_ctx</a>, <a href="#get_default_canonical_id-urls">urls</a>)
-</pre>
+```
 
 Returns the default canonical id to use for downloads.
 
@@ -33,6 +35,7 @@ load("@bazel_tools//tools/build_defs/repo:cache.bzl", "get_default_canonical_id"
     ),
 ```
 
+
 ### Parameters
 
 <table class="params-table">
@@ -44,7 +47,6 @@ load("@bazel_tools//tools/build_defs/repo:cache.bzl", "get_default_canonical_id"
 <tr id="get_default_canonical_id-repository_ctx">
 <td><code>repository_ctx</code></td>
 <td>
-
 required.
 
 <p>
@@ -58,7 +60,6 @@ function.
 <tr id="get_default_canonical_id-urls">
 <td><code>urls</code></td>
 <td>
-
 required.
 
 <p>
@@ -71,4 +72,5 @@ A list of URLs matching what is passed to `repository_ctx.download` and
 </tr>
 </tbody>
 </table>
+
 
