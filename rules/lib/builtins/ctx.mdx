@@ -1,5 +1,5 @@
 ---
-title: 'ctx {#modules.ctx}'
+title: 'ctx'
 ---
 A context object that is passed to the implementation function for a rule or aspect. It provides access to the information and methods needed to analyze the current target.
 
@@ -290,7 +290,7 @@ tuple ctx.resolve_command(*, command='', attribute=None, expand_locations=False,
 | --- | --- |
 | `command` | [string](../core/string); default is `''`  Command to resolve. |
 | `attribute` | [string](../core/string); or `None`; default is `None`  Name of the associated attribute for which to issue an error, or None. |
-| `expand_locations` | [bool](../core/bool); default is `False`  Shall we expand $(location) variables? See [ctx.expand_location()](#expand_location) for more details. |
+| `expand_locations` | [bool](../core/bool); default is `False`  Shall we expand &#36;(location) variables? See [ctx.expand_location()](#expand_location) for more details. |
 | `make_variables` | [dict](../core/dict); or `None`; default is `None`  Make variables to expand, or None. |
 | `tools` | [sequence](../core/list) of [Target](../builtins/Target)s; default is `[]`  List of tools (list of targets). |
 | `label_dict` | [dict](../core/dict); default is `{}`  Dictionary of resolved labels and the corresponding list of Files (a dict of Label : list of Files). |

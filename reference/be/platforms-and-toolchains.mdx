@@ -15,7 +15,7 @@ The user should be familiar with the concepts explained [here](/extending/platfo
 * [toolchain_type](#toolchain_type)
 
 ## constraint_setting {#constraint_setting}
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintSettingRule.java)
+[View rule source](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintSettingRule.java)
 
 ```
 constraint_setting(name, aspect_hints, default_constraint_value, deprecation, features, licenses, refines_constraint_value, tags, testonly, visibility)
@@ -41,7 +41,7 @@ define a platform targeting an obscure cpu architecture.
 | `refines_constraint_value` | [Label](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); default is `None` The label of a `constraint_value` that this setting refines. If set, any `platform` that specifies a non-default `constraint_value` for this setting must also specify the refined `constraint_value` in its `constraint_values` attribute. Platforms that resolve to the default `constraint_value` for this setting (either implicitly via `default_constraint_value` or explicitly) are exempt from this requirement. When both the refined `constraint_value` and a `constraint_value` for this setting appear as conditions in the same `select` and both are satisfied, the condition that includes the refining `constraint_value` is considered more specific and is chosen unambiguously. |
 
 ## constraint_value {#constraint_value}
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintValueRule.java)
+[View rule source](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ConstraintValueRule.java)
 
 ```
 constraint_value(name, aspect_hints, constraint_setting, deprecation, features, licenses, tags, testonly, visibility)
@@ -72,7 +72,7 @@ Platforms can then declare that they have the `mips` architecture as an alternat
 | `constraint_setting` | [Label](/concepts/labels); [nonconfigurable](common-definitions#configurable-attributes); required The `constraint_setting` for which this `constraint_value` is a possible choice. |
 
 ## platform {#platform}
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/PlatformRule.java)
+[View rule source](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/PlatformRule.java)
 
 ```
 platform(name, aspect_hints, constraint_values, deprecation, exec_properties, features, flags, licenses, missing_toolchain_error, parents, required_settings, tags, testonly, visibility)
@@ -258,7 +258,7 @@ In this example, the child platforms have the following properties:
 | `required_settings` | List of [labels](/concepts/labels); default is `[]` A list of `config_setting`s that must be satisfied by the target configuration in order for this platform to be used as an execution platform during toolchain resolution. Required settings are not inherited from parent platforms. |
 
 ## toolchain {#toolchain}
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ToolchainRule.java)
+[View rule source](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/platform/ToolchainRule.java)
 
 ```
 toolchain(name, aspect_hints, deprecation, exec_compatible_with, features, licenses, package_metadata, tags, target_compatible_with, target_settings, testonly, toolchain, toolchain_type, use_target_platform_constraints, visibility)
@@ -281,7 +281,7 @@ details.
 | `use_target_platform_constraints` | Boolean; [nonconfigurable](common-definitions#configurable-attributes); default is `False` If `True`, this toolchain behaves as if its `exec_compatible_with` and `target_compatible_with` constraints are set to those of the current target platform. `exec_compatible_with` and `target_compatible_with` must not be set in that case. |
 
 ## toolchain_type {#toolchain_type}
-[View rule sourceopen_in_new](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/ToolchainType.java)
+[View rule source](https://github.com/bazelbuild/bazel/blob/master/src/main/java/com/google/devtools/build/lib/rules/ToolchainType.java)
 
 ```
 toolchain_type(name, aspect_hints, compatible_with, deprecation, features, no_match_error, package_metadata, restricted_to, tags, target_compatible_with, testonly, visibility)

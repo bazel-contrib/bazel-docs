@@ -2,8 +2,10 @@
 title: 'http repository rules'
 ---
 
+
 The following functions can be loaded from
 `@bazel_tools//tools/build_defs/repo:http.bzl`.
+
 
 Rules for downloading files and archives over HTTP.
 
@@ -33,7 +35,7 @@ http_archive(name = "foo", urls = [...])
 
 ## http_archive
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(<a href="#http_archive-name">name</a>, <a href="#http_archive-add_prefix">add_prefix</a>, <a href="#http_archive-auth_patterns">auth_patterns</a>, <a href="#http_archive-build_file">build_file</a>, <a href="#http_archive-build_file_content">build_file_content</a>, <a href="#http_archive-canonical_id">canonical_id</a>, <a href="#http_archive-files">files</a>,
@@ -41,7 +43,7 @@ http_archive(<a href="#http_archive-name">name</a>, <a href="#http_archive-add_p
              <a href="#http_archive-patches">patches</a>, <a href="#http_archive-remote_file_integrity">remote_file_integrity</a>, <a href="#http_archive-remote_file_urls">remote_file_urls</a>, <a href="#http_archive-remote_module_file_integrity">remote_module_file_integrity</a>,
              <a href="#http_archive-remote_module_file_urls">remote_module_file_urls</a>, <a href="#http_archive-remote_patch_strip">remote_patch_strip</a>, <a href="#http_archive-remote_patches">remote_patches</a>, <a href="#http_archive-sha256">sha256</a>, <a href="#http_archive-strip_components">strip_components</a>,
              <a href="#http_archive-strip_prefix">strip_prefix</a>, <a href="#http_archive-type">type</a>, <a href="#http_archive-url">url</a>, <a href="#http_archive-urls">urls</a>, <a href="#http_archive-workspace_file">workspace_file</a>, <a href="#http_archive-workspace_file_content">workspace_file_content</a>)
-</pre>
+```
 
 Downloads a Bazel repository as a compressed archive file, decompresses it,
 and makes its targets available for binding.
@@ -99,7 +101,6 @@ Examples:
 <tr id="http_archive-name">
 <td><code>name</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
 <p>
@@ -112,7 +113,6 @@ A unique name for this repository.
 <tr id="http_archive-add_prefix">
 <td><code>add_prefix</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -130,7 +130,6 @@ and `strip_prefix = "foo-1.2.3"`.
 <tr id="http_archive-auth_patterns">
 <td><code>auth_patterns</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
 <p>
@@ -173,7 +172,6 @@ Authorization: Bearer RANDOM-TOKEN
 <tr id="http_archive-build_file">
 <td><code>build_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -186,7 +184,6 @@ The file to use as the BUILD file for this repository.This attribute is an absol
 <tr id="http_archive-build_file_content">
 <td><code>build_file_content</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -199,7 +196,6 @@ The content for the BUILD file for this repository. Either build_file or build_f
 <tr id="http_archive-canonical_id">
 <td><code>canonical_id</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -221,7 +217,6 @@ machines without the file in the cache. This behavior can be disabled with
 <tr id="http_archive-files">
 <td><code>files</code></td>
 <td>
-
 Dictionary: String -> Label; optional
 
 <p>
@@ -237,7 +232,6 @@ repository. Files are symlinked after remote files are downloaded and patches (`
 <tr id="http_archive-integrity">
 <td><code>integrity</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -255,7 +249,6 @@ easier but either this attribute or `sha256` should be set before shipping.
 <tr id="http_archive-netrc">
 <td><code>netrc</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -268,7 +261,6 @@ Location of the .netrc file to use for authentication
 <tr id="http_archive-patch_args">
 <td><code>patch_args</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -281,7 +273,6 @@ The arguments given to the patch tool. Defaults to -p0 (see the `patch_strip` at
 <tr id="http_archive-patch_cmds">
 <td><code>patch_cmds</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -294,7 +285,6 @@ Sequence of Bash commands to be applied on Linux/Macos after patches are applied
 <tr id="http_archive-patch_cmds_win">
 <td><code>patch_cmds_win</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -307,7 +297,6 @@ Sequence of Powershell commands to be applied on Windows after patches are appli
 <tr id="http_archive-patch_strip">
 <td><code>patch_strip</code></td>
 <td>
-
 Integer; optional
 
 <p>
@@ -320,7 +309,6 @@ When set to `N`, this is equivalent to inserting `-pN` to the beginning of `patc
 <tr id="http_archive-patch_tool">
 <td><code>patch_tool</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -333,7 +321,6 @@ The patch(1) utility to use. If this is specified, Bazel will use the specified 
 <tr id="http_archive-patches">
 <td><code>patches</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">List of labels</a>; optional
 
 <p>
@@ -346,7 +333,6 @@ A list of files that are to be applied as patches after extracting the archive. 
 <tr id="http_archive-remote_file_integrity">
 <td><code>remote_file_integrity</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
 <p>
@@ -359,7 +345,6 @@ A map of file relative paths (key) to its integrity value (value). These relativ
 <tr id="http_archive-remote_file_urls">
 <td><code>remote_file_urls</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> List of strings</a>; optional
 
 <p>
@@ -377,7 +362,6 @@ will be overwritten.
 <tr id="http_archive-remote_module_file_integrity">
 <td><code>remote_module_file_integrity</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -390,7 +374,6 @@ For internal use only.
 <tr id="http_archive-remote_module_file_urls">
 <td><code>remote_module_file_urls</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -403,7 +386,6 @@ For internal use only.
 <tr id="http_archive-remote_patch_strip">
 <td><code>remote_patch_strip</code></td>
 <td>
-
 Integer; optional
 
 <p>
@@ -416,7 +398,6 @@ The number of leading slashes to be stripped from the file name in the remote pa
 <tr id="http_archive-remote_patches">
 <td><code>remote_patches</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
 <p>
@@ -429,7 +410,6 @@ A map of patch file URL to its integrity value, they are applied after extractin
 <tr id="http_archive-sha256">
 <td><code>sha256</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -447,7 +427,6 @@ easier but either this attribute or `integrity` should be set before shipping.
 <tr id="http_archive-strip_components">
 <td><code>strip_components</code></td>
 <td>
-
 Integer; optional
 
 <p>
@@ -463,7 +442,6 @@ Only one of `strip_components` and `strip_prefix` can be set.
 <tr id="http_archive-strip_prefix">
 <td><code>strip_prefix</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -495,7 +473,6 @@ Only one of `strip_prefix` and `strip_components` can be set.
 <tr id="http_archive-type">
 <td><code>type</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -512,7 +489,6 @@ following: `"zip"`, `"jar"`, `"war"`, `"aar"`, `"nupkg"`, `"whl"`, `"tar"`, `"ta
 <tr id="http_archive-url">
 <td><code>url</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -531,7 +507,6 @@ to specify alternative URLs to fetch from.
 <tr id="http_archive-urls">
 <td><code>urls</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -550,7 +525,6 @@ If all downloads fail, the rule will fail.
 <tr id="http_archive-workspace_file">
 <td><code>workspace_file</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels">Label</a>; optional
 
 <p>
@@ -563,7 +537,6 @@ No-op attribute; do not use.
 <tr id="http_archive-workspace_file_content">
 <td><code>workspace_file_content</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -582,16 +555,17 @@ This repository rule depends on the following environment variables:
 
 * `BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID`
 
+
 <a id="http_file"></a>
 
 ## http_file
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:http.bzl", "http_file")
 
 http_file(<a href="#http_file-name">name</a>, <a href="#http_file-auth_patterns">auth_patterns</a>, <a href="#http_file-canonical_id">canonical_id</a>, <a href="#http_file-downloaded_file_path">downloaded_file_path</a>, <a href="#http_file-executable">executable</a>, <a href="#http_file-integrity">integrity</a>, <a href="#http_file-netrc">netrc</a>,
           <a href="#http_file-sha256">sha256</a>, <a href="#http_file-url">url</a>, <a href="#http_file-urls">urls</a>)
-</pre>
+```
 
 Downloads a file from a URL and makes it available to be used as a file
 group.
@@ -624,7 +598,6 @@ Examples:
 <tr id="http_file-name">
 <td><code>name</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
 <p>
@@ -637,7 +610,6 @@ A unique name for this repository.
 <tr id="http_file-auth_patterns">
 <td><code>auth_patterns</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
 <p>
@@ -680,7 +652,6 @@ Authorization: Bearer RANDOM-TOKEN
 <tr id="http_file-canonical_id">
 <td><code>canonical_id</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -702,7 +673,6 @@ machines without the file in the cache. This behavior can be disabled with
 <tr id="http_file-downloaded_file_path">
 <td><code>downloaded_file_path</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -715,7 +685,6 @@ Path assigned to the file downloaded
 <tr id="http_file-executable">
 <td><code>executable</code></td>
 <td>
-
 Boolean; optional
 
 <p>
@@ -728,7 +697,6 @@ If the downloaded file should be made executable.
 <tr id="http_file-integrity">
 <td><code>integrity</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -746,7 +714,6 @@ easier but either this attribute or `sha256` should be set before shipping.
 <tr id="http_file-netrc">
 <td><code>netrc</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -759,7 +726,6 @@ Location of the .netrc file to use for authentication
 <tr id="http_file-sha256">
 <td><code>sha256</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -777,7 +743,6 @@ easier but should be set before shipping.
 <tr id="http_file-url">
 <td><code>url</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -796,7 +761,6 @@ to specify alternative URLs to fetch from.
 <tr id="http_file-urls">
 <td><code>urls</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -821,16 +785,17 @@ This repository rule depends on the following environment variables:
 
 * `BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID`
 
+
 <a id="http_jar"></a>
 
 ## http_jar
 
-<pre>
+```
 load("@bazel//tools/build_defs/repo:http.bzl", "http_jar")
 
 http_jar(<a href="#http_jar-name">name</a>, <a href="#http_jar-auth_patterns">auth_patterns</a>, <a href="#http_jar-canonical_id">canonical_id</a>, <a href="#http_jar-downloaded_file_name">downloaded_file_name</a>, <a href="#http_jar-integrity">integrity</a>, <a href="#http_jar-netrc">netrc</a>, <a href="#http_jar-sha256">sha256</a>, <a href="#http_jar-url">url</a>,
          <a href="#http_jar-urls">urls</a>)
-</pre>
+```
 
 Downloads a jar from a URL and makes it available as java_import
 
@@ -872,7 +837,6 @@ Examples:
 <tr id="http_jar-name">
 <td><code>name</code></td>
 <td>
-
 <a href="https://bazel.build/concepts/labels#target-names">Name</a>; required
 
 <p>
@@ -885,7 +849,6 @@ A unique name for this repository.
 <tr id="http_jar-auth_patterns">
 <td><code>auth_patterns</code></td>
 <td>
-
 <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a>; optional
 
 <p>
@@ -928,7 +891,6 @@ Authorization: Bearer RANDOM-TOKEN
 <tr id="http_jar-canonical_id">
 <td><code>canonical_id</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -950,7 +912,6 @@ machines without the file in the cache. This behavior can be disabled with
 <tr id="http_jar-downloaded_file_name">
 <td><code>downloaded_file_name</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -963,7 +924,6 @@ Filename assigned to the jar downloaded
 <tr id="http_jar-integrity">
 <td><code>integrity</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -981,7 +941,6 @@ easier but either this attribute or `sha256` should be set before shipping.
 <tr id="http_jar-netrc">
 <td><code>netrc</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -994,7 +953,6 @@ Location of the .netrc file to use for authentication
 <tr id="http_jar-sha256">
 <td><code>sha256</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -1012,7 +970,6 @@ easier but either this attribute or `integrity` should be set before shipping.
 <tr id="http_jar-url">
 <td><code>url</code></td>
 <td>
-
 String; optional
 
 <p>
@@ -1033,7 +990,6 @@ The URL must end in `.jar`.
 <tr id="http_jar-urls">
 <td><code>urls</code></td>
 <td>
-
 List of strings; optional
 
 <p>
@@ -1059,4 +1015,5 @@ All URLs must end in `.jar`.
 This repository rule depends on the following environment variables:
 
 * `BAZEL_HTTP_RULES_URLS_AS_DEFAULT_CANONICAL_ID`
+
 
