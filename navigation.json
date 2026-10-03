@@ -9,6 +9,14 @@
       ]
     },
     {
+      "version": "9.2",
+      "languages": [
+        {
+          "$ref": "./navigation/9.2.en.json"
+        }
+      ]
+    },
+    {
       "version": "9.1",
       "languages": [
         {
