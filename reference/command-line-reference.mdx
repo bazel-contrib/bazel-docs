@@ -2103,6 +2103,15 @@ Options relating to query output and semantics
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 </ParamField>
 
+<ParamField path="--null" type="void">
+  Whether each format is terminated with \0 instead of newline.
+
+  Expands to:
+  - `--line_terminator_null=true`
+
+  Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+</ParamField>
+
 <ParamField path="--output" type="a string" default="text">
   The format in which the aquery results should be printed. Allowed values for aquery are: text, textproto, proto, streamed_proto, jsonproto.
 
@@ -6597,6 +6606,15 @@ Options relating to query output and semantics
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 </ParamField>
 
+<ParamField path="--null" type="void">
+  Whether each format is terminated with \0 instead of newline.
+
+  Expands to:
+  - `--line_terminator_null=true`
+
+  Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+</ParamField>
+
 <ParamField path="--output" type="a string" default="label">
   The format in which the cquery results should be printed. Allowed values for cquery are: label, label_kind, textproto, transitions, proto, streamed_proto, jsonproto. If you select 'transitions', you also have to specify the --transitions=(lite|full) option.
 
@@ -10843,6 +10861,12 @@ Options relating to query output and semantics
   If true, uses a Query implementation that does not make a copy of the graph. The new implementation only supports --order_output=no, as well as only a subset of output formatters.
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
+</ParamField>
+
+<ParamField path="--[no]experimental_parallel_streamed_proto_output" type="boolean" default="false">
+  If true, --output=streamed_proto serializes targets in parallel while preserving output order. Has no effect when --proto:rule_classes is enabled.
+
+  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
 
 <ParamField path="--graph:conditional_edges_limit" type="an integer" default="4">
