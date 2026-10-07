@@ -11259,6 +11259,14 @@ This option affects semantics of the Starlark language or the build API accessib
 
 Options relating to Bzlmod output and semantics
 
+<ParamField path="--[no]lockfile_deps" type="boolean" default="false">
+  Also vendors the repositories required to update the lockfile, e.g. with `bazel mod tidy`, while fetching is disabled. These include the repositories hosting all module
+  extensions in the dependency graph, even those only used by dependencies, as well as
+  buildozer. Can be combined with target patterns, but not with `--repo`.
+
+  Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
+</ParamField>
+
 <ParamField path="--repo" type="a string">
   Only vendors the specified repository, which can be either `@apparent_repo_name` or
   `@@canonical_repo_name`. This option can be set multiple times.

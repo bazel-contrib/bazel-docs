@@ -205,6 +205,10 @@ Overrides one or more repos defined by the given module extension with the given
 visible to the current module. This is ignored if the current module is not the root
 module or `--ignore_dev_dependency` is enabled.
 
+A repository may be overridden with the root module itself. In that case, the root
+module must refer to itself by its own repository name instead of importing the
+overridden repository with `use_repo`. Other modules may still import it.
+
 Use [`inject_repo`](#inject_repo) instead to add a new repo.
 
 ### Parameters
