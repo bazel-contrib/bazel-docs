@@ -10,6 +10,7 @@
             "versions/9.2.0/about/intro",
             "versions/9.2.0/about/why",
             "versions/9.2.0/about/vision",
+            "versions/9.2.0/about/roadmap",
             "versions/9.2.0/about/faq"
           ]
         },
@@ -222,7 +223,9 @@
         },
         {
           "group": "Flag cheatsheet",
-          "pages": []
+          "pages": [
+            "versions/9.2.0/reference/flag-cheatsheet"
+          ]
         },
         {
           "group": "Skyframe",
@@ -245,6 +248,7 @@
             "versions/9.2.0/extending/aspects",
             "versions/9.2.0/extending/rules",
             "versions/9.2.0/extending/config",
+            "versions/9.2.0/extending/platforms",
             "versions/9.2.0/extending/exec-groups",
             "versions/9.2.0/extending/auto-exec-groups"
           ]
@@ -423,12 +427,15 @@
             "versions/9.2.0/rules/lib/fragments",
             "versions/9.2.0/rules/lib/fragments/apple",
             "versions/9.2.0/rules/lib/fragments/bazel_android",
+            "versions/9.2.0/rules/lib/fragments/bazel_py",
             "versions/9.2.0/rules/lib/fragments/coverage",
             "versions/9.2.0/rules/lib/fragments/cpp",
+            "versions/9.2.0/rules/lib/fragments/j2objc",
             "versions/9.2.0/rules/lib/fragments/java",
             "versions/9.2.0/rules/lib/fragments/objc",
             "versions/9.2.0/rules/lib/fragments/platform",
-            "versions/9.2.0/rules/lib/fragments/proto"
+            "versions/9.2.0/rules/lib/fragments/proto",
+            "versions/9.2.0/rules/lib/fragments/py"
           ]
         },
         {
