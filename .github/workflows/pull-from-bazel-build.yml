@@ -184,7 +184,7 @@ jobs:
           elif [[ "${{ steps.checkout-submodule.outputs.is_ancient }}" == "true" ]]; then
             echo "PR base commit is ancient or upstream/docs does not exist; skipping pipeline."
             echo "should_run=false" >> "$GITHUB_OUTPUT"
-          elif [[ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]]; then
+          elif [[ "${{ steps.changed-files.outputs.any_modified }}" == "true" ]]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
           else
             echo "should_run=false" >> "$GITHUB_OUTPUT"
