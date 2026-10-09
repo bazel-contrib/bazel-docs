@@ -83,6 +83,12 @@ Options that appear before the command and are parsed by the client
   Tags: [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 </ParamField>
 
+<ParamField path="--[no]delete_output_base_on_shutdown" type="boolean" default="false">
+  If true, the server will delete its output base directory upon shutting down (whether via explicit shutdown, idle timeout, low memory, or batch mode completion). Only supported on local filesystems; network filesystems (such as NFS) are not supported.
+
+  Tags: [`loses_incremental_state`](#effect_tag_LOSES_INCREMENTAL_STATE), [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
+</ParamField>
+
 <ParamField path="--digest_function" type="hash function" default="see description">
   The hash function to use when computing file digests.
 
