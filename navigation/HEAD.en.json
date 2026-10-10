@@ -192,7 +192,6 @@
             "query/language",
             "query/quickstart",
             "query/guide",
-            "query/cquery",
             "query/aquery"
           ]
         },
