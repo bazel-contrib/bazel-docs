@@ -1,0 +1,74 @@
+---
+title: "Bazel User Survey 2026: Improvement Areas"
+description: "Background on the improvement areas in the 2026 Bazel User Survey."
+---
+
+# Bazel improvement areas
+
+The survey asks you to rank the improvements that would matter most to you. Move any areas you want counted above the cutoff line, in priority order. You can rank as many or as few as you like.
+
+These descriptions clarify what each option covers. They are examples of the underlying problem, not commitments to a particular implementation.
+
+## Documentation
+
+Make Bazel documentation easier to discover, current for supported releases, and organized around tasks users need to complete. Examples include end-to-end onboarding, working sample projects, and clearer guidance for toolchains, configuration, runfiles, Bzlmod, performance, and remote builds.
+
+## Diagnostics
+
+Make failures and unexpected rebuilds easier to understand and fix. Bazel should identify the target, dependency, setting, or action responsible; explain cache misses; show trustworthy progress; and provide useful information about long-running actions.
+
+## IDE tooling
+
+Make editor behavior consistent with command-line builds. This includes reliable project synchronization, navigation, completion, refactoring, diagnostics, test integration, and language-server support for Starlark.
+
+## Performance
+
+Reduce time and resource use across local and CI builds. Examples include faster cold builds, lower memory consumption, better critical-path scheduling, and avoiding CPU or memory oversubscription when actions and tests launch their own parallel work.
+
+## Analysis
+
+Avoid repeating expensive loading and analysis work when much of the build graph has not changed. Reuse useful analysis across configuration changes, commands, Bazel server restarts, and—where practical—different machines.
+
+## Remote builds
+
+Make remote caching and remote execution faster and more dependable. Problems include uploads delaying build completion, unnecessary artifact transfers, weak failover, proxy or redirect incompatibilities, load-balancing limitations, and inconsistent cross-platform execution.
+
+## Dependencies
+
+Make external dependency handling faster and easier to maintain. Bazel should avoid fetching repositories that requested targets do not need, manage repository caches efficiently, and improve Bzlmod workflows such as local overrides, module development, and CI validation.
+
+## Configuration
+
+Make Bazel configuration easier to compose safely across repositories, projects, developers, and CI. Examples include predictable `.bazelrc` layering, project-level defaults, reusable environment settings, environment interpolation, and safer handling of credentials.
+
+## Compatibility
+
+Reduce breakage when upgrading Bazel or independently released rulesets. Users should need less coordinated version pinning and migration work, and incompatibilities should fail with clear explanations and concrete remediation.
+
+## Starlark tooling
+
+Improve the experience of writing, testing, and debugging custom rules and macros. This includes useful static type checking, stronger editor support, better inspection and debugging tools, clearer APIs, and maintainable testing patterns.
+
+## Platforms
+
+Make toolchain resolution, platform configuration, and sandboxing more consistent across Linux, macOS, and Windows. Equivalent builds should provide comparable isolation, hermeticity, and cross-compilation behavior on developer machines and CI.
+
+## BUILD files
+
+Reduce the manual work required to create and maintain BUILD files. Language-aware tools should add and update targets and dependencies as source files change while producing output that teams can understand, review, and customize.
+
+## Supply chain
+
+Help teams understand and verify what enters a build. This includes generating software bills of materials (SBOMs), verifying external dependencies, recording provenance, and exposing the information needed for policy and security checks.
+
+## C++
+
+Provide production-ready support for C++20 modules beyond today's limited cases. Projects need interoperable toolchains, dependable dependency discovery, correct incremental and remote builds, and support for realistic target graphs.
+
+## Lazy loading
+
+Avoid evaluating or fetching code that requested targets never use. This includes lazy expansion of symbolic macros in BUILD files and avoiding external repository fetches caused only by loading `.bzl` files whose definitions are not needed.
+
+## Community
+
+Make it easier to get timely help, understand ownership, participate in technical discussions, and contribute improvements. Users should have clear paths for support, proposals, issue reporting, and ruleset or documentation contributions.
