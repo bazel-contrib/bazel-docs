@@ -4290,7 +4290,7 @@ Options that trigger optimizations of the build time
 </ParamField>
 
 <ParamField path="--experimental_active_directories" type="comma-separated list of options">
-  Active directories for Skyfocus and remote analysis caching. Specify as comma-separated workspace root-relative paths. This is a stateful flag. Defining one persists it for subsequent invocations, until it is redefined with a new set.
+  Active directories for remote analysis caching. Specify as comma-separated workspace root-relative paths.
 
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
@@ -4305,12 +4305,6 @@ Options that trigger optimizations of the build time
   Takes a list of OS signal numbers. If a local branch of dynamic execution gets killed with any of these signals, the remote branch will be allowed to finish instead. For persistent workers, this only affects signals that kill the worker process.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
-</ParamField>
-
-<ParamField path="--[no]experimental_enable_skyfocus" type="boolean" default="false">
-  If true, enable the use of --experimental_active_directories to reduce Bazel's memory footprint for incremental builds. This feature is known as Skyfocus.
-
-  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
 <ParamField path="--[no]experimental_memory_load_scheduling" type="boolean" default="false">
@@ -4387,18 +4381,6 @@ Options that affect the verbosity, format or location of logging
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--experimental_frontier_violation_check" type="strict, warn or disabled_for_testing" default="strict">
-  Strategies to handle potential incorrectness from changes beyond the frontier (i.e. outside the active directories)
-
-  Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
-</ParamField>
-
-<ParamField path="--[no]experimental_frontier_violation_verbose" type="boolean" default="false">
-  If true, Bazel will print instructions for fixing Skycache violations
-
-  Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-</ParamField>
-
 <ParamField path="--[no]experimental_materialize_param_files_directly" type="boolean" default="false">
   If materializing param files, do so with direct writes to disk.
 
@@ -4409,18 +4391,6 @@ Options that affect the verbosity, format or location of logging
   Whether to include the command-line residue in run build events which could contain the residue. By default, the residue is not included in run command build events that could contain the residue.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
-</ParamField>
-
-<ParamField path="--experimental_skyfocus_dump_keys" type="none, count or verbose" default="none">
-  For debugging Skyfocus. Dump the focused SkyKeys (roots, leafs, focused deps, focused rdeps).
-
-  Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
-</ParamField>
-
-<ParamField path="--[no]experimental_skyfocus_dump_post_gc_stats" type="boolean" default="false">
-  For debugging Skyfocus. If enabled, trigger manual GC before/after focusing to report heap sizes reductions. This will increase the Skyfocus latency.
-
-  Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
 
 <ParamField path="--[no]experimental_stream_log_file_uploads" type="boolean" default="false">
@@ -8212,7 +8182,7 @@ Options that control the output of the command
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
-<ParamField path="--skyframe" type="off, summary, count, keys, value, deps, rdeps, changed, function_graph, active_directories or active_directories_frontier_deps" default="off">
+<ParamField path="--skyframe" type="off, summary, count, keys, value, deps, rdeps, changed or function_graph" default="off">
   Dump the Skyframe graph.
 
   Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
