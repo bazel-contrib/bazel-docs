@@ -4554,6 +4554,12 @@ Options specifying or altering a generic input to a Bazel command that does not 
 
 Remote caching and execution options
 
+<ParamField path="--[no]experimental_check_rewound_action_outputs" type="boolean" default="false">
+  Fail if regenerating a rewound action changes its recorded output contents. This detects nondeterministic regeneration before dependent actions consume the new result. Best effort: requires previous output metadata and may miss changes when another shared action regenerates the outputs.
+
+  Tags: [`execution`](#effect_tag_EXECUTION), [`experimental`](#metadata_tag_EXPERIMENTAL)
+</ParamField>
+
 <ParamField path="--experimental_circuit_breaker_strategy" type="failure" default="see description">
   Specifies the strategy for the circuit breaker to use. Available strategies are "failure". On invalid value for the option the behavior same as the option is not set.
 
