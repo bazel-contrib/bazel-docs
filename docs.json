@@ -132,6 +132,10 @@
   },
   "redirects": [
     {
+      "source": "/community/user-survey-2026/improvement-areas.mdx",
+      "destination": "/community/user-survey-2026/improvement-areas"
+    },
+    {
       "source": "/docs/build-ref.html",
       "destination": "/concepts/labels"
     },
