@@ -10,6 +10,9 @@
             "versions/8.8.1/about/intro",
             "versions/8.8.1/about/why",
             "versions/8.8.1/about/vision",
+            "versions/8.8.1/about/roadmap",
+            "versions/8.8.1/community/roadmaps-configurability",
+            "versions/8.8.1/community/roadmaps-starlark",
             "versions/8.8.1/about/faq"
           ]
         },
@@ -76,7 +79,8 @@
             "versions/8.8.1/release/index",
             "versions/8.8.1/release/rolling",
             "versions/8.8.1/release/backward-compatibility",
-            "versions/8.8.1/release/rule-compatibility"
+            "versions/8.8.1/release/rule-compatibility",
+            "versions/8.8.1/versions/index"
           ]
         },
         {
@@ -209,6 +213,7 @@
             "versions/8.8.1/reference/be/python",
             "versions/8.8.1/reference/be/shell",
             "versions/8.8.1/reference/be/extra-actions",
+            "versions/8.8.1/reference/be/workspace",
             "versions/8.8.1/reference/be/be-nav"
           ]
         },
@@ -221,7 +226,9 @@
         },
         {
           "group": "Flag cheatsheet",
-          "pages": []
+          "pages": [
+            "versions/8.8.1/reference/flag-cheatsheet"
+          ]
         },
         {
           "group": "Skyframe",
@@ -244,6 +251,7 @@
             "versions/8.8.1/extending/aspects",
             "versions/8.8.1/extending/rules",
             "versions/8.8.1/extending/config",
+            "versions/8.8.1/extending/platforms",
             "versions/8.8.1/extending/exec-groups",
             "versions/8.8.1/extending/auto-exec-groups"
           ]
@@ -391,6 +399,8 @@
             "versions/8.8.1/rules/lib/providers/OutputGroupInfo",
             "versions/8.8.1/rules/lib/providers/PackageSpecificationInfo",
             "versions/8.8.1/rules/lib/providers/PlatformInfo",
+            "versions/8.8.1/rules/lib/providers/ProguardSpecProvider",
+            "versions/8.8.1/rules/lib/providers/ProtoRegistryProvider",
             "versions/8.8.1/rules/lib/providers/RunEnvironmentInfo",
             "versions/8.8.1/rules/lib/providers/TemplateVariableInfo",
             "versions/8.8.1/rules/lib/providers/ToolchainInfo",
@@ -408,6 +418,7 @@
             "versions/8.8.1/rules/lib/globals/build",
             "versions/8.8.1/rules/lib/globals/repo",
             "versions/8.8.1/rules/lib/globals/vendor",
+            "versions/8.8.1/rules/lib/globals/workspace",
             "versions/8.8.1/rules/lib/globals/bzl",
             "versions/8.8.1/rules/lib/globals/module"
           ]
@@ -418,12 +429,15 @@
             "versions/8.8.1/rules/lib/fragments",
             "versions/8.8.1/rules/lib/fragments/apple",
             "versions/8.8.1/rules/lib/fragments/bazel_android",
+            "versions/8.8.1/rules/lib/fragments/bazel_py",
             "versions/8.8.1/rules/lib/fragments/coverage",
             "versions/8.8.1/rules/lib/fragments/cpp",
+            "versions/8.8.1/rules/lib/fragments/j2objc",
             "versions/8.8.1/rules/lib/fragments/java",
             "versions/8.8.1/rules/lib/fragments/objc",
             "versions/8.8.1/rules/lib/fragments/platform",
-            "versions/8.8.1/rules/lib/fragments/proto"
+            "versions/8.8.1/rules/lib/fragments/proto",
+            "versions/8.8.1/rules/lib/fragments/py"
           ]
         },
         {
@@ -440,6 +454,7 @@
             "versions/8.8.1/rules/lib/toplevel/native",
             "versions/8.8.1/rules/lib/toplevel/platform_common",
             "versions/8.8.1/rules/lib/toplevel/proto",
+            "versions/8.8.1/rules/lib/toplevel/proto_common",
             "versions/8.8.1/rules/lib/toplevel/testing"
           ]
         },
@@ -463,8 +478,10 @@
             "versions/8.8.1/external/registry",
             "versions/8.8.1/external/lockfile",
             "versions/8.8.1/external/vendor",
+            "versions/8.8.1/extending/repo",
             "versions/8.8.1/external/mod-command",
-            "versions/8.8.1/external/migration"
+            "versions/8.8.1/external/migration",
+            "versions/8.8.1/external/advanced"
           ]
         }
       ]
@@ -498,7 +515,8 @@
             "versions/8.8.1/community/sig",
             "versions/8.8.1/community/users",
             "versions/8.8.1/community/recommended-rules",
-            "versions/8.8.1/community/remote-execution-services"
+            "versions/8.8.1/community/remote-execution-services",
+            "versions/8.8.1/community/update"
           ]
         },
         {
