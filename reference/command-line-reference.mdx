@@ -1276,11 +1276,19 @@ Options that affect the verbosity, format or location of logging
 </ParamField>
 
 <ParamField path="--[no]experimental_record_metrics_for_all_mnemonics" type="boolean" default="false">
-  Controls the output of BEP ActionSummary and BuildGraphMetrics, limiting the number of mnemonics in ActionData and number of entries reported in BuildGraphMetrics.AspectCount/RuleClassCount. By default the number of types is limited to the top 20, by number of executed actions for ActionData, and instances for RuleClass and Asepcts. Setting this option will write statistics for all mnemonics, rule classes and aspects.
+  Controls the output of BEP `ActionSummary` and `BuildGraphMetrics`, limiting the
+  number of mnemonics in `ActionData` and number of entries reported in
+  `BuildGraphMetrics.AspectCount/RuleClassCount`. By default the number of types is
+  limited to the top 20, by number of executed actions for `ActionData`, and
+  instances for `RuleClass` and `Aspect`. Setting this option will write statistics
+  for all mnemonics, rule classes and aspects.
 </ParamField>
 
 <ParamField path="--[no]experimental_record_skyframe_metrics" type="boolean" default="false">
-  Controls the output of BEP BuildGraphMetrics, including expensive to compute skyframe metrics about Skykeys, RuleClasses and Aspects. With this flag set to false BuildGraphMetrics.rule_count and aspect fields will not be populated in the BEP.
+  Controls the output of BEP `BuildGraphMetrics`, including expensive
+  to compute skyframe metrics about `Skykey`s, `RuleClass`es and `Aspect`s.
+  With this flag set to `false` `BuildGraphMetrics.rule_count` and `aspect`
+  fields will not be populated in the BEP.
 </ParamField>
 
 <ParamField path="--[no]experimental_run_bep_event_include_residue" type="boolean" default="false">
@@ -3691,7 +3699,13 @@ Options that control build execution
 </ParamField>
 
 <ParamField path="--dynamic_local_strategy" type="a '[name=]value1[,..,valueN]' assignment">
-  The local strategies, in order, to use for the given mnemonic - the first applicable strategy is used. For example, `worker,sandboxed` runs actions that support persistent workers using the worker strategy, and all others using the sandboxed strategy. If no mnemonic is given, the list of strategies is used as the fallback for all mnemonics. The default fallback list is `worker,sandboxed`, or`worker,sandboxed,standalone` if `experimental_local_lockfree_output` is set. Takes [mnemonic=]local_strategy[,local_strategy,...]
+  The local strategies, in order, to use for the given mnemonic - the first applicable
+  strategy is used. For example, `worker,sandboxed` runs actions that support
+  persistent workers using the worker strategy, and all others using the sandboxed
+  strategy. If no mnemonic is given, the list of strategies is used as the
+  fallback for all mnemonics. The default fallback list is `worker,sandboxed`, or
+  `worker,sandboxed,standalone` if `experimental_local_lockfree_output` is set.
+  Takes `[mnemonic=]local_strategy[,local_strategy,...]`.
 
   *May be used multiple times; values are accumulated.*
 
@@ -3699,7 +3713,11 @@ Options that control build execution
 </ParamField>
 
 <ParamField path="--dynamic_remote_strategy" type="a '[name=]value1[,..,valueN]' assignment">
-  The remote strategies, in order, to use for the given mnemonic - the first applicable strategy is used. If no mnemonic is given, the list of strategies is used as the fallback for all mnemonics. The default fallback list is `remote`, so this flag usually does not need to be set explicitly. Takes [mnemonic=]remote_strategy[,remote_strategy,...]
+  The remote strategies, in order, to use for the given mnemonic - the first applicable
+  strategy is used. If no mnemonic is given, the list of strategies is used as the
+  fallback for all mnemonics. The default fallback list is `remote`, so this flag
+  usually does not need to be set explicitly.
+  Takes `[mnemonic=]remote_strategy[,remote_strategy,...]`.
 
   *May be used multiple times; values are accumulated.*
 
@@ -3739,14 +3757,24 @@ Options that control build execution
 </ParamField>
 
 <ParamField path="--[no]experimental_dynamic_exclude_tools" type="boolean" default="true">
-  When set, targets that are build "for tool" are not subject to dynamic execution. Such targets are extremely unlikely to be built incrementally and thus not worth spending local cycles on.
+  When set, targets that are build "for tool" are not subject to dynamic execution. Such
+  targets are extremely unlikely to be built incrementally and thus not worth
+  spending local cycles on.
 
   Tags: [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
 <ParamField path="--experimental_dynamic_local_load_factor" type="a double" default="0">
-  Controls how much load from dynamic execution to put on the local machine. This flag adjusts how many actions in dynamic execution we will schedule concurrently. It is based on the number of CPUs Blaze thinks is available, which can be controlled with the --local_resources=cpu= flag.
-  If this flag is 0, all actions are scheduled locally immediately. If &gt; 0, the amount of actions scheduled locally is limited by the number of CPUs available. If &lt; 1, the load factor is used to reduce the number of locally scheduled actions when the number of actions waiting to schedule is high. This lessens the load on the local machine in the clean build case, where the local machine does not contribute much.
+  Controls how much load from dynamic execution to put on the local machine.
+  This flag adjusts how many actions in dynamic execution we will schedule
+  concurrently. It is based on the number of CPUs Blaze thinks is available,
+  which can be controlled with the `--local_resources=cpu=` flag.
+  If this flag is `0`, all actions are scheduled locally immediately. If &gt; 0,
+  the amount of actions scheduled locally is limited by the number of CPUs
+  available. If &lt; 1, the load factor is used to reduce the number of locally
+  scheduled actions when the number of actions waiting to schedule is high.
+  This lessens the load on the local machine in the clean build case, where
+  the local machine does not contribute much.
 
   Tags: [`execution`](#effect_tag_EXECUTION), [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
@@ -3876,7 +3904,9 @@ Options that control build execution
 </ParamField>
 
 <ParamField path="--genrule_strategy" type="comma-separated list of options">
-  Specify how to execute genrules. This flag will be phased out. Instead, use --spawn_strategy=&lt;value&gt; to control all actions or --strategy=Genrule=&lt;value&gt; to control genrules only.
+  Specify how to execute genrules. This flag will be phased out. Instead, use
+  `--spawn_strategy=<value>` to control all actions or `--strategy=Genrule=<value>`
+  to control genrules only.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -3950,13 +3980,22 @@ Options that control build execution
 </ParamField>
 
 <ParamField path="--spawn_strategy" type="comma-separated list of options">
-  Specify how spawn actions are executed by default. Accepts a comma-separated list of strategies from highest to lowest priority. For each action Bazel picks the strategy with the highest priority that can execute the action. The default value is "remote,worker,sandboxed,local". See https://blog.bazel.build/2019/06/19/list-strategy.html for details.
+  Specify how spawn actions are executed by default. Accepts a comma-separated list of
+  strategies from highest to lowest priority. For each action Bazel picks the
+  strategy with the highest priority that can execute the action. The default
+  value is `remote,worker,sandboxed,local`.
+  See [Automatic execution strategy selection in Bazel 0.27](https://blog.bazel.build/2019/06/19/list-strategy.html) for details.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
 <ParamField path="--strategy" type="a '[name=]value1[,..,valueN]' assignment">
-  Specify how to distribute compilation of other spawn actions. Accepts a comma-separated list of strategies from highest to lowest priority. For each action Bazel picks the strategy with the highest priority that can execute the action. The default value is "remote,worker,sandboxed,local". This flag overrides the values set by --spawn_strategy (and --genrule_strategy if used with mnemonic Genrule). See https://blog.bazel.build/2019/06/19/list-strategy.html for details.
+  Specify how to distribute compilation of other spawn actions. Accepts a comma-separated
+  list of strategies from highest to lowest priority. For each action Bazel picks
+  the strategy with the highest priority that can execute the action. The default
+  value is `remote,worker,sandboxed,local`. This flag overrides the values set
+  by `--spawn_strategy` (and `--genrule_strategy` if used with mnemonic Genrule).
+  See [Automatic execution strategy selection in Bazel 0.27](https://blog.bazel.build/2019/06/19/list-strategy.html) for details.
 
   *May be used multiple times; values are accumulated.*
 
@@ -3964,7 +4003,17 @@ Options that control build execution
 </ParamField>
 
 <ParamField path="--strategy_regexp" type="a '&lt;RegexFilter&gt;=value[,value]' assignment">
-  Override which spawn strategy should be used to execute spawn actions that have descriptions matching a certain regex_filter. See --per_file_copt for details on regex_filter matching. The last regex_filter that matches the description is used. This option overrides other flags for specifying strategy. Example: --strategy_regexp=//foo.*.cc,-//foo/bar=local means to run actions using local strategy if their descriptions match //foo.*.cc but not //foo/bar. Example: --strategy_regexp='Compiling.*/bar=local  --strategy_regexp=Compiling=sandboxed will run 'Compiling //foo/bar/baz' with the 'local' strategy, but reversing the order would run it with 'sandboxed'.
+  Override which spawn strategy should be used to execute spawn actions that have
+  descriptions matching a certain `regex_filter`. See `--per_file_copt` for details on
+  `regex_filter` matching.
+  The last `regex_filter` that matches the description is used.
+  This option overrides other flags for specifying strategy. e.g.
+
+  - `--strategy_regexp=//foo.*\.cc,-//foo/bar=local` means to run actions
+  using local strategy if their descriptions match //foo.*.cc but not //foo/bar.
+  - `--strategy_regexp=Compiling.*/bar=local --strategy_regexp=Compiling=sandboxed`
+  will run `Compiling //foo/bar/baz` with the `local` strategy, but reversing the order
+  would run it with the `sandboxed` strategy.
 
   *May be used multiple times; values are accumulated.*
 
@@ -4247,13 +4296,32 @@ This option affects semantics of the Starlark language or the build API accessib
 Options that govern the behavior of the test environment or test runner
 
 <ParamField path="--[no]check_tests_up_to_date" type="boolean" default="false">
-  Don't run tests, just check if they are up-to-date.  If all tests results are up-to-date, the testing completes successfully.  If any test needs to be built or executed, an error is reported and the testing fails.  This option implies --check_up_to_date behavior.
+  Don't run tests, just check if they are up-to-date. If all tests results are
+  up-to-date, the testing completes successfully. If any test needs to be built or
+  executed, an error is reported and the testing fails. This option implies
+  `--check_up_to_date` behavior.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
 <ParamField path="--flaky_test_attempts" type="a positive integer, the string &quot;default&quot;, or test_regex@attempts. This flag may be passed more than once">
-  Each test will be retried up to the specified number of times in case of any test failure. Tests that required more than one attempt to pass are marked as 'FLAKY' in the test summary. Normally the value specified is just an integer or the string 'default'. If an integer, then all tests will be run up to N times. If 'default', then only a single test attempt will be made for regular tests and three for tests marked explicitly as flaky by their rule (flaky=1 attribute). Alternate syntax: regex_filter@flaky_test_attempts. Where flaky_test_attempts is as above and regex_filter stands for a list of include and exclude regular expression patterns (Also see --runs_per_test). Example: --flaky_test_attempts=//foo/.*,-//foo/bar/.*@3 deflakes all tests in //foo/ except those under foo/bar three times. This option can be passed multiple times. The most recently passed argument that matches takes precedence. If nothing matches, behavior is as if 'default' above.
+  Each test will be retried up to the specified number of times in case of any test
+  failure. Tests that required more than one attempt to pass are marked as 'FLAKY'
+  in the test summary.
+  Normally the value specified is just an integer or the string `default`.
+
+  - If an integer, then all tests will be run up to `N` times.
+  - If `default`, then only a single test attempt will be made for regular tests and
+  three for tests marked explicitly as flaky by their rule (`flaky=1` attribute).
+
+  Alternate syntax: `regex_filter@flaky_test_attempts`. Where `flaky_test_attempts` is
+  as above and `regex_filter` stands for a list of include and exclude regular
+  expression patterns (also see `--runs_per_test`).
+
+  Example: `--flaky_test_attempts=//foo/.*,-//foo/bar/.*@3` deflakes all tests in `//foo/`
+  except those under `//foo/bar` three times.
+  This option can be passed multiple times. The most recently passed argument that matches
+  takes precedence. If nothing matches, behavior is as if `default` above.
 
   *May be used multiple times; values are accumulated.*
 
@@ -4261,7 +4329,7 @@ Options that govern the behavior of the test environment or test runner
 </ParamField>
 
 <ParamField path="--local_test_jobs" type="an integer, or a keyword (&quot;auto&quot;, &quot;HOST_CPUS&quot;, &quot;HOST_RAM&quot;), optionally followed by an operation ([-|*]&lt;float&gt;) eg. &quot;auto&quot;, &quot;HOST_CPUS*.5&quot;" default="auto">
-  The max number of local test jobs to run concurrently. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5". 0 means local resources will limit the number of local test jobs to run concurrently instead. Setting this greater than the value for --jobs is ineffectual.
+  The max number of local test jobs to run concurrently. Takes an integer, or a keyword ("auto", "HOST_CPUS", "HOST_RAM"), optionally followed by an operation ([-|*]&lt;float&gt;) eg. "auto", "HOST_CPUS*.5". 0 means local resources will limit the number of local test jobs to run concurrently instead. Setting this greater than the value for `--jobs` is ineffectual.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -4296,7 +4364,10 @@ Options that trigger optimizations of the build time
 </ParamField>
 
 <ParamField path="--[no]experimental_cpu_load_scheduling" type="boolean" default="false">
-  Enables the experimental local execution scheduling based on CPU load, not estimation of actions one by one.  Experimental scheduling have showed the large benefit on a large local builds on a powerful machines with the large number of cores. Recommended to use with --local_resources=cpu=HOST_CPUS
+  Enables the experimental local execution scheduling based on CPU load, not estimation of
+  actions one by one. Experimental scheduling have showed the large benefit on a
+  large local builds on a powerful machines with the large number of cores.
+  Recommended to use with `--local_resources=cpu=HOST_CPUS`.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -4314,7 +4385,10 @@ Options that trigger optimizations of the build time
 </ParamField>
 
 <ParamField path="--local_resources" type="a named double, 'name=value', where value is an integer, or a keyword (&quot;HOST_CPUS&quot;, &quot;HOST_RAM&quot;), optionally followed by an operation ([-|*]&lt;float&gt;) eg. &quot;HOST_CPUS&quot;, &quot;HOST_CPUS*.5&quot;">
-  Set the number of resources available to Bazel. Takes in an assignment to a float or HOST_RAM/HOST_CPUS, optionally followed by [-|*]&lt;float&gt; (eg. memory=HOST_RAM*.5 to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit concurrently running actions based on the available resources and the resources required. Tests can declare the amount of resources they need by using a tag of the "resources:&lt;resource name&gt;:&lt;amount&gt;" format.
+  Set the number of resources available to Bazel. Takes in an assignment to a float or `HOST_RAM`/`HOST_CPUS`, optionally followed by `[-|*]<float>` (eg. `memory=HOST_RAM*.5` to use half the available RAM). Can be used multiple times to specify multiple types of resources. Bazel will limit
+  concurrently running actions based on the available resources and the resources required.
+  Tests can declare the amount of resources they need by using a tag of the
+  `resources:<resource name>:<amount>` format.
 
   *May be used multiple times; values are accumulated.*
 
@@ -4323,6 +4397,20 @@ Options that trigger optimizations of the build time
 
 
 Options that affect the verbosity, format or location of logging
+
+<ParamField path="--auto_output_filter" type="none, all, packages or subpackages" default="none">
+  If `--output_filter` is not specified, then the value for this option is used
+  create a filter automatically. Allowed values are;
+
+  - `none` (filter nothing / show everything),
+  - `all` (filter everything / show nothing),
+  - `packages` (include output from rules in packages mentioned on the Blaze command
+  line) and
+  - `subpackages` (like `packages`, but also include subpackages).
+
+  For the `packages` and `subpackages` values `//java/foo` and `//javatests/foo` are
+  treated as one package.
+</ParamField>
 
 <ParamField path="--build_event_upload_max_retries" type="an integer" default="4">
   The maximum number of times Bazel should retry uploading a build event.
@@ -4333,8 +4421,58 @@ Options that affect the verbosity, format or location of logging
 <ParamField path="--[no]debug_spawn_scheduler" type="boolean" default="false">
 </ParamField>
 
+<ParamField path="--[no]execution_log_binary_file" type="boolean" default="see description">
+  Log the executed spawns into this file as length-delimited `SpawnExec` protos, according
+  to `src/main/protobuf/spawn.proto`. Prefer `--execution_log_compact_file`, which is
+  significantly smaller and cheaper to produce.
+  The flag accepts boolean and string values. If string, it represents a local path. If
+  `true`, then `--experimental_stream_log_file_uploads` must be set, whereby it will stream
+  the execution log to remote storage. If `false`, then logging to the execution log is
+  disabled.
+  Related flags:
+
+  - `--execution_log_compact_file` (compact format; mutually exclusive)
+  - `--execution_log_json_file` (text JSON format; mutually exclusive)
+  - `--execution_log_sort` (whether to sort the execution log)
+  - `--subcommands` (for displaying subcommands in terminal output)
+</ParamField>
+
+<ParamField path="--[no]execution_log_compact_file" type="boolean" default="see description">
+  Log the executed spawns into this file as length-delimited `ExecLogEntry` protos,
+  according to `src/main/protobuf/spawn.proto`. The entire file is zstd compressed.
+  The flag accepts boolean and string values. If string, it represents a local path. If
+  `true`, then `--experimental_stream_log_file_uploads` must be set, whereby it will stream
+  the execution log to remote storage. If `false`, then logging to the execution log is
+  disabled.
+  Related flags:
+
+  - `--execution_log_binary_file` (binary protobuf format; mutually exclusive)
+  - `--execution_log_json_file` (text JSON format; mutually exclusive)
+  - `--subcommands` (for displaying subcommands in terminal output)
+</ParamField>
+
+<ParamField path="--[no]execution_log_json_file" type="boolean" default="see description">
+  Log the executed spawns into this file as newline-delimited JSON representations of
+  `SpawnExec` protos, according to `src/main/protobuf/spawn.proto`. Prefer
+  `--execution_log_compact_file`, which is significantly smaller and cheaper to
+  produce.
+  The flag accepts boolean and string values. If string, it represents a local path. If
+  `true`, then `--experimental_stream_log_file_uploads` must be set, whereby it will stream
+  the execution log to remote storage. If `false`, then logging to the execution log is
+  disabled.
+  Related flags:
+
+  - `--execution_log_compact_file` (compact format; mutually exclusive)
+  - `--execution_log_binary_file` (binary protobuf format; mutually exclusive)
+  - `--execution_log_sort` (whether to sort the execution log)
+  - `--subcommands` (for displaying subcommands in terminal output)
+</ParamField>
+
 <ParamField path="--[no]expand_param_files" type="boolean" default="false">
-  When displaying subcommands (--subcommands) or printing the command line of a failed action (--verbose_failures), expand the contents of param files. When enabled, param file references like @path/to/param_file are replaced with the actual arguments they contain.
+  When displaying subcommands (`--subcommands`) or printing the command line of a failed
+  action (`--verbose_failures`), expand the contents of param files. When enabled,
+  param file references like `@path/to/param_file` are replaced with the actual
+  arguments they contain.
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
@@ -4414,7 +4552,9 @@ Options that affect the verbosity, format or location of logging
 </ParamField>
 
 <ParamField path="--[no]materialize_param_files" type="boolean" default="false">
-  Writes intermediate parameter files to output tree even when using remote action execution or caching. Useful when debugging actions. This is implied by --subcommands and --verbose_failures.
+  Writes intermediate parameter files to output tree even when using remote action
+  execution or caching. Useful when debugging actions. This is implied by
+  `--subcommands` and `--verbose_failures`.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -4426,7 +4566,10 @@ Options that affect the verbosity, format or location of logging
 </ParamField>
 
 <ParamField path="--max_test_output_bytes" type="an integer" default="-1">
-  Specifies maximum per-test-log size that can be emitted when --test_output is 'errors' or 'all'. Useful for avoiding overwhelming the output with excessively noisy test output. The test header is included in the log size. Negative values imply no limit. Output is all or nothing.
+  Specifies maximum per-test-log size that can be emitted when `--test_output` is `errors`
+  or `all`. Useful for avoiding overwhelming the output with excessively noisy test
+  output. The test header is included in the log size. Negative values imply no
+  limit. Output is all or nothing.
 
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER), [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -4475,7 +4618,9 @@ Options that affect the verbosity, format or location of logging
 <ParamField path="--[no]subcommands" type="boolean" default="false">
   Short form: `-s`
 
-  Display the subcommands executed during a build. Related flags: --execution_log_json_file, --execution_log_binary_file (for logging subcommands to a file in a tool-friendly format).
+  Display the subcommands executed during a build.
+  Related flags: `--execution_log_json_file`, `--execution_log_binary_file` (for logging
+  subcommands to a file in a tool-friendly format).
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
@@ -4855,10 +5000,6 @@ Miscellaneous options, not otherwise categorized.
   Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 </ParamField>
 
-<ParamField path="--auto_output_filter" type="none, all, packages or subpackages" default="none">
-  If --output_filter is not specified, then the value for this option is used create a filter automatically. Allowed values are 'none' (filter nothing / show everything), 'all' (filter everything / show nothing), 'packages' (include output from rules in packages mentioned on the Blaze command line), and 'subpackages' (like 'packages', but also include subpackages). For the 'packages' and 'subpackages' values //java/foo and //javatests/foo are treated as one package)'.
-</ParamField>
-
 <ParamField path="--[no]build_manual_tests" type="boolean" default="false">
   Forces targets tagged 'manual' to be built. Despite the flag name, this option applies to all targets (both test and non-test targets) matching the pattern. Targets tagged 'manual' are excluded from processing by default; this option forces them to be built (tests are built but not executed).
 </ParamField>
@@ -4908,18 +5049,6 @@ Miscellaneous options, not otherwise categorized.
 
 <ParamField path="--embed_label" type="a one-line string">
   Embed source control revision or release label in binary
-</ParamField>
-
-<ParamField path="--[no]execution_log_binary_file" type="boolean" default="see description">
-  Log the executed spawns into this file as length-delimited SpawnExec protos, according to src/main/protobuf/spawn.proto. Prefer --execution_log_compact_file, which is significantly smaller and cheaper to produce. The flag accepts boolean and string values. If string, it represents a local path. If true, then --experimental_stream_log_file_uploads must be set, whereby it will stream the execution log to remote storage. If false, then logging to the execution log is disabled. Related flags: --execution_log_compact_file (compact format; mutually exclusive), --execution_log_json_file (text JSON format; mutually exclusive), --execution_log_sort (whether to sort the execution log), --subcommands (for displaying subcommands in terminal output).
-</ParamField>
-
-<ParamField path="--[no]execution_log_compact_file" type="boolean" default="see description">
-  Log the executed spawns into this file as length-delimited ExecLogEntry protos, according to src/main/protobuf/spawn.proto. The entire file is zstd compressed. The flag accepts boolean and string values. If string, it represents a local path. If true, then --experimental_stream_log_file_uploads must be set, whereby it will stream the execution log to remote storage. If false, then logging to the execution log is disabled. Related flags: --execution_log_binary_file (binary protobuf format; mutually exclusive), --execution_log_json_file (text JSON format; mutually exclusive), --subcommands (for displaying subcommands in terminal output).
-</ParamField>
-
-<ParamField path="--[no]execution_log_json_file" type="boolean" default="see description">
-  Log the executed spawns into this file as newline-delimited JSON representations of SpawnExec protos, according to src/main/protobuf/spawn.proto. Prefer --execution_log_compact_file, which is significantly smaller and cheaper to produce. The flag accepts boolean and string values. If string, it represents a local path. If true, then --experimental_stream_log_file_uploads must be set, whereby it will stream the execution log to remote storage. If false, then logging to the execution log is disabled. Related flags: --execution_log_compact_file (compact format; mutually exclusive), --execution_log_binary_file (binary protobuf format; mutually exclusive), --execution_log_sort (whether to sort the execution log), --subcommands (for displaying subcommands in terminal output).
 </ParamField>
 
 <ParamField path="--execution_log_mnemonic_filter" type="a comma-separated list of regex expressions with prefix '-' specifying excluded paths" default=".*">
