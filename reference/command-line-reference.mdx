@@ -3603,7 +3603,7 @@ Miscellaneous options, not otherwise categorized.
   up a Bazel server), Bazel uses that. If neither is set, Bazel uses a hard-coded
   default path depending on the operating system it runs on;
 
-  - Windows: `c:/msys64/usr/bin/bash.exe`
+  - Windows: `C:/msys64/usr/bin/bash.exe`
   - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
@@ -4353,7 +4353,7 @@ Options that govern the behavior of the test environment or test runner
 
 Options that trigger optimizations of the build time
 
-<ParamField path="--cache_computed_file_digests" type="a long integer" default="50000">
+<ParamField path="--cache_computed_file_digests" type="an integer, &gt;= 0" default="50000">
   If greater than 0, configures Bazel to cache file digests in memory based on their metadata instead of recomputing the digests from disk every time they are needed. Setting this to 0 ensures correctness because not all file changes can be noted from file metadata. When not 0, the number indicates the size of the cache as the number of file digests to be cached.
 </ParamField>
 
@@ -6483,7 +6483,7 @@ Miscellaneous options, not otherwise categorized.
   up a Bazel server), Bazel uses that. If neither is set, Bazel uses a hard-coded
   default path depending on the operating system it runs on;
 
-  - Windows: `c:/msys64/usr/bin/bash.exe`
+  - Windows: `C:/msys64/usr/bin/bash.exe`
   - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
@@ -8221,7 +8221,7 @@ Miscellaneous options, not otherwise categorized.
   up a Bazel server), Bazel uses that. If neither is set, Bazel uses a hard-coded
   default path depending on the operating system it runs on;
 
-  - Windows: `c:/msys64/usr/bin/bash.exe`
+  - Windows: `C:/msys64/usr/bin/bash.exe`
   - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
@@ -9788,7 +9788,7 @@ Miscellaneous options, not otherwise categorized.
   up a Bazel server), Bazel uses that. If neither is set, Bazel uses a hard-coded
   default path depending on the operating system it runs on;
 
-  - Windows: `c:/msys64/usr/bin/bash.exe`
+  - Windows: `C:/msys64/usr/bin/bash.exe`
   - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
@@ -9896,15 +9896,6 @@ Options that affect the verbosity, format or location of logging
 ## Mobile-install Options {#mobile-install}
 
 Inherits all options from [build](#build).
-
-Options that control build execution
-
-<ParamField path="--mode" type="classic, classic_internal_test_do_not_use or skylark" default="skylark" deprecated>
-  Deprecated no-effect flag. Only skylark mode is still supported.
-
-  Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`execution`](#effect_tag_EXECUTION), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`deprecated`](#metadata_tag_DEPRECATED)
-</ParamField>
-
 
 Options that configure the toolchain used for action execution
 
@@ -12770,7 +12761,7 @@ Miscellaneous options, not otherwise categorized.
   up a Bazel server), Bazel uses that. If neither is set, Bazel uses a hard-coded
   default path depending on the operating system it runs on;
 
-  - Windows: `c:/msys64/usr/bin/bash.exe`
+  - Windows: `C:/msys64/usr/bin/bash.exe`
   - FreeBSD and OpenBSD: `/usr/local/bin/bash`
   - All others: `/bin/bash`.
 
