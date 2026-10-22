@@ -884,6 +884,14 @@ Options relating to Bzlmod output and semantics
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
+<ParamField path="--watch_registry" type="a string">
+  Watches a local file:// registry for changes, so that edits to its files are picked up without a shutdown, at the cost of some overhead on every command. The registry must also be passed with --registry, e.g. --registry=file:///path/to/registry --watch_registry=file:///path/to/registry.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`changes_inputs`](#effect_tag_CHANGES_INPUTS)
+</ParamField>
+
 
 Options that trigger optimizations of the build time
 
@@ -4355,12 +4363,6 @@ Options that trigger optimizations of the build time
 
 <ParamField path="--cache_computed_file_digests" type="an integer, &gt;= 0" default="50000">
   If greater than 0, configures Bazel to cache file digests in memory based on their metadata instead of recomputing the digests from disk every time they are needed. Setting this to 0 ensures correctness because not all file changes can be noted from file metadata. When not 0, the number indicates the size of the cache as the number of file digests to be cached.
-</ParamField>
-
-<ParamField path="--experimental_active_directories" type="comma-separated list of options">
-  Active directories for remote analysis caching. Specify as comma-separated workspace root-relative paths.
-
-  Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS)
 </ParamField>
 
 <ParamField path="--[no]experimental_cpu_load_scheduling" type="boolean" default="false">
