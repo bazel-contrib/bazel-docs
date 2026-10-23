@@ -486,8 +486,8 @@ Options that affect how strictly Bazel enforces valid build inputs (rule definit
 
 This option affects semantics of the Starlark language or the build API accessible to BUILD files, .bzl files, or WORKSPACE files.
 
-<ParamField path="--bzl_file_size_limit_allowlist" type="a build target label">
-  A label to a .scl file defining an ALLOWED list of .bzl/.scl file paths exempt from file size limits.
+<ParamField path="--bzl_file_size_limit_allowlist" type="a build target label ending with .allowlist.scl">
+  A label to a .allowlist.scl file defining an ALLOWED dict of .bzl/.scl file paths exempt from file size limits. Keys are paths relative to the repository root, e.g. "pkg/foo.bzl" for the main repository or "@@repo//pkg/foo.bzl" for other repositories.
 
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 </ParamField>
@@ -701,12 +701,6 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
 </ParamField>
 
-<ParamField path="--[no]incompatible_no_implicit_watch_label" type="boolean" default="true">
-  If true, then methods on `repository_ctx` that are passed a Label will no longer automatically watch the file under that label for changes even if `watch = "no"`, and `repository_ctx.path` no longer causes the returned path to be watched. Use `repository_ctx.watch` instead.
-
-  Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
-</ParamField>
-
 <ParamField path="--[no]incompatible_no_rule_outputs_param" type="boolean" default="false">
   If set to true, disables the `outputs` parameter of the `rule()` Starlark function.
 
@@ -779,6 +773,20 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS)
 </ParamField>
 
+<ParamField path="--nested_set_count_limit" type="an integer" default="0">
+  The maximum number of newly constructed non-empty nested sets (also known as depsets) that may be created during the analysis of a single target or aspect (values &lt;= 0 mean no limit). The count includes nested sets created internally by Bazel (e.g. for actions, runfiles and providers), not only Starlark depset() calls.
+
+  Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+</ParamField>
+
+<ParamField path="--nested_set_count_limit_allowlist" type="comma-separated list of options">
+  Package specifications (e.g. //foo/bar for a single package, //foo/... for a subtree) exempt from --nested_set_count_limit. Exempt are targets in these packages, aspects applied to those targets, and Starlark aspects defined in these packages.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
+</ParamField>
+
 <ParamField path="--nested_set_depth_limit" type="an integer" default="3500">
   The maximum depth of the graph internal to a depset (also known as NestedSet), above which the depset() constructor will fail.
 
@@ -833,6 +841,21 @@ Options relating to Bzlmod output and semantics
   Require repository rules and module extensions to return explicit metadata. Valid values are `false` to disable the check, `all` to require metadata everywhere, or `root` to require metadata only for repo rules and extensions defined in the root module.
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE)
+</ParamField>
+
+<ParamField path="--inject_module" type="an equals-separated mapping of module name to path">
+  Adds a new module with a local path in the form of `{module name}={path}`. This is
+  equivalent to adding a `bazel_dep` on the module (with a repository name equal to the
+  module name) together with a corresponding `local_path_override` to the root module's
+  `MODULE.bazel` file, except that the override still applies when `--ignore_dev_dependency`
+  is set (overrides in `MODULE.bazel` are normally ignored in that case). If the given path
+  is an absolute path, it will be used as it is. If the given path is a relative path, it is
+  relative to the current working directory. If the given path starts with `%workspace%`, it
+  is relative to the workspace root, which is the output of `bazel info workspace`. If the
+  given path is empty, then remove any previous injections. Use `--override_module` instead
+  to override a module that is already in the dependency graph.
+
+  *May be used multiple times; values are accumulated.*
 </ParamField>
 
 <ParamField path="--lockfile_mode" type="off, update, refresh or error" default="update">
@@ -3800,7 +3823,7 @@ Options that control build execution
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
 
-<ParamField path="--[no]experimental_inmemory_sandbox_stashes" type="boolean" default="false">
+<ParamField path="--[no]experimental_inmemory_sandbox_stashes" type="boolean" default="true">
   If set to true, the contents of stashed sandboxes for reuse_sandbox_directories will be tracked in memory. This reduces the amount of I/O needed during reuse. Depending on the build this flag may improve wall time. Depending on the build as well this flag may use a significant amount of additional memory.
 
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
