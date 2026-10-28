@@ -5,6 +5,7 @@ The context of the module extension containing helper functions and information 
 
 ## Members
 
+* [copy](#copy)
 * [download](#download)
 * [download_and_extract](#download_and_extract)
 * [execute](#execute)
@@ -23,6 +24,29 @@ The context of the module extension containing helper functions and information 
 * [tag_sort_key](#tag_sort_key)
 * [watch](#watch)
 * [which](#which)
+
+## copy {#copy}
+
+```
+None module_ctx.copy(src, dst, *, executable=True, watch_src='auto')
+```
+
+Copies the file or directory at `src` to `dst`.
+
+A copied file is always writable and its executable bit is determined by `executable`, not by the source. If `src` is a symlink, the file it points to is copied. Parent directories of `dst` are created as needed and an existing file or symlink at `dst` is replaced, but it is an error if `dst` is a directory.
+
+A directory is copied recursively, as if each file in it were copied individually: symlinks are followed so that the copy doesn't contain any, existing files below `dst` are overwritten and all other files below `dst` are kept. It is an error if `dst` or any directory to be created below it already exists as a file or symlink. `src` and `dst` must not overlap.
+
+On file systems that support it, a file is copied as a copy-on-write clone that doesn't take up additional disk space.
+
+### Parameters
+
+| Parameter | Description |
+| --- | --- |
+| `src` | [string](../core/string); or [Label](../builtins/Label); or [path](../builtins/path); required  The path of the existing file or directory to copy. |
+| `dst` | [string](../core/string); or [Label](../builtins/Label); or [path](../builtins/path); required  The path of the copy to create, relative to the repository directory. |
+| `executable` | [bool](../core/bool); default is `True`  Whether to make the copied files executable. To make only some of the files in a directory executable, copy the directory with `executable = False` and then copy the files that should be executable individually. |
+| `watch_src` | [string](../core/string); default is `'auto'`  Whether to [watch](#watch) the source file or directory. Can be the string 'yes', 'no', or 'auto'. Passing 'yes' is equivalent to immediately invoking the [`watch()`](#watch) method for a file and the [`watch_tree()`](repository_ctx#watch_tree) method for a directory; passing 'no' does not attempt to watch the source; passing 'auto' will only attempt to watch the source when it is legal to do so (see `watch()` docs for more information). |
 
 ## download {#download}
 
