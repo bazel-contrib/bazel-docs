@@ -266,7 +266,7 @@ Creates a new repository rule. Store it in a global value, so that it can be loa
 | --- | --- |
 | `implementation` | callable; required |
 | `attrs` | [dict](../core/dict); or `None`; default is `None` |
-| `local` | [bool](../core/bool); default is `False`  Indicate that this rule fetches everything from the local system and should be reevaluated at every fetch. |
+| `local` | [bool](../core/bool); default is `False`  Indicate that this rule fetches everything from the local system. In addition to the usual triggers for refetching a repo (for example, a change to the repo rule's definition, its attributes, or a file it reads), a local repo is refetched after every Bazel server restart, because its contents are never reused from a previous server or from the repo contents cache. It is *not* refetched on every build. Local repos are also excluded from `bazel vendor` by default. |
 | `environ` | [sequence](../core/list) of [string](../core/string)s; default is `[]`  **Deprecated**. This parameter has been deprecated. Migrate to `repository_ctx.getenv` instead.  Provides a list of environment variable that this repository rule depends on. If an environment variable in that list change, the repository will be refetched.  See also `--experimental_strict_repo_env`. |
 | `configure` | [bool](../core/bool); default is `False`  Indicate that the repository inspects the system for configuration purpose |
 | `remotable` | [bool](../core/bool); default is `False`  **Experimental**. This parameter is experimental and may change at any time. Please do not depend on it. It may be enabled on an experimental basis by setting `--experimental_repo_remote_exec`  Compatible with remote execution |
