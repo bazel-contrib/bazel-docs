@@ -576,7 +576,7 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
 
-<ParamField path="--[no]experimental_starlark_static_type_checking" type="boolean" default="false">
+<ParamField path="--[no]experimental_starlark_static_type_checking" type="boolean" default="true">
   Enables static type checking in files and functions that contain type annotations or related syntax.
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
@@ -3868,7 +3868,7 @@ Options that control build execution
 </ParamField>
 
 <ParamField path="--[no]experimental_use_hermetic_linux_sandbox" type="boolean" default="false">
-  If set to true, do not mount root, only mount whats provided with sandbox_add_mount_pair. Input files will be hardlinked to the sandbox instead of symlinked to from the sandbox. If action input files are located on a filesystem different from the sandbox, then the input files will be copied instead.
+  If set to true, do not mount root, only mount whats provided with sandbox_add_mount_pair. Input files will be hardlinked to the sandbox instead of symlinked to from the sandbox. If action input files are located on a filesystem different from the sandbox, then the input files will be copied instead. On Linux, the build fails if linux-sandbox is not supported on the machine.
 
   Tags: [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -4509,10 +4509,12 @@ Options that affect the verbosity, format or location of logging
 </ParamField>
 
 <ParamField path="--[no]expand_param_files" type="boolean" default="false">
-  When displaying subcommands (`--subcommands`) or printing the command line of a failed
-  action (`--verbose_failures`), expand the contents of param files. When enabled,
-  param file references like `@path/to/param_file` are replaced with the actual
-  arguments they contain.
+  When displaying subcommands (`--subcommands`), printing the command line of a failed
+  action (`--verbose_failures`) or writing the execution log
+  (`--execution_log_{compact,binary,json}_file`), expand the contents of param files.
+  When enabled, param file references like `@path/to/param_file` are replaced with
+  the actual arguments they contain. Spawns are still executed with param files,
+  and the execution log still records them as inputs.
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
