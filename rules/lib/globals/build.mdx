@@ -77,7 +77,7 @@ If possible, use this function only in [implementation functions of rule finaliz
 ## existing_rules {#existing_rules}
 
 ```
-unknown existing_rules()
+unknown existing_rules(*, omit_macro_internals=unbound)
 ```
 
 Returns an immutable dict-like object describing the rules so far instantiated in this thread's package. Each entry of the dict-like object maps the name of the rule instance to the result that would be returned by `existing_rule(name)`.
@@ -85,6 +85,13 @@ Returns an immutable dict-like object describing the rules so far instantiated i
 Here, an *immutable dict-like object* means a deeply immutable object `x` supporting dict-like iteration, `len(x)`, `name in x`, `x[name]`, `x.get(name)`, `x.items()`, `x.keys()`, and `x.values()`.
 
 If possible, use this function only in [implementation functions of rule finalizer symbolic macros](https://bazel.build/extending/macros#finalizers). Use of this function in other contexts is not recommened, and will be disabled in a future Bazel release; it makes `BUILD` files brittle and order-dependent.
+
+### Parameters
+
+| Parameter | Description |
+| --- | --- |
+| `omit_macro_internals` | <a class="anchor" href="../core/bool.html">bool</a>; default is `unbound`<br/> If `True`, or if unset and the flag `--incompatible_existing_rules_default_omit_macro_internals` is enabled, the function will omit symbolic macro-defined rules unless they either have `//visibility:public` or have the current package (in "//foo/bar:__pkg__" format) in their <a href="https://bazel.build/concepts/visibility">`visibility`</a> (indicating that the rule was "exported" by the symbolic macro to the `BUILD` file and is part of the macro's public API).<p>Note that the `omit_macro_internals` check is an <em>underapproximation</em> of the normal visibility checking mechanism: any rule that's allowed by `omit_macro_internals` is certain to be visible, but there may well exist additional macro-defined rules that are also visible in the current evaluation context. This is because the `omit_macro_internals` check:<ul><li>doesn't expand `package_group`s or `__subpackages__`;</li><li>doesn't consider <a href="https://bazel.build/concepts/visibility#delegating-privileges-to-a-submacro">delegation</a>;</li><li>doesn't check for visibility granted to the current finalizer's package (the case when the macro is "friends" with the finalizer).</li></ul> </p> |
+
 ## exports_files {#exports_files}
 
 ```
