@@ -1,0 +1,27 @@
+/*
+ * Stardoc emits raw HTML parameter tables, which don't get the styling Mintlify
+ * applies to Markdown tables. Without the cell minimum width, inline code that
+ * can break anywhere lets the browser squash the name column to a few
+ * characters wide.
+ */
+.params-table {
+  margin: 0;
+}
+
+/*
+ * Mintlify renders raw tables as scrollable blocks, so the rows otherwise sit
+ * in an anonymous table that shrinks to fit its content.
+ */
+.params-table tbody {
+  display: table;
+  width: 100%;
+}
+
+.params-table td {
+  min-width: 150px;
+}
+
+.params-table td > :last-child,
+.params-table td > :last-child > :last-child {
+  margin-bottom: 0;
+}
