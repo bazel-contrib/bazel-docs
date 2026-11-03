@@ -640,7 +640,7 @@ This option affects semantics of the Starlark language or the build API accessib
 </ParamField>
 
 <ParamField path="--incompatible_disable_transitions_on" type="comma-separated set of options">
-  A comma-separated list of flags that cannot be used in transitions inputs or outputs.
+  A comma-separated list of flags that cannot be used in transitions inputs or outputs, PROJECT.scl files, platform definitions, or platform mappings.
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`incompatible_change`](#metadata_tag_INCOMPATIBLE_CHANGE), [`non_configurable`](#metadata_tag_NON_CONFIGURABLE)
 </ParamField>
@@ -3829,6 +3829,12 @@ Options that control build execution
   If set to true, the contents of stashed sandboxes for reuse_sandbox_directories will be tracked in memory. This reduces the amount of I/O needed during reuse. Depending on the build this flag may improve wall time. Depending on the build as well this flag may use a significant amount of additional memory.
 
   Tags: [`host_machine_resource_optimizations`](#effect_tag_HOST_MACHINE_RESOURCE_OPTIMIZATIONS), [`execution`](#effect_tag_EXECUTION)
+</ParamField>
+
+<ParamField path="--experimental_max_transitive_analysis_nodes" type="a long integer" default="0">
+  Maximum number of transitive analysis nodes allowed for a single top-level target. If positive, the build fails if any top-level target exceeds this limit.
+
+  Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
 </ParamField>
 
 <ParamField path="--experimental_sandbox_async_tree_delete_idle_threads" type="an integer, or a keyword (&quot;auto&quot;, &quot;HOST_CPUS&quot;, &quot;HOST_RAM&quot;), optionally followed by an operation ([-|*]&lt;float&gt;) eg. &quot;auto&quot;, &quot;HOST_CPUS*.5&quot;" default="4">
@@ -10512,8 +10518,11 @@ Options relating to the output and semantics of the `mod` subcommand
 </ParamField>
 
 <ParamField path="--output" type="text, json, graph, streamed_proto or streamed_jsonproto" default="text">
-  The format in which the query results should be printed. Allowed values for query are:
-  `text`, `json`, `graph`.
+  The format in which the results should be printed. Allowed values are `text`, `json`,
+  `graph`, `streamed_proto` and `streamed_jsonproto`, but each subcommand supports only a
+  subset: the graph subcommands (`all_paths`, `deps`, `explain`, `graph` and `path`)
+  support `text`, `json` and `graph`; `show_repo` supports `text`, `streamed_proto` and
+  `streamed_jsonproto`; `show_extension` supports only `text`.
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
 </ParamField>
