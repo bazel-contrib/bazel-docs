@@ -116,7 +116,7 @@ py_test(name, deps, srcs, data, args, aspect_hints, compatible_with, config_sett
 [View rule source](https://github.com/bazelbuild/rules_python/tree/0.40.0/python/private/py_runtime_rule.bzl)
 
 ```
-py_runtime(name, abi_flags, aspect_hints, bootstrap_template, compatible_with, coverage_tool, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, files, implementation_name, interpreter, interpreter_path, interpreter_version_info, package_metadata, pyc_tag, python_version, restricted_to, site_init_template, stage2_bootstrap_template, stub_shebang, supports_build_time_venv, tags, target_compatible_with, testonly, toolchains, visibility, zip_main_template)
+py_runtime(name, abi_flags, aspect_hints, bootstrap_template, compatible_with, coverage_tool, deprecation, exec_compatible_with, exec_group_compatible_with, exec_properties, features, files, implementation_name, interpreter, interpreter_path, interpreter_version_info, package_metadata, pyc_tag, python_version, restricted_to, site_init_template, stage2_bootstrap_template, stub_shebang, supports_build_time_venv, tags, target_compatible_with, testonly, toolchains, venv_bin_files, visibility, zip_main_template)
 ```
 
 Represents a Python runtime used to execute Python code.
@@ -163,4 +163,5 @@ interpreter_path = "/opt/pyenv/versions/3.6.0/bin/python",
 | `stage2_bootstrap_template` | [Label](/concepts/labels); default is `"@rules_python//python/private:stage2_bootstrap_template"` The template to use when two stage bootstrapping is enabled :::&lcub;seealso&rcub; &lcub;obj&rcub;`PyRuntimeInfo.stage2_bootstrap_template` and &lcub;obj&rcub;`--bootstrap_impl` ::: |
 | `stub_shebang` | String; default is `"#!/usr/bin/env python3"` "Shebang" expression prepended to the bootstrapping Python stub script used when executing &lcub;rule&rcub;`py_binary` targets. See https://github.com/bazelbuild/bazel/issues/8685 for motivation. Does not apply to Windows. |
 | `supports_build_time_venv` | Boolean; default is `True` Whether this runtime supports virtualenvs created at build time. See &lcub;obj&rcub;`PyRuntimeInfo.supports_build_time_venv` for docs. :::&lcub;versionadded&rcub; 1.5.0 ::: |
+| `venv_bin_files` | List of [labels](/concepts/labels); default is `[]` |
 | `zip_main_template` | [Label](/concepts/labels); default is `"@rules_python//python/private/zipapp:zip_main_template"` The template to use for a zip's top-level `\__main\_\_.py` file. This becomes the entry point executed when `python foo.zip` is run. :::&lcub;seealso&rcub; The &lcub;obj&rcub;`PyRuntimeInfo.zip_main_template` field. ::: |

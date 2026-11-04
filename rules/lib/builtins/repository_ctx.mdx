@@ -6,6 +6,7 @@ The context of the repository rule containing helper functions and information a
 ## Members
 
 * [attr](#attr)
+* [copy](#copy)
 * [delete](#delete)
 * [download](#download)
 * [download_and_extract](#download_and_extract)
@@ -36,6 +37,29 @@ structure repository_ctx.attr
 ```
 
 A struct to access the values of the attributes. The values are provided by the user (if not, a default value is used).
+## copy {#copy}
+
+```
+None repository_ctx.copy(src, dst, *, executable=True, watch_src='auto')
+```
+
+Copies the file or directory at `src` to `dst`.
+
+A copied file is always writable and its executable bit is determined by `executable`, not by the source. If `src` is a symlink, the file it points to is copied. Parent directories of `dst` are created as needed and an existing file or symlink at `dst` is replaced, but it is an error if `dst` is a directory.
+
+A directory is copied recursively, as if each file in it were copied individually: symlinks are followed so that the copy doesn't contain any, existing files below `dst` are overwritten and all other files below `dst` are kept. It is an error if `dst` or any directory to be created below it already exists as a file or symlink. `src` and `dst` must not overlap.
+
+On file systems that support it, a file is copied as a copy-on-write clone that doesn't take up additional disk space.
+
+### Parameters
+
+| Parameter | Description |
+| --- | --- |
+| `src` | [string](../core/string); or [Label](../builtins/Label); or [path](../builtins/path); required  The path of the existing file or directory to copy. |
+| `dst` | [string](../core/string); or [Label](../builtins/Label); or [path](../builtins/path); required  The path of the copy to create, relative to the repository directory. |
+| `executable` | [bool](../core/bool); default is `True`  Whether to make the copied files executable. To make only some of the files in a directory executable, copy the directory with `executable = False` and then copy the files that should be executable individually. |
+| `watch_src` | [string](../core/string); default is `'auto'`  Whether to [watch](#watch) the source file or directory. Can be the string 'yes', 'no', or 'auto'. Passing 'yes' is equivalent to immediately invoking the [`watch()`](#watch) method for a file and the [`watch_tree()`](repository_ctx#watch_tree) method for a directory; passing 'no' does not attempt to watch the source; passing 'auto' will only attempt to watch the source when it is legal to do so (see `watch()` docs for more information). |
+
 ## delete {#delete}
 
 ```
@@ -66,7 +90,7 @@ Downloads a file to the output path for the provided url and returns a struct co
 | `output` | [string](../core/string); or [Label](../builtins/Label); or [path](../builtins/path); default is `''`  path to the output file, relative to the repository directory. |
 | `sha256` | [string](../core/string); default is `''`  The expected SHA-256 hash of the file downloaded. This must match the SHA-256 hash of the file downloaded. It is a security risk to omit the SHA-256 as remote files can change. At best omitting this field will make your build non-hermetic. It is optional to make development easier but should be set before shipping. If provided, the repository cache will first be checked for a file with the given hash; a download will only be attempted if the file was not found in the cache. After a successful download, the file will be added to the cache. |
 | `executable` | [bool](../core/bool); default is `False`  Set the executable flag on the created file, false by default. |
-| `allow_fail` | [bool](../core/bool); default is `False`  If set, indicate the error in the return value instead of raising an error for failed downloads. |
+| `allow_fail` | [bool](../core/bool); default is `False`  If set, indicate the error in the return value instead of raising an error for failed downloads. A failed download may leave a partially downloaded file at the output path, or a file that doesn't match `sha256` or `integrity`, so check `success` before using the file. |
 | `canonical_id` | [string](../core/string); default is `''`  If set, restrict cache hits to those cases where the file was added to the cache with the same canonical id. By default caching uses the checksum (`sha256` or `integrity`). |
 | `auth` | [dict](../core/dict); default is `{}`  An optional dict specifying authentication information for some of the URLs. |
 | `headers` | [dict](../core/dict); default is `{}`  An optional dict specifying http headers for all URLs. |
@@ -290,6 +314,8 @@ None repository_ctx.symlink(target, link_name)
 ```
 
 Creates a symlink on the filesystem.
+
+Prefer [`copy()`](#copy) for files and directories: symlinks may make a repository ineligible for repo contents caches and will have different behavior if the host doesn't support creating symlinks. Only use `symlink()` if changes to the target have to be visible in the repository without refetching it or if a directory is too large to copy.
 
 ### Parameters
 
