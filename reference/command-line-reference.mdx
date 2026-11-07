@@ -401,8 +401,9 @@ Options that let the user configure the intended output, affecting its value, as
 </ParamField>
 
 <ParamField path="--[no]experimental_strict_repo_env" type="boolean" default="false">
-  If true, repository rules and module extensions will only inherit `PATH`, `PATHEXT`
-  (on Windows), and environment variables explicitly specified by `--repo_env`.
+  If true, repository rules and module extensions will only inherit `PATH`, `PATHEXT`,
+  `SYSTEMDRIVE` and `SYSTEMROOT` (the last three on Windows), and environment variables
+  explicitly specified by `--repo_env`.
 
   Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
@@ -4144,8 +4145,9 @@ Options that control the output of the command
   output group is only built when the default set is: it is omitted if `--output_groups`
   contains an unprefixed group, and can be removed with `--output_groups=-foo`. Intended
   for wrappers and rc files that want to augment the default outputs without overriding
-  an explicit `--output_groups` selection. Artifacts in these output groups are hidden
-  from results as if listed in `--hide_output_group_results`.
+  an explicit `--output_groups` selection. Artifacts in these output groups are not
+  displayed in results (see `--show_result`), and no warning is emitted if they are
+  absent from a top-level target or aspect.
 
   *May be used multiple times; values are accumulated.*
 
