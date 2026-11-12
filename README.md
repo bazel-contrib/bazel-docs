@@ -67,21 +67,21 @@ Files listed in `.mintignore` (gitignore syntax) are excluded from Mintlify rend
 
 ### PR preview generation
 
-The preview workflow (`preview-bazel-docs-pr.yml`) polls `bazelbuild/bazel` every 30 minutes for recently-updated open PRs. For each PR that has doc-related changes, it:
+The preview workflow (`preview-bazel-docs-pr.yml`) polls `bazelbuild/bazel` on a schedule for recently-updated open PRs targeting `master`/`main` that modify documentation or reference-doc inputs. For each matching PR, it:
 
-1. Creates or updates a `pr-<N>` branch in this repo with the PR's docs.
+1. Creates or updates a `pr-<N>` branch and draft PR in this repo with the PR's docs.
 2. Mintlify deploys that branch at `https://bazel-pr-<N>.mintlify.app`.
-3. Posts (or updates) a comment on the upstream PR with the preview link.
+3. Posts (or updates) a comment on the upstream PR with the preview link and changed pages.
 
-The preview workflow can be triggered manually from the GitHub Actions UI via `workflow_dispatch` without waiting for the 30-minute cron.
+The preview workflow can be triggered manually from the GitHub Actions UI via `workflow_dispatch` (with `pr_number`) without waiting for the scheduled run.
 
 ### Updates to the live Bazel website
 
 1. The `upstream` Git submodule tracks `bazelbuild/bazel`.
-2. On every push to `bazelbuild/bazel`'s main branch, a `repository_dispatch` event triggers this repo to sync the latest docs.
+2. Dependabot opens a daily PR bumping `upstream` to the latest `bazelbuild/bazel` commit, triggering `dependabot-automerge.yml`.
 3. The sync workflow (`pull-from-bazel-build.yml`):
-   - Copies `.mdx` files from `upstream/docs/` directly into this repo.
-   - Builds reference documentation (Starlark/Java API docs) via `bazel build //...gen_mdx_reference_docs`, which produces clean MDX directly via `docs2mdx.py`, and commits the result.
-   - Commits the result and pushes to the appropriate branch.
-4. Mintlify picks up the changes and deploys the updated docs site.
+   - Copies `.mdx` files and assets from `upstream/docs/` directly into this repo (propagating file deletions).
+   - Builds reference documentation (Starlark/Java/CLI docs) via `bazel build //src/main/java/com/google/devtools/build/lib:gen_mdx_reference_docs`, which produces MDX via `docs2mdx.py`, and extracts `mdx-reference-docs.zip`.
+   - Updates versioned navigation (`navigation.update.sh` and `cleanup-deleted-docs.sh`), commits the result, and pushes to the PR branch before squash auto-merging into `main`.
+4. Mintlify picks up the merge to `main` and deploys the updated docs site at https://bazel.build/.
    - Files listed in `.mintignore` are excluded from Mintlify rendering. These are files with MDX syntax that cannot yet be auto-fixed (see [#226](https://github.com/bazel-contrib/bazel-docs/issues/226)).
