@@ -192,7 +192,7 @@ jobs:
 
       - name: Setup Bazel
         if: ${{ inputs.is_internal_pr && inputs.trust_upstream_code && steps.docs-changes.outputs.should_run == 'true' }}
-        uses: bazel-contrib/setup-bazel@0.19.1
+        uses: bazel-contrib/setup-bazel@0.19.2
         with:
           bazelisk-cache: true
           repository-cache: true
