@@ -8,8 +8,8 @@ updates:
       timezone: "America/Los_Angeles"
     cooldown:
       exclude:
-        - "bazelbuild/bazel"
-    open-pull-requests-limit: 3
+        - "upstream"
+    open-pull-requests-limit: 1
     rebase-strategy: auto
 
   - package-ecosystem: "github-actions"
