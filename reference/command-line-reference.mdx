@@ -4702,12 +4702,13 @@ Options that affect the verbosity, format or location of logging
 <ParamField path="--test_summary" type="short, short_uncached, terse, detailed, detailed_uncached, none or testcase" default="short">
   Specifies the desired format of the test summary. Valid values are;
 
-  - `short` to list all tests that ran to completion.
-  - `short_uncached` to list tests that ran to completion, omitting cached tests.
+  - `short` to list all tests that ran to completion, omitting skipped tests.
+  - `short_uncached` to list tests that ran to completion, omitting cached and skipped
+  tests.
   - `terse` to list only failed and flaky tests.
   - `detailed` to list tests that ran to completion and their test cases.
   - `detailed_uncached` to list tests that ran to completion and their test cases,
-  omitting cached tests.
+  omitting cached and skipped tests.
   - `testcase` to print summary in test case resolution without detailed information about
   failed test cases.
   - `none` to omit the summary.
