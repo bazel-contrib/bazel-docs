@@ -24,12 +24,15 @@ ALL_VERSIONS=$(echo "$VERSIONS" | grep -v "^HEAD$" | sort -V)
 
 # For major 6 and 7: keep only the most recent minor per major (e.g. 6.5.0 only, not 6.4.0, 6.3.0).
 # For major 8 and 9+: keep all minors.
+latest_6=$(echo "$ALL_VERSIONS" | grep "^6\." | tail -1 || true)
+latest_7=$(echo "$ALL_VERSIONS" | grep "^7\." | tail -1 || true)
 FILTERED=""
 for v in $ALL_VERSIONS; do
   major="${v%%.*}"
-  if [ "$major" = "6" ] || [ "$major" = "7" ]; then
-    latest_for_major=$(echo "$ALL_VERSIONS" | grep "^${major}\." | sort -V | tail -1)
-    [ "$v" = "$latest_for_major" ] && FILTERED="$FILTERED"$'\n'"$v"
+  if [ "$major" = "6" ]; then
+    [ "$v" = "$latest_6" ] && FILTERED="$FILTERED"$'\n'"$v"
+  elif [ "$major" = "7" ]; then
+    [ "$v" = "$latest_7" ] && FILTERED="$FILTERED"$'\n'"$v"
   else
     FILTERED="$FILTERED"$'\n'"$v"
   fi
@@ -45,28 +48,28 @@ NAV_DIR="navigation"
 rm -f "$NAV_DIR/HEAD.en.json"
 mkdir -p "$NAV_DIR"
 
-# Remove pages from a nav file whose .mdx files don't exist on disk.
+# Remove pages from a nav file whose .mdx or .md files don't exist on disk.
 filter_missing_pages() {
     local nav_file="$1"
     local pages
-    pages=$(jq -r '.tabs | .. | .pages? // empty | .[]' "$nav_file")
+    pages=$(jq -r '.tabs | .. | .pages? // empty | .[] | select(type == "string")' "$nav_file" | sort -u)
 
     local missing=()
     while IFS= read -r page; do
         [ -z "$page" ] && continue
-        if [ ! -f "${page}.mdx" ]; then
+        if [ ! -f "${page}.mdx" ] && [ ! -f "${page}.md" ]; then
             missing+=("$page")
         fi
     done <<< "$pages"
 
     if [ ${#missing[@]} -gt 0 ]; then
-        local to_remove
-        to_remove=$(printf '%s\n' "${missing[@]}" | jq -R . | jq -sc '.')
+        local remove_map
+        remove_map=$(printf '%s\n' "${missing[@]}" | jq -R . | jq -sc 'INDEX(.)')
         local tmp
-        tmp=$(jq --argjson remove "$to_remove" \
-            'walk(if type == "array" then map(select(. as $p | ($p | type) != "string" or ($remove | index($p) | not))) else . end)' \
+        tmp=$(jq --argjson remove "$remove_map" \
+            'walk(if type == "array" then map(select((type == "string" and ($remove[.] != null)) | not)) else . end)' \
             "$nav_file")
-        echo "$tmp" > "$nav_file"
+        printf '%s\n' "$tmp" > "$nav_file"
     fi
 }
 

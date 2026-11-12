@@ -1,1 +1,2 @@
-survey.README.md
+# Files listed here (gitignore syntax) are excluded from Mintlify rendering
+# and stripped from navigation files during the sync pipeline.
