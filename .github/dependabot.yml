@@ -7,9 +7,10 @@ updates:
       time: "23:00"
       timezone: "America/Los_Angeles"
     cooldown:
+      default-days: 0
       exclude:
-        - "bazelbuild/bazel"
-    open-pull-requests-limit: 3
+        - "upstream"
+    open-pull-requests-limit: 1
     rebase-strategy: auto
 
   - package-ecosystem: "github-actions"
