@@ -20,22 +20,25 @@ VERSIONS="HEAD"
 for d in "$VERSION_DIRS"/*/; do
   [ -d "$d" ] && VERSIONS="$VERSIONS"$'\n'"$(basename "$d")"
 done
-ALL_VERSIONS=$(echo "$VERSIONS" | grep -v "^HEAD$" | sort -V)
+ALL_VERSIONS=$(echo "$VERSIONS" | grep -v "^HEAD$" | sort -V || true)
 
 # For major 6 and 7: keep only the most recent minor per major (e.g. 6.5.0 only, not 6.4.0, 6.3.0).
 # For major 8 and 9+: keep all minors.
+LATEST_6=$(echo "$ALL_VERSIONS" | grep "^6\." | tail -1 || true)
+LATEST_7=$(echo "$ALL_VERSIONS" | grep "^7\." | tail -1 || true)
 FILTERED=""
 for v in $ALL_VERSIONS; do
   major="${v%%.*}"
-  if [ "$major" = "6" ] || [ "$major" = "7" ]; then
-    latest_for_major=$(echo "$ALL_VERSIONS" | grep "^${major}\." | sort -V | tail -1)
-    [ "$v" = "$latest_for_major" ] && FILTERED="$FILTERED"$'\n'"$v"
+  if [ "$major" = "6" ]; then
+    [ "$v" = "$LATEST_6" ] && FILTERED="$FILTERED"$'\n'"$v"
+  elif [ "$major" = "7" ]; then
+    [ "$v" = "$LATEST_7" ] && FILTERED="$FILTERED"$'\n'"$v"
   else
     FILTERED="$FILTERED"$'\n'"$v"
   fi
 done
 # HEAD first, then versioned list newest-first (sort -Vr)
-VERSIONS=$(echo "HEAD"; echo "$FILTERED" | grep -v '^$' | sort -Vr)
+VERSIONS=$(echo "HEAD"; echo "$FILTERED" | grep -v '^$' | sort -Vr || true)
 
 TABS_FILE="docs-tabs.json"
 NAV_DIR="navigation"
@@ -45,28 +48,28 @@ NAV_DIR="navigation"
 rm -f "$NAV_DIR/HEAD.en.json"
 mkdir -p "$NAV_DIR"
 
-# Remove pages from a nav file whose .mdx files don't exist on disk.
+# Remove pages from a nav file whose .mdx/.md files don't exist on disk.
 filter_missing_pages() {
     local nav_file="$1"
     local pages
-    pages=$(jq -r '.tabs | .. | .pages? // empty | .[]' "$nav_file")
+    pages=$(jq -r '[.tabs | .. | .pages? // empty | .[] | select(type == "string")] | unique[]' "$nav_file")
 
     local missing=()
     while IFS= read -r page; do
         [ -z "$page" ] && continue
-        if [ ! -f "${page}.mdx" ]; then
+        if [ ! -f "${page}.mdx" ] && [ ! -f "${page}.md" ]; then
             missing+=("$page")
         fi
     done <<< "$pages"
 
     if [ ${#missing[@]} -gt 0 ]; then
-        local to_remove
-        to_remove=$(printf '%s\n' "${missing[@]}" | jq -R . | jq -sc '.')
+        local remove_map
+        remove_map=$(printf '%s\n' "${missing[@]}" | jq -R . | jq -sc 'reduce .[] as $p ({}; .[$p] = true)')
         local tmp
-        tmp=$(jq --argjson remove "$to_remove" \
-            'walk(if type == "array" then map(select(. as $p | ($p | type) != "string" or ($remove | index($p) | not))) else . end)' \
+        tmp=$(jq --argjson rm "$remove_map" \
+            'walk(if type == "array" then map(select((type != "string") or ($rm[.] | not))) else . end)' \
             "$nav_file")
-        echo "$tmp" > "$nav_file"
+        printf '%s\n' "$tmp" > "$nav_file"
     fi
 }
 
@@ -94,6 +97,7 @@ for version in $VERSIONS; do
 
         if [ -f "$NAV_FILE" ]; then
             echo "Keeping existing $DISPLAY_VERSION navigation"
+            filter_missing_pages "$NAV_FILE"
         else
             echo "Creating new $DISPLAY_VERSION navigation"
             TABS_JSON=$(jq -c --arg version "$version" '
