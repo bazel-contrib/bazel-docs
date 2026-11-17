@@ -191,6 +191,14 @@ Options that appear before the command and are parsed by the client
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS), [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
+<ParamField path="--redact_client_env" type="pattern">
+  Hides the value of a client environment variable in the server log. The value is a case-insensitive pattern for the variable name. '*' matches any characters and may appear anywhere in the pattern, more than once if needed. 'FOO' hides only 'FOO'; 'FOO*' also hides 'FOOBAR'; '*_SIGNER' hides 'MY_SIGNER'. May be repeated. Adds to Bazel's built-in heuristic for credential-like names.
+
+  *May be used multiple times; values are accumulated.*
+
+  Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
+</ParamField>
+
 <ParamField path="--server_jvm_out" type="path" default="see description">
   The location to write the server's JVM's output. If unset then defaults to a location in output_base.
 
@@ -1034,6 +1042,7 @@ Options that affect the verbosity, format or location of logging
   Specifies the maximal size of stdout or stderr to be buffered in BEP, before it is
   reported as a progress event. Individual writes are still reported in a single
   event, even if larger than the specified value up to `--bes_outerr_chunk_size`.
+  Buffered output is reported at least once per second regardless of this value.
 
   Tags: [`affects_outputs`](#effect_tag_AFFECTS_OUTPUTS)
 </ParamField>
