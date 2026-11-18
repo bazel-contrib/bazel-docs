@@ -311,7 +311,7 @@ Options that appear before the command and are parsed by the client
 </ParamField>
 
 <ParamField path="--http_max_parallel_downloads" type="an integer" default="8">
-  The maximum number parallel http downloads.
+  The maximum number of parallel HTTP downloads per host. Bazel registry files are fetched with a separate per-host limit of at least 32.
 
   Tags: [`bazel_internal_configuration`](#effect_tag_BAZEL_INTERNAL_CONFIGURATION)
 </ParamField>
@@ -3087,6 +3087,8 @@ Options that let the user configure the intended output, affecting its value, as
   - `valgrind --quiet --num-callers=20`
   - `//package:target`
   - `//package:target --options`
+  Using --run_under= resets Bazel to its default behavior when --run_under has not
+  been supplied at all.
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
@@ -5996,6 +5998,8 @@ Options that let the user configure the intended output, affecting its value, as
   - `valgrind --quiet --num-callers=20`
   - `//package:target`
   - `//package:target --options`
+  Using --run_under= resets Bazel to its default behavior when --run_under has not
+  been supplied at all.
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
@@ -7733,6 +7737,8 @@ Options that let the user configure the intended output, affecting its value, as
   - `valgrind --quiet --num-callers=20`
   - `//package:target`
   - `//package:target --options`
+  Using --run_under= resets Bazel to its default behavior when --run_under has not
+  been supplied at all.
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
@@ -9299,6 +9305,8 @@ Options that let the user configure the intended output, affecting its value, as
   - `valgrind --quiet --num-callers=20`
   - `//package:target`
   - `//package:target --options`
+  Using --run_under= resets Bazel to its default behavior when --run_under has not
+  been supplied at all.
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
@@ -9973,12 +9981,6 @@ Options that configure the toolchain used for action execution
 
 Options that control the output of the command
 
-<ParamField path="--[no]incremental" type="boolean" default="false">
-  Whether to do an incremental install. If true, try to avoid unnecessary additional work by reading the state of the device the code is to be installed on and using that information to avoid unnecessary work. If false (the default), always do a full install.
-
-  Tags: [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS)
-</ParamField>
-
 <ParamField path="--[no]split_apks" type="boolean" default="false">
   Whether to use split apks to install and update the application on the device. Works only with devices with Marshmallow or later
 
@@ -10024,15 +10026,6 @@ Options that let the user configure the intended output, affecting its value, as
   - `--start=COLD`
 
   Tags: [`execution`](#effect_tag_EXECUTION)
-</ParamField>
-
-
-Options that affect the verbosity, format or location of logging
-
-<ParamField path="--incremental_install_verbosity" type="a string">
-  The verbosity for incremental install. Set to 1 for debug logging.
-
-  Tags: [`bazel_monitoring`](#effect_tag_BAZEL_MONITORING)
 </ParamField>
 
 
@@ -10352,6 +10345,8 @@ Options that let the user configure the intended output, affecting its value, as
   - `valgrind --quiet --num-callers=20`
   - `//package:target`
   - `//package:target --options`
+  Using --run_under= resets Bazel to its default behavior when --run_under has not
+  been supplied at all.
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
@@ -10920,6 +10915,8 @@ Options that let the user configure the intended output, affecting its value, as
   - `valgrind --quiet --num-callers=20`
   - `//package:target`
   - `//package:target --options`
+  Using --run_under= resets Bazel to its default behavior when --run_under has not
+  been supplied at all.
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
@@ -12270,6 +12267,8 @@ Options that let the user configure the intended output, affecting its value, as
   - `valgrind --quiet --num-callers=20`
   - `//package:target`
   - `//package:target --options`
+  Using --run_under= resets Bazel to its default behavior when --run_under has not
+  been supplied at all.
 
   Tags: [`action_command_lines`](#effect_tag_ACTION_COMMAND_LINES)
 </ParamField>
