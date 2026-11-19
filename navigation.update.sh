@@ -22,31 +22,39 @@ for d in "$VERSION_DIRS"/*/; do
 done
 ALL_VERSIONS=$(echo "$VERSIONS" | grep -v "^HEAD$" | sort -V || true)
 
-# For major 6 and 7: keep only the most recent minor per major (e.g. 6.5.0 only, not 6.4.0, 6.3.0).
-# For major 8 and 9+: keep all minors.
-LATEST_6=$(echo "$ALL_VERSIONS" | grep "^6\." | tail -1 || true)
-LATEST_7=$(echo "$ALL_VERSIONS" | grep "^7\." | tail -1 || true)
-FILTERED=""
-for v in $ALL_VERSIONS; do
-  major="${v%%.*}"
-  if [ "$major" = "6" ]; then
-    [ "$v" = "$LATEST_6" ] && FILTERED="$FILTERED"$'\n'"$v"
-  elif [ "$major" = "7" ]; then
-    [ "$v" = "$LATEST_7" ] && FILTERED="$FILTERED"$'\n'"$v"
-  else
-    FILTERED="$FILTERED"$'\n'"$v"
-  fi
-done
+# For major 6 and 7: keep only the most recent minor+patch per major (e.g. 6.5.0 only, not 6.4.0, 6.3.0).
+# For major 8 and 9+: keep all minors, keeping only the latest patch per minor (e.g. 9.3.2 over 9.3.0).
+# ALL_VERSIONS is sorted ascending by sort -V, so later entries win for the same key.
+FILTERED=$(echo "$ALL_VERSIONS" | awk -F. '
+  /^[0-9]+\.[0-9]+/ {
+    key = ($1 == "6" || $1 == "7") ? $1 : $1 "." $2
+    latest[key] = $0
+  }
+  END {
+    for (k in latest) print latest[k]
+  }
+' | sort -Vr || true)
 # HEAD first, then versioned list newest-first (sort -Vr)
-VERSIONS=$(echo "HEAD"; echo "$FILTERED" | grep -v '^$' | sort -Vr || true)
+VERSIONS=$(echo "HEAD"; [ -n "$FILTERED" ] && echo "$FILTERED" || true)
 
 TABS_FILE="docs-tabs.json"
 NAV_DIR="navigation"
 
-# Only regenerate the HEAD nav; preserve existing versioned nav files so that
-# Dependabot submodule bumps don't overwrite manual fixes (see #346).
+# Only regenerate the HEAD nav; preserve existing versioned nav files when they
+# already target the current patch version so Dependabot submodule bumps don't
+# overwrite manual fixes (see #346).
 rm -f "$NAV_DIR/HEAD.en.json"
 mkdir -p "$NAV_DIR"
+
+# Return 0 if nav_file has at least one page and all pages target versions/<version>/.
+nav_matches_version() {
+    local nav_file="$1"
+    local version="$2"
+    jq -e --arg prefix "versions/${version}/" '
+        [.tabs | .. | .pages? // empty | .[] | select(type == "string")] as $pages
+        | ($pages | length) > 0 and all($pages[]; startswith($prefix))
+    ' "$nav_file" >/dev/null 2>&1
+}
 
 # Remove pages from a nav file whose .mdx/.md files don't exist on disk.
 filter_missing_pages() {
@@ -92,14 +100,18 @@ for version in $VERSIONS; do
         filter_missing_pages "$NAV_DIR/HEAD.en.json"
         REFS_JSON="$REFS_JSON{\"version\":\"HEAD\",\"languages\":[{\"\$ref\":\"./navigation/HEAD.en.json\"}]}"
     else
-        DISPLAY_VERSION=$(echo "$version" | sed 's/\.[0-9]*$//')
+        DISPLAY_VERSION=$(echo "$version" | awk -F. '{print $1 "." $2}')
         NAV_FILE="$NAV_DIR/$DISPLAY_VERSION.en.json"
 
-        if [ -f "$NAV_FILE" ]; then
-            echo "Keeping existing $DISPLAY_VERSION navigation"
+        if [ -f "$NAV_FILE" ] && nav_matches_version "$NAV_FILE" "$version"; then
+            echo "Keeping existing $DISPLAY_VERSION navigation ($version)"
             filter_missing_pages "$NAV_FILE"
         else
-            echo "Creating new $DISPLAY_VERSION navigation"
+            if [ -f "$NAV_FILE" ]; then
+                echo "Regenerating $DISPLAY_VERSION navigation for $version"
+            else
+                echo "Creating new $DISPLAY_VERSION navigation for $version"
+            fi
             TABS_JSON=$(jq -c --arg version "$version" '
                 map(.groups = (.groups | map(.pages = (.pages | map("versions/" + $version + "/" + .)))))
             ' "$TABS_FILE")
