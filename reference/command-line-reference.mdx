@@ -505,6 +505,12 @@ This option affects semantics of the Starlark language or the build API accessib
   Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`loading_and_analysis`](#effect_tag_LOADING_AND_ANALYSIS), [`experimental`](#metadata_tag_EXPERIMENTAL)
 </ParamField>
 
+<ParamField path="--[no]experimental_disable_build_prelude" type="boolean" default="false">
+  Disable the implicit //tools/build_rules:prelude_bazel for BUILD files in every repository. Use explicit load() statements for symbols from the prelude.
+
+  Tags: [`build_file_semantics`](#effect_tag_BUILD_FILE_SEMANTICS), [`experimental`](#metadata_tag_EXPERIMENTAL)
+</ParamField>
+
 <ParamField path="--[no]experimental_dormant_deps" type="boolean" default="false">
   If set to true, attr.label(materializer=), attr(for_dependency_resolution=), attr.dormant_label(), attr.dormant_label_list() and rule(for_dependency_resolution=) are allowed.
 
@@ -2148,6 +2154,12 @@ Options relating to query output and semantics
   Whether each format is terminated with \0 instead of newline.
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+</ParamField>
+
+<ParamField path="--max_query_expression_depth" type="an integer, &gt;= -1" default="-1">
+  Maximum allowed nesting depth of a query expression. A value of -1 (the default) means no limit. Unnested leaf tokens have depth 0; each enclosing parenthesized expression, function call, set(...) expression, let binding, or distinct binary-operator group adds 1 to the nesting depth.
+
+  Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 </ParamField>
 
 <ParamField path="--[no]nodep_deps" type="boolean" default="true">
@@ -4697,9 +4709,10 @@ Options that affect the verbosity, format or location of logging
   - `errors` to also print test logs for failed tests,
   - `all` to print summaries and logs for all tests and
   - `streamed` to output logs for all tests in real time (this will force tests to be
-  executed locally one at a time via `--test_strategy=exclusive`, disabling parallel
+  executed one at a time via `--test_strategy=exclusive`, disabling parallel
   execution and sharding. For parallel execution of multiple tests, use `errors` or
-  `all`).
+  `all`). With remote execution, output is streamed while a test runs only if the
+  remote executor supports live output streams.
 
   Tags: [`test_runner`](#effect_tag_TEST_RUNNER), [`terminal_output`](#effect_tag_TERMINAL_OUTPUT), [`execution`](#effect_tag_EXECUTION)
 </ParamField>
@@ -6768,6 +6781,12 @@ Options relating to query output and semantics
   Whether each format is terminated with \0 instead of newline.
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+</ParamField>
+
+<ParamField path="--max_query_expression_depth" type="an integer, &gt;= -1" default="-1">
+  Maximum allowed nesting depth of a query expression. A value of -1 (the default) means no limit. Unnested leaf tokens have depth 0; each enclosing parenthesized expression, function call, set(...) expression, let binding, or distinct binary-operator group adds 1 to the nesting depth.
+
+  Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 </ParamField>
 
 <ParamField path="--[no]nodep_deps" type="boolean" default="true">
@@ -11060,6 +11079,12 @@ Options relating to query output and semantics
   Whether each format is terminated with \0 instead of newline.
 
   Tags: [`terminal_output`](#effect_tag_TERMINAL_OUTPUT)
+</ParamField>
+
+<ParamField path="--max_query_expression_depth" type="an integer, &gt;= -1" default="-1">
+  Maximum allowed nesting depth of a query expression. A value of -1 (the default) means no limit. Unnested leaf tokens have depth 0; each enclosing parenthesized expression, function call, set(...) expression, let binding, or distinct binary-operator group adds 1 to the nesting depth.
+
+  Tags: [`eagerness_to_exit`](#effect_tag_EAGERNESS_TO_EXIT)
 </ParamField>
 
 <ParamField path="--[no]nodep_deps" type="boolean" default="true">
