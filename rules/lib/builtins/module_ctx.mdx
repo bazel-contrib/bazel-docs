@@ -6,6 +6,7 @@ The context of the module extension containing helper functions and information 
 ## Members
 
 * [copy](#copy)
+* [defining_module](#defining_module)
 * [download](#download)
 * [download_and_extract](#download_and_extract)
 * [execute](#execute)
@@ -20,6 +21,7 @@ The context of the module extension containing helper functions and information 
 * [path](#path)
 * [read](#read)
 * [report_progress](#report_progress)
+* [root_module](#root_module)
 * [root_module_has_non_dev_dependency](#root_module_has_non_dev_dependency)
 * [tag_sort_key](#tag_sort_key)
 * [watch](#watch)
@@ -48,6 +50,14 @@ On file systems that support it, a file is copied as a copy-on-write clone that 
 | `executable` | [bool](../core/bool); default is `True`  Whether to make the copied files executable. To make only some of the files in a directory executable, copy the directory with `executable = False` and then copy the files that should be executable individually. |
 | `watch_src` | [string](../core/string); default is `'auto'`  Whether to [watch](#watch) the source file or directory. Can be the string 'yes', 'no', or 'auto'. Passing 'yes' is equivalent to immediately invoking the [`watch()`](#watch) method for a file and the [`watch_tree()`](repository_ctx#watch_tree) method for a directory; passing 'no' does not attempt to watch the source; passing 'auto' will only attempt to watch the source when it is legal to do so (see `watch()` docs for more information). |
 
+## defining_module {#defining_module}
+
+```
+bazel_module module_ctx.defining_module
+```
+
+The [bazel_module](../builtins/bazel_module) object for the module whose repository contains the `.bzl` file that defines this module extension, or `None` if that module does not itself use the extension. The module is identified by its repository, not by its name, so this also works when the extension is used under a different apparent name or with `multiple_version_override`.
+May return `None`.
 ## download {#download}
 
 ```
@@ -270,6 +280,14 @@ Updates the progress status for the fetching of this repository or module extens
 | --- | --- |
 | `status` | [string](../core/string); default is `''`  `string` describing the current status of the fetch progress. |
 
+## root_module {#root_module}
+
+```
+bazel_module module_ctx.root_module
+```
+
+The [bazel_module](../builtins/bazel_module) object for the root module if it uses this module extension, or `None` otherwise. If not `None`, this is the same object as the first element of [`modules`](#modules).
+May return `None`.
 ## root_module_has_non_dev_dependency {#root_module_has_non_dev_dependency}
 
 ```
