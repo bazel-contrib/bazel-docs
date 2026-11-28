@@ -1890,6 +1890,22 @@
     {
       "source": "/versions/9.1.0/rules/aspects",
       "destination": "/versions/9.1.0/extending/aspects"
+    },
+    {
+      "source": "/versions/master/docs/install.html",
+      "destination": "/install"
+    },
+    {
+      "source": "/reference/be/general.html",
+      "destination": "/reference/be/general"
+    },
+    {
+      "source": "/reference/be/extra-actions.html",
+      "destination": "/reference/be/extra-actions"
+    },
+    {
+      "source": "/reference/be/platforms-and-toolchains.html",
+      "destination": "/reference/be/platforms-and-toolchains"
     }
   ]
 }
