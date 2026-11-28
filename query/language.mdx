@@ -91,7 +91,9 @@ tokens:
   writing code that generates query expressions, target names should be quoted.
 
   Quoting _is_ necessary when writing scripts that construct Bazel query
-  expressions from user-supplied values.
+  expressions from user-supplied values. When constructing queries from
+  dynamically supplied or untrusted expressions, prefer
+  [parameterized queries](#parameterized-queries) over string interpolation.
 
   ```
    //foo:bar+wiz    # WRONG: scanned as //foo:bar + wiz.
@@ -133,6 +135,12 @@ tokens:
 
 * **Punctuation**, such as parens `()`, period `.` and comma `,`. Words
   containing punctuation (other than the exceptions listed above) must be quoted.
+
+* **Placeholders**, of the form `@(name)`. When one or more
+  `--query_parameter` flags are specified, unquoted `@(name)` tokens are
+  scanned as [parameter placeholders](#parameterized-queries) and substituted
+  with the corresponding parameter expression before evaluation. Quoted forms
+  such as `'@(name)'` or `"@(name)"` are treated as ordinary words.
 
 Whitespace characters outside of a quoted word are ignored.
 
@@ -306,6 +314,7 @@ This is the grammar of the Bazel query language, expressed in EBNF notation:
 ```none
 expr ::= word
        | let name = expr in expr
+       | @(name)
        | (expr)
        | expr intersect expr
        | expr ^ expr
@@ -399,6 +408,63 @@ the expressiveness of the query language: any query expressible in
 the language can also be expressed without them. However, they
 improve the conciseness of many queries, and may also lead to more
 efficient query evaluation.
+
+### Parameterized queries {#parameterized-queries}
+
+```none
+expr ::= @(name)
+```
+
+Parameterized queries allow you to pass query subexpressions separately from
+the query template using the repeatable `--query_parameter=<name>=<expression>`
+command-line option. Parameter substitution is supported by `bazel query`,
+[`bazel cquery`](/query/cquery), [`bazel aquery`](/query/aquery), and
+[`genquery`](/reference/be/general#genquery) (via its `opts` attribute), and
+works with both command-line expressions and `--query_file`.
+
+For example:
+
+```posix-terminal
+bazel query \
+  --query_parameter=target=//foo:bar \
+  --query_parameter=excluded=//foo:baz \
+  'deps(@(target)) except deps(@(excluded))'
+```
+
+Each `--query_parameter=<name>=<expression>` option binds `name` to a complete
+query expression. Before substitution, Bazel parses and validates each
+parameter's expression independently. It must be a syntactically valid query
+expression containing no `@(...)` placeholder references and no unbound
+[`let`](#variables) variable references (a `$var` reference is permitted only
+if it is bound by a `let` within the same parameter expression).
+
+During substitution, each unquoted `@(name)` placeholder in the query is
+replaced by `(expression)`—wrapped in parentheses to preserve operator
+precedence and prevent syntactic breakout. The substituted query is then parsed
+and evaluated normally.
+
+Because placeholders are expressions, `@(name)` may appear anywhere an `expr`
+is expected (for example, as an operand of a set operation, an expression
+argument to a function, or in a `let` expression). Placeholders are not
+recognized inside quoted words and cannot be used where a `word` or integer
+literal is required, such as regex patterns, `deps`/`rdeps` depth arguments,
+`let` variable names, or elements of `set(...)`.
+
+A parameter may be referenced multiple times in the same query. The following
+rules and limits apply:
+
+* Parameter names must be valid identifiers matching `[a-zA-Z_][a-zA-Z0-9_]*`,
+  with no whitespace inside `@(...)`.
+* Duplicate `--query_parameter` names are not allowed.
+* Every declared `--query_parameter` must be referenced at least once in the
+  query, and every `@(name)` placeholder must have a matching
+  `--query_parameter`.
+* When no `--query_parameter` flags are supplied, placeholder substitution is
+  not performed (so `@(name)` is not recognized as a placeholder).
+* At most 100 parameters may be defined, the expanded query length may not
+  exceed 10,485,760 characters, and expression nesting depth may not exceed 100
+  (checked on the query template, each parameter expression, and the
+  substituted query).
 
 ### Parenthesized expressions {#parenthesized-expressions}
 
