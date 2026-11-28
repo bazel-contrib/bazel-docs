@@ -115,6 +115,29 @@ Bazel's [Sky Query](/query/language#sky-query)
 supports the `allrdeps` function which allows you to query reverse dependencies
 in a universe you specify.
 
+## Parameterized queries {#parameterized-queries}
+
+When writing scripts or reusing a query template with different targets or
+subexpressions, use `--query_parameter` with `@(name)` placeholders instead of
+interpolating strings into the query expression:
+
+```
+$ bazel query \
+  --query_parameter=target=//foo:foo \
+  --query_parameter=excluded=//foo:foolib \
+  'deps(@(target)) except deps(@(excluded))'
+```
+
+Bazel parses and validates each parameter expression independently and wraps it
+in parentheses during substitution, preventing operator precedence surprises or
+syntax injection. You can also combine `--query_parameter` with `--query_file`
+to keep reusable query templates in files, and use the same flag with `cquery`
+and `aquery`.
+
+For full syntax, validation rules, and limits, see
+[Parameterized queries](/query/language#parameterized-queries) in the query
+reference.
+
 ## Miscellaneous uses {#miscellaneous-uses}
 
 You can use `bazel query` to analyze many dependency relationships.

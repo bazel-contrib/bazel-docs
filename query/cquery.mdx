@@ -283,6 +283,22 @@ Include dependencies added by [aspects](/extending/aspects).
 If this flag is disabled, `cquery somepath(X, Y)` and
 `cquery deps(X) | grep 'Y'` omit Y if X only depends on it through an aspect.
 
+#### `--query_parameter` (repeatable `name=expression`) {#query-parameter}
+
+Defines a named query parameter to substitute for `@(name)` placeholders in the
+query expression (or `--query_file`). This lets you pass subexpressions
+separately from a query template without manual string interpolation or
+escaping. For example:
+
+```
+$ bazel cquery --query_parameter=target=//tree:ash 'deps(@(target))'
+```
+
+When `--universe_scope` is not set, `cquery` infers top-level targets from the
+query expression after parameter substitution. See
+[Parameterized queries](/query/language#parameterized-queries) in the query
+reference for full syntax, validation rules, and limits.
+
 ## Output formats {#output-formats}
 
 By default, cquery outputs results in a dependency-ordered list of label and configuration pairs.

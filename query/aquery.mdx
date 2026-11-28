@@ -158,6 +158,23 @@ Without performing extra analysis, dump the Action Graph from Skyframe.
 Note: Specifying a target with `--skyframe_state` is currently not supported.
 This flag is only available with `--output=proto` or `--output=textproto`.
 
+#### `--query_parameter=name=expression, repeatable` {#query-parameter}
+
+Defines a named query parameter to substitute for `@(name)` placeholders in the
+query expression (or `--query_file`). For example:
+
+```
+$ bazel aquery --query_parameter=target=//src/target_a 'inputs(".*cpp", deps(@(target)))'
+```
+
+When `--universe_scope` is not set (and `--skyframe_state` is not used),
+`aquery` infers top-level targets from the query expression after parameter
+substitution. See [Parameterized queries](/query/language#parameterized-queries)
+in the query reference for full syntax, validation rules, and limits.
+
+Note: Specifying `--query_parameter` with `--skyframe_state` and an empty query
+expression is an error because all declared parameters must be referenced.
+
 ## Other tools and features {#other-tools-features}
 
 ### Querying against the state of Skyframe {#querying-against-skyframe}
