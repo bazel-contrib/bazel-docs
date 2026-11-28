@@ -340,9 +340,17 @@ unnecessary downloads.
 
 Upon each cache hit, the modification time of the file in the cache is
 updated. In this way, the last use of a file in the cache directory can easily
-be determined, for example to manually clean up the cache. The cache is never
-cleaned up automatically, as it might contain a copy of a file that is no
-longer available upstream.
+be determined, for example to manually clean up the cache. By default, the
+cache is never cleaned up automatically, as it might contain a copy of a file
+that is no longer available upstream.
+
+To opt into automatic garbage collection, use
+`--experimental_repository_cache_gc_max_size` and/or
+`--experimental_repository_cache_gc_max_age` to set a maximum size for the
+downloaded files in the repository cache or a maximum age since their last use.
+Bazel will garbage collect the least recently used files while idling between
+builds; the idle timer can be set with
+`--experimental_repository_cache_gc_idle_delay` (defaulting to 5 minutes).
 
 #### [Deprecated] Distribution files directories {#distribution-directory}
 
